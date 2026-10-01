@@ -697,7 +697,17 @@ func slots() -> void:
 	if p.gear.get("head") != null:
 		fail("new slots disturbed the original ones")
 	check("slots")
-	notes.append("slots: gloves, amulet and two ring slots verified (%d slots in play)" % Gear.slots().size())
+	# A set across the new slots (gloves, amulet and both rings) reaches its 4-piece bonus.
+	var q := arena(1)
+	for id in ["conclave_gloves", "conclave_sigil", "conclave_ring_a", "conclave_ring_b"]:
+		Gear.equip_gear(q, Gear.by_id(id))
+	if q.set_tier.get("conclave", 0) != 2 or not q.procs.any(func(pr): return pr["src"] == "se4:conclave"):
+		fail("conclave set: 4-piece bonus not active (tier %d)" % q.set_tier.get("conclave", 0))
+	Gear.equip_gear(q, Gear.by_id("copperband"))
+	if q.set_tier.get("conclave", 0) != 1 or q.procs.any(func(pr): return pr["src"] == "se4:conclave"):
+		fail("conclave set: bonus not removed after swapping a ring out")
+	check("conclave set")
+	notes.append("slots: gloves, amulet and two ring slots verified (%d slots in play); a 4-piece set across them turns on and off" % Gear.slots().size())
 
 ## Stage 7 biomes: data checks; every new floor fought with its whole foe
 ## pool and hazard; every mini-boss; every guardian driven through each of
