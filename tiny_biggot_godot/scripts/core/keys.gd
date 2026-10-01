@@ -9,6 +9,7 @@ extends Node
 ##   Q                 = heal (potion)        (VX Ace :L)
 ##   Esc / X           = pause / back         (VX Ace :B)
 ##   Ctrl, F5          = bomb                 (Input::CTRL, F5 fallback)
+## Special ability (new heroes only): F, or R3 / Back on a gamepad.
 ## iPad Magic Keyboard extras (it has no Esc or function row): Tab, ` and P
 ## also pause; E and B also bomb. Every key is bound both by physical
 ## position and by the letter it types, so iPadOS and non-QWERTY layouts
@@ -26,6 +27,7 @@ const ACTIONS := [
 	&"move_left", &"move_right", &"move_up", &"move_down",
 	&"aim_left", &"aim_right", &"aim_up", &"aim_down",
 	&"roll", &"use", &"heal", &"pause", &"bomb",
+	&"special",   # new: hero special ability (step-6 heroes only)
 ]
 
 var _down := {}
@@ -93,6 +95,7 @@ func _setup_input_map() -> void:
 		_btn(JOY_BUTTON_Y), _btn(JOY_BUTTON_START)])
 	_bind(&"bomb", [_key(KEY_CTRL), _key(KEY_F5), _key(KEY_E), _key(KEY_B),
 		_btn(JOY_BUTTON_LEFT_SHOULDER), _btn(JOY_BUTTON_RIGHT_SHOULDER)])
+	_bind(&"special", [_key(KEY_F), _btn(JOY_BUTTON_RIGHT_STICK), _btn(JOY_BUTTON_BACK)])
 
 func _input(event: InputEvent) -> void:
 	if event.is_echo():
@@ -154,6 +157,7 @@ func use() -> bool: return _trig[&"use"]
 func heal() -> bool: return _trig[&"heal"]
 func pause() -> bool: return _trig[&"pause"]
 func bomb() -> bool: return _trig[&"bomb"]
+func special() -> bool: return _trig[&"special"]
 func fire_held() -> bool: return false
 func up() -> bool: return _rep[&"move_up"]
 func down() -> bool: return _rep[&"move_down"]

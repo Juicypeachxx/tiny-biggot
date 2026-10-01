@@ -42,7 +42,8 @@ const TRIGGERS := ["on_hit", "on_crit", "on_kill", "on_roll", "on_damage_taken",
 	"on_room_clear", "on_level_up", "on_shoot", "every_n_shots", "every_n_seconds", "while_low_hp", "on_pickup",
 	"on_potion", "on_weapon_swap", "on_floor_start"]   # last three: new for the step-6 heroes
 const ACTIONS := ["nova", "shoot", "explode", "status", "heal", "buff", "chain", "lightning", "summon", "gold",
-	"refund_roll", "armor", "drop", "damage", "hurt_self", "xp", "clear_shots", "card", "heat", "scroll"]
+	"refund_roll", "armor", "drop", "damage", "hurt_self", "xp", "clear_shots", "card", "heat", "scroll",
+	"dash", "channel", "invuln", "status_area", "vfx", "area"]   # last five: hero abilities and visuals
 const STATUSES := ["burn", "poison", "chill", "bleed", "stun", "curse", "mark", "shock", "vulnerable", "weakened"]
 const CONDITIONS := ["elite", "boss", "burning", "poisoned", "chilled", "bleeding", "shocked", "cursed",
 	"low_hp", "full_hp", "moving", "still", "crit", "danger", "fighting", "hot"]

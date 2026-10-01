@@ -22,6 +22,11 @@ extends RefCounted
 ##   ["card"]                             draw a random card from CARDS and play it (Cartomancer)
 ##   ["heat", delta]                      raise or lower heat, 0..heat_max (Racketeer)
 ##   ["scroll"]                           read a random scroll: a small permanent boost (Condemned)
+##   ["dash", ...] / ["channel", ...] / ["invuln", s]   hero specials, see abilities.gd
+##   ["status_area", name, amount, radius]  apply a status to every foe near the player
+##   ["area", radius, dmg_mult]           silent hit on every foe near the player (whirlwinds)
+##   nova takes an optional 5th value: spin speed, so repeated novas spiral
+##   ["vfx", kind, colour, size]          visual only (Juice): ring, sigil, spin, flash, burst, label
 
 ## Cartomancer deck: [name, actions]. The hook "card_double" plays each card twice.
 const CARDS := [
@@ -65,8 +70,9 @@ static func run(a: Array, stacks: int, ctx: Dictionary) -> void:
 	match a[0]:
 		"nova":
 			var n := mini(int(a[1]) * stacks, 64)
+			var off: float = G.time * a[4] if a.size() > 4 else 0.0
 			for i in n:
-				Combat.spawn_pbullet(p, float(i) / n * TAU, w * a[2], a[3] if a.size() > 3 else "spark")
+				Combat.spawn_pbullet(p, float(i) / n * TAU + off, w * a[2], a[3] if a.size() > 3 else "spark")
 		"shoot":
 			var n := mini(int(a[1]) * stacks, 32)
 			var spread: float = a[4] if a.size() > 4 else 0.25
@@ -117,7 +123,7 @@ static func run(a: Array, stacks: int, ctx: Dictionary) -> void:
 			EBullets.kill_radius(p.x, p.y, a[1])
 		"card":
 			var c: Array = TB.pick(CARDS)
-			Fx.float_text(p.x, p.y - 20, c[0], "cyan")
+			Juice.card(p.x, p.y, c[0])
 			for k in (2 if p.g("card_double") > 0 else 1):
 				for b in c[1]:
 					run(b, stacks, ctx)
@@ -128,6 +134,22 @@ static func run(a: Array, stacks: int, ctx: Dictionary) -> void:
 				p.heat = h
 				Effects.apply(p, heat_effects(h), 1)
 				Fx.float_text(p.x, p.y - 20, "HEAT %d" % h, "orange" if int(a[1]) > 0 else "grey")
+		"dash":
+			Abilities.start_dash(p, a)
+		"channel":
+			p.channel = { "t": float(a[1]), "period": float(a[2]), "timer": 0.0, "do": a[3] }
+		"area":
+			for e in G.enemies.duplicate():
+				if e.targetable() and TB.dist(e, p) <= a[1] + e.r:
+					Combat.damage_enemy(e, w * a[2] * stacks, { "no_crit": true, "col": "orange", "silent": true })
+		"invuln":
+			p.invuln = maxf(p.invuln, float(a[1]))
+		"status_area":
+			for e in G.enemies:
+				if e.targetable() and TB.dist(e, p) <= a[3]:
+					Statuses.apply(e, a[1], a[2] * stacks, w)
+		"vfx":
+			Juice.vfx(p, a)
 		"scroll":
 			var sc: Array = TB.pick(SCROLLS)
 			Effects.apply(p, [sc[1]], 1)

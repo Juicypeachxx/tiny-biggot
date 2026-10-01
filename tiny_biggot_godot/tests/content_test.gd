@@ -551,6 +551,17 @@ func heroes() -> void:
 		if not h.get("new", false):
 			continue
 		lint_effects("hero " + h["id"], h["effects"], false)
+		if not h.has("special"):
+			fail("hero %s: no special ability" % h["id"])
+		else:
+			var sp: Dictionary = h["special"]
+			lint_proc("hero %s special" % h["id"], { "on": "on_hit", "do": sp["do"] })
+			_font("hero %s special" % h["id"], [sp["name"], sp["desc"]])
+			for act in sp["do"]:
+				if act[0] == "channel":
+					lint_proc("hero %s channel" % h["id"], { "on": "on_hit", "do": act[3] })
+				elif act[0] == "dash" and act.size() > 4 and not act[4].is_empty():
+					lint_proc("hero %s dash end" % h["id"], { "on": "on_hit", "do": act[4] })
 		if not Traits._by_id.has(h["trait"]):
 			fail("hero %s: unknown starting trait %s" % [h["id"], h["trait"]])
 		if not GameData.unlocks().any(func(u): return u["id"] == "hero_" + h["id"]):
@@ -577,6 +588,41 @@ func heroes() -> void:
 		check("hero " + h["id"])
 		n += 1
 		Meta.meta["tree"].erase(h["id"])
+	# Specials: each fires, goes on cooldown, does its thing, and comes back.
+	var used := 0
+	for i in all.size():
+		var h: Dictionary = all[i]
+		if not h.has("special"):
+			continue
+		var p := arena(i)
+		for e in G.enemies:
+			e.max_hp = 1e9
+			e.hp = 1e9
+		var hp0 := 0.0
+		for e in G.enemies:
+			hp0 += e.hp
+		var pos0 := Vector2(p.x, p.y)
+		if not Abilities.ready(p):
+			fail("%s: special not ready at the start" % h["id"])
+		Abilities.use(p)
+		if Abilities.ready(p) or Abilities.charge(p) > 0.01:
+			fail("%s: special did not go on cooldown" % h["id"])
+		var has_dash: bool = h["special"]["do"].any(func(a): return a[0] == "dash")
+		var has_channel: bool = h["special"]["do"].any(func(a): return a[0] == "channel")
+		if has_dash and p.dash_t <= 0:
+			fail("%s: dash did not start" % h["id"])
+		if has_channel and p.channel.is_empty():
+			fail("%s: channel did not start" % h["id"])
+		play(int(h["special"]["cd"] * 60) + 2)
+		check("special " + h["id"])
+		if has_dash and Vector2(p.x, p.y).distance_to(pos0) < 20:
+			fail("%s: dash did not move the hero" % h["id"])
+		if p.dash_t > 0 or not p.channel.is_empty():
+			fail("%s: dash or channel never ended" % h["id"])
+		if not Abilities.ready(p):
+			fail("%s: special did not recharge after %ds" % [h["id"], h["special"]["cd"]])
+		used += 1
+	notes.append("specials: %d hero specials fired, cooled down and recharged" % used)
 	# Mechanics.
 	var rk := arena(_hero_index("racketeer"))
 	var dmg0 := rk.dmg

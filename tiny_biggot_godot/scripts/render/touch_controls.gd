@@ -67,6 +67,9 @@ func _load_layout() -> void:
 			continue
 		buttons.append({ "label": b.get("label", ""), "action": action, "frac": Vector2(b["x"], b["y"]),
 			"pt": float(b.get("size", 52)), "opacity": float(b.get("opacity", 0.7)), "pos": Vector2.ZERO, "r": 10.0 })
+	# New: the special-ability button (only for heroes that have one), above BOMB.
+	buttons.append({ "label": "SKILL", "action": &"special", "frac": Vector2(0.69, 0.40), "pt": 60.0, "opacity": 0.8,
+		"pos": Vector2.ZERO, "r": 10.0, "special": true })
 
 ## Converts layout points to game pixels for the current screen (integer
 ## stretch: 5x on the iPad Air, where one game pixel is 2.5 points).
@@ -153,6 +156,8 @@ func _process(_delta: float) -> void:
 	if visible and G.state != _last_state:
 		_last_state = G.state
 		queue_redraw()
+	elif visible and Abilities.has_special(G.player):
+		queue_redraw()   # the SKILL cooldown ring animates
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT or what == NOTIFICATION_APPLICATION_PAUSED:
@@ -165,6 +170,8 @@ func _begin(index: int, pos: Vector2) -> void:
 	var menu_screen := G.state != &"play"
 	for b in buttons:
 		if b["action"] in AIM_ACTIONS or (menu_screen and not b["action"] in MENU_BUTTONS):
+			continue
+		if b.get("special", false) and not Abilities.has_special(G.player):
 			continue
 		if pos.distance_to(b["pos"]) <= b["r"] * 1.3:
 			_touches[index] = { "kind": "button", "action": b["action"], "pos": pos }
@@ -261,6 +268,8 @@ func _draw() -> void:
 	draw_circle(stick_center + knob, stick_r * 0.42, Color(kc.r, kc.g, kc.b, 0.55 * a), true, -1.0, false)
 	# Buttons
 	for b in buttons:
+		if b.get("special", false) and not Abilities.has_special(G.player):
+			continue
 		var held: bool = _held.has(b["action"])
 		var op: float = b["opacity"] * dim
 		var c: Color = hot if held else ring
@@ -268,6 +277,13 @@ func _draw() -> void:
 		var r: float = b["r"]
 		draw_circle(pos, r, Color(fill.r, fill.g, fill.b, (0.75 if held else 0.45) * op), true, -1.0, false)
 		draw_arc(pos, r, 0, TAU, 24, Color(c.r, c.g, c.b, 0.8 * op), 1.0, false)
+		if b.get("special", false):
+			# Cooldown: a ring that fills up; it glows when the skill is ready.
+			var k := Abilities.charge(G.player)
+			var sc := TB.c(G.player.hero["special"].get("col", "#f2c94c"))
+			draw_arc(pos, r - 2, -PI / 2, -PI / 2 + TAU * k, 24, Color(sc.r, sc.g, sc.b, 0.9 * op), 2.0, false)
+			if k >= 1.0:
+				draw_arc(pos, r + 2, 0, TAU, 24, Color(sc.r, sc.g, sc.b, (0.4 + 0.3 * sin(G.time * 6)) * op), 1.0, false)
 		if b["action"] in AIM_ACTIONS:
 			_arrow(pos, b["action"], r * 0.45, Color(c.r, c.g, c.b, 0.9 * op))
 		else:

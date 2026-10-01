@@ -1536,6 +1536,7 @@ static func _update_player_base(p: Player, dt: float) -> void:
 			keep.append(v)
 	p.volleys = keep
 	p.try_heal()
+	Abilities.update(p, dt)
 	if Keys.bomb():
 		if p.bombs > 0:
 			p.bombs -= 1

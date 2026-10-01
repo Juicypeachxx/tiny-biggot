@@ -65,6 +65,17 @@ func _draw() -> void:
 	draw_rect(Rect2(5, 28, 82, 3), TB.c("#140f1c"))
 	draw_rect(Rect2(6, 29, roundf(80.0 * p.xp / need), 1), TB.c("#b8e05a"))
 	Gfx.text(self, "LV %d" % p.level, 90, 27, "lime")
+	# Special ability meter (step-6 heroes): fills while it recharges.
+	if Abilities.has_special(p):
+		var sp: Dictionary = p.hero["special"]
+		var k := Abilities.charge(p)
+		var ready := k >= 1.0
+		var col: String = sp.get("col", "#f2c94c")
+		draw_rect(Rect2(5, 34, 52, 5), TB.c("#140f1c"))
+		draw_rect(Rect2(6, 35, roundf(50.0 * k), 3), TB.c(col) if ready or floori(G.time * 2) % 2 == 0 else TB.ca(col, 160))
+		if ready:
+			draw_rect(Rect2(6, 35, 50, 1), Color(1, 1, 1, 0.5 + 0.5 * sin(G.time * 8)))
+		Gfx.text(self, sp["name"] if ready else "%ds" % ceili(p.special_cd), 60, 34, "gold" if ready else "dim")
 	# Racketeer heat meter (step 6): one pip per level.
 	if p.hero.get("hud", "") == "heat":
 		Gfx.text(self, "HEAT", 116, 27, "orange" if p.heat > 0 else "dim")

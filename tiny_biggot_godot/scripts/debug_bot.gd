@@ -27,7 +27,7 @@ func _tap(action: StringName, chance: float) -> void:
 func tick() -> void:
 	ticks += 1
 	for a in Keys.ACTIONS:
-		if a in [&"roll", &"use", &"heal", &"bomb", &"pause"]:
+		if a in [&"roll", &"use", &"heal", &"bomb", &"pause", &"special"]:
 			_hold(a, false)
 	if G.state != &"play":
 		_tap(&"use", 0.05)
@@ -70,6 +70,10 @@ func tick() -> void:
 	_tap(&"roll", 0.01)
 	_tap(&"heal", 0.002)
 	_tap(&"bomb", 0.003)
+	# New heroes: use the special as soon as it is ready in a fight. No random
+	# draw here, so runs with the original heroes replay exactly as before.
+	if Abilities.ready(p) and G.enemies_active():
+		_hold(&"special", true)
 	if ticks % 600 == 0:
 		var gear_n := 0
 		for g in p.gear.values():

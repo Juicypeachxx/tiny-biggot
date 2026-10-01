@@ -42,7 +42,7 @@ func _ready() -> void:
 	pbul = _layer(_paint_pbullets)
 	bars = _layer(_paint_bars)
 	ebul = _layer(EBullets.draw)
-	parts = _layer(Fx.draw_particles)
+	parts = _layer(_paint_parts)
 	swing = _layer(_paint_swings)
 	top = _layer(_paint_top)
 	vignette = Sprite2D.new()
@@ -50,8 +50,16 @@ func _ready() -> void:
 	vignette.centered = false
 	add_child(vignette)
 	screen = _layer(func(ci): Juice.draw_screen(ci, G.player, G.time))
-	texts = _layer(Fx.draw_texts)
+	texts = _layer(_paint_texts)
 	G.room_changed.connect(_on_room_changed)
+
+func _paint_parts(ci: CanvasItem) -> void:
+	Fx.draw_particles(ci)
+	Juice.draw_sparks(ci)
+
+func _paint_texts(ci: CanvasItem) -> void:
+	Fx.draw_texts(ci)
+	Juice.draw_labels(ci)
 
 func _layer(p: Callable, additive: bool = false) -> DrawLayer:
 	var l := DrawLayer.new(p, additive)
@@ -448,6 +456,7 @@ func _paint_fx(ci: CanvasItem) -> void:
 				else:
 					Gfx.bar(ci, TB.ca("#a35bd6", 180 if floori(t * 16) % 2 == 1 else 80), e.x, e.y - 4, 520, 2, ba)
 	Juice.draw_rings(ci)
+	Juice.draw_magic(ci, G.player, G.time)
 
 # ---------- z 1900: additive glows ----------
 func _paint_glow(ci: CanvasItem) -> void:

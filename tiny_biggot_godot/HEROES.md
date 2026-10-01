@@ -28,6 +28,37 @@ These are placeholders until real art is drawn.
 | **The Cartomancer** (Hexer) | 260 | Gilt Deck (three bouncing cards) | In a fight, draws a card every 4 s and plays it: Blades, Storm, Shield, Mend, Star, Wheel or Coin | Salvo |
 | **The Sellsword** (Warden) | 120 | War Lance (long spear) | Charge: faster rolls that trample foes for 250%. +1 roll charge, starts with 1 armor | Brace |
 
+## Special abilities (active)
+
+Each new hero also has an active **special**. Use it with the SKILL touch
+button (above BOMB, shown only for these heroes), **F** on a keyboard, or
+**R3 / Back** on a gamepad. It recharges over time: the HUD bar under the XP
+bar and the ring on the SKILL button fill up, and "SKILL READY" pops up when
+it is ready. The six original heroes have no special and play exactly as
+before.
+
+| Hero | Special | Cooldown | What it does |
+|---|---|---|---|
+| Bane Hunter | **Burning Sigil** | 12 s | A huge rune circle: blast for 250% around you, stun and set every nearby foe ablaze, erase shots |
+| Oathbreaker | **Iron Cyclone** | 11 s | Spin for 2 s, hitting everything around you for 90% five times a second; untouchable while spinning; shots near you are cut down |
+| Wayfarer | **Flash Step** | 7 s | Blink forward in a flash, cutting every foe in the path for 400%; untouchable while moving |
+| Racketeer | **Lead Rain** | 12 s | 2 s of a spiralling 8-way hail of shots; +1 heat |
+| Condemned | **Break the Chains** | 14 s | 2 s untouchable, erase nearby shots, 16 chain links fly out, +50% damage for 6 s |
+| Cartomancer | **Stacked Deck** | 10 s | Deal three cards at once, plus a fan of 12 razor cards |
+| Sellsword | **War Charge** | 8 s | A long trampling charge for 300% that ends in a shockwave for 200% |
+
+## Visible passives
+
+| Hero | What you see |
+|---|---|
+| Bane Hunter | A gold sigil flashes on each sign. "BLADE OILED" and gold glints on the weapon while the potion oil lasts |
+| Oathbreaker | Red embers rise from the hero; more stacked rage means more embers |
+| Wayfarer | "PERFECT!" and a cyan ring on a perfect dodge |
+| Racketeer | Flames lick at the hero's feet as heat rises; heat meter on the HUD |
+| Condemned | "FRESH STEEL" on a weapon swap; "SCROLL: ..." each floor |
+| Cartomancer | Each drawn card pops up as a little playing card with its symbol |
+| Sellsword | Dust and sparks trail the charge |
+
 ## Special branches (node costs 10 / 20 / 35 / 60 embers, as for all heroes)
 
 | Hero | Branch | 1 | 2 | 3 | Capstone |
@@ -39,6 +70,20 @@ These are placeholders until real art is drawn.
 | Condemned | ESCAPE ARTIST | A second scroll every floor | Weapon swap refunds a roll and heals half a heart (every 20 s) | +1 max heart | Rise one more time |
 | Cartomancer | THE ARCANA | Extra card every 10 s in a fight | Cards pierce +1 | Room clears draw a card | Every card plays twice |
 | Sellsword | FREE COMPANY | Rolls recharge 20% faster | When hit, erase nearby shots (every 6 s) | Elite kills pay 12 gold | Charges hit twice as hard; kills refund the roll |
+
+## What was added to the engine (abilities pass)
+
+- `scripts/combat/abilities.gd`: specials as data (`name`, `desc`, `cd`, `col`, `do`).
+- **New actions:**
+  - `dash`: a charge along the aim or move direction that tramples foes, with end actions.
+  - `channel`: repeat actions for a while.
+  - `invuln`
+  - `status_area`
+  - `area`: a silent hit on every foe around you.
+  - `vfx`: visual only. Kinds: ring, sigil, spin, flash, burst, label.
+- **Nova** takes an optional spin value, for spirals.
+- **Input:** a new `special` action. The autopilot uses specials, without random draws, so original-hero replays are unchanged.
+- **Visuals:** Juice gained its own sparks, labels, card pop-ups, sigils and whirling blades, still with its own random generator.
 
 ## What was added to the engine
 
@@ -79,7 +124,8 @@ them, so they still take the same code paths:
   - The potion oil buff is applied.
   - Card draws reach the COIN card.
   - A planted wrong heat value and a removed card were both caught, so the checks can fail.
-- **Soak:** a 5-minute autopilot run per new hero (no god mode), 0 errors.
+- **Soak:** a 5-minute autopilot run per new hero (no god mode, specials in use), 0 errors.
+- **Specials:** the content test lints every special, fires each one live and checks it goes on cooldown, that dashes move the hero and that channels end, and that it recharges.
 - **Originals unchanged:** the `--classic` replays still match byte for byte.
   The full-pool replays also still match, because signature weapons never
   drop and the new triggers draw no random numbers.

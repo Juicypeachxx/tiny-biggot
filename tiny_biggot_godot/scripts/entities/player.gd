@@ -197,6 +197,14 @@ var overcrit := 0.0             # new stat: crit chance past 100% can crit again
 var paid_rerolls := 0           # trait rerolls bought with gold after the free ones
 var heat := 0                   # new (Racketeer): heat level, see Actions "heat"
 var heat_max := 5
+var special_cd := 0.0           # new: special ability cooldown left (scripts/combat/abilities.gd)
+var dash_t := 0.0               # special-ability dash: time left, direction, speed, trample damage
+var dash_dir := Vector2.ZERO
+var dash_speed := 0.0
+var dash_dmg := 0.0
+var dash_hit := {}
+var dash_end: Array = []        # actions run when the dash ends
+var channel := {}               # channelled ability: { t, period, timer, do }
 
 func _init(h: Dictionary) -> void:
 	hero = h
@@ -240,9 +248,15 @@ func update_move(dt: float) -> Vector2:
 	var mv := Keys.move()
 	var vx := 0.0
 	var vy := 0.0
-	if Keys.roll() and dodge_t <= 0 and charges > 0:
+	if Keys.roll() and dodge_t <= 0 and charges > 0 and dash_t <= 0:
 		start_roll(mv)
-	if dodge_t > 0:
+	if dash_t > 0:
+		# Special-ability dash (new heroes only; originals never set dash_t).
+		vx = dash_dir.x * dash_speed
+		vy = dash_dir.y * dash_speed
+		trail.append({ "x": x, "y": y, "life": 0.25, "face": face })
+		Abilities.while_dashing(self, dt)
+	elif dodge_t > 0:
 		dodge_t -= dt
 		vx = dodge_dir.x * 215 * roll_speed
 		vy = dodge_dir.y * 215 * roll_speed

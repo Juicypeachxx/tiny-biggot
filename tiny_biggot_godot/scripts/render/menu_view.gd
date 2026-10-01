@@ -187,6 +187,11 @@ func draw_hero(ci: CanvasItem) -> void:
 		for j in pl.size():
 			Gfx.text(ci, pl[j], TB.SW / 2, 152 + bl.size() * 9 + 2 + j * 8, "cyan", 1, 0.5)
 		sy = 152 + bl.size() * 9 + 4 + pl.size() * 8
+		if h.has("special"):
+			var spl := Gfx.wrap_text("SKILL - " + h["special"]["name"] + ": " + h["special"]["desc"], TB.SW - 100)
+			for j in spl.size():
+				Gfx.text(ci, spl[j], TB.SW / 2, sy + j * 8, "orange", 1, 0.5)
+			sy += spl.size() * 8 + 2
 		Gfx.text(ci, "STARTING TRAIT: " + Traits.by_id(h["trait"])["name"], TB.SW / 2, sy, "lime", 1, 0.5)
 		sy += 10
 	Gfx.text(ci, "STARTS WITH %s   DAMAGE %s   RATE %.1f/S   SPEED %d" % [hw["name"], _fmt_num(hw["dmg"]), hw["rate"], h["speed"]],
