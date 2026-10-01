@@ -53,6 +53,7 @@ func _ready() -> void:
 	biomes()
 	loops()
 	attributes()
+	upgrades()
 	stress()
 	print("[content] Effects.stats: ", Effects.stats)
 	for n in notes:
@@ -67,7 +68,7 @@ func fail(msg: String) -> void:
 
 # ---------- 1. Lint ----------
 const REVERSIBLE := ["add", "mul", "pct", "hook", "grant", "attr"]
-const ONE_SHOT := ["add", "mul", "pct", "set", "add_cap", "add_floor", "clamp_max", "at_least", "copy", "nth", "hook", "grant", "attr"]
+const ONE_SHOT := ["add", "mul", "pct", "set", "add_cap", "add_floor", "clamp_max", "at_least", "copy", "nth", "hook", "grant", "attr", "upgrade"]
 
 func lint_effects(where: String, effects: Array, reversible: bool) -> void:
 	for e in effects:
@@ -83,6 +84,8 @@ func lint_effects(where: String, effects: Array, reversible: bool) -> void:
 		if reversible and not op in REVERSIBLE:
 			fail("%s: op %s cannot be undone but this item can be removed" % [where, op])
 		if op == "hook":
+			continue
+		if op == "upgrade":
 			continue
 		if op == "attr":
 			if not e[1] in ["str", "dex", "int", "highest"]:
@@ -935,6 +938,49 @@ func attributes() -> void:
 		fail("attributes still apply with the Rogues layer off")
 	GameData.force_classic = false
 	notes.append("attributes: hero spreads, trait training, attribute relics, scaling for all %d weapons, and off under classic" % graded)
+
+## Rogues layer: anvil upgrades, the Smith's Hammer, damage rolls and item cards.
+func upgrades() -> void:
+	var p := arena(1)
+	var shared: Dictionary = Weapons.by_id(p.weapon["id"])
+	var d0 := Weapons.wdmg(p)
+	p.gold = 10000
+	var anvil := { "kind": "anvil", "x": p.x, "y": p.y }
+	G.interact(anvil)
+	if WeaponInfo.plus(p.weapon) != 1 or absf(Weapons.wdmg(p) - d0 * 1.08) > 1e-6:
+		fail("anvil: +%d, damage x%.3f (want +1, x1.08)" % [WeaponInfo.plus(p.weapon), Weapons.wdmg(p) / d0])
+	if shared.has("plus"):
+		fail("upgrading changed the shared weapon table")
+	for k in 40:
+		G.interact(anvil)
+	if WeaponInfo.plus(p.weapon) != WeaponInfo.MAX_PLUS:
+		fail("anvil did not stop at +%d" % WeaponInfo.MAX_PLUS)
+	var upgraded: Dictionary = p.weapon
+	Weapons.equip_weapon(p, Weapons.by_id("warbow"))
+	if WeaponInfo.plus(upgraded) != WeaponInfo.MAX_PLUS:
+		fail("a dropped weapon lost its level")
+	G.add_relic(p, Relics.by_id("smithhammer"))
+	if WeaponInfo.plus(p.weapon) != 2:
+		fail("smith's hammer gave +%d (want +2)" % WeaponInfo.plus(p.weapon))
+	# Damage rolls stay within +-15%.
+	var e := Combat.spawn_enemy("golem", 200, 150, false, true)
+	e.max_hp = 1e9
+	e.hp = 1e9
+	p.crit = 0.0
+	var lo := 1e9
+	var hi := 0.0
+	for k in 300:
+		var before := e.hp
+		Combat.damage_enemy(e, 100.0, { "no_crit": true, "silent": true })
+		var dealt := before - e.hp
+		lo = minf(lo, dealt)
+		hi = maxf(hi, dealt)
+	if lo < 84.9 or hi > 115.1 or hi - lo < 15:
+		fail("damage rolls %.1f..%.1f (want about 85..115)" % [lo, hi])
+	var lines := OverlayView.item_lines(Weapons.by_id("truthseeker"))
+	if not lines.any(func(l): return l[0].begins_with("- ATTACK DAMAGE:")):
+		fail("weapon card has no damage line")
+	notes.append("upgrades: anvil +1 = +8%% damage up to +%d on its own copy; levels stay with dropped weapons; hammer +2; hits roll %.0f..%.0f of 100; cards list damage" % [WeaponInfo.MAX_PLUS, lo, hi])
 
 func _hero_index(id: String) -> int:
 	var all := GameData.heroes()

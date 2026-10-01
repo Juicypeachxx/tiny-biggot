@@ -376,7 +376,7 @@ static func synergy_mult(p: Player) -> float:
 				break
 	return 1 + minf(0.08 * ranks, 0.64) + 0.12 * pieces
 
-static func wdmg(p: Player) -> float: return p.weapon["dmg"] * p.dmg * synergy_mult(p) * Attributes.mult(p)
+static func wdmg(p: Player) -> float: return p.weapon["dmg"] * p.dmg * synergy_mult(p) * Attributes.mult(p) * WeaponInfo.upgrade_mult(p.weapon)
 static func wrate(p: Player) -> float:
 	var r: float = p.weapon["rate"] * p.rate
 	if p.weapon["kind"] == "gatling":

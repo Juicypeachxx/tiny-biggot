@@ -328,6 +328,8 @@ func setup_objects(r: Room) -> void:
 			r.objects.append({ "kind": "bell", "x": cx, "y": cy })
 		"rest":
 			r.objects.append({ "kind": "campfire", "x": cx, "y": cy })
+			if GameData.rogues():
+				r.objects.append({ "kind": "anvil", "x": cx + 56, "y": cy })
 	# 05b_items.rb: weapons and gear in shops and treasure rooms.
 	match r.type:
 		"shop":
@@ -335,6 +337,8 @@ func setup_objects(r: Room) -> void:
 			var g := Gear.random_gear(Gear.roll_item_rarity(f))
 			r.objects.append({ "kind": "shop", "item": "weapon", "thing": w, "x": cx - 40, "y": cy + 34, "price": item_price(w) })
 			r.objects.append({ "kind": "shop", "item": "gear", "thing": g, "x": cx + 40, "y": cy + 34, "price": item_price(g) })
+			if GameData.rogues():
+				r.objects.append({ "kind": "anvil", "x": cx + 104, "y": cy + 34 })
 		"treasure":
 			if randf() < 0.35:
 				var it: Dictionary = Weapons.random_weapon(Gear.roll_item_rarity(f, "elite"), player.weapon) if randf() < 0.5 \
@@ -618,6 +622,20 @@ func interact(o: Dictionary) -> void:
 			o["used"] = true
 			p.heal(p.max_hp)
 			Fx.burst(o["x"], o["y"], ["#6fd3e0", "#f4ecd8"], 20, 60)
+		"anvil":
+			# Rogues layer: pay gold to upgrade the weapon you hold (+8% damage per level).
+			if WeaponInfo.plus(p.weapon) >= WeaponInfo.MAX_PLUS:
+				return deny(o, "ALREADY +%d" % WeaponInfo.MAX_PLUS)
+			var acost := price(WeaponInfo.anvil_cost(p))
+			if p.gold < acost:
+				return deny(o, "NEED %d GOLD" % acost)
+			p.gold -= acost
+			var lv := WeaponInfo.upgrade(p, 1)
+			Snd.play("hit")
+			G.add_shake(3)
+			Fx.burst(o["x"], o["y"] - 4, ["#f2c94c", "#e8873a", "#ffffff"], 18, 70)
+			Juice.label("+%d" % lv, "#f2c94c", o["x"], o["y"] - 16, true)
+			toast(WeaponInfo.display_name(p.weapon), "gold")
 		"campfire":
 			o["used"] = true
 			p.heal(ceili(p.max_hp / 2.0))

@@ -185,6 +185,8 @@ const ROWS := [
 	["sagesink", "rare", "SAGE'S INK", "+2 INT", [["attr", "int", 2]], ["arcane"], "relic_owl"],
 	["heavennectar", "epic", "HEAVENLY NECTAR", "+1 TO YOUR HIGHEST ATTRIBUTE. +1 MAX HEART", [["attr", "highest", 1], ["add", "max_hp", 2], ["add", "hp", 2]], ["bulwark"], "relic_worldseed"],
 	["balancestone", "epic", "STONE OF BALANCE", "+1 STR, +1 DEX, +1 INT", [["attr", "str", 1], ["attr", "dex", 1], ["attr", "int", 1]], ["arcane"], "relic_lodestone"],
+	# ---------- Rogues layer: upgrade relic ----------
+	["smithhammer", "epic", "SMITH'S HAMMER", "YOUR WEAPON GAINS +2 LEVELS NOW", [["upgrade", "weapon", 2]], ["bulwark"], "relic_heavy"],
 ]
 const BASE_COUNT := 34
 const CACHE_1 := ["tallow", "skeletonkey", "quiver", "filings", "gravedust", "mothwing", "bitterroot", "tinwhistle", "chalk", "rustynail"]

@@ -85,6 +85,9 @@ func _ready() -> void:
 		"tree":
 			G.tree_hero = G.hero_index
 			G.state = &"tree"
+		"card":   # an item card: a legendary weapon at your feet (Rogues layer)
+			var lw: Dictionary = Weapons.all().filter(func(w): return w["rarity"] == "legend" and w["new"])[0]
+			G.room.objects.append({ "kind": "item", "item": lw, "x": G.player.x, "y": G.player.y - 6 })
 		"ending":   # the true ending room, right after the last guardian falls
 			G.floor_index = GameData.floors().size() - 1
 			G.floor_d = World.new_floor(G.floor_index)

@@ -190,6 +190,8 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 		return false
 	var p := G.player
 	var crit := false
+	if GameData.rogues():
+		dmg *= 0.85 + 0.3 * randf()   # Rogues layer: every hit rolls within +-15%
 	if o.get("force_crit", false) or (not o.get("no_crit", false) and randf() < p.crit + (p.g("chill_crit") if e.chill_t > 0 else 0.0)):
 		dmg *= p.crit_mult
 		crit = true

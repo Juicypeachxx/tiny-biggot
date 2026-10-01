@@ -83,7 +83,26 @@ static func _tag_names(tags: Array) -> String:
 static func item_lines(it: Dictionary) -> Array:
 	var p := G.player
 	var lines := []
-	if it["item"] == "weapon":
+	if it["item"] == "weapon" and GameData.rogues():
+		# Rogues layer: a full weapon card.
+		lines.append([WeaponInfo.display_name(it), GameData.RARITY_COL[it["rarity"]]])
+		lines.append([GameData.RARITY_NAME[it["rarity"]] + " " + Weapons.ARCH[it["kind"]]["name"], "grey"])
+		lines.append(["- WEAPON TYPE: %s   RANGE: %s" % [WeaponInfo.wtype(it), WeaponInfo.range_name(it)], "tan"])
+		lines.append(["- DAMAGE SCALING: " + Attributes.grade_line(it), "white"])
+		var dr := WeaponInfo.damage_range(p, it)
+		var dt := WeaponInfo.damage_type(it)
+		lines.append(["- ATTACK DAMAGE: %s TO %s %s" % [TB.fmt_dmg(dr[0]), TB.fmt_dmg(dr[1]), dt], WeaponInfo.TYPE_COL.get(dt, "white")])
+		var cur: Dictionary = p.weapon
+		var mine: float = WeaponInfo.hit_damage(p, it) * it["rate"] * maxi(1, it["count"])
+		var theirs: float = WeaponInfo.hit_damage(p, cur) * cur["rate"] * maxi(1, cur["count"])
+		var sl := "- ATTACK SPEED: %.1f/S" % it["rate"]
+		var diff := roundi((mine / theirs - 1) * 100) if theirs > 0 else 0
+		if it["id"] != cur["id"]:
+			sl += "   (%s%d%% VS YOURS)" % ["+" if diff >= 0 else "", diff]
+		lines.append([sl, "lime" if diff >= 0 else "red"])
+		if not it["tags"].is_empty():
+			lines.append(["TAGS: " + _tag_names(it["tags"]), "tan"])
+	elif it["item"] == "weapon":
 		lines.append([it["name"], GameData.RARITY_COL[it["rarity"]]])
 		lines.append([GameData.RARITY_NAME[it["rarity"]] + " " + Weapons.ARCH[it["kind"]]["name"] + " - " + Weapons.ARCH_DESC[it["kind"]], "grey"])
 		var cur: Dictionary = p.weapon
@@ -136,8 +155,9 @@ func draw_item_prompt(ci: CanvasItem, o: Dictionary, it: Dictionary, price: int 
 	if py < 32:
 		py = roundf(o["y"] + 16)
 	Gfx.panel(ci, px, py, w, h, GameData.RARITY_HEX[it["rarity"]])
+	var left := GameData.rogues()   # Rogues layer: left-aligned item cards
 	for i in lines.size():
-		Gfx.text(ci, lines[i][0], px + w / 2, py + 4 + i * 8, lines[i][1], 1, 0.5)
+		Gfx.text(ci, lines[i][0], px + 5 if left else px + w / 2, py + 4 + i * 8, lines[i][1], 1, 0.0 if left else 0.5)
 
 const SHOP_TEXT := {
 	"potion": ["RED POTION", "STORE IT. HEAL BUTTON HEALS 2 HEARTS"], "heart": ["HEART", "HEALS 1 HEART"],
@@ -195,6 +215,14 @@ func draw_prompt(ci: CanvasItem, o: Dictionary) -> void:
 		"fountain":
 			title = "CLEAR SPRING"
 			desc = "HEALS YOU FULLY, ONCE"
+		"anvil":
+			var ap := G.player
+			title = "ANVIL"
+			if WeaponInfo.plus(ap.weapon) >= WeaponInfo.MAX_PLUS:
+				desc = "YOUR WEAPON IS ALREADY +%d" % WeaponInfo.MAX_PLUS
+			else:
+				desc = "UPGRADE %s TO +%d (+8%% DAMAGE)" % [ap.weapon["name"], WeaponInfo.plus(ap.weapon) + 1]
+				extra = "PAY %d GOLD" % G.price(WeaponInfo.anvil_cost(ap))
 		"portal":
 			title = "DESCEND"
 			desc = "GO DEEPER INTO THE CRYPT"

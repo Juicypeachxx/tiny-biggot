@@ -286,6 +286,18 @@ func _paint_lower(ci: CanvasItem) -> void:
 				Gfx.sp(ci, name, x, y + bob, 2, 2)
 				var label := "%dG" % o["price"]
 				Gfx.text(ci, label, roundf(x - TB.text_w(label) / 2), roundf(y + 11), "gold" if G.player.gold >= o["price"] else "red")
+			"anvil":
+				# Rogues layer: a small iron anvil on a stump.
+				var ax := roundf(x)
+				var ay := roundf(y)
+				ci.draw_rect(Rect2(ax - 4, ay + 2, 8, 6), TB.c("#7a5236"))
+				ci.draw_rect(Rect2(ax - 4, ay + 2, 8, 1), TB.c("#a8705a"))
+				ci.draw_rect(Rect2(ax - 7, ay - 3, 13, 4), TB.c("#4e4a5e"))
+				ci.draw_rect(Rect2(ax - 9, ay - 3, 3, 2), TB.c("#4e4a5e"))
+				ci.draw_rect(Rect2(ax - 6, ay - 3, 11, 1), TB.c("#8b8f9c"))
+				ci.draw_rect(Rect2(ax - 2, ay + 1, 4, 2), TB.c("#2a2838"))
+				if floori(t * 3) % 4 == 0:
+					Gfx.px(ci, TB.c("#f2c94c"), ax + 3, ay - 5)
 			"loopportal", "exitportal":
 				# Gold for looping on, pale for leaving.
 				var zl := 1.1 + sin(t * 4) * 0.06

@@ -76,9 +76,14 @@ static func value(p: Player, a: String) -> int:
 
 ## Weapon damage multiplier from attributes (1.0 when off).
 static func mult(p: Player) -> float:
-	if not enabled() or p.weapon == null:
+	if p.weapon == null:
 		return 1.0
-	var g := scaling(p.weapon)
+	return mult_for(p, p.weapon)
+
+static func mult_for(p: Player, w: Dictionary) -> float:
+	if not enabled():
+		return 1.0
+	var g := scaling(w)
 	var m := 0.0
 	for a in ATTRS:
 		m += COEF[g[a]] * value(p, a)
