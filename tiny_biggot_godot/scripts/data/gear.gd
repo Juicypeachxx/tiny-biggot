@@ -20,7 +20,11 @@ const SETS := {
 	"archmage": {  "name": "ARCHMAGE", "tag": "arcane", "b2": [["count", 1]], "b4": [["echo", 0.3]], "d2": "+1 PROJECTILE", "d4": "30% CHANCE FOR SHOTS TO CAST AGAIN"  },
 	"gilded": {  "name": "GILDED", "tag": "fortune", "b2": [["gold_mult", 1.3]], "b4h": [["midas", 1]], "d2": "+30% GOLD", "d4": "+1% DAMAGE PER 5 GOLD HELD"  },
 	"sapper": {  "name": "SAPPER", "tag": "demolition", "b2": [["bombs", 3], ["bomb_mult", 1.3]], "b4h": [["cluster", 1]], "d2": "+3 BOMBS, BOMBS +30%", "d4": "BOMBS BURST INTO 4 MORE"  },
-	"shepherd": {  "name": "SHEPHERD", "tag": "swarm", "b2": [["familiars", 1]], "b4h": [["legion", 1]], "d2": "+1 WISP", "d4": "EVERY 5 KILLS SUMMON A WISP"  },}
+	"shepherd": {  "name": "SHEPHERD", "tag": "swarm", "b2": [["familiars", 1]], "b4h": [["legion", 1]], "d2": "+1 WISP", "d4": "EVERY 5 KILLS SUMMON A WISP"  },
+	# Content batch 1: e2/e4 are effect lists (procs allowed).
+	"duelist": { "name": "DUELIST", "tag": "edge", "b2": [["crit", 0.1]], "e4": [{ "on": "on_crit", "chance": 0.5, "do": [["damage", 0.5]] }], "d2": "+10% CRIT CHANCE", "d4": "HALF OF YOUR CRITS STRIKE AGAIN FOR 50%" },
+	"ravager": { "name": "RAVAGER", "tag": "fury", "b2": [["dmg", 1.1]], "e4": [{ "on": "while_low_hp", "do": [["buff", "dmg", 0.5, 0], ["buff", "speed", 0.15, 0]] }], "d2": "+10% DAMAGE", "d4": "BELOW HALF HEALTH: +50% DAMAGE, +15% SPEED" },
+}
 
 const ORIGINAL_COUNT := 96
 const ROWS := [
@@ -124,7 +128,57 @@ const ROWS := [
 	["grimoire", "BLACK GRIMOIRE", "trinket", "epic", ["shadow"], null, "amulet", [["dmg", 1.15]], [["souls", 0.004]], "EVERY KILL THIS FLOOR ADDS 0.4% DAMAGE."],
 	["heartofglass", "HEART OF GLASS", "trinket", "legend", ["arcane"], null, "amulet", [["dmg", 1.5], ["max_hp", -2]], [["crit_explode", 0.2]], "+50% DAMAGE BUT -1 MAX HEART. CRITS SOMETIMES EXPLODE."],
 	["dragonheart", "DRAGON'S HEART", "trinket", "legend", ["pyre"], null, "amulet", [["max_hp", 4], ["burn", 0.3]], [["kill_explode", 0.6]], "+2 MAX HEARTS. FOES YOU SLAY EXPLODE IN FLAME."],
-	["gamblerdie", "GAMBLER'S LAST DIE", "trinket", "legend", ["fortune"], null, "charm", [["crit", 0.15], ["crit_mult", 0.5], ["luck", 1]], [], "+15% CRIT AND CRITS DEAL MUCH MORE. FORTUNE FAVOURS YOU."],]
+	["gamblerdie", "GAMBLER'S LAST DIE", "trinket", "legend", ["fortune"], null, "charm", [["crit", 0.15], ["crit_mult", 0.5], ["luck", 1]], [], "+15% CRIT AND CRITS DEAL MUCH MORE. FORTUNE FAVOURS YOU."],
+	# ---------- Content batch 1 (Tiny Biggot Rogues) ----------
+	["duel_hat", "DUELIST'S FEATHERCAP", "head", "rare", ["edge"], "duelist", "hat", [["crit", 0.06]], [], "+6% CRIT.", [], "g_butcher_cap"],
+	["duel_coat", "DUELIST'S DOUBLET", "body", "rare", ["edge"], "duelist", "leather", [["max_hp", 2]], [], "CRITS GIVE +10% MOVE SPEED FOR 1S.", [{ "on": "on_crit", "do": [["buff", "speed", 0.1, 1.0]] }], "g_gild_vest"],
+	["duel_boots", "DUELIST'S STEPS", "feet", "rare", ["edge"], "duelist", "boots", [["speed", 1.06]], [], "ROLLING SHARPENS YOU: +15% CRIT DAMAGE FOR 2S.", [{ "on": "on_roll", "do": [["buff", "crit_mult", 0.15, 2.0]] }], "g_night_boots"],
+	["duel_ring", "DUELIST'S SIGNET", "trinket", "epic", ["edge"], "duelist", "ring", [["crit_mult", 0.3]], [], "CRITS DEAL +0.3X.", [], "g_whetring"],
+	["rav_helm", "RAVAGER'S HELM", "head", "rare", ["fury"], "ravager", "helm", [["max_hp", 2]], [], "+1 MAX HEART.", [], "g_hornedhelm"],
+	["rav_hide", "RAVAGER'S HIDE", "body", "rare", ["fury"], "ravager", "leather", [["max_hp", 2]], [["low_hp_dmg", 0.2]], "+20% DAMAGE WHEN WOUNDED.", [], "g_berserkerhide"],
+	["rav_boots", "RAVAGER'S TREADS", "feet", "rare", ["fury"], "ravager", "greaves", [["speed", 1.08]], [], "KILLS GIVE +15% MOVE SPEED FOR 2S.", [{ "on": "on_kill", "do": [["buff", "speed", 0.15, 2.0]] }], "g_butcher_boots"],
+	["rav_tooth", "RAVAGER'S FANG", "trinket", "epic", ["fury"], "ravager", "charm", [["dmg", 1.1]], [], "WHEN HIT, +30% DAMAGE FOR 3S.", [{ "on": "on_damage_taken", "do": [["buff", "dmg", 0.3, 3.0]] }], "g_night_fang"],
+	["hawkmonocle", "HAWK MONOCLE", "head", "rare", ["edge"], null, "hat", [["crit", 0.08]], [["far_dmg", 0.15]], "+8% CRIT. +15% DAMAGE FROM AFAR.", [], "g_owlhelm"],
+	["razorcharm", "RAZOR CHARM", "trinket", "legend", ["edge"], null, "charm", [["crit", 0.12], ["overcrit", 0.5]], [], "+12% CRIT. CRIT CHANCE PAST 100% CAN CRIT AGAIN.", [], "g_gamblerdie"],
+	["leechmail", "LEECH-LINK MAIL", "body", "rare", ["blood"], null, "plate", [["armor", 1]], [["leech", 0.015]], "+1 ARMOR. 1.5% OF HITS HEAL.", [], "g_bloodplate"],
+	["clotring", "CLOTTING RING", "trinket", "rare", ["blood"], null, "ring", [["bleed", 1]], [], "CRITS MAKE FOES BLEED. KILLING A BLEEDING FOE MAY HEAL.", [{ "on": "on_kill", "chance": 0.05, "if": "bleeding", "do": [["heal", 1]] }], "g_vampirefang"],
+	["butchermask", "SCARLET HOOD", "head", "epic", ["blood"], null, "hood", [["dmg", 1.15]], [], "+15% DAMAGE. EACH ROOM COSTS HALF A HEART AND GIVES +30% DAMAGE FOR 12S.", [{ "on": "on_room_enter", "do": [["hurt_self", 1], ["buff", "dmg", 0.3, 12.0]] }], "g_headsman"],
+	["ashcloak", "ASHEN CLOAK", "body", "rare", ["pyre"], null, "cloak", [["burn", 0.1]], [["fire_aura", 1]], "FOES NEAR YOU CATCH FIRE.", [], "g_ember_robe"],
+	["cinderboots", "CINDER SANDALS", "feet", "common", ["pyre"], null, "boots", [["speed", 1.05]], [], "ROLLING LEAVES A BLAST OF FIRE.", [{ "on": "on_roll", "do": [["explode", 20, 0.5]] }], "g_coalwalkers"],
+	["kilnheart", "KILN HEART", "trinket", "epic", ["pyre"], null, "amulet", [["burn", 0.2]], [], "BURNING FOES YOU KILL EXPLODE FOR 80% DAMAGE.", [{ "on": "on_kill", "if": "burning", "do": [["explode", 26, 0.8]] }], "g_emberheartgem"],
+	["rotgloves", "ROTTING WRAPS", "body", "common", ["venom"], null, "robe", [["poison", 1]], [], "+1 POISON ON HIT.", [], "g_plague_coat"],
+	["miasmamask", "MIASMA MASK", "head", "rare", ["venom"], null, "mask", [["poison", 1]], [["status_dmg", 0.15]], "+15% DAMAGE TO AFFLICTED FOES.", [], "g_plague_mask"],
+	["blightboots", "BLIGHTSTEP BOOTS", "feet", "rare", ["venom"], null, "boots", [["speed", 1.05]], [["toxic_steps", 1]], "YOU LEAVE POISON PUDDLES WHILE MOVING.", [], "g_plague_boots"],
+	["conductorhelm", "CONDUCTOR'S HELM", "head", "rare", ["storm"], null, "helm", [["chain", 0.1], ["chain_jumps", 1]], [], "+10% ARC CHANCE, ARCS JUMP 1 FURTHER.", [], "g_thunder_helm"],
+	["staticboots", "STATIC STRIDERS", "feet", "rare", ["storm"], null, "boots", [["speed", 1.08]], [], "ROLLING SHOCKS THE NEAREST FOE TWICE.", [{ "on": "on_roll", "do": [["status", "shock", 2]] }], "g_thunder_boots"],
+	["lightningrod", "LIGHTNING ROD", "trinket", "epic", ["storm"], null, "amulet", [["rate", 1.08]], [], "EVERY 4 SECONDS, LIGHTNING STRIKES THE NEAREST FOE.", [{ "on": "every_n_seconds", "period": 4.0, "do": [["lightning", 1.0]] }], "g_stormbottle"],
+	["splittinglens", "SPLITTING LENS", "head", "rare", ["arcane"], null, "hat", [["shot_speed", 1.1]], [["split", 1]], "SHOTS SPLIT ON THEIR FIRST HIT.", [], "g_seerveil"],
+	["volleyrobe", "VOLLEY ROBE", "body", "epic", ["arcane"], null, "robe", [["count", 1]], [], "+1 PROJECTILE.", [], "g_arch_robe"],
+	["ricochetband", "RICOCHET BAND", "trinket", "rare", ["arcane"], null, "ring", [["ricochet", 1]], [], "SHOTS JUMP TO ANOTHER FOE AFTER A HIT.", [], "g_quickring"],
+	["beekeeperhat", "KEEPER'S VEIL", "head", "common", ["swarm"], null, "hat", [["fam_dmg", 0.2]], [], "WISPS DEAL 20% MORE.", [], "g_shep_hat"],
+	["broodcloak", "BROOD CLOAK", "body", "rare", ["swarm"], null, "cloak", [["max_hp", 2]], [], "WHEN HIT, A WISP RISES FOR 8S.", [{ "on": "on_damage_taken", "do": [["summon", 8.0]] }], "g_shep_cloak"],
+	["callingwhistle", "CALLING WHISTLE", "trinket", "epic", ["swarm"], null, "charm", [["familiars", 1], ["fam_rate", 1.15]], [], "+1 WISP. WISPS FIRE 15% FASTER.", [], "g_shep_crook"],
+	["fadingcowl", "FADING COWL", "head", "rare", ["shadow"], null, "hood", [["evade", 0.05]], [], "5% DODGE. ROLLING GIVES +30% DAMAGE FOR 1.5S.", [{ "on": "on_roll", "do": [["buff", "dmg", 0.3, 1.5]] }], "g_night_hood"],
+	["silkboots", "SILKEN SLIPPERS", "feet", "rare", ["shadow"], null, "boots", [["dodge_cd", 0.85], ["roll_speed", 1.1]], [], "ROLLS RECHARGE FASTER AND GO FURTHER.", [], "g_ninjatabi"],
+	["mirrorcape", "MIRROR CAPE", "body", "epic", ["shadow"], null, "cloak", [["dodge_charges", 1], ["charges", 1]], [], "+1 ROLL CHARGE. ROLLING ERASES NEARBY SHOTS.", [{ "on": "on_roll", "do": [["clear_shots", 32]] }], "g_voidshroud"],
+	["anvilhelm", "ANVIL HELM", "head", "rare", ["bulwark"], null, "helm", [["armor", 2], ["speed", 0.95]], [], "+2 ARMOR. A LITTLE SLOWER.", [], "g_bastion_helm"],
+	["thornplate", "BRAMBLE PLATE", "body", "rare", ["bulwark"], null, "plate", [["thorns", 15]], [["thorns_nova", 6]], "+15 THORNS. WHEN HIT, FIRE 6 THORNS.", [], "g_spikedmail"],
+	["oathstone", "OATHSTONE", "trinket", "epic", ["bulwark"], null, "amulet", [["max_hp", 2]], [], "CLEARING A ROOM GRANTS 1 ARMOR.", [{ "on": "on_room_clear", "do": [["armor", 1]] }], "g_bastion_seal"],
+	["skullcap", "BATTLE SKULLCAP", "head", "common", ["fury"], null, "helm", [["dmg", 1.06]], [], "+6% DAMAGE. BELOW HALF HEALTH, +15% MORE.", [{ "on": "while_low_hp", "do": [["buff", "dmg", 0.15, 0]] }], "g_ironmask"],
+	["bloodboil", "BLOODBOIL VIAL", "trinket", "rare", ["fury"], null, "charm", [["rate", 1.05]], [], "KILLS GIVE +25% FIRE RATE FOR 1.5S.", [{ "on": "on_kill", "do": [["buff", "rate", 0.25, 1.5]] }], "g_vialbelt"],
+	["merchantshat", "MERCHANT'S TRICORN", "head", "rare", ["fortune"], null, "crown", [["gold_mult", 1.15]], [], "+15% GOLD. CLEARING A ROOM PAYS 3 GOLD.", [{ "on": "on_room_clear", "do": [["gold", 3]] }], "g_gild_crown"],
+	["coinpurse", "BOTTOMLESS PURSE", "trinket", "rare", ["fortune"], null, "charm", [["luck", 1]], [["gold_dmg", 0.05]], "BETTER RELICS. +5% DAMAGE PER 100 GOLD.", [], "g_ledger"],
+	["goldtoes", "GOLD-TOED BOOTS", "feet", "common", ["fortune"], null, "boots", [["speed", 1.05], ["shop_disc", 0.08]], [], "SHOPS 8% CHEAPER.", [], "g_gild_boots"],
+	["thornedcrown", "CROWN OF SPITE", "head", "epic", ["malice"], null, "crown", [["max_hp", -2], ["dmg", 1.3]], [], "+30% DAMAGE BUT -1 MAX HEART.", [], "g_crownofthorns"],
+	["hexedmantle", "HEXED MANTLE", "body", "rare", ["malice"], null, "robe", [["max_hp", 2]], [], "20% OF HITS CURSE FOES.", [{ "on": "on_hit", "chance": 0.2, "do": [["status", "curse", 1]] }], "g_hunterscoat"],
+	["grudgeboots", "GRUDGE BOOTS", "feet", "rare", ["malice"], null, "greaves", [["speed", 1.05]], [], "WHEN HIT, CURSE ALL... THE NEAREST FOE AND MAKE IT VULNERABLE.", [{ "on": "on_damage_taken", "do": [["status", "curse", 1], ["status", "vulnerable", 1]] }], "g_ironboots"],
+	["blackpearl", "BLACK PEARL", "trinket", "legend", ["malice"], null, "amulet", [["max_hp", -2]], [], "-1 MAX HEART. +80% DAMAGE. CURSED FOES YOU KILL EXPLODE.", [["pct", "dmg", 0.8], { "on": "on_kill", "if": "cursed", "do": [["explode", 30, 1.0]] }], "g_heartofglass"],
+	["pilgrimpack", "PILGRIM'S PACK", "body", "common", [], null, "leather", [["max_potions", 1], ["potion_heal", 2]], [], "+1 POTION SLOT. POTIONS HEAL MORE.", [], "g_smugglercoat"],
+	["luckyhorseshoe", "BENT HORSESHOE", "trinket", "common", ["fortune"], null, "charm", [["luck", 1]], [], "BETTER RELIC RARITY. 10% OF KILLS PAY 1 GOLD.", [{ "on": "on_kill", "chance": 0.1, "do": [["gold", 1]] }], "g_luckycharm"],
+	["scoutboots", "SCOUT'S BOOTS", "feet", "common", [], null, "boots", [["speed", 1.1]], [], "+10% MOVE SPEED.", [], "g_worntboots"],
+	["tinkerhelm", "TINKER'S GOGGLES", "head", "rare", ["demolition"], null, "hat", [["bomb_r", 1.2]], [], "BIGGER BLASTS. CLEARING A ROOM GIVES 1 BOMB 40% OF THE TIME.", [{ "on": "on_room_clear", "chance": 0.4, "do": [["drop", "bomb"]] }], "g_sapper_helm"],
+	["frostwardcoat", "FROSTWARD COAT", "body", "rare", ["frost"], null, "plate", [["armor", 1], ["chill", 0.1]], [], "+1 ARMOR. +10% CHILL. WHEN HIT, WEAKEN THE NEAREST FOE.", [{ "on": "on_damage_taken", "do": [["status", "weakened", 2]] }], "g_frost_plate"],
+]
 
 ## Readable lines for stat tuples.
 const STAT_TEXT := {
@@ -143,7 +197,8 @@ static var _by_id := {}
 
 static func all() -> Array:
 	if _list.is_empty():
-		for i in ROWS.size():
+		# --classic: original items only (proves the originals play exactly as before).
+		for i in (ORIGINAL_COUNT if DebugArgs.has("classic") else ROWS.size()):
 			var row: Array = ROWS[i]
 			var tags: Array = row[4]
 			var g := { "id": row[0], "name": row[1], "slot": row[2], "rarity": row[3], "tags": tags, "set": row[5],
@@ -207,16 +262,20 @@ static func update_sets(p: Player, set_id: Variant, delta: int) -> void:
 		have += 1
 		if have == 1:
 			Weapons.apply_tuples(p, s["b2"], 1, "s2:" + set_id)
+			Effects.apply_equipment(p, s.get("e2", []), 1, "se2:" + set_id)
 		else:
 			Weapons.apply_tuples(p, s.get("b4", []), 1, "s4:" + set_id)
 			Weapons.apply_hooks(p, s.get("b4h", []), 1)
+			Effects.apply_equipment(p, s.get("e4", []), 1, "se4:" + set_id)
 		G.toast(s["name"] + " SET: " + (s["d2"] if have == 1 else s["d4"]), "gold")
 	while have > tier:
 		if have == 1:
 			Weapons.apply_tuples(p, s["b2"], -1, "s2:" + set_id)
+			Effects.apply_equipment(p, s.get("e2", []), -1, "se2:" + set_id)
 		else:
 			Weapons.apply_tuples(p, s.get("b4", []), -1, "s4:" + set_id)
 			Weapons.apply_hooks(p, s.get("b4h", []), -1)
+			Effects.apply_equipment(p, s.get("e4", []), -1, "se4:" + set_id)
 		have -= 1
 	p.set_tier[set_id] = have
 

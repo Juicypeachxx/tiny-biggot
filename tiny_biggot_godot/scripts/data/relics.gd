@@ -75,7 +75,59 @@ const ROWS := [
 	["deepeye", "legend", "EYE OF THE DEEP", "+2 PROJECTILES THAT HOME IN", [["add", "count", 2], ["add", "homing", 2.5]]],
 	["cindercrown", "legend", "CROWN OF CINDERS", "+50% DAMAGE, SHOTS OFTEN BURN", [["mul", "dmg", 1.5], ["add", "burn", 0.35]]],
 	["ageglass", "legend", "GLASS OF AGES", "+2 ROLL CHARGES, ROLLING RELOADS", [["add", "dodge_charges", 2], ["add", "charges", 2], ["set", "roll_reload", true]]],
-	["worldseed", "legend", "WORLDSEED", "+2 MAX HEARTS, HEAL FULLY", [["add", "max_hp", 4], ["copy", "hp", "max_hp"]]],]
+	["worldseed", "legend", "WORLDSEED", "+2 MAX HEARTS, HEAL FULLY", [["add", "max_hp", 4], ["copy", "hp", "max_hp"]]],
+	# ---------- Content batch 1 (Tiny Biggot Rogues) ----------
+	["sharpstone", "common", "OILED WHETSTONE", "+7% CRIT CHANCE", [["add", "crit", 0.07]], ["edge"], "relic_whetstone"],
+	["keeneye", "common", "KEEN EYE", "CRITS DEAL +0.25X MORE", [["add", "crit_mult", 0.25]], ["edge"], "relic_owl"],
+	["firstblood", "rare", "FIRST NICK", "CRITS ON UNHURT FOES DEAL +60%", [["hook", "first_hit", 0.3], ["add", "crit", 0.05]], ["edge"], "relic_needle"],
+	["hairtrigger", "rare", "HAIR TRIGGER", "CRITS GIVE +20% FIRE RATE FOR 1S", [{ "on": "on_crit", "do": [["buff", "rate", 0.2, 1.0]] }], ["edge"], "relic_twitch"],
+	["killingblow", "legend", "THE KILLING BLOW", "CRIT CHANCE PAST 100% CRITS AGAIN. +20% CRIT", [["add", "crit", 0.2], ["add", "overcrit", 1.0]], ["edge"], "relic_witcheye"],
+	["leechtooth", "common", "LEECH TOOTH", "KILLS ON BLEEDING FOES MAY HEAL", [{ "on": "on_kill", "chance": 0.08, "if": "bleeding", "do": [["heal", 1]] }], ["blood"], "relic_garnet"],
+	["openwound", "rare", "OPEN WOUND", "HITS HAVE 20% CHANCE TO MAKE FOES BLEED", [{ "on": "on_hit", "chance": 0.2, "do": [["status", "bleed", 1]] }], ["blood"], "relic_thorn"],
+	["bloodprice", "rare", "BLOOD PRICE", "+35% DAMAGE. POTIONS HEAL 1 HEART LESS", [["mul", "dmg", 1.35], ["add_floor", "potion_heal", -2, 1]], ["blood", "malice"], "relic_bloodoath"],
+	["crimsonfont", "epic", "CRIMSON FONT", "CLEARING A ROOM HEALS HALF A HEART", [{ "on": "on_room_clear", "do": [["heal", 1]] }], ["blood"], "relic_lantern"],
+	["matchbook", "common", "DAMP MATCHBOOK", "+12% BURN CHANCE", [["add", "burn", 0.12]], ["pyre"], "relic_coal"],
+	["firework", "rare", "FIREWORK", "BURNING FOES EXPLODE WHEN KILLED", [{ "on": "on_kill", "if": "burning", "do": [["explode", 24, 0.7]] }], ["pyre"], "relic_shells"],
+	["oilflask", "rare", "LAMP OIL", "BURNS DEAL +60% DAMAGE", [["add", "burn_dmg", 0.6]], ["pyre"], "relic_tallow"],
+	["phoenixash", "epic", "PYRE ASH", "BURNING FOES TAKE +30% DAMAGE. +10% BURN", [["add", "vs_burn", 0.3], ["add", "burn", 0.1]], ["pyre"], "relic_cindercrown"],
+	["toadstool", "common", "TOADSTOOL", "HITS ADD 1 POISON", [["add", "poison", 1]], ["venom"], "relic_viper"],
+	["contagion", "rare", "CONTAGION", "POISONED FOES THAT DIE INFECT THE NEAREST FOE", [{ "on": "on_kill", "if": "poisoned", "do": [["status", "poison", 4]] }], ["venom"], "relic_splinter"],
+	["witherroot", "rare", "WITHERROOT", "HITS ON POISONED FOES WEAKEN THEM 15% OF THE TIME", [{ "on": "on_hit", "chance": 0.15, "if": "poisoned", "do": [["status", "weakened", 1]] }], ["venom"], "relic_bitterroot"],
+	["blackbile", "epic", "BLACK BILE", "POISON DAMAGE +80%. POISON TICKS FASTER", [["add", "poison_dmg", 0.8], ["set", "poison_fast", true]], ["venom"], "relic_sap"],
+	["copperwire", "common", "COPPER WIRE", "+12% CHANCE FOR HITS TO ARC", [["add", "chain", 0.12]], ["storm"], "relic_spark"],
+	["stormjar", "rare", "STORM IN A JAR", "15% OF HITS SHOCK. SHOCKED FOES TAKE MORE DAMAGE", [{ "on": "on_hit", "chance": 0.15, "do": [["status", "shock", 1]] }], ["storm"], "relic_staticcoil"],
+	["groundingrod", "rare", "GROUNDING SPIKE", "EVERY 5 SECONDS, LIGHTNING STRIKES THE NEAREST FOE", [{ "on": "every_n_seconds", "period": 5.0, "do": [["lightning", 0.8]] }], ["storm"], "relic_stormcrown"],
+	["overload", "epic", "OVERLOAD COIL", "ARCS AND LIGHTNING +60%. +1 ARC JUMP", [["add", "storm_dmg", 0.6], ["add", "chain_jumps", 1]], ["storm"], "relic_deepeye"],
+	["mirrorbead", "common", "MIRROR BEAD", "+15% SHOT SPEED, SHOTS PIERCE 1 MORE", [["mul", "shot_speed", 1.15], ["add", "pierce", 1]], ["arcane"], "relic_arrowhead"],
+	["prismshard", "rare", "PRISM SHARD", "SHOTS SPLIT IN TWO ON THEIR FIRST HIT", [["hook", "split", 1]], ["arcane"], "relic_splitfang"],
+	["starchart", "rare", "STAR CHART", "EVERY 8TH ATTACK FIRES A RING OF 8 SPARKS", [{ "on": "every_n_shots", "every": 8, "do": [["nova", 8, 0.5, "spark"]] }], ["arcane"], "relic_moon"],
+	["manyhands", "epic", "MANY HANDS", "+2 PROJECTILES, -15% DAMAGE", [["add", "count", 2], ["mul", "dmg", 0.85]], ["arcane"], "relic_overcharge"],
+	["glowworm", "common", "GLOW-WORM JAR", "WISPS DEAL +30% DAMAGE", [["add", "fam_dmg", 0.3]], ["swarm"], "relic_wispjar"],
+	["broodmother", "rare", "BROOD EGG", "15% OF KILLS RAISE A WISP FOR 6S", [{ "on": "on_kill", "chance": 0.15, "do": [["summon", 6.0]] }], ["swarm"], "relic_twinwisp"],
+	["hivemind", "epic", "HIVEMIND", "+1 WISP. WISPS FIRE 30% FASTER", [["add", "familiars", 1], ["mul", "fam_rate", 1.3]], ["swarm"], "relic_echo"],
+	["quickcloak", "common", "QUICKSILVER THREAD", "ROLLS RECHARGE 20% FASTER", [["mul", "dodge_cd", 0.8]], ["shadow"], "relic_hourglass"],
+	["shadowcut", "rare", "SHADOW CUT", "ROLLING FIRES 6 SHADOW BLADES AROUND YOU", [{ "on": "on_roll", "do": [["nova", 6, 0.8, "spark"]] }], ["shadow"], "relic_shadowstep"],
+	["afterimage", "rare", "AFTERIMAGE", "AFTER A ROLL, +40% DAMAGE FOR 1.5S", [{ "on": "on_roll", "do": [["buff", "dmg", 0.4, 1.5]] }], ["shadow"], "relic_mothwing"],
+	["nightveil", "epic", "NIGHT VEIL", "+1 ROLL CHARGE. 10% CHANCE TO DODGE A HIT", [["add", "dodge_charges", 1], ["add", "charges", 1], ["add", "evade", 0.1]], ["shadow"], "relic_bonecharm"],
+	["ironrations", "common", "IRON RATIONS", "+1 MAX HEART", [["add", "max_hp", 2], ["add_cap", "hp", 2, "max_hp"]], ["bulwark"], "relic_filings"],
+	["spikedcollar", "rare", "SPIKED COLLAR", "+15 THORNS. WHEN HIT, FIRE 8 SPIKES", [["add", "thorns", 15], { "on": "on_damage_taken", "do": [["nova", 8, 0.7, "spark"]] }], ["bulwark"], "relic_thorn"],
+	["towerkey", "rare", "BASTION KEY", "CLEARING A ROOM GRANTS 1 ARMOR 50% OF THE TIME", [{ "on": "on_room_clear", "chance": 0.5, "do": [["armor", 1]] }], ["bulwark"], "relic_boneshield"],
+	["stonehide", "epic", "STONEHIDE", "+2 ARMOR. +6% DAMAGE PER ARMOR (UP TO 5)", [["add", "armor", 2], ["add", "fortress", 0.06]], ["bulwark"], "relic_buckler"],
+	["redmist", "common", "RED MIST", "BELOW HALF HEALTH: +25% DAMAGE", [{ "on": "while_low_hp", "do": [["buff", "dmg", 0.25, 0]] }], ["fury"], "relic_rage"],
+	["warpaint", "rare", "WAR PAINT", "KILLS GIVE +30% FIRE RATE FOR 2S", [{ "on": "on_kill", "do": [["buff", "rate", 0.3, 2.0]] }], ["fury"], "relic_fever"],
+	["grudge", "rare", "OLD GRUDGE", "WHEN HIT, +60% DAMAGE FOR 4S", [{ "on": "on_damage_taken", "do": [["buff", "dmg", 0.6, 4.0]] }], ["fury"], "relic_heavy"],
+	["lastbreath", "legend", "LAST BREATH", "BELOW HALF HEALTH: +100% DAMAGE, +30% FIRE RATE, +20% SPEED", [{ "on": "while_low_hp", "do": [["buff", "dmg", 1.0, 0], ["buff", "rate", 0.3, 0], ["buff", "speed", 0.2, 0]] }], ["fury"], "relic_glassheart"],
+	["copperpenny", "common", "LUCKY PENNY", "KILLS HAVE 15% CHANCE TO PAY 1 GOLD", [{ "on": "on_kill", "chance": 0.15, "do": [["gold", 1]] }], ["fortune"], "relic_luckycoin"],
+	["goldtongue", "rare", "GOLDEN TONGUE", "SHOPS 15% CHEAPER, +20% GOLD", [["add_cap", "shop_disc", 0.15, 0.6], ["mul", "gold_mult", 1.2]], ["fortune"], "relic_gildedtooth"],
+	["ledgerofdebt", "rare", "LEDGER OF DEBTS", "+1% DAMAGE FOR EVERY 10 GOLD HELD", [["set", "miser", true]], ["fortune"], "relic_misers"],
+	["dragonhoard", "legend", "DRAGON'S HOARD", "+12% DAMAGE PER 100 GOLD. CLEARING A ROOM PAYS 8 GOLD", [["hook", "gold_dmg", 0.12], { "on": "on_room_clear", "do": [["gold", 8]] }], ["fortune"], "relic_crown"],
+	["evileye", "common", "EVIL EYE", "15% OF HITS CURSE FOES (+25% DAMAGE TAKEN)", [{ "on": "on_hit", "chance": 0.15, "do": [["status", "curse", 1]] }], ["malice"], "relic_huntersmark"],
+	["bargain", "epic", "DEVIL'S BARGAIN", "+70% DAMAGE. -1 MAX HEART", [["mul", "dmg", 1.7], ["add_floor", "max_hp", -2, 2], ["clamp_max", "hp", "max_hp"]], ["malice"], "relic_hollowmirror"],
+	["cursedcoin", "rare", "CURSED COIN", "+50% GOLD, BUT EACH ROOM COSTS HALF A HEART", [["mul", "gold_mult", 1.5], { "on": "on_room_enter", "do": [["hurt_self", 1]] }], ["malice", "fortune"], "relic_dice"],
+	["voidheart", "legend", "VOID HEART", "CURSED FOES TAKE A 60% BONUS HIT FROM EVERYTHING. 25% OF HITS CURSE", [{ "on": "on_hit", "chance": 0.25, "do": [["status", "curse", 1]] }, { "on": "on_hit", "cd": 0.1, "if": "cursed", "do": [["damage", 0.6]] }], ["malice"], "relic_phoenix"],
+	["wanderersmap", "common", "WANDERER'S MAP", "HIDDEN WALLS GLOW. +1 KEY", [["set", "reveal", true], ["add", "keys", 1]], [], "relic_chalk"],
+	["emptyflask", "rare", "BOTTOMLESS FLASK", "+1 POTION SLOT. CLEARING A ROOM MAY DROP A POTION", [["add", "max_potions", 1], { "on": "on_room_clear", "chance": 0.25, "do": [["drop", "potion"]] }], [], "relic_keyring"],
+]
 const BASE_COUNT := 34
 const CACHE_1 := ["tallow", "skeletonkey", "quiver", "filings", "gravedust", "mothwing", "bitterroot", "tinwhistle", "chalk", "rustynail"]
 const CACHE_2 := ["wispjar", "emberheart", "boneshield", "huntersmark", "glasslens", "staticcoil", "bloodoath", "ricochet", "misers", "shadowstep", "coldiron", "splinter"]
@@ -94,7 +146,8 @@ static var _by_id := {}
 
 static func all() -> Array:
 	if _list.is_empty():
-		for i in ROWS.size():
+		# --classic: original items only (proves the originals play exactly as before).
+		for i in (ORIGINAL_COUNT if DebugArgs.has("classic") else ROWS.size()):
 			var row: Array = ROWS[i]
 			var r := { "id": row[0], "rarity": row[1], "name": row[2], "desc": row[3], "effects": row[4],
 				"tags": row[5] if row.size() > 5 else [], "new": i >= ORIGINAL_COUNT,

@@ -17,6 +17,9 @@ extends RefCounted
 ##                                codex, howto, options, pause, traitlist, gearpage, relics, dead, win
 ##   --no-save                    neither read nor write the save file (repeatable test runs)
 ##   --unlock-all                 every shrine unlock and every skill-tree node
+##   --give=relic:ID,gear:ID,...  start with these items (relic, gear, trait at max rank, weapon)
+##   --combo=ID                   start with everything a named combo needs (data/synergies.gd)
+##   --classic                    original items only in every pool (no Rogues content)
 ##   --trace=FILE                 write one line of game state per second (replay comparison)
 ##   --bench[=N]                  keep ~N enemy shots alive and print logic time per tick
 

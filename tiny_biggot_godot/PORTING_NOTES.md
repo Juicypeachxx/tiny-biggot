@@ -216,17 +216,24 @@ never gets near it, as the replays show.
 
 **Unchanged behaviour (replays).** `tools/replay.sh check` reruns six seeded
 5-minute autopilot scenarios (several heroes, god mode, every unlock, weapon
-cycling, late floors) and compares a full logic-state line per second with the
-baselines in `tests/replays/`. Those were recorded before the effect-system
-refactor (commit f2b3780). Any change in behaviour, or in how many random
-numbers the game draws, fails it. Re-record only when a change is meant to
-alter original behaviour.
+cycling, late floors) and compares a full logic-state line per second against
+recorded baselines. It runs two sets:
+
+* `tests/replays/classic/` uses `--classic`, so every pool holds only the
+  original items. These baselines were recorded before the effect-system
+  refactor (commit f2b3780) and before any new content. They must never be
+  re-recorded. Any change to original behaviour, or to how many random
+  numbers the game draws, fails them.
+* `tests/replays/` uses the full Tiny Biggot Rogues pools. It proves that runs
+  with new content are deterministic. `tools/replay.sh record` rewrites only
+  this set; do that when new content is added.
 
 **Content test (spec section 11).** `tests/content_test.tscn` lints all data,
-gives every item to a hero in a live fight, fires every trigger and plays 90
+gives every item (703 with batch 1) to a hero in a live fight, fires every trigger and plays 90
 ticks. It also checks that every weapon and gear swap is reversible, verifies
 each safety rail directly, and times a 50+ rank broken build and a stress run
-(500+ enemy shots, summon cap, shot flood). `tests/fixtures.gd` holds
+(500+ enemy shots, summon cap, shot flood). It also assembles every named
+combo and checks that every shown string fits the bitmap font. `tests/fixtures.gd` holds
 synthetic items that reach every trigger, action, status and condition.
 
 **Item effects against the original.** `tools/gen_ruby_effects.rb` loads the
@@ -251,6 +258,12 @@ godot --headless --path . --fixed-fps 60 --quit-after 21000 -- --bot --god --wea
 godot --headless --path . --fixed-fps 60 --quit-after 9000 -- --bot --god --floor=5 --room=boss  # final guardian
 godot --headless --path . --fixed-fps 60 --quit-after 1400 -- --bench=1500 --god --bot --room=combat
 godot --path . -- --touch                            # desktop: show touch controls, mouse = finger
+godot --path . -- --god --combo=mirrorhall           # start with a named combo (CONTENT_BATCH_1.md)
+godot --path . -- --give=relic:stormjar,trait:e_deep # start with specific items
+godot --path . -- --classic                          # original items only
 ```
+
+New content is listed in `CONTENT_BATCH_1.md`, along with the intended broken
+combos.
 
 All options are listed in `scripts/debug_args.gd`.

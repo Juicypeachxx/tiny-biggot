@@ -4,6 +4,11 @@
 # Traces hold the full logic state once per second (scripts/trace.gd), so
 # a refactor that changes behaviour, or even the number of random rolls,
 # is caught. Usage: GODOT=... tools/replay.sh record|check [ticks]
+#
+# Two sets: tests/replays/classic/ runs with --classic (original items only)
+# and was recorded before any new content existed, so it proves the original
+# game is untouched; tests/replays/ runs the full Tiny Biggot Rogues pools.
+# `record` only rewrites the full-pool set; the classic set is never re-recorded.
 set -u
 cd "$(dirname "$0")/.."
 GODOT="${GODOT:-godot}"
@@ -18,15 +23,21 @@ SCEN=(
   "f --bot --god --seed=106 --hero=1 --floor=5 --room=boss"
 )
 status=0
-for s in "${SCEN[@]}"; do
-  name=${s%% *}; args=${s#* }
-  out=tests/replays/$name.txt
-  [ "$MODE" = check ] && out=$(mktemp)
-  "$GODOT" --headless --path . --fixed-fps 60 --quit-after "$TICKS" -- --no-save $args --trace="$(realpath -m "$out")" >/dev/null 2>&1
-  if [ "$MODE" = check ]; then
-    if cmp -s "$out" tests/replays/$name.txt; then echo "replay $name: identical ($(wc -l < "$out") s)"
-    else echo "replay $name: DIFFERS"; diff <(cut -c1-300 tests/replays/$name.txt) <(cut -c1-300 "$out") | head -6; status=1; fi
-    rm -f "$out"
-  else echo "recorded $name ($(wc -l < "$out") lines)"; fi
-done
+run() { # dir extra-args mode
+  local dir=$1 extra=$2 mode=$3
+  for s in "${SCEN[@]}"; do
+    name=${s%% *}; args=${s#* }
+    base=$dir/$name.txt
+    out=$base
+    [ "$mode" = check ] && out=$(mktemp)
+    "$GODOT" --headless --path . --fixed-fps 60 --quit-after "$TICKS" -- --no-save $extra $args --trace="$(realpath -m "$out")" >/dev/null 2>&1
+    if [ "$mode" = check ]; then
+      if cmp -s "$out" "$base"; then echo "replay $dir/$name: identical ($(wc -l < "$out") s)"
+      else echo "replay $dir/$name: DIFFERS"; diff <(cut -c1-300 "$base") <(cut -c1-300 "$out") | head -6; status=1; fi
+      rm -f "$out"
+    else echo "recorded $base ($(wc -l < "$out") lines)"; fi
+  done
+}
+run tests/replays/classic --classic check
+run tests/replays "" "$MODE"
 exit $status

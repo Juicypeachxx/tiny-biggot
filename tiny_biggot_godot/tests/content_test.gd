@@ -47,6 +47,7 @@ func _ready() -> void:
 	leveling()
 	archetypes()
 	broken_build()
+	combos()
 	stress()
 	print("[content] Effects.stats: ", Effects.stats)
 	for n in notes:
@@ -105,17 +106,27 @@ func lint_proc(where: String, d: Dictionary) -> void:
 		elif a[0] == "drop" and not a[1] in Combat.PICKUP_KINDS:
 			fail("%s: unknown pickup %s" % [where, a[1]])
 
+## Every shown string must be drawable by the bitmap font (Gfx.FONT_CHARS).
+func _font(where: String, texts: Array) -> void:
+	for t in texts:
+		for ch in String(t).to_upper():
+			if not ch in Gfx.FONT_CHARS:
+				fail("%s: character '%s' is not in the game font" % [where, ch])
+				break
+
 func lint() -> void:
 	var ids := {}   # "table:id" -> true; ids are unique per table
 	var families: Dictionary = Traits.FAMILIES
 	for r in Relics.all():
 		_uniq(ids, "relic", r["id"])
+		_font("relic " + r["id"], [r["name"], r["desc"]])
 		lint_effects("relic " + r["id"], r["effects"], false)
 		_sprite("relic " + r["id"], r["sprite"])
 		_rarity("relic " + r["id"], r["rarity"], GameData.RARITY_HEX)
 		_tags("relic " + r["id"], r["tags"])
 	for t in Traits.all():
 		_uniq(ids, "trait", t["id"])
+		_font("trait " + t["id"], [t["name"], t["desc"]])
 		lint_effects("trait " + t["id"], t["effects"], false)
 		for k in t["tiers"]:
 			lint_effects("trait %s tier %s" % [t["id"], k], t["tiers"][k], false)
@@ -130,6 +141,7 @@ func lint() -> void:
 		lint_effects("node " + n, Traits.NODE_EFFECTS[n], false)
 	for w in Weapons.all():
 		_uniq(ids, "weapon", w["id"])
+		_font("weapon " + w["id"], [w["name"], w["desc"]])
 		lint_effects("weapon " + w["id"], Effects.from_tuples(w["stats"], w["hooks"]) + w["effects"], true)
 		_sprite("weapon " + w["id"], w["sprite"])
 		_tags("weapon " + w["id"], w["tags"])
@@ -137,6 +149,7 @@ func lint() -> void:
 			fail("weapon %s: unknown kind" % w["id"])
 	for g in Gear.all():
 		_uniq(ids, "gear", g["id"])
+		_font("gear " + g["id"], [g["name"], g["desc"]])
 		lint_effects("gear " + g["id"], Effects.from_tuples(g["stats"], g["hooks"]) + g["effects"], true)
 		_sprite("gear " + g["id"], g["sprite"])
 		_tags("gear " + g["id"], g["tags"])
@@ -145,12 +158,17 @@ func lint() -> void:
 		if g["set"] != null and not Gear.SETS.has(g["set"]):
 			fail("gear %s: unknown set" % g["id"])
 	for s in Gear.SETS:
-		lint_effects("set " + s, Effects.from_tuples(Gear.SETS[s]["b2"] + Gear.SETS[s].get("b4", []), Gear.SETS[s].get("b4h", [])), true)
+		var st: Dictionary = Gear.SETS[s]
+		lint_effects("set " + s, Effects.from_tuples(st["b2"] + st.get("b4", []), st.get("b4h", [])), true)
+		lint_effects("set %s e2/e4" % s, st.get("e2", []) + st.get("e4", []), true)
+		_font("set " + s, [st["name"], st["d2"], st["d4"]])
 	for syn in Synergies.TAG_SYNERGIES:
 		for tier in syn["tiers"]:
 			lint_effects("synergy " + syn["tag"], tier["effects"], true)
+			_font("synergy " + syn["tag"], [tier["name"], tier["desc"]])
 	for c in Synergies.COMBOS:
 		lint_effects("combo " + c["id"], c["effects"], true)
+		_font("combo " + c["id"], [c["name"], c["desc"]])
 		for need in c["needs"]:
 			if not ids.has(need):
 				fail("combo %s needs unknown item %s" % [c["id"], need])
@@ -395,9 +413,10 @@ func leveling() -> void:
 	for k in 3:
 		p.pending += 1
 		G.take_trait(common)
-	# 3 ranks x 0.05 crit, plus the EDGE 2-rank family bonus (+0.08); the
-	# third rank's tier adds +1.0 crit damage.
-	if absf(p.crit - crit0 - 0.23) > 1e-9 or absf(p.crit_mult - cm0 - 1.0) > 1e-9:
+	# 3 ranks x 0.05 crit, plus the EDGE 2-rank family bonus (+0.08) and the
+	# EDGE tag synergy at 3 (KEEN, +0.10); the third rank's tier adds +1.0 crit damage.
+	var keen := 0.1 if Synergies.TAG_SYNERGIES.any(func(s): return s["tag"] == "edge" and s["tiers"][0]["need"] <= 3) else 0.0
+	if absf(p.crit - crit0 - 0.23 - keen) > 1e-9 or absf(p.crit_mult - cm0 - 1.0) > 1e-9:
 		fail("trait ranks/tier: crit %.3f crit_mult %.3f" % [p.crit - crit0, p.crit_mult - cm0])
 	if p.fam_bonus.get("edge", 0) != 1:
 		fail("new family bonus tier not applied (%s)" % p.fam_bonus)
@@ -476,6 +495,38 @@ func broken_build() -> void:
 		fail("broken build has only %d trait ranks" % ranks)
 	if ms > 16.7:
 		fail("broken build too slow: %.2f ms/tick" % ms)
+
+## Every named combo is assembled through the real pickup paths, must turn
+## on, and must stay within the rails and the frame budget for 10 s.
+func combos() -> void:
+	var worst := 0.0
+	var n := 0
+	for c in Synergies.COMBOS:
+		var p := arena(n)
+		for need in c["needs"]:
+			var parts: PackedStringArray = need.split(":")
+			match parts[0]:
+				"relic": G.add_relic(p, Relics.by_id(parts[1]))
+				"weapon": Weapons.equip_weapon(p, Weapons.by_id(parts[1]))
+				"gear": Gear.equip_gear(p, Gear.by_id(parts[1]))
+				"trait":
+					var t: Dictionary = Traits.by_id(parts[1])
+					for k in t["max"]:
+						p.pending += 1
+						G.take_trait(t)
+		Effects.recount_tags(p)
+		if not p.synergies.has("combo:" + c["id"]):
+			fail("combo %s did not turn on" % c["id"])
+		for e in G.enemies:
+			e.max_hp = 1e12
+			e.hp = 1e12
+		var ms := _timed(600)
+		check("combo " + c["id"])
+		worst = maxf(worst, ms)
+		n += 1
+	notes.append("combos: %d named combos assembled and active; worst %.2f ms/tick logic over 10 s" % [n, worst])
+	if worst > 16.7:
+		fail("a combo is too slow: %.2f ms/tick" % worst)
 
 # ---------- 5. Stress ----------
 func stress() -> void:

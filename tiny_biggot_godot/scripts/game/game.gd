@@ -121,9 +121,41 @@ func new_run() -> void:
 	if p.start_rare:
 		var r := roll_relics(1, "iron")
 		if not r.is_empty(): add_relic(p, r[0])
+	_debug_give(p)
 	Meta.meta["runs"] += 1
 	Meta.write_save()
 	start_floor()
+
+## Playtesting: --give=relic:id,gear:id,trait:id,weapon:id and --combo=ID
+## (hands over everything a named combo needs). No effect without the flags.
+func _debug_give(p: Player) -> void:
+	var items: Array = []
+	if DebugArgs.has("give"):
+		items.append_array(DebugArgs.get_str("give").split(",", false))
+	if DebugArgs.has("combo"):
+		for c in Synergies.COMBOS:
+			if c["id"] == DebugArgs.get_str("combo"):
+				items.append_array(c["needs"])
+	for need in items:
+		var parts: PackedStringArray = need.split(":")
+		var table := { "relic": Relics, "weapon": Weapons, "gear": Gear, "trait": Traits }
+		if parts.size() != 2 or not table.has(parts[0]):
+			continue
+		table[parts[0]].all()
+		if not table[parts[0]]._by_id.has(parts[1]):
+			push_warning("--give: unknown " + need)
+			continue
+		match parts[0]:
+			"relic": add_relic(p, Relics.by_id(parts[1]))
+			"weapon": Weapons.equip_weapon(p, Weapons.by_id(parts[1]))
+			"gear": Gear.equip_gear(p, Gear.by_id(parts[1]))
+			"trait":
+				var t: Dictionary = Traits.by_id(parts[1])
+				for k in t["max"]:
+					p.pending += 1
+					take_trait(t)
+	if not items.is_empty():
+		Effects.recount_tags(p)
 
 func start_floor() -> void:
 	if player != null:

@@ -567,7 +567,7 @@ static func _raw_shot(x: float, y: float, a: float, spd: float, dmg: float, life
 ## being simulated.
 static func _merge_shot(dmg: float) -> PBullet:
 	Effects.stats["merged_shots"] += 1
-	var b: PBullet = G.pbullets[G.pbullets.size() - 1]
+	var b: PBullet = G.pbullets[G.pbullets.size() - 1] if not G.pbullets.is_empty() else G.new_pbullets[G.new_pbullets.size() - 1]
 	b.dmg += dmg
 	return b
 
@@ -963,6 +963,9 @@ static func pbullet_hits(b: PBullet, p: Player) -> void:
 			var n := int(b.split)
 			var a0 := atan2(b.vy, b.vx)
 			for k in n:
+				if G.pbullets.size() + G.new_pbullets.size() >= Effects.PBULLET_CAP:
+					_merge_shot(dmg * 0.5)
+					continue
 				var da := (k - (n - 1) / 2.0) * 0.6 + (0.5 if n == 1 else 0.0)
 				var nb := new_pbullet()
 				nb.copy_from(b)
@@ -982,6 +985,9 @@ static func pbullet_hits(b: PBullet, p: Player) -> void:
 			b.bloom = false
 			var a0 := atan2(b.vy, b.vx)
 			for da in [-0.5, 0.5]:
+				if G.pbullets.size() + G.new_pbullets.size() >= Effects.PBULLET_CAP:
+					_merge_shot(dmg * 0.6)
+					continue
 				var nb := new_pbullet()
 				nb.copy_from(b)
 				nb.hit = b.hit.duplicate()
