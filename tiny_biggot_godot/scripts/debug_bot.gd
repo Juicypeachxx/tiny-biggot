@@ -35,6 +35,9 @@ func tick() -> void:
 			_hold(a, false)
 		if G.state == &"dead":
 			_count_death()
+		if G.state == &"win" and not _won:
+			_won = true
+			print("[bot] VICTORY at t=%ds" % [ticks / 60])
 		return
 	_dead_counted = false
 	var p := G.player
@@ -51,7 +54,9 @@ func tick() -> void:
 			_door = open[randi() % open.size()]
 	_retarget -= TB.DT
 	if _door != "" and not G.locked:
-		_target = World.door_center(_door)
+		# Aim past the door so the player crosses the exit line.
+		var dv: Vector2i = World.DIRS[_door]
+		_target = World.door_center(_door) + Vector2(dv) * 24
 	elif _retarget <= 0:
 		_retarget = 1.0 + randf()
 		_target = World.free_spot(G.room, null, 0)
@@ -60,14 +65,23 @@ func tick() -> void:
 	_hold(&"move_right", v.x > 4)
 	_hold(&"move_up", v.y < -4)
 	_hold(&"move_down", v.y > 4)
+	if G.prompt != null:
+		_tap(&"use", 0.1)
 	_tap(&"roll", 0.01)
 	_tap(&"heal", 0.002)
 	_tap(&"bomb", 0.003)
 	if ticks % 600 == 0:
 		print("[bot] t=%ds floor=%d rooms=%d deaths=%d hp=%d/%d room=%s" % [ticks / 60, G.floor_index + 1,
 			rooms, deaths, p.hp, p.max_hp, G.room.type])
+		if DebugArgs.has("bot-verbose"):
+			var es := []
+			for e in G.enemies:
+				es.append("%s(%d,%d hp=%.0f sp=%.1f hid=%s st=%s)" % [e.type, e.x, e.y, e.hp, e.spawn_t, e.hidden, e.state])
+			print("      locked=%s waves=%d pb=%d eb=%d player=(%d,%d) inv=%.1f enemies=%s" % [G.locked, G.room.waves_left,
+				G.pbullets.size(), EBullets.n, p.x, p.y, p.invuln, ", ".join(es)])
 
 var _dead_counted := false
+var _won := false
 func _count_death() -> void:
 	if not _dead_counted:
 		_dead_counted = true

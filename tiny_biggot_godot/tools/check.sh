@@ -23,6 +23,16 @@ echo "== run main scene for $FRAMES frames"
 tail -n 5 "$LOG"
 if grep -E "SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== unit tests"
+"$GODOT" --headless --path . --quit-after 3000 res://tests/unit_tests.tscn >"$LOG" 2>&1
+tail -n 1 "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
+echo "== bot soak (60 s, god mode, boss room on floor 3)"
+"$GODOT" --headless --path . --fixed-fps 60 --quit-after 3600 -- --bot --god --seed=1 --floor=2 --room=boss >"$LOG" 2>&1
+grep "\[bot\]" "$LOG" | tail -n 1
+if grep -E "SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 rm -f "$LOG"
 [ $status -eq 0 ] && echo "CHECK PASSED" || echo "CHECK FAILED"
 exit $status

@@ -9,6 +9,10 @@ extends RefCounted
 ##   --seed=N                     fixed random seed
 ##   --bot                        autopilot that moves, aims and rolls (soak test)
 ##   --touch                      show the touch controls on a desktop (mouse = finger)
+##   --god                        the player takes no damage (soak tests)
+##   --weapon=ID                  start with this weapon (see data/weapons.gd)
+##   --weapon-cycle=SECONDS       switch to the next weapon every N seconds (soak tests)
+##   --bench[=N]                  keep ~N enemy shots alive and print logic time per tick
 
 static var _args := {}
 static var _parsed := false

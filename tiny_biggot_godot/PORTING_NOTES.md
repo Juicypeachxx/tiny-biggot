@@ -107,7 +107,7 @@ frame. The port uses these rules:
 3. **Player**: player state, movement, roll, collision, room transitions,
    particles, and touch controls (the primary input on iPad). Done.
 4. **Combat**: weapons and attack types, enemies and AI, bosses, bullet pools,
-   particles, pickups, bombs, zones, damage, death.
+   particles, pickups, bombs, zones, damage, death. Done.
 
    *Stop here for play-testing.*
 5. Items: relics, traits and level-ups, gear and weapon swaps, chests, shops,
@@ -117,6 +117,37 @@ frame. The port uses these rules:
    screens.
 8. Touch polish: menu-friendly touch, haptics, safe areas.
 
+## Status after stage 4 (what to try)
+
+Playable now: the game boots straight into a run (no title menu yet) with
+the Hexer. Use `--hero=N` on desktop to pick another hero. You can walk the
+room chain, fight waves and elites, fight all six guardians, take the portal
+to the next floor, die (USE restarts), and win after the sixth guardian. All
+113 weapons fire correctly. Relic, trait and gear effects are wired into
+combat but nothing grants them yet.
+
+Temporary in this build:
+
+* `render/debug_hud.gd` is a text status line, a boss bar and pause/death
+  screens. The real HUD comes in stage 6.
+* Chests open but offer no relic yet. Shrines, idols, campfires, bells, vault
+  locks, shops and relic pedestals do nothing ("COMING WITH ITEMS"). Weapon
+  and gear door rewards show a toast. Level-ups are counted but no trait pick
+  is offered.
+* No title, hero-select or pause menu. MENU pauses and resumes.
+
+Deviations from the original (intentional):
+
+* Vault and secret rooms place their gems, coins and embers in
+  `room.pickups` before entering. The Ruby assigned `@pickups` before
+  `setup_objects` filled `room[:pickups]`, so those pickups never appeared.
+  That looks like a bug, so the port shows them.
+* Entering a room recycles player shots into a pool instead of discarding them.
+
+Performance (`--bench`, headless, logic only, this build machine):
+500 enemy shots take 1.1 ms per tick and 1,500 take 2.4 ms, against a 16.7 ms
+frame budget at 60 Hz.
+
 ## Testing
 
 ```
@@ -124,4 +155,11 @@ GODOT=/path/to/godot-4.6.1 tools/check.sh 600       # import, compile all, run 6
 godot --headless --path . res://tests/unit_tests.tscn
 godot --path . -- --hero=2 --seed=7                  # play a specific hero/seed
 godot --path . -- --shot=shot.png --shot-frame=120   # screenshot (rendered)
+godot --headless --path . --fixed-fps 60 --quit-after 18000 -- --bot          # 5 min autopilot soak
+godot --headless --path . --fixed-fps 60 --quit-after 21000 -- --bot --god --weapon-cycle=3   # every weapon
+godot --headless --path . --fixed-fps 60 --quit-after 9000 -- --bot --god --floor=5 --room=boss  # final guardian
+godot --headless --path . --fixed-fps 60 --quit-after 1400 -- --bench=1500 --god --bot --room=combat
+godot --path . -- --touch                            # desktop: show touch controls, mouse = finger
 ```
+
+All options are listed in `scripts/debug_args.gd`.

@@ -214,8 +214,8 @@ func cap(k: String) -> bool:
 	return g(k) > 0
 
 # ---------- Movement, roll, aim (update_player) ----------
-## Movement half of update_player. Combat (firing, auras, familiars) is added
-## by Combat.update_player_combat in stage 4.
+## Movement half of update_player; Combat.update_player wraps it with
+## aiming, firing, bombs, auras and familiars.
 func update_move(dt: float) -> Vector2:
 	var room := G.room
 	invuln = maxf(0.0, invuln - dt)
@@ -237,6 +237,7 @@ func update_move(dt: float) -> Vector2:
 		vx = dodge_dir.x * 215 * roll_speed
 		vy = dodge_dir.y * 215 * roll_speed
 		trail.append({ "x": x, "y": y, "life": 0.18, "face": face })
+		Combat.while_rolling(self, dt)
 	else:
 		var spd := speed * (1.2 if raging else 1.0)
 		vx = mv.x * spd
@@ -268,6 +269,7 @@ func start_roll(mv: Vector2) -> void:
 	if roll_reload:
 		fire_cd = 0.0
 	Snd.play("dodge")
+	Combat.on_roll_start(self)
 
 ## Potion on HEAL (Keys.heal) - part of update_player.
 func try_heal() -> void:

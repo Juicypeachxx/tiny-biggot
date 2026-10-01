@@ -34,9 +34,14 @@ var aim_r := 0.0
 var _touches := {}          # touch index -> { kind, action, pos }
 var _held := {}             # action -> true while pressed by touch
 
+var _mouse_as_touch := false
+
 func _ready() -> void:
 	_load_layout()
-	visible = DisplayServer.is_touchscreen_available() or DebugArgs.has("touch")
+	# Shown on touch devices (the iPad), or on a desktop with --touch, where
+	# the left mouse button plays the role of one finger.
+	_mouse_as_touch = DebugArgs.has("touch")
+	visible = DisplayServer.is_touchscreen_available() or OS.has_feature("mobile") or _mouse_as_touch
 	get_viewport().size_changed.connect(_layout)
 	_layout()
 
@@ -89,8 +94,22 @@ func _layout() -> void:
 				aim_r = maxf(aim_r, aim_center.distance_to(b["pos"]) + b["r"])
 
 func _input(event: InputEvent) -> void:
+	if event is InputEventScreenTouch and not visible:
+		visible = true   # first real touch reveals the controls
 	if not visible:
 		return
+	if _mouse_as_touch:
+		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+			if event.pressed:
+				_begin(0, event.position)
+			else:
+				_touches.erase(0)
+			_sync()
+			return
+		if event is InputEventMouseMotion and _touches.has(0):
+			_touches[0]["pos"] = event.position
+			_sync()
+			return
 	if event is InputEventScreenTouch:
 		if event.pressed:
 			_begin(event.index, event.position)
