@@ -15,8 +15,9 @@ Each new hero has:
 
 Heroes unlock at the Ember Shrine, like the Gravedigger, Alchemist and Warden.
 
-**Art:** each new hero is a palette-swapped copy of an original hero sprite.
-These are placeholders until real art is drawn.
+**Art:** each new hero has an original hand-drawn 12x14 sprite in the game's
+palette, built on the same template as the six originals (outline, eye
+pixels, body and legs).
 
 | Hero | Unlock | Weapon | Passive | Starting trait |
 |---|---|---|---|---|
