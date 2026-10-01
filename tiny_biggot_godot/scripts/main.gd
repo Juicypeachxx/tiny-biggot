@@ -85,6 +85,15 @@ func _ready() -> void:
 		"tree":
 			G.tree_hero = G.hero_index
 			G.state = &"tree"
+		"ending":   # the true ending room, right after the last guardian falls
+			G.floor_index = GameData.floors().size() - 1
+			G.floor_d = World.new_floor(G.floor_index)
+			G.floor_d["depth"] = G.floor_d["total"] - 1
+			G.enter_room(World.make_room(G.floor_d, "boss", "", "s"))
+			G.boss_delay = null
+			G.on_boss_dead(Combat.spawn_boss(GameData.floors()[G.floor_index]["boss"]))
+			G.enemies.clear()
+			G.boss = null
 		var other:
 			G.state = StringName(other)
 

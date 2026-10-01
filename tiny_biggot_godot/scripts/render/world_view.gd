@@ -286,6 +286,12 @@ func _paint_lower(ci: CanvasItem) -> void:
 				Gfx.sp(ci, name, x, y + bob, 2, 2)
 				var label := "%dG" % o["price"]
 				Gfx.text(ci, label, roundf(x - TB.text_w(label) / 2), roundf(y + 11), "gold" if G.player.gold >= o["price"] else "red")
+			"loopportal", "exitportal":
+				# Gold for looping on, pale for leaving.
+				var zl := 1.1 + sin(t * 4) * 0.06
+				Gfx.sp(ci, "portal", x, y + 6, zl, zl, 0.0, false, 1.0,
+					TB.rgba(242, 201, 76, 150) if o["kind"] == "loopportal" else TB.rgba(244, 236, 216, 110))
+				Gfx.text(ci, "LOOP" if o["kind"] == "loopportal" else "EXIT", x, y - 18, "gold" if o["kind"] == "loopportal" else "bone", 1, 0.5)
 			"portal":
 				var zz := 1 + sin(t * 4) * 0.05
 				Gfx.sp(ci, "portal", x, y + 6, zz, zz)
@@ -488,7 +494,7 @@ func _paint_glow(ci: CanvasItem) -> void:
 				Gfx.at(ci, "glow_torch", x - 36, y - 40, (120 if o.get("used", false) else 220) / 255.0)
 			"altar":
 				if not o.get("used", false): Gfx.at(ci, "glow_red", x - 30, y - 34)
-			"portal":
+			"portal", "loopportal", "exitportal":
 				Gfx.at(ci, "glow_purple", x - 30, y - 30)
 			"pedestal":
 				if not o.get("opened", false) and o["relic"] != null:

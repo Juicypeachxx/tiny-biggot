@@ -51,6 +51,7 @@ func _ready() -> void:
 	heroes()
 	slots()
 	biomes()
+	loops()
 	stress()
 	print("[content] Effects.stats: ", Effects.stats)
 	for n in notes:
@@ -828,11 +829,57 @@ func biomes() -> void:
 		fail("no rift after the throne")
 	G.floor_index = fl.size() - 1
 	G.on_boss_dead(Combat.spawn_boss(fl[fl.size() - 1]["boss"]))
-	if G.win_timer == null:
-		fail("the last guardian does not end the run")
-	G.win_timer = null
+	if not G.room.objects.any(func(o): return o["kind"] == "exitportal"):
+		fail("the last guardian does not offer the way out")
 	notes.append("biomes: %d new floors, %d foe types linted; every floor fought with its hazard (%d rooms) and mini-boss, worst %.2f ms/tick; %d guardian attacks played out; throne victory and true ending verified" % [
 		n_new, foes.size(), hazard_rooms, worst, attacks])
+
+## Loop playthroughs: the true ending offers LOOP or EXIT; looping goes back
+## to floor 1 with the same build and tougher foes; the throne is not won twice.
+func loops() -> void:
+	var p := arena(5)
+	var fl := GameData.floors()
+	var level := p.level
+	var wins0: int = Meta.meta["wins"]
+	G.floor_index = GameData.THRONE_FLOOR
+	G.on_boss_dead(Combat.spawn_boss("regent"))
+	G.floor_index = fl.size() - 1
+	G.enemies.clear()
+	G.on_boss_dead(Combat.spawn_boss(fl[fl.size() - 1]["boss"]))
+	var lp = null
+	var ex = null
+	for o in G.room.objects:
+		if o["kind"] == "loopportal": lp = o
+		if o["kind"] == "exitportal": ex = o
+	if lp == null or ex == null or G.win_timer != null:
+		fail("true ending: no loop/exit choice")
+		return
+	var hp0 := GameData.ENEMIES["skeleton"]["hp"] * Combat.floor_scale() / (1 + 0.42 * G.floor_index)
+	G.interact(lp)
+	play(90)
+	if G.loop != 1 or G.floor_index != 0 or G.state != &"play":
+		fail("loop portal: loop %d floor %d state %s" % [G.loop, G.floor_index, G.state])
+	if G.player != p or p.level < level:
+		fail("loop portal: the build was not kept")
+	var e := Combat.spawn_enemy("skeleton", 200, 150, false, true)
+	if absf(e.max_hp - GameData.ENEMIES["skeleton"]["hp"] * (1 + 0.15 * G.dread) * 1.8) > 1e-3:
+		fail("loop 2 foe health %.1f (want x1.8)" % e.max_hp)
+	G.floor_index = GameData.THRONE_FLOOR
+	G.on_boss_dead(Combat.spawn_boss("regent"))
+	if Meta.meta["wins"] != wins0 + 1:
+		fail("the throne counted as a win twice")
+	G.floor_index = fl.size() - 1
+	G.on_boss_dead(Combat.spawn_boss(fl[fl.size() - 1]["boss"]))
+	for o in G.room.objects:
+		if o["kind"] == "exitportal": ex = o
+	var ew: int = Meta.meta.get("eclipse_wins", 0)
+	G.interact(ex)
+	play(90)   # (the helper returns to play after the win screen)
+	if Meta.meta.get("eclipse_wins", 0) != ew + 1 or not G.award.get("parts", []).any(func(x): return x[0] == "LOOPS"):
+		fail("exit portal did not end the run with the loop bonus")
+	G.state = &"play"
+	G.loop = 0
+	notes.append("loops: true ending offers loop or exit; loop 2 keeps the build with x1.8 foe health; throne not counted twice; exit ends the run with the loop bonus")
 
 func _hero_index(id: String) -> int:
 	var all := GameData.heroes()

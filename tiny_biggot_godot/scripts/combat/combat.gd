@@ -10,10 +10,15 @@ static func dread() -> int:
 	return G.dread
 
 static func floor_scale() -> float:
-	return (1 + 0.42 * G.floor_index) * (1 + 0.15 * dread())
+	return (1 + 0.42 * G.floor_index) * (1 + 0.15 * dread()) * loop_scale()
+
+## Loop playthroughs: foes, mini-bosses and guardians gain 80% health per loop
+## (exactly 1.0 on the first time through).
+static func loop_scale() -> float:
+	return 1.0 + 0.8 * G.loop
 
 static func shot_mult() -> float:
-	return 1 + (0.08 * (dread() - 1) if dread() >= 2 else 0.0)
+	return (1 + (0.08 * (dread() - 1) if dread() >= 2 else 0.0)) * (1.0 + 0.06 * G.loop)
 
 static func has_los(a: Object, b: Object) -> bool:
 	var d := TB.dist_xy(a.x, a.y, b.x, b.y)
@@ -69,7 +74,7 @@ static func spawn_enemy(type: String, x: float, y: float, elite: bool = false, i
 	var d: Dictionary = GameData.ENEMIES[type]
 	var hp: float = d["hp"] * floor_scale() * (2.2 if elite else 1.0)
 	if d.get("mini", false):
-		hp = d["hp"] * (1 + 0.15 * dread())   # stage-7 mini-bosses: fixed health like guardians
+		hp = d["hp"] * (1 + 0.15 * dread()) * loop_scale()   # stage-7 mini-bosses: fixed health like guardians
 	var e := Enemy.new()
 	e.type = type
 	e.d = d
@@ -97,7 +102,7 @@ static func spawn_enemy(type: String, x: float, y: float, elite: bool = false, i
 
 static func spawn_boss(key: String) -> Enemy:
 	var d: Dictionary = GameData.BOSSES[key]
-	var hp: float = d["hp"] * (1 + 0.15 * dread())
+	var hp: float = d["hp"] * (1 + 0.15 * dread()) * loop_scale()
 	var e := Enemy.new()
 	e.type = "boss"
 	e.boss = key

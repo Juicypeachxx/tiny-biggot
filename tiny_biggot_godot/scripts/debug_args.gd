@@ -14,11 +14,13 @@ extends RefCounted
 ##   --weapon=ID                  start with this weapon (see data/weapons.gd)
 ##   --weapon-cycle=SECONDS       switch to the next weapon every N seconds (soak tests)
 ##   --ui=SCREEN                  open a screen at start: choice, traits, title, hero, tree, shrine,
-##                                codex, howto, options, pause, traitlist, gearpage, relics, dead, win
+##                                codex, howto, options, pause, traitlist, gearpage, relics, dead, win,
+##                                ending (the true-ending room with the loop and exit portals)
 ##   --no-save                    neither read nor write the save file (repeatable test runs)
 ##   --unlock-all                 every shrine unlock and every skill-tree node
 ##   --give=relic:ID,gear:ID,...  start with these items (relic, gear, trait at max rank, weapon)
 ##   --combo=ID                   start with everything a named combo needs (data/synergies.gd)
+##   --loop=N                     start on loop playthrough N (0 = first time through)
 ##   --classic                    original items only in every pool (no Rogues content)
 ##   --trace=FILE                 write one line of game state per second (replay comparison)
 ##   --bench[=N]                  keep ~N enemy shots alive and print logic time per tick

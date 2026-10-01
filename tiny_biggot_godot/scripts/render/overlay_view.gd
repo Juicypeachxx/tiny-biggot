@@ -198,6 +198,12 @@ func draw_prompt(ci: CanvasItem, o: Dictionary) -> void:
 		"portal":
 			title = "DESCEND"
 			desc = "GO DEEPER INTO THE CRYPT"
+		"loopportal":
+			title = "LOOP AGAIN"
+			desc = "BACK TO FLOOR 1 WITH YOUR WHOLE BUILD. FOES GROW STRONGER"
+		"exitportal":
+			title = "LEAVE IN VICTORY"
+			desc = "END THE RUN AND CLAIM YOUR EMBERS"
 	var lines := [title, desc, "PRESS USE" if extra == "" else extra]
 	if o["kind"] == "pedestal" and o["relic"] != null:
 		lines.insert(1, GameData.RARITY_NAME[o["relic"]["rarity"]])

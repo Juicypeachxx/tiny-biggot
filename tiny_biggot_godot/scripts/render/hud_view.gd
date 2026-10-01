@@ -84,7 +84,8 @@ func _draw() -> void:
 	# Floor name and minimap.
 	var fl: Dictionary = GameData.floors()[G.floor_index]
 	Gfx.text(self, fl["name"], TB.SW / 2, 4, fl["accent"], 1, 0.5)
-	Gfx.text(self, "%d/%d" % [G.floor_index + 1, GameData.floors().size()], TB.SW / 2, 12, "grey", 1, 0.5)
+	Gfx.text(self, "%d/%d" % [G.floor_index + 1, GameData.floors().size()] + ("  LOOP %d" % (G.loop + 1) if G.loop > 0 else ""),
+		TB.SW / 2, 12, "gold" if G.loop > 0 else "grey", 1, 0.5)
 	_minimap()
 	# Relic strip (last 24).
 	var rel: Array = p.relics.slice(maxi(0, p.relics.size() - 24))

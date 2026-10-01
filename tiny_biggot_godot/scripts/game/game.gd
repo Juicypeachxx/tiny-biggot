@@ -16,6 +16,7 @@ var hitstop := 0.0
 var dyn_dirty := true
 var fade: Dictionary = {}      # { t, phase: &"out"/&"in", cb: Callable } or empty
 var dread := 0
+var loop := 0                  # loop playthroughs after the true ending (0 = first time through)
 var banner: Dictionary = {}
 var msg: Dictionary = {}
 var prompt: Variant = null
@@ -92,6 +93,7 @@ func new_run() -> void:
 	if DebugArgs.has("weapon"):
 		Weapons.equip_weapon(player, Weapons.by_id(DebugArgs.get_str("weapon")))
 	run_stats = { "kills": 0, "gold": 0, "time": 0.0, "floor": 1, "bosses": 0, "secrets": 0 }
+	loop = DebugArgs.get_int("loop", 0) if DebugArgs.has("loop") else 0
 	floor_index = 0
 	familiars = []
 	temp_fams = []
@@ -176,7 +178,7 @@ func start_floor() -> void:
 	Effects.fire("on_floor_start")
 	state = &"play"
 	show_banner(GameData.floors()[floor_index]["name"], "FLOOR %d OF %d" % [floor_index + 1, GameData.floors().size()]
-		+ ("   DREAD %d" % dread if dread > 0 else ""))
+		+ ("   DREAD %d" % dread if dread > 0 else "") + ("   LOOP %d" % (loop + 1) if loop > 0 else ""))
 
 const ENTRY_SPOTS := { "s": Vector2(14.0 * 16, 16.0 * 16), "n": Vector2(14.0 * 16, 2.6 * 16),
 	"e": Vector2(26.0 * 16 - 2, 9.5 * 16), "w": Vector2(2.0 * 16 + 2, 9.5 * 16) }
@@ -353,6 +355,7 @@ func spawn_wave(hard: bool = false) -> void:
 	if room.type == "elite":
 		ec += 0.45
 	# Stage 7: the elite room before the rest stop holds the floor's mini-boss.
+	ec += 0.06 * loop   # loop playthroughs: more elites
 	if fdef.has("mini") and room.type == "elite" and room.depth == floor_d["total"] - 2 and not floor_d.get("mini_done", false):
 		floor_d["mini_done"] = true
 		var mini := Combat.spawn_enemy(fdef["mini"], 14.0 * TB.TS, 8.0 * TB.TS)
@@ -450,10 +453,15 @@ func on_boss_dead(b: Enemy) -> void:
 	Combat.drop_pickup("heart", b.x, b.y)
 	Combat.drop_pickup("ember", b.x, b.y)
 	var last := floor_index >= GameData.floors().size() - 1
-	if floor_index == GameData.THRONE_FLOOR and not last:
+	if floor_index == GameData.THRONE_FLOOR and not last and not run_stats.get("throne", false):
 		throne_victory()
 	room.objects.append({ "kind": "chest", "x": 14.0 * TB.TS - (0 if last else 28), "y": 10.0 * TB.TS, "boss": true })
-	if last:
+	if last and GameData.floors().size() > GameData.FLOORS.size():
+		# The true ending: loop again with your build, or leave in victory.
+		show_banner("THE ECLIPSE ENDS", "LOOP AGAIN FOR GLORY, OR LEAVE IN VICTORY")
+		room.objects.append({ "kind": "loopportal", "x": 14.0 * TB.TS - 56, "y": 10.0 * TB.TS })
+		room.objects.append({ "kind": "exitportal", "x": 14.0 * TB.TS + 56, "y": 10.0 * TB.TS })
+	elif last:
 		win_timer = 4.5
 	else:
 		room.objects.append({ "kind": "portal", "x": 14.0 * TB.TS + 28, "y": 10.0 * TB.TS })
@@ -471,6 +479,8 @@ func award_embers(win: bool) -> void:
 		parts.append(["VICTORY", 40])
 	if win and run_stats.get("throne", false):
 		parts.append(["THE ECLIPSE", 80])
+	if loop > 0:
+		parts.append(["LOOPS", loop * 60])
 	var base := 0
 	for x in parts:
 		base += x[1]
@@ -666,6 +676,18 @@ func interact(o: Dictionary) -> void:
 				floor_index += 1
 				player.heal(2)
 				start_floor())
+		"loopportal":
+			Snd.play("portal")
+			start_fade(func():
+				loop += 1
+				run_stats["loops"] = loop
+				Meta.meta["best_loop"] = maxi(Meta.meta.get("best_loop", 0), loop)
+				floor_index = 0
+				player.heal(4)
+				start_floor())
+		"exitportal":
+			Snd.play("portal")
+			start_fade(on_win)
 
 # ---------- Relics, items and traits ----------
 func price(v: float) -> int:
