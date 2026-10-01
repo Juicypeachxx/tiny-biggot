@@ -38,6 +38,9 @@ var temp_fams: Array = []
 var swings: Array = []
 var boss: Enemy = null
 var god := false              # debug: --god
+var menu := 0
+var choice: Dictionary = {}    # relic choice: { relics, idx }
+var tchoice: Dictionary = {}   # trait offer: { opts, idx }
 var _wave_delay := 0.0
 var _spawned := false
 
@@ -80,6 +83,11 @@ func new_run() -> void:
 	zones = []
 	dread = mini(Meta.meta.get("dread", 0), Meta.meta.get("dread_max", 0))
 	var p := player
+	var owned := tree_owned(hero["id"])
+	var tree := Traits.tree_for(hero["id"])
+	for bi in tree.size():
+		for ni in owned[bi]:
+			Traits.apply_node(tree[bi]["nodes"][ni][0], p)
 	if Meta.unlocked("perk_gold"): p.gold += 20
 	if Meta.unlocked("perk_bombs"): p.bombs += 2
 	if Meta.unlocked("perk_potion"):
@@ -92,7 +100,12 @@ func new_run() -> void:
 	if dread >= 5:
 		p.max_hp = maxi(2, p.max_hp - 2)
 		p.hp = mini(p.hp, p.max_hp)
-	# Skill-tree nodes and the relic perks arrive with items (stage 5).
+	if Meta.unlocked("perk_relic"):
+		var r := roll_relics(1, "chest")
+		if not r.is_empty(): add_relic(p, r[0])
+	if p.start_rare:
+		var r := roll_relics(1, "iron")
+		if not r.is_empty(): add_relic(p, r[0])
 	Meta.meta["runs"] += 1
 	Meta.write_save()
 	start_floor()
@@ -205,9 +218,11 @@ func leave_room(dir: String) -> void:
 
 ## Room furniture (Game.rb setup_objects). Chests, shops and shrines are
 ## placed now so rooms look right; using them arrives with items (stage 5).
+## Room furniture (Game.rb setup_objects + 05b_items.rb).
 func setup_objects(r: Room) -> void:
 	var cx := 14.0 * TB.TS
 	var cy := 9.5 * TB.TS
+	var f := floor_index
 	match r.type:
 		"treasure":
 			if randf() < 0.35:
@@ -215,6 +230,15 @@ func setup_objects(r: Room) -> void:
 				r.objects.append({ "kind": "ichest", "x": cx + 24, "y": cy })
 			else:
 				r.objects.append({ "kind": "chest", "x": cx, "y": cy })
+		"shop":
+			var rel := roll_relics(3, "shop", r)
+			for i in rel.size():
+				var base: int = { "common": 30, "rare": 48, "epic": 70, "legend": 95 }[rel[i]["rarity"]]
+				r.objects.append({ "kind": "shop", "item": "relic", "relic": rel[i], "x": cx - 120 + i * 40, "y": cy - 8,
+					"price": price(base + f * 8 + TB.rint(0, 8)) })
+			var extras := [["potion", 18], ["heart", 12], [TB.pick(["bomb", "key"]), 10], ["armor", 16]]
+			for i in extras.size():
+				r.objects.append({ "kind": "shop", "item": extras[i][0], "x": cx + 8 + i * 34, "y": cy - 8, "price": price(extras[i][1] + f * 3) })
 		"shrine":
 			var roll := randf()
 			if roll < 0.4: r.objects.append({ "kind": "altar", "x": cx, "y": cy })
@@ -228,7 +252,8 @@ func setup_objects(r: Room) -> void:
 		"secret":
 			var roll := randf()
 			if roll < 0.45:
-				pass # Relic pedestal: needs the relic tables (stage 5).
+				var rel := roll_relics(1, "secret", r)
+				r.objects.append({ "kind": "pedestal", "relic": rel[0] if not rel.is_empty() else null, "x": cx, "y": cy })
 			elif roll < 0.75:
 				r.objects.append({ "kind": "cchest", "x": cx, "y": cy })
 				for i in 6:
@@ -242,7 +267,18 @@ func setup_objects(r: Room) -> void:
 			r.objects.append({ "kind": "bell", "x": cx, "y": cy })
 		"rest":
 			r.objects.append({ "kind": "campfire", "x": cx, "y": cy })
-	# Shop stock needs the relic, weapon and gear tables (stage 5).
+	# 05b_items.rb: weapons and gear in shops and treasure rooms.
+	match r.type:
+		"shop":
+			var w := Weapons.random_weapon(Gear.roll_item_rarity(f), player.weapon)
+			var g := Gear.random_gear(Gear.roll_item_rarity(f))
+			r.objects.append({ "kind": "shop", "item": "weapon", "thing": w, "x": cx - 40, "y": cy + 34, "price": item_price(w) })
+			r.objects.append({ "kind": "shop", "item": "gear", "thing": g, "x": cx + 40, "y": cy + 34, "price": item_price(g) })
+		"treasure":
+			if randf() < 0.35:
+				var it: Dictionary = Weapons.random_weapon(Gear.roll_item_rarity(f, "elite"), player.weapon) if randf() < 0.5 \
+					else Gear.random_gear(Gear.roll_item_rarity(f, "elite"))
+				r.objects.append({ "kind": "item", "item": it, "x": cx, "y": cy + 36, "t": 0.0 })
 
 func _room_pickup(kind: String, x: float, y: float) -> Pickup:
 	var k := Pickup.new()
@@ -268,6 +304,8 @@ func give_reward(kind: String) -> void:
 	var cx := 14.0 * TB.TS
 	var cy := 9.5 * TB.TS
 	match kind:
+		"weapon": drop_item(Weapons.random_weapon(Gear.roll_item_rarity(floor_index), player.weapon), cx, cy)
+		"gear": drop_item(Gear.random_gear(Gear.roll_item_rarity(floor_index)), cx, cy)
 		"relic": room.objects.append({ "kind": "chest", "x": cx, "y": cy })
 		"rare": room.objects.append({ "kind": "ichest", "x": cx, "y": cy, "free": true })
 		"gold":
@@ -286,8 +324,6 @@ func give_reward(kind: String) -> void:
 			Combat.gain_xp(player, GameData.xp_needed(player.level) - player.xp)
 		"embers":
 			for i in 3: Combat.drop_pickup("ember", cx, cy)
-		"weapon", "gear":
-			toast("WEAPON AND GEAR DROPS ARRIVE WITH ITEMS", "grey")
 
 func room_cleared() -> void:
 	locked = false
@@ -352,6 +388,10 @@ func on_boss_dead(b: Enemy) -> void:
 		win_timer = 4.5
 	else:
 		room.objects.append({ "kind": "portal", "x": 14.0 * TB.TS + 28, "y": 10.0 * TB.TS })
+	# 05b_items.rb: guardians drop a weapon and sometimes gear.
+	drop_item(Weapons.random_weapon(Gear.roll_item_rarity(floor_index, "boss"), player.weapon), b.x - 20, b.y + 20)
+	if randf() < 0.5:
+		drop_item(Gear.random_gear(Gear.roll_item_rarity(floor_index, "boss")), b.x + 20, b.y + 20)
 
 func award_embers(win: bool) -> void:
 	var r := run_stats
@@ -394,23 +434,365 @@ func deny(o: Dictionary, text: String) -> void:
 ## Room object interaction (Game.rb interact). Stage 4 handles the portal so
 ## floors can be completed; chests, shops and shrines arrive with items.
 func interact(o: Dictionary) -> void:
+	var p := player
+	# 05b_items.rb: weapons and gear on the floor or for sale.
+	if o["kind"] == "item":
+		var old = swap_item(o, o["item"])
+		if old != null:
+			o["item"] = old
+			o["t"] = 0.0
+		else:
+			o["gone"] = true
+		return
+	if o["kind"] == "shop" and (o["item"] == "weapon" or o["item"] == "gear"):
+		if p.gold < o["price"]:
+			return deny(o, "NEED %d GOLD" % o["price"])
+		p.gold -= o["price"]
+		o["gone"] = true
+		Snd.play("coin")
+		var old = swap_item(o, o["thing"])
+		if old != null:
+			drop_item(old, o["x"], o["y"] - 22)
+		return
 	match o["kind"]:
+		"chest":
+			o["opened"] = true
+			Snd.play("open")
+			Fx.burst(o["x"], o["y"], ["#f2c94c", "#fffbe0"], 16, 60)
+			open_choice("boss" if o.get("boss", false) else "chest", o)
+		"ichest":
+			if not o.get("free", false):
+				if p.keys <= 0:
+					return deny(o, "NEEDS A KEY")
+				p.keys -= 1
+			o["opened"] = true
+			Snd.play("lock")
+			Snd.play("open")
+			Fx.burst(o["x"], o["y"], ["#8b8f9c", "#f4ecd8", "#f2c94c"], 18, 60)
+			open_choice("iron", o)
+		"cchest":
+			if p.max_hp <= 2:
+				return deny(o, "TOO WEAK")
+			o["opened"] = true
+			p.max_hp -= 2
+			p.hp = mini(p.hp, p.max_hp)
+			add_shake(4)
+			Snd.play("hurt")
+			Fx.burst(o["x"], o["y"], ["#a35bd6", "#5c3483", "#d8443c"], 20, 70)
+			open_choice("cursed", o)
+		"pedestal":
+			o["opened"] = true
+			if o["relic"] != null:
+				add_relic(p, o["relic"])
+				show_banner(o["relic"]["name"], o["relic"]["desc"])
+		"shop":
+			if p.gold < o["price"]:
+				return deny(o, "NEED %d GOLD" % o["price"])
+			if o["item"] == "potion" and p.potions >= p.max_potions:
+				return deny(o, "POTIONS FULL")
+			if o["item"] == "heart" and p.hp >= p.max_hp:
+				return deny(o, "HEALTH FULL")
+			p.gold -= o["price"]
+			o["gone"] = true
+			Snd.play("coin")
+			match o["item"]:
+				"relic":
+					add_relic(p, o["relic"])
+					show_banner(o["relic"]["name"], o["relic"]["desc"])
+				"potion":
+					p.potions += 1
+					Snd.play("heal")
+				"heart": p.heal(2)
+				"bomb": p.bombs += 1
+				"key": p.keys += 1
+				"armor": p.armor += 1
+		"altar":
+			if p.hp <= 2:
+				return deny(o, "TOO WEAK")
+			p.hp -= 2
+			o["used"] = true
+			add_shake(4)
+			Snd.play("hurt")
+			Fx.burst(o["x"], o["y"], ["#d8443c", "#8a2a33"], 20, 70)
+			var r := roll_relics(1, "altar")
+			if not r.is_empty():
+				add_relic(p, r[0])
+				show_banner(r[0]["name"], r[0]["desc"])
+		"fountain":
+			o["used"] = true
+			p.heal(p.max_hp)
+			Fx.burst(o["x"], o["y"], ["#6fd3e0", "#f4ecd8"], 20, 60)
+		"campfire":
+			o["used"] = true
+			p.heal(ceili(p.max_hp / 2.0))
+			p.charges = p.dodge_charges
+			Fx.burst(o["x"], o["y"], ["#e8873a", "#f2c94c"], 20, 50)
+			toast("YOU REST BY THE FIRE", "orange")
+		"idol":
+			var cost := price(15 + floor_index * 3)
+			if p.gold < cost:
+				return deny(o, "NEED %d GOLD" % cost)
+			p.gold -= cost
+			o["uses"] -= 1
+			if o["uses"] <= 0:
+				o["used"] = true
+			Snd.play("coin")
+			var roll := randf()
+			if roll < 0.28:
+				for i in 2:
+					Combat.drop_pickup("gem", o["x"], o["y"] + 10)
+				toast("THE IDOL PAYS OUT", "gold")
+			elif roll < 0.42:
+				var r := roll_relics(1, "chest")
+				if not r.is_empty():
+					add_relic(p, r[0])
+					show_banner(r[0]["name"], r[0]["desc"])
+			elif roll < 0.62:
+				Combat.drop_pickup(TB.pick(["bomb", "key", "armor", "potion"]), o["x"], o["y"] + 10)
+				toast("A GIFT FROM THE IDOL", "white")
+			elif roll < 0.8:
+				toast("THE IDOL KEEPS YOUR GOLD", "grey")
+				Snd.play("deny")
+			else:
+				Combat.hurt_player(1, "a greedy idol")
+				toast("THE IDOL BITES", "red")
+		"bell":
+			o["used"] = true
+			Snd.play("bell")
+			locked = true
+			_spawned = false
+			_wave_delay = 0.8
+			room.waves_left = 3
+			dyn_dirty = true
+			show_banner("THE BELL TOLLS", "SURVIVE THREE HARD WAVES")
+		"lockdoor":
+			if p.keys <= 0:
+				return deny(o, "NEEDS A KEY")
+			p.keys -= 1
+			o["used"] = true
+			room.sealed.erase(o["dir"])
+			dyn_dirty = true
+			Snd.play("lock")
+			Snd.play("door")
+			toast("THE VAULT DOOR OPENS", "gold")
 		"portal":
 			Snd.play("portal")
 			start_fade(func():
 				floor_index += 1
 				player.heal(2)
 				start_floor())
-		"chest", "ichest", "cchest":
-			if o["kind"] == "chest" or o.get("free", false):
-				o["opened"] = true
-				Snd.play("open")
-				Fx.burst(o["x"], o["y"], ["#f2c94c", "#fffbe0"], 16, 60)
-				toast("RELIC CHOICES ARRIVE WITH ITEMS", "grey")
-			else:
-				deny(o, "COMING WITH ITEMS")
-		_:
-			deny(o, "COMING WITH ITEMS")
+
+# ---------- Relics, items and traits ----------
+func price(v: float) -> int:
+	if dread >= 3:
+		v *= 1 + 0.08 * dread
+	return maxi(1, roundi(v * (1 - player.shop_disc)))
+
+func item_price(item: Dictionary) -> int:
+	var base: int = { "common": 26, "rare": 44, "epic": 68, "legend": 96 }[item["rarity"]]
+	return price(base + floor_index * 8)
+
+func drop_item(item: Dictionary, x: float, y: float) -> void:
+	room.objects.append({ "kind": "item", "item": item, "x": clampf(x, 3 * TB.TS, 25 * TB.TS),
+		"y": clampf(y, 4 * TB.TS, 15 * TB.TS), "t": 0.0 })
+
+func drop_gear_at(x: float, y: float) -> void:
+	drop_item(Gear.random_gear(Gear.roll_item_rarity(floor_index, "elite")), x, y)
+
+## Equips a floor or shop item and returns what it replaced (or null).
+func swap_item(o: Dictionary, it: Dictionary) -> Variant:
+	var p := player
+	var old = Weapons.equip_weapon(p, it) if it["item"] == "weapon" else Gear.equip_gear(p, it)
+	Snd.play("relic")
+	show_banner(it["name"], (Weapons.ARCH[it["kind"]]["name"] if it["item"] == "weapon" else Gear.SLOT_NAME[it["slot"]]) + " - " + it["desc"])
+	Fx.burst(o["x"], o["y"], [GameData.RARITY_HEX[it["rarity"]], "#ffffff"], 14, 60)
+	return old
+
+func tree_owned(hero_id: String) -> Array:
+	if not Meta.meta["tree"].has(hero_id):
+		Meta.meta["tree"][hero_id] = [0, 0, 0]
+	return Meta.meta["tree"][hero_id]
+
+func relic_pool() -> Array:
+	var ids := Relics.base_ids()
+	if Meta.unlocked("cache1"): ids += Relics.CACHE_1
+	if Meta.unlocked("cache2"): ids += Relics.CACHE_2
+	if Meta.unlocked("cache3"): ids += Relics.CACHE_3
+	var out := []
+	for i in ids:
+		out.append(Relics.by_id(i))
+	return out
+
+const RARITY_ORDER := ["common", "rare", "epic", "legend"]
+
+func roll_rarity(source: String) -> String:
+	var w: Dictionary = Relics.LOOT.get(source, Relics.LOOT["chest"])
+	var best := ""
+	for k in 1 + (player.luck if player != null else 0):
+		var got := String(TB.weighted(w))
+		if best == "" or RARITY_ORDER.find(got) > RARITY_ORDER.find(best):
+			best = got
+	return best
+
+## n relics nobody owns or is already offered in this room (Game.rb roll_relics).
+func roll_relics(n: int, source: String = "chest", in_room: Room = null) -> Array:
+	var r_room := in_room if in_room != null else room
+	var owned := {}
+	for r in player.relics:
+		owned[r["id"]] = true
+	var offered := {}
+	if r_room != null:
+		for o in r_room.objects:
+			if o.get("relic") != null:
+				offered[o["relic"]["id"]] = true
+	var pool := []
+	for r in relic_pool():
+		if not owned.has(r["id"]) and not offered.has(r["id"]):
+			pool.append(r)
+	if pool.size() < n:
+		pool = []
+		for r in relic_pool():
+			if not owned.has(r["id"]):
+				pool.append(r)
+	var out := []
+	for k in n:
+		if pool.is_empty():
+			break
+		var rar := roll_rarity(source)
+		var order := ["legend", "epic", "rare", "common"]
+		var cands := []
+		var i := order.find(rar)
+		while cands.is_empty() and i < order.size():
+			for r in pool:
+				if r["rarity"] == order[i]:
+					cands.append(r)
+			i += 1
+		if cands.is_empty():
+			cands = pool
+		var r: Dictionary = TB.pick(cands)
+		out.append(r)
+		pool.erase(r)
+	return out
+
+func add_relic(p: Player, r: Dictionary) -> void:
+	p.relics.append(r)
+	Relics.apply(r["id"], p)
+	p.charges = mini(p.charges, p.dodge_charges)
+	Meta.meta["found"][r["id"]] = true
+	Snd.play("relic")
+
+func open_choice(source: String, o: Dictionary) -> void:
+	var n := 4 if Meta.unlocked("perk_choice") else 3
+	var ch := roll_relics(n, source)
+	if ch.is_empty():
+		for i in 15:
+			Combat.drop_pickup("coin", o["x"], o["y"])
+	else:
+		choice = { "relics": ch, "idx": mini(1, ch.size() - 1) }
+		state = &"choice"
+
+func trait_weight(p: Player, t: Dictionary) -> int:
+	var rank: int = p.traits.get(t["id"], 0)
+	if rank >= t["max"]:
+		return 0
+	var fam: int = p.fam.get(t["fam"], 0)
+	if t["cap"]:
+		return 0 if fam < 3 else 6
+	var w := 3
+	if t["fam"] != "core":
+		w += mini(fam, 4) * 2
+	return w
+
+func offer_traits() -> void:
+	var p := player
+	var cands := []
+	for t in Traits.all():
+		var w := trait_weight(p, t)
+		if w > 0:
+			cands.append([t, w])
+	var opts := []
+	for k in 3:
+		if cands.is_empty():
+			break
+		var tot := 0
+		for c in cands:
+			tot += c[1]
+		var x := randf() * tot
+		var idx := 0
+		for i in cands.size():
+			x -= cands[i][1]
+			if x < 0:
+				idx = i
+				break
+		opts.append(cands[idx][0])
+		cands.remove_at(idx)
+	if opts.is_empty():
+		p.pending = 0
+		return
+	tchoice = { "opts": opts, "idx": mini(1, opts.size() - 1) }
+	state = &"traits"
+
+func take_trait(t: Dictionary) -> void:
+	var p := player
+	p.traits[t["id"]] = p.traits.get(t["id"], 0) + 1
+	Traits.apply(t["id"], p)
+	p.charges = mini(p.charges, p.dodge_charges)
+	var fam: String = t["fam"]
+	p.fam[fam] = p.fam.get(fam, 0) + 1
+	if Traits.FAMILY_BONUS.has(fam):
+		var tier := mini(p.fam[fam] / 2, 3)
+		var have: int = p.fam_bonus.get(fam, 0)
+		while have < tier:
+			Traits.apply_bonus(fam, have, p)
+			var bname: String = Traits.FAMILY_BONUS[fam][have]
+			have += 1
+			toast(Traits.FAMILIES[fam]["name"] + " " + str(have * 2) + ": " + bname, Traits.FAMILIES[fam]["col"])
+		p.fam_bonus[fam] = have
+	p.pending -= 1
+	Snd.play("relic")
+
+## RGSS menu_nav: wraps the cursor and returns true on confirm.
+func menu_nav(n: int, horizontal: bool = false) -> bool:
+	if Keys.left() if horizontal else Keys.up():
+		menu = (menu + n - 1) % n
+		Snd.play("select")
+	if Keys.right() if horizontal else Keys.down():
+		menu = (menu + 1) % n
+		Snd.play("select")
+	return Keys.confirm()
+
+func update_choice() -> void:
+	menu = choice["idx"]
+	var go := menu_nav(choice["relics"].size(), true)
+	choice["idx"] = menu
+	if not go:
+		return
+	var r: Dictionary = choice["relics"][choice["idx"]]
+	add_relic(player, r)
+	show_banner(r["name"], r["desc"])
+	choice = {}
+	state = &"play"
+
+## Trait pick: LEFT/RIGHT choose, USE takes it, MENU rerolls (limited).
+func update_traits() -> void:
+	menu = tchoice["idx"]
+	var go := menu_nav(tchoice["opts"].size(), true)
+	tchoice["idx"] = menu
+	if Keys.back():
+		if player.rerolls > 0:
+			player.rerolls -= 1
+			Snd.play("confirm")
+			offer_traits()
+		else:
+			Snd.play("deny")
+		return
+	if not go:
+		return
+	take_trait(tchoice["opts"][tchoice["idx"]])
+	tchoice = {}
+	state = &"play"
+	if player.pending > 0:
+		offer_traits()
 
 # ---------- Update ----------
 func update(dt: float) -> void:
@@ -439,6 +821,10 @@ func update(dt: float) -> void:
 			update_play(dt)
 		&"pause":
 			update_pause()
+		&"choice":
+			update_choice()
+		&"traits":
+			update_traits()
 		&"dead", &"win":
 			state_t += dt
 			if Keys.any() and state_t > 1:
@@ -505,7 +891,10 @@ func update_play(dt: float) -> void:
 			win_timer = null
 			on_win()
 			return
-	# Level-ups (trait picks) arrive with items in stage 5; p.pending keeps counting.
+	# Level-ups wait until the room is safe.
+	if p.pending > 0 and not locked and enemies.is_empty():
+		offer_traits()
+		return
 	prompt = null
 	var best := 24.0
 	for o in room.objects:

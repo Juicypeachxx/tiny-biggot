@@ -223,6 +223,14 @@ static func random_weapon(rarity: String, exclude: Variant = null) -> Dictionary
 				pool.append(w)
 	return TB.pick(pool)
 
+## Rough power of a weapon, for the "BASE POWER" comparison in prompts.
+static func weapon_dps(w: Dictionary) -> float:
+	var base: float = w["dmg"] * w["rate"] * maxi(1, w["count"])
+	if w["kind"] == "burst": base *= 3
+	if w["kind"] == "gatling": base *= 2
+	if w["kind"] == "boomer": base *= 2
+	return base
+
 # ---------- Weapon-based stats (04b_items.rb) ----------
 static func synergy_mult(p: Player) -> float:
 	var w = p.weapon

@@ -28,6 +28,11 @@ echo "== unit tests"
 tail -n 1 "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== item effects vs the original Ruby (tests/ruby_effects.json)"
+"$GODOT" --headless --path . --quit-after 6000 res://tests/effects_test.tscn >"$LOG" 2>&1
+grep "effects test" "$LOG"
+if grep -E "MISMATCH|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== bot soak (60 s, god mode, boss room on floor 3)"
 "$GODOT" --headless --path . --fixed-fps 60 --quit-after 3600 -- --bot --god --seed=1 --floor=2 --room=boss >"$LOG" 2>&1
 grep "\[bot\]" "$LOG" | tail -n 1

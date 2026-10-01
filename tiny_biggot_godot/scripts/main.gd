@@ -9,6 +9,7 @@ const DebugHud := preload("res://scripts/render/debug_hud.gd")
 var world: WorldView
 var fade_view: Node2D
 var hud: Node2D
+var overlay: OverlayView
 
 var bot: DebugBot = null
 var _bench_us := 0
@@ -31,6 +32,11 @@ func _ready() -> void:
 	add_child(hud_layer)
 	hud = DebugHud.new()
 	hud_layer.add_child(hud)
+	var over_layer := CanvasLayer.new()
+	over_layer.layer = 20
+	add_child(over_layer)
+	overlay = OverlayView.new()
+	over_layer.add_child(overlay)
 	var top := CanvasLayer.new()
 	top.layer = 50
 	add_child(top)
@@ -51,6 +57,11 @@ func _ready() -> void:
 		var kind := DebugArgs.get_str("room")
 		G.floor_d["depth"] = G.floor_d["total"] - 1 if kind == "boss" else 2
 		G.enter_room(World.make_room(G.floor_d, kind, "gold" if kind == "combat" else "", "s"))
+	match DebugArgs.get_str("ui"):
+		"choice": G.open_choice("chest", { "x": 200.0, "y": 150.0 })
+		"traits":
+			G.player.pending = 2
+			G.offer_traits()
 
 func _physics_process(_delta: float) -> void:
 	if bot != null:
@@ -68,6 +79,7 @@ func _physics_process(_delta: float) -> void:
 				EBullets.n, G.pbullets.size(), Fx.n, _bench_us / 1000.0 / _bench_n])
 	world.refresh()
 	hud.queue_redraw()
+	overlay.refresh()
 	fade_view.queue_redraw()
 	_ticks += 1
 	if DebugArgs.has("weapon-cycle") and G.player != null:

@@ -310,7 +310,8 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 		p.haste_t = maxf(p.haste_t, p.g("kill_haste"))
 	if p.g("bomb_on_kill") > 0 and randf() < p.g("bomb_on_kill"):
 		drop_pickup("bomb", e.x, e.y)
-	# Elites have a 5% chance to drop gear; gear arrives with items (stage 5).
+	if e.elite and not e.is_boss() and randf() < 0.05:
+		G.drop_gear_at(e.x, e.y)
 
 static func gain_xp(p: Player, n: int) -> void:
 	p.xp += roundi(n * p.xp_mult)

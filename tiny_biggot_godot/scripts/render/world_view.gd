@@ -250,6 +250,27 @@ func _paint_lower(ci: CanvasItem) -> void:
 				Gfx.sp(ci, "altar", x, y + 4)
 			"fountain":
 				Gfx.sp(ci, "fountain", x, y + 4)
+			"pedestal":
+				ci.draw_rect(Rect2(roundf(x - 9), roundf(y + 2), 18, 6), TB.c("#4e4a5e"))
+				ci.draw_rect(Rect2(roundf(x - 9), roundf(y + 2), 18, 1), TB.c("#8b8f9c"))
+				if not o.get("opened", false) and o["relic"] != null:
+					Gfx.sp(ci, "relic_" + o["relic"]["id"], x, y + bob, 2, 2)
+			"item":
+				var it: Dictionary = o["item"]
+				Gfx.sp(ci, ("w_" if it["item"] == "weapon" else "g_") + it["id"], x, y + 2 + bob, 1.5, 1.5)
+			"shop":
+				ci.draw_rect(Rect2(roundf(x - 9), roundf(y + 2), 18, 6), TB.c("#4e4a5e"))
+				ci.draw_rect(Rect2(roundf(x - 9), roundf(y + 2), 18, 1), TB.c("#8b8f9c"))
+				var name := ""
+				if o["item"] == "relic":
+					name = "relic_" + o["relic"]["id"]
+				elif o.has("thing"):
+					name = ("w_" if o["item"] == "weapon" else "g_") + o["thing"]["id"]
+				else:
+					name = { "potion": "potion", "heart": "heartPick", "bomb": "bomb", "key": "key", "armor": "armor" }[o["item"]]
+				Gfx.sp(ci, name, x, y + bob, 2, 2)
+				var label := "%dG" % o["price"]
+				Gfx.text(ci, label, roundf(x - TB.text_w(label) / 2), roundf(y + 11), "gold" if G.player.gold >= o["price"] else "red")
 			"portal":
 				var zz := 1 + sin(t * 4) * 0.05
 				Gfx.sp(ci, "portal", x, y + 6, zz, zz)
@@ -291,6 +312,7 @@ func _paint_shadows(ci: CanvasItem, room: Room) -> void:
 			"chest", "ichest", "cchest": shadow(ci, o["x"], o["y"] + 4, 12)
 			"idol", "campfire", "altar", "fountain": shadow(ci, o["x"], o["y"] + 4, 14)
 			"bell": shadow(ci, o["x"], o["y"] + 4, 10)
+			"item": shadow(ci, o["x"], o["y"] + 6, 10)
 	for k: Pickup in G.pickups:
 		shadow(ci, k.x, k.y + 2, 6)
 	for e: Enemy in G.enemies:
@@ -429,6 +451,12 @@ func _paint_glow(ci: CanvasItem) -> void:
 				if not o.get("used", false): Gfx.at(ci, "glow_red", x - 30, y - 34)
 			"portal":
 				Gfx.at(ci, "glow_purple", x - 30, y - 30)
+			"pedestal":
+				if not o.get("opened", false) and o["relic"] != null:
+					Gfx.at(ci, "glow_white", x - 24, y - 30)
+			"item":
+				var rc := TB.c(GameData.RARITY_HEX[o["item"]["rarity"]])
+				Gfx.sprite(ci, "glow_white", x - 24, y - 26, 0, 0, 1, 1, 0.0, false, 200 / 255.0, Color(rc.r, rc.g, rc.b, 120 / 255.0))
 	for z in G.zones:
 		match z["kind"]:
 			"fire": Gfx.at(ci, "glow_small", z["x"] - 12, z["y"] - 12, 120 / 255.0)

@@ -71,8 +71,13 @@ func tick() -> void:
 	_tap(&"heal", 0.002)
 	_tap(&"bomb", 0.003)
 	if ticks % 600 == 0:
-		print("[bot] t=%ds floor=%d rooms=%d deaths=%d hp=%d/%d room=%s" % [ticks / 60, G.floor_index + 1,
-			rooms, deaths, p.hp, p.max_hp, G.room.type])
+		var gear_n := 0
+		for g in p.gear.values():
+			if g != null:
+				gear_n += 1
+		print("[bot] t=%ds floor=%d rooms=%d deaths=%d hp=%d/%d room=%s lv=%d relics=%d traits=%d gear=%d weapon=%s gold=%d" % [
+			ticks / 60, G.floor_index + 1, rooms, deaths, p.hp, p.max_hp, G.room.type, p.level, p.relics.size(),
+			p.traits.size(), gear_n, p.weapon["id"], p.gold])
 		if DebugArgs.has("bot-verbose"):
 			var es := []
 			for e in G.enemies:

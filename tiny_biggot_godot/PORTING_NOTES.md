@@ -111,13 +111,14 @@ frame. The port uses these rules:
 
    *Stop here for play-testing.*
 5. Items: relics, traits and level-ups, gear and weapon swaps, chests, shops,
-   shrines.
+   shrines. Done. Every item effect is verified against the original Ruby
+   (see Testing).
 6. HUD: hearts, minimap, prompts, banners, boss bar.
 7. Menus: title, hero select, skill trees, shrine, codex, options, pause, end
    screens.
 8. Touch polish: menu-friendly touch, haptics, safe areas.
 
-## Status after stage 4 (what to try)
+## Status after stages 4 and 5 (what to try)
 
 Playable now: the game boots straight into a run (no title menu yet) with
 the Hexer. Use `--hero=N` on desktop to pick another hero. You can walk the
@@ -130,10 +131,12 @@ Temporary in this build:
 
 * `render/debug_hud.gd` is a text status line, a boss bar and pause/death
   screens. The real HUD comes in stage 6.
-* Chests open but offer no relic yet. Shrines, idols, campfires, bells, vault
-  locks, shops and relic pedestals do nothing ("COMING WITH ITEMS"). Weapon
-  and gear door rewards show a toast. Level-ups are counted but no trait pick
-  is offered.
+* Stage 5 adds all room objects (chests, iron and cursed chests, pedestals,
+  shops, altars, fountains, idols, campfires, challenge bells, vault locks),
+  relic choice, level-up trait picks with rerolls and family bonuses, weapon
+  and gear drops and swaps, gear sets, skill-tree nodes and shrine perks at
+  run start. The skill-tree and shrine menus themselves come with the menus
+  stage.
 * No title, hero-select or pause menu. MENU pauses and resumes.
 
 Deviations from the original (intentional):
@@ -149,6 +152,18 @@ Performance (`--bench`, headless, logic only, this build machine):
 frame budget at 60 Hz.
 
 ## Testing
+
+**Item effects against the original.** `tools/gen_ruby_effects.rb` loads the
+untouched Ruby scripts from `reference/ruby/` into a real Ruby interpreter. For
+each of the 6 heroes it gives a fresh player one item at a time: each of the 66
+relics, each of the 72 traits at max rank, the 33 family bonuses, the skill
+nodes, each of the 96 gear pieces, all 11 full gear sets, and each of the 113
+weapons (with resulting damage, rate and range). It records every field that
+changed in `tests/ruby_effects.json`. `tests/effects_test.tscn` repeats this
+in Godot and fails if any field differs, or if Godot changes a field Ruby did
+not touch. That is 2,424 comparisons, and all match. A planted wrong value and
+a planted extra side effect were both caught, so the test can fail. Regenerate
+the reference with `ruby tools/gen_ruby_effects.rb > tests/ruby_effects.json`.
 
 ```
 GODOT=/path/to/godot-4.6.1 tools/check.sh 600       # import, compile all, run 600 ticks

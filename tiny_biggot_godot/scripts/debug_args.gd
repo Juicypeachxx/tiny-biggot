@@ -12,6 +12,7 @@ extends RefCounted
 ##   --god                        the player takes no damage (soak tests)
 ##   --weapon=ID                  start with this weapon (see data/weapons.gd)
 ##   --weapon-cycle=SECONDS       switch to the next weapon every N seconds (soak tests)
+##   --ui=choice|traits           open the relic choice or a level-up trait pick at start
 ##   --bench[=N]                  keep ~N enemy shots alive and print logic time per tick
 
 static var _args := {}
