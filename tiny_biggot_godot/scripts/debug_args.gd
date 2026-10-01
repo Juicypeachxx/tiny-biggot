@@ -4,6 +4,8 @@ extends RefCounted
 ##   --shot=res_or_abs_path.png   save a screenshot ...
 ##   --shot-frame=N               ... after N logic ticks, then quit
 ##   --hero=N                     hero index for the debug quick-start (0-5)
+##   --floor=N                    start on floor N (0-5)
+##   --room=KIND                  jump straight into a room of that type (combat, boss, ...)
 ##   --seed=N                     fixed random seed
 ##   --bot                        autopilot that moves, aims and rolls (soak test)
 
