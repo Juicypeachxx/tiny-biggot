@@ -8,6 +8,7 @@ extends RefCounted
 ##   --room=KIND                  jump straight into a room of that type (combat, boss, ...)
 ##   --seed=N                     fixed random seed
 ##   --bot                        autopilot that moves, aims and rolls (soak test)
+##   --touch                      show the touch controls on a desktop (mouse = finger)
 
 static var _args := {}
 static var _parsed := false

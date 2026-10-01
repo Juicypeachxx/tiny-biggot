@@ -11,18 +11,26 @@ extends Node2D
 var bg: DrawLayer        # z 0     room tiles (static per room)
 var dyn: DrawLayer       # z 1     doors, crates, cracked walls (redrawn on dyn_dirty)
 var lower: DrawLayer     # z 2-9   torches, shadows, objects, exit signs, pickups, bombs
+var ents: DrawLayer      # z 100+y entities sorted by y
 var glow: DrawLayer      # z 1900  additive glows
+var parts: DrawLayer     # z 2200  particles
+var top: DrawLayer       # z 2300  aim reticle
 var vignette: Sprite2D   # z 2500
+var texts: DrawLayer     # z 3000  floating numbers
 
 func _ready() -> void:
 	bg = _layer(_paint_bg)
 	dyn = _layer(_paint_dyn)
 	lower = _layer(_paint_lower)
+	ents = _layer(_paint_ents)
 	glow = _layer(_paint_glow, true)
+	parts = _layer(Fx.draw_particles)
+	top = _layer(_paint_top)
 	vignette = Sprite2D.new()
 	vignette.texture = Img.t("vignette")
 	vignette.centered = false
 	add_child(vignette)
+	texts = _layer(Fx.draw_texts)
 	G.room_changed.connect(_on_room_changed)
 
 func _layer(p: Callable, additive: bool = false) -> DrawLayer:
@@ -47,8 +55,8 @@ func refresh() -> void:
 	if G.dyn_dirty:
 		G.dyn_dirty = false
 		dyn.queue_redraw()
-	lower.queue_redraw()
-	glow.queue_redraw()
+	for l in [lower, ents, glow, parts, top, texts]:
+		l.queue_redraw()
 
 # ---------- Room background (build_room_bg) ----------
 func _paint_bg(ci: CanvasItem) -> void:
@@ -161,6 +169,7 @@ func _paint_lower(ci: CanvasItem) -> void:
 	var t := G.time
 	for i in 2:
 		Gfx.at(ci, "torch", [6, 21][i] * TB.TS + 5, TB.TS + 1)
+	_paint_shadows(ci, room)
 	for o in room.objects:
 		if o.get("gone", false):
 			continue
@@ -188,6 +197,45 @@ func _paint_exit_signs(ci: CanvasItem, room: Room, t: float) -> void:
 			Gfx.sp(ci, GameData.REWARDS[c["reward"]]["icon"], sx + 7, sy + bob)
 		var w := TB.text_w(kind["name"]) + 1
 		Gfx.text(ci, kind["name"], roundf(sx - w / 2), sy + 3, kind["col"])
+
+## RGSS shadow(): nearest shadow sprite width, drawn at z 4 under everything.
+static func shadow(ci: CanvasItem, x: float, y: float, w: float) -> void:
+	var ws := 6
+	for v in [6, 10, 12, 14, 16, 20, 24]:
+		if absf(v - w) < absf(ws - w):
+			ws = v
+	Gfx.at(ci, "shadow%d" % ws, x - ws / 2, y - 1)
+
+func _paint_shadows(ci: CanvasItem, room: Room) -> void:
+	var p := G.player
+	if p != null:
+		shadow(ci, p.x, p.y + 5, 10)
+
+# ---------- Entities ----------
+func _paint_ents(ci: CanvasItem) -> void:
+	var p := G.player
+	if p == null:
+		return
+	_draw_player(ci, p, G.time)
+
+func _draw_player(ci: CanvasItem, p: Player, t: float) -> void:
+	var name: String = p.hero["sprite"]
+	for tr in p.trail:
+		Gfx.sp(ci, name, tr["x"], tr["y"] + 6, 1.0, 1.0, 0.0, tr["face"] < 0, clampf(tr["life"] * 2.5, 0.0, 1.0), Color(1, 1, 1, 1))
+	if p.invuln > 0 and floori(t * 20) % 2 == 1 and p.dodge_t <= 0:
+		return
+	var bob := -1 if p.moving and p.dodge_t <= 0 and floori(p.walk_t * 10) % 2 == 1 else 0
+	Gfx.sp(ci, name, p.x, p.y + 6 + bob, 1.0, 0.85 if p.dodge_t > 0 else 1.0, 0.0, p.face < 0)
+
+func _paint_top(ci: CanvasItem) -> void:
+	var p := G.player
+	if p == null:
+		return
+	if Keys.aim() != null:
+		var ax := p.x + cos(p.aim_a) * 16
+		var ay := p.y - 2 + sin(p.aim_a) * 16
+		ci.draw_rect(Rect2(roundf(ax - 2), roundf(ay - 2), 4, 4), TB.c("#1a1423"))
+		ci.draw_rect(Rect2(roundf(ax - 1), roundf(ay - 1), 2, 2), TB.c("#f4ecd8"))
 
 # ---------- Additive glows ----------
 func _paint_glow(ci: CanvasItem) -> void:

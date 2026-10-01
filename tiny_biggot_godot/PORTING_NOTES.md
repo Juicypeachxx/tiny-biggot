@@ -105,7 +105,7 @@ frame. The port uses these rules:
 2. **World**: floors and door choices, room generation, collision, room
    background, doors, crates, exit signs, torches, vignette. Done.
 3. **Player**: player state, movement, roll, collision, room transitions,
-   touch controls (the primary input on iPad).
+   particles, and touch controls (the primary input on iPad). Done.
 4. **Combat**: weapons and attack types, enemies and AI, bosses, bullet pools,
    particles, pickups, bombs, zones, damage, death.
 

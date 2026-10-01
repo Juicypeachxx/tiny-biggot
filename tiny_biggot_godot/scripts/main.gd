@@ -8,6 +8,7 @@ const FadeView := preload("res://scripts/render/fade_view.gd")
 var world: WorldView
 var fade_view: Node2D
 
+var bot: DebugBot = null
 var _ticks := 0
 var _shot_path := ""
 var _shot_frame := -1
@@ -17,6 +18,8 @@ func _ready() -> void:
 		seed(DebugArgs.get_int("seed"))
 	_shot_path = DebugArgs.get_str("shot")
 	_shot_frame = DebugArgs.get_int("shot-frame", 60)
+	if DebugArgs.has("bot"):
+		bot = DebugBot.new()
 	world = WorldView.new()
 	add_child(world)
 	var top := CanvasLayer.new()
@@ -24,14 +27,23 @@ func _ready() -> void:
 	add_child(top)
 	fade_view = FadeView.new()
 	top.add_child(fade_view)
+	var touch_layer := CanvasLayer.new()
+	touch_layer.layer = 60
+	add_child(touch_layer)
+	touch_layer.add_child(TouchControls.new())
 	# Until the menus are ported (stage 7) the game boots straight into a run.
+	G.hero_index = clampi(DebugArgs.get_int("hero", 0), 0, GameData.HEROES.size() - 1)
+	G.new_run()
 	G.floor_index = clampi(DebugArgs.get_int("floor", 0), 0, GameData.FLOORS.size() - 1)
-	G.start_floor()
+	if G.floor_index > 0:
+		G.start_floor()
 	if DebugArgs.has("room"):
 		G.floor_d["depth"] = 2
 		G.enter_room(World.make_room(G.floor_d, DebugArgs.get_str("room"), "gold", "s"))
 
 func _physics_process(_delta: float) -> void:
+	if bot != null:
+		bot.tick()
 	Keys.tick()
 	G.update(TB.DT)
 	world.refresh()

@@ -19,15 +19,19 @@ static func sprite(ci: CanvasItem, name: String, x: float, y: float, ox: float, 
 	var w := tex.get_width()
 	var h := tex.get_height()
 	var mod := Color(1, 1, 1, alpha)
+	# A fully opaque tint replaces the sprite (RGSS color alpha 255).
+	var solid := tint.a >= 1.0
 	if rot == 0.0 and zx == 1.0 and zy == 1.0 and not mirror:
 		var pos := Vector2(px - ox, py - oy)
-		ci.draw_texture(tex, pos, mod)
+		if not solid:
+			ci.draw_texture(tex, pos, mod)
 		if tint.a > 0.0:
 			ci.draw_texture(Img.white(name), pos, Color(tint.r, tint.g, tint.b, tint.a * alpha))
 		return
 	ci.draw_set_transform(Vector2(px, py), rot, Vector2(zx, zy))
 	var r := Rect2(-ox + w, -oy, -w, h) if mirror else Rect2(-ox, -oy, w, h)
-	ci.draw_texture_rect(tex, r, false, mod)
+	if not solid:
+		ci.draw_texture_rect(tex, r, false, mod)
 	if tint.a > 0.0:
 		ci.draw_texture_rect(Img.white(name), r, false, Color(tint.r, tint.g, tint.b, tint.a * alpha))
 	ci.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
