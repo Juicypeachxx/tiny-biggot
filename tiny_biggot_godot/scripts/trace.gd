@@ -19,6 +19,10 @@ static func line(tick: int) -> String:
 	var gear := []
 	for sl in Gear.SLOTS:
 		gear.append(p.gear[sl]["id"] if p.gear.get(sl) != null else "-")
+	# Step 8 slots only appear once filled, so earlier traces keep their format.
+	for sl in Gear.NEW_SLOTS:
+		if p.gear.get(sl) != null:
+			gear.append(sl + ":" + p.gear[sl]["id"])
 	parts.append(",".join(gear))
 	var rel := []
 	for r in p.relics:

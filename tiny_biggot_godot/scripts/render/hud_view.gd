@@ -94,9 +94,10 @@ func _draw() -> void:
 	if p.weapon != null:
 		Gfx.panel(self, TB.SW - 20, TB.SH - 22, 16, 16, GameData.RARITY_HEX[p.weapon["rarity"]])
 		Gfx.at(self, p.weapon["sprite"], TB.SW - 18, TB.SH - 20)
-		for i in Gear.SLOTS.size():
-			var gp = p.gear.get(Gear.SLOTS[i])
-			var gx := TB.SW - 34 - (3 - i) * 12
+		var gs := Gear.slots()
+		for i in gs.size():
+			var gp = p.gear.get(gs[i])
+			var gx := TB.SW - 34 - (gs.size() - 1 - i) * 12
 			draw_rect(Rect2(gx, TB.SH - 16, 11, 11), TB.c(GameData.RARITY_HEX[gp["rarity"]] if gp != null else "#2a2838"))
 			draw_rect(Rect2(gx + 1, TB.SH - 15, 9, 9), TB.c("#17121e"))
 			if gp != null:

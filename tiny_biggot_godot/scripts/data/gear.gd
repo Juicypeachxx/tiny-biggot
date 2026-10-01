@@ -6,7 +6,33 @@ extends RefCounted
 ## The first ORIGINAL_COUNT rows are original; new rows may add effects.
 
 const SLOTS := ["head", "body", "feet", "trinket"]
-const SLOT_NAME := { "head": "HELM", "body": "ARMOR", "feet": "BOOTS", "trinket": "TRINKET" }
+## Design spec section 6 (step 8): gloves, an amulet and two ring slots join the
+## original four. Items say "ring"; a ring fills ring1 or ring2 (slot_for).
+const NEW_SLOTS := ["hands", "neck", "ring1", "ring2"]
+const ITEM_SLOTS := ["head", "body", "feet", "trinket", "hands", "neck", "ring"]
+const SLOT_NAME := { "head": "HELM", "body": "ARMOR", "feet": "BOOTS", "trinket": "TRINKET",
+	"hands": "GLOVES", "neck": "AMULET", "ring": "RING", "ring1": "RING", "ring2": "RING" }
+
+static var _slots: Array = []
+
+## Equipment slots in play: the original four, plus the new ones unless --classic.
+static func slots() -> Array:
+	if _slots.is_empty():
+		_slots = SLOTS.duplicate()
+		if not DebugArgs.has("classic"):
+			_slots.append_array(NEW_SLOTS)
+	return _slots
+
+## The slot an item goes into. A ring takes a free ring slot, otherwise it
+## replaces the lower-rarity ring (ring1 on a tie).
+static func slot_for(p: Player, g: Dictionary) -> String:
+	if g["slot"] != "ring":
+		return g["slot"]
+	for sl in ["ring1", "ring2"]:
+		if p.gear.get(sl) == null:
+			return sl
+	var order := ["common", "rare", "epic", "legend"]
+	return "ring2" if order.find(p.gear["ring2"]["rarity"]) < order.find(p.gear["ring1"]["rarity"]) else "ring1"
 
 ## Four-piece sets: the 2-piece bonus supports a build, the 4-piece grants that family's capstone power.
 const SETS := {
@@ -281,15 +307,16 @@ static func update_sets(p: Player, set_id: Variant, delta: int) -> void:
 
 ## Equips a piece of gear and returns the piece it replaced (or null).
 static func equip_gear(p: Player, g: Dictionary) -> Variant:
-	var old = p.gear.get(g["slot"])
+	var slot := slot_for(p, g)
+	var old = p.gear.get(slot)
 	if old != null:
 		Weapons.apply_tuples(p, old["stats"], -1, "g:" + old["id"])
 		Weapons.apply_hooks(p, old["hooks"], -1)
 		if not old["effects"].is_empty():
 			Effects.apply_equipment(p, old["effects"], -1, "gfx:" + old["id"])
-		p.gear[g["slot"]] = null
+		p.gear[slot] = null
 		update_sets(p, old["set"], -1)
-	p.gear[g["slot"]] = g
+	p.gear[slot] = g
 	Weapons.apply_tuples(p, g["stats"], 1, "g:" + g["id"])
 	Weapons.apply_hooks(p, g["hooks"], 1)
 	if not g["effects"].is_empty():

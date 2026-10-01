@@ -120,8 +120,9 @@ static func item_lines(it: Dictionary) -> Array:
 func draw_item_prompt(ci: CanvasItem, o: Dictionary, it: Dictionary, price: int = -1) -> void:
 	var p := G.player
 	var lines := item_lines(it)
-	if it["item"] == "gear" and p.gear.get(it["slot"]) != null and p.gear[it["slot"]]["id"] != it["id"]:
-		lines.append(["REPLACES " + p.gear[it["slot"]]["name"], "dim"])
+	var gslot: String = Gear.slot_for(p, it) if it["item"] == "gear" else ""
+	if it["item"] == "gear" and p.gear.get(gslot) != null and p.gear[gslot]["id"] != it["id"]:
+		lines.append(["REPLACES " + p.gear[gslot]["name"], "dim"])
 	elif it["item"] == "weapon" and p.weapon["id"] != it["id"]:
 		lines.append(["REPLACES " + p.weapon["name"], "dim"])
 	lines.append(["BUY FOR %d GOLD" % price if price >= 0 else "PRESS USE TO EQUIP", "gold" if price >= 0 else "grey"])

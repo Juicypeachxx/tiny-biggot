@@ -408,12 +408,26 @@ func draw_gearpage(ci: CanvasItem) -> void:
 	var dl := Gfx.wrap_text(w["desc"], TB.SW - 90)
 	if not dl.is_empty():
 		Gfx.text(ci, dl[0], 56, 80, "white")
-	for i in Gear.SLOTS.size():
-		var sl: String = Gear.SLOTS[i]
+	var gs := Gear.slots()
+	var compact := gs.size() > 4   # step 8: eight slots in shorter panels
+	for i in gs.size():
+		var sl: String = gs[i]
 		var g = p.gear.get(sl)
 		var x: int = 16 + (i % 2) * 212
-		var y: int = 100 + (i / 2) * 58
-		Gfx.panel(ci, x, y, 204, 52, GameData.RARITY_HEX[g["rarity"]] if g != null else "#2a2838", "#17121e")
+		var y: int = (96 + (i / 2) * 31) if compact else (100 + (i / 2) * 58)
+		var ph := 29 if compact else 52
+		Gfx.panel(ci, x, y, 204, ph, GameData.RARITY_HEX[g["rarity"]] if g != null else "#2a2838", "#17121e")
+		if compact:
+			Gfx.text(ci, Gear.SLOT_NAME[sl], x + 4, y + 3, "dim")
+			if g != null:
+				ci.draw_texture_rect(Img.t(g["sprite"]), Rect2(x + 4, y + 11, 14, 14), false)
+				Gfx.text(ci, g["name"], x + 40, y + 3, GameData.RARITY_COL[g["rarity"]])
+				var gl := Gfx.wrap_text(g["desc"], 178)
+				for j in mini(2, gl.size()):
+					Gfx.text(ci, gl[j], x + 22, y + 12 + j * 8, "white")
+			else:
+				Gfx.text(ci, "EMPTY", x + 40, y + 3, "dim")
+			continue
 		Gfx.text(ci, Gear.SLOT_NAME[sl], x + 6, y + 4, "dim")
 		if g != null:
 			ci.draw_texture_rect(Img.t(g["sprite"]), Rect2(x + 6, y + 14, 20, 20), false)
@@ -430,7 +444,7 @@ func draw_gearpage(ci: CanvasItem) -> void:
 				Gfx.text(ci, gl[j], x + 32, y + 33 + j * 8, "white")
 		else:
 			Gfx.text(ci, "EMPTY", x + 32, y + 22, "dim")
-	var y := 220
+	var y := 222 if compact else 220
 	for id in p.sets:
 		var n: int = p.sets[id]
 		if n <= 0:

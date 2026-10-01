@@ -49,6 +49,7 @@ func _ready() -> void:
 	broken_build()
 	combos()
 	heroes()
+	slots()
 	biomes()
 	stress()
 	print("[content] Effects.stats: ", Effects.stats)
@@ -155,7 +156,7 @@ func lint() -> void:
 		lint_effects("gear " + g["id"], Effects.from_tuples(g["stats"], g["hooks"]) + g["effects"], true)
 		_sprite("gear " + g["id"], g["sprite"])
 		_tags("gear " + g["id"], g["tags"])
-		if not g["slot"] in Gear.SLOTS:
+		if not g["slot"] in Gear.ITEM_SLOTS:
 			fail("gear %s: unknown slot" % g["id"])
 		if g["set"] != null and not Gear.SETS.has(g["set"]):
 			fail("gear %s: unknown set" % g["id"])
@@ -668,6 +669,35 @@ func heroes() -> void:
 	if ct.gold == gold0:
 		fail("cartomancer: 60 draws and never the COIN card")
 	notes.append("heroes: %d heroes linted, %d new heroes played 10 s each with full trees (worst %.2f ms/tick); heat, scrolls, weapon swap, perfect dodge, potion oil and card draws verified" % [all.size(), n, worst])
+
+## Step 8 equipment slots: gloves and amulet have their own slot; two rings
+## fill ring1 and ring2, and a third replaces the lower-rarity ring.
+func slots() -> void:
+	var p := arena(0)
+	var base: Dictionary = Gear.all()[0]
+	var mk := func(id: String, slot: String, rarity: String) -> Dictionary:
+		var g := base.duplicate(true)
+		g["id"] = id
+		g["slot"] = slot
+		g["rarity"] = rarity
+		g["set"] = null
+		g["new"] = true
+		return g
+	Gear.equip_gear(p, mk.call("t_glove", "hands", "rare"))
+	Gear.equip_gear(p, mk.call("t_neck", "neck", "rare"))
+	Gear.equip_gear(p, mk.call("t_ringa", "ring", "epic"))
+	Gear.equip_gear(p, mk.call("t_ringb", "ring", "common"))
+	if p.gear.get("hands", {}).get("id") != "t_glove" or p.gear.get("neck", {}).get("id") != "t_neck":
+		fail("gloves or amulet not in their slots")
+	if p.gear.get("ring1", {}).get("id") != "t_ringa" or p.gear.get("ring2", {}).get("id") != "t_ringb":
+		fail("two rings did not fill both ring slots")
+	var old = Gear.equip_gear(p, mk.call("t_ringc", "ring", "rare"))
+	if old == null or old["id"] != "t_ringb" or p.gear["ring2"]["id"] != "t_ringc":
+		fail("a third ring did not replace the lower-rarity ring")
+	if p.gear.get("head") != null:
+		fail("new slots disturbed the original ones")
+	check("slots")
+	notes.append("slots: gloves, amulet and two ring slots verified (%d slots in play)" % Gear.slots().size())
 
 ## Stage 7 biomes: data checks; every new floor fought with its whole foe
 ## pool and hazard; every mini-boss; every guardian driven through each of
