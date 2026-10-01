@@ -37,7 +37,7 @@ const NEW_HEROES := [
 	  "blurb": "A scarred hunter of monsters. Lives off bounties and bitter oils.",
 	  "passive": "+25% DAMAGE TO ELITES. A POTION ALSO OILS YOUR BLADE: +40% DAMAGE FOR 10S. EVERY 6S A ROLL CASTS A SIGN: A RING OF SPARKS THAT STUNS THE NEAREST FOE.",
 	  "weapon": "BANE SABRE", "hp": 8, "speed": 88, "shot": "slash", "sound": "hatchet", "cost": 160, "trait": "g_bounty",
-	  "stats": { "dmg": 7.0, "rate": 2.4, "shot_speed": 0.0, "life": 0.0, "homing": 0.0, "size": 1.0, "pierce": 99 },
+	  "stats": { "dmg": 8.0, "rate": 2.6, "shot_speed": 0.0, "life": 0.0, "homing": 0.0, "size": 1.0, "pierce": 99 },
 	  "effects": [["add", "elite_mult", 0.25],
 		{ "on": "on_potion", "do": [["buff", "dmg", 0.4, 10.0], ["vfx", "label", "BLADE OILED", "#f2c94c"], ["vfx", "ring", "#f2c94c", 30]] },
 		{ "on": "on_roll", "cd": 6.0, "do": [["nova", 8, 0.5, "spark"], ["status", "stun", 1], ["vfx", "sigil", "#f2c94c", 30]] }],
