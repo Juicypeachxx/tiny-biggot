@@ -28,6 +28,7 @@ const ACTIONS := [
 	&"aim_left", &"aim_right", &"aim_up", &"aim_down",
 	&"roll", &"use", &"heal", &"pause", &"bomb",
 	&"special",   # new: hero special ability (step-6 heroes only)
+	&"belt1", &"belt2", &"belt3", &"belt4",   # Rogues layer: quick belt
 ]
 
 var _down := {}
@@ -96,6 +97,10 @@ func _setup_input_map() -> void:
 	_bind(&"bomb", [_key(KEY_CTRL), _key(KEY_F5), _key(KEY_E), _key(KEY_B),
 		_btn(JOY_BUTTON_LEFT_SHOULDER), _btn(JOY_BUTTON_RIGHT_SHOULDER)])
 	_bind(&"special", [_key(KEY_F), _btn(JOY_BUTTON_RIGHT_STICK), _btn(JOY_BUTTON_BACK)])
+	_bind(&"belt1", [_key(KEY_1)])
+	_bind(&"belt2", [_key(KEY_2)])
+	_bind(&"belt3", [_key(KEY_3)])
+	_bind(&"belt4", [_key(KEY_4)])
 
 func _input(event: InputEvent) -> void:
 	if event.is_echo():
@@ -158,6 +163,12 @@ func heal() -> bool: return _trig[&"heal"]
 func pause() -> bool: return _trig[&"pause"]
 func bomb() -> bool: return _trig[&"bomb"]
 func special() -> bool: return _trig[&"special"]
+## Quick-belt slot pressed this tick (0-3), or -1.
+func belt() -> int:
+	for i in 4:
+		if _trig[[&"belt1", &"belt2", &"belt3", &"belt4"][i]]:
+			return i
+	return -1
 func fire_held() -> bool: return false
 func up() -> bool: return _rep[&"move_up"]
 func down() -> bool: return _rep[&"move_down"]

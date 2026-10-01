@@ -82,6 +82,8 @@ func _ready() -> void:
 			G.player.pending = 2
 			G.offer_traits()
 		"hud": pass
+		"inventory":
+			G.state = &"inventory"
 		"tree":
 			G.tree_hero = G.hero_index
 			G.state = &"tree"

@@ -176,6 +176,12 @@ func _begin(index: int, pos: Vector2) -> void:
 		if pos.distance_to(b["pos"]) <= b["r"] * 1.3:
 			_touches[index] = { "kind": "button", "action": b["action"], "pos": pos }
 			return
+	# Rogues layer: tap a quick-belt slot on the HUD to drink it.
+	if not menu_screen and GameData.rogues():
+		for i in Consumables.BELT_SIZE:
+			if HudView.belt_rect(i).grow(3).has_point(pos):
+				Taps.send([&"belt1", &"belt2", &"belt3", &"belt4"][i])
+				return
 	# Menus: tap an item or card directly (scripts/render/taps.gd).
 	if menu_screen:
 		var z := Taps.hit(pos)

@@ -10,7 +10,7 @@ func refresh() -> void:
 
 static func world_state() -> bool:
 	match G.state:
-		&"play", &"pause", &"relics", &"choice", &"traits", &"traitlist", &"gearpage":
+		&"play", &"pause", &"relics", &"choice", &"traits", &"traitlist", &"gearpage", &"inventory":
 			return true
 		&"options":
 			return G.opt_from == &"pause"
@@ -87,6 +87,16 @@ func _draw() -> void:
 	Gfx.text(self, "%d/%d" % [G.floor_index + 1, GameData.floors().size()] + ("  LOOP %d" % (G.loop + 1) if G.loop > 0 else ""),
 		TB.SW / 2, 12, "gold" if G.loop > 0 else "grey", 1, 0.5)
 	_minimap()
+	# Rogues layer: the quick belt, under the floor name (keys 1-4, or tap).
+	if GameData.rogues():
+		for i in Consumables.BELT_SIZE:
+			var r := belt_rect(i)
+			draw_rect(r, TB.c("#5a5770"))
+			draw_rect(r.grow(-1), TB.c("#0f0d16"))
+			if i < p.belt.size():
+				Gfx.sp(self, p.belt[i], r.get_center().x, r.end.y - 1)
+			else:
+				Gfx.text(self, str(i + 1), r.position.x + 4, r.position.y + 3, "dim")
 	# Relic strip (last 24).
 	var rel: Array = p.relics.slice(maxi(0, p.relics.size() - 24))
 	for i in rel.size():
@@ -146,3 +156,7 @@ func _banner() -> void:
 	Gfx.text(self, bn["text"], TB.SW / 2, 96 + 5, "gold", 2, 0.5, true, a)
 	if not sub.is_empty():
 		Gfx.text(self, sub, TB.SW / 2, 96 + 22, "white", 1, 0.5, true, a)
+
+## Rogues layer: quick-belt slot i on the HUD (shared with the touch controls).
+static func belt_rect(i: int) -> Rect2:
+	return Rect2(TB.SW / 2 - 28 + i * 14, 20, 13, 13)

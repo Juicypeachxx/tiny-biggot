@@ -70,6 +70,9 @@ static func zones() -> Array:
 			var hn := GameData.heroes().size()
 			out.append(_act(Rect2(sw / 2 - 110, 20, 80, 16), func(): G.tree_hero = (G.tree_hero + hn - 1) % hn))
 			out.append(_act(Rect2(sw / 2 + 30, 20, 80, 16), func(): G.tree_hero = (G.tree_hero + 1) % hn))
+		&"inventory":
+			for i in 10:
+				out.append(_z(MenuView.inv_slot_rect(i), func(): G.inv_i = i, G.inv_i == i))
 		&"choice":
 			var n: int = G.choice["relics"].size()
 			var w := 100 if n > 3 else 120

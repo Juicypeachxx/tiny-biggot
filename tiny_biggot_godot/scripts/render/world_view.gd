@@ -30,7 +30,8 @@ var texts: DrawLayer     # z 3000  floating numbers
 var _vr := RandomNumberGenerator.new()
 
 const PICKUP_SPRITE := { "coin": "coin", "heart": "heartPick", "potion": "potion", "gem": "gem", "bomb": "bomb",
-	"key": "key", "armor": "armor", "ember": "ember" }
+	"key": "key", "armor": "armor", "ember": "ember",
+	"c_fury": "c_fury", "c_smoke": "c_smoke", "c_whet": "c_whet", "c_insight": "c_insight" }
 
 func _ready() -> void:
 	bg = _layer(_paint_bg)

@@ -50,6 +50,7 @@ const CODEX_COLS := 11
 var quit_armed := false
 var opt_from: StringName = &"title"
 var codex_i := 0
+var inv_i := 0                 # Rogues layer: inventory cursor (0-5 backpack, 6-9 belt)
 var shrine_i := 0
 var tree_hero := 0
 var tree_b := 0
@@ -147,6 +148,12 @@ func _debug_give(p: Player) -> void:
 				items.append_array(c["needs"])
 	for need in items:
 		var parts: PackedStringArray = need.split(":")
+		if parts.size() == 2 and parts[0] == "belt" and Consumables.is_kind(parts[1]):
+			Consumables.take(p, parts[1])
+			continue
+		if parts.size() == 2 and parts[0] == "pack" and Weapons._by_id.has(parts[1]):
+			p.backpack.append(Weapons.by_id(parts[1]))
+			continue
 		var table := { "relic": Relics, "weapon": Weapons, "gear": Gear, "trait": Traits }
 		if parts.size() != 2 or not table.has(parts[0]):
 			continue
@@ -538,7 +545,7 @@ func interact(o: Dictionary) -> void:
 	# 05b_items.rb: weapons and gear on the floor or for sale.
 	if o["kind"] == "item":
 		var old = swap_item(o, o["item"])
-		if old != null:
+		if old != null and not to_backpack(old):
 			o["item"] = old
 			o["t"] = 0.0
 		else:
@@ -551,7 +558,7 @@ func interact(o: Dictionary) -> void:
 		o["gone"] = true
 		Snd.play("coin")
 		var old = swap_item(o, o["thing"])
-		if old != null:
+		if old != null and not to_backpack(old):
 			drop_item(old, o["x"], o["y"] - 22)
 		return
 	match o["kind"]:
@@ -724,6 +731,29 @@ func drop_item(item: Dictionary, x: float, y: float) -> void:
 
 func drop_gear_at(x: float, y: float) -> void:
 	drop_item(Gear.random_gear(Gear.roll_item_rarity(floor_index, "elite")), x, y)
+
+## Rogues layer: a replaced weapon or gear piece goes into the backpack if
+## there is room (false: it stays on the floor, as in the original game).
+func to_backpack(it: Dictionary) -> bool:
+	var p := player
+	if not GameData.rogues() or p.backpack.size() >= Player.BACKPACK_SIZE:
+		return false
+	p.backpack.append(it)
+	toast("%s TO BACKPACK" % it["name"], "tan")
+	return true
+
+## Equips backpack item i; what it replaces takes its place in the backpack.
+func equip_from_backpack(i: int) -> void:
+	var p := player
+	if i < 0 or i >= p.backpack.size():
+		return
+	var it: Dictionary = p.backpack[i]
+	var old = Weapons.equip_weapon(p, it) if it["item"] == "weapon" else Gear.equip_gear(p, it)
+	if old != null:
+		p.backpack[i] = old
+	else:
+		p.backpack.remove_at(i)
+	Snd.play("relic")
 
 ## Equips a floor or shop item and returns what it replaced (or null).
 func swap_item(o: Dictionary, it: Dictionary) -> Variant:
@@ -995,6 +1025,7 @@ func update(dt: float) -> void:
 			update_embers(dt)
 			update_codex()
 		&"pause": update_pause()
+		&"inventory": update_inventory()
 		&"relics", &"traitlist", &"gearpage":
 			if Keys.any():
 				state = &"pause"
@@ -1011,6 +1042,40 @@ func update(dt: float) -> void:
 		&"play":
 			update_play(dt)
 
+## Rogues layer inventory: LEFT/RIGHT pick a backpack or belt slot (UP/DOWN
+## switch rows), USE equips or drinks it, ROLL drops it, MENU goes back.
+func update_inventory() -> void:
+	var p := player
+	if Keys.back():
+		state = &"pause"
+		Snd.play("select")
+		return
+	if Keys.left():
+		inv_i = (inv_i + 9) % 10
+		Snd.play("select")
+	if Keys.right():
+		inv_i = (inv_i + 1) % 10
+		Snd.play("select")
+	if Keys.up() or Keys.down():
+		inv_i = (inv_i + 6) % 10 if inv_i < 6 else mini(inv_i - 6, 5)
+		Snd.play("select")
+	if Keys.confirm():
+		if inv_i < 6:
+			if inv_i < p.backpack.size():
+				equip_from_backpack(inv_i)
+			else:
+				Snd.play("deny")
+		else:
+			Consumables.use(p, inv_i - 6)
+	elif Keys.roll():
+		if inv_i < 6 and inv_i < p.backpack.size():
+			drop_item(p.backpack[inv_i], p.x, p.y + 14)
+			p.backpack.remove_at(inv_i)
+			Snd.play("place")
+		elif inv_i >= 6 and inv_i - 6 < p.belt.size():
+			p.belt.remove_at(inv_i - 6)
+			Snd.play("place")
+
 func update_pause() -> void:
 	if Keys.back():
 		state = &"play"
@@ -1020,7 +1085,9 @@ func update_pause() -> void:
 		Snd.play("confirm")
 		match menu:
 			0: state = &"play"
-			1: state = &"gearpage"
+			1:
+				state = &"inventory" if GameData.rogues() else &"gearpage"
+				inv_i = 0
 			2: state = &"traitlist"
 			3: state = &"relics"
 			4:

@@ -244,6 +244,8 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 	# Experience.
 	var xp: int = 40 + 10 * G.floor_index if boss else GameData.ENEMY_XP.get(e.type, 3) * (3 if e.elite else 1)
 	gain_xp(p, xp)
+	if GameData.rogues() and (boss or (e.elite and randf() < 0.15)):
+		drop_pickup(Consumables.random_kind(), e.x, e.y)   # Rogues layer: belt consumables
 	if not boss:
 		if e.gold > 0 and randf() < minf(0.95, e.gold * 1.8 * p.gold_drop):
 			for i in TB.rint(1, 5 if e.elite else 2):
@@ -1242,7 +1244,8 @@ static func explode_at(x: float, y: float, dmg: float, skip: Enemy, radius: floa
 		damage_enemy(e, dmg, { "no_crit": true, "col": "orange", "silent": true, "boom": boom or from_bomb, "bomb": from_bomb })
 
 # ---------- Pickups ----------
-const PICKUP_KINDS := ["coin", "gem", "heart", "potion", "bomb", "key", "armor", "ember"]
+const PICKUP_KINDS := ["coin", "gem", "heart", "potion", "bomb", "key", "armor", "ember",
+	"c_fury", "c_smoke", "c_whet", "c_insight"]   # last four: Rogues-layer belt consumables
 
 static func drop_pickup(kind: String, x: float, y: float, t: float = 0.0) -> Pickup:
 	var a := randf() * TAU
@@ -1282,6 +1285,13 @@ static func update_pickups(dt: float) -> void:
 		else:
 			World.move_body(room, k, k.vx * dt, k.vy * dt, World.M_WALKER)
 		if not (d < 9 and k.t > 0.25):
+			continue
+		if Consumables.is_kind(k.kind):
+			# Rogues layer: belt consumables wait on the floor while the belt is full.
+			if Consumables.take(p, k.kind):
+				k.dead = true
+				Snd.play("relic")
+				Fx.float_text(p.x, p.y - 12, Consumables.KINDS[k.kind]["name"], "gold")
 			continue
 		match k.kind:
 			"coin":
@@ -1551,6 +1561,10 @@ static func _update_player_base(p: Player, dt: float) -> void:
 	p.volleys = keep
 	p.try_heal()
 	Abilities.update(p, dt)
+	if GameData.rogues():
+		var bi := Keys.belt()
+		if bi >= 0:
+			Consumables.use(p, bi)
 	if Keys.bomb():
 		if p.bombs > 0:
 			p.bombs -= 1

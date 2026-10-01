@@ -61,6 +61,9 @@ func _paint_base(ci: CanvasItem) -> void:
 		&"gearpage":
 			_shade(ci, 222)
 			draw_gearpage(ci)
+		&"inventory":
+			_shade(ci, 228)
+			draw_inventory(ci)
 		&"relics":
 			_shade(ci, 220)
 			draw_relics(ci)
@@ -380,7 +383,7 @@ func draw_tree(ci: CanvasItem) -> void:
 			var got: bool = owned[bi] > ni
 			var avail: bool = owned[bi] == ni
 			var sel: bool = G.tree_b == bi and G.tree_n == ni
-			var border := "#f2c94c" if sel else ("#63b84f" if got else ("#8b8f9c" if avail else "#2a2838"))
+			var border: String = "#f2c94c" if sel else ("#63b84f" if got else ("#8b8f9c" if avail else "#2a2838"))
 			Gfx.panel(ci, x, y, 120, 32, border, "#1d2a20" if got else "#17121e")
 			if ni > 0:
 				ci.draw_rect(Rect2(x + 59, y - 6, 2, 6), TB.c("#63b84f" if got else "#2a2838"))
@@ -522,3 +525,105 @@ func draw_end(ci: CanvasItem) -> void:
 		Gfx.text(ci, "+%d EMBERS%s" % [a["total"], extra], TB.SW / 2, 212, "orange", 2, 0.5)
 	if G.state_t > 1:
 		Gfx.text(ci, "PRESS USE TO CONTINUE", TB.SW / 2, 250, "white" if floori(G.time * 2) % 2 == 1 else "grey", 1, 0.5)
+
+# ---------- Rogues layer: inventory ----------
+## Geometry shared with the tap zones (taps.gd).
+const INV_X := 108
+const INV_BP_Y := 170
+const INV_BELT_Y := 206
+const INV_SLOT := 22
+
+static func inv_slot_rect(i: int) -> Rect2:
+	if i < 6:
+		return Rect2(INV_X + i * (INV_SLOT + 4), INV_BP_Y, INV_SLOT, INV_SLOT)
+	return Rect2(INV_X + (i - 6) * (INV_SLOT + 4), INV_BELT_Y, INV_SLOT, INV_SLOT)
+
+func _stat_row(ci: CanvasItem, y: int, label: String, value: String, col: String) -> void:
+	Gfx.text(ci, label, 10, y, "grey")
+	Gfx.text(ci, value, 92, y, col, 1, 1.0)
+
+func draw_inventory(ci: CanvasItem) -> void:
+	var p := G.player
+	Gfx.text(ci, "INVENTORY", TB.SW / 2 + 40, 6, "gold", 2, 0.5)
+	# Left: the stat sidebar.
+	Gfx.panel(ci, 4, 6, 94, 236, "#4e4a5e", "#0f0d16")
+	var y := 12
+	for a in Attributes.ATTRS:
+		_stat_row(ci, y, Attributes.NAMES[a], str(Attributes.value(p, a)), Attributes.COLS[a])
+		y += 9
+	y += 4
+	var rows := [
+		["DAMAGE", "%s" % TB.fmt_dmg(Weapons.wdmg(p)), "white"],
+		["RATE", "%.1f/S" % Weapons.wrate(p), "white"],
+		["CRIT", "%d%%" % roundi(p.crit * 100), "gold"],
+		["CRIT DMG", "X%.1f" % p.crit_mult, "gold"],
+		["SHOTS", str(Weapons.wcount(p)), "white"],
+		["ARMOR", str(p.armor), "cyan"],
+		["SPEED", str(roundi(p.speed)), "white"],
+		["ROLLS", str(p.dodge_charges), "white"],
+		["LUCK", str(p.luck), "lime"],
+		["LEVEL", str(p.level), "lime"],
+		["GOLD", str(p.gold), "gold"],
+		["KILLS", str(G.run_stats.get("kills", 0)), "grey"],
+	]
+	for r in rows:
+		_stat_row(ci, y, r[0], r[1], r[2])
+		y += 9
+	if G.loop > 0:
+		_stat_row(ci, y + 4, "LOOP", str(G.loop + 1), "gold")
+	# Right top: weapon and equipment.
+	var w: Dictionary = p.weapon
+	Gfx.panel(ci, INV_X - 4, 24, TB.SW - INV_X, 34, GameData.RARITY_HEX[w["rarity"]], "#0f0d16")
+	ci.draw_texture_rect(Img.t(w["sprite"]), Rect2(INV_X, 29, 24, 24), false)
+	Gfx.text(ci, WeaponInfo.display_name(w), INV_X + 30, 29, GameData.RARITY_COL[w["rarity"]])
+	var dr := WeaponInfo.damage_range(p, w)
+	Gfx.text(ci, "%s %s  %s TO %s %s  %.1f/S" % [WeaponInfo.wtype(w), WeaponInfo.range_name(w), TB.fmt_dmg(dr[0]), TB.fmt_dmg(dr[1]),
+		WeaponInfo.damage_type(w), w["rate"]], INV_X + 30, 39, "tan")
+	Gfx.text(ci, "SCALING " + Attributes.grade_line(w), INV_X + 30, 48, "white")
+	var gs := Gear.slots()
+	for i in gs.size():
+		var g = p.gear.get(gs[i])
+		var gx := INV_X - 4 + (i % 4) * 84
+		var gy := 64 + (i / 4) * 38
+		Gfx.panel(ci, gx, gy, 80, 34, GameData.RARITY_HEX[g["rarity"]] if g != null else "#2a2838", "#0f0d16")
+		Gfx.text(ci, Gear.SLOT_NAME[gs[i]], gx + 4, gy + 3, "dim")
+		if g != null:
+			ci.draw_texture_rect(Img.t(g["sprite"]), Rect2(gx + 4, gy + 12, 16, 16), false)
+			var nl := Gfx.wrap_text(g["name"], 54)
+			for j in mini(2, nl.size()):
+				Gfx.text(ci, nl[j], gx + 23, gy + 13 + j * 8, GameData.RARITY_COL[g["rarity"]])
+	# Backpack and belt.
+	Gfx.text(ci, "BACKPACK", INV_X - 4, INV_BP_Y - 9, "tan")
+	Gfx.text(ci, "QUICK BELT  (KEYS 1-4)", INV_X - 4, INV_BELT_Y - 9, "tan")
+	for i in 10:
+		var r := inv_slot_rect(i)
+		var sel := G.inv_i == i
+		var it = null
+		if i < 6 and i < p.backpack.size():
+			it = p.backpack[i]
+		var ck := ""
+		if i >= 6 and i - 6 < p.belt.size():
+			ck = p.belt[i - 6]
+		var border: String = "#f2c94c" if sel else ("#5a5770" if it == null and ck == "" else (GameData.RARITY_HEX[it["rarity"]] if it != null else "#8b8f9c"))
+		Gfx.panel(ci, r.position.x, r.position.y, r.size.x, r.size.y, border, "#1d1a28" if sel else "#0f0d16")
+		if it != null:
+			ci.draw_texture_rect(Img.t(it["sprite"]), Rect2(r.position + Vector2(3, 3), Vector2(16, 16)), false)
+		elif ck != "":
+			Gfx.sp(ci, ck, r.position.x + 11, r.position.y + 17, 1.5, 1.5)
+		if i >= 6:
+			Gfx.text(ci, str(i - 5), r.position.x + 2, r.position.y + 2, "dim")
+	# Details of the selected slot.
+	var dy := 234
+	var sel_it = p.backpack[G.inv_i] if G.inv_i < 6 and G.inv_i < p.backpack.size() else null
+	var sel_c: String = p.belt[G.inv_i - 6] if G.inv_i >= 6 and G.inv_i - 6 < p.belt.size() else ""
+	if sel_it != null:
+		Gfx.text(ci, (WeaponInfo.display_name(sel_it) if sel_it["item"] == "weapon" else sel_it["name"]), INV_X - 4, dy, GameData.RARITY_COL[sel_it["rarity"]])
+		var dl := Gfx.wrap_text(sel_it["desc"], TB.SW - INV_X - 4)
+		for j in mini(2, dl.size()):
+			Gfx.text(ci, dl[j], INV_X - 4, dy + 9 + j * 8, "white")
+	elif sel_c != "":
+		Gfx.text(ci, Consumables.KINDS[sel_c]["name"], INV_X - 4, dy, "gold")
+		Gfx.text(ci, Consumables.KINDS[sel_c]["desc"], INV_X - 4, dy + 9, "white")
+	else:
+		Gfx.text(ci, "EMPTY", INV_X - 4, dy, "dim")
+	Gfx.text(ci, "< > PICK   USE EQUIP / DRINK   ROLL DROP   MENU BACK", TB.SW / 2, 268, "grey", 1, 0.5)

@@ -54,6 +54,7 @@ func _ready() -> void:
 	loops()
 	attributes()
 	upgrades()
+	inventory()
 	stress()
 	print("[content] Effects.stats: ", Effects.stats)
 	for n in notes:
@@ -981,6 +982,52 @@ func upgrades() -> void:
 	if not lines.any(func(l): return l[0].begins_with("- ATTACK DAMAGE:")):
 		fail("weapon card has no damage line")
 	notes.append("upgrades: anvil +1 = +8%% damage up to +%d on its own copy; levels stay with dropped weapons; hammer +2; hits roll %.0f..%.0f of 100; cards list damage" % [WeaponInfo.MAX_PLUS, lo, hi])
+
+## Rogues layer: backpack swaps, equipping from the backpack, the quick belt.
+func inventory() -> void:
+	var p := arena(0)
+	var first: Dictionary = p.weapon
+	var floor_item := { "kind": "item", "item": Weapons.by_id("warbow"), "x": p.x, "y": p.y }
+	G.room.objects.append(floor_item)
+	G.interact(floor_item)
+	if p.weapon["id"] != "warbow" or p.backpack.size() != 1 or p.backpack[0]["id"] != first["id"] or not floor_item.get("gone", false):
+		fail("swapping did not put the old weapon in the backpack")
+	G.equip_from_backpack(0)
+	if p.weapon["id"] != first["id"] or p.backpack[0]["id"] != "warbow":
+		fail("equipping from the backpack did not swap")
+	for k in Player.BACKPACK_SIZE + 2:
+		G.to_backpack(Weapons.by_id("ironpike"))
+	if p.backpack.size() != Player.BACKPACK_SIZE:
+		fail("backpack holds %d (max %d)" % [p.backpack.size(), Player.BACKPACK_SIZE])
+	# Belt: pickups fill four slots; each consumable works.
+	for kind in Consumables.KINDS:
+		Consumables.take(p, kind)
+	if Consumables.take(p, "c_fury") or p.belt.size() != Consumables.BELT_SIZE:
+		fail("belt took more than %d" % Consumables.BELT_SIZE)
+	var lv := WeaponInfo.plus(p.weapon)
+	var attrs := p.a_str + p.a_dex + p.a_int
+	EBullets.add(p.x + 20, p.y, 0, 0, "red", 3.0)
+	while not p.belt.is_empty():
+		Consumables.use(p, 0)
+	if not p.buffs.any(func(b): return b["stat"] == "dmg" and absf(b["v"] - 0.4) < 1e-6):
+		fail("fury draught: no damage buff")
+	if p.invuln < 1.0 or EBullets.any_near(p.x, p.y, 40):
+		fail("smoke vial: shots not cleared or not untouchable")
+	if WeaponInfo.plus(p.weapon) != lv + 1:
+		fail("whetstone did not upgrade the weapon")
+	if p.a_str + p.a_dex + p.a_int != attrs + 1:
+		fail("elixir of insight did not add an attribute")
+	# A consumable pickup lands in the belt.
+	var k := Combat.drop_pickup("c_whet", p.x, p.y)
+	k.t = 1.0
+	k.vx = 0
+	k.vy = 0
+	play(30)
+	if p.belt.size() != 1:
+		fail("walking over a consumable did not put it in the belt")
+	EBullets.clear_all()
+	notes.append("inventory: replaced items go to the %d-slot backpack, equip back from it; %d-slot belt; all %d consumables work; pickups fill the belt" % [
+		Player.BACKPACK_SIZE, Consumables.BELT_SIZE, Consumables.KINDS.size()])
 
 func _hero_index(id: String) -> int:
 	var all := GameData.heroes()
