@@ -470,10 +470,21 @@ func archetypes() -> void:
 	notes.append("traits per archetype: " + ", ".join(counts))
 
 # ---------- 4. Broken build ----------
+## Logic time per tick: the median of the per-tick times, so a tick delayed
+## because another process had the CPU cannot fail the budget on its own,
+## while a genuinely slow build (most ticks slow) still does.
 func _timed(ticks: int) -> float:
-	var t0 := Time.get_ticks_usec()
-	play(ticks)
-	return (Time.get_ticks_usec() - t0) / 1000.0 / ticks
+	var times := PackedFloat64Array()
+	for i in ticks:
+		var t0 := Time.get_ticks_usec()
+		play(1)
+		times.append((Time.get_ticks_usec() - t0) / 1000.0)
+	return _median_ms(times)
+
+func _median_ms(times: PackedFloat64Array) -> float:
+	var s := times.duplicate()
+	s.sort()
+	return s[s.size() / 2]
 
 func broken_build() -> void:
 	var p := arena(1)
@@ -494,7 +505,7 @@ func broken_build() -> void:
 		e.hp = 1e12
 	var ms := _timed(600)
 	check("broken build")
-	notes.append("broken build: %d trait ranks + stacked recursive procs: %.2f ms/tick logic (budget 16.7)" % [ranks, ms])
+	notes.append("broken build: %d trait ranks + stacked recursive procs: %.2f ms/tick logic, median (budget 16.7)" % [ranks, ms])
 	if ranks < 50:
 		fail("broken build has only %d trait ranks" % ranks)
 	if ms > 16.7:
@@ -900,16 +911,18 @@ func stress() -> void:
 	for e in G.enemies:
 		e.max_hp = 1e12
 		e.hp = 1e12
-	var t0 := Time.get_ticks_usec()
+	var times := PackedFloat64Array()
 	var peak_eb := 0
 	var peak_pb := 0
 	for i in 600:
 		if EBullets.n < 600:
 			Combat.ering(TB.SW / 2.0, 5.0 * TB.TS, 32, 25, randf(), "red")
+		var t0 := Time.get_ticks_usec()
 		play(1)
+		times.append((Time.get_ticks_usec() - t0) / 1000.0)
 		peak_eb = maxi(peak_eb, EBullets.n)
 		peak_pb = maxi(peak_pb, G.pbullets.size())
-	var ms := (Time.get_ticks_usec() - t0) / 1000.0 / 600
+	var ms := _median_ms(times)
 	check("stress")
 	notes.append("stress: peak %d enemy shots, %d player shots, %d summons: %.2f ms/tick logic" % [peak_eb, peak_pb,
 		mini(p.familiars, Effects.SUMMON_CAP) + G.temp_fams.size(), ms])

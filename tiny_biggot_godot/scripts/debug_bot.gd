@@ -13,6 +13,14 @@ var _held := {}
 var rooms := 0
 var deaths := 0
 var ticks := 0
+# --smart-bot (soaks only; the recorded replays keep the plain bot): detours
+# when pinned, hunts foes it cannot reach, and sometimes rings challenge bells.
+var _smart := DebugArgs.has("smart-bot")
+var _last_pos := Vector2.ZERO
+var _still_t := 0.0
+var _detour_t := 0.0
+var _detour := Vector2.ZERO
+var _room_t := 0.0
 
 func _hold(action: StringName, on: bool) -> void:
 	if on and not _held.get(action, false):
@@ -60,6 +68,8 @@ func tick() -> void:
 	elif _retarget <= 0:
 		_retarget = 1.0 + randf()
 		_target = World.free_spot(G.room, null, 0)
+	if _smart:
+		_smart_target(p)
 	var v := _target - Vector2(p.x, p.y)
 	_hold(&"move_left", v.x < -4)
 	_hold(&"move_right", v.x > 4)
@@ -88,6 +98,40 @@ func tick() -> void:
 				es.append("%s(%d,%d hp=%.0f sp=%.1f hid=%s st=%s)" % [e.type, e.x, e.y, e.hp, e.spawn_t, e.hidden, e.state])
 			print("      locked=%s waves=%d pb=%d eb=%d player=(%d,%d) inv=%.1f enemies=%s" % [G.locked, G.room.waves_left,
 				G.pbullets.size(), EBullets.n, p.x, p.y, p.invuln, ", ".join(es)])
+
+## Smart soak bot: overrides the target when stuck or when a fight drags on.
+func _smart_target(p: Player) -> void:
+	var pos := Vector2(p.x, p.y)
+	_room_t += TB.DT
+	if G.room != _room:
+		_room_t = 0.0
+	# Pinned against a pillar or crate: walk to a random free spot for a moment.
+	if pos.distance_to(_last_pos) < 0.5:
+		_still_t += TB.DT
+	else:
+		_still_t = 0.0
+	_last_pos = pos
+	if _still_t > 1.0 and _detour_t <= 0:
+		_detour = World.free_spot(G.room, null, 0)
+		_detour_t = 1.2
+		_still_t = 0.0
+	if _detour_t > 0:
+		_detour_t -= TB.DT
+		_target = _detour
+		return
+	# A long fight: go after the nearest foe that can be hit.
+	if G.locked and _room_t > 15.0:
+		var e := Combat.nearest_enemy(p.x, p.y, 999)
+		if e != null:
+			_target = Vector2(e.x, e.y)
+		return
+	# Challenge rooms: ring the bell now and then, so their waves get soaked too.
+	if G.room.type == "challenge" and not G.locked:
+		for o in G.room.objects:
+			if o["kind"] == "bell" and not o.get("used", false) and (G.room.seed_value % 2 == 0):
+				_target = Vector2(o["x"], o["y"])
+				if pos.distance_to(_target) < 20:
+					_hold(&"use", true)
 
 var _dead_counted := false
 var _won := false
