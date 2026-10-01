@@ -177,6 +177,7 @@ const ENTRY_SPOTS := { "s": Vector2(14.0 * 16, 16.0 * 16), "n": Vector2(14.0 * 1
 func enter_room(r: Room) -> void:
 	room = r
 	Fx.clear()
+	Juice.reset()
 	EBullets.clear()
 	pickups = room.pickups
 	enemies = []
@@ -380,6 +381,7 @@ func room_cleared() -> void:
 	dyn_dirty = true
 	Snd.play("door")
 	var p := player
+	Juice.room_clear(p.x, p.y)
 	if p.interest > 0 and p.gold > 0:
 		var g := floori(p.gold * p.interest)
 		if g > 0:
@@ -1178,6 +1180,7 @@ func update_play(dt: float) -> void:
 	Combat.update_bombs(dt)
 	Combat.update_zones(dt)
 	Fx.update(dt)
+	Juice.update(dt, p)
 	var keep := []
 	for w in swings:
 		w["t"] -= dt

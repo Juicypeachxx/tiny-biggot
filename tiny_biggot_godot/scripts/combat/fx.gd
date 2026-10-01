@@ -58,8 +58,9 @@ static func burst(x: float, y: float, cols: Array, count: int = 8, speed: float 
 		pcol[n] = TB.c(cols[randi() % cols.size()])
 		n += 1
 
-static func float_text(x: float, y: float, text: Variant, col: String = "white") -> void:
-	texts.append({ "x": x + TB.rint(-3, 3), "y": y, "text": str(text), "col": col, "life": 0.7 })
+## big: crits are drawn at double size with a small pop (drawing only).
+static func float_text(x: float, y: float, text: Variant, col: String = "white", big: bool = false) -> void:
+	texts.append({ "x": x + TB.rint(-3, 3), "y": y, "text": str(text), "col": col, "life": 0.7, "big": big })
 
 static func update(dt: float) -> void:
 	var w := 0
@@ -107,6 +108,10 @@ static func draw_particles(ci: CanvasItem) -> void:
 
 static func draw_texts(ci: CanvasItem) -> void:
 	for t in texts:
-		var w := TB.text_w(t["text"]) + 1
-		Gfx.text(ci, t["text"], roundf(t["x"] - w / 2), roundf(t["y"]), t["col"], 1, 0.0, true,
+		var sc := 2 if t.get("big", false) else 1
+		var w := TB.text_w(t["text"], sc) + 1
+		# Pop: numbers jump up a few pixels in their first 0.12 s, then drift.
+		var age: float = 0.7 - t["life"]
+		var jump := -sin(minf(age / 0.12, 1.0) * PI * 0.5) * (5.0 if sc == 2 else 3.0)
+		Gfx.text(ci, t["text"], roundf(t["x"] - w / 2), roundf(t["y"] + jump - (4 if sc == 2 else 0)), t["col"], sc, 0.0, true,
 			clampf(t["life"] * 3, 0.0, 1.0))

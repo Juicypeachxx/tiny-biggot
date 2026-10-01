@@ -204,7 +204,7 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	if o.has("kx") and not e.is_boss():
 		e.kx += o["kx"]
 		e.ky += o["ky"]
-	Fx.float_text(e.x, e.y - e.r - 6, TB.fmt_dmg(dmg), "gold" if crit else o.get("col", "white"))
+	Fx.float_text(e.x, e.y - e.r - 6, TB.fmt_dmg(dmg), "gold" if crit else o.get("col", "white"), crit)
 	if not o.get("silent", false):
 		Snd.play("hit")
 	if crit:
@@ -231,6 +231,7 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 	Fx.burst(e.x, e.y, cols, 60 if boss else 14, 140 if boss else 70, 1.0 if boss else 0.45)
 	Snd.play("boom" if boss else "kill")
 	G.add_shake(10 if boss else 2)
+	Juice.kill(e, e.d["sprite"] + ("_elite" if e.elite and not boss else ""))
 	# Experience.
 	var xp: int = 40 + 10 * G.floor_index if boss else GameData.ENEMY_XP.get(e.type, 3) * (3 if e.elite else 1)
 	gain_xp(p, xp)
@@ -330,6 +331,7 @@ static func gain_xp(p: Player, n: int) -> void:
 		p.level += 1
 		p.pending += 1
 		Fx.float_text(p.x, p.y - 18, "LEVEL UP!", "lime")
+		Juice.level_up(p.x, p.y)
 		Fx.burst(p.x, p.y, ["#b8e05a", "#f2c94c", "#ffffff"], 18, 80)
 		Snd.play("unlock")
 		if not p.procs.is_empty():
@@ -395,6 +397,7 @@ static func _hurt_player_base(p: Player, amount: int, source: String) -> void:
 	G.hitstop = 0.06
 	G.add_shake(5)
 	Snd.play("hurt")
+	Juice.hurt()
 	Fx.burst(p.x, p.y, ["#d8443c", "#8a2a33", "#f4ecd8"], 14, 80)
 	EBullets.kill_radius(p.x, p.y, 34)
 	if p.ward > 0:

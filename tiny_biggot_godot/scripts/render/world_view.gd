@@ -22,6 +22,7 @@ var parts: DrawLayer     # z 2200  particles
 var swing: DrawLayer     # z 2250  melee arcs, thrusts, rays
 var top: DrawLayer       # z 2300  aim reticle
 var vignette: Sprite2D   # z 2500
+var screen: DrawLayer    # z 2600  hurt / low-health edges, flashes (Juice)
 var texts: DrawLayer     # z 3000  floating numbers
 
 ## Rendering has its own random stream so drawing never shifts the game's
@@ -48,6 +49,7 @@ func _ready() -> void:
 	vignette.texture = Img.t("vignette")
 	vignette.centered = false
 	add_child(vignette)
+	screen = _layer(func(ci): Juice.draw_screen(ci, G.player, G.time))
 	texts = _layer(Fx.draw_texts)
 	G.room_changed.connect(_on_room_changed)
 
@@ -73,7 +75,7 @@ func refresh() -> void:
 	if G.dyn_dirty:
 		G.dyn_dirty = false
 		dyn.queue_redraw()
-	for l in [lower, ents, fx, glow, pbul, bars, ebul, parts, swing, top, texts]:
+	for l in [lower, ents, fx, glow, pbul, bars, ebul, parts, swing, top, screen, texts]:
 		l.queue_redraw()
 
 static func deg(rgss_deg: float) -> float:
@@ -286,6 +288,8 @@ func _paint_lower(ci: CanvasItem) -> void:
 	for k: Pickup in G.pickups:
 		var wob := 0.0 if k.kind == "coin" else roundf(sin(t * 4))
 		Gfx.sp(ci, PICKUP_SPRITE[k.kind], k.x, k.y + 3 - k.z - wob)
+		if k.kind in ["coin", "gem"]:
+			Juice.glint(ci, k.x + _vr.randi_range(-2, 2), k.y - k.z - wob)
 	for b in G.bombs:
 		var big: bool = b["t"] < 0.35
 		var blink := floori(b["t"] * (20 if b["t"] < 0.4 else 8)) % 2 == 1
@@ -346,6 +350,7 @@ func _paint_ents(ci: CanvasItem) -> void:
 			_draw_player(ci, p, t)
 		else:
 			_draw_enemy(ci, e, t)
+	Juice.draw_pops(ci)
 
 func _draw_player(ci: CanvasItem, p: Player, t: float) -> void:
 	var name: String = p.hero["sprite"]
@@ -366,12 +371,18 @@ func _draw_weapon(ci: CanvasItem, p: Player) -> void:
 		return
 	var wn: String = p.weapon["sprite"]
 	var wb := Img.t(wn)
-	var hx := p.x + cos(p.aim_a) * 6
-	var hy := p.y - 1 + sin(p.aim_a) * 4
+	# Polish: the weapon kicks back a little when it fires.
+	var kick := Juice.recoil * 2.0
+	var hx := p.x + cos(p.aim_a) * (6 - kick)
+	var hy := p.y - 1 + sin(p.aim_a) * (4 - kick * 0.6)
 	var left := cos(p.aim_a) < 0
 	# RGSS: angle = -(aim - PI) deg + 45, negated when mirrored; converted to Godot radians.
 	var rot := -(p.aim_a - PI) + PI / 4 if left else p.aim_a - PI / 4
 	Gfx.sprite(ci, wn, hx, hy, wb.get_width() / 2, wb.get_height() / 2, 1, 1, rot, left)
+	if Juice.recoil > 0.6:
+		var mx := roundf(hx + cos(p.aim_a) * 8)
+		var my := roundf(hy + sin(p.aim_a) * 6)
+		ci.draw_rect(Rect2(mx - 1, my - 1, 3, 3), Color(1, 0.95, 0.75, 0.9))
 
 func _draw_enemy(ci: CanvasItem, e: Enemy, t: float) -> void:
 	if e.spawn_t > 0:
@@ -397,6 +408,10 @@ func _draw_enemy(ci: CanvasItem, e: Enemy, t: float) -> void:
 	var tint := Color(0, 0, 0, 0)
 	if flashing:
 		tint = Color(1, 1, 1, 1)
+	if e.flash > 0 and not boss:
+		# Polish: a short squash when hit.
+		sx *= 1.18
+		sy *= 0.84
 	elif e.chill_t > 0:
 		tint = TB.rgba(111, 211, 224, 130)
 	Gfx.sp(ci, name, e.x, foot + bob - e.z, sc * sx, sc * sy, 0.0, e.face < 0, 46 / 255.0 if e.hidden else 1.0, tint)
@@ -432,10 +447,19 @@ func _paint_fx(ci: CanvasItem) -> void:
 					Gfx.bar(ci, TB.c("#ffffff"), e.x + 2 * sin(ba), e.y - 4 - 2 * cos(ba), 520, 4, ba)
 				else:
 					Gfx.bar(ci, TB.ca("#a35bd6", 180 if floori(t * 16) % 2 == 1 else 80), e.x, e.y - 4, 520, 2, ba)
+	Juice.draw_rings(ci)
 
 # ---------- z 1900: additive glows ----------
 func _paint_glow(ci: CanvasItem) -> void:
 	var t := G.time
+	# Polish: light beams over rare, epic and legendary loot.
+	for o in G.room.objects:
+		if o.get("gone", false) or o.get("opened", false):
+			continue
+		if o["kind"] == "item":
+			Juice.beam(ci, o["x"], o["y"], o["item"].get("rarity", "common"), t)
+		elif o["kind"] == "pedestal" and o["relic"] != null:
+			Juice.beam(ci, o["x"], o["y"], o["relic"].get("rarity", "common"), t)
 	for i in 2:
 		var op := roundf(200 + sin(t * 9 + i * 7) * 25 + sin(t * 23 + i) * 15) / 255.0
 		Gfx.at(ci, "glow_torch", [6, 21][i] * TB.TS + 8 - 36, TB.TS + 4 - 36, op)

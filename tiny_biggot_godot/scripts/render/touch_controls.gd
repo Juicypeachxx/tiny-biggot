@@ -110,7 +110,7 @@ func _input(event: InputEvent) -> void:
 			if event.pressed:
 				_begin(0, event.position)
 			else:
-				_touches.erase(0)
+				_end(0, event.position)
 			_sync()
 			return
 		if event is InputEventMouseMotion and _touches.has(0):
@@ -121,7 +121,7 @@ func _input(event: InputEvent) -> void:
 		if event.pressed:
 			_begin(event.index, event.position)
 		else:
-			_touches.erase(event.index)
+			_end(event.index, event.position)
 		_sync()
 		get_viewport().set_input_as_handled()
 	elif event is InputEventScreenDrag:
@@ -147,17 +147,36 @@ func _hide() -> void:
 	_touches.clear()
 	_sync()
 
+var _last_state: StringName = &""
+
+func _process(_delta: float) -> void:
+	if visible and G.state != _last_state:
+		_last_state = G.state
+		queue_redraw()
+
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT or what == NOTIFICATION_APPLICATION_PAUSED:
 		_touches.clear()
 		_sync()
 
+const MENU_BUTTONS := [&"use", &"pause", &"roll"]   # buttons that still matter on menu screens
+
 func _begin(index: int, pos: Vector2) -> void:
+	var menu_screen := G.state != &"play"
 	for b in buttons:
-		if b["action"] in AIM_ACTIONS:
+		if b["action"] in AIM_ACTIONS or (menu_screen and not b["action"] in MENU_BUTTONS):
 			continue
 		if pos.distance_to(b["pos"]) <= b["r"] * 1.3:
 			_touches[index] = { "kind": "button", "action": b["action"], "pos": pos }
+			return
+	# Menus: tap an item or card directly (scripts/render/taps.gd).
+	if menu_screen:
+		var z := Taps.hit(pos)
+		if not z.is_empty():
+			_touches[index] = { "kind": "tap", "zone": z, "pos": pos }
+			return
+		if Taps.any_tap():
+			_touches[index] = { "kind": "tapany", "pos": pos }
 			return
 	if aim_r > 0 and pos.distance_to(aim_center) <= aim_r:
 		_touches[index] = { "kind": "aim", "pos": pos }
@@ -166,6 +185,18 @@ func _begin(index: int, pos: Vector2) -> void:
 		# Floating stick: centre on the finger unless it landed on the drawn base.
 		stick_center = stick_home if pos.distance_to(stick_home) <= stick_r * 1.5 else pos
 		_touches[index] = { "kind": "stick", "pos": pos }
+
+## A finger lifted: menu taps fire on release, if it is still on the same zone.
+func _end(index: int, pos: Vector2) -> void:
+	var t: Dictionary = _touches.get(index, {})
+	_touches.erase(index)
+	match t.get("kind", ""):
+		"tap":
+			var z := Taps.hit(pos)
+			if not z.is_empty() and z["rect"] == t["zone"]["rect"]:
+				Taps.activate(z)
+		"tapany":
+			Taps.send(&"use")
 
 static func _dirs(v: Vector2, dead: float) -> Array:
 	var out := []
@@ -220,8 +251,10 @@ func _draw() -> void:
 	var ring := TB.c("#f4ecd8")
 	var fill := TB.c("#1a1423")
 	var hot := TB.c("#f2c94c")
+	# Menus are tapped directly, so the controls fade back there.
+	var dim := 1.0 if G.state == &"play" else 0.35
 	# Stick
-	var a := stick_opacity
+	var a := stick_opacity * dim
 	draw_circle(stick_center, stick_r, Color(fill.r, fill.g, fill.b, 0.45 * a), true, -1.0, false)
 	draw_arc(stick_center, stick_r, 0, TAU, 32, Color(ring.r, ring.g, ring.b, 0.6 * a), 1.0, false)
 	var kc := hot if knob != Vector2.ZERO else ring
@@ -229,7 +262,7 @@ func _draw() -> void:
 	# Buttons
 	for b in buttons:
 		var held: bool = _held.has(b["action"])
-		var op: float = b["opacity"]
+		var op: float = b["opacity"] * dim
 		var c: Color = hot if held else ring
 		var pos: Vector2 = b["pos"].round()
 		var r: float = b["r"]

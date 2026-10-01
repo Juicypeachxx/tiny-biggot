@@ -8,6 +8,7 @@ func _ready() -> void:
 	_test_seed_rng()
 	_test_ruby_math()
 	_test_keyboard()
+	_test_menu_taps()
 	print("unit tests: %s" % ("PASSED" if _fails == 0 else "%d FAILED" % _fails))
 	get_tree().quit(1 if _fails > 0 else 0)
 
@@ -85,4 +86,57 @@ func _test_keyboard() -> void:
 	pad.button_index = JOY_BUTTON_A
 	tc._input(pad)
 	_eq("gamepad press hides touch controls", tc.visible, false)
+	tc.queue_free()
+
+func _tap(tc: TouchControls, pos: Vector2) -> void:
+	for pressed in [true, false]:
+		var e := InputEventScreenTouch.new()
+		e.pressed = pressed
+		e.position = pos
+		tc._input(e)
+	# Injected actions are buffered until the next frame; deliver them now.
+	Input.flush_buffered_events()
+
+## iPad menus: list items act on one tap; cards take two (select, confirm).
+func _test_menu_taps() -> void:
+	var tc := TouchControls.new()
+	add_child(tc)
+	tc.visible = true
+	var old: StringName = G.state
+	Keys.tick()
+	G.state = &"title"
+	G.menu = 0
+	var z: Dictionary = Taps.zones()[1]
+	_tap(tc, z["rect"].get_center())
+	_eq("title tap selects item 1", G.menu, 1)
+	_eq("title tap confirms at once", Keys._latched[&"use"], true)
+	Keys.tick()
+	Keys.tick()
+	var opts := Traits.all().slice(0, 3)
+	G.tchoice = { "opts": opts, "idx": 0 }
+	G.state = &"traits"
+	var card: Rect2 = Taps.zones()[2]["rect"]
+	_tap(tc, card.get_center())
+	_eq("trait card tap selects", G.tchoice["idx"], 2)
+	_eq("first card tap does not take it", Keys._latched[&"use"], false)
+	_tap(tc, card.get_center())
+	_eq("second card tap takes it", Keys._latched[&"use"], true)
+	Keys.tick()
+	Keys.tick()
+	# A drag that ends off the card does nothing.
+	var e := InputEventScreenTouch.new()
+	e.pressed = true
+	e.position = Taps.zones()[0]["rect"].get_center()
+	tc._input(e)
+	e = InputEventScreenTouch.new()
+	e.pressed = false
+	e.position = Vector2(2, 2)
+	tc._input(e)
+	_eq("tap released elsewhere is ignored", G.tchoice["idx"], 2)
+	G.state = &"dead"
+	_tap(tc, Vector2(200, 150))
+	_eq("tap anywhere on the end screen presses USE", Keys._latched[&"use"], true)
+	Keys.tick()
+	G.tchoice = {}
+	G.state = old
 	tc.queue_free()
