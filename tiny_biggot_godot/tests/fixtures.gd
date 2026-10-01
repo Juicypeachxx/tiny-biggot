@@ -18,7 +18,8 @@ static func items() -> Array:
 	# One per action (on hit).
 	var acts := [["nova", 6, 0.3, "spark"], ["shoot", 3, 0.4, "", 0.2], ["explode", 24, 0.5], ["status", "burn", 1],
 		["heal", 1], ["buff", "rate", 0.2, 2.0], ["chain", 0.4], ["lightning", 0.5], ["summon", 3.0], ["gold", 1],
-		["refund_roll"], ["armor", 1], ["drop", "coin"], ["damage", 0.3], ["hurt_self", 1], ["xp", 1], ["clear_shots", 40]]
+		["refund_roll"], ["armor", 1], ["drop", "coin"], ["damage", 0.3], ["hurt_self", 1], ["xp", 1], ["clear_shots", 40],
+		["card"], ["heat", 1], ["scroll"]]
 	for a in acts:
 		out.append({ "id": "fx_act_" + a[0], "effects": [{ "on": "on_hit", "chance": 0.3, "do": [a] }], "tags": ["storm"] })
 	# One per status and per condition.

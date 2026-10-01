@@ -19,6 +19,30 @@ extends RefCounted
 ##   ["damage", dmg_mult]                 direct hit on the target
 ##   ["hurt_self", n]                     lose n half-hearts (never lethal; curse drawbacks)
 ##   ["clear_shots", radius]              erase enemy shots around the player
+##   ["card"]                             draw a random card from CARDS and play it (Cartomancer)
+##   ["heat", delta]                      raise or lower heat, 0..heat_max (Racketeer)
+##   ["scroll"]                           read a random scroll: a small permanent boost (Condemned)
+
+## Cartomancer deck: [name, actions]. The hook "card_double" plays each card twice.
+const CARDS := [
+	["BLADES", [["shoot", 5, 0.7, "", 0.18]]],
+	["STORM", [["lightning", 1.5]]],
+	["SHIELD", [["clear_shots", 70]]],
+	["MEND", [["heal", 1]]],
+	["STAR", [["buff", "crit", 1.0, 3.0]]],
+	["WHEEL", [["nova", 10, 0.6, "spark"]]],
+	["COIN", [["gold", 3]]],
+]
+## Condemned scrolls: [text, permanent effect].
+const SCROLLS := [
+	["+6% DAMAGE", ["mul", "dmg", 1.06]],
+	["+6% FIRE RATE", ["mul", "rate", 1.06]],
+	["+1 MAX HEART", ["add", "max_hp", 2]],
+	["+4% CRIT", ["add", "crit", 0.04]],
+]
+## Heat per level: +8% damage and +10% gold.
+static func heat_effects(h: int) -> Array:
+	return [["pct", "dmg", 0.08 * h], ["mul", "gold_mult", 1.0 + 0.1 * h]]
 
 static func _target(ctx: Dictionary) -> Enemy:
 	var e: Enemy = ctx.get("enemy")
@@ -91,5 +115,24 @@ static func run(a: Array, stacks: int, ctx: Dictionary) -> void:
 			Fx.burst(p.x, p.y, ["#a35bd6", "#5c3483"], 6, 40)
 		"clear_shots":
 			EBullets.kill_radius(p.x, p.y, a[1])
+		"card":
+			var c: Array = TB.pick(CARDS)
+			Fx.float_text(p.x, p.y - 20, c[0], "cyan")
+			for k in (2 if p.g("card_double") > 0 else 1):
+				for b in c[1]:
+					run(b, stacks, ctx)
+		"heat":
+			var h := clampi(p.heat + int(a[1]) * stacks, 0, p.heat_max)
+			if h != p.heat:
+				Effects.apply(p, heat_effects(p.heat), -1)
+				p.heat = h
+				Effects.apply(p, heat_effects(h), 1)
+				Fx.float_text(p.x, p.y - 20, "HEAT %d" % h, "orange" if int(a[1]) > 0 else "grey")
+		"scroll":
+			var sc: Array = TB.pick(SCROLLS)
+			Effects.apply(p, [sc[1]], 1)
+			if sc[1][1] == "max_hp":
+				p.heal(2)
+			Fx.float_text(p.x, p.y - 20, "SCROLL: " + sc[0], "gold")
 		_:
 			push_error("Actions: unknown action " + str(a[0]))

@@ -114,7 +114,7 @@ func draw_title(ci: CanvasItem) -> void:
 	# Design spec section 1: the game is now "Tiny Biggot Rogues".
 	Gfx.text(ci, "ROGUES", (TB.SW + l2.get_width()) / 2 + 6, 58 + l2.get_height() - 12 + wob, "red", 2)
 	var shown := []
-	for h in GameData.HEROES:
+	for h in GameData.heroes():
 		if G.hero_unlocked(h):
 			shown.append(h)
 	for i in shown.size():
@@ -129,16 +129,29 @@ func draw_title(ci: CanvasItem) -> void:
 	Gfx.text(ci, "PRESS USE TO SELECT", TB.SW / 2, 268, "dim", 1, 0.5)
 
 # ---------- Hero select ----------
+## Hero strip geometry, shared with the tap zones (taps.gd): up to six panels
+## are shown and the strip scrolls to keep the selected hero in view.
+## Returns [first index, shown count, x of the first panel].
+const HERO_W := 68
+const HERO_GAP := 4
+const HERO_VIS := 6
+static func hero_window() -> Array:
+	var n := GameData.heroes().size()
+	var vis := mini(n, HERO_VIS)
+	var first := clampi(G.hero_index - 2, 0, n - vis)
+	return [first, vis, (TB.SW - (vis * HERO_W + (vis - 1) * HERO_GAP)) / 2]
+
 func draw_hero(ci: CanvasItem) -> void:
 	var t := G.time
 	Gfx.text(ci, "CHOOSE YOUR DELVER", TB.SW / 2, 10, "gold", 2, 0.5)
-	var n := GameData.HEROES.size()
-	var w := 68
-	var gap := 4
-	var x0 := (TB.SW - (n * w + (n - 1) * gap)) / 2
-	for i in n:
-		var h: Dictionary = GameData.HEROES[i]
-		var x := x0 + i * (w + gap)
+	var n := GameData.heroes().size()
+	var w := HERO_W
+	var win := hero_window()
+	var x0: int = win[2]
+	for j in win[1]:
+		var i: int = win[0] + j
+		var h: Dictionary = GameData.heroes()[i]
+		var x: int = x0 + j * (w + HERO_GAP)
 		var y := 30
 		var sel := G.hero_index == i
 		var open := G.hero_unlocked(h)
@@ -148,7 +161,15 @@ func draw_hero(ci: CanvasItem) -> void:
 		_sprite(h["sprite"], x + w / 2, y + 48 + (-2 if sel and floori(t * 4) % 2 == 1 else 0), 3, false, 1.0,
 			Color(0, 0, 0, 0) if open else TB.rgba(20, 15, 28, 255))
 		Gfx.text(ci, h["name"].replace("THE ", "") if open else "LOCKED", x + w / 2, y + 54, "gold" if sel else ("tan" if open else "dim"), 1, 0.5)
-	var h: Dictionary = GameData.HEROES[G.hero_index]
+		if h.get("new", false):
+			Gfx.text(ci, "NEW", x + w - 4, y + 4, "lime", 1, 1)
+	# Scroll arrows when there are more heroes than fit.
+	if win[0] > 0:
+		Gfx.text(ci, "<", 6, 58, "orange", 2)
+	if win[0] + win[1] < n:
+		Gfx.text(ci, ">", TB.SW - 12, 58, "orange", 2)
+	Gfx.text(ci, "%d / %d" % [G.hero_index + 1, n], TB.SW / 2, 98, "dim", 1, 0.5)
+	var h: Dictionary = GameData.heroes()[G.hero_index]
 	var open := G.hero_unlocked(h)
 	Gfx.panel(ci, 40, 104, TB.SW - 80, 118, "#4e4a5e", "#17121e")
 	Gfx.text(ci, h["name"], TB.SW / 2, 112, "gold" if open else "dim", 2, 0.5)
@@ -159,10 +180,19 @@ func draw_hero(ci: CanvasItem) -> void:
 	for j in bl.size():
 		Gfx.text(ci, bl[j], TB.SW / 2, 152 + j * 9, "white", 1, 0.5)
 	var hw := Weapons.by_id(Weapons.HERO_WEAPON[h["id"]])
+	var sy := 176
+	if h.has("passive"):
+		# New heroes: their passive ability, then the starting trait.
+		var pl := Gfx.wrap_text(h["passive"], TB.SW - 100)
+		for j in pl.size():
+			Gfx.text(ci, pl[j], TB.SW / 2, 152 + bl.size() * 9 + 2 + j * 8, "cyan", 1, 0.5)
+		sy = 152 + bl.size() * 9 + 4 + pl.size() * 8
+		Gfx.text(ci, "STARTING TRAIT: " + Traits.by_id(h["trait"])["name"], TB.SW / 2, sy, "lime", 1, 0.5)
+		sy += 10
 	Gfx.text(ci, "STARTS WITH %s   DAMAGE %s   RATE %.1f/S   SPEED %d" % [hw["name"], _fmt_num(hw["dmg"]), hw["rate"], h["speed"]],
-		TB.SW / 2, 176, "tan", 1, 0.5)
+		TB.SW / 2, sy, "tan", 1, 0.5)
 	if not open:
-		Gfx.text(ci, "UNLOCK AT THE EMBER SHRINE FOR %d EMBERS" % h["cost"], TB.SW / 2, 196, "orange", 1, 0.5)
+		Gfx.text(ci, "UNLOCK AT THE EMBER SHRINE FOR %d EMBERS" % h["cost"], TB.SW / 2, maxi(196, sy + 11), "orange", 1, 0.5)
 	var mx: int = Meta.meta.get("dread_max", 0)
 	if mx > 0:
 		var d := mini(Meta.meta.get("dread", 0), mx)
@@ -179,7 +209,7 @@ func draw_shrine(ci: CanvasItem) -> void:
 	Gfx.at(ci, "ember", TB.SW / 2 - TB.text_w(line) / 2 - 8, 28)
 	Gfx.text(ci, line, TB.SW / 2, 29, "gold", 1, 0.5)
 	var sel := G.shrine_i
-	var ul := GameData.UNLOCKS
+	var ul := GameData.unlocks()
 	var top := mini(maxi(0, sel - 6), maxi(0, ul.size() - 12))
 	for j in mini(12, ul.size() - top):
 		var i := top + j
@@ -323,7 +353,7 @@ func draw_traitlist(ci: CanvasItem) -> void:
 
 # ---------- Skill tree ----------
 func draw_tree(ci: CanvasItem) -> void:
-	var h: Dictionary = GameData.HEROES[G.tree_hero]
+	var h: Dictionary = GameData.heroes()[G.tree_hero]
 	var open := G.hero_unlocked(h)
 	var owned := G.tree_owned(h["id"])
 	Gfx.text(ci, "SKILL TREE", TB.SW / 2, 8, "gold", 2, 0.5)

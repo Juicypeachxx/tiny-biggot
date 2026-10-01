@@ -65,6 +65,11 @@ func _draw() -> void:
 	draw_rect(Rect2(5, 28, 82, 3), TB.c("#140f1c"))
 	draw_rect(Rect2(6, 29, roundf(80.0 * p.xp / need), 1), TB.c("#b8e05a"))
 	Gfx.text(self, "LV %d" % p.level, 90, 27, "lime")
+	# Racketeer heat meter (step 6): one pip per level.
+	if p.hero.get("hud", "") == "heat":
+		Gfx.text(self, "HEAT", 116, 27, "orange" if p.heat > 0 else "dim")
+		for k in p.heat_max:
+			draw_rect(Rect2(134 + k * 5, 28, 4, 4), TB.c("#e8873a" if k < p.heat else "#2a2838"))
 	# Floor name and minimap.
 	var fl: Dictionary = GameData.FLOORS[G.floor_index]
 	Gfx.text(self, fl["name"], TB.SW / 2, 4, fl["accent"], 1, 0.5)

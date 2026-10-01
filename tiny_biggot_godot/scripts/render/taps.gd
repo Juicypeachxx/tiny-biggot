@@ -34,13 +34,18 @@ static func zones() -> Array:
 			for i in n:
 				out.append(_z(Rect2(sw / 2 - 130, 86 + i * 22 - 5, 260, 21), func(): G.menu = i, G.menu == i, true))
 		&"hero":
-			var n := GameData.HEROES.size()
-			var x0 := (sw - (n * 68 + (n - 1) * 4)) / 2
-			for i in n:
-				out.append(_z(Rect2(x0 + i * 72, 30, 68, 66), func(): G.hero_index = i, G.hero_index == i))
+			var n := GameData.heroes().size()
+			var win := MenuView.hero_window()
+			for j in win[1]:
+				var i: int = win[0] + j
+				out.append(_z(Rect2(win[2] + j * (MenuView.HERO_W + MenuView.HERO_GAP), 30, MenuView.HERO_W, 66),
+					func(): G.hero_index = i, G.hero_index == i))
+			# Scroll arrows at the screen edges.
+			out.append(_act(Rect2(0, 30, win[2], 66), func(): G.hero_index = maxi(0, G.hero_index - 1)))
+			out.append(_act(Rect2(sw - win[2], 30, win[2], 66), func(): G.hero_index = mini(n - 1, G.hero_index + 1)))
 		&"shrine":
 			var sel: int = G.shrine_i
-			var ul := GameData.UNLOCKS
+			var ul := GameData.unlocks()
 			var top := mini(maxi(0, sel - 6), maxi(0, ul.size() - 12))
 			for j in mini(12, ul.size() - top):
 				var i := top + j
@@ -57,12 +62,12 @@ static func zones() -> Array:
 					# Codex: a tap only selects (USE leaves the codex).
 					out.append(_act(Rect2(x0 + (i % cols) * 30 - 5, 42 + row * 22 - 5, 26, 22), func(): G.codex_i = i))
 		&"tree":
-			var tree := Traits.tree_for(GameData.HEROES[G.tree_hero]["id"])
+			var tree := Traits.tree_for(GameData.heroes()[G.tree_hero]["id"])
 			for bi in tree.size():
 				for ni in tree[bi]["nodes"].size():
 					out.append(_z(Rect2(34 + bi * 132, 56 + ni * 38, 120, 32), _tree_sel.bind(bi, ni),
 						G.tree_b == bi and G.tree_n == ni))
-			var hn := GameData.HEROES.size()
+			var hn := GameData.heroes().size()
 			out.append(_act(Rect2(sw / 2 - 110, 20, 80, 16), func(): G.tree_hero = (G.tree_hero + hn - 1) % hn))
 			out.append(_act(Rect2(sw / 2 + 30, 20, 80, 16), func(): G.tree_hero = (G.tree_hero + 1) % hn))
 		&"choice":

@@ -55,7 +55,10 @@ const BULLET_KIND := { "bolt": "bolt", "orb": "hex", "spin": "spin", "shot": "cl
 	"flame": "fire", "disc": "disc", "pulse": "pulse", "nova": "spark", "mine": "mine", "rail": "rail", "burst": "bolt",
 	"gatling": "bolt", "summon": "hex" }
 const HERO_WEAPON := { "hexer": "hexwand", "poacher": "repeater", "brute": "pithatchet", "gravedigger": "graveshovel",
-	"alchemist": "flasksling", "warden": "lantern" }
+	"alchemist": "flasksling", "warden": "lantern",
+	# Step 6 heroes (signature weapons are rows after content batch 1).
+	"banehunter": "banesabre", "oathbreaker": "ironslab", "wayfarer": "wayfareredge", "racketeer": "snubguns",
+	"condemned": "shackleflail", "cartomancer": "giltdeck", "sellsword": "warlance" }
 
 ## [id, name, kind, rarity, tags, shape, overrides, stats, hooks, desc, effects] (Ruby wpn()).
 ## The first ORIGINAL_COUNT rows are the original weapons; later rows are new
@@ -249,6 +252,14 @@ const ROWS := [
 	["doombell", "DOOMSAYER'S KNELL", "nova", "legend", ["malice"], "tome", { "dmg": 3.4, "rate": 1.5, "count": 14 }, [], [], "40% OF HITS CURSE. CURSED FOES IT KILLS EXPLODE FOR 150% DAMAGE.", [{ "on": "on_hit", "chance": 0.4, "do": [["status", "curse", 1]] }, { "on": "on_kill", "if": "cursed", "do": [["explode", 40, 1.5]] }], "w_thorntome"],
 	["juggler", "JUGGLER'S PINS", "spin", "rare", ["arcane", "fortune"], "axe", { "dmg": 5.0, "rate": 2.2, "count": 3, "spread": 0.35 }, [], [["accel", 1.15]], "THREE SPINNING PINS THAT SPEED UP. EVERY 8TH THROW TOSSES A RING OF 8.", [{ "on": "every_n_shots", "every": 8, "do": [["nova", 8, 0.5, ""]] }], "w_tomahawk"],
 	["bannerpike", "RALLYING PIKE", "thrust", "epic", ["swarm", "bulwark"], "halberd", { "dmg": 7.0, "range": 64 }, [["familiars", 1]], [], "A WISP FOLLOWS YOU. CLEARING A ROOM RAISES TWO WISPS FOR 10S.", [{ "on": "on_room_clear", "do": [["summon", 10.0], ["summon", 10.0]] }], "w_warbanner"],
+	# ---------- Hero signature weapons (design spec step 6; never in loot pools) ----------
+	["banesabre", "BANE SABRE", "slash", "rare", ["edge"], "katana", { "dmg": 7.0, "rate": 2.4, "range": 36, "arc": 110 }, [["crit", 0.05]], [], "A HUNTER'S SILVERED SABRE. +5% CRIT.", [], "w_huntsword"],
+	["ironslab", "IRON SLAB", "slash", "rare", ["fury"], "hammer", { "dmg": 16.0, "rate": 0.9, "range": 46, "arc": 170 }, [], [["knock", 2.2]], "FAR TOO BIG TO BE A SWORD. SLOW, WIDE AND BRUTAL. HITS KNOCK FOES BACK.", [], "w_gallows"],
+	["wayfareredge", "WAYFARER'S EDGE", "slash", "rare", ["edge"], "katana", { "dmg": 6.0, "rate": 3.0, "range": 38, "arc": 80 }, [["crit", 0.05]], [["parry", 1]], "A QUICK, NARROW CUT THAT ALSO SLICES SHOTS OUT OF THE AIR.", [], "w_wandererkatana"],
+	["snubguns", "SNUB GUNS", "burst", "rare", ["fortune"], "pistol", { "dmg": 2.4, "rate": 2.0, "count": 2, "spread": 0.12 }, [], [], "TWO SHORT GUNS FIRED TOGETHER. KILLS HAVE 15% CHANCE TO DROP A COIN.", [{ "on": "on_kill", "chance": 0.15, "do": [["drop", "coin"]] }], "w_streetpistol"],
+	["shackleflail", "SHACKLE FLAIL", "whip", "rare", ["malice"], "whip", { "dmg": 5.5, "rate": 2.0, "range": 64 }, [], [], "A LENGTH OF PRISON CHAIN WITH THE LOCK STILL ON.", [], "w_chainlash"],
+	["giltdeck", "GILT DECK", "disc", "rare", ["arcane"], "rune", { "dmg": 3.0, "rate": 2.6, "count": 3, "spread": 0.3 }, [], [], "THROWS THREE SHARPENED CARDS THAT BOUNCE OFF WALLS.", [], "w_doubloon"],
+	["warlance", "WAR LANCE", "thrust", "rare", ["bulwark"], "halberd", { "dmg": 7.5, "rate": 2.0, "range": 66 }, [], [], "A LONG CAVALRY LANCE THAT PIERCES A WHOLE LINE.", [], "w_halberd"],
 ]
 
 static var _by_id := {}
@@ -357,4 +368,6 @@ static func equip_weapon(p: Player, w: Dictionary) -> Variant:
 	Meta.meta["found_w"][w["id"]] = true
 	if w["new"] or (old != null and old["new"]):
 		Effects.recount_tags(p)
+	if old != null:
+		Effects.fire("on_weapon_swap")
 	return old

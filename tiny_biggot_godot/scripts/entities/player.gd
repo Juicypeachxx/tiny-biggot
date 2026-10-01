@@ -195,6 +195,8 @@ var tag_counts := {}            # synergy tag -> points from new-content items
 var synergies := {}             # active synergy tiers and combos
 var overcrit := 0.0             # new stat: crit chance past 100% can crit again
 var paid_rerolls := 0           # trait rerolls bought with gold after the free ones
+var heat := 0                   # new (Racketeer): heat level, see Actions "heat"
+var heat_max := 5
 
 func _init(h: Dictionary) -> void:
 	hero = h
@@ -288,6 +290,7 @@ func try_heal() -> void:
 		heal(potion_heal)
 		if elixir:
 			invuln = maxf(invuln, 3.0)
+		Effects.fire("on_potion")
 	else:
 		Snd.play("deny")
 

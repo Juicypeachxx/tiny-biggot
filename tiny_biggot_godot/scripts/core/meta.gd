@@ -18,9 +18,9 @@ func _ready() -> void:
 
 ## Debug: every shrine unlock and every skill-tree node.
 func unlock_all() -> void:
-	for u in GameData.UNLOCKS:
+	for u in GameData.unlocks():
 		meta["unlocked"][u["id"]] = true
-	for h in GameData.HEROES:
+	for h in GameData.heroes():
 		meta["tree"][h["id"]] = [4, 4, 4]
 
 func unlocked(id: String) -> bool:

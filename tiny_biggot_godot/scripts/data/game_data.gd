@@ -26,6 +26,78 @@ const HEROES := [
 	  "stats": { "dmg": 4.5, "rate": 2.0, "shot_speed": 210.0, "life": 0.9, "homing": 0.0, "size": 1.2, "pierce": 99 } },
 ]
 
+## Design spec step 6: new heroes, added after the six originals (which stay
+## exactly as they are). Extra fields: "passive" (shown on the hero screen),
+## "effects" (applied at the start of every run, effect-system data), "trait"
+## (a starting trait at rank 1) and "new". Sprites are recoloured copies of
+## original heroes: placeholders until real art exists.
+const NEW_HEROES := [
+	{ "id": "banehunter", "name": "THE BANE HUNTER", "sprite": "banehunter", "new": true,
+	  "blurb": "A scarred hunter of monsters. Lives off bounties and bitter oils.",
+	  "passive": "+25% DAMAGE TO ELITES. A POTION ALSO OILS YOUR BLADE: +40% DAMAGE FOR 10S. EVERY 6S A ROLL CASTS A SIGN: A RING OF SPARKS THAT STUNS THE NEAREST FOE.",
+	  "weapon": "BANE SABRE", "hp": 8, "speed": 88, "shot": "slash", "sound": "hatchet", "cost": 160, "trait": "g_bounty",
+	  "stats": { "dmg": 7.0, "rate": 2.4, "shot_speed": 0.0, "life": 0.0, "homing": 0.0, "size": 1.0, "pierce": 99 },
+	  "effects": [["add", "elite_mult", 0.25], { "on": "on_potion", "do": [["buff", "dmg", 0.4, 10.0]] },
+		{ "on": "on_roll", "cd": 6.0, "do": [["nova", 8, 0.5, "spark"], ["status", "stun", 1]] }] },
+	{ "id": "oathbreaker", "name": "THE OATHBREAKER", "sprite": "oathbreaker", "new": true,
+	  "blurb": "A disgraced knight with a slab of iron far too big to be a sword.",
+	  "passive": "RAGE: EVERY KILL GIVES +6% DAMAGE FOR 5S, AND IT STACKS. BELOW HALF HEALTH: +30% DAMAGE AND +20% FIRE RATE.",
+	  "weapon": "IRON SLAB", "hp": 10, "speed": 80, "shot": "slash", "sound": "hatchet", "cost": 200, "trait": "f_anger",
+	  "stats": { "dmg": 16.0, "rate": 0.9, "shot_speed": 0.0, "life": 0.0, "homing": 0.0, "size": 1.0, "pierce": 99 },
+	  "effects": [{ "on": "on_kill", "do": [["buff", "dmg", 0.06, 5.0]] },
+		{ "on": "while_low_hp", "do": [["buff", "dmg", 0.3, 0], ["buff", "rate", 0.2, 0]] }] },
+	{ "id": "wayfarer", "name": "THE WAYFARER", "sprite": "wayfarer", "new": true,
+	  "blurb": "A wandering swordsman who answers every blow with a cleaner one.",
+	  "passive": "+10% CRIT. PERFECT DODGE: ROLLING WHILE A SHOT IS CLOSE REFUNDS THE ROLL AND GIVES +60% DAMAGE FOR 1.5S.",
+	  "weapon": "WAYFARER'S EDGE", "hp": 6, "speed": 94, "shot": "slash", "sound": "hatchet", "cost": 180, "trait": "e_precise",
+	  "stats": { "dmg": 6.0, "rate": 3.0, "shot_speed": 0.0, "life": 0.0, "homing": 0.0, "size": 1.0, "pierce": 99 },
+	  "effects": [["add", "crit", 0.1], { "on": "on_roll", "if": "danger", "do": [["refund_roll"], ["buff", "dmg", 0.6, 1.5]] }] },
+	{ "id": "racketeer", "name": "THE RACKETEER", "sprite": "racketeer", "new": true,
+	  "blurb": "A gutter boss with two snub guns. The more trouble, the more pay.",
+	  "passive": "+10% GOLD. HEAT: CLEARING A ROOM RAISES HEAT (MAX 5). EACH LEVEL GIVES +8% DAMAGE AND +10% GOLD. GETTING HIT LOSES 2 HEAT.",
+	  "weapon": "SNUB GUNS", "hp": 6, "speed": 92, "shot": "bolt", "sound": "bolt", "cost": 220, "trait": "g_skim", "hud": "heat",
+	  "stats": { "dmg": 2.4, "rate": 2.0, "shot_speed": 260.0, "life": 0.75, "homing": 0.0, "size": 1.0, "pierce": 0 },
+	  "effects": [["mul", "gold_mult", 1.1], { "on": "on_room_clear", "do": [["heat", 1]] }, { "on": "on_damage_taken", "do": [["heat", -2]] }] },
+	{ "id": "condemned", "name": "THE CONDEMNED", "sprite": "condemned", "new": true,
+	  "blurb": "A prisoner the crypt refuses to keep dead. Grabs whatever weapon is near.",
+	  "passive": "UNDYING: RISES ONCE PER RUN. EVERY FLOOR, READS A RANDOM SCROLL (DAMAGE, RATE, HEART OR CRIT). SWAPPING WEAPONS GIVES +50% DAMAGE FOR 8S.",
+	  "weapon": "SHACKLE FLAIL", "hp": 6, "speed": 88, "shot": "whip", "sound": "hatchet", "cost": 240, "trait": "f_thickskull",
+	  "stats": { "dmg": 5.5, "rate": 2.0, "shot_speed": 0.0, "life": 0.0, "homing": 0.0, "size": 1.0, "pierce": 99 },
+	  "effects": [["add", "revive", 1], { "on": "on_floor_start", "do": [["scroll"]] }, { "on": "on_weapon_swap", "do": [["buff", "dmg", 0.5, 8.0]] }] },
+	{ "id": "cartomancer", "name": "THE CARTOMANCER", "sprite": "cartomancer", "new": true,
+	  "blurb": "A card reader who deals fate in sharpened gilt.",
+	  "passive": "IN A FIGHT, DRAWS A CARD EVERY 4S AND PLAYS IT: BLADES, STORM, SHIELD, MEND, STAR, WHEEL OR COIN.",
+	  "weapon": "GILT DECK", "hp": 6, "speed": 90, "shot": "disc", "sound": "shoot", "cost": 260, "trait": "a_salvo",
+	  "stats": { "dmg": 3.0, "rate": 2.6, "shot_speed": 200.0, "life": 1.6, "homing": 0.0, "size": 1.0, "pierce": 1 },
+	  "effects": [{ "on": "every_n_seconds", "period": 4.0, "if": "fighting", "do": [["card"]] }] },
+	{ "id": "sellsword", "name": "THE SELLSWORD", "sprite": "sellsword", "new": true,
+	  "blurb": "A mercenary from far plains. Fights as if still on horseback.",
+	  "passive": "CHARGE: ROLLS ARE FASTER AND TRAMPLE FOES FOR 250%. +1 ROLL CHARGE. STARTS WITH 1 ARMOR.",
+	  "weapon": "WAR LANCE", "hp": 8, "speed": 86, "shot": "thrust", "sound": "hatchet", "cost": 120, "trait": "t_brace",
+	  "stats": { "dmg": 7.5, "rate": 2.0, "shot_speed": 0.0, "life": 0.0, "homing": 0.0, "size": 1.0, "pierce": 99 },
+	  "effects": [["set", "shadowstep", true], ["mul", "roll_speed", 1.25], ["add", "dodge_charges", 1], ["add", "charges", 1], ["add", "armor", 1]] },
+]
+
+static var _heroes: Array = []
+static var _unlocks: Array = []
+
+## All playable heroes: the originals first (indices 0-5 unchanged), then the
+## new ones. --classic leaves the new ones out.
+static func heroes() -> Array:
+	if _heroes.is_empty():
+		_heroes = HEROES.duplicate()
+		if not DebugArgs.has("classic"):
+			_heroes.append_array(NEW_HEROES)
+	return _heroes
+
+static func unlocks() -> Array:
+	if _unlocks.is_empty():
+		_unlocks = UNLOCKS.duplicate()
+		if not DebugArgs.has("classic"):
+			for h in NEW_HEROES:
+				_unlocks.append({ "id": "hero_" + h["id"], "name": h["name"], "desc": "A NEW HERO: " + h["weapon"], "cost": h["cost"] })
+	return _unlocks
+
 const RARITY_COL := { "common": "grey", "rare": "cyan", "epic": "purple", "legend": "gold" }
 const RARITY_HEX := { "common": "#8b8f9c", "rare": "#4d9be6", "epic": "#a35bd6", "legend": "#f2c94c" }
 const RARITY_NAME := { "common": "COMMON", "rare": "RARE", "epic": "EPIC", "legend": "LEGENDARY" }

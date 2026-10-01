@@ -85,7 +85,7 @@ func start_fade(cb: Callable) -> void:
 
 # ---------- Run flow ----------
 func new_run() -> void:
-	var hero: Dictionary = GameData.HEROES[hero_index]
+	var hero: Dictionary = GameData.heroes()[hero_index]
 	player = Player.new(hero)
 	Effects.reset_run_state()
 	Weapons.equip_weapon(player, Weapons.by_id(Weapons.HERO_WEAPON[hero["id"]]))
@@ -103,6 +103,12 @@ func new_run() -> void:
 	for bi in tree.size():
 		for ni in owned[bi]:
 			Traits.apply_node(tree[bi]["nodes"][ni][0], p)
+	# Step 6 heroes: a passive (effect-system data) and a starting trait.
+	if hero.has("effects"):
+		Effects.apply(p, hero["effects"], 1, "hero:" + hero["id"])
+	if hero.has("trait"):
+		p.pending += 1
+		take_trait(Traits.by_id(hero["trait"]))
 	if Meta.unlocked("perk_gold"): p.gold += 20
 	if Meta.unlocked("perk_bombs"): p.bombs += 2
 	if Meta.unlocked("perk_potion"):
@@ -167,6 +173,7 @@ func start_floor() -> void:
 	Snd.music(floor_index)
 	room = null
 	enter_room(World.make_room(floor_d, "start", "", ""))
+	Effects.fire("on_floor_start")
 	state = &"play"
 	show_banner(GameData.FLOORS[floor_index]["name"], "FLOOR %d OF %d" % [floor_index + 1, GameData.FLOORS.size()]
 		+ ("   DREAD %d" % dread if dread > 0 else ""))
@@ -1003,7 +1010,7 @@ func update_title(dt: float) -> void:
 
 func update_hero() -> void:
 	menu = hero_index
-	var go := menu_nav(GameData.HEROES.size(), true)
+	var go := menu_nav(GameData.heroes().size(), true)
 	hero_index = menu
 	var mx: int = Meta.meta.get("dread_max", 0)
 	if mx > 0:
@@ -1029,7 +1036,7 @@ func update_hero() -> void:
 		return
 	if not go:
 		return
-	var h: Dictionary = GameData.HEROES[hero_index]
+	var h: Dictionary = GameData.heroes()[hero_index]
 	if hero_unlocked(h):
 		Snd.play("confirm")
 		Meta.write_save()
@@ -1040,7 +1047,7 @@ func update_hero() -> void:
 
 ## Skill tree: LEFT/RIGHT pick a branch, UP/DOWN a node, USE buys, AIM LEFT/RIGHT change hero.
 func update_tree() -> void:
-	var n := GameData.HEROES.size()
+	var n := GameData.heroes().size()
 	if Keys.aim_left_trig():
 		tree_hero = (tree_hero + n - 1) % n
 		Snd.play("select")
@@ -1067,7 +1074,7 @@ func update_tree() -> void:
 		return
 	if not Keys.confirm():
 		return
-	var h: Dictionary = GameData.HEROES[tree_hero]
+	var h: Dictionary = GameData.heroes()[tree_hero]
 	var owned := tree_owned(h["id"])
 	if not hero_unlocked(h):
 		Snd.play("deny")
@@ -1094,7 +1101,7 @@ func update_tree() -> void:
 
 func update_shrine() -> void:
 	menu = shrine_i
-	var go := menu_nav(GameData.UNLOCKS.size())
+	var go := menu_nav(GameData.unlocks().size())
 	shrine_i = menu
 	if Keys.back():
 		state = &"title"
@@ -1103,7 +1110,7 @@ func update_shrine() -> void:
 		return
 	if not go:
 		return
-	var u: Dictionary = GameData.UNLOCKS[shrine_i]
+	var u: Dictionary = GameData.unlocks()[shrine_i]
 	if Meta.unlocked(u["id"]):
 		Snd.play("deny")
 		toast("ALREADY UNLOCKED", "grey")

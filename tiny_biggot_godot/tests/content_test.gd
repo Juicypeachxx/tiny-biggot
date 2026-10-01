@@ -25,7 +25,7 @@ var _props := {}
 func _ready() -> void:
 	G.god = true
 	if DebugArgs.has("only-broken"):
-		for prop in Player.new(GameData.HEROES[0]).get_property_list():
+		for prop in Player.new(GameData.heroes()[0]).get_property_list():
 			if prop["usage"] & PROPERTY_USAGE_SCRIPT_VARIABLE:
 				_props[prop["name"]] = prop["type"]
 		broken_build()
@@ -34,7 +34,7 @@ func _ready() -> void:
 		print("[content] Effects.stats: ", Effects.stats)
 		get_tree().quit()
 		return
-	for prop in Player.new(GameData.HEROES[0]).get_property_list():
+	for prop in Player.new(GameData.heroes()[0]).get_property_list():
 		if prop["usage"] & PROPERTY_USAGE_SCRIPT_VARIABLE:
 			_props[prop["name"]] = prop["type"]
 	var t0 := Time.get_ticks_msec()
@@ -48,6 +48,7 @@ func _ready() -> void:
 	archetypes()
 	broken_build()
 	combos()
+	heroes()
 	stress()
 	print("[content] Effects.stats: ", Effects.stats)
 	for n in notes:
@@ -194,7 +195,7 @@ func _tags(where: String, tags: Array) -> void:
 
 # ---------- 2. Live ----------
 func arena(hero: int) -> Player:
-	G.hero_index = hero % GameData.HEROES.size()
+	G.hero_index = hero % GameData.heroes().size()
 	G.new_run()
 	G.floor_d["depth"] = 2
 	G.enter_room(World.make_room(G.floor_d, "combat", "", "s"))
@@ -527,6 +528,107 @@ func combos() -> void:
 	notes.append("combos: %d named combos assembled and active; worst %.2f ms/tick logic over 10 s" % [n, worst])
 	if worst > 16.7:
 		fail("a combo is too slow: %.2f ms/tick" % worst)
+
+## Step 6 heroes: data checks, then every new hero plays 10 s with a full
+## skill tree, and each new mechanic is exercised directly.
+func heroes() -> void:
+	var all := GameData.heroes()
+	var ids := {}
+	for i in all.size():
+		var h: Dictionary = all[i]
+		_uniq(ids, "hero", h["id"])
+		_sprite("hero " + h["id"], h["sprite"])
+		if not Weapons.HERO_WEAPON.has(h["id"]) or not Weapons._by_id.has(Weapons.HERO_WEAPON[h["id"]]):
+			fail("hero %s: no signature weapon" % h["id"])
+		if not Traits.HERO_BRANCH.has(h["id"]):
+			fail("hero %s: no skill-tree branch" % h["id"])
+			continue
+		for nd in Traits.HERO_BRANCH[h["id"]]["nodes"]:
+			if not Traits.NODE_EFFECTS.has(nd[0]):
+				fail("hero %s: node %s has no effects" % [h["id"], nd[0]])
+			_font("node " + nd[0], [nd[0], nd[1]])
+		_font("hero " + h["id"], [h["name"], h["blurb"], h.get("passive", ""), h["weapon"]])
+		if not h.get("new", false):
+			continue
+		lint_effects("hero " + h["id"], h["effects"], false)
+		if not Traits._by_id.has(h["trait"]):
+			fail("hero %s: unknown starting trait %s" % [h["id"], h["trait"]])
+		if not GameData.unlocks().any(func(u): return u["id"] == "hero_" + h["id"]):
+			fail("hero %s: no shrine unlock" % h["id"])
+	# Live: each new hero with its whole tree learned, 10 s of fighting.
+	var worst := 0.0
+	var n := 0
+	for i in all.size():
+		var h: Dictionary = all[i]
+		if not h.get("new", false):
+			continue
+		Meta.meta["tree"][h["id"]] = [4, 4, 4]
+		var p := arena(i)
+		if p.weapon["id"] != Weapons.HERO_WEAPON[h["id"]]:
+			fail("hero %s starts with %s" % [h["id"], p.weapon["id"]])
+		if p.traits.get(h["trait"], 0) != 1:
+			fail("hero %s: starting trait not at rank 1" % h["id"])
+		if not p.procs.any(func(pr): return pr["src"] == "hero:" + h["id"]) and h["effects"].any(func(e): return e is Dictionary):
+			fail("hero %s: passive procs missing" % h["id"])
+		for e in G.enemies:
+			e.max_hp = 1e9
+			e.hp = 1e9
+		worst = maxf(worst, _timed(600))
+		check("hero " + h["id"])
+		n += 1
+		Meta.meta["tree"].erase(h["id"])
+	# Mechanics.
+	var rk := arena(_hero_index("racketeer"))
+	var dmg0 := rk.dmg
+	var gm0 := rk.gold_mult
+	for k in 7:
+		Effects.fire("on_room_clear")
+	if rk.heat != 5 or absf(rk.dmg - dmg0 * 1.4) > 1e-6 or absf(rk.gold_mult - gm0 * 1.5) > 1e-6:
+		fail("heat: %d heat, dmg x%.3f, gold x%.3f (want 5, x1.4, x1.5)" % [rk.heat, rk.dmg / dmg0, rk.gold_mult / gm0])
+	Effects.fire("on_damage_taken")
+	if rk.heat != 3:
+		fail("heat after a hit: %d (want 3)" % rk.heat)
+	for k in 5:
+		Effects.fire("on_damage_taken")
+	if rk.heat != 0 or absf(rk.dmg - dmg0) > 1e-6 or absf(rk.gold_mult - gm0) > 1e-6:
+		fail("heat did not cool back to 0 cleanly (dmg x%.3f)" % (rk.dmg / dmg0))
+	var cm := arena(_hero_index("condemned"))
+	var before := [cm.dmg, cm.rate, cm.max_hp, cm.crit]
+	Effects.fire("on_floor_start")
+	if [cm.dmg, cm.rate, cm.max_hp, cm.crit] == before:
+		fail("condemned: a scroll changed nothing")
+	Weapons.equip_weapon(cm, Weapons.by_id("needledirk"))
+	if not cm.buffs.any(func(b): return b["stat"] == "dmg"):
+		fail("condemned: weapon swap gave no damage buff")
+	var wf := arena(_hero_index("wayfarer"))
+	wf.charges = 0
+	Effects.fire("on_roll")
+	if wf.charges != 0:
+		fail("wayfarer: roll refunded with no shot nearby")
+	EBullets.add(wf.x + 10, wf.y, 0, 0, "red", 3.0)
+	Effects.fire("on_roll")
+	if wf.charges != 1:
+		fail("wayfarer: perfect dodge did not refund the roll")
+	EBullets.clear_all()
+	var bh := arena(_hero_index("banehunter"))
+	Effects.fire("on_potion")
+	if not bh.buffs.any(func(b): return b["stat"] == "dmg" and absf(b["t"] - 10.0) < 0.1):
+		fail("bane hunter: potion oil buff missing")
+	var ct := arena(_hero_index("cartomancer"))
+	var gold0 := ct.gold
+	for k in 60:
+		Actions.run(["card"], 1, {})
+	if ct.gold == gold0:
+		fail("cartomancer: 60 draws and never the COIN card")
+	notes.append("heroes: %d heroes linted, %d new heroes played 10 s each with full trees (worst %.2f ms/tick); heat, scrolls, weapon swap, perfect dodge, potion oil and card draws verified" % [all.size(), n, worst])
+
+func _hero_index(id: String) -> int:
+	var all := GameData.heroes()
+	for i in all.size():
+		if all[i]["id"] == id:
+			return i
+	fail("no hero " + id)
+	return 0
 
 # ---------- 5. Stress ----------
 func stress() -> void:

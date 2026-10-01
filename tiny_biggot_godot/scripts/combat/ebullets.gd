@@ -69,6 +69,18 @@ static func alive(i: int) -> bool:
 	return blife[i] > KILLED * 0.5
 
 ## Removes bullets within rad of (x, y) (Ruby reject! by distance).
+## True when a live enemy shot is within rad (perfect-dodge check).
+static func any_near(x: float, y: float, rad: float) -> bool:
+	var r2 := rad * rad
+	for i in n:
+		if blife[i] <= KILLED * 0.5:
+			continue
+		var dx := bx[i] - x
+		var dy := by[i] - y
+		if dx * dx + dy * dy <= r2:
+			return true
+	return false
+
 static func kill_radius(x: float, y: float, rad: float) -> void:
 	var r2 := rad * rad
 	for i in n:

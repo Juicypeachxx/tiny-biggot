@@ -39,12 +39,13 @@ const MIN_SHOT_INTERVAL := 1.0 / 60.0   # attack-speed floor: one attack per log
 const BUFF_CAP := 64
 
 const TRIGGERS := ["on_hit", "on_crit", "on_kill", "on_roll", "on_damage_taken", "on_heal", "on_room_enter",
-	"on_room_clear", "on_level_up", "on_shoot", "every_n_shots", "every_n_seconds", "while_low_hp", "on_pickup"]
+	"on_room_clear", "on_level_up", "on_shoot", "every_n_shots", "every_n_seconds", "while_low_hp", "on_pickup",
+	"on_potion", "on_weapon_swap", "on_floor_start"]   # last three: new for the step-6 heroes
 const ACTIONS := ["nova", "shoot", "explode", "status", "heal", "buff", "chain", "lightning", "summon", "gold",
-	"refund_roll", "armor", "drop", "damage", "hurt_self", "xp", "clear_shots"]
+	"refund_roll", "armor", "drop", "damage", "hurt_self", "xp", "clear_shots", "card", "heat", "scroll"]
 const STATUSES := ["burn", "poison", "chill", "bleed", "stun", "curse", "mark", "shock", "vulnerable", "weakened"]
 const CONDITIONS := ["elite", "boss", "burning", "poisoned", "chilled", "bleeding", "shocked", "cursed",
-	"low_hp", "full_hp", "moving", "still", "crit"]
+	"low_hp", "full_hp", "moving", "still", "crit", "danger", "fighting", "hot"]
 
 static var depth := 0
 static var budget := BUDGET
@@ -189,6 +190,9 @@ static func _cond(c: String, ctx: Dictionary) -> bool:
 		"moving": return p.moving
 		"still": return not p.moving
 		"crit": return ctx.get("crit", false)
+		"danger": return EBullets.any_near(p.x, p.y, 30.0)   # a shot is close: perfect dodge
+		"fighting": return G.enemies_active()
+		"hot": return p.heat >= 3
 	return false
 
 ## Fires a trigger. ctx may carry: enemy, dmg, crit, x, y.

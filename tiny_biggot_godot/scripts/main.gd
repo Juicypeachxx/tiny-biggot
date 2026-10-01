@@ -55,7 +55,7 @@ func _ready() -> void:
 	add_child(touch_layer)
 	touch_layer.add_child(TouchControls.new())
 	G.god = DebugArgs.has("god")
-	G.hero_index = clampi(DebugArgs.get_int("hero", 0), 0, GameData.HEROES.size() - 1)
+	G.hero_index = clampi(DebugArgs.get_int("hero", 0), 0, GameData.heroes().size() - 1)
 	# The game opens on the title screen. Test options start a run directly.
 	var quick := false
 	for k in ["bot", "room", "floor", "hero", "ui", "bench", "quick", "weapon"]:
@@ -79,6 +79,9 @@ func _ready() -> void:
 			G.player.pending = 2
 			G.offer_traits()
 		"hud": pass
+		"tree":
+			G.tree_hero = G.hero_index
+			G.state = &"tree"
 		var other:
 			G.state = StringName(other)
 
