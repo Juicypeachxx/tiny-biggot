@@ -21,6 +21,7 @@ static func run(e: Enemy, dt: float, p: Player) -> void:
 		"ambush": ai_ambush(e, dt, p)
 		"monk": ai_monk(e, dt, p)
 		"gunman": ai_gunman(e, dt, p)
+		"dummy": ai_dummy(e)
 	if e.d.get("mini", false):
 		_mini_extra(e, dt)
 
@@ -354,3 +355,17 @@ static func _mini_extra(e: Enemy, dt: float) -> void:
 		e.mini_t = 3.2 + randf()
 		Combat.ering(e.x, e.y - 3, 16, 60, randf() * TAU, _shot(e, "red"))
 		G.add_shake(2)
+
+## Training dummy (Rogues layer): takes hits, never dies, reports damage per second.
+static func ai_dummy(e: Enemy) -> void:
+	e.dps_log.append(e.max_hp - e.hp)
+	e.hp = e.max_hp
+	if e.dps_log.size() > 180:
+		e.dps_log.pop_front()
+	var sum := 0.0
+	for v in e.dps_log:
+		sum += v
+	e.dps = sum / 3.0
+	e.burn_t = 0.0
+	e.poison = 0.0
+	e.bleed_t = 0.0

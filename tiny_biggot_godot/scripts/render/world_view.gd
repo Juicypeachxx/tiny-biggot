@@ -59,8 +59,55 @@ func _paint_parts(ci: CanvasItem) -> void:
 	Juice.draw_sparks(ci)
 
 func _paint_texts(ci: CanvasItem) -> void:
+	_paint_plates(ci)
 	Fx.draw_texts(ci)
 	Juice.draw_labels(ci)
+
+## Rogues layer: name plates over nearby loot (the one you stand on shows its full card instead).
+func _paint_plates(ci: CanvasItem) -> void:
+	if not GameData.rogues() or G.room == null or G.player == null:
+		return
+	var p := G.player
+	for o in G.room.objects:
+		if o.get("gone", false) or o.get("opened", false) or o == G.prompt:
+			continue
+		var name := ""
+		var rar := "common"
+		var sub := ""
+		match o["kind"]:
+			"item":
+				name = WeaponInfo.display_name(o["item"]) if o["item"]["item"] == "weapon" else o["item"]["name"]
+				rar = o["item"]["rarity"]
+			"pedestal":
+				if o["relic"] == null:
+					continue
+				name = o["relic"]["name"]
+				rar = o["relic"]["rarity"]
+				sub = o["relic"]["desc"]
+			"shop":
+				if o.has("thing"):
+					name = o["thing"]["name"]
+					rar = o["thing"]["rarity"]
+				elif o["item"] == "relic":
+					name = o["relic"]["name"]
+					rar = o["relic"]["rarity"]
+			"anvil":
+				name = "ANVIL"
+			_:
+				continue
+		if name == "" or TB.dist_xy(p.x, p.y, o["x"], o["y"]) > 110:
+			continue
+		if sub.length() > 30:
+			sub = sub.left(28) + ".."
+		var w := maxi(TB.text_w(name), TB.text_w(sub)) + 6
+		var h := 9 if sub == "" else 17
+		var px := clampf(roundf(o["x"] - w / 2), 2, TB.SW - w - 2)
+		var py := roundf(o["y"] - 30 - h)
+		ci.draw_rect(Rect2(px - 1, py - 1, w + 2, h + 2), Color(0.08, 0.06, 0.11, 0.9))
+		ci.draw_rect(Rect2(px, py, w, 1), TB.c(GameData.RARITY_HEX.get(rar, "#8b8f9c")))
+		Gfx.text(ci, name, px + 3, py + 2, GameData.RARITY_COL.get(rar, "white"), 1, 0.0, false)
+		if sub != "":
+			Gfx.text(ci, sub, px + 3, py + 10, "grey", 1, 0.0, false)
 
 func _layer(p: Callable, additive: bool = false) -> DrawLayer:
 	var l := DrawLayer.new(p, additive)
@@ -448,6 +495,8 @@ func _draw_enemy(ci: CanvasItem, e: Enemy, t: float) -> void:
 	elif e.chill_t > 0:
 		tint = TB.rgba(111, 211, 224, 130)
 	Gfx.sp(ci, name, e.x, foot + bob - e.z, sc * sx, sc * sy, 0.0, e.face < 0, 46 / 255.0 if e.hidden else 1.0, tint)
+	if e.type == "dummy":
+		Gfx.text(ci, "DPS %s" % TB.fmt_dmg(e.dps), e.x, foot - 24, "gold" if e.dps > 0 else "dim", 1, 0.5)
 
 # ---------- z 1800: spawn rings, telegraphs, boss beams ----------
 func _paint_fx(ci: CanvasItem) -> void:
@@ -623,6 +672,12 @@ func _paint_bars(ci: CanvasItem) -> void:
 		var y := roundf(e.y + e.r + 2)
 		ci.draw_rect(Rect2(x - 1, y - 1, 14, 4), TB.c("#1a1423"))
 		ci.draw_rect(Rect2(x, y, 12, 2), TB.c("#4e4a5e"))
+		if GameData.rogues():
+			# Rogues layer: a white "damage ghost" trails the bar down.
+			if e.ghost_hp < e.hp:
+				e.ghost_hp = e.hp
+			e.ghost_hp = maxf(e.hp, e.ghost_hp - e.max_hp * 0.012)
+			ci.draw_rect(Rect2(x, y, ceilf(12.0 * e.ghost_hp / e.max_hp), 2), TB.c("#f4ecd8"))
 		ci.draw_rect(Rect2(x, y, ceilf(12.0 * e.hp / e.max_hp), 2), TB.c("#f2c94c" if e.elite else "#d8443c"))
 
 # ---------- z 2250: melee arcs, thrusts, rays ----------

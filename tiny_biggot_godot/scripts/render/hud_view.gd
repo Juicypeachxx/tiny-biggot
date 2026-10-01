@@ -26,7 +26,10 @@ func _draw() -> void:
 		Gfx.at(self, "heart_" + ("full" if v >= 2 else ("half" if v == 1 else "empty")), 5 + i * 9, 6)
 	var ax := 5 + (p.max_hp / 2) * 9
 	for i in p.armor:
-		Gfx.at(self, "heart_armor", ax + i * 9, 6)
+		if GameData.rogues():
+			_shield(ax + i * 9, 6)   # Rogues layer: armor as shields
+		else:
+			Gfx.at(self, "heart_armor", ax + i * 9, 6)
 	# Potions, gold, roll charges, bombs, keys, embers.
 	var x := 5
 	for i in p.max_potions:
@@ -144,7 +147,12 @@ func _minimap() -> void:
 			col = GameData.ROOM_COL.get(f["path"][i - 1]["type"], col)
 		draw_rect(Rect2(x, oy, w - 2, 5), TB.c("#140f1c"))
 		draw_rect(Rect2(x + 1, oy + 1, w - 4, 3), TB.c(col))
-	Gfx.text(self, "ROOM %d/%d" % [f["depth"], n], TB.SW - 6, 12, "grey", 1, 1)
+	if GameData.rogues():
+		# Rogues layer: floor-room and the run clock.
+		var secs := int(G.run_stats.get("time", 0.0))
+		Gfx.text(self, "FLOOR %d-%d  %02d:%02d" % [G.floor_index + 1, f["depth"], secs / 60, secs % 60], TB.SW - 6, 12, "bone", 1, 1)
+	else:
+		Gfx.text(self, "ROOM %d/%d" % [f["depth"], n], TB.SW - 6, 12, "grey", 1, 1)
 
 func _banner() -> void:
 	var bn := G.banner
@@ -160,3 +168,11 @@ func _banner() -> void:
 ## Rogues layer: quick-belt slot i on the HUD (shared with the touch controls).
 static func belt_rect(i: int) -> Rect2:
 	return Rect2(TB.SW / 2 - 28 + i * 14, 20, 13, 13)
+
+## A small shield icon (Rogues layer armor).
+func _shield(x: float, y: float) -> void:
+	var o := PackedVector2Array([Vector2(x, y), Vector2(x + 8, y), Vector2(x + 8, y + 4), Vector2(x + 4, y + 8), Vector2(x, y + 4)])
+	draw_colored_polygon(o, TB.c("#140f1c"))
+	var i := PackedVector2Array([Vector2(x + 1, y + 1), Vector2(x + 7, y + 1), Vector2(x + 7, y + 4), Vector2(x + 4, y + 7), Vector2(x + 1, y + 4)])
+	draw_colored_polygon(i, TB.c("#4d9be6"))
+	draw_rect(Rect2(x + 2, y + 2, 2, 2), TB.c("#c8f0ff"))

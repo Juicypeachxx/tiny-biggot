@@ -55,6 +55,7 @@ func _ready() -> void:
 	attributes()
 	upgrades()
 	inventory()
+	dummies()
 	stress()
 	print("[content] Effects.stats: ", Effects.stats)
 	for n in notes:
@@ -240,6 +241,12 @@ func play(ticks: int) -> void:
 		if G.enemies.size() < 3:
 			var s := World.free_spot(G.room, G.player, 50, World.M_FLYER)
 			Combat.spawn_enemy(TB.pick(GameData.floors()[0]["pool"]), s.x, s.y, false, true)
+
+## Advances the game without play()'s top-up spawns.
+func _tick_only(ticks: int) -> void:
+	for i in ticks:
+		Keys.tick()
+		G.update(TB.DT)
 
 func check(where: String) -> void:
 	var p := G.player
@@ -1028,6 +1035,37 @@ func inventory() -> void:
 	EBullets.clear_all()
 	notes.append("inventory: replaced items go to the %d-slot backpack, equip back from it; %d-slot belt; all %d consumables work; pickups fill the belt" % [
 		Player.BACKPACK_SIZE, Consumables.BELT_SIZE, Consumables.KINDS.size()])
+
+## Rogues layer: training dummies never die, measure DPS, give nothing.
+func dummies() -> void:
+	var p := arena(0)
+	G.enemies.clear()
+	G.enter_room(World.make_room(G.floor_d, "start", "", ""))
+	var ds := G.enemies.filter(func(e): return e.type == "dummy")
+	if ds.size() != 2:
+		fail("start room has %d dummies (want 2)" % ds.size())
+		return
+	if G.enemies_active():
+		fail("dummies count as a fight")
+	p.gf["gold_hit"] = 1.0
+	p.gf["leech"] = 1.0
+	p.hp = 1
+	var gold0 := p.gold
+	var d: Enemy = ds[0]
+	for k in 120:
+		Combat.damage_enemy(d, 50.0, { "no_crit": true, "silent": true })
+		Combat.on_hit_effects(d, 50.0, false, p, null)
+		_tick_only(1)
+	_tick_only(30)
+	if d.hp <= 0 or not G.enemies.has(d):
+		fail("a dummy died")
+	if d.dps < 500:
+		fail("dummy dps %.0f (want about 1500)" % d.dps)
+	if p.gold != gold0 or p.hp != 1 or G.pickups.size() > 0:
+		fail("hitting a dummy gave gold %d->%d, hp %d, pickups %s" % [gold0, p.gold, p.hp, G.pickups.map(func(k): return k.kind)])
+	p.gf.erase("gold_hit")
+	p.gf.erase("leech")
+	notes.append("dummies: 2 per start room, never die, read %.0f DPS, give no gold/heal/procs, not a fight" % d.dps)
 
 func _hero_index(id: String) -> int:
 	var all := GameData.heroes()

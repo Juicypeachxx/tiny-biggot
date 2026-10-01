@@ -104,6 +104,12 @@ static func wrap_text(s: String, max_w: int) -> PackedStringArray:
 ## Core.rb panel(): bordered box.
 static func panel(ci: CanvasItem, x: float, y: float, w: float, h: float,
 		border: String = "#5c5a78", fill: String = "#1a1423") -> void:
+	if GameData.rogues():
+		# Rogues layer: crisper, darker panels.
+		if border == "#5c5a78":
+			border = "#8b8f9c"
+		if fill == "#1a1423" or fill == "#17121e":
+			fill = "#0c0b12"
 	ci.draw_rect(Rect2(x - 1, y - 1, w + 2, h + 2), TB.c("#140f1c"))
 	ci.draw_rect(Rect2(x, y, w, h), TB.c(border))
 	ci.draw_rect(Rect2(x + 1, y + 1, w - 2, h - 2), TB.c(fill))

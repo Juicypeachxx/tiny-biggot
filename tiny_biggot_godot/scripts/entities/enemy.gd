@@ -67,7 +67,10 @@ var orb := 0.0
 var has_cyc := false
 var cyc := 0.0
 var flip := false
-var mini_t := 3.0             # stage-7 mini-bosses: time to the next ring burst
+var mini_t := 3.0
+var dps_log: Array = []       # Rogues layer: training dummy damage per tick (last 3 s)
+var dps := 0.0
+var ghost_hp := -1.0          # Rogues layer: trailing "damage ghost" on health bars (render only)             # stage-7 mini-bosses: time to the next ring burst
 # Boss scratch
 var cycle := 0
 var sub := 0

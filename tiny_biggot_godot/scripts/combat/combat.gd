@@ -217,7 +217,7 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	if not o.get("silent", false):
 		Snd.play("hit")
 	if crit:
-		if p.crit_heal > 0 and randf() < p.crit_heal:
+		if p.crit_heal > 0 and e.type != "dummy" and randf() < p.crit_heal:
 			p.heal(1)
 		if p.bleed > 0:
 			e.bleed_t = 3.0
@@ -909,6 +909,8 @@ static func attack_zap(p: Player, a: float, force_crit: bool) -> void:
 
 # ---------- Hits ----------
 static func on_hit_effects(e: Enemy, dmg: float, crit: bool, p: Player, b: PBullet) -> void:
+	if e.type == "dummy":
+		return   # training dummies: no procs, statuses or loot from hitting them
 	if p.burn > 0 and randf() < p.burn:
 		e.burn_t = 3.0 + p.burn_time
 	if (b != null and b.chill) or (p.chill > 0 and randf() < p.chill):
@@ -1538,7 +1540,7 @@ static func _update_player_base(p: Player, dt: float) -> void:
 			p.face = 1 if cos(aim) > 0 else -1
 	p.fire_cd -= dt
 	var rate := Weapons.wrate(p) * (1.45 if p.frenzy_t > 0 else 1.0) * (1.4 if raging else 1.0)
-	if aim != null and p.fire_cd <= 0 and p.dodge_t <= 0 and G.enemies_active():
+	if aim != null and p.fire_cd <= 0 and p.dodge_t <= 0 and (G.enemies_active() or G.dummies_present()):
 		p.fire_cd = maxf(1.0 / rate, Effects.MIN_SHOT_INTERVAL)
 		player_shoot(p, aim)
 		if p.triple > 0 and randf() < p.triple:

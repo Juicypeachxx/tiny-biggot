@@ -150,6 +150,8 @@ const ENEMIES := {
 	"drowned": { "sprite": "drowned", "hp": 24, "speed": 30, "r": 6, "ai": "drowned", "gold": 0.45 },
 	"wisp": { "sprite": "wisp", "hp": 9, "speed": 80, "r": 5, "ai": "wisp", "fly": true, "gold": 0.3 },
 	"golem": { "sprite": "golem", "hp": 46, "speed": 26, "r": 7, "ai": "golem", "gold": 0.7 },
+	# Rogues layer: a training dummy in each floor's start room (never dies, shows your DPS).
+	"dummy": { "sprite": "dummy", "hp": 1, "speed": 0, "r": 6, "ai": "dummy", "gold": 0.0 },
 	# ---------- Stage 7 foes (new biomes). "shot" overrides a behaviour's bullet sprite, "fan" an
 	# archer's arrow count; "mini" marks a floor mini-boss (fixed health, own name, extra ring burst).
 	# Rainmarsh Hamlet: poison and ambushes.

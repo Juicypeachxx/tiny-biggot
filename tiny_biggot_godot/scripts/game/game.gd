@@ -63,9 +63,16 @@ var _spawned := false
 func _ready() -> void:
 	dread = Meta.meta.get("dread", 0)
 
+## Rogues layer: training dummies can be shot at, but they are not a fight.
+func dummies_present() -> bool:
+	for e in enemies:
+		if e.type == "dummy":
+			return true
+	return false
+
 func enemies_active() -> bool:
 	for e in enemies:
-		if e.spawn_t <= 0 and not e.hidden:
+		if e.spawn_t <= 0 and not e.hidden and e.type != "dummy":
 			return true
 	return false
 
@@ -229,6 +236,12 @@ func enter_room(r: Room) -> void:
 		room.objects_ready = true
 		setup_objects(room)
 		Hazards.setup(room, floor_index)
+	if GameData.rogues() and room.type == "start":
+		# Rogues layer: two training dummies to test your damage.
+		for dx in [5.0, 23.0]:
+			var d := Combat.spawn_enemy("dummy", dx * TB.TS, 9.0 * TB.TS, false, true)
+			d.max_hp = 1e6
+			d.hp = 1e6
 	locked = false
 	_spawned = false
 	match room.type:
