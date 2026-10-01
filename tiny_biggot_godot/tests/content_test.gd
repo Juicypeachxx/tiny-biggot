@@ -52,6 +52,7 @@ func _ready() -> void:
 	slots()
 	biomes()
 	loops()
+	attributes()
 	stress()
 	print("[content] Effects.stats: ", Effects.stats)
 	for n in notes:
@@ -65,8 +66,8 @@ func fail(msg: String) -> void:
 		print("FAIL ", msg)
 
 # ---------- 1. Lint ----------
-const REVERSIBLE := ["add", "mul", "pct", "hook", "grant"]
-const ONE_SHOT := ["add", "mul", "pct", "set", "add_cap", "add_floor", "clamp_max", "at_least", "copy", "nth", "hook", "grant"]
+const REVERSIBLE := ["add", "mul", "pct", "hook", "grant", "attr"]
+const ONE_SHOT := ["add", "mul", "pct", "set", "add_cap", "add_floor", "clamp_max", "at_least", "copy", "nth", "hook", "grant", "attr"]
 
 func lint_effects(where: String, effects: Array, reversible: bool) -> void:
 	for e in effects:
@@ -82,6 +83,10 @@ func lint_effects(where: String, effects: Array, reversible: bool) -> void:
 		if reversible and not op in REVERSIBLE:
 			fail("%s: op %s cannot be undone but this item can be removed" % [where, op])
 		if op == "hook":
+			continue
+		if op == "attr":
+			if not e[1] in ["str", "dex", "int", "highest"]:
+				fail("%s: unknown attribute %s" % [where, e[1]])
 			continue
 		if not _props.has(e[1]):
 			fail("%s: unknown stat %s" % [where, e[1]])
@@ -891,6 +896,45 @@ func loops() -> void:
 	G.state = &"play"
 	G.loop = 0
 	notes.append("loops: true ending offers loop or exit; loop 2 keeps the build with x1.8 foe health; throne not counted twice; exit ends the run with the loop bonus")
+
+## Rogues layer: attributes and weapon scaling.
+func attributes() -> void:
+	var p := arena(2)   # the Brute: STR 5 DEX 1 INT 0, plus his starting setup
+	var spread: Array = Attributes.HERO[p.hero["id"]]
+	if [p.a_str, p.a_dex, p.a_int] != spread:
+		fail("brute starts with %s, want %s" % [[p.a_str, p.a_dex, p.a_int], spread])
+	var g := Attributes.scaling(p.weapon)
+	var want: float = 1.0 + Attributes.PER_POINT * (Attributes.COEF[g["str"]] * p.a_str + Attributes.COEF[g["dex"]] * p.a_dex + Attributes.COEF[g["int"]] * p.a_int)
+	if absf(Attributes.mult(p) - want) > 1e-9:
+		fail("attribute multiplier %.4f, want %.4f" % [Attributes.mult(p), want])
+	var s0 := p.a_str
+	for t in Traits.all():
+		if t["fam"] == "fury":
+			p.pending += 1
+			G.take_trait(t)
+			break
+	if p.a_str != s0 + 1:
+		fail("a fury trait rank did not train STR")
+	G.add_relic(p, Relics.by_id("heavennectar"))
+	if p.a_str != s0 + 2:
+		fail("heavenly nectar did not raise the highest attribute")
+	var graded := 0
+	for w in Weapons.all():
+		var gg := Attributes.scaling(w)
+		for a in Attributes.ATTRS:
+			if not gg[a] in Attributes.GRADES:
+				fail("weapon %s: bad grade %s" % [w["id"], gg[a]])
+		if Attributes.COEF[gg["str"]] + Attributes.COEF[gg["dex"]] + Attributes.COEF[gg["int"]] > 0:
+			graded += 1
+		if w["rarity"] == "legend" and not "S" in gg.values():
+			fail("legendary %s has no S grade" % w["id"])
+	if graded != Weapons.all().size():
+		fail("%d weapons scale with nothing" % (Weapons.all().size() - graded))
+	GameData.force_classic = true
+	if Attributes.mult(p) != 1.0:
+		fail("attributes still apply with the Rogues layer off")
+	GameData.force_classic = false
+	notes.append("attributes: hero spreads, trait training, attribute relics, scaling for all %d weapons, and off under classic" % graded)
 
 func _hero_index(id: String) -> int:
 	var all := GameData.heroes()

@@ -13,6 +13,7 @@ var _fails := 0
 var _checked := 0
 
 func _ready() -> void:
+	GameData.force_classic = true   # compare the original rules, without the Rogues layer
 	G.player = null
 	var f := FileAccess.open("res://tests/ruby_effects.json", FileAccess.READ)
 	var ref: Dictionary = JSON.parse_string(f.get_as_text())

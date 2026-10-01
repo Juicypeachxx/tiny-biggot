@@ -106,6 +106,12 @@ const NEW_HEROES := [
 ]
 
 static var _heroes: Array = []
+## Tests that compare with the original Ruby set this to run the original rules.
+static var force_classic := false
+
+## The Rogues layer (attributes, upgrades, inventory...) is on unless --classic.
+static func rogues() -> bool:
+	return not force_classic and not DebugArgs.has("classic")
 static var _unlocks: Array = []
 
 ## All playable heroes: the originals first (indices 0-5 unchanged), then the

@@ -105,6 +105,7 @@ func new_run() -> void:
 	for bi in tree.size():
 		for ni in owned[bi]:
 			Traits.apply_node(tree[bi]["nodes"][ni][0], p)
+	Attributes.start(p)
 	# Step 6 heroes: a passive (effect-system data) and a starting trait.
 	if hero.has("effects"):
 		Effects.apply(p, hero["effects"], 1, "hero:" + hero["id"])
@@ -869,6 +870,7 @@ func take_trait(t: Dictionary) -> void:
 	var p := player
 	p.traits[t["id"]] = p.traits.get(t["id"], 0) + 1
 	Traits.apply(t["id"], p)
+	Attributes.on_trait(p, t["fam"])
 	p.charges = mini(p.charges, p.dodge_charges)
 	var fam: String = t["fam"]
 	p.fam[fam] = p.fam.get(fam, 0) + 1

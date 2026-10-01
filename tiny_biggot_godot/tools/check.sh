@@ -15,7 +15,7 @@ timeout 600 "$GODOT" --headless --path . --import >"$LOG" 2>&1 || true
 if grep -E "SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
 echo "== compile all scripts"
-"$GODOT" --headless --path . --quit-after 3000 res://tests/check_scripts.tscn 2>&1 | tee "$LOG" | tail -n 3
+timeout 900 "$GODOT" --headless --path . --quit-after 3000 res://tests/check_scripts.tscn 2>&1 | tee "$LOG" | tail -n 3
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
 echo "== run main scene for $FRAMES frames"
@@ -24,17 +24,17 @@ tail -n 5 "$LOG"
 if grep -E "SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
 echo "== unit tests"
-"$GODOT" --headless --path . --quit-after 3000 res://tests/unit_tests.tscn >"$LOG" 2>&1
+timeout 900 "$GODOT" --headless --path . --quit-after 3000 res://tests/unit_tests.tscn >"$LOG" 2>&1
 tail -n 1 "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
 echo "== item effects vs the original Ruby (tests/ruby_effects.json)"
-"$GODOT" --headless --path . --quit-after 6000 res://tests/effects_test.tscn >"$LOG" 2>&1
+timeout 900 "$GODOT" --headless --path . --quit-after 6000 res://tests/effects_test.tscn >"$LOG" 2>&1
 grep "effects test" "$LOG"
 if grep -E "MISMATCH|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
 echo "== content test (spec section 11)"
-"$GODOT" --headless --path . --quit-after 400000 res://tests/content_test.tscn -- --no-save >"$LOG" 2>&1
+timeout 900 "$GODOT" --headless --path . --quit-after 400000 res://tests/content_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "^\[content\]|content test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 

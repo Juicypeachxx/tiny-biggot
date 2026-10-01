@@ -179,6 +179,12 @@ const ROWS := [
 	["thundertorc", "legend", "THUNDERLORD'S TORC", "15% OF HITS CALL LIGHTNING", [{ "on": "on_hit", "chance": 0.15, "cd": 0.05, "do": [["lightning", 1.0]] }], ["storm"], "relic_stormcrown"],
 	["hivecrown", "legend", "CROWN OF THE HIVE", "+3 WISPS. WISPS FIRE 30% FASTER", [["add", "familiars", 3], ["mul", "fam_rate", 1.3]], ["swarm"], "relic_twinwisp"],
 	["redgodidol", "legend", "IDOL OF THE RED GOD", "+20% DAMAGE. 10% OF KILLS HEAL HALF A HEART", [["mul", "dmg", 1.2], { "on": "on_kill", "chance": 0.1, "do": [["heal", 1]] }], ["blood"], "relic_garnet"],
+	# ---------- Rogues layer: attribute relics ----------
+	["tonicmight", "rare", "TONIC OF MIGHT", "+2 STR", [["attr", "str", 2]], ["fury"], "relic_rage"],
+	["quickdraught", "rare", "QUICKENING DRAUGHT", "+2 DEX", [["attr", "dex", 2]], ["shadow"], "relic_sparrow"],
+	["sagesink", "rare", "SAGE'S INK", "+2 INT", [["attr", "int", 2]], ["arcane"], "relic_owl"],
+	["heavennectar", "epic", "HEAVENLY NECTAR", "+1 TO YOUR HIGHEST ATTRIBUTE. +1 MAX HEART", [["attr", "highest", 1], ["add", "max_hp", 2], ["add", "hp", 2]], ["bulwark"], "relic_worldseed"],
+	["balancestone", "epic", "STONE OF BALANCE", "+1 STR, +1 DEX, +1 INT", [["attr", "str", 1], ["attr", "dex", 1], ["attr", "int", 1]], ["arcane"], "relic_lodestone"],
 ]
 const BASE_COUNT := 34
 const CACHE_1 := ["tallow", "skeletonkey", "quiver", "filings", "gravedust", "mothwing", "bitterroot", "tinwhistle", "chalk", "rustynail"]

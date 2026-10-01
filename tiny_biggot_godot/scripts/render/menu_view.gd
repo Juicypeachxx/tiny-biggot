@@ -406,7 +406,19 @@ func draw_gearpage(ci: CanvasItem) -> void:
 	Gfx.text(ci, "DAMAGE %.1f  RATE %.1f/S  SHOTS %d  SYNERGY +%d%%" % [Weapons.wdmg(p), Weapons.wrate(p), Weapons.wcount(p),
 		roundi((Weapons.synergy_mult(p) - 1) * 100)], 56, 60, "lime")
 	var tags := "NONE" if w["tags"].is_empty() else OverlayView._tag_names(w["tags"])
-	Gfx.text(ci, "TAGS: " + tags + "  (EACH MATCHING TRAIT RANK +8%, GEAR PIECE +12%)", 56, 70, "tan")
+	if Attributes.enabled():
+		# Rogues layer: the weapon's scaling and your attributes.
+		var g := Attributes.scaling(w)
+		var x := 56
+		x += Gfx.text(ci, "SCALING ", x, 70, "tan")
+		for a in Attributes.ATTRS:
+			x += Gfx.text(ci, "%s %s  " % [Attributes.NAMES[a], g[a]], x, 70, Attributes.COLS[a])
+		x += Gfx.text(ci, " YOU ", x, 70, "tan")
+		for a in Attributes.ATTRS:
+			x += Gfx.text(ci, "%s %d  " % [Attributes.NAMES[a], Attributes.value(p, a)], x, 70, Attributes.COLS[a])
+		Gfx.text(ci, "+%d%% DAMAGE" % roundi((Attributes.mult(p) - 1) * 100), x, 70, "gold")
+	else:
+		Gfx.text(ci, "TAGS: " + tags + "  (EACH MATCHING TRAIT RANK +8%, GEAR PIECE +12%)", 56, 70, "tan")
 	var dl := Gfx.wrap_text(w["desc"], TB.SW - 90)
 	if not dl.is_empty():
 		Gfx.text(ci, dl[0], 56, 80, "white")

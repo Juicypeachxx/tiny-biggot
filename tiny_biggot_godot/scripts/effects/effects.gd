@@ -85,6 +85,9 @@ static func apply(p: Player, effects: Array, dir: int = 1, src: String = "") -> 
 			"grant":
 				if dir > 0 and (first or src == ""):
 					p.set(stat, p.get(stat) + e[2])
+			"attr":
+				# Rogues layer: ["attr", "str"|"dex"|"int"|"highest", n]; reversible.
+				Attributes.add(p, Attributes.highest(p) if stat == "highest" else stat, int(e[2]) * dir)
 			"hook":
 				p.gf[stat] = p.gf.get(stat, 0.0) + e[2] * dir
 			"set":
