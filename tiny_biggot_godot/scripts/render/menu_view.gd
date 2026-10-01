@@ -124,6 +124,8 @@ func draw_title(ci: CanvasItem) -> void:
 		_menu_item(ci, G.TITLE_ITEMS[i], TB.SW / 2, 142 + i * 17, i, 2, 170)
 	var m := Meta.meta
 	var line := "EMBERS %d    RUNS %d    WINS %d    DEEPEST FLOOR %d" % [m["embers"], m["runs"], m["wins"], m["best"]]
+	if m.get("best_loop", 0) > 0:
+		line += "    BEST LOOP %d" % (m["best_loop"] + 1)
 	Gfx.at(ci, "ember", TB.SW / 2 - TB.text_w(line) / 2 - 8, 250)
 	Gfx.text(ci, line, TB.SW / 2, 251, "grey", 1, 0.5)
 	Gfx.text(ci, "PRESS USE TO SELECT", TB.SW / 2, 268, "dim", 1, 0.5)
@@ -296,7 +298,7 @@ func draw_howto(ci: CanvasItem) -> void:
 		["", "AUTO-AIM SHOOTS THE NEAREST FOE FOR YOU."],
 		["", "ROLL DODGES. USE BUYS AND OPENS. HEAL DRINKS. BOMB BLASTS."],
 		["KEYS", "ARROWS MOVE. WASD AIM. SHIFT ROLL. ENTER USE. CTRL BOMB."],
-		["", "Q HEAL. ESC MENU. IPAD KEYBOARD: TAB MENU, E BOMB."],
+		["", "Q HEAL. ESC MENU. F SKILL. IPAD: TAB MENU, E BOMB."],
 		["PAD", "STICKS MOVE AND AIM. B ROLL. A USE. X HEAL."],
 	]
 	for i in lines.size():
