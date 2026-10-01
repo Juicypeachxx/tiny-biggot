@@ -170,12 +170,12 @@ func start_floor() -> void:
 	run_stats["floor"] = floor_index + 1
 	Meta.meta["best"] = maxi(Meta.meta["best"], floor_index + 1)
 	Meta.write_save()
-	Snd.music(floor_index)
+	Snd.music(GameData.floor_music(floor_index))
 	room = null
 	enter_room(World.make_room(floor_d, "start", "", ""))
 	Effects.fire("on_floor_start")
 	state = &"play"
-	show_banner(GameData.FLOORS[floor_index]["name"], "FLOOR %d OF %d" % [floor_index + 1, GameData.FLOORS.size()]
+	show_banner(GameData.floors()[floor_index]["name"], "FLOOR %d OF %d" % [floor_index + 1, GameData.floors().size()]
 		+ ("   DREAD %d" % dread if dread > 0 else ""))
 
 const ENTRY_SPOTS := { "s": Vector2(14.0 * 16, 16.0 * 16), "n": Vector2(14.0 * 16, 2.6 * 16),
@@ -218,6 +218,7 @@ func enter_room(r: Room) -> void:
 	if not room.objects_ready:
 		room.objects_ready = true
 		setup_objects(room)
+		Hazards.setup(room, floor_index)
 	locked = false
 	_spawned = false
 	match room.type:
@@ -346,11 +347,17 @@ func _room_pickup(kind: String, x: float, y: float) -> Pickup:
 	return k
 
 func spawn_wave(hard: bool = false) -> void:
-	var fdef: Dictionary = GameData.FLOORS[floor_index]
+	var fdef: Dictionary = GameData.floors()[floor_index]
 	var n := TB.rint(3, 4) + mini(floor_index, 4) + (1 if room.depth > 3 else 0)
 	var ec := (0.05 if floor_index == 0 else 0.08 + floor_index * 0.035) + (0.08 if dread >= 3 else 0.0) + (0.35 if hard else 0.0)
 	if room.type == "elite":
 		ec += 0.45
+	# Stage 7: the elite room before the rest stop holds the floor's mini-boss.
+	if fdef.has("mini") and room.type == "elite" and room.depth == floor_d["total"] - 2 and not floor_d.get("mini_done", false):
+		floor_d["mini_done"] = true
+		var mini := Combat.spawn_enemy(fdef["mini"], 14.0 * TB.TS, 8.0 * TB.TS)
+		show_banner(mini.d["name"], "A CHAMPION OF " + fdef["name"])
+		n = maxi(2, n / 2)
 	for i in n:
 		var type: String = TB.pick(fdef["pool"])
 		var s := World.free_spot(room, player, 90, World.M_FLYER if GameData.ENEMIES[type].get("fly", false) else World.M_WALKER)
@@ -436,13 +443,15 @@ func on_boss_dead(b: Enemy) -> void:
 	if p.oath:
 		p.max_hp += 2
 		p.hp += 2
-	Snd.music(floor_index)
+	Snd.music(GameData.floor_music(floor_index))
 	show_banner(b.d["name"] + " FALLS", "")
 	for i in 12:
 		Combat.drop_pickup("coin", b.x, b.y)
 	Combat.drop_pickup("heart", b.x, b.y)
 	Combat.drop_pickup("ember", b.x, b.y)
-	var last := floor_index >= GameData.FLOORS.size() - 1
+	var last := floor_index >= GameData.floors().size() - 1
+	if floor_index == GameData.THRONE_FLOOR and not last:
+		throne_victory()
 	room.objects.append({ "kind": "chest", "x": 14.0 * TB.TS - (0 if last else 28), "y": 10.0 * TB.TS, "boss": true })
 	if last:
 		win_timer = 4.5
@@ -458,8 +467,10 @@ func award_embers(win: bool) -> void:
 	var p := player
 	var parts := [["FLOORS", (floor_index + (1 if win else 0)) * 6], ["GUARDIANS", r["bosses"] * 12], ["FOES", r["kills"] / 8],
 		["EMBER SHARDS", p.embers_found], ["SECRETS", r["secrets"] * 5], ["LEVEL", p.level]]
-	if win:
+	if win or run_stats.get("throne", false):
 		parts.append(["VICTORY", 40])
+	if win and run_stats.get("throne", false):
+		parts.append(["THE ECLIPSE", 80])
 	var base := 0
 	for x in parts:
 		base += x[1]
@@ -478,9 +489,23 @@ func on_death(source: String) -> void:
 	Snd.play("die")
 	Snd.music(0)
 
-func on_win() -> void:
+## Stage 7: the Pale Regent falls with the new floors ahead. This is still the
+## original game's victory (wins and dread unlock are granted now), and the
+## run goes on through the rift into the new biomes.
+func throne_victory() -> void:
+	run_stats["throne"] = true
 	Meta.meta["wins"] += 1
 	Meta.meta["dread_max"] = mini(maxi(Meta.meta.get("dread_max", 0), dread + 1), 5)
+	Meta.write_save()
+	Snd.play("win")
+	show_banner("VICTORY! THE THRONE IS BROKEN", "A RIFT OPENS ONTO DARKER LANDS")
+
+func on_win() -> void:
+	if not run_stats.get("throne", false):
+		Meta.meta["wins"] += 1
+		Meta.meta["dread_max"] = mini(maxi(Meta.meta.get("dread_max", 0), dread + 1), 5)
+	else:
+		Meta.meta["eclipse_wins"] = Meta.meta.get("eclipse_wins", 0) + 1
 	award_embers(true)
 	state = &"win"
 	state_t = 0.0
@@ -1186,6 +1211,7 @@ func update_play(dt: float) -> void:
 	Combat.update_pickups(dt)
 	Combat.update_bombs(dt)
 	Combat.update_zones(dt)
+	Hazards.update(dt)
 	Fx.update(dt)
 	Juice.update(dt, p)
 	var keep := []
@@ -1210,7 +1236,7 @@ func update_play(dt: float) -> void:
 		boss_delay -= dt
 		if boss_delay <= 0:
 			boss_delay = null
-			Combat.spawn_boss(GameData.FLOORS[floor_index]["boss"])
+			Combat.spawn_boss(GameData.floors()[floor_index]["boss"])
 			show_banner(boss.d["name"], "")
 	if win_timer != null:
 		win_timer -= dt

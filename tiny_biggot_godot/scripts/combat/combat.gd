@@ -68,6 +68,8 @@ static func orbital_positions(p: Player) -> Array:
 static func spawn_enemy(type: String, x: float, y: float, elite: bool = false, instant: bool = false) -> Enemy:
 	var d: Dictionary = GameData.ENEMIES[type]
 	var hp: float = d["hp"] * floor_scale() * (2.2 if elite else 1.0)
+	if d.get("mini", false):
+		hp = d["hp"] * (1 + 0.15 * dread())   # stage-7 mini-bosses: fixed health like guardians
 	var e := Enemy.new()
 	e.type = type
 	e.d = d
@@ -1441,7 +1443,12 @@ static func update_player(p: Player, dt: float) -> void:
 	p.haste_t = maxf(0.0, p.haste_t - dt)
 	if hasted:
 		p.speed *= 1.3
+	var bogged := Hazards.in_pool(p)   # stage 7 mire pools (never on original floors)
+	if bogged:
+		p.speed *= 0.6
 	_update_player_base(p, dt)
+	if bogged:
+		p.speed /= 0.6
 	if hasted:
 		p.speed /= 1.3
 	if not rolling_before and p.dodge_t > 0:

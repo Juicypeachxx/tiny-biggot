@@ -144,6 +144,40 @@ const ENEMIES := {
 	"drowned": { "sprite": "drowned", "hp": 24, "speed": 30, "r": 6, "ai": "drowned", "gold": 0.45 },
 	"wisp": { "sprite": "wisp", "hp": 9, "speed": 80, "r": 5, "ai": "wisp", "fly": true, "gold": 0.3 },
 	"golem": { "sprite": "golem", "hp": 46, "speed": 26, "r": 7, "ai": "golem", "gold": 0.7 },
+	# ---------- Stage 7 foes (new biomes). "shot" overrides a behaviour's bullet sprite, "fan" an
+	# archer's arrow count; "mini" marks a floor mini-boss (fixed health, own name, extra ring burst).
+	# Rainmarsh Hamlet: poison and ambushes.
+	"bogling": { "sprite": "bogling", "hp": 16, "speed": 70, "r": 6, "ai": "ambush", "shot": "spore", "gold": 0.4 },
+	"gnat": { "sprite": "gnat", "hp": 5, "speed": 84, "r": 4, "ai": "bat", "fly": true, "gold": 0.15 },
+	"hexwife": { "sprite": "hexwife", "hp": 20, "speed": 34, "r": 6, "ai": "cultist", "shot": "spore", "gold": 0.45 },
+	"mirehulk": { "sprite": "mirehulk", "name": "THE MIRE HULK", "hp": 300, "speed": 24, "r": 10, "ai": "golem", "shot": "spore",
+		"scale": 1.8, "mini": true, "gold": 3.0 },
+	# Ashen Warfront: archers and cavalry charges.
+	"longbowman": { "sprite": "longbowman", "hp": 14, "speed": 40, "r": 5, "ai": "archer", "shot": "bone", "fan": 5, "gold": 0.4 },
+	"lancer": { "sprite": "lancer", "hp": 30, "speed": 40, "r": 6, "ai": "knight", "shot": "fire", "gold": 0.55 },
+	"warpriest": { "sprite": "warpriest", "hp": 22, "speed": 32, "r": 6, "ai": "cultist", "shot": "fire", "gold": 0.5 },
+	"torchimp": { "sprite": "torchimp", "hp": 12, "speed": 62, "r": 5, "ai": "imp", "fly": true, "shot": "fire", "gold": 0.35 },
+	"ironcaptain": { "sprite": "ironcaptain", "name": "THE IRON CAPTAIN", "hp": 360, "speed": 40, "r": 10, "ai": "knight", "shot": "fire",
+		"scale": 1.8, "mini": true, "gold": 3.0 },
+	# Frostpeak Monastery: monks and ice.
+	"monk": { "sprite": "monk", "hp": 18, "speed": 72, "r": 5, "ai": "monk", "shot": "ice", "gold": 0.4 },
+	"icearcher": { "sprite": "icearcher", "hp": 13, "speed": 42, "r": 5, "ai": "archer", "shot": "ice", "gold": 0.4 },
+	"snowlantern": { "sprite": "snowlantern", "hp": 18, "speed": 16, "r": 6, "ai": "spore", "shot": "ice", "gold": 0.35 },
+	"stoneabbot": { "sprite": "stoneabbot", "name": "THE STONE ABBOT", "hp": 420, "speed": 26, "r": 10, "ai": "golem", "shot": "ice",
+		"scale": 1.8, "mini": true, "gold": 3.0 },
+	# Nightspire Rooftops: gunmen.
+	"gunman": { "sprite": "gunman", "hp": 16, "speed": 44, "r": 5, "ai": "gunman", "shot": "red", "gold": 0.5 },
+	"cutthroat": { "sprite": "cutthroat", "hp": 15, "speed": 58, "r": 5, "ai": "ghost", "fly": true, "shot": "dark", "gold": 0.4 },
+	"crow": { "sprite": "crow", "hp": 7, "speed": 88, "r": 4, "ai": "bat", "fly": true, "gold": 0.2 },
+	"chimneyimp": { "sprite": "chimneyimp", "hp": 13, "speed": 60, "r": 5, "ai": "imp", "fly": true, "shot": "fire", "gold": 0.35 },
+	"enforcer": { "sprite": "enforcer", "name": "THE ENFORCER", "hp": 460, "speed": 30, "r": 10, "ai": "gunman", "shot": "red",
+		"burst": 6, "scale": 1.8, "mini": true, "gold": 3.0 },
+	# The Eclipse: corrupted everything.
+	"voidling": { "sprite": "voidling", "hp": 11, "speed": 86, "r": 5, "ai": "wisp", "fly": true, "shot": "dark", "gold": 0.35 },
+	"shadeknight": { "sprite": "shadeknight", "hp": 40, "speed": 42, "r": 6, "ai": "knight", "shot": "dark", "gold": 0.6 },
+	"eclipsed": { "sprite": "eclipsed", "hp": 24, "speed": 34, "r": 6, "ai": "cultist", "shot": "dark", "gold": 0.5 },
+	"herald": { "sprite": "herald", "name": "THE HERALD OF DUSK", "hp": 520, "speed": 50, "r": 10, "ai": "book", "fly": true, "shot": "dark",
+		"scale": 1.8, "mini": true, "gold": 3.0 },
 }
 
 const BOSSES := {
@@ -153,6 +187,12 @@ const BOSSES := {
 	"tyrant": { "name": "THE FORGE TYRANT", "sprite": "tyrant", "hp": 760, "r": 13, "scale": 2 },
 	"rimewarden": { "name": "THE RIME WARDEN", "sprite": "rimewarden", "hp": 880, "r": 13, "scale": 2 },
 	"regent": { "name": "THE PALE REGENT", "sprite": "regent", "hp": 1000, "r": 13, "scale": 2 },
+	# Stage 7 guardians.
+	"bogmatriarch": { "name": "THE BOG MATRIARCH", "sprite": "bogmatriarch", "hp": 1200, "r": 13, "scale": 2 },
+	"ashwarlord": { "name": "THE ASH WARLORD", "sprite": "ashwarlord", "hp": 1350, "r": 13, "scale": 2 },
+	"frozenabbot": { "name": "THE FROZEN ABBOT", "sprite": "frozenabbot", "hp": 1500, "r": 13, "scale": 2 },
+	"crowking": { "name": "THE CROW KING", "sprite": "crowking", "hp": 1650, "r": 13, "scale": 2 },
+	"umbralsun": { "name": "THE UMBRAL SUN", "sprite": "umbralsun", "hp": 2100, "r": 13, "scale": 2.4 },
 }
 
 const FLOORS := [
@@ -163,6 +203,40 @@ const FLOORS := [
 	{ "name": "RIMEFROST VAULT", "accent": "white", "accent_hex": "#e8f6ff", "pool": ["wisp", "golem", "knight", "wisp", "ghost", "cultist"], "boss": "rimewarden", "rooms": 10 },
 	{ "name": "THE HOLLOW THRONE", "accent": "purple", "accent_hex": "#a35bd6", "pool": ["cultist", "knight", "ghost", "drowned", "golem", "bookwyrm", "imp"], "boss": "regent", "rooms": 11 },
 ]
+
+## Design spec step 7: five new biomes after the six original floors. Beating
+## the Pale Regent still wins the original game; a rift then leads on into
+## these. Extra fields: "mini" (mini-boss guarding the room before the rest
+## stop), "hazard" (scripts/world/hazards.gd), "music" (track to reuse).
+## Tiles come from kit6..kit10 (recoloured copies of the original kits).
+const NEW_FLOORS := [
+	{ "name": "RAINMARSH HAMLET", "accent": "green", "accent_hex": "#63b84f", "pool": ["bogling", "gnat", "hexwife", "gnat", "drowned", "bogling"],
+	  "boss": "bogmatriarch", "mini": "mirehulk", "hazard": "bog", "music": 1, "rooms": 11 },
+	{ "name": "ASHEN WARFRONT", "accent": "orange", "accent_hex": "#e8873a", "pool": ["longbowman", "lancer", "warpriest", "torchimp", "longbowman", "skeleton"],
+	  "boss": "ashwarlord", "mini": "ironcaptain", "hazard": "warfront", "music": 3, "rooms": 11 },
+	{ "name": "FROSTPEAK MONASTERY", "accent": "white", "accent_hex": "#e8f6ff", "pool": ["monk", "icearcher", "snowlantern", "monk", "wisp", "golem"],
+	  "boss": "frozenabbot", "mini": "stoneabbot", "hazard": "icicle", "music": 4, "rooms": 12 },
+	{ "name": "NIGHTSPIRE ROOFTOPS", "accent": "gold", "accent_hex": "#f2c94c", "pool": ["gunman", "cutthroat", "crow", "chimneyimp", "gunman", "crow"],
+	  "boss": "crowking", "mini": "enforcer", "hazard": "vent", "music": 2, "rooms": 12 },
+	{ "name": "THE ECLIPSE", "accent": "red", "accent_hex": "#d8443c", "pool": ["voidling", "shadeknight", "eclipsed", "ghost", "golem", "voidling", "cutthroat"],
+	  "boss": "umbralsun", "mini": "herald", "hazard": "rift", "music": 5, "rooms": 12 },
+]
+## Index of the original final floor (the Hollow Throne).
+const THRONE_FLOOR := 5
+
+static var _floors: Array = []
+
+## All floors: the six originals, then the new biomes. --classic leaves them out.
+static func floors() -> Array:
+	if _floors.is_empty():
+		_floors = FLOORS.duplicate()
+		if not DebugArgs.has("classic"):
+			_floors.append_array(NEW_FLOORS)
+	return _floors
+
+## Music track for a floor (new floors reuse original tracks).
+static func floor_music(i: int) -> int:
+	return floors()[i].get("music", i)
 const BOSS_TRACK := 6
 
 const SPRITE_COLOR := {
@@ -170,6 +244,12 @@ const SPRITE_COLOR := {
 	"imp": "#d8443c", "knight": "#8b8f9c", "ghost": "#f4ecd8", "bookwyrm": "#7a5236", "drowned": "#63b84f",
 	"wisp": "#6fd3e0", "golem": "#4d9be6", "colossus": "#d9d0b4", "sporemother": "#a35bd6", "librarian": "#2b4f8a",
 	"tyrant": "#e8873a", "rimewarden": "#6fd3e0", "regent": "#a35bd6",
+	"bogling": "#3f7a5a", "gnat": "#8b8f9c", "hexwife": "#63b84f", "mirehulk": "#63b84f", "longbowman": "#d9d0b4",
+	"lancer": "#e8873a", "warpriest": "#e8873a", "torchimp": "#f2c94c", "ironcaptain": "#8b8f9c", "monk": "#e8873a",
+	"icearcher": "#c8f0ff", "snowlantern": "#e8f6ff", "stoneabbot": "#8b8f9c", "gunman": "#4e4a5e", "cutthroat": "#5c3483",
+	"crow": "#1a1423", "chimneyimp": "#a35bd6", "enforcer": "#4e4a5e", "voidling": "#d8443c", "shadeknight": "#2a2838",
+	"eclipsed": "#d8443c", "herald": "#8a2a33", "bogmatriarch": "#3f7a5a", "ashwarlord": "#d8443c",
+	"frozenabbot": "#e8f6ff", "crowking": "#5c3483", "umbralsun": "#d8443c",
 }
 
 ## Ember Shrine: things to unlock between runs.
@@ -196,6 +276,10 @@ const DREAD_DESC := [
 
 ## Experience per kill (01b_traits.rb).
 const ENEMY_XP := { "bat": 2, "slime": 3, "slimelet": 1, "skeleton": 3, "mushroom": 3, "cultist": 4, "imp": 3,
+	# Stage 7 foes.
+	"bogling": 4, "gnat": 2, "hexwife": 4, "longbowman": 4, "lancer": 6, "warpriest": 4, "torchimp": 3, "monk": 5,
+	"icearcher": 4, "snowlantern": 4, "gunman": 5, "cutthroat": 4, "crow": 2, "chimneyimp": 3, "voidling": 4,
+	"shadeknight": 7, "eclipsed": 5, "mirehulk": 40, "ironcaptain": 45, "stoneabbot": 50, "enforcer": 55, "herald": 60,
 	"knight": 6, "ghost": 3, "bookwyrm": 3, "drowned": 4, "wisp": 3, "golem": 7 }
 
 static func xp_needed(level: int) -> int:

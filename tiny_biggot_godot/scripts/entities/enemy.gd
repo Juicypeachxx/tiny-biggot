@@ -67,6 +67,7 @@ var orb := 0.0
 var has_cyc := false
 var cyc := 0.0
 var flip := false
+var mini_t := 3.0             # stage-7 mini-bosses: time to the next ring burst
 # Boss scratch
 var cycle := 0
 var sub := 0

@@ -82,9 +82,9 @@ func _draw() -> void:
 		for k in p.heat_max:
 			draw_rect(Rect2(134 + k * 5, 28, 4, 4), TB.c("#e8873a" if k < p.heat else "#2a2838"))
 	# Floor name and minimap.
-	var fl: Dictionary = GameData.FLOORS[G.floor_index]
+	var fl: Dictionary = GameData.floors()[G.floor_index]
 	Gfx.text(self, fl["name"], TB.SW / 2, 4, fl["accent"], 1, 0.5)
-	Gfx.text(self, "%d/%d" % [G.floor_index + 1, GameData.FLOORS.size()], TB.SW / 2, 12, "grey", 1, 0.5)
+	Gfx.text(self, "%d/%d" % [G.floor_index + 1, GameData.floors().size()], TB.SW / 2, 12, "grey", 1, 0.5)
 	_minimap()
 	# Relic strip (last 24).
 	var rel: Array = p.relics.slice(maxi(0, p.relics.size() - 24))

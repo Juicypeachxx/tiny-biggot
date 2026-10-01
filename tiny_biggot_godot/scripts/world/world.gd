@@ -64,6 +64,10 @@ static func gen_choices(floor_d: Dictionary, p: Object) -> Array:
 		out.append({ "type": "shop", "reward": "" })
 	if d == floor_d["total"] - 1:
 		out.append({ "type": "rest", "reward": "" })
+	# Stage 7: the room before the rest stop is the mini-boss room (new floors only).
+	var fdef: Dictionary = GameData.floors()[floor_d["index"]]
+	if fdef.has("mini") and d == floor_d["total"] - 2:
+		return [{ "type": "elite", "reward": "rare" }]
 	var n := 2 if d < 2 else (3 if TB.rnd() < 0.55 else 2)
 	var tries := 0
 	var fi: int = floor_d["index"]

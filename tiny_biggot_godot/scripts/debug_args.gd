@@ -6,7 +6,7 @@ extends RefCounted
 ##   --hero=N                     hero index; starts a run straight away (skips the title)
 ##   --quick                      start a run straight away with the default hero
 ##   --floor=N                    start on floor N (0-5)
-##   --room=KIND                  jump straight into a room of that type (combat, boss, ...)
+##   --room=KIND                  jump straight into a room of that type (combat, boss, mini, ...)
 ##   --seed=N                     fixed random seed
 ##   --bot                        autopilot that moves, aims and rolls (soak test)
 ##   --touch                      show the touch controls on a desktop (mouse = finger)

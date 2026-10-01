@@ -65,12 +65,15 @@ func _ready() -> void:
 		G.state = &"title"
 		return
 	G.new_run()
-	G.floor_index = clampi(DebugArgs.get_int("floor", 0), 0, GameData.FLOORS.size() - 1)
+	G.floor_index = clampi(DebugArgs.get_int("floor", 0), 0, GameData.floors().size() - 1)
 	if G.floor_index > 0:
 		G.start_floor()
 	if DebugArgs.has("room"):
 		var kind := DebugArgs.get_str("room")
 		G.floor_d["depth"] = G.floor_d["total"] - 1 if kind == "boss" else 2
+		if kind == "mini":   # stage 7: the floor's mini-boss room
+			kind = "elite"
+			G.floor_d["depth"] = G.floor_d["total"] - 2
 		G.enter_room(World.make_room(G.floor_d, kind, "gold" if kind == "combat" else "", "s"))
 	match DebugArgs.get_str("ui"):
 		"": pass
@@ -126,7 +129,7 @@ func _bench_feed() -> void:
 		Combat.ering(TB.SW / 2.0, 6.0 * TB.TS, 24, 30 + randf() * 30, randf(), TB.pick(EBullets.SPRITES))
 	if G.enemies.size() < 12:
 		var s := World.free_spot(G.room, G.player, 60, World.M_FLYER)
-		var e := Combat.spawn_enemy(TB.pick(GameData.FLOORS[G.floor_index]["pool"]), s.x, s.y, false, true)
+		var e := Combat.spawn_enemy(TB.pick(GameData.floors()[G.floor_index]["pool"]), s.x, s.y, false, true)
 		e.max_hp = 1e9
 		e.hp = 1e9
 

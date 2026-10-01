@@ -49,6 +49,7 @@ func _ready() -> void:
 	broken_build()
 	combos()
 	heroes()
+	biomes()
 	stress()
 	print("[content] Effects.stats: ", Effects.stats)
 	for n in notes:
@@ -202,7 +203,7 @@ func arena(hero: int) -> Player:
 	var p := G.player
 	for i in 5:
 		var s := World.free_spot(G.room, p, 50, World.M_FLYER)
-		Combat.spawn_enemy(TB.pick(GameData.FLOORS[0]["pool"]), s.x, s.y, i == 0, true)
+		Combat.spawn_enemy(TB.pick(GameData.floors()[0]["pool"]), s.x, s.y, i == 0, true)
 	return p
 
 func fire_all(p: Player) -> void:
@@ -227,7 +228,7 @@ func play(ticks: int) -> void:
 				G.state = &"play"
 		if G.enemies.size() < 3:
 			var s := World.free_spot(G.room, G.player, 50, World.M_FLYER)
-			Combat.spawn_enemy(TB.pick(GameData.FLOORS[0]["pool"]), s.x, s.y, false, true)
+			Combat.spawn_enemy(TB.pick(GameData.floors()[0]["pool"]), s.x, s.y, false, true)
 
 func check(where: String) -> void:
 	var p := G.player
@@ -667,6 +668,131 @@ func heroes() -> void:
 	if ct.gold == gold0:
 		fail("cartomancer: 60 draws and never the COIN card")
 	notes.append("heroes: %d heroes linted, %d new heroes played 10 s each with full trees (worst %.2f ms/tick); heat, scrolls, weapon swap, perfect dodge, potion oil and card draws verified" % [all.size(), n, worst])
+
+## Stage 7 biomes: data checks; every new floor fought with its whole foe
+## pool and hazard; every mini-boss; every guardian driven through each of
+## its attacks; and the run flow (throne victory, then the true ending).
+func biomes() -> void:
+	var fl := GameData.floors()
+	var n_new := 0
+	var foes := {}
+	for i in fl.size():
+		var f: Dictionary = fl[i]
+		_sprite("floor %d" % i, "kit%d" % i)
+		_font("floor %d" % i, [f["name"]])
+		if not GameData.BOSSES.has(f["boss"]) or not BossAI.BOSS_PLANS.has(f["boss"]):
+			fail("floor %d: guardian %s missing" % [i, f["boss"]])
+		for t in f["pool"] + ([f["mini"]] if f.has("mini") else []):
+			if not GameData.ENEMIES.has(t):
+				fail("floor %d: unknown foe %s" % [i, t])
+				continue
+			foes[t] = true
+		if i < GameData.FLOORS.size():
+			continue
+		n_new += 1
+		if not f.has("mini") or not GameData.ENEMIES[f["mini"]].get("mini", false):
+			fail("floor %d: no mini-boss" % i)
+		if not f["hazard"] in ["bog", "warfront", "icicle", "vent", "rift"]:
+			fail("floor %d: unknown hazard %s" % [i, f["hazard"]])
+	for t in foes:
+		var d: Dictionary = GameData.ENEMIES[t]
+		_sprite("foe " + t, d["sprite"])
+		_sprite("foe " + t, d["sprite"] + "_elite")
+		if d.has("shot") and not EBullets.SPRITES.has(d["shot"]):
+			fail("foe %s: unknown shot %s" % [t, d["shot"]])
+		if d.has("name"):
+			_font("foe " + t, [d["name"]])
+	for b in BossAI.BOSS_PLANS:
+		_sprite("guardian " + b, GameData.BOSSES[b]["sprite"])
+		_font("guardian " + b, [GameData.BOSSES[b]["name"]])
+		for t in BossAI.BOSS_SUMMONS.get(b, []):
+			if not GameData.ENEMIES.has(t):
+				fail("guardian %s summons unknown %s" % [b, t])
+	# Live: each new floor, a combat room with its hazard and one of every pool foe.
+	var worst := 0.0
+	var hazard_rooms := 0
+	for i in range(GameData.FLOORS.size(), fl.size()):
+		var f: Dictionary = fl[i]
+		var p := arena(0)
+		G.floor_index = i
+		G.floor_d = World.new_floor(i)
+		G.floor_d["depth"] = 2
+		G.enter_room(World.make_room(G.floor_d, "combat", "", "s"))
+		if G.room.hazards.is_empty() and G.room.strike == "":
+			fail("floor %d: combat room has no hazard" % i)
+		else:
+			hazard_rooms += 1
+		G.room.waves_left = 0
+		var seen := {}
+		for t in f["pool"]:
+			if seen.has(t):
+				continue
+			seen[t] = true
+			var sp := World.free_spot(G.room, p, 60, World.M_FLYER)
+			Combat.spawn_enemy(t, sp.x, sp.y, false, true)
+		var mini := Combat.spawn_enemy(f["mini"], 14.0 * TB.TS, 8.0 * TB.TS, false, true)
+		for e in G.enemies:
+			e.max_hp = 1e9
+			e.hp = 1e9
+		worst = maxf(worst, _timed(900))
+		check("floor %d" % i)
+		if not G.enemies.has(mini):
+			fail("floor %d: mini-boss vanished" % i)
+	# The door before the rest stop always leads to the mini-boss room, which spawns it.
+	var fi := GameData.FLOORS.size()
+	arena(0)
+	G.floor_index = fi
+	G.floor_d = World.new_floor(fi)
+	G.floor_d["depth"] = G.floor_d["total"] - 3
+	var ch := World.gen_choices(G.floor_d, G.player)
+	if ch.size() != 1 or ch[0]["type"] != "elite":
+		fail("mini-boss door not forced: %s" % [ch])
+	G.floor_d["depth"] += 1
+	G.enter_room(World.make_room(G.floor_d, "elite", "rare", "s"))
+	G.spawn_wave()
+	if not G.enemies.any(func(e): return e.type == fl[fi]["mini"]):
+		fail("mini-boss room did not spawn %s" % fl[fi]["mini"])
+	# Guardians: force every attack in each plan and let it play out.
+	var attacks := 0
+	for i in range(GameData.FLOORS.size(), fl.size()):
+		var key: String = fl[i]["boss"]
+		var p := arena(0)
+		G.floor_index = i
+		G.enemies.clear()
+		var b := Combat.spawn_boss(key)
+		b.max_hp = 1e9
+		b.hp = 1e9
+		for st in BossAI.BOSS_PLANS[key]:
+			b.state = StringName(st)
+			b.st = 0.0
+			b.sub = 0
+			b.t = 0.0
+			var ticks := 0
+			while b.state == StringName(st) and ticks < 900:
+				play(1)
+				ticks += 1
+			if ticks >= 900:
+				fail("guardian %s: attack %s never finished" % [key, st])
+			attacks += 1
+		check("guardian " + key)
+		G.boss = null
+	# Run flow: the Pale Regent's fall is a victory and opens the way on;
+	# the last guardian ends the run.
+	var p := arena(0)
+	var wins0: int = Meta.meta["wins"]
+	G.floor_index = GameData.THRONE_FLOOR
+	G.on_boss_dead(Combat.spawn_boss("regent"))
+	if not G.run_stats.get("throne", false) or Meta.meta["wins"] != wins0 + 1:
+		fail("throne victory not granted")
+	if not G.room.objects.any(func(o): return o["kind"] == "portal"):
+		fail("no rift after the throne")
+	G.floor_index = fl.size() - 1
+	G.on_boss_dead(Combat.spawn_boss(fl[fl.size() - 1]["boss"]))
+	if G.win_timer == null:
+		fail("the last guardian does not end the run")
+	G.win_timer = null
+	notes.append("biomes: %d new floors, %d foe types linted; every floor fought with its hazard (%d rooms) and mini-boss, worst %.2f ms/tick; %d guardian attacks played out; throne victory and true ending verified" % [
+		n_new, foes.size(), hazard_rooms, worst, attacks])
 
 func _hero_index(id: String) -> int:
 	var all := GameData.heroes()

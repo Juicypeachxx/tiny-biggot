@@ -9,13 +9,32 @@ const BOSS_PLANS := {
 	"tyrant": ["charge", "sweep", "embers", "charge", "sweep"],
 	"rimewarden": ["freeze", "charge", "hail", "shards", "freeze", "charge"],
 	"regent": ["teleport", "beams", "spiral", "teleport", "summon", "beams", "curtain"],
+	# Stage 7 guardians (new attacks: bogspit, arrowrain, palms, gunline, eclipse).
+	"bogmatriarch": ["bogspit", "spiral", "summon", "cloud", "bogspit", "burst"],
+	"ashwarlord": ["charge", "arrowrain", "sweep", "summon", "embers", "charge", "arrowrain"],
+	"frozenabbot": ["palms", "freeze", "hail", "palms", "shards", "summon"],
+	"crowking": ["teleport", "gunline", "spiral", "summon", "gunline", "beams"],
+	"umbralsun": ["eclipse", "beams", "curtain", "teleport", "summon", "eclipse", "sweep", "hail"],
 }
 const BOSS_SUMMONS := {
 	"colossus": ["bat", "bat", "skeleton"], "sporemother": ["slime", "mushroom", "slime"],
 	"tyrant": ["imp", "imp"], "regent": ["cultist", "ghost"], "librarian": ["bookwyrm", "bookwyrm", "drowned"],
 	"rimewarden": ["wisp", "wisp"],
+	"bogmatriarch": ["bogling", "gnat", "gnat"], "ashwarlord": ["longbowman", "torchimp"], "frozenabbot": ["monk", "monk"],
+	"crowking": ["crow", "crow", "gunman"], "umbralsun": ["voidling", "shadeknight"],
 }
-const RING_SPR := { "colossus": "bone", "librarian": "water", "rimewarden": "ice" }
+const RING_SPR := { "colossus": "bone", "librarian": "water", "rimewarden": "ice",
+	"bogmatriarch": "spore", "ashwarlord": "fire", "frozenabbot": "ice", "crowking": "dark", "umbralsun": "darkBig" }
+## Stage 7: per-guardian bullet sprites for shared attacks (originals keep theirs).
+const SHOT_SPR := {
+	"bogmatriarch": { "spiral": "spore", "burst": "spore", "cloud": "spore" },
+	"ashwarlord": { "charge": "fire", "sweep": "fire", "embers": "fire" },
+	"frozenabbot": { "freeze": "ice", "hail": "ice", "shards": "ice" },
+	"crowking": { "spiral": "dark", "beams": "dark" },
+	"umbralsun": { "curtain": "red", "sweep": "dark", "hail": "red", "spiral": "dark" },
+}
+static func _spr(e: Enemy, attack: String, default: String) -> String:
+	return SHOT_SPR.get(e.boss, {}).get(attack, default)
 
 static func half(e: Enemy) -> bool:
 	return e.hp < e.max_hp * (0.7 if G.dread >= 4 else 0.5)
@@ -108,7 +127,7 @@ static func update_boss(e: Enemy, dt: float) -> void:
 				e.angle += 0.19 if e.boss == "regent" else 0.23
 				var arms := 4 if h else 2
 				for i in arms:
-					Combat.eshot(cx, cy, e.angle + float(i) / arms * TAU, 70, "dark" if e.boss == "regent" else "spore")
+					Combat.eshot(cx, cy, e.angle + float(i) / arms * TAU, 70, "dark" if e.boss == "regent" else _spr(e, "spiral", "spore"))
 				if e.boss == "regent":
 					for i in arms:
 						Combat.eshot(cx, cy, -e.angle + float(i) / arms * TAU + 0.5, 60, "cyan")
@@ -122,14 +141,14 @@ static func update_boss(e: Enemy, dt: float) -> void:
 				e.t = 0.6
 				var a := TB.ang_to(e, p)
 				for i in (14 if h else 10):
-					Combat.eshot(cx, cy, a + (randf() - 0.5) * 1.3, 90 + randf() * 60, "spore")
+					Combat.eshot(cx, cy, a + (randf() - 0.5) * 1.3, 90 + randf() * 60, _spr(e, "burst", "spore"))
 				Snd.play("ebullet")
 				e.sub += 1
 				if e.sub >= 3: done(e)
 		&"cloud":
 			if e.t <= 0:
 				e.t = 0.8
-				Combat.ering(cx, cy, 30, 48, randf(), "spore", true, TB.ang_to(e, p) + (randf() - 0.5) * 0.6, 0.32)
+				Combat.ering(cx, cy, 30, 48, randf(), _spr(e, "cloud", "spore"), true, TB.ang_to(e, p) + (randf() - 0.5) * 0.6, 0.32)
 				e.sub += 1
 				if e.sub >= 4: done(e)
 		&"pages":
@@ -168,7 +187,7 @@ static func update_boss(e: Enemy, dt: float) -> void:
 			if e.t <= 0:
 				e.t = 0.08 if h else 0.11
 				Combat.eshot(TB.rint(TB.IX0 * TB.TS + 8, (TB.IX0 + TB.IW) * TB.TS - 8), TB.IY0 * TB.TS + 4,
-					PI / 2 + (randf() - 0.5) * 0.2, 80 + randf() * 40, "ice")
+					PI / 2 + (randf() - 0.5) * 0.2, 80 + randf() * 40, _spr(e, "hail", "ice"))
 				if e.sub % 5 == 0:
 					Snd.play("ebullet")
 				e.sub += 1
@@ -203,7 +222,7 @@ static func update_boss(e: Enemy, dt: float) -> void:
 				if hit != 0 or e.st > 1.4:
 					G.add_shake(7)
 					Snd.play("boom")
-					Combat.ering(e.x, e.y, 16 if h else 12, 80, randf(), "ice" if e.boss == "rimewarden" else "fire")
+					Combat.ering(e.x, e.y, 16 if h else 12, 80, randf(), "ice" if e.boss == "rimewarden" else _spr(e, "charge", "fire"))
 					if e.charges >= 3:
 						e.charges = 0
 						done(e, 1.2)
@@ -216,9 +235,9 @@ static func update_boss(e: Enemy, dt: float) -> void:
 			if e.t <= 0:
 				e.t = 0.055
 				e.angle += 0.065
-				Combat.eshot(cx, cy, e.angle, 105, "fire")
+				Combat.eshot(cx, cy, e.angle, 105, _spr(e, "sweep", "fire"))
 				if h:
-					Combat.eshot(cx, cy, e.angle + PI, 105, "fire")
+					Combat.eshot(cx, cy, e.angle + PI, 105, _spr(e, "sweep", "fire"))
 				Snd.play("ebullet")
 			if e.st > 3:
 				done(e, 1)
@@ -288,7 +307,81 @@ static func update_boss(e: Enemy, dt: float) -> void:
 				for i in 26:
 					if absi(i - gap) <= 1:
 						continue
-					Combat.eshot(TB.IX0 * TB.TS + i * TB.TS + 8, TB.IY0 * TB.TS + 6, PI / 2, 58, "dark")
+					Combat.eshot(TB.IX0 * TB.TS + i * TB.TS + 8, TB.IY0 * TB.TS + 6, PI / 2, 58, _spr(e, "curtain", "dark"))
 				Snd.play("ebullet")
 				e.sub += 1
 				if e.sub >= 5: done(e, 1)
+		# ---------- Stage 7 attacks ----------
+		&"bogspit":
+			# Lobbed globs that burst into rings where they land.
+			if e.t <= 0:
+				e.t = 0.45
+				var a := TB.ang_to(e, p) + (randf() - 0.5) * 1.2
+				Combat.eshot(cx, cy, a, 95 + randf() * 30, "redBig", 4, 0.6 + randf() * 0.4, "spore")
+				Snd.play("ebullet")
+				e.sub += 1
+				if e.sub >= (8 if h else 6): done(e, 1)
+		&"arrowrain":
+			# Slanted waves of arrows from the top wall, each with a gap to slip through.
+			if e.t <= 0:
+				e.t = 0.9
+				var gap := TB.rint(3, 21)
+				var slant := 0.25 if e.sub % 2 == 0 else -0.25
+				for i in 26:
+					if absi(i - gap) <= 1:
+						continue
+					Combat.eshot(TB.IX0 * TB.TS + i * TB.TS + 8, TB.IY0 * TB.TS + 6, PI / 2 + slant, 72, "bone", 2)
+				Snd.play("ebullet")
+				e.sub += 1
+				if e.sub >= (6 if h else 4): done(e, 1)
+		&"palms":
+			# Glide next to the player, then strike: a ring plus an aimed fan.
+			if e.sub == 0:
+				e.from = Vector2(e.x, e.y)
+				var a := TB.ang_to(p, e)
+				e.to = Vector2(clampf(p.x + cos(a) * 46, 4 * TB.TS, 24 * TB.TS), clampf(p.y + sin(a) * 46, 4 * TB.TS, 15 * TB.TS))
+				e.sub = 1
+				e.st = 0.0
+				Snd.play("charge")
+			var k := minf(1.0, e.st / 0.45)
+			e.x = e.from.x + (e.to.x - e.from.x) * k
+			e.y = e.from.y + (e.to.y - e.from.y) * k
+			if k >= 1:
+				G.add_shake(5)
+				Snd.play("boom")
+				Combat.ering(e.x, e.y, 20 if h else 16, 75, randf(), "ice")
+				Combat.efan(e.x, e.y, TB.ang_to(e, p), 5, 0.5, 110, "ice")
+				e.slams += 1
+				if e.slams >= (4 if h else 3):
+					e.slams = 0
+					done(e, 1)
+				else:
+					e.sub = 0
+		&"gunline":
+			# Four rotating lines of fire with aimed triple shots on top.
+			if e.t <= 0:
+				e.t = 0.07
+				e.angle += 0.11 if e.sub % 60 < 30 else -0.11
+				for i in 4:
+					Combat.eshot(cx, cy, e.angle + i * TAU / 4, 92, "red", 2)
+				if e.sub % 8 == 0:
+					Combat.efan(cx, cy, TB.ang_to(e, p), 3, 0.15, 140 if h else 120, "red")
+					Snd.play("ebullet")
+				e.sub += 1
+			if e.st > 3.0:
+				done(e, 1)
+		&"eclipse":
+			# Two counter-rotating spirals, light and dark, and a ring every second.
+			if e.t <= 0:
+				e.t = 0.08
+				e.angle += 0.17
+				var arms := 3 if h else 2
+				for i in arms:
+					Combat.eshot(cx, cy, e.angle + float(i) / arms * TAU, 66, "dark")
+					Combat.eshot(cx, cy, -e.angle + float(i) / arms * TAU, 58, "red")
+				if e.sub % 12 == 0:
+					Combat.ering(cx, cy, 18 if h else 14, 50, randf(), "darkBig")
+					Snd.play("ebullet")
+				e.sub += 1
+			if e.st > 3.6:
+				done(e, 1)

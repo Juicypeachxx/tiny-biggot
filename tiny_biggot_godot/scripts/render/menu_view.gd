@@ -285,7 +285,7 @@ func draw_codex(ci: CanvasItem) -> void:
 func draw_howto(ci: CanvasItem) -> void:
 	Gfx.text(ci, "HOW TO PLAY", TB.SW / 2, 16, "gold", 2, 0.5)
 	var lines := [
-		["GOAL", "DESCEND 6 FLOORS AND SLAY EACH GUARDIAN."],
+		["GOAL", "DESCEND 6 FLOORS AND SLAY EACH GUARDIAN." if GameData.floors().size() <= 6 else "SLAY 6 GUARDIANS TO WIN, THEN GO ON TO THE ECLIPSE."],
 		["", "DEATH ENDS THE RUN. EVERY RUN IS NEW."],
 		["ROOMS", "DOORS SEAL UNTIL ALL FOES ARE DEAD."],
 		["", "MAP: RED BOSS, GOLD CHEST, GREEN SHOP, PURPLE SHRINE."],
@@ -475,7 +475,7 @@ func draw_end(ci: CanvasItem) -> void:
 	var msg: String = p.hero["name"] + " ESCAPED WITH THE REGENT'S CROWN" + (" ON DREAD %d" % G.dread if G.dread > 0 else "") \
 		if win else "SLAIN BY " + G.death_by.to_upper()
 	Gfx.text(ci, msg, TB.SW / 2, 102, "white", 1, 0.5)
-	var rows := [["FLOOR REACHED", "%d - %s" % [G.floor_index + 1, GameData.FLOORS[G.floor_index]["name"]]], ["FOES SLAIN", r["kills"]],
+	var rows := [["FLOOR REACHED", "%d - %s" % [G.floor_index + 1, GameData.floors()[G.floor_index]["name"]]], ["FOES SLAIN", r["kills"]],
 		["GUARDIANS", r["bosses"]], ["SECRETS FOUND", r["secrets"]], ["TIME", fmt_time(r["time"])]]
 	for i in rows.size():
 		Gfx.text(ci, rows[i][0], 120, 118 + i * 11, "grey")

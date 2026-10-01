@@ -225,6 +225,7 @@ func _paint_lower(ci: CanvasItem) -> void:
 		for i in lines.size():
 			var w := TB.text_w(lines[i]) + 1
 			Gfx.text(ci, lines[i], TB.SW / 2 - w / 2, 6 * TB.TS + i * 10, "bone", 1, 0.0, true, 120 / 255.0)
+	Hazards.draw_floor(ci, t)
 	_paint_shadows(ci, room)
 	# Zone motes (z 5).
 	for z in G.zones:
@@ -427,7 +428,7 @@ func _draw_enemy(ci: CanvasItem, e: Enemy, t: float) -> void:
 # ---------- z 1800: spawn rings, telegraphs, boss beams ----------
 func _paint_fx(ci: CanvasItem) -> void:
 	var t := G.time
-	var accent := TB.c(GameData.FLOORS[G.floor_index]["accent_hex"])
+	var accent := TB.c(GameData.floors()[G.floor_index]["accent_hex"])
 	for e: Enemy in G.enemies:
 		if e.spawn_t > 0:
 			var k := 1 - e.spawn_t / 0.75
@@ -457,6 +458,7 @@ func _paint_fx(ci: CanvasItem) -> void:
 					Gfx.bar(ci, TB.ca("#a35bd6", 180 if floori(t * 16) % 2 == 1 else 80), e.x, e.y - 4, 520, 2, ba)
 	Juice.draw_rings(ci)
 	Juice.draw_magic(ci, G.player, G.time)
+	Hazards.draw_marks(ci, G.time)
 
 # ---------- z 1900: additive glows ----------
 func _paint_glow(ci: CanvasItem) -> void:

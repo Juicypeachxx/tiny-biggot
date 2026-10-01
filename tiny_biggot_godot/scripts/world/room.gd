@@ -21,6 +21,11 @@ var objects_ready := false       # Ruby: room[:objects] set
 var pickups: Array = []          # pickups waiting in the room before entry
 var exits_open := false
 var waves_left := 0
+# Stage 7 biome hazards (scripts/world/hazards.gd); empty on the original floors.
+var hazards: Array = []
+var strike := ""
+var strike_t := 0.0
+var marks: Array = []
 
 func tile(c: int, r: int) -> int:
 	if r < 0 or c < 0 or r >= TB.ROWS or c >= TB.COLS:
