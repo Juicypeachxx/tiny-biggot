@@ -3,7 +3,8 @@ extends RefCounted
 ## Command-line options for testing, passed after `--`:
 ##   --shot=res_or_abs_path.png   save a screenshot ...
 ##   --shot-frame=N               ... after N logic ticks, then quit
-##   --hero=N                     hero index for the debug quick-start (0-5)
+##   --hero=N                     hero index; starts a run straight away (skips the title)
+##   --quick                      start a run straight away with the default hero
 ##   --floor=N                    start on floor N (0-5)
 ##   --room=KIND                  jump straight into a room of that type (combat, boss, ...)
 ##   --seed=N                     fixed random seed
@@ -12,7 +13,8 @@ extends RefCounted
 ##   --god                        the player takes no damage (soak tests)
 ##   --weapon=ID                  start with this weapon (see data/weapons.gd)
 ##   --weapon-cycle=SECONDS       switch to the next weapon every N seconds (soak tests)
-##   --ui=choice|traits           open the relic choice or a level-up trait pick at start
+##   --ui=SCREEN                  open a screen at start: choice, traits, title, hero, tree, shrine,
+##                                codex, howto, options, pause, traitlist, gearpage, relics, dead, win
 ##   --no-save                    neither read nor write the save file (repeatable test runs)
 ##   --unlock-all                 every shrine unlock and every skill-tree node
 ##   --trace=FILE                 write one line of game state per second (replay comparison)

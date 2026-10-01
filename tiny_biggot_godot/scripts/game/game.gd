@@ -41,6 +41,20 @@ var god := false              # debug: --god
 var menu := 0
 var choice: Dictionary = {}    # relic choice: { relics, idx }
 var tchoice: Dictionary = {}   # trait offer: { opts, idx }
+# Menus (Game.rb).
+const TITLE_ITEMS := ["START RUN", "SKILL TREES", "EMBER SHRINE", "CODEX", "HOW TO PLAY", "OPTIONS"]
+const PAUSE_ITEMS := ["RESUME", "GEAR", "TRAITS", "RELICS", "OPTIONS", "ABANDON RUN"]
+const OPTION_LIST := [["AUTO-AIM FIRE", "autofire"], ["MUSIC", "music"], ["SOUND EFFECTS", "sfx"], ["SCREEN SHAKE", "shake"], ["BACK", ""]]
+const CODEX_COLS := 11
+var quit_armed := false
+var opt_from: StringName = &"title"
+var codex_i := 0
+var shrine_i := 0
+var tree_hero := 0
+var tree_b := 0
+var tree_n := 0
+var tree_from: StringName = &""
+var embers: Array = []         # title-screen ember motes
 var _wave_delay := 0.0
 var _spawned := false
 
@@ -623,6 +637,7 @@ func relic_pool() -> Array:
 	if Meta.unlocked("cache1"): ids += Relics.CACHE_1
 	if Meta.unlocked("cache2"): ids += Relics.CACHE_2
 	if Meta.unlocked("cache3"): ids += Relics.CACHE_3
+	ids += Relics.new_ids()   # new content is always in the pool
 	var out := []
 	for i in ids:
 		out.append(Relics.by_id(i))
@@ -855,30 +870,265 @@ func update(dt: float) -> void:
 			fade = {}
 		return
 	match state:
-		&"play":
-			update_play(dt)
-		&"pause":
-			update_pause()
-		&"choice":
-			update_choice()
-		&"traits":
-			update_traits()
+		&"title": update_title(dt)
+		&"hero": update_hero()
+		&"tree":
+			update_embers(dt)
+			update_tree()
+		&"howto":
+			if Keys.any():
+				state = &"title"
+				Snd.play("select")
+		&"options": update_options()
+		&"shrine":
+			update_embers(dt)
+			update_shrine()
+		&"codex":
+			update_embers(dt)
+			update_codex()
+		&"pause": update_pause()
+		&"relics", &"traitlist", &"gearpage":
+			if Keys.any():
+				state = &"pause"
+				Snd.play("select")
+		&"choice": update_choice()
+		&"traits": update_traits()
 		&"dead", &"win":
+			update_embers(dt)
 			state_t += dt
 			if Keys.any() and state_t > 1:
-				# Title menu arrives in stage 7: restart a run for now.
-				start_fade(new_run)
+				state = &"title"
+				menu = 0
+				Snd.play("confirm")
+		&"play":
+			update_play(dt)
 
 func update_pause() -> void:
-	# Full pause menu arrives in stage 7. MENU or USE resumes.
-	if Keys.back() or Keys.confirm():
+	if Keys.back():
 		state = &"play"
 		Snd.play("select")
+		return
+	if menu_nav(PAUSE_ITEMS.size()):
+		Snd.play("confirm")
+		match menu:
+			0: state = &"play"
+			1: state = &"gearpage"
+			2: state = &"traitlist"
+			3: state = &"relics"
+			4:
+				state = &"options"
+				opt_from = &"pause"
+				menu = 0
+			5:
+				if quit_armed:
+					on_death("giving up")
+				else:
+					quit_armed = true
+	if menu != 5:
+		quit_armed = false
+
+# ---------- Menus (Game.rb) ----------
+func update_embers(dt: float) -> void:
+	if embers.size() < 50 and randf() < 0.5:
+		embers.append({ "x": randf() * TB.SW, "y": TB.SH + 4.0, "vy": -(10 + randf() * 25), "vx": (randf() - 0.5) * 8,
+			"life": 6 + randf() * 4, "col": TB.pick(["#e8873a", "#f2c94c", "#d8443c"]) })
+	var keep := []
+	for e in embers:
+		e["x"] += (e["vx"] + sin(time * 2 + e["y"] * 0.05) * 6) * dt
+		e["y"] += e["vy"] * dt
+		e["life"] -= dt
+		if e["life"] > 0 and e["y"] >= -4:
+			keep.append(e)
+	embers = keep
+
+func update_title(dt: float) -> void:
+	update_embers(dt)
+	if not menu_nav(TITLE_ITEMS.size()):
+		return
+	Snd.play("confirm")
+	match menu:
+		0:
+			state = &"hero"
+			menu = hero_index
+		1:
+			state = &"tree"
+			tree_hero = hero_index
+			tree_b = 0
+			tree_n = 0
+		2:
+			state = &"shrine"
+			menu = shrine_i
+		3:
+			state = &"codex"
+			menu = codex_i
+		4: state = &"howto"
+		_:
+			state = &"options"
+			opt_from = &"title"
+			menu = 0
+
+func update_hero() -> void:
+	menu = hero_index
+	var go := menu_nav(GameData.HEROES.size(), true)
+	hero_index = menu
+	var mx: int = Meta.meta.get("dread_max", 0)
+	if mx > 0:
+		if Keys.up():
+			Meta.meta["dread"] = (Meta.meta.get("dread", 0) + 1) % (mx + 1)
+			Snd.play("select")
+		if Keys.down():
+			Meta.meta["dread"] = (Meta.meta.get("dread", 0) + mx) % (mx + 1)
+			Snd.play("select")
+	if Keys.roll():
+		state = &"tree"
+		tree_hero = hero_index
+		tree_b = 0
+		tree_n = 0
+		tree_from = &"hero"
+		Snd.play("select")
+		return
+	if Keys.back():
+		state = &"title"
+		menu = 0
+		Snd.play("select")
+		Meta.write_save()
+		return
+	if not go:
+		return
+	var h: Dictionary = GameData.HEROES[hero_index]
+	if hero_unlocked(h):
+		Snd.play("confirm")
+		Meta.write_save()
+		start_fade(new_run)
+	else:
+		Snd.play("deny")
+		toast("UNLOCK THIS HERO AT THE EMBER SHRINE", "orange")
+
+## Skill tree: LEFT/RIGHT pick a branch, UP/DOWN a node, USE buys, AIM LEFT/RIGHT change hero.
+func update_tree() -> void:
+	var n := GameData.HEROES.size()
+	if Keys.aim_left_trig():
+		tree_hero = (tree_hero + n - 1) % n
+		Snd.play("select")
+	if Keys.aim_right_trig():
+		tree_hero = (tree_hero + 1) % n
+		Snd.play("select")
+	if Keys.left():
+		tree_b = (tree_b + 2) % 3
+		Snd.play("select")
+	if Keys.right():
+		tree_b = (tree_b + 1) % 3
+		Snd.play("select")
+	if Keys.up():
+		tree_n = (tree_n + 3) % 4
+		Snd.play("select")
+	if Keys.down():
+		tree_n = (tree_n + 1) % 4
+		Snd.play("select")
+	if Keys.back():
+		state = &"hero" if tree_from == &"hero" else &"title"
+		menu = hero_index if tree_from == &"hero" else 1
+		tree_from = &""
+		Snd.play("select")
+		return
+	if not Keys.confirm():
+		return
+	var h: Dictionary = GameData.HEROES[tree_hero]
+	var owned := tree_owned(h["id"])
+	if not hero_unlocked(h):
+		Snd.play("deny")
+		toast("UNLOCK THIS HERO FIRST", "orange")
+		return
+	if owned[tree_b] > tree_n:
+		Snd.play("deny")
+		toast("ALREADY LEARNED", "grey")
+		return
+	if owned[tree_b] < tree_n:
+		Snd.play("deny")
+		toast("LEARN THE SKILL ABOVE FIRST", "red")
+		return
+	var cost: int = Traits.TREE_COSTS[tree_n]
+	if Meta.meta["embers"] < cost:
+		Snd.play("deny")
+		toast("NOT ENOUGH EMBERS", "red")
+		return
+	Meta.meta["embers"] -= cost
+	owned[tree_b] += 1
+	Meta.write_save()
+	Snd.play("unlock")
+	toast(Traits.tree_for(h["id"])[tree_b]["nodes"][tree_n][0] + " LEARNED", "gold")
+
+func update_shrine() -> void:
+	menu = shrine_i
+	var go := menu_nav(GameData.UNLOCKS.size())
+	shrine_i = menu
+	if Keys.back():
+		state = &"title"
+		menu = 2
+		Snd.play("select")
+		return
+	if not go:
+		return
+	var u: Dictionary = GameData.UNLOCKS[shrine_i]
+	if Meta.unlocked(u["id"]):
+		Snd.play("deny")
+		toast("ALREADY UNLOCKED", "grey")
+	elif Meta.meta["embers"] < u["cost"]:
+		Snd.play("deny")
+		toast("NOT ENOUGH EMBERS", "red")
+	else:
+		Meta.meta["embers"] -= u["cost"]
+		Meta.meta["unlocked"][u["id"]] = true
+		Meta.write_save()
+		Snd.play("unlock")
+		toast(u["name"] + " UNLOCKED", "gold")
+
+func update_codex() -> void:
+	var n := Relics.all().size()
+	if Keys.left():
+		codex_i = (codex_i + n - 1) % n
+		Snd.play("select")
+	if Keys.right():
+		codex_i = (codex_i + 1) % n
+		Snd.play("select")
+	if Keys.up():
+		codex_i = TB.rmod(codex_i - CODEX_COLS, n)
+		Snd.play("select")
+	if Keys.down():
+		codex_i = (codex_i + CODEX_COLS) % n
+		Snd.play("select")
+	if Keys.back() or Keys.confirm():
+		state = &"title"
+		menu = 3
+		Snd.play("select")
+
+func update_options() -> void:
+	var go := menu_nav(OPTION_LIST.size())
+	var back_menu := 5 if opt_from == &"title" else 4
+	if Keys.back():
+		state = opt_from
+		menu = back_menu
+		Snd.play("select")
+		return
+	var key: String = OPTION_LIST[menu][1]
+	if go or (key != "" and (Keys.left() or Keys.right())):
+		if key == "":
+			state = opt_from
+			menu = back_menu
+			Snd.play("select")
+			return
+		Meta.opts[key] = not Meta.opts[key]
+		if key == "music":
+			Snd.refresh()
+		Snd.play("confirm")
+		Meta.write_save()
 
 func update_play(dt: float) -> void:
 	run_stats["time"] += dt
 	if Keys.pause():
 		state = &"pause"
+		menu = 0
+		quit_armed = false
 		Snd.play("select")
 		return
 	if hitstop > 0:

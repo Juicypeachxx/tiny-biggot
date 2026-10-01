@@ -4,11 +4,11 @@ extends Node2D
 ## 60 ticks per second with the same fixed DT, and drawing reads the result.
 
 const FadeView := preload("res://scripts/render/fade_view.gd")
-const DebugHud := preload("res://scripts/render/debug_hud.gd")
 
 var world: WorldView
 var fade_view: Node2D
-var hud: Node2D
+var hud: HudView
+var menus: MenuView
 var overlay: OverlayView
 
 var bot: DebugBot = null
@@ -33,13 +33,18 @@ func _ready() -> void:
 	var hud_layer := CanvasLayer.new()
 	hud_layer.layer = 10
 	add_child(hud_layer)
-	hud = DebugHud.new()
+	hud = HudView.new()
 	hud_layer.add_child(hud)
 	var over_layer := CanvasLayer.new()
 	over_layer.layer = 20
 	add_child(over_layer)
 	overlay = OverlayView.new()
 	over_layer.add_child(overlay)
+	var menu_layer := CanvasLayer.new()
+	menu_layer.layer = 25
+	add_child(menu_layer)
+	menus = MenuView.new()
+	menu_layer.add_child(menus)
 	var top := CanvasLayer.new()
 	top.layer = 50
 	add_child(top)
@@ -49,9 +54,16 @@ func _ready() -> void:
 	touch_layer.layer = 60
 	add_child(touch_layer)
 	touch_layer.add_child(TouchControls.new())
-	# Until the menus are ported (stage 7) the game boots straight into a run.
 	G.god = DebugArgs.has("god")
 	G.hero_index = clampi(DebugArgs.get_int("hero", 0), 0, GameData.HEROES.size() - 1)
+	# The game opens on the title screen. Test options start a run directly.
+	var quick := false
+	for k in ["bot", "room", "floor", "hero", "ui", "bench", "quick", "weapon"]:
+		if DebugArgs.has(k):
+			quick = true
+	if not quick:
+		G.state = &"title"
+		return
 	G.new_run()
 	G.floor_index = clampi(DebugArgs.get_int("floor", 0), 0, GameData.FLOORS.size() - 1)
 	if G.floor_index > 0:
@@ -61,10 +73,14 @@ func _ready() -> void:
 		G.floor_d["depth"] = G.floor_d["total"] - 1 if kind == "boss" else 2
 		G.enter_room(World.make_room(G.floor_d, kind, "gold" if kind == "combat" else "", "s"))
 	match DebugArgs.get_str("ui"):
+		"": pass
 		"choice": G.open_choice("chest", { "x": 200.0, "y": 150.0 })
 		"traits":
 			G.player.pending = 2
 			G.offer_traits()
+		"hud": pass
+		var other:
+			G.state = StringName(other)
 
 func _physics_process(_delta: float) -> void:
 	if bot != null:
@@ -81,7 +97,9 @@ func _physics_process(_delta: float) -> void:
 			print("[bench] %d enemy shots, %d player shots, %d particles: logic %.2f ms/tick avg" % [
 				EBullets.n, G.pbullets.size(), Fx.n, _bench_us / 1000.0 / _bench_n])
 	world.refresh()
-	hud.queue_redraw()
+	world.visible = world.visible and HudView.world_state()
+	hud.refresh()
+	menus.refresh()
 	overlay.refresh()
 	fade_view.queue_redraw()
 	_ticks += 1

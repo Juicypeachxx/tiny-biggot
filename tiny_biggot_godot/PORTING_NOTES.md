@@ -113,9 +113,13 @@ frame. The port uses these rules:
 5. Items: relics, traits and level-ups, gear and weapon swaps, chests, shops,
    shrines. Done. Every item effect is verified against the original Ruby
    (see Testing).
-6. HUD: hearts, minimap, prompts, banners, boss bar.
+6. HUD: hearts, minimap, prompts, banners, boss bar. Done.
 7. Menus: title, hero select, skill trees, shrine, codex, options, pause, end
-   screens.
+   screens. Done. The game opens on the title screen ("TINY BIGGOT ROGUES",
+   design spec section 1); test options such as --bot or --hero start a run
+   directly. Small text fixes: "HOW TO PLAY" says 6 floors (the original said
+   4 though the game has 6) and calls the on-screen controls TOUCH instead of
+   EMPO. The codex scrolls when there are more relics than fit.
 8. Touch polish: menu-friendly touch, haptics, safe areas.
 
 ## Status after stages 4 and 5 (what to try)
