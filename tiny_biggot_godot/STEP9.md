@@ -74,16 +74,19 @@ and heroes were tuned.
   - A run without god mode, which reached floor 8 at level 25 with no deaths.
   - All three had 0 errors and no leak warnings.
 
-## Known limits
+## Known limits (updated after the "last things" pass)
 
-- **iPad:** nothing has been tested on a real iPad yet (touch feel,
-  Magic Keyboard in Xogot, rendering speed on the device). Headless timing
-  covers game logic only.
-- **Art:** new heroes, foes, guardians, tiles and items use recoloured or
-  reused sprites as placeholders.
-- **Timing test:** the content test's "broken build" timing check (normally
-  13-14 ms against 16.7 ms) can fail if another heavy process runs at the
-  same time. Run `tools/check.sh` on its own.
-- **Content totals:** 224 weapons, 194 equipment pieces, 167 relics and 132
-  traits. More weapons, armor and traits come after the game is finished, as
-  agreed.
+- **iPad:** still untested on the device. `IPAD_CHECKLIST.md` lists what
+  to check in the first session (touch, Magic Keyboard in Xogot, speed,
+  save).
+- **Art:** the seven new heroes now have hand-drawn sprites. New foes,
+  guardians, tiles and most new items still use recoloured or reused
+  sprites as placeholders.
+- **Timing test:** fixed. It now uses the median per-tick time, so it
+  passes even with other heavy processes running (13.2 ms with three soaks
+  alongside).
+- **Soak bot:** `--smart-bot` gets past pillars, long fights and
+  challenge rooms. The recorded replays keep the plain bot, so they still
+  prove the original game is unchanged.
+- **Content totals:** 224 weapons, 194 equipment pieces, 167 relics and
+  132 traits. More weapons, armour and traits come next.

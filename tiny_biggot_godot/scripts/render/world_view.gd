@@ -292,6 +292,11 @@ func _paint_lower(ci: CanvasItem) -> void:
 				Gfx.sp(ci, "portal", x, y + 6, zl, zl, 0.0, false, 1.0,
 					TB.rgba(242, 201, 76, 150) if o["kind"] == "loopportal" else TB.rgba(244, 236, 216, 110))
 				Gfx.text(ci, "LOOP" if o["kind"] == "loopportal" else "EXIT", x, y - 18, "gold" if o["kind"] == "loopportal" else "bone", 1, 0.5)
+				if o["kind"] == "loopportal":
+					# A turning gold ring marks the way round again.
+					for k in 3:
+						var a0 := t * 2.5 + k * TAU / 3.0
+						ci.draw_arc(Vector2(x, y + 2), 13, a0, a0 + 1.4, 10, TB.ca("#f2c94c", 220), 1.5, false)
 			"portal":
 				var zz := 1 + sin(t * 4) * 0.05
 				Gfx.sp(ci, "portal", x, y + 6, zz, zz)
