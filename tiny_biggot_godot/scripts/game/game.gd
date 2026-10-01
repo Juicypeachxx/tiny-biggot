@@ -698,10 +698,17 @@ func open_choice(source: String, o: Dictionary) -> void:
 		choice = { "relics": ch, "idx": mini(1, ch.size() - 1) }
 		state = &"choice"
 
+## Offer weight. Original traits keep the original formula exactly. New
+## traits (design spec section 4): rarity weight times a snowball affinity
+## from ranks already in the family and tag points from new-content items.
+## Legendary traits (like capstones) need 3+ ranks in their family, and
+## cursed traits only appear from level 3.
 func trait_weight(p: Player, t: Dictionary) -> int:
 	var rank: int = p.traits.get(t["id"], 0)
 	if rank >= t["max"]:
 		return 0
+	if t["new"]:
+		return _new_trait_weight(p, t)
 	var fam: int = p.fam.get(t["fam"], 0)
 	if t["cap"]:
 		return 0 if fam < 3 else 6
@@ -709,6 +716,22 @@ func trait_weight(p: Player, t: Dictionary) -> int:
 	if t["fam"] != "core":
 		w += mini(fam, 4) * 2
 	return w
+
+func _new_trait_weight(p: Player, t: Dictionary) -> int:
+	var fam: int = p.fam.get(t["fam"], 0)
+	if (t["cap"] or t["rarity"] == "legend") and fam < 3:
+		return 0
+	if t["rarity"] == "cursed" and p.level < 3:
+		return 0
+	var tagpts := 0
+	for tag in t["tags"]:
+		tagpts += p.tag_counts.get(tag, 0)
+	var affinity := 1 + mini(fam, 4) * 2 + mini(tagpts, 4)
+	return Traits.RARITY[t["rarity"]]["w"] * affinity
+
+## Gold price of the next paid reroll (after the free ones run out).
+func reroll_cost() -> int:
+	return 15 + 10 * player.paid_rerolls
 
 func offer_traits() -> void:
 	var p := player
@@ -791,6 +814,12 @@ func update_traits() -> void:
 		if player.rerolls > 0:
 			player.rerolls -= 1
 			Snd.play("confirm")
+			offer_traits()
+		elif player.gold >= reroll_cost():
+			# New (design spec 4): once the free rerolls are gone, rerolls cost gold.
+			player.gold -= reroll_cost()
+			player.paid_rerolls += 1
+			Snd.play("coin")
 			offer_traits()
 		else:
 			Snd.play("deny")

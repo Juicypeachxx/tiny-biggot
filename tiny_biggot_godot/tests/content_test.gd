@@ -44,6 +44,8 @@ func _ready() -> void:
 	print("[content] live: %d items exercised" % tested)
 	reversibility()
 	rails()
+	leveling()
+	archetypes()
 	broken_build()
 	stress()
 	print("[content] Effects.stats: ", Effects.stats)
@@ -368,6 +370,81 @@ func rails() -> void:
 		fail("bullet cap: %d live shots" % G.pbullets.size())
 	notes.append("rails: proc budget %d/tick with queue, depth limit %d, shot cap %d, summon cap %d, shot floor %.4f s all verified" % [
 		Effects.BUDGET, Effects.MAX_DEPTH, Effects.PBULLET_CAP, Effects.SUMMON_CAP, Effects.MIN_SHOT_INTERVAL])
+
+# ---------- Leveling rules (design spec section 4) ----------
+func _fake_trait(id: String, fam: String, rarity: String, mx: int, effects: Array, tiers: Dictionary = {}) -> Dictionary:
+	var t := { "id": id, "fam": fam, "max": mx, "name": id.to_upper(), "desc": "TEST", "cap": false, "effects": effects,
+		"new": true, "rarity": rarity, "tags": [fam], "tiers": tiers }
+	Traits._list.append(t)
+	Traits._by_id[id] = t
+	return t
+
+func leveling() -> void:
+	var p := arena(0)
+	var common := _fake_trait("t_common", "edge", "common", 3, [["add", "crit", 0.05]], { 3: [["add", "crit_mult", 1.0]] })
+	var cursed := _fake_trait("t_cursed", "edge", "cursed", 1, [["mul", "dmg", 1.5], ["add_floor", "max_hp", -2, 2], ["clamp_max", "hp", "max_hp"]])
+	var legend := _fake_trait("t_legend", "edge", "legend", 1, [{ "on": "on_crit", "do": [["nova", 4, 0.3, "spark"]] }])
+	# Rarity weights and gating.
+	if G.trait_weight(p, common) != 4 * 1:
+		fail("common trait weight %d (want 4)" % G.trait_weight(p, common))
+	if G.trait_weight(p, cursed) != 0 or G.trait_weight(p, legend) != 0:
+		fail("cursed/legendary traits offered too early")
+	# Stacking: three ranks, the third unlocks its tier effect; affinity grows.
+	var crit0 := p.crit
+	var cm0 := p.crit_mult
+	for k in 3:
+		p.pending += 1
+		G.take_trait(common)
+	# 3 ranks x 0.05 crit, plus the EDGE 2-rank family bonus (+0.08); the
+	# third rank's tier adds +1.0 crit damage.
+	if absf(p.crit - crit0 - 0.23) > 1e-9 or absf(p.crit_mult - cm0 - 1.0) > 1e-9:
+		fail("trait ranks/tier: crit %.3f crit_mult %.3f" % [p.crit - crit0, p.crit_mult - cm0])
+	if p.fam_bonus.get("edge", 0) != 1:
+		fail("new family bonus tier not applied (%s)" % p.fam_bonus)
+	p.level = 3
+	if G.trait_weight(p, cursed) <= 0 or G.trait_weight(p, legend) <= 0:
+		fail("cursed/legendary traits not offered once unlocked")
+	if G.trait_weight(p, common) != 0:
+		fail("maxed trait still offered")
+	# Weighted offers favour the family you are building.
+	var hits := 0
+	for k in 300:
+		G.offer_traits()
+		for o in G.tchoice["opts"]:
+			if o["fam"] == "edge":
+				hits += 1
+				break
+	G.state = &"play"
+	notes.append("leveling: rarity weights, cursed/legendary gating, 3-rank tier, new family bonus and offer weighting verified; " +
+		"an EDGE trait was offered in %d of 300 level-ups after 3 EDGE ranks" % hits)
+	# Paid reroll once the free ones are gone.
+	p.rerolls = 0
+	p.gold = 100
+	G.offer_traits()
+	var cost := G.reroll_cost()
+	p.pending += 1
+	G.state = &"traits"
+	Input.action_press(&"pause")
+	Keys.tick()
+	G.update_traits()
+	Input.action_release(&"pause")
+	Keys.tick()
+	if p.gold != 100 - cost or p.paid_rerolls != 1:
+		fail("paid reroll: gold %d, paid %d (cost %d)" % [p.gold, p.paid_rerolls, cost])
+	G.state = &"play"
+	for id in ["t_common", "t_cursed", "t_legend"]:
+		Traits._list.erase(Traits._by_id[id])
+		Traits._by_id.erase(id)
+
+func archetypes() -> void:
+	var counts := []
+	for a in Traits.ARCHETYPES:
+		var n := 0
+		for t in Traits.all():
+			if t["fam"] == a["fam"]:
+				n += 1
+		counts.append("%s %d" % [a["name"], n])
+	notes.append("traits per archetype: " + ", ".join(counts))
 
 # ---------- 4. Broken build ----------
 func _timed(ticks: int) -> float:

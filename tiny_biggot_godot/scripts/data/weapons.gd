@@ -15,6 +15,8 @@ const TAG_COLS := {
 	"storm": ["#4d9be6", "#2b4f8a", "#c8f0ff"], "blood": ["#d8443c", "#8a2a33", "#ff8a8a"], "bulwark": ["#8b8f9c", "#4e4a5e", "#f4ecd8"],
 	"shadow": ["#a35bd6", "#5c3483", "#e8c8ff"], "arcane": ["#e86fb4", "#a35bd6", "#ffffff"], "fortune": ["#f2c94c", "#e8873a", "#fffbe0"],
 	"demolition": ["#8b8f9c", "#1a1423", "#e8873a"], "swarm": ["#f2c94c", "#7a5236", "#fffbe0"], "core": ["#c9c2a8", "#8b8f9c", "#ffffff"],
+	# New archetype tags (design spec section 4).
+	"edge": ["#f4ecd8", "#ffffff", "#f2c94c"], "fury": ["#e8573a", "#8a2a33", "#f2c94c"], "malice": ["#7a3a8c", "#3c1d47", "#d8443c"],
 }
 
 ## Attack types. Defaults are overridden per weapon.

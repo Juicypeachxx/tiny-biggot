@@ -186,6 +186,28 @@ The shot cap is 1,000 rather than the spec's example of 2,000 because the
 broken-build test needed it to stay inside a 60 Hz frame. Original content
 never gets near it, as the replays show.
 
+## Leveling and traits (design spec step 4)
+
+* **12 archetypes:** `Traits.ARCHETYPES` maps each to a family. Nine reuse
+  original families (blood, pyre, venom, storm, arcane, swarm, shadow,
+  bulwark, fortune). Crit, berserk and curse get the new families EDGE, FURY
+  and MALICE, each with three family-bonus tiers at 2, 4 and 6 ranks. Frost
+  and demolition stay as extra original families.
+* **Rarities:** common, uncommon, rare, legendary and cursed
+  (`Traits.RARITY`). Original traits show as common, and their capstones as
+  legendary.
+* **Stacking tiers:** new traits can add effects when a rank is reached
+  (`tier_effects`, e.g. rank 3).
+* **Weighted offers:** original traits keep the original formula exactly. New
+  traits weigh rarity times an affinity built from ranks in the family plus
+  tag points from new-content items, so a build snowballs. Legendary traits
+  need 3 family ranks and cursed traits appear from level 3.
+* **Paid rerolls:** the two free rerolls are unchanged. Once they are gone,
+  MENU rerolls for gold (15, then +10 per paid reroll). In the original,
+  MENU did nothing at that point.
+* **Room choice:** unchanged. It already shows room type and reward, and the
+  new content has not needed new room types yet.
+
 ## Testing
 
 **Unchanged behaviour (replays).** `tools/replay.sh check` reruns six seeded

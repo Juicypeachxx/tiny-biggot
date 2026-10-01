@@ -265,8 +265,14 @@ func draw_traits(ci: CanvasItem) -> void:
 		var sel: bool = c["idx"] == i
 		var fam: Dictionary = Traits.FAMILIES[t["fam"]]
 		var oy := -4 if sel else 0
-		Gfx.panel(ci, x, y + oy, w, h, "#f2c94c" if sel else fam["hex"], "#221a2c" if sel else "#17121e")
+		var border: String = fam["hex"]
+		if t["new"] and t["rarity"] == "cursed":
+			border = Traits.RARITY["cursed"]["hex"]
+		Gfx.panel(ci, x, y + oy, w, h, "#f2c94c" if sel else border, "#221a2c" if sel else ("#1c1022" if t["new"] and t["rarity"] == "cursed" else "#17121e"))
 		Gfx.text(ci, fam["name"] + (" CAPSTONE" if t["cap"] else ""), x + w / 2, y + 8 + oy, fam["col"], 1, 0.5)
+		if t["new"]:
+			var rar: Dictionary = Traits.RARITY[t["rarity"]]
+			Gfx.text(ci, rar["name"], x + w / 2, y + h - 10 + oy, rar["col"], 1, 0.5)
 		var nl := Gfx.wrap_text(t["name"], w - 10)
 		for j in nl.size():
 			Gfx.text(ci, nl[j], x + w / 2, y + 22 + j * 12 + oy, "gold", 2, 0.5)
@@ -291,7 +297,8 @@ func draw_traits(ci: CanvasItem) -> void:
 				var bl := Gfx.wrap_text(bonus, w - 14)
 				for j in mini(2, bl.size()):
 					Gfx.text(ci, bl[j], x + w / 2, y + 126 + j * 8 + oy, "grey", 1, 0.5)
-	Gfx.text(ci, "< >  CHOOSE     USE  TAKE     MENU  REROLL (%d LEFT)" % p.rerolls, TB.SW / 2, 226, "grey", 1, 0.5)
+	var reroll := "REROLL (%d LEFT)" % p.rerolls if p.rerolls > 0 else "REROLL (%d GOLD)" % G.reroll_cost()
+	Gfx.text(ci, "< >  CHOOSE     USE  TAKE     MENU  " + reroll, TB.SW / 2, 226, "grey", 1, 0.5)
 	if p.pending > 1:
 		Gfx.text(ci, "%d MORE LEVEL-UPS WAITING" % (p.pending - 1), TB.SW / 2, 240, "lime", 1, 0.5)
 

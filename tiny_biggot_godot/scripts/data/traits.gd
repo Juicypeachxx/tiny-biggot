@@ -20,9 +20,24 @@ const FAMILIES := {
 	"fortune": { "name": "FORTUNE", "col": "gold", "hex": "#f2c94c" },
 	"demolition": { "name": "DEMOLITION", "col": "orange", "hex": "#d8443c" },
 	"swarm": { "name": "SWARM", "col": "gold", "hex": "#e8873a" },
+	# New archetype families (design spec section 4).
+	"edge": { "name": "EDGE", "col": "white", "hex": "#f4ecd8" },
+	"fury": { "name": "FURY", "col": "red", "hex": "#e8573a" },
+	"malice": { "name": "MALICE", "col": "purple", "hex": "#7a3a8c" },
 }
 
+## The 12 build archetypes of the design spec and the family that carries each.
+## Nine reuse an original family; crit, berserk and curse are new.
+const ARCHETYPES := [
+	{ "name": "CRIT", "fam": "edge" }, { "name": "BLEED / BLOOD", "fam": "blood" }, { "name": "FIRE", "fam": "pyre" },
+	{ "name": "POISON", "fam": "venom" }, { "name": "LIGHTNING", "fam": "storm" }, { "name": "PROJECTILE STORM", "fam": "arcane" },
+	{ "name": "SUMMONER", "fam": "swarm" }, { "name": "ROLL / EVASION", "fam": "shadow" }, { "name": "TANK / THORNS", "fam": "bulwark" },
+	{ "name": "BERSERK", "fam": "fury" }, { "name": "GREED", "fam": "fortune" }, { "name": "CURSE", "fam": "malice" },
+]
+
 ## Family bonuses unlock at 2, 4 and 6 total ranks in that family: [name, effects].
+## The first eleven are the originals (converted from Ruby); edge, fury and
+## malice are new.
 const FAMILY_BONUS := {
 	"pyre": [["+10% BURN CHANCE", [["add", "burn", 0.1]]], ["BURNS DEAL +50% DAMAGE", [["add", "burn_dmg", 0.5]]], ["BURNING FOES TAKE +25% DAMAGE", [["add", "vs_burn", 0.25]]]],
 	"frost": [["+10% CHILL CHANCE", [["add", "chill", 0.1]]], ["CHILLED FOES TAKE +15% DAMAGE", [["add", "vs_chill", 0.15]]], ["KILLS CHILL NEARBY FOES", [["set", "chill_spread", true]]]],
@@ -35,6 +50,15 @@ const FAMILY_BONUS := {
 	"fortune": [["+10% GOLD", [["mul", "gold_mult", 1.1]]], ["BETTER RELIC RARITY", [["add", "luck", 1]]], ["+25% DAMAGE", [["mul", "dmg", 1.25]]]],
 	"demolition": [["BOMBS +25% DAMAGE", [["mul", "bomb_mult", 1.25]]], ["10% OF SHOTS EXPLODE", [["add", "shrapnel", 0.1]]], ["EXPLOSIONS DEAL DOUBLE TO ELITES", [["set", "boom_elite", true]]]],
 	"swarm": [["+1 WISP", [["add", "familiars", 1]]], ["WISPS DEAL +50% DAMAGE", [["add", "fam_dmg", 0.5]]], ["WISPS FIRE TWO SHOTS", [["set", "fam_multi", 2]]]],
+	"edge": [["+8% CRIT CHANCE", [["add", "crit", 0.08]]],
+		["CRITS DEAL +0.5X MORE", [["add", "crit_mult", 0.5]]],
+		["CRIT CHANCE PAST 100% CAN CRIT AGAIN", [["add", "overcrit", 0.5]]]],
+	"fury": [["+15% DAMAGE BELOW HALF HEALTH", [{ "on": "while_low_hp", "do": [["buff", "dmg", 0.15, 0]] }]],
+		["KILLS GIVE +30% FIRE RATE FOR 1.5S", [{ "on": "on_kill", "do": [["buff", "rate", 0.3, 1.5]] }]],
+		["TAKING DAMAGE: +40% DAMAGE FOR 4S", [{ "on": "on_damage_taken", "do": [["buff", "dmg", 0.4, 4.0]] }]]],
+	"malice": [["20% OF HITS CURSE FOES", [{ "on": "on_hit", "chance": 0.2, "do": [["status", "curse", 1]] }]],
+		["HITS ON CURSED FOES MAKE THEM VULNERABLE", [{ "on": "on_hit", "if": "cursed", "do": [["status", "vulnerable", 1]] }]],
+		["KILLING A CURSED FOE MAY HEAL", [{ "on": "on_kill", "if": "cursed", "chance": 0.1, "do": [["heal", 1]] }]]],
 }
 
 ## Trait rarities (design spec section 4). The original traits have no rarity
