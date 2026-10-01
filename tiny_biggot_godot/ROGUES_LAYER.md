@@ -32,3 +32,23 @@ identical. New content test: "heavy fight".
 
 **Testing on device:** `--heavy` starts a run with that build, and
 `--perf` prints fps, logic ms and per-layer drawing ms every 5 seconds.
+
+### Pass 2: keep the chaos, draw it cheaper
+
+Nothing on screen was removed. The second recording (a Cartomancer fight
+full of cards, numbers and particles) was limited by drawing:
+
+- **Sprite atlas** (`scripts/core/img.gd`): at startup, all 605 small
+  graphics (sprites, icons and the pixel-font sheets) are packed into one
+  texture, which takes about 90 ms. Every shot, coin, foe and damage number
+  now draws from the same texture, so the renderer batches them. Draw calls
+  in a full fight went from about 500 to about 60-70, and render time on the
+  test machine from about 18 to 6 ms. Before this, each damage-number glyph
+  switched between the shadow and colour font textures (2 calls per
+  letter). Screenshots with and without the atlas are pixel-identical
+  (`--no-atlas` turns it off for comparison).
+- **SHOW FPS** in Options (or `--perf`): an on-screen line with fps, logic
+  ms, drawing ms and draw calls. Use it on the iPad in a big fight.
+
+Note: screen recording on iPad costs a lot of GPU and CPU itself, so a
+fight feels smoother when you are not recording.

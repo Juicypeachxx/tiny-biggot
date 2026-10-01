@@ -45,7 +45,7 @@ var tchoice: Dictionary = {}   # trait offer: { opts, idx }
 # Menus (Game.rb).
 const TITLE_ITEMS := ["START RUN", "SKILL TREES", "EMBER SHRINE", "CODEX", "HOW TO PLAY", "OPTIONS"]
 const PAUSE_ITEMS := ["RESUME", "GEAR", "TRAITS", "RELICS", "OPTIONS", "ABANDON RUN"]
-const OPTION_LIST := [["AUTO-AIM FIRE", "autofire"], ["MUSIC", "music"], ["SOUND EFFECTS", "sfx"], ["SCREEN SHAKE", "shake"], ["BACK", ""]]
+const OPTION_LIST := [["AUTO-AIM FIRE", "autofire"], ["MUSIC", "music"], ["SOUND EFFECTS", "sfx"], ["SCREEN SHAKE", "shake"], ["SHOW FPS", "fps"], ["BACK", ""]]
 const CODEX_COLS := 11
 var quit_armed := false
 var opt_from: StringName = &"title"

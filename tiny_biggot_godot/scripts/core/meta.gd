@@ -4,7 +4,7 @@ extends Node
 
 const SAVE_FILE := "user://tiny_biggot.save"
 
-var opts := { "autofire": true, "music": true, "sfx": true, "shake": true }
+var opts := { "autofire": true, "music": true, "sfx": true, "shake": true, "fps": false }
 var meta := {
 	"runs": 0, "wins": 0, "best": 0, "embers": 0, "unlocked": {}, "found": {}, "secrets": 0,
 	"bosses": 0, "kills": 0, "dread_max": 0, "dread": 0, "tree": {}, "found_w": {}, "found_g": {},

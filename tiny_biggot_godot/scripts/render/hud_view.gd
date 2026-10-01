@@ -16,7 +16,12 @@ static func world_state() -> bool:
 			return G.opt_from == &"pause"
 	return false
 
+## SHOW FPS option: frame rate, logic and drawing ms, draw calls (set by main.gd).
+static var perf_line := ""
+
 func _draw() -> void:
+	if (Meta.opts.get("fps", false) or DebugArgs.has("perf")) and perf_line != "":
+		Gfx.text(self, perf_line, 4, TB.SH - 26, "lime", 1)
 	var p := G.player
 	if p == null or G.room == null or not world_state():
 		return

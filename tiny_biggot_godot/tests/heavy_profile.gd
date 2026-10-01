@@ -8,7 +8,7 @@ var secs := {}
 func _ready() -> void:
 	await get_tree().process_frame
 	seed(11)
-	G.hero_index = 0
+	G.hero_index = DebugArgs.get_int("hero", 0)
 	G.new_run()
 	G.floor_index = mini(9, GameData.floors().size() - 1)
 	G.floor_d["depth"] = 10

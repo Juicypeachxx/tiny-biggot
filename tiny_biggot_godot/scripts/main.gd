@@ -116,7 +116,7 @@ func _physics_process(_delta: float) -> void:
 		if _bench_n % 600 == 0:
 			print("[bench] %d enemy shots, %d player shots, %d particles: logic %.2f ms/tick avg" % [
 				EBullets.n, G.pbullets.size(), Fx.n, _bench_us / 1000.0 / _bench_n])
-	if DebugArgs.has("perf"):
+	if DebugArgs.has("perf") or Meta.opts.get("fps", false):
 		_perf_tick(Time.get_ticks_usec() - t0)
 	world.refresh()
 	world.visible = world.visible and HudView.world_state()
@@ -137,15 +137,24 @@ func _physics_process(_delta: float) -> void:
 	if _shot_path != "" and _ticks == _shot_frame:
 		_take_shot()
 
-## --perf: every 5 s prints logic and per-layer drawing cost (GDScript side)
+## --perf (or SHOW FPS in Options): every second prints logic and per-layer drawing cost (GDScript side)
 ## plus the frame rate. Use it on device to see what a heavy fight costs.
 var _perf_logic := 0
 var _perf_n := 0
+var _perf_rcpu := 0.0
+var _perf_rgpu := 0.0
+var _perf_calls := 0
 func _perf_tick(us: int) -> void:
+	if not DrawLayer.perf_on:
+		RenderingServer.viewport_set_measure_render_time(get_viewport().get_viewport_rid(), true)
 	DrawLayer.perf_on = true
 	_perf_logic += us
+	var vp := get_viewport().get_viewport_rid()
+	_perf_rcpu += RenderingServer.viewport_get_measured_render_time_cpu(vp) + RenderingServer.get_frame_setup_time_cpu()
+	_perf_rgpu += RenderingServer.viewport_get_measured_render_time_gpu(vp)
+	_perf_calls = maxi(_perf_calls, int(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME)))
 	_perf_n += 1
-	if _perf_n < 300:
+	if _perf_n < 60:
 		return
 	var parts := []
 	var total := 0
@@ -155,9 +164,14 @@ func _perf_tick(us: int) -> void:
 		total += DrawLayer.perf[k]
 		if parts.size() < 6:
 			parts.append("%s %.2f" % [k, DrawLayer.perf[k] / 1000.0 / _perf_n])
-	print("[perf] fps %d | logic %.2f ms/tick | draw %.2f ms/tick (%s) | shots %d, foe shots %d, pickups %d, fx %d" % [
+	HudView.perf_line = "%d FPS  LOGIC %.1f  DRAW %.1f  CALLS %d" % [Engine.get_frames_per_second(),
+		_perf_logic / 1000.0 / _perf_n, total / 1000.0 / _perf_n, _perf_calls]
+	if DebugArgs.has("perf"): print("[perf] fps %d | logic %.2f ms | draw %.2f ms (%s) | render cpu %.2f gpu %.2f ms, peak %d draw calls | shots %d, foe shots %d, pickups %d, fx %d, texts %d" % [
 		Engine.get_frames_per_second(), _perf_logic / 1000.0 / _perf_n, total / 1000.0 / _perf_n, ", ".join(parts),
-		G.pbullets.size(), EBullets.n, G.pickups.size(), Fx.n])
+		_perf_rcpu / _perf_n, _perf_rgpu / _perf_n, _perf_calls, G.pbullets.size(), EBullets.n, G.pickups.size(), Fx.n, Fx.texts.size()])
+	_perf_rcpu = 0.0
+	_perf_rgpu = 0.0
+	_perf_calls = 0
 	_perf_logic = 0
 	_perf_n = 0
 	DrawLayer.perf.clear()

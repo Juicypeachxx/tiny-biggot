@@ -1172,3 +1172,8 @@ func heavy_fight() -> void:
 		p.relics.size(), ms, Effects.ROGUES_PBULLET_CAP, Combat.COIN_PILE])
 	if ms > 8.0:
 		fail("heavy fight too slow: %.2f ms/tick" % ms)
+	# Sprite atlas: sprites and fonts share one texture so big fights batch.
+	var shared: Array = ["coin", "font1_white", "font1_shadow", "orb_hex", "hatchet", "slash_arc"].map(func(n): return Img.t(n))
+	if Img.atlas_count < 400 or not shared.all(func(t): return t is AtlasTexture and t.atlas == shared[0].atlas):
+		fail("sprite atlas: %d graphics packed, shared texture missing" % Img.atlas_count)
+	notes.append("sprite atlas: %d graphics share one texture" % Img.atlas_count)
