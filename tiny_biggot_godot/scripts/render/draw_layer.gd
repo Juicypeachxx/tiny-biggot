@@ -5,6 +5,9 @@ extends Node2D
 ## called (every tick for dynamic layers, only on change for static ones).
 
 var painter: Callable
+## --perf: GDScript time spent drawing, per painter, in microseconds.
+static var perf := {}
+static var perf_on := false
 
 func _init(p: Callable = Callable(), additive: bool = false) -> void:
 	painter = p
@@ -14,5 +17,12 @@ func _init(p: Callable = Callable(), additive: bool = false) -> void:
 		material = m
 
 func _draw() -> void:
-	if painter.is_valid():
+	if not painter.is_valid():
+		return
+	if not perf_on:
 		painter.call(self)
+		return
+	var t0 := Time.get_ticks_usec()
+	painter.call(self)
+	var k := painter.get_method()
+	perf[k] = perf.get(k, 0) + Time.get_ticks_usec() - t0

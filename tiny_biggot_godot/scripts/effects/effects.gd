@@ -34,6 +34,7 @@ const MAX_DEPTH := 4           # a trigger may cause triggers at most this many 
 const BUDGET := 200            # action executions per logic tick; the rest wait in a queue
 const QUEUE_MAX := 2000        # queued actions beyond this are dropped (counted)
 const PBULLET_CAP := 1000     # live player shots; beyond it new shots merge their damage into old ones
+const ROGUES_PBULLET_CAP := 300  # Rogues layer: lower, for smooth heavy fights on iPad (damage still merges)
 const SUMMON_CAP := 24         # wisps (permanent + temporary) per player
 const MIN_SHOT_INTERVAL := 1.0 / 60.0   # attack-speed floor: one attack per logic tick
 const BUFF_CAP := 64
@@ -204,6 +205,10 @@ static func _cond(c: String, ctx: Dictionary) -> bool:
 	return false
 
 ## Fires a trigger. ctx may carry: enemy, dmg, crit, x, y.
+## Live player shot cap (classic keeps the original 1000).
+static func pbullet_cap() -> int:
+	return ROGUES_PBULLET_CAP if GameData.rogues() else PBULLET_CAP
+
 static func fire(trig: String, ctx: Dictionary = {}) -> void:
 	var p := G.player
 	if p == null or p.procs.is_empty():

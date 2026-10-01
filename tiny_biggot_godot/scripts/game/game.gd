@@ -177,8 +177,33 @@ func _debug_give(p: Player) -> void:
 				for k in t["max"]:
 					p.pending += 1
 					take_trait(t)
+	if DebugArgs.has("heavy"):
+		_debug_heavy(p)
 	if not items.is_empty():
 		Effects.recount_tags(p)
+
+## --heavy: a late-run build to test performance (40 relics, 40 trait
+## ranks, a legendary weapon and legendary gear), the same for every run.
+func _debug_heavy(p: Player) -> void:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 11
+	var rel := Relics.all().duplicate()
+	for i in 40:
+		add_relic(p, rel.pop_at(rng.randi() % rel.size()))
+	var tr := Traits.all().duplicate()
+	var ranks := 0
+	while ranks < 40 and not tr.is_empty():
+		var t: Dictionary = tr.pop_at(rng.randi() % tr.size())
+		for k in t["max"]:
+			p.pending += 1
+			take_trait(t)
+			ranks += 1
+	var legends := Weapons.all().filter(func(w): return w["rarity"] == "legend")
+	Weapons.equip_weapon(p, legends[rng.randi() % legends.size()])
+	for g in Gear.all().filter(func(g): return g["rarity"] == "legend"):
+		Gear.equip_gear(p, g)
+	Effects.recount_tags(p)
+	state = &"play"
 
 func start_floor() -> void:
 	if player != null:

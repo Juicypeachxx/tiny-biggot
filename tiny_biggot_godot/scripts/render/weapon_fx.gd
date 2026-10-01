@@ -86,11 +86,13 @@ static func update(p: Player) -> void:
 		return
 	# Shot trails.
 	var n := 0
+	# Crowded screens get fewer trail particles per shot.
+	var chance := TRAIL_CHANCE * minf(1.0, 40.0 / maxf(1.0, G.pbullets.size()))
 	for b: PBullet in G.pbullets:
 		if n >= MAX_TRAIL_SHOTS:
 			break
 		n += 1
-		if b.tag != "" and b.kind != "mine" and _rng.randf() < TRAIL_CHANCE:
+		if b.tag != "" and b.kind != "mine" and _rng.randf() < chance:
 			emit(b.tag, b.x, b.y, 0.6)
 	# Fresh melee swings burst along their edge.
 	for w in G.swings:

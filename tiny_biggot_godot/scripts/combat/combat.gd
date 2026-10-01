@@ -49,14 +49,59 @@ static func auto_target(p: Player, max_d: float) -> Enemy:
 	return best if best != null else fb
 
 ## Nearest targetable enemy to (fx, fy). skip: uid -> true.
-static func nearest_enemy(fx: float, fy: float, max_d: float, skip: Dictionary = {}) -> Enemy:
+const NO_SKIP := {}
+## Rogues layer: foe positions packed once per shot pass (x, y - z, reach),
+## so the shots x foes loops read arrays instead of objects. Only a broad
+## phase: the exact tests still use the live foe. _cn = -1 when not built.
+const CACHE_MARGIN := 8.0
+static var _cx := PackedFloat32Array()
+static var _cy := PackedFloat32Array()
+static var _cr := PackedFloat32Array()
+static var _cn := -1
+
+static func _build_foe_cache() -> void:
+	var n := G.enemies.size()
+	_cx.resize(n)
+	_cy.resize(n)
+	_cr.resize(n)
+	for i in n:
+		var e: Enemy = G.enemies[i]
+		_cx[i] = e.x
+		_cy[i] = e.y - e.z
+		_cr[i] = e.r + 2.0 + CACHE_MARGIN
+	_cn = n
+
+## Hot path (every homing shot, every tick): no per-call allocations, inline maths.
+static func nearest_enemy(fx: float, fy: float, max_d: float, skip: Dictionary = NO_SKIP) -> Enemy:
 	var best: Enemy = null
-	var bd := max_d
-	for e in G.enemies:
-		if not e.targetable() or skip.has(e.uid):
+	var bd := max_d * max_d
+	var check_skip := not skip.is_empty()
+	if _cn >= 0:
+		var lim := max_d + CACHE_MARGIN
+		var lim2 := lim * lim
+		for i in G.enemies.size():
+			if i < _cn:
+				var qx := fx - _cx[i]
+				var qy := fy - _cy[i]
+				if qx * qx + qy * qy >= lim2:
+					continue
+			var e: Enemy = G.enemies[i]
+			if e.spawn_t > 0 or e.hidden or e.hp <= 0:
+				continue
+			var dx := fx - e.x
+			var dy := fy - e.y
+			var d := dx * dx + dy * dy
+			if d < bd and not (check_skip and skip.has(e.uid)):
+				bd = d
+				best = e
+		return best
+	for e: Enemy in G.enemies:
+		if e.spawn_t > 0 or e.hidden or e.hp <= 0:
 			continue
-		var d := TB.dist_xy(fx, fy, e.x, e.y)
-		if d < bd:
+		var dx := fx - e.x
+		var dy := fy - e.y
+		var d := dx * dx + dy * dy
+		if d < bd and not (check_skip and skip.has(e.uid)):
 			bd = d
 			best = e
 	return best
@@ -558,7 +603,7 @@ static func recycle(b: PBullet) -> void:
 ## A plain shot that bypasses the weapon (splinters, shatter shards, familiars).
 static func _raw_shot(x: float, y: float, a: float, spd: float, dmg: float, life: float, r: float,
 		pierce: int, kind: String, hit: Dictionary, homing: float = 0.0) -> PBullet:
-	if G.pbullets.size() + G.new_pbullets.size() >= Effects.PBULLET_CAP:
+	if G.pbullets.size() + G.new_pbullets.size() >= Effects.pbullet_cap():
 		return _merge_shot(dmg)
 	var b := new_pbullet()
 	b.x = x
@@ -598,7 +643,7 @@ static func spawn_pbullet(p: Player, a: float, dmg: Variant = null, kind: String
 	if kind == "clod" or kind == "fire":
 		life *= 0.85 + randf() * 0.3
 	var size := Weapons.wsize(p)
-	if G.pbullets.size() + G.new_pbullets.size() >= Effects.PBULLET_CAP:
+	if G.pbullets.size() + G.new_pbullets.size() >= Effects.pbullet_cap():
 		return _merge_shot(dmg if dmg != null else Weapons.wdmg(p))
 	var b := new_pbullet()
 	b.x = p.x + cos(a)
@@ -957,8 +1002,21 @@ static func pbullet_hits(b: PBullet, p: Player) -> void:
 		return
 	var i := 0
 	while i < G.enemies.size():
+		if i < _cn:
+			var qx := _cx[i] - b.x
+			var qy := _cy[i] - b.y
+			var qr := _cr[i] + b.r
+			if qx * qx + qy * qy >= qr * qr:
+				i += 1
+				continue
 		var e: Enemy = G.enemies[i]
 		i += 1
+		# Cheap reject first (shots x foes is the hot loop): never closer than the exact test below.
+		var dx := e.x - b.x
+		var dy := e.y - e.z - b.y
+		var reach := e.r + 2.0 + b.r
+		if dx * dx + dy * dy >= reach * reach:
+			continue
 		if e.hp <= 0 or e.spawn_t > 0 or e.hidden or b.hit.has(e.uid):
 			continue
 		var er := e.r + (2.0 if e.is_boss() else 0.0)
@@ -979,7 +1037,7 @@ static func pbullet_hits(b: PBullet, p: Player) -> void:
 			var n := int(b.split)
 			var a0 := atan2(b.vy, b.vx)
 			for k in n:
-				if G.pbullets.size() + G.new_pbullets.size() >= Effects.PBULLET_CAP:
+				if G.pbullets.size() + G.new_pbullets.size() >= Effects.pbullet_cap():
 					_merge_shot(dmg * 0.5)
 					continue
 				var da := (k - (n - 1) / 2.0) * 0.6 + (0.5 if n == 1 else 0.0)
@@ -1001,7 +1059,7 @@ static func pbullet_hits(b: PBullet, p: Player) -> void:
 			b.bloom = false
 			var a0 := atan2(b.vy, b.vx)
 			for da in [-0.5, 0.5]:
-				if G.pbullets.size() + G.new_pbullets.size() >= Effects.PBULLET_CAP:
+				if G.pbullets.size() + G.new_pbullets.size() >= Effects.pbullet_cap():
 					_merge_shot(dmg * 0.6)
 					continue
 				var nb := new_pbullet()
@@ -1099,6 +1157,8 @@ static func update_pbullets(dt: float) -> void:
 						on_hit_effects(e, b.dmg, crit, p, b)
 					Fx.burst(b.x, b.y, ["#e8873a", "#f2c94c", "#4e4a5e"], 18, 100, 0.4, 2)
 	# Base update.
+	if GameData.rogues():
+		_build_foe_cache()
 	i = 0
 	while i < G.pbullets.size():
 		var b: PBullet = G.pbullets[i]
@@ -1175,6 +1235,7 @@ static func update_pbullets(dt: float) -> void:
 			continue
 		G.pbullets[w] = b
 		w += 1
+	_cn = -1
 	G.pbullets.resize(w)
 	G.pbullets.append_array(G.new_pbullets)
 	G.new_pbullets.clear()
@@ -1249,9 +1310,23 @@ static func explode_at(x: float, y: float, dmg: float, skip: Enemy, radius: floa
 const PICKUP_KINDS := ["coin", "gem", "heart", "potion", "bomb", "key", "armor", "ember",
 	"c_fury", "c_smoke", "c_whet", "c_insight"]   # last four: Rogues-layer belt consumables
 
+## Rogues layer: past this many pickups on the floor, new coins go straight
+## into your purse (same gold), so long fights with gold-on-hit builds don't
+## pile up thousands of coins to simulate and draw (that lagged on iPad).
+const COIN_PILE := 60
+
 static func drop_pickup(kind: String, x: float, y: float, t: float = 0.0) -> Pickup:
 	var a := randf() * TAU
 	var s := 30 + randf() * 50
+	if (kind == "coin" or kind == "gem") and G.pickups.size() >= COIN_PILE and GameData.rogues():
+		var p := G.player
+		p.gold_frac += p.gold_mult * (5 if kind == "gem" else 1)
+		var g := floori(p.gold_frac)
+		p.gold_frac -= g
+		p.gold += g
+		G.run_stats["gold"] += g
+		Fx.particle(x, y - 3, 0, -20, 0.2, "#f2c94c")
+		return null
 	var k := Pickup.new()
 	k.kind = kind
 	k.x = x
@@ -1266,6 +1341,7 @@ static func drop_pickup(kind: String, x: float, y: float, t: float = 0.0) -> Pic
 static func update_pickups(dt: float) -> void:
 	var p := G.player
 	var room := G.room
+	var rogues := GameData.rogues()
 	for k: Pickup in G.pickups:
 		k.t += dt
 		k.vz -= 300 * dt
@@ -1284,6 +1360,9 @@ static func update_pickups(dt: float) -> void:
 		if coinlike and not G.locked:
 			k.x += k.vx * dt
 			k.y += k.vy * dt
+		elif rogues and k.vz == 0 and absf(k.vx) + absf(k.vy) < 0.05:
+			k.vx = 0.0   # resting: skip the wall test
+			k.vy = 0.0
 		else:
 			World.move_body(room, k, k.vx * dt, k.vy * dt, World.M_WALKER)
 		if not (d < 9 and k.t > 0.25):

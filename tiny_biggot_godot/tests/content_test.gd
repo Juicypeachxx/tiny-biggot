@@ -57,6 +57,7 @@ func _ready() -> void:
 	inventory()
 	dummies()
 	weapon_fx()
+	heavy_fight()
 	stress()
 	print("[content] Effects.stats: ", Effects.stats)
 	for n in notes:
@@ -257,7 +258,7 @@ func check(where: String) -> void:
 			fail("%s: stat %s is %s" % [where, name, v])
 	if p.hp > p.max_hp or p.max_hp < 2:
 		fail("%s: hp %d / max %d" % [where, p.hp, p.max_hp])
-	if G.pbullets.size() > Effects.PBULLET_CAP:
+	if G.pbullets.size() > Effects.pbullet_cap():
 		fail("%s: %d player shots over the cap" % [where, G.pbullets.size()])
 	if mini(p.familiars, Effects.SUMMON_CAP) + G.temp_fams.size() > Effects.SUMMON_CAP + 8:
 		fail("%s: summons over the cap" % where)
@@ -403,12 +404,12 @@ func rails() -> void:
 		fail("proc depth: reached %d, hp %d (want depth %d, hp %d)" % [Effects.stats["max_depth"], p.hp, Effects.MAX_DEPTH, 3 + Effects.MAX_DEPTH])
 	# Bullet cap: shots past the cap merge instead of piling up.
 	p = arena(0)
-	for i in Effects.PBULLET_CAP + 300:
+	for i in Effects.pbullet_cap() + 300:
 		Combat.spawn_pbullet(p, randf() * TAU)
-	if G.pbullets.size() != Effects.PBULLET_CAP:
+	if G.pbullets.size() != Effects.pbullet_cap():
 		fail("bullet cap: %d live shots" % G.pbullets.size())
 	notes.append("rails: proc budget %d/tick with queue, depth limit %d, shot cap %d, summon cap %d, shot floor %.4f s all verified" % [
-		Effects.BUDGET, Effects.MAX_DEPTH, Effects.PBULLET_CAP, Effects.SUMMON_CAP, Effects.MIN_SHOT_INTERVAL])
+		Effects.BUDGET, Effects.MAX_DEPTH, Effects.pbullet_cap(), Effects.SUMMON_CAP, Effects.MIN_SHOT_INTERVAL])
 
 # ---------- Leveling rules (design spec section 4) ----------
 func _fake_trait(id: String, fam: String, rarity: String, mx: int, effects: Array, tiers: Dictionary = {}) -> Dictionary:
@@ -1144,3 +1145,30 @@ func weapon_fx() -> void:
 	G.swings.clear()
 	Juice.reset()
 	notes.append("weapon fx: %d themes; trails, swing bursts, hit sparks and legend aura (%d particles in 10 ticks); off under classic; own random numbers" % [WeaponFx.THEME.size(), n])
+
+## Lag fix (iPad video): a late-run build (--heavy: 40 relics, 40 trait
+## ranks, legendary weapon and gear) in a long fight stays smooth. The
+## Rogues shot cap holds, coins past the floor pile go straight to gold,
+## and the logic tick stays well inside the frame.
+func heavy_fight() -> void:
+	var p := arena(0)
+	G._debug_heavy(p)
+	for e in G.enemies:
+		e.max_hp *= 40
+		e.hp = e.max_hp
+	var ms := _timed(900)
+	check("heavy fight")
+	if G.pbullets.size() > Effects.ROGUES_PBULLET_CAP:
+		fail("heavy fight: %d live shots (cap %d)" % [G.pbullets.size(), Effects.ROGUES_PBULLET_CAP])
+	while G.pickups.size() < Combat.COIN_PILE:
+		Combat.drop_pickup("heart", p.x, p.y)
+	var n := G.pickups.size()
+	var g0 := p.gold
+	for i in 50:
+		Combat.drop_pickup("coin", p.x + 60, p.y)
+	if G.pickups.size() != n or p.gold < g0 + 40:
+		fail("coin pile: %d -> %d pickups, gold %d -> %d" % [n, G.pickups.size(), g0, p.gold])
+	notes.append("heavy fight: %d relics, legendary build, %.2f ms/tick logic (median, budget 8); shot cap %d; coins past %d on the floor go to gold" % [
+		p.relics.size(), ms, Effects.ROGUES_PBULLET_CAP, Combat.COIN_PILE])
+	if ms > 8.0:
+		fail("heavy fight too slow: %.2f ms/tick" % ms)

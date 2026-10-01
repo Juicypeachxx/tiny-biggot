@@ -58,7 +58,7 @@ func _ready() -> void:
 	G.hero_index = clampi(DebugArgs.get_int("hero", 0), 0, GameData.heroes().size() - 1)
 	# The game opens on the title screen. Test options start a run directly.
 	var quick := false
-	for k in ["bot", "room", "floor", "hero", "ui", "bench", "quick", "weapon"]:
+	for k in ["bot", "room", "floor", "hero", "ui", "bench", "quick", "weapon", "heavy"]:
 		if DebugArgs.has(k):
 			quick = true
 	if not quick:
@@ -116,6 +116,8 @@ func _physics_process(_delta: float) -> void:
 		if _bench_n % 600 == 0:
 			print("[bench] %d enemy shots, %d player shots, %d particles: logic %.2f ms/tick avg" % [
 				EBullets.n, G.pbullets.size(), Fx.n, _bench_us / 1000.0 / _bench_n])
+	if DebugArgs.has("perf"):
+		_perf_tick(Time.get_ticks_usec() - t0)
 	world.refresh()
 	world.visible = world.visible and HudView.world_state()
 	hud.refresh()
@@ -134,6 +136,31 @@ func _physics_process(_delta: float) -> void:
 			print("[weapon] ", all[idx]["id"], " (", all[idx]["kind"], ")")
 	if _shot_path != "" and _ticks == _shot_frame:
 		_take_shot()
+
+## --perf: every 5 s prints logic and per-layer drawing cost (GDScript side)
+## plus the frame rate. Use it on device to see what a heavy fight costs.
+var _perf_logic := 0
+var _perf_n := 0
+func _perf_tick(us: int) -> void:
+	DrawLayer.perf_on = true
+	_perf_logic += us
+	_perf_n += 1
+	if _perf_n < 300:
+		return
+	var parts := []
+	var total := 0
+	var keys := DrawLayer.perf.keys()
+	keys.sort_custom(func(a, b): return DrawLayer.perf[a] > DrawLayer.perf[b])
+	for k in keys:
+		total += DrawLayer.perf[k]
+		if parts.size() < 6:
+			parts.append("%s %.2f" % [k, DrawLayer.perf[k] / 1000.0 / _perf_n])
+	print("[perf] fps %d | logic %.2f ms/tick | draw %.2f ms/tick (%s) | shots %d, foe shots %d, pickups %d, fx %d" % [
+		Engine.get_frames_per_second(), _perf_logic / 1000.0 / _perf_n, total / 1000.0 / _perf_n, ", ".join(parts),
+		G.pbullets.size(), EBullets.n, G.pickups.size(), Fx.n])
+	_perf_logic = 0
+	_perf_n = 0
+	DrawLayer.perf.clear()
 
 ## --bench: keeps the room full of bullets to measure the hot path.
 func _bench_feed() -> void:
