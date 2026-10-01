@@ -458,6 +458,12 @@ func _draw_weapon(ci: CanvasItem, p: Player) -> void:
 	var left := cos(p.aim_a) < 0
 	# RGSS: angle = -(aim - PI) deg + 45, negated when mirrored; converted to Godot radians.
 	var rot := -(p.aim_a - PI) + PI / 4 if left else p.aim_a - PI / 4
+	if GameData.rogues() and p.weapon.get("rarity", "") == "legend":
+		# Rogues layer: legendary weapons glow in their theme's colour.
+		var th := WeaponFx.theme_of(WeaponFx.weapon_tag(p.weapon))
+		var gc := TB.c(th["cols"][0] if not th.is_empty() else "#f2c94c")
+		Gfx.sprite(ci, "glow_small", hx - 12, hy - 12, 0, 0, 1, 1, 0.0, false, 0.55 + 0.25 * sin(G.time * 5),
+			Color(gc.r, gc.g, gc.b, 0.6))
 	Gfx.sprite(ci, wn, hx, hy, wb.get_width() / 2, wb.get_height() / 2, 1, 1, rot, left)
 	if Juice.recoil > 0.6:
 		var mx := roundf(hx + cos(p.aim_a) * 8)

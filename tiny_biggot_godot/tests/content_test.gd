@@ -56,6 +56,7 @@ func _ready() -> void:
 	upgrades()
 	inventory()
 	dummies()
+	weapon_fx()
 	stress()
 	print("[content] Effects.stats: ", Effects.stats)
 	for n in notes:
@@ -1105,3 +1106,41 @@ func stress() -> void:
 		fail("stress test never reached 500 enemy shots")
 	if ms > 16.7:
 		fail("stress too slow: %.2f ms/tick" % ms)
+
+## Phase E: themed weapon effects show for tagged shots, swings and hits,
+## stay off under classic, and never draw from the game's random numbers.
+func weapon_fx() -> void:
+	var p := arena(0)
+	p.weapon = Weapons.by_id("sunpiercer")
+	for t in WeaponFx.THEME:
+		if not Weapons.TAG_COLS.has(t):
+			fail("weapon fx theme %s is not a weapon tag" % t)
+	Juice.reset()
+	for i in 30:
+		var b := PBullet.new()
+		b.x = 100 + i
+		b.y = 100
+		b.tag = "pyre"
+		G.pbullets.append(b)
+	G.swings.append({ "kind": "slash", "x": p.x, "y": p.y, "a": 0.0, "r": 20.0, "arc": 2.0, "t": 0.14, "max": 0.14, "tag": "frost" })
+	G.enemies[0].flash = 0.08
+	seed(777)
+	var want := randf()
+	seed(777)
+	for i in 10:
+		Juice.update(TB.DT, p)
+	if randf() != want:
+		fail("weapon fx drew from the game's random numbers")
+	var n := Juice.sparks.size()
+	if n < 20:
+		fail("weapon fx made only %d particles from 30 fire shots, a swing and a hit" % n)
+	GameData.force_classic = true
+	Juice.reset()
+	Juice.update(TB.DT, p)
+	GameData.force_classic = false
+	if Juice.sparks.size() > 0:
+		fail("weapon fx shows under classic")
+	G.pbullets.clear()
+	G.swings.clear()
+	Juice.reset()
+	notes.append("weapon fx: %d themes; trails, swing bursts, hit sparks and legend aura (%d particles in 10 ticks); off under classic; own random numbers" % [WeaponFx.THEME.size(), n])

@@ -40,6 +40,7 @@ static func reset() -> void:
 	spins.clear()
 	sparks.clear()
 	_was_ready = true
+	WeaponFx.reset()
 
 # ---------- Notifications from game code ----------
 static func kill(e: Enemy, sprite: String) -> void:
@@ -135,6 +136,7 @@ static func update(dt: float, p: Player) -> void:
 		sp["y"] += sp["vy"] * dt
 		sp["vx"] *= 0.9
 		sp["vy"] *= 0.9
+		sp["vy"] += sp.get("g", 0.0) * dt
 		k += 1
 	if p != null and Abilities.has_special(p):
 		var ready := Abilities.ready(p)
@@ -151,6 +153,9 @@ static func update(dt: float, p: Player) -> void:
 				l.remove_at(i)
 			else:
 				i += 1
+	WeaponFx.update(p)
+	while sparks.size() > 300:
+		sparks.pop_front()
 	hurt_t = maxf(0.0, hurt_t - dt)
 	flash_t = maxf(0.0, flash_t - dt)
 	clear_t = maxf(0.0, clear_t - dt)
