@@ -7,6 +7,7 @@ var _fails := 0
 func _ready() -> void:
 	_test_seed_rng()
 	_test_ruby_math()
+	_test_keyboard()
 	print("unit tests: %s" % ("PASSED" if _fails == 0 else "%d FAILED" % _fails))
 	get_tree().quit(1 if _fails > 0 else 0)
 
@@ -40,3 +41,48 @@ func _test_ruby_math() -> void:
 	_eq("fmodp -0.5%3.6", snappedf(TB.fmodp(-0.5, 3.6), 0.001), 3.1)
 	_eq("xp_needed 1", GameData.xp_needed(1), 17)   # ruby: (10 + 7 * (1 ** 1.35)).round
 	_eq("xp_needed 5", GameData.xp_needed(5), 71)   # ruby: (10 + 7 * (5 ** 1.35)).round
+
+## iPad Magic Keyboard: extra keys and both physical/typed bindings; a key
+## press hides the touch controls and releases what a finger held; a touch
+## brings them back.
+func _test_keyboard() -> void:
+	var cases := [[KEY_E, &"bomb"], [KEY_B, &"bomb"], [KEY_TAB, &"pause"], [KEY_QUOTELEFT, &"pause"],
+		[KEY_P, &"pause"], [KEY_ESCAPE, &"pause"], [KEY_SHIFT, &"roll"], [KEY_Q, &"heal"], [KEY_ENTER, &"use"]]
+	for c in cases:
+		for physical in [true, false]:
+			var e := InputEventKey.new()
+			e.pressed = true
+			if physical:
+				e.physical_keycode = c[0]
+			else:
+				e.keycode = c[0]
+			_eq("key %s (%s) -> %s" % [OS.get_keycode_string(c[0]), "physical" if physical else "typed", c[1]],
+				InputMap.event_is_action(e, c[1]), true)
+	var tc := TouchControls.new()
+	add_child(tc)
+	tc.visible = true
+	var touch := InputEventScreenTouch.new()
+	touch.pressed = true
+	touch.position = tc.stick_home + Vector2(tc.stick_r, 0)
+	tc._input(touch)
+	_eq("touch holds move_right", tc._held.has(&"move_right"), true)
+	var key := InputEventKey.new()
+	key.pressed = true
+	key.physical_keycode = KEY_LEFT
+	tc._input(key)
+	_eq("key press hides touch controls", tc.visible, false)
+	_eq("hiding releases touch-held actions", tc._held.is_empty(), true)
+	var drift := InputEventJoypadMotion.new()
+	drift.axis_value = 0.2
+	_eq("stick drift is not gamepad use", TouchControls._is_pad_or_key(drift), false)
+	var up := InputEventKey.new()
+	up.physical_keycode = KEY_LEFT
+	_eq("key release is not a press", TouchControls._is_pad_or_key(up), false)
+	tc._input(touch)
+	_eq("touch shows touch controls again", tc.visible, true)
+	var pad := InputEventJoypadButton.new()
+	pad.pressed = true
+	pad.button_index = JOY_BUTTON_A
+	tc._input(pad)
+	_eq("gamepad press hides touch controls", tc.visible, false)
+	tc.queue_free()

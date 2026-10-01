@@ -11,6 +11,9 @@ extends Node2D
 ## - Aim cluster (AIM UP/L/R/DN): one finger slides between the four buttons;
 ##   between two buttons it aims diagonally, like holding W+A.
 ## - ROLL, USE, HEAL, MENU and BOMB buttons are held while the finger stays down.
+##
+## A key press (iPad Magic Keyboard) or gamepad input hides the controls; the
+## next touch brings them back.
 
 const LAYOUT_PATH := "res://assets/controls.json"
 const KEY_TO_ACTION := {
@@ -94,8 +97,12 @@ func _layout() -> void:
 				aim_r = maxf(aim_r, aim_center.distance_to(b["pos"]) + b["r"])
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventScreenTouch and not visible:
-		visible = true   # first real touch reveals the controls
+	if visible and _is_pad_or_key(event):
+		_hide()
+		return
+	if not visible and (event is InputEventScreenTouch
+			or (_mouse_as_touch and event is InputEventMouseButton)) and event.pressed:
+		visible = true   # a touch reveals the controls again
 	if not visible:
 		return
 	if _mouse_as_touch:
@@ -122,6 +129,23 @@ func _input(event: InputEvent) -> void:
 			_touches[event.index]["pos"] = event.position
 			_sync()
 			get_viewport().set_input_as_handled()
+
+## Keyboard or gamepad use: true for a real press, not for releases or stick
+## drift, so a key released after the switch does not flicker the controls.
+static func _is_pad_or_key(event: InputEvent) -> bool:
+	if event is InputEventKey:
+		return event.pressed and not event.echo
+	if event is InputEventJoypadButton:
+		return event.pressed
+	if event is InputEventJoypadMotion:
+		return absf(event.axis_value) > 0.6
+	return false
+
+## Hides the controls and releases anything a finger was still holding.
+func _hide() -> void:
+	visible = false
+	_touches.clear()
+	_sync()
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT or what == NOTIFICATION_APPLICATION_PAUSED:

@@ -19,7 +19,11 @@ Godot skips it.
   `integer` (5x on the iPad Air's 2360x1640 screen gives 2240x1440).
   Nearest-neighbour filtering is set project-wide. Landscape only.
 * Input: touch first. The on-screen layout comes from `assets/controls.json`.
-  Keyboard and gamepad work for desktop testing.
+  Keyboard and gamepad also work, including an iPad Magic Keyboard. Any key
+  or gamepad press hides the touch controls, and the next touch shows them
+  again. The Magic Keyboard has no Esc or function row, so Tab, ` and P also
+  open the menu, and E and B also throw a bomb. Keys are bound both by
+  position and by the letter typed, so non-QWERTY layouts work too.
 * Self-contained: only `res://` and `user://` paths. Copy the
   `tiny_biggot_godot/` folder to the iPad and open it in Xogot. `.godot/` is
   regenerated on first open.

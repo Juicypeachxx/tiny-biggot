@@ -261,7 +261,7 @@ func draw_howto(ci: CanvasItem) -> void:
 		["", "AUTO-AIM SHOOTS THE NEAREST FOE FOR YOU."],
 		["", "ROLL DODGES. USE BUYS AND OPENS. HEAL DRINKS. BOMB BLASTS."],
 		["KEYS", "ARROWS MOVE. WASD AIM. SHIFT ROLL. ENTER USE. CTRL BOMB."],
-		["", "Q HEAL. ESC MENU."],
+		["", "Q HEAL. ESC MENU. IPAD KEYBOARD: TAB MENU, E BOMB."],
 		["PAD", "STICKS MOVE AND AIM. B ROLL. A USE. X HEAL."],
 	]
 	for i in lines.size():

@@ -9,6 +9,10 @@ extends Node
 ##   Q                 = heal (potion)        (VX Ace :L)
 ##   Esc / X           = pause / back         (VX Ace :B)
 ##   Ctrl, F5          = bomb                 (Input::CTRL, F5 fallback)
+## iPad Magic Keyboard extras (it has no Esc or function row): Tab, ` and P
+## also pause; E and B also bomb. Every key is bound both by physical
+## position and by the letter it types, so iPadOS and non-QWERTY layouts
+## (e.g. QWERTZ) both work.
 ## Controller bindings mirror the original controls.json (Empo):
 ##   A = use, B / RT = roll, X / LT = heal, Y = menu, LB / RB = bomb,
 ##   right stick = aim, left stick / d-pad = move.
@@ -47,6 +51,13 @@ func _key(code: Key) -> InputEventKey:
 	e.physical_keycode = code
 	return e
 
+## Same key matched by the character it types (fallback when a platform or
+## layout reports a different physical code).
+func _lkey(code: Key) -> InputEventKey:
+	var e := InputEventKey.new()
+	e.keycode = code
+	return e
+
 func _btn(b: JoyButton) -> InputEventJoypadButton:
 	var e := InputEventJoypadButton.new()
 	e.button_index = b
@@ -63,6 +74,8 @@ func _bind(action: StringName, events: Array) -> void:
 		InputMap.add_action(action, 0.5)
 	for e in events:
 		InputMap.action_add_event(action, e)
+		if e is InputEventKey:
+			InputMap.action_add_event(action, _lkey(e.physical_keycode))
 
 func _setup_input_map() -> void:
 	_bind(&"move_left", [_key(KEY_LEFT), _btn(JOY_BUTTON_DPAD_LEFT), _axis(JOY_AXIS_LEFT_X, -1.0)])
@@ -76,8 +89,10 @@ func _setup_input_map() -> void:
 	_bind(&"roll", [_key(KEY_SHIFT), _btn(JOY_BUTTON_B), _axis(JOY_AXIS_TRIGGER_RIGHT, 1.0)])
 	_bind(&"use", [_key(KEY_ENTER), _key(KEY_KP_ENTER), _key(KEY_SPACE), _key(KEY_Z), _btn(JOY_BUTTON_A)])
 	_bind(&"heal", [_key(KEY_Q), _btn(JOY_BUTTON_X), _axis(JOY_AXIS_TRIGGER_LEFT, 1.0)])
-	_bind(&"pause", [_key(KEY_ESCAPE), _key(KEY_X), _btn(JOY_BUTTON_Y), _btn(JOY_BUTTON_START)])
-	_bind(&"bomb", [_key(KEY_CTRL), _key(KEY_F5), _btn(JOY_BUTTON_LEFT_SHOULDER), _btn(JOY_BUTTON_RIGHT_SHOULDER)])
+	_bind(&"pause", [_key(KEY_ESCAPE), _key(KEY_X), _key(KEY_TAB), _key(KEY_QUOTELEFT), _key(KEY_P),
+		_btn(JOY_BUTTON_Y), _btn(JOY_BUTTON_START)])
+	_bind(&"bomb", [_key(KEY_CTRL), _key(KEY_F5), _key(KEY_E), _key(KEY_B),
+		_btn(JOY_BUTTON_LEFT_SHOULDER), _btn(JOY_BUTTON_RIGHT_SHOULDER)])
 
 func _input(event: InputEvent) -> void:
 	if event.is_echo():
