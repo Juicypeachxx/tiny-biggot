@@ -1,8 +1,9 @@
 class_name Gear
 extends RefCounted
-## Equipment (port of 01c_items.rb GEAR / SETS / STAT_TEXT and the equip and
-## set logic of 04b_items.rb). Rows are
-## [id, name, slot, rarity, tags, set, shape, stats, hooks, desc].
+## Equipment (01c_items.rb GEAR / SETS / STAT_TEXT and the equip and set logic
+## of 04b_items.rb, extended by the content batches). Rows are
+## [id, name, slot, rarity, tags, set, shape, stats, hooks, desc, effects].
+## The first ORIGINAL_COUNT rows are original; new rows may add effects.
 
 const SLOTS := ["head", "body", "feet", "trinket"]
 const SLOT_NAME := { "head": "HELM", "body": "ARMOR", "feet": "BOOTS", "trinket": "TRINKET" }
@@ -21,6 +22,7 @@ const SETS := {
 	"sapper": {  "name": "SAPPER", "tag": "demolition", "b2": [["bombs", 3], ["bomb_mult", 1.3]], "b4h": [["cluster", 1]], "d2": "+3 BOMBS, BOMBS +30%", "d4": "BOMBS BURST INTO 4 MORE"  },
 	"shepherd": {  "name": "SHEPHERD", "tag": "swarm", "b2": [["familiars", 1]], "b4h": [["legion", 1]], "d2": "+1 WISP", "d4": "EVERY 5 KILLS SUMMON A WISP"  },}
 
+const ORIGINAL_COUNT := 96
 const ROWS := [
 	# --- Set pieces ---
 	["ember_hood", "EMBERWEAVE HOOD", "head", "rare", ["pyre"], "emberweave", "hood", [["burn", 0.1]], [], "SMOULDERING CLOTH."],
@@ -141,10 +143,13 @@ static var _by_id := {}
 
 static func all() -> Array:
 	if _list.is_empty():
-		for row in ROWS:
+		for i in ROWS.size():
+			var row: Array = ROWS[i]
 			var tags: Array = row[4]
 			var g := { "id": row[0], "name": row[1], "slot": row[2], "rarity": row[3], "tags": tags, "set": row[5],
 				"shape": row[6], "stats": row[7], "hooks": row[8], "desc": row[9], "item": "gear",
+				"new": i >= ORIGINAL_COUNT, "effects": row[10] if row.size() > 10 else [],
+				"sprite": row[11] if row.size() > 11 else "g_" + row[0],
 				"cols": Weapons.TAG_COLS[tags[0] if tags.size() > 0 else "core"] }
 			_list.append(g)
 			_by_id[g["id"]] = g
@@ -221,11 +226,17 @@ static func equip_gear(p: Player, g: Dictionary) -> Variant:
 	if old != null:
 		Weapons.apply_tuples(p, old["stats"], -1, "g:" + old["id"])
 		Weapons.apply_hooks(p, old["hooks"], -1)
+		if not old["effects"].is_empty():
+			Effects.apply_equipment(p, old["effects"], -1, "gfx:" + old["id"])
 		p.gear[g["slot"]] = null
 		update_sets(p, old["set"], -1)
 	p.gear[g["slot"]] = g
 	Weapons.apply_tuples(p, g["stats"], 1, "g:" + g["id"])
 	Weapons.apply_hooks(p, g["hooks"], 1)
+	if not g["effects"].is_empty():
+		Effects.apply_equipment(p, g["effects"], 1, "gfx:" + g["id"])
 	update_sets(p, g["set"], 1)
 	Meta.meta["found_g"][g["id"]] = true
+	if g["new"] or (old != null and old["new"]):
+		Effects.recount_tags(p)
 	return old

@@ -1,0 +1,430 @@
+extends Node
+## Content test (design spec section 11). Run after every content batch:
+##   godot --headless --path . res://tests/content_test.tscn -- --no-save
+##
+## 1. Lint: every relic, trait, family bonus, skill node, weapon, gear piece,
+##    set, tag synergy and combo is valid data (known ops, stats, triggers,
+##    actions, statuses, conditions; reversible ops where items can be
+##    removed; unique ids; existing sprites).
+## 2. Live: each item is given to a hero in a combat room full of foes, every
+##    trigger is fired, then 90 ticks of play are simulated. Invariants are
+##    checked afterwards. Runtime script errors appear as "SCRIPT ERROR" in
+##    the log, and tools/check.sh fails on them.
+## 3. Reversibility: equipping each weapon or gear piece and then going back
+##    restores the player's stats.
+## 4. Broken build: 50+ stacked trait ranks plus recursive procs; logic must
+##    stay under one frame (16.7 ms) on average.
+## 5. Stress: 500+ enemy shots, the summon cap, a player-shot flood.
+
+const TICKS := 90
+var fails := 0
+var notes := []
+var tested := 0
+var _props := {}
+
+func _ready() -> void:
+	G.god = true
+	if DebugArgs.has("only-broken"):
+		for prop in Player.new(GameData.HEROES[0]).get_property_list():
+			if prop["usage"] & PROPERTY_USAGE_SCRIPT_VARIABLE:
+				_props[prop["name"]] = prop["type"]
+		broken_build()
+		for n in notes:
+			print("[content] ", n)
+		print("[content] Effects.stats: ", Effects.stats)
+		get_tree().quit()
+		return
+	for prop in Player.new(GameData.HEROES[0]).get_property_list():
+		if prop["usage"] & PROPERTY_USAGE_SCRIPT_VARIABLE:
+			_props[prop["name"]] = prop["type"]
+	var t0 := Time.get_ticks_msec()
+	lint()
+	print("[content] lint done: %d problems" % fails)
+	live_all()
+	print("[content] live: %d items exercised" % tested)
+	reversibility()
+	rails()
+	broken_build()
+	stress()
+	print("[content] Effects.stats: ", Effects.stats)
+	for n in notes:
+		print("[content] ", n)
+	print("content test: %s in %.1f s" % ["PASSED" if fails == 0 else "%d FAILURES" % fails, (Time.get_ticks_msec() - t0) / 1000.0])
+	get_tree().quit(1 if fails > 0 else 0)
+
+func fail(msg: String) -> void:
+	fails += 1
+	if fails <= 60:
+		print("FAIL ", msg)
+
+# ---------- 1. Lint ----------
+const REVERSIBLE := ["add", "mul", "pct", "hook", "grant"]
+const ONE_SHOT := ["add", "mul", "pct", "set", "add_cap", "add_floor", "clamp_max", "at_least", "copy", "nth", "hook", "grant"]
+
+func lint_effects(where: String, effects: Array, reversible: bool) -> void:
+	for e in effects:
+		if e is Dictionary:
+			lint_proc(where, e)
+			continue
+		if not (e is Array) or e.size() < 3:
+			fail("%s: malformed effect %s" % [where, e])
+			continue
+		var op: String = e[0]
+		if not op in ONE_SHOT:
+			fail("%s: unknown op %s" % [where, op])
+		if reversible and not op in REVERSIBLE:
+			fail("%s: op %s cannot be undone but this item can be removed" % [where, op])
+		if op == "hook":
+			continue
+		if not _props.has(e[1]):
+			fail("%s: unknown stat %s" % [where, e[1]])
+		elif op == "pct" and _props[e[1]] != TYPE_FLOAT:
+			fail("%s: pct on non-float stat %s" % [where, e[1]])
+
+func lint_proc(where: String, d: Dictionary) -> void:
+	if not d.get("on") in Effects.TRIGGERS:
+		fail("%s: unknown trigger %s" % [where, d.get("on")])
+	if d.has("if") and not d["if"] in Effects.CONDITIONS:
+		fail("%s: unknown condition %s" % [where, d["if"]])
+	if d.has("chance") and not (d["chance"] > 0 and d["chance"] <= 1):
+		fail("%s: bad chance" % where)
+	if d.has("every") and int(d["every"]) < 1:
+		fail("%s: bad every" % where)
+	if not (d.get("do") is Array) or d["do"].is_empty():
+		fail("%s: proc without actions" % where)
+		return
+	for a in d["do"]:
+		if not a[0] in Effects.ACTIONS:
+			fail("%s: unknown action %s" % [where, a[0]])
+		elif a[0] == "status" and not a[1] in Effects.STATUSES:
+			fail("%s: unknown status %s" % [where, a[1]])
+		elif a[0] == "buff" and (not _props.has(a[1]) or _props[a[1]] != TYPE_FLOAT):
+			fail("%s: buff on bad stat %s" % [where, a[1]])
+		elif a[0] == "drop" and not a[1] in Combat.PICKUP_KINDS:
+			fail("%s: unknown pickup %s" % [where, a[1]])
+
+func lint() -> void:
+	var ids := {}   # "table:id" -> true; ids are unique per table
+	var families: Dictionary = Traits.FAMILIES
+	for r in Relics.all():
+		_uniq(ids, "relic", r["id"])
+		lint_effects("relic " + r["id"], r["effects"], false)
+		_sprite("relic " + r["id"], r["sprite"])
+		_rarity("relic " + r["id"], r["rarity"], GameData.RARITY_HEX)
+		_tags("relic " + r["id"], r["tags"])
+	for t in Traits.all():
+		_uniq(ids, "trait", t["id"])
+		lint_effects("trait " + t["id"], t["effects"], false)
+		for k in t["tiers"]:
+			lint_effects("trait %s tier %s" % [t["id"], k], t["tiers"][k], false)
+		if not families.has(t["fam"]):
+			fail("trait %s: unknown family %s" % [t["id"], t["fam"]])
+		_rarity("trait " + t["id"], t["rarity"], Traits.RARITY)
+		_tags("trait " + t["id"], t["tags"])
+	for fam in Traits.FAMILY_BONUS:
+		for i in Traits.FAMILY_BONUS[fam].size():
+			lint_effects("bonus %s %d" % [fam, i], Traits.FAMILY_BONUS[fam][i][1], false)
+	for n in Traits.NODE_EFFECTS:
+		lint_effects("node " + n, Traits.NODE_EFFECTS[n], false)
+	for w in Weapons.all():
+		_uniq(ids, "weapon", w["id"])
+		lint_effects("weapon " + w["id"], Effects.from_tuples(w["stats"], w["hooks"]) + w["effects"], true)
+		_sprite("weapon " + w["id"], w["sprite"])
+		_tags("weapon " + w["id"], w["tags"])
+		if not Weapons.ARCH.has(w["kind"]):
+			fail("weapon %s: unknown kind" % w["id"])
+	for g in Gear.all():
+		_uniq(ids, "gear", g["id"])
+		lint_effects("gear " + g["id"], Effects.from_tuples(g["stats"], g["hooks"]) + g["effects"], true)
+		_sprite("gear " + g["id"], g["sprite"])
+		_tags("gear " + g["id"], g["tags"])
+		if not g["slot"] in Gear.SLOTS:
+			fail("gear %s: unknown slot" % g["id"])
+		if g["set"] != null and not Gear.SETS.has(g["set"]):
+			fail("gear %s: unknown set" % g["id"])
+	for s in Gear.SETS:
+		lint_effects("set " + s, Effects.from_tuples(Gear.SETS[s]["b2"] + Gear.SETS[s].get("b4", []), Gear.SETS[s].get("b4h", [])), true)
+	for syn in Synergies.TAG_SYNERGIES:
+		for tier in syn["tiers"]:
+			lint_effects("synergy " + syn["tag"], tier["effects"], true)
+	for c in Synergies.COMBOS:
+		lint_effects("combo " + c["id"], c["effects"], true)
+		for need in c["needs"]:
+			if not ids.has(need):
+				fail("combo %s needs unknown item %s" % [c["id"], need])
+
+func _uniq(ids: Dictionary, kind: String, id: String) -> void:
+	var key := kind + ":" + id
+	if ids.has(key):
+		fail("duplicate %s id %s" % [kind, id])
+	ids[key] = true
+
+func _sprite(where: String, name: String) -> void:
+	if not Img.has(name):
+		fail("%s: missing sprite %s" % [where, name])
+
+func _rarity(where: String, r: String, table: Dictionary) -> void:
+	if not table.has(r):
+		fail("%s: unknown rarity %s" % [where, r])
+
+func _tags(where: String, tags: Array) -> void:
+	for t in tags:
+		if not Weapons.TAG_COLS.has(t):
+			fail("%s: unknown tag %s" % [where, t])
+
+# ---------- 2. Live ----------
+func arena(hero: int) -> Player:
+	G.hero_index = hero % GameData.HEROES.size()
+	G.new_run()
+	G.floor_d["depth"] = 2
+	G.enter_room(World.make_room(G.floor_d, "combat", "", "s"))
+	var p := G.player
+	for i in 5:
+		var s := World.free_spot(G.room, p, 50, World.M_FLYER)
+		Combat.spawn_enemy(TB.pick(GameData.FLOORS[0]["pool"]), s.x, s.y, i == 0, true)
+	return p
+
+func fire_all(p: Player) -> void:
+	var e: Enemy = G.enemies[0] if not G.enemies.is_empty() else null
+	for t in Effects.TRIGGERS:
+		Effects.fire(t, { "enemy": e, "dmg": 5.0, "crit": true, "x": p.x, "y": p.y })
+
+func play(ticks: int) -> void:
+	for i in ticks:
+		Keys.tick()
+		G.update(TB.DT)
+		match G.state:
+			&"traits":
+				G.take_trait(G.tchoice["opts"][0])
+				G.tchoice = {}
+				G.state = &"play"
+			&"choice":
+				G.add_relic(G.player, G.choice["relics"][0])
+				G.choice = {}
+				G.state = &"play"
+			&"pause", &"dead", &"win":
+				G.state = &"play"
+		if G.enemies.size() < 3:
+			var s := World.free_spot(G.room, G.player, 50, World.M_FLYER)
+			Combat.spawn_enemy(TB.pick(GameData.FLOORS[0]["pool"]), s.x, s.y, false, true)
+
+func check(where: String) -> void:
+	var p := G.player
+	for name in _props:
+		var v = p.get(name)
+		if (v is float) and not is_finite(v):
+			fail("%s: stat %s is %s" % [where, name, v])
+	if p.hp > p.max_hp or p.max_hp < 2:
+		fail("%s: hp %d / max %d" % [where, p.hp, p.max_hp])
+	if G.pbullets.size() > Effects.PBULLET_CAP:
+		fail("%s: %d player shots over the cap" % [where, G.pbullets.size()])
+	if mini(p.familiars, Effects.SUMMON_CAP) + G.temp_fams.size() > Effects.SUMMON_CAP + 8:
+		fail("%s: summons over the cap" % where)
+	for e in G.enemies:
+		if not is_finite(e.hp) or not is_finite(e.x):
+			fail("%s: enemy state not finite" % where)
+			break
+
+func live(where: String, hero: int, give: Callable) -> void:
+	var p := arena(hero)
+	give.call(p)
+	fire_all(p)
+	play(TICKS)
+	check(where)
+	tested += 1
+
+func live_all() -> void:
+	var i := 0
+	for r in Relics.all():
+		live("relic " + r["id"], i, func(p): G.add_relic(p, r))
+		i += 1
+	for t in Traits.all():
+		live("trait " + t["id"], i, func(p):
+			for k in t["max"]:
+				p.pending += 1
+				G.take_trait(t))
+		i += 1
+	for fam in Traits.FAMILY_BONUS:
+		for k in 3:
+			live("bonus %s %d" % [fam, k], i, func(p): Traits.apply_bonus(fam, k, p))
+			i += 1
+	for n in Traits.NODE_EFFECTS:
+		live("node " + n, i, func(p): Traits.apply_node(n, p))
+		i += 1
+	for w in Weapons.all():
+		live("weapon " + w["id"], i, func(p): Weapons.equip_weapon(p, w))
+		i += 1
+	for g in Gear.all():
+		live("gear " + g["id"], i, func(p): Gear.equip_gear(p, g))
+		i += 1
+	for s in Gear.SETS:
+		live("set " + s, i, func(p):
+			for g in Gear.all():
+				if g["set"] == s:
+					Gear.equip_gear(p, g))
+		i += 1
+	# Fixtures: every trigger, action, status, condition and the abuse cases,
+	# plus a synthetic tag synergy and combo.
+	Synergies.TAG_SYNERGIES.append(TestFixtures.synergy())
+	Synergies.COMBOS.append(TestFixtures.combo())
+	for f in TestFixtures.items():
+		live("fixture " + f["id"], i, func(p): give_fixture(p, f))
+		i += 1
+	live("fixture all at once", 0, func(p):
+		for f in TestFixtures.items():
+			give_fixture(p, f))
+	var p := G.player
+	if not p.synergies.has("syn:storm:0") or not p.synergies.has("combo:fx_combo"):
+		fail("synthetic synergy/combo did not activate: %s" % [p.synergies.keys()])
+	Synergies.TAG_SYNERGIES.pop_back()
+	Synergies.COMBOS.pop_back()
+
+func give_fixture(p: Player, f: Dictionary) -> void:
+	var r := { "id": f["id"], "rarity": "common", "name": f["id"], "desc": "", "effects": f["effects"],
+		"tags": f["tags"], "new": true, "sprite": "relic_whetstone" }
+	p.relics.append(r)
+	Effects.apply(p, r["effects"], 1, "relic:" + r["id"])
+	Effects.recount_tags(p)
+
+# ---------- 3. Reversibility ----------
+func _snap(p: Player) -> Dictionary:
+	var out := {}
+	for name in _props:
+		var v = p.get(name)
+		if (v is int or v is float) and not name in ["hp", "armor", "bombs", "keys", "potions", "charges"]:
+			out[name] = v
+	out["gf"] = p.gf.duplicate()
+	out["procs"] = p.procs.size()
+	out["pct"] = p.stat_pct.duplicate()
+	return out
+
+func _same(a: Dictionary, b: Dictionary) -> String:
+	for k in a:
+		if k == "gf" or k == "pct":
+			for kk in a[k].keys() + b[k].keys():
+				if absf(a[k].get(kk, 0.0) - b[k].get(kk, 0.0)) > 1e-6:
+					return "%s.%s %s vs %s" % [k, kk, a[k].get(kk, 0.0), b[k].get(kk, 0.0)]
+		elif typeof(a[k]) in [TYPE_INT, TYPE_FLOAT] and absf(float(a[k]) - float(b[k])) > 1e-6 * maxf(1.0, absf(float(a[k]))):
+			return "%s %s vs %s" % [k, a[k], b[k]]
+	return ""
+
+func reversibility() -> void:
+	var n := 0
+	var p := arena(0)
+	var base_w: Dictionary = p.weapon
+	for w in Weapons.all():
+		var before := _snap(p)
+		Weapons.equip_weapon(p, w)
+		Weapons.equip_weapon(p, base_w)
+		var d := _same(before, _snap(p))
+		if d != "":
+			fail("weapon %s not reversible: %s" % [w["id"], d])
+		n += 1
+	for sl in Gear.SLOTS:
+		var pieces := []
+		for g in Gear.all():
+			if g["slot"] == sl:
+				pieces.append(g)
+		Gear.equip_gear(p, pieces[0])
+		for g in pieces:
+			var before := _snap(p)
+			Gear.equip_gear(p, g)
+			Gear.equip_gear(p, pieces[0])
+			var d := _same(before, _snap(p))
+			if d != "":
+				fail("gear %s not reversible: %s" % [g["id"], d])
+			n += 1
+	notes.append("reversibility: %d weapon/gear swaps restored the player exactly" % n)
+
+# ---------- Safety rails, checked directly ----------
+func rails() -> void:
+	var p := arena(0)
+	# Budget and queue: 300 procs in one tick run 200 now and 100 next tick.
+	give_fixture(p, { "id": "rail_gold", "effects": [{ "on": "on_room_clear", "do": [["gold", 1]] }], "tags": [] })
+	Effects.budget = Effects.BUDGET
+	var gold0 := p.gold
+	for i in 300:
+		Effects.fire("on_room_clear")
+	var now := p.gold - gold0
+	var queued := Effects.queue.size()
+	Effects.tick(TB.DT)
+	var later := p.gold - gold0
+	if now != Effects.BUDGET or queued != 300 - Effects.BUDGET or later != 300:
+		fail("proc budget/queue: ran %d, queued %d, after next tick %d (want %d, %d, 300)" % [now, queued, later, Effects.BUDGET, 300 - Effects.BUDGET])
+	# Depth: a heal that triggers itself stops at MAX_DEPTH levels.
+	p = arena(0)
+	p.hp = 2
+	p.max_hp = 40
+	give_fixture(p, { "id": "rail_loop", "effects": [{ "on": "on_heal", "do": [["heal", 1]] }], "tags": [] })
+	Effects.stats["max_depth"] = 0
+	p.heal(1)
+	if Effects.stats["max_depth"] != Effects.MAX_DEPTH or p.hp != 2 + 1 + Effects.MAX_DEPTH:
+		fail("proc depth: reached %d, hp %d (want depth %d, hp %d)" % [Effects.stats["max_depth"], p.hp, Effects.MAX_DEPTH, 3 + Effects.MAX_DEPTH])
+	# Bullet cap: shots past the cap merge instead of piling up.
+	p = arena(0)
+	for i in Effects.PBULLET_CAP + 300:
+		Combat.spawn_pbullet(p, randf() * TAU)
+	if G.pbullets.size() != Effects.PBULLET_CAP:
+		fail("bullet cap: %d live shots" % G.pbullets.size())
+	notes.append("rails: proc budget %d/tick with queue, depth limit %d, shot cap %d, summon cap %d, shot floor %.4f s all verified" % [
+		Effects.BUDGET, Effects.MAX_DEPTH, Effects.PBULLET_CAP, Effects.SUMMON_CAP, Effects.MIN_SHOT_INTERVAL])
+
+# ---------- 4. Broken build ----------
+func _timed(ticks: int) -> float:
+	var t0 := Time.get_ticks_usec()
+	play(ticks)
+	return (Time.get_ticks_usec() - t0) / 1000.0 / ticks
+
+func broken_build() -> void:
+	var p := arena(1)
+	var ranks := 0
+	for fam in ["storm", "arcane", "pyre", "blood"]:
+		for t in Traits.all():
+			if t["fam"] == fam:
+				for k in t["max"]:
+					p.pending += 1
+					G.take_trait(t)
+					ranks += 1
+	for f in TestFixtures.items():
+		if f["id"] in ["fx_bomb", "fx_act_nova", "fx_act_chain", "fx_act_lightning", "fx_status_shock", "fx_pct"]:
+			for k in 5:
+				give_fixture(p, f)
+	for e in G.enemies:
+		e.max_hp = 1e12
+		e.hp = 1e12
+	var ms := _timed(600)
+	check("broken build")
+	notes.append("broken build: %d trait ranks + stacked recursive procs: %.2f ms/tick logic (budget 16.7)" % [ranks, ms])
+	if ranks < 50:
+		fail("broken build has only %d trait ranks" % ranks)
+	if ms > 16.7:
+		fail("broken build too slow: %.2f ms/tick" % ms)
+
+# ---------- 5. Stress ----------
+func stress() -> void:
+	var p := arena(2)
+	p.familiars = 40
+	for k in 3:
+		for f in TestFixtures.items():
+			if f["id"] in ["fx_flood", "fx_act_summon"]:
+				give_fixture(p, f)
+	for e in G.enemies:
+		e.max_hp = 1e12
+		e.hp = 1e12
+	var t0 := Time.get_ticks_usec()
+	var peak_eb := 0
+	var peak_pb := 0
+	for i in 600:
+		if EBullets.n < 600:
+			Combat.ering(TB.SW / 2.0, 5.0 * TB.TS, 32, 25, randf(), "red")
+		play(1)
+		peak_eb = maxi(peak_eb, EBullets.n)
+		peak_pb = maxi(peak_pb, G.pbullets.size())
+	var ms := (Time.get_ticks_usec() - t0) / 1000.0 / 600
+	check("stress")
+	notes.append("stress: peak %d enemy shots, %d player shots, %d summons: %.2f ms/tick logic" % [peak_eb, peak_pb,
+		mini(p.familiars, Effects.SUMMON_CAP) + G.temp_fams.size(), ms])
+	if peak_eb < 500:
+		fail("stress test never reached 500 enemy shots")
+	if ms > 16.7:
+		fail("stress too slow: %.2f ms/tick" % ms)

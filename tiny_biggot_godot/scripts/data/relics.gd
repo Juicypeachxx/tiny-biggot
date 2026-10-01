@@ -1,76 +1,81 @@
 class_name Relics
 extends RefCounted
-## Relics (port of Data.rb RELICS / LOOT). Each row is [id, rarity, name, desc];
-## the effect of each relic is its branch in apply(), converted line by line
-## from the Ruby lambda.
+## Relics (Data.rb RELICS / LOOT, extended by the content batches).
+## Each row is [id, rarity, name, desc, effects, tags, sprite]; new relics
+## name an existing sprite to reuse (placeholder art). Effects use the effect
+## system (effects/effects.gd). The original 66 relics were converted
+## mechanically from their Ruby lambdas (each statement becomes one op, in
+## order) and carry no synergy tags. tests/effects_test.gd checks them against
+## the Ruby code.
 
+const ORIGINAL_COUNT := 66
 const ROWS := [
-	["whetstone", "common", "WHETSTONE", "+25% DAMAGE"],
-	["twitch", "common", "TWITCHING FINGER", "+20% FIRE RATE"],
-	["splitfang", "rare", "SPLIT FANG", "+1 PROJECTILE, -10% DAMAGE"],
-	["owl", "common", "OWL FEATHER", "+25% SHOT SPEED AND RANGE"],
-	["sparrow", "common", "SPARROW BOOTS", "+15% MOVE SPEED"],
-	["garnet", "rare", "BLOOD GARNET", "+1 MAX HEART, HEALS 1 HEART"],
-	["bramble", "common", "BRAMBLE RING", "SHOTS PIERCE 1 MORE FOE"],
-	["sap", "rare", "RUBBER SAP", "SHOTS BOUNCE OFF WALLS"],
-	["seeker", "rare", "SEEKER'S EYE", "SHOTS HOME IN ON FOES"],
-	["coal", "common", "CINDER COAL", "25% CHANCE TO BURN"],
-	["needle", "common", "FROST NEEDLE", "25% CHANCE TO CHILL FOES"],
-	["viper", "common", "VIPER TOOTH", "HITS POISON FOES"],
-	["luckycoin", "common", "CROOKED COIN", "+12% CRIT CHANCE"],
-	["hourglass", "common", "SAND GLASS", "ROLL RECHARGES 35% FASTER"],
-	["lantern", "rare", "GRAVE LANTERN", "KILLS HAVE 6% CHANCE TO HEAL"],
-	["buckler", "rare", "IRON BUCKLER", "BLOCKS THE FIRST HIT IN EACH ROOM"],
-	["moon", "epic", "PALE MOON", "AN ORB CIRCLES YOU AND BLOCKS SHOTS"],
-	["sapbomb", "rare", "POWDER POUCH", "ROLLING DROPS A BOMB"],
-	["dice", "rare", "LOADED DIE", "15% CHANCE TO FIRE A TRIPLE VOLLEY"],
-	["arrowhead", "common", "BARBED TIP", "+15% DAMAGE, +15% SHOT SPEED"],
-	["thorn", "common", "THORN LEAF", "FOES THAT TOUCH YOU TAKE DAMAGE"],
-	["crown", "rare", "PAUPER'S CROWN", "+50% GOLD, SHOPS 20% CHEAPER"],
-	["heavy", "epic", "LEAD SHOT", "BIGGER SHOTS, +30% DAMAGE, -10% RATE"],
-	["fever", "rare", "FEVER SCROLL", "KILLS GRANT A BURST OF FIRE RATE"],
-	["bonecharm", "rare", "BONE CHARM", "+1 ROLL CHARGE"],
-	["glassheart", "epic", "GLASS HEART", "+60% DAMAGE, -1 MAX HEART"],
-	["echo", "rare", "ECHO RING", "ALSO FIRES A SHOT BEHIND YOU"],
-	["witcheye", "epic", "WITCH EYE", "+15% CRIT, CRITS DEAL X2.5"],
-	["rage", "rare", "WRATH EMBER", "+50% DAMAGE WHILE AT 1 HEART OR LESS"],
-	["lodestone", "rare", "LODESTONE", "PULLS GOLD, +25% GOLD"],
-	["sigil", "epic", "WARDING SIGIL", "TAKING DAMAGE RELEASES A NOVA"],
-	["shells", "rare", "VOLATILE SHELLS", "SHOTS BURST ON IMPACT"],
-	["spark", "rare", "CHAIN SPARK", "30% CHANCE HITS ARC TO A NEARBY FOE"],
-	["keyring", "common", "WARDEN'S KEY", "+1 POTION SLOT, GAIN 1 POTION"],
-	["tallow", "common", "TALLOW CANDLE", "+1 BOMB, BOMBS DEAL +50% DAMAGE"],
-	["skeletonkey", "common", "SKELETON KEY", "+2 KEYS"],
-	["quiver", "common", "QUIVER STRAP", "+10% FIRE RATE, +10% SHOT SPEED"],
-	["filings", "common", "IRON FILINGS", "+1 ARMOR"],
-	["gravedust", "common", "GRAVE DUST", "FOES DROP 30% MORE GOLD"],
-	["mothwing", "common", "MOTH WING", "ROLLS GO FURTHER AND FASTER"],
-	["bitterroot", "common", "BITTER ROOT", "POTIONS HEAL 1 MORE HEART"],
-	["tinwhistle", "common", "TIN WHISTLE", "+10% MOVE SPEED, ROLL RECHARGES FASTER"],
-	["chalk", "common", "MAPPER'S CHALK", "HIDDEN WALLS GLOW, +1 BOMB"],
-	["rustynail", "common", "RUSTY NAIL", "+1 PIERCE, +10% DAMAGE"],
-	["wispjar", "rare", "WISP JAR", "A WISP FOLLOWS YOU AND SHOOTS FOES"],
-	["emberheart", "rare", "EMBER HEART", "FOES NEAR YOU CATCH FIRE"],
-	["boneshield", "rare", "BONE SHIELD", "+2 ARMOR"],
-	["huntersmark", "rare", "HUNTER'S MARK", "+35% DAMAGE TO ELITES AND BOSSES"],
-	["glasslens", "rare", "GLASS LENS", "SHOTS GROW AND HIT HARDER AS THEY FLY"],
-	["staticcoil", "rare", "STATIC COIL", "EVERY 4 SECONDS, RELEASE A RING OF SPARKS"],
-	["bloodoath", "rare", "BLOOD OATH", "+1 MAX HEART FOR EACH GUARDIAN SLAIN"],
-	["ricochet", "rare", "RICOCHET BEAD", "SHOTS JUMP TO ANOTHER FOE AFTER A HIT"],
-	["misers", "rare", "MISER'S PURSE", "+1% DAMAGE FOR EVERY 10 GOLD HELD"],
-	["shadowstep", "rare", "SHADOW STEP", "ROLLING THROUGH FOES DAMAGES THEM"],
-	["coldiron", "rare", "COLD IRON", "+10% DAMAGE, +15% CHANCE TO CHILL"],
-	["splinter", "rare", "SPLINTER", "KILLS BURST INTO SHARDS"],
-	["phoenix", "epic", "PHOENIX FEATHER", "ONCE PER RUN, RISE AGAIN WITH 2 HEARTS"],
-	["twinwisp", "epic", "TWIN LANTERNS", "TWO WISPS FOLLOW YOU"],
-	["stormcrown", "epic", "STORM CROWN", "HITS MAY CALL DOWN LIGHTNING"],
-	["hollowmirror", "epic", "HOLLOW MIRROR", "ENEMY SHOTS SLOW DOWN NEAR YOU"],
-	["gildedtooth", "epic", "GILDED TOOTH", "SHOPS 30% CHEAPER, +25% GOLD"],
-	["overcharge", "epic", "OVERCHARGE", "+1 PROJECTILE, +15% RATE, -1 MAX HEART"],
-	["deepeye", "legend", "EYE OF THE DEEP", "+2 PROJECTILES THAT HOME IN"],
-	["cindercrown", "legend", "CROWN OF CINDERS", "+50% DAMAGE, SHOTS OFTEN BURN"],
-	["ageglass", "legend", "GLASS OF AGES", "+2 ROLL CHARGES, ROLLING RELOADS"],
-	["worldseed", "legend", "WORLDSEED", "+2 MAX HEARTS, HEAL FULLY"],]
+	["whetstone", "common", "WHETSTONE", "+25% DAMAGE", [["mul", "dmg", 1.25]]],
+	["twitch", "common", "TWITCHING FINGER", "+20% FIRE RATE", [["mul", "rate", 1.2]]],
+	["splitfang", "rare", "SPLIT FANG", "+1 PROJECTILE, -10% DAMAGE", [["add", "count", 1], ["mul", "dmg", 0.9]]],
+	["owl", "common", "OWL FEATHER", "+25% SHOT SPEED AND RANGE", [["mul", "shot_speed", 1.25], ["mul", "life", 1.15]]],
+	["sparrow", "common", "SPARROW BOOTS", "+15% MOVE SPEED", [["mul", "speed", 1.15]]],
+	["garnet", "rare", "BLOOD GARNET", "+1 MAX HEART, HEALS 1 HEART", [["add", "max_hp", 2], ["add_cap", "hp", 2, "max_hp"]]],
+	["bramble", "common", "BRAMBLE RING", "SHOTS PIERCE 1 MORE FOE", [["add", "pierce", 1]]],
+	["sap", "rare", "RUBBER SAP", "SHOTS BOUNCE OFF WALLS", [["add", "bounce", 1], ["mul", "life", 1.2]]],
+	["seeker", "rare", "SEEKER'S EYE", "SHOTS HOME IN ON FOES", [["add", "homing", 2.5]]],
+	["coal", "common", "CINDER COAL", "25% CHANCE TO BURN", [["add", "burn", 0.25]]],
+	["needle", "common", "FROST NEEDLE", "25% CHANCE TO CHILL FOES", [["add", "chill", 0.25]]],
+	["viper", "common", "VIPER TOOTH", "HITS POISON FOES", [["add", "poison", 1]]],
+	["luckycoin", "common", "CROOKED COIN", "+12% CRIT CHANCE", [["add", "crit", 0.12]]],
+	["hourglass", "common", "SAND GLASS", "ROLL RECHARGES 35% FASTER", [["mul", "dodge_cd", 0.65]]],
+	["lantern", "rare", "GRAVE LANTERN", "KILLS HAVE 6% CHANCE TO HEAL", [["add", "lifesteal", 0.06]]],
+	["buckler", "rare", "IRON BUCKLER", "BLOCKS THE FIRST HIT IN EACH ROOM", [["set", "buckler", true]]],
+	["moon", "epic", "PALE MOON", "AN ORB CIRCLES YOU AND BLOCKS SHOTS", [["add", "orbitals", 1]]],
+	["sapbomb", "rare", "POWDER POUCH", "ROLLING DROPS A BOMB", [["set", "bomb_dodge", true]]],
+	["dice", "rare", "LOADED DIE", "15% CHANCE TO FIRE A TRIPLE VOLLEY", [["add", "triple", 0.15]]],
+	["arrowhead", "common", "BARBED TIP", "+15% DAMAGE, +15% SHOT SPEED", [["mul", "dmg", 1.15], ["mul", "shot_speed", 1.15]]],
+	["thorn", "common", "THORN LEAF", "FOES THAT TOUCH YOU TAKE DAMAGE", [["add", "thorns", 10]]],
+	["crown", "rare", "PAUPER'S CROWN", "+50% GOLD, SHOPS 20% CHEAPER", [["mul", "gold_mult", 1.5], ["add_cap", "shop_disc", 0.2, 0.6]]],
+	["heavy", "epic", "LEAD SHOT", "BIGGER SHOTS, +30% DAMAGE, -10% RATE", [["mul", "size", 1.35], ["mul", "dmg", 1.3], ["mul", "rate", 0.9]]],
+	["fever", "rare", "FEVER SCROLL", "KILLS GRANT A BURST OF FIRE RATE", [["add", "frenzy", 1]]],
+	["bonecharm", "rare", "BONE CHARM", "+1 ROLL CHARGE", [["add", "dodge_charges", 1], ["add", "charges", 1]]],
+	["glassheart", "epic", "GLASS HEART", "+60% DAMAGE, -1 MAX HEART", [["mul", "dmg", 1.6], ["add_floor", "max_hp", -2, 2], ["clamp_max", "hp", "max_hp"]]],
+	["echo", "rare", "ECHO RING", "ALSO FIRES A SHOT BEHIND YOU", [["add", "backshot", 1]]],
+	["witcheye", "epic", "WITCH EYE", "+15% CRIT, CRITS DEAL X2.5", [["add", "crit", 0.15], ["at_least", "crit_mult", 2.5]]],
+	["rage", "rare", "WRATH EMBER", "+50% DAMAGE WHILE AT 1 HEART OR LESS", [["add", "rage", 0.5]]],
+	["lodestone", "rare", "LODESTONE", "PULLS GOLD, +25% GOLD", [["set", "magnet", true], ["mul", "gold_mult", 1.25]]],
+	["sigil", "epic", "WARDING SIGIL", "TAKING DAMAGE RELEASES A NOVA", [["add", "ward", 1]]],
+	["shells", "rare", "VOLATILE SHELLS", "SHOTS BURST ON IMPACT", [["add", "explode", 1]]],
+	["spark", "rare", "CHAIN SPARK", "30% CHANCE HITS ARC TO A NEARBY FOE", [["add", "chain", 0.3]]],
+	["keyring", "common", "WARDEN'S KEY", "+1 POTION SLOT, GAIN 1 POTION", [["add", "max_potions", 1], ["add_cap", "potions", 1, "max_potions"]]],
+	["tallow", "common", "TALLOW CANDLE", "+1 BOMB, BOMBS DEAL +50% DAMAGE", [["add", "bombs", 1], ["mul", "bomb_mult", 1.5]]],
+	["skeletonkey", "common", "SKELETON KEY", "+2 KEYS", [["add", "keys", 2]]],
+	["quiver", "common", "QUIVER STRAP", "+10% FIRE RATE, +10% SHOT SPEED", [["mul", "rate", 1.1], ["mul", "shot_speed", 1.1]]],
+	["filings", "common", "IRON FILINGS", "+1 ARMOR", [["add", "armor", 1]]],
+	["gravedust", "common", "GRAVE DUST", "FOES DROP 30% MORE GOLD", [["mul", "gold_drop", 1.3]]],
+	["mothwing", "common", "MOTH WING", "ROLLS GO FURTHER AND FASTER", [["mul", "roll_speed", 1.25]]],
+	["bitterroot", "common", "BITTER ROOT", "POTIONS HEAL 1 MORE HEART", [["add", "potion_heal", 2]]],
+	["tinwhistle", "common", "TIN WHISTLE", "+10% MOVE SPEED, ROLL RECHARGES FASTER", [["mul", "speed", 1.1], ["mul", "dodge_cd", 0.9]]],
+	["chalk", "common", "MAPPER'S CHALK", "HIDDEN WALLS GLOW, +1 BOMB", [["set", "reveal", true], ["add", "bombs", 1]]],
+	["rustynail", "common", "RUSTY NAIL", "+1 PIERCE, +10% DAMAGE", [["add", "pierce", 1], ["mul", "dmg", 1.1]]],
+	["wispjar", "rare", "WISP JAR", "A WISP FOLLOWS YOU AND SHOOTS FOES", [["add", "familiars", 1]]],
+	["emberheart", "rare", "EMBER HEART", "FOES NEAR YOU CATCH FIRE", [["add", "aura", 1]]],
+	["boneshield", "rare", "BONE SHIELD", "+2 ARMOR", [["add", "armor", 2]]],
+	["huntersmark", "rare", "HUNTER'S MARK", "+35% DAMAGE TO ELITES AND BOSSES", [["add", "elite_mult", 0.35]]],
+	["glasslens", "rare", "GLASS LENS", "SHOTS GROW AND HIT HARDER AS THEY FLY", [["set", "lens", true]]],
+	["staticcoil", "rare", "STATIC COIL", "EVERY 4 SECONDS, RELEASE A RING OF SPARKS", [["add", "coil", 1]]],
+	["bloodoath", "rare", "BLOOD OATH", "+1 MAX HEART FOR EACH GUARDIAN SLAIN", [["set", "oath", true]]],
+	["ricochet", "rare", "RICOCHET BEAD", "SHOTS JUMP TO ANOTHER FOE AFTER A HIT", [["add", "ricochet", 1]]],
+	["misers", "rare", "MISER'S PURSE", "+1% DAMAGE FOR EVERY 10 GOLD HELD", [["set", "miser", true]]],
+	["shadowstep", "rare", "SHADOW STEP", "ROLLING THROUGH FOES DAMAGES THEM", [["set", "shadowstep", true]]],
+	["coldiron", "rare", "COLD IRON", "+10% DAMAGE, +15% CHANCE TO CHILL", [["mul", "dmg", 1.1], ["add", "chill", 0.15]]],
+	["splinter", "rare", "SPLINTER", "KILLS BURST INTO SHARDS", [["add", "splinter", 1]]],
+	["phoenix", "epic", "PHOENIX FEATHER", "ONCE PER RUN, RISE AGAIN WITH 2 HEARTS", [["add", "revive", 1]]],
+	["twinwisp", "epic", "TWIN LANTERNS", "TWO WISPS FOLLOW YOU", [["add", "familiars", 2]]],
+	["stormcrown", "epic", "STORM CROWN", "HITS MAY CALL DOWN LIGHTNING", [["add", "storm", 0.2]]],
+	["hollowmirror", "epic", "HOLLOW MIRROR", "ENEMY SHOTS SLOW DOWN NEAR YOU", [["set", "mirror", true]]],
+	["gildedtooth", "epic", "GILDED TOOTH", "SHOPS 30% CHEAPER, +25% GOLD", [["add_cap", "shop_disc", 0.3, 0.6], ["mul", "gold_mult", 1.25]]],
+	["overcharge", "epic", "OVERCHARGE", "+1 PROJECTILE, +15% RATE, -1 MAX HEART", [["add", "count", 1], ["mul", "rate", 1.15], ["add_floor", "max_hp", -2, 2], ["clamp_max", "hp", "max_hp"]]],
+	["deepeye", "legend", "EYE OF THE DEEP", "+2 PROJECTILES THAT HOME IN", [["add", "count", 2], ["add", "homing", 2.5]]],
+	["cindercrown", "legend", "CROWN OF CINDERS", "+50% DAMAGE, SHOTS OFTEN BURN", [["mul", "dmg", 1.5], ["add", "burn", 0.35]]],
+	["ageglass", "legend", "GLASS OF AGES", "+2 ROLL CHARGES, ROLLING RELOADS", [["add", "dodge_charges", 2], ["add", "charges", 2], ["set", "roll_reload", true]]],
+	["worldseed", "legend", "WORLDSEED", "+2 MAX HEARTS, HEAL FULLY", [["add", "max_hp", 4], ["copy", "hp", "max_hp"]]],]
 const BASE_COUNT := 34
 const CACHE_1 := ["tallow", "skeletonkey", "quiver", "filings", "gravedust", "mothwing", "bitterroot", "tinwhistle", "chalk", "rustynail"]
 const CACHE_2 := ["wispjar", "emberheart", "boneshield", "huntersmark", "glasslens", "staticcoil", "bloodoath", "ricochet", "misers", "shadowstep", "coldiron", "splinter"]
@@ -89,8 +94,11 @@ static var _by_id := {}
 
 static func all() -> Array:
 	if _list.is_empty():
-		for row in ROWS:
-			var r := { "id": row[0], "rarity": row[1], "name": row[2], "desc": row[3] }
+		for i in ROWS.size():
+			var row: Array = ROWS[i]
+			var r := { "id": row[0], "rarity": row[1], "name": row[2], "desc": row[3], "effects": row[4],
+				"tags": row[5] if row.size() > 5 else [], "new": i >= ORIGINAL_COUNT,
+				"sprite": row[6] if row.size() > 6 else "relic_" + row[0] }
 			_list.append(r)
 			_by_id[r["id"]] = r
 	return _list
@@ -105,169 +113,13 @@ static func base_ids() -> Array:
 		out.append(ROWS[i][0])
 	return out
 
-## The relic's effect (Ruby r[:fx].call(p)).
+## New-content relic ids (always in the pool).
+static func new_ids() -> Array:
+	var out := []
+	for r in all():
+		if r["new"]:
+			out.append(r["id"])
+	return out
+
 static func apply(id: String, p: Player) -> void:
-	match id:
-		"whetstone":
-			p.dmg *= 1.25
-		"twitch":
-			p.rate *= 1.2
-		"splitfang":
-			p.count += 1
-			p.dmg *= 0.9
-		"owl":
-			p.shot_speed *= 1.25
-			p.life *= 1.15
-		"sparrow":
-			p.speed *= 1.15
-		"garnet":
-			p.max_hp += 2
-			p.hp = min(p.max_hp, p.hp + 2)
-		"bramble":
-			p.pierce += 1
-		"sap":
-			p.bounce += 1
-			p.life *= 1.2
-		"seeker":
-			p.homing += 2.5
-		"coal":
-			p.burn += 0.25
-		"needle":
-			p.chill += 0.25
-		"viper":
-			p.poison += 1
-		"luckycoin":
-			p.crit += 0.12
-		"hourglass":
-			p.dodge_cd *= 0.65
-		"lantern":
-			p.lifesteal += 0.06
-		"buckler":
-			p.buckler = true
-		"moon":
-			p.orbitals += 1
-		"sapbomb":
-			p.bomb_dodge = true
-		"dice":
-			p.triple += 0.15
-		"arrowhead":
-			p.dmg *= 1.15
-			p.shot_speed *= 1.15
-		"thorn":
-			p.thorns += 10
-		"crown":
-			p.gold_mult *= 1.5
-			p.shop_disc = min(0.6, p.shop_disc + 0.2)
-		"heavy":
-			p.size *= 1.35
-			p.dmg *= 1.3
-			p.rate *= 0.9
-		"fever":
-			p.frenzy += 1
-		"bonecharm":
-			p.dodge_charges += 1
-			p.charges += 1
-		"glassheart":
-			p.dmg *= 1.6
-			p.max_hp = max(2, p.max_hp - 2)
-			p.hp = min(p.hp, p.max_hp)
-		"echo":
-			p.backshot += 1
-		"witcheye":
-			p.crit += 0.15
-			p.crit_mult = max(p.crit_mult, 2.5)
-		"rage":
-			p.rage += 0.5
-		"lodestone":
-			p.magnet = true
-			p.gold_mult *= 1.25
-		"sigil":
-			p.ward += 1
-		"shells":
-			p.explode += 1
-		"spark":
-			p.chain += 0.3
-		"keyring":
-			p.max_potions += 1
-			p.potions = min(p.max_potions, p.potions + 1)
-		"tallow":
-			p.bombs += 1
-			p.bomb_mult *= 1.5
-		"skeletonkey":
-			p.keys += 2
-		"quiver":
-			p.rate *= 1.1
-			p.shot_speed *= 1.1
-		"filings":
-			p.armor += 1
-		"gravedust":
-			p.gold_drop *= 1.3
-		"mothwing":
-			p.roll_speed *= 1.25
-		"bitterroot":
-			p.potion_heal += 2
-		"tinwhistle":
-			p.speed *= 1.1
-			p.dodge_cd *= 0.9
-		"chalk":
-			p.reveal = true
-			p.bombs += 1
-		"rustynail":
-			p.pierce += 1
-			p.dmg *= 1.1
-		"wispjar":
-			p.familiars += 1
-		"emberheart":
-			p.aura += 1
-		"boneshield":
-			p.armor += 2
-		"huntersmark":
-			p.elite_mult += 0.35
-		"glasslens":
-			p.lens = true
-		"staticcoil":
-			p.coil += 1
-		"bloodoath":
-			p.oath = true
-		"ricochet":
-			p.ricochet += 1
-		"misers":
-			p.miser = true
-		"shadowstep":
-			p.shadowstep = true
-		"coldiron":
-			p.dmg *= 1.1
-			p.chill += 0.15
-		"splinter":
-			p.splinter += 1
-		"phoenix":
-			p.revive += 1
-		"twinwisp":
-			p.familiars += 2
-		"stormcrown":
-			p.storm += 0.2
-		"hollowmirror":
-			p.mirror = true
-		"gildedtooth":
-			p.shop_disc = min(0.6, p.shop_disc + 0.3)
-			p.gold_mult *= 1.25
-		"overcharge":
-			p.count += 1
-			p.rate *= 1.15
-			p.max_hp = max(2, p.max_hp - 2)
-			p.hp = min(p.hp, p.max_hp)
-		"deepeye":
-			p.count += 2
-			p.homing += 2.5
-		"cindercrown":
-			p.dmg *= 1.5
-			p.burn += 0.35
-		"ageglass":
-			p.dodge_charges += 2
-			p.charges += 2
-			p.roll_reload = true
-		"worldseed":
-			p.max_hp += 4
-			p.hp = p.max_hp
-		_:
-			push_error("Relics.apply: unknown relic " + id)
+	Effects.apply(p, by_id(id)["effects"], 1, "relic:" + id)

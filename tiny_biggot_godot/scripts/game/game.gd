@@ -73,6 +73,7 @@ func start_fade(cb: Callable) -> void:
 func new_run() -> void:
 	var hero: Dictionary = GameData.HEROES[hero_index]
 	player = Player.new(hero)
+	Effects.reset_run_state()
 	Weapons.equip_weapon(player, Weapons.by_id(Weapons.HERO_WEAPON[hero["id"]]))
 	if DebugArgs.has("weapon"):
 		Weapons.equip_weapon(player, Weapons.by_id(DebugArgs.get_str("weapon")))
@@ -183,6 +184,8 @@ func enter_room(r: Room) -> void:
 			open_exits()
 	dyn_dirty = true
 	room_changed.emit()
+	if not p.procs.is_empty():
+		Effects.fire("on_room_enter")
 
 func open_exits() -> void:
 	if room.exits_open:
@@ -351,6 +354,8 @@ func room_cleared() -> void:
 		var g := int(p.g("room_gold"))
 		p.gold += g
 		Fx.float_text(p.x, p.y - 22, "+%d GOLD" % g, "gold")
+	if not p.procs.is_empty():
+		Effects.fire("on_room_clear")
 
 func open_secret_door(d: String) -> void:
 	if not room.secret_dirs.has(d):
@@ -677,6 +682,8 @@ func roll_relics(n: int, source: String = "chest", in_room: Room = null) -> Arra
 func add_relic(p: Player, r: Dictionary) -> void:
 	p.relics.append(r)
 	Relics.apply(r["id"], p)
+	if r["new"]:
+		Effects.recount_tags(p)
 	p.charges = mini(p.charges, p.dodge_charges)
 	Meta.meta["found"][r["id"]] = true
 	Snd.play("relic")
@@ -744,11 +751,13 @@ func take_trait(t: Dictionary) -> void:
 		var have: int = p.fam_bonus.get(fam, 0)
 		while have < tier:
 			Traits.apply_bonus(fam, have, p)
-			var bname: String = Traits.FAMILY_BONUS[fam][have]
+			var bname := Traits.bonus_name(fam, have)
 			have += 1
 			toast(Traits.FAMILIES[fam]["name"] + " " + str(have * 2) + ": " + bname, Traits.FAMILIES[fam]["col"])
 		p.fam_bonus[fam] = have
 	p.pending -= 1
+	if t["new"]:
+		Effects.recount_tags(p)
 	Snd.play("relic")
 
 ## RGSS menu_nav: wraps the cursor and returns true on confirm.
@@ -847,6 +856,7 @@ func update_play(dt: float) -> void:
 		hitstop -= dt
 		return
 	var p := player
+	Effects.tick(dt)
 	Combat.update_player(p, dt)
 	if state != &"play":
 		return

@@ -49,6 +49,11 @@ var mark_t := 0.0
 var mark_v := 0.0
 var shred := 0.0
 var shattered := false
+# New statuses (effects/statuses.gd), only applied by new content.
+var shock := 0
+var shock_t := 0.0
+var vuln_t := 0.0
+var weak_t := 0.0
 # AI scratch
 var dash := 0.0
 var has_wander := false

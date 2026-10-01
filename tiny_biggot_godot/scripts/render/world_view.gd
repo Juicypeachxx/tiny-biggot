@@ -258,18 +258,18 @@ func _paint_lower(ci: CanvasItem) -> void:
 				ci.draw_rect(Rect2(roundf(x - 9), roundf(y + 2), 18, 6), TB.c("#4e4a5e"))
 				ci.draw_rect(Rect2(roundf(x - 9), roundf(y + 2), 18, 1), TB.c("#8b8f9c"))
 				if not o.get("opened", false) and o["relic"] != null:
-					Gfx.sp(ci, "relic_" + o["relic"]["id"], x, y + bob, 2, 2)
+					Gfx.sp(ci, o["relic"]["sprite"], x, y + bob, 2, 2)
 			"item":
 				var it: Dictionary = o["item"]
-				Gfx.sp(ci, ("w_" if it["item"] == "weapon" else "g_") + it["id"], x, y + 2 + bob, 1.5, 1.5)
+				Gfx.sp(ci, it["sprite"], x, y + 2 + bob, 1.5, 1.5)
 			"shop":
 				ci.draw_rect(Rect2(roundf(x - 9), roundf(y + 2), 18, 6), TB.c("#4e4a5e"))
 				ci.draw_rect(Rect2(roundf(x - 9), roundf(y + 2), 18, 1), TB.c("#8b8f9c"))
 				var name := ""
 				if o["item"] == "relic":
-					name = "relic_" + o["relic"]["id"]
+					name = o["relic"]["sprite"]
 				elif o.has("thing"):
-					name = ("w_" if o["item"] == "weapon" else "g_") + o["thing"]["id"]
+					name = o["thing"]["sprite"]
 				else:
 					name = { "potion": "potion", "heart": "heartPick", "bomb": "bomb", "key": "key", "armor": "armor" }[o["item"]]
 				Gfx.sp(ci, name, x, y + bob, 2, 2)
@@ -295,9 +295,9 @@ func _paint_lower(ci: CanvasItem) -> void:
 	for b: PBullet in G.pbullets:
 		if b.kind != "mine":
 			continue
-		var bm := Img.t("w_" + b.icon)
+		var bm := Img.t(b.icon)
 		var blink := b.arm <= 0 and floori(G.time * 6) % 2 == 1
-		Gfx.sprite(ci, "w_" + b.icon, b.x, b.y, bm.get_width() / 2, bm.get_height() / 2, 1, 1, 0.0, false, 1.0,
+		Gfx.sprite(ci, b.icon, b.x, b.y, bm.get_width() / 2, bm.get_height() / 2, 1, 1, 0.0, false, 1.0,
 			TB.rgba(255, 80, 60, 150) if blink else Color(0, 0, 0, 0))
 
 ## RGSS shadow(): nearest shadow sprite width, drawn at z 4 under everything.
@@ -364,7 +364,7 @@ func _draw_player(ci: CanvasItem, p: Player, t: float) -> void:
 func _draw_weapon(ci: CanvasItem, p: Player) -> void:
 	if p.weapon == null or p.dodge_t > 0:
 		return
-	var wn: String = "w_" + p.weapon["id"]
+	var wn: String = p.weapon["sprite"]
 	var wb := Img.t(wn)
 	var hx := p.x + cos(p.aim_a) * 6
 	var hy := p.y - 1 + sin(p.aim_a) * 4
@@ -530,9 +530,9 @@ func _draw_pbullet(ci: CanvasItem, b: PBullet) -> void:
 			var z := maxf(1.0, b.r / 2.5) if b.kind != "spark" else 1.0
 			_centered(ci, name, b, z, z)
 		"boomer":
-			var name := "w_" + b.icon if b.icon != "" else "orb_gold"
+			var name := b.icon if b.icon != "" else "orb_gold"
 			var z := maxf(1.0, b.r / 3.0)
-			var rot := 0.0 if b.icon == "lantern" or b.icon == "sunlantern" else deg(fmod(b.rot * 40, 360))
+			var rot := 0.0 if b.icon == "w_lantern" or b.icon == "w_sunlantern" else deg(fmod(b.rot * 40, 360))
 			_centered(ci, name, b, z, z, rot)
 		"bolt":
 			var z := 1.4 if b.r > 3.2 else 1.0
@@ -551,7 +551,7 @@ func _draw_pbullet(ci: CanvasItem, b: PBullet) -> void:
 			var a := atan2(b.vy, b.vx)
 			Gfx.bar(ci, Color.WHITE, b.x - cos(a) * 14, b.y - sin(a) * 14, 18, 2, a)
 		_:
-			var name := "w_" + b.icon if b.icon != "" and b.kind != "hatchet" else "hatchet"
+			var name := b.icon if b.icon != "" and b.kind != "hatchet" else "hatchet"
 			var z := maxf(0.8, b.r / 4.0)
 			_centered(ci, name, b, z, z, deg(fmod(b.rot * 40, 360)))
 

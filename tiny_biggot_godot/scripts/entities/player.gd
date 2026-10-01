@@ -187,6 +187,13 @@ var haste_t := 0.0
 var floor_kills := 0
 var step_t := 0.0
 var phoenix_used := false
+# Effect system (effects/effects.gd). Empty for original content.
+var procs: Array = []           # active triggers { def, src, stacks, count, cd, timer, active }
+var buffs: Array = []           # timed additive-% buffs { stat, v, t }
+var stat_pct := {}              # stat -> sum of additive-% modifiers
+var tag_counts := {}            # synergy tag -> points from new-content items
+var synergies := {}             # active synergy tiers and combos
+var overcrit := 0.0             # new stat: crit chance past 100% can crit again
 
 func _init(h: Dictionary) -> void:
 	hero = h
@@ -287,6 +294,8 @@ func heal(n: int) -> void:
 	var before := hp
 	hp = mini(max_hp, hp + n)
 	if hp > before:
+		if not procs.is_empty():
+			Effects.fire("on_heal", { "x": x, "y": y })
 		var gained := (hp - before) / 2.0
 		Fx.float_text(x, y - 12, "+" + TB.num_str(gained) + " HP", "pink")
 		Snd.play("heal")

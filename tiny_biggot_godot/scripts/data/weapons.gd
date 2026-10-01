@@ -55,7 +55,11 @@ const BULLET_KIND := { "bolt": "bolt", "orb": "hex", "spin": "spin", "shot": "cl
 const HERO_WEAPON := { "hexer": "hexwand", "poacher": "repeater", "brute": "pithatchet", "gravedigger": "graveshovel",
 	"alchemist": "flasksling", "warden": "lantern" }
 
-## [id, name, kind, rarity, tags, shape, overrides, stats, hooks, desc] (Ruby wpn()).
+## [id, name, kind, rarity, tags, shape, overrides, stats, hooks, desc, effects] (Ruby wpn()).
+## The first ORIGINAL_COUNT rows are the original weapons; later rows are new
+## content and may add an 11th column of effects (procs, pct stats) and a 12th
+## naming an existing sprite to reuse (placeholder art).
+const ORIGINAL_COUNT := 113
 const ROWS := [
 	# --- Bows and crossbows ---
 	["repeater", "REPEATER", "bolt", "common", [], "crossbow", { "dmg": 2.0, "rate": 6.5, "speed": 270, "life": 0.75, "pierce": 1  }, [], [], "THE POACHER'S CROSSBOW. FAST AND FLAT."],
@@ -198,11 +202,14 @@ static var _list: Array = []
 ## Weapon dictionaries: ARCH defaults merged with the row (Ruby wpn()).
 static func all() -> Array:
 	if _list.is_empty():
-		for row in ROWS:
+		for i in ROWS.size():
+			var row: Array = ROWS[i]
 			var w: Dictionary = ARCH[row[2]].duplicate()
 			w.merge(row[6], true)
 			w.merge({ "id": row[0], "name": row[1], "kind": row[2], "rarity": row[3], "tags": row[4], "shape": row[5],
-				"stats": row[7], "hooks": row[8], "desc": row[9], "item": "weapon",
+				"stats": row[7], "hooks": row[8], "desc": row[9], "item": "weapon", "new": i >= ORIGINAL_COUNT,
+				"effects": row[10] if row.size() > 10 else [],
+				"sprite": row[11] if row.size() > 11 else "w_" + row[0],
 				"cols": TAG_COLS[row[4][0] if row[4].size() > 0 else "core"] }, true)
 			_list.append(w)
 			_by_id[w["id"]] = w
@@ -269,32 +276,13 @@ static func wrange(p: Player) -> float:
 	return p.weapon.get("range", 40) * (0.85 + 0.15 * p.size) * sqrt(p.life)
 
 # ---------- Equipping (fully reversible) ----------
+## Original stat tuples go through the effect system (Effects.from_tuples
+## keeps the 04b rules: MUL_KEYS multiply, ONCE_KEYS are granted once, the rest add).
 static func apply_tuples(p: Player, tuples: Array, dir: int, src: String = "") -> void:
-	var first := src != "" and not p.granted.has(src)
-	for kv in tuples:
-		var k: String = kv[0]
-		var v = kv[1]
-		if k in MUL_KEYS:
-			p.set(k, p.get(k) * v if dir > 0 else p.get(k) / v)
-		elif k in ONCE_KEYS:
-			if dir > 0 and (first or src == ""):
-				p.set(k, p.get(k) + v)
-		else:
-			p.set(k, p.get(k) + v * dir)
-			if k == "max_hp" and v > 0:
-				p.hp += v * dir
-	if src != "" and dir > 0:
-		p.granted[src] = true
-	p.max_hp = maxi(2, p.max_hp)
-	p.hp = maxi(mini(p.hp, p.max_hp), 1)
-	p.armor = maxi(0, p.armor)
-	p.revive = maxi(0, p.revive)
-	p.charges = maxi(mini(p.charges, p.dodge_charges), 0)
-	p.potions = mini(p.potions, p.max_potions)
+	Effects.apply_equipment(p, Effects.from_tuples(tuples), dir, src)
 
 static func apply_hooks(p: Player, hooks: Array, dir: int) -> void:
-	for kv in hooks:
-		p.gf[kv[0]] = p.gf.get(kv[0], 0.0) + kv[1] * dir
+	Effects.apply(p, Effects.from_tuples([], hooks), dir)
 
 ## Equips a weapon and returns the old one (or null).
 static func equip_weapon(p: Player, w: Dictionary) -> Variant:
@@ -302,9 +290,15 @@ static func equip_weapon(p: Player, w: Dictionary) -> Variant:
 	if old != null:
 		apply_tuples(p, old["stats"], -1, "w:" + old["id"])
 		apply_hooks(p, old["hooks"], -1)
+		if not old["effects"].is_empty():
+			Effects.apply_equipment(p, old["effects"], -1, "wfx:" + old["id"])
 	p.weapon = w
 	apply_tuples(p, w["stats"], 1, "w:" + w["id"])
 	apply_hooks(p, w["hooks"], 1)
+	if not w["effects"].is_empty():
+		Effects.apply_equipment(p, w["effects"], 1, "wfx:" + w["id"])
 	p.spin = 0.0
 	Meta.meta["found_w"][w["id"]] = true
+	if w["new"] or (old != null and old["new"]):
+		Effects.recount_tags(p)
 	return old

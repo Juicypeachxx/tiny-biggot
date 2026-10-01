@@ -33,10 +33,18 @@ echo "== item effects vs the original Ruby (tests/ruby_effects.json)"
 grep "effects test" "$LOG"
 if grep -E "MISMATCH|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== content test (spec section 11)"
+"$GODOT" --headless --path . --quit-after 400000 res://tests/content_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[content\]|content test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== bot soak (60 s, god mode, boss room on floor 3)"
 "$GODOT" --headless --path . --fixed-fps 60 --quit-after 3600 -- --bot --god --seed=1 --floor=2 --room=boss >"$LOG" 2>&1
 grep "\[bot\]" "$LOG" | tail -n 1
 if grep -E "SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
+echo "== deterministic replays vs recorded baselines"
+GODOT="$GODOT" tools/replay.sh check || status=1
 
 rm -f "$LOG"
 [ $status -eq 0 ] && echo "CHECK PASSED" || echo "CHECK FAILED"

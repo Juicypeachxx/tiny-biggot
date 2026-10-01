@@ -151,7 +151,57 @@ Performance (`--bench`, headless, logic only, this build machine):
 500 enemy shots take 1.1 ms per tick and 1,500 take 2.4 ms, against a 16.7 ms
 frame budget at 60 Hz.
 
+## Effect system (design spec step 3)
+
+`scripts/effects/` holds the effect system. Every item is data: an id plus a
+list of effects.
+* Stat ops: flat, multiplicative, additive-% and the original clamped forms.
+* Procs (triggers with actions, chance, every-N, cooldown and conditions).
+* Statuses: the originals plus shock, vulnerable and weakened.
+* Timed buffs.
+* Tag synergies and named combos (`data/synergies.gd`).
+
+All original relics, traits, family bonuses, skill nodes, weapons, gear and
+sets were moved onto it: their Ruby lambdas and stat tuples became op lists.
+
+Rules that keep the original game identical:
+* New mechanics only run when new content switches them on (procs, pct,
+  overcrit, new statuses). A player without procs takes the old code paths and
+  draws exactly the same random numbers.
+* Tag synergies and combos count new-content items only. Original items keep
+  feeding the original systems (family bonuses, weapon synergy, sets).
+* Item ids are unique per table, because the originals reuse `lantern` and
+  `echo` across tables. Combos therefore name items as `relic:x`,
+  `weapon:x`, `gear:x` or `trait:x`.
+
+Safety rails (`Effects` constants):
+* proc depth 4;
+* 200 proc actions per tick, with the rest queued;
+* 1,000 live player shots, after which damage merges into the newest shot;
+* 24 summons;
+* one attack per tick;
+* damage labels shortened past 99,999.
+
+The shot cap is 1,000 rather than the spec's example of 2,000 because the
+broken-build test needed it to stay inside a 60 Hz frame. Original content
+never gets near it, as the replays show.
+
 ## Testing
+
+**Unchanged behaviour (replays).** `tools/replay.sh check` reruns six seeded
+5-minute autopilot scenarios (several heroes, god mode, every unlock, weapon
+cycling, late floors) and compares a full logic-state line per second with the
+baselines in `tests/replays/`. Those were recorded before the effect-system
+refactor (commit f2b3780). Any change in behaviour, or in how many random
+numbers the game draws, fails it. Re-record only when a change is meant to
+alter original behaviour.
+
+**Content test (spec section 11).** `tests/content_test.tscn` lints all data,
+gives every item to a hero in a live fight, fires every trigger and plays 90
+ticks. It also checks that every weapon and gear swap is reversible, verifies
+each safety rail directly, and times a 50+ rank broken build and a stress run
+(500+ enemy shots, summon cap, shot flood). `tests/fixtures.gd` holds
+synthetic items that reach every trigger, action, status and condition.
 
 **Item effects against the original.** `tools/gen_ruby_effects.rb` loads the
 untouched Ruby scripts from `reference/ruby/` into a real Ruby interpreter. For

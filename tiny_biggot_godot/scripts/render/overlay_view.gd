@@ -286,7 +286,7 @@ func draw_traits(ci: CanvasItem) -> void:
 					nxt = v
 					break
 			if nxt > 0:
-				var bonus: String = Traits.FAMILY_BONUS[t["fam"]][nxt / 2 - 1]
+				var bonus := Traits.bonus_name(t["fam"], nxt / 2 - 1)
 				Gfx.text(ci, "%s %d/%d:" % [fam["name"], have + 1, nxt], x + w / 2, y + 116 + oy, fam["col"], 1, 0.5)
 				var bl := Gfx.wrap_text(bonus, w - 14)
 				for j in mini(2, bl.size()):
@@ -315,4 +315,4 @@ func _paint_sprites(ci: CanvasItem) -> void:
 		var x: int = g[3] + i * (g[1] + g[2])
 		var sel: bool = G.choice["idx"] == i
 		var oy := roundf(sin(G.time * 5) * 2) - 4 if sel else 0.0
-		Gfx.sp(ci, "relic_" + r["id"], x + g[1] / 2, 72 + 58 + oy, 4, 4)
+		Gfx.sp(ci, r["sprite"], x + g[1] / 2, 72 + 58 + oy, 4, 4)

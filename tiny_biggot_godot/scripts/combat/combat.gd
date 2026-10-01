@@ -186,6 +186,9 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	if o.get("force_crit", false) or (not o.get("no_crit", false) and randf() < p.crit + (p.g("chill_crit") if e.chill_t > 0 else 0.0)):
 		dmg *= p.crit_mult
 		crit = true
+		# New stat: crit chance past 100% can crit a second time.
+		if p.overcrit > 0 and p.crit > 1.0 and randf() < minf(p.crit - 1.0, 1.0):
+			dmg *= p.crit_mult * (1 + p.overcrit)
 	if p.rage > 0 and p.hp <= 2: dmg *= 1 + p.rage
 	if e.elite and p.elite_mult > 0: dmg *= 1 + p.elite_mult
 	if e.burn_t > 0 and p.vs_burn > 0: dmg *= 1 + p.vs_burn
@@ -194,12 +197,14 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	if e.curse_t > 0: dmg *= 1.25
 	if o.get("boom", false) and p.boom_elite and e.elite: dmg *= 2
 	if not o.get("no_mult", false): dmg *= player_damage_mult(p) * hook_mult(p, e)
+	if e.vuln_t > 0 or e.shock > 0:
+		dmg *= Statuses.dmg_mult(e)
 	e.hp -= dmg
 	e.flash = 0.08
 	if o.has("kx") and not e.is_boss():
 		e.kx += o["kx"]
 		e.ky += o["ky"]
-	Fx.float_text(e.x, e.y - e.r - 6, maxi(1, roundi(dmg)), "gold" if crit else o.get("col", "white"))
+	Fx.float_text(e.x, e.y - e.r - 6, TB.fmt_dmg(dmg), "gold" if crit else o.get("col", "white"))
 	if not o.get("silent", false):
 		Snd.play("hit")
 	if crit:
@@ -310,6 +315,11 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 		p.haste_t = maxf(p.haste_t, p.g("kill_haste"))
 	if p.g("bomb_on_kill") > 0 and randf() < p.g("bomb_on_kill"):
 		drop_pickup("bomb", e.x, e.y)
+	# Effect system (new content only).
+	if e.shock > 0:
+		chain_from(e, Weapons.wdmg(p) * 0.3 * e.shock)
+	if not p.procs.is_empty():
+		Effects.fire("on_kill", { "enemy": e, "x": e.x, "y": e.y, "elite": e.elite })
 	if e.elite and not e.is_boss() and randf() < 0.05:
 		G.drop_gear_at(e.x, e.y)
 
@@ -322,6 +332,8 @@ static func gain_xp(p: Player, n: int) -> void:
 		Fx.float_text(p.x, p.y - 18, "LEVEL UP!", "lime")
 		Fx.burst(p.x, p.y, ["#b8e05a", "#f2c94c", "#ffffff"], 18, 80)
 		Snd.play("unlock")
+		if not p.procs.is_empty():
+			Effects.fire("on_level_up")
 
 # ---------- Damage to the player ----------
 static func hurt_player(amount: int, source: String) -> void:
@@ -345,6 +357,8 @@ static func hurt_player(amount: int, source: String) -> void:
 	if p.g("reflect_hit") > 0:
 		for i in 12:
 			spawn_pbullet(p, i * TAU / 12, Weapons.wdmg(p) * 1.2, "spark")
+	if not p.procs.is_empty():
+		Effects.fire("on_damage_taken", { "x": p.x, "y": p.y })
 
 static func _hurt_player_base(p: Player, amount: int, source: String) -> void:
 	if p.invuln > 0 or p.dodge_t > 0 or G.state != &"play" or G.god:
@@ -465,6 +479,10 @@ static func update_enemies(dt: float) -> void:
 		if e.hp <= 0:
 			continue
 		var ddt := dt * slow
+		if e.vuln_t > 0 or e.weak_t > 0 or e.shock_t > 0:
+			if e.weak_t > 0:
+				ddt *= 0.7
+			Statuses.tick(e, dt)
 		if e.stun_t > 0:
 			e.stun_t -= dt
 			if randf() < 0.5:
@@ -526,6 +544,8 @@ static func recycle(b: PBullet) -> void:
 ## A plain shot that bypasses the weapon (splinters, shatter shards, familiars).
 static func _raw_shot(x: float, y: float, a: float, spd: float, dmg: float, life: float, r: float,
 		pierce: int, kind: String, hit: Dictionary, homing: float = 0.0) -> PBullet:
+	if G.pbullets.size() + G.new_pbullets.size() >= Effects.PBULLET_CAP:
+		return _merge_shot(dmg)
 	var b := new_pbullet()
 	b.x = x
 	b.y = y
@@ -542,6 +562,15 @@ static func _raw_shot(x: float, y: float, a: float, spd: float, dmg: float, life
 	G.pbullets.append(b)
 	return b
 
+## Bullet hard cap (spec section 3): past the cap a new shot is not created.
+## Its damage is folded into the newest live shot instead, so damage keeps
+## being simulated.
+static func _merge_shot(dmg: float) -> PBullet:
+	Effects.stats["merged_shots"] += 1
+	var b: PBullet = G.pbullets[G.pbullets.size() - 1]
+	b.dmg += dmg
+	return b
+
 static func spawn_pbullet(p: Player, a: float, dmg: Variant = null, kind: String = "", speed_mul: float = 1.0) -> PBullet:
 	var w: Dictionary = p.weapon
 	if kind == "":
@@ -555,6 +584,8 @@ static func spawn_pbullet(p: Player, a: float, dmg: Variant = null, kind: String
 	if kind == "clod" or kind == "fire":
 		life *= 0.85 + randf() * 0.3
 	var size := Weapons.wsize(p)
+	if G.pbullets.size() + G.new_pbullets.size() >= Effects.PBULLET_CAP:
+		return _merge_shot(dmg if dmg != null else Weapons.wdmg(p))
 	var b := new_pbullet()
 	b.x = p.x + cos(a)
 	b.y = p.y - 2 + sin(a)
@@ -574,7 +605,7 @@ static func spawn_pbullet(p: Player, a: float, dmg: Variant = null, kind: String
 	b.split = p.g("split")
 	b.grow = p.g("grow")
 	b.accel = p.g("accel")
-	b.icon = w["id"]
+	b.icon = w["sprite"]
 	b.tag = w["tags"][0] if w["tags"].size() > 0 else ""
 	if kind == "pulse":
 		b.nohit = true
@@ -706,6 +737,9 @@ static func player_shoot(p: Player, a: float, echo_ok: bool = true) -> void:
 		p.volleys.append({ "t": 0.15 })
 	if not w["kind"] in ["slash", "thrust", "whip", "beam", "zap"]:
 		Fx.particle(p.x + cos(a) * 8, p.y - 2 + sin(a) * 8, 0, 0, 0.06, "#fffbe0", 3)
+	if not p.procs.is_empty():
+		Effects.fire("on_shoot", { "x": p.x, "y": p.y })
+		Effects.fire("every_n_shots", { "x": p.x, "y": p.y })
 
 # ---------- Melee and instant attacks (04b) ----------
 static func melee_hit(p: Player, e: Enemy, dmg: float, force_crit: bool = false, kb: float = 90) -> void:
@@ -897,6 +931,10 @@ static func on_hit_effects(e: Enemy, dmg: float, crit: bool, p: Player, b: PBull
 		Fx.float_text(e.x, e.y - 16, "EXECUTE", "red")
 		e.hp = 0
 		kill_enemy(e, {})
+	if not p.procs.is_empty():
+		Effects.fire("on_hit", { "enemy": e, "dmg": dmg, "crit": crit })
+		if crit:
+			Effects.fire("on_crit", { "enemy": e, "dmg": dmg, "crit": true })
 
 static func pbullet_hits(b: PBullet, p: Player) -> void:
 	if b.nohit:
@@ -1186,6 +1224,8 @@ static func explode_at(x: float, y: float, dmg: float, skip: Enemy, radius: floa
 		damage_enemy(e, dmg, { "no_crit": true, "col": "orange", "silent": true, "boom": boom or from_bomb, "bomb": from_bomb })
 
 # ---------- Pickups ----------
+const PICKUP_KINDS := ["coin", "gem", "heart", "potion", "bomb", "key", "armor", "ember"]
+
 static func drop_pickup(kind: String, x: float, y: float, t: float = 0.0) -> Pickup:
 	var a := randf() * TAU
 	var s := 30 + randf() * 50
@@ -1278,6 +1318,8 @@ static func update_pickups(dt: float) -> void:
 	for k: Pickup in G.pickups:
 		if not k.dead:
 			keep.append(k)
+		elif not p.procs.is_empty():
+			Effects.fire("on_pickup", { "x": k.x, "y": k.y, "kind": k.kind })
 	G.pickups = keep
 
 # ---------- Bombs ----------
@@ -1359,7 +1401,7 @@ static func update_familiars(p: Player, dt: float) -> void:
 		if f["t"] > 0:
 			keep.append(f)
 	G.temp_fams = keep
-	var all: Array = fam.slice(0, p.familiars) + G.temp_fams
+	var all: Array = fam.slice(0, mini(p.familiars, Effects.SUMMON_CAP)) + G.temp_fams
 	for i in all.size():
 		var f: Dictionary = all[i]
 		var a := G.time * 1.6 + i * TAU / maxi(1, all.size())
@@ -1420,6 +1462,8 @@ static func on_roll_start(p: Player) -> void:
 		G.zones.append({ "x": p.x, "y": p.y, "r": 24, "t": 2.5, "kind": "smoke", "tick": 0.0 })
 	if p.bomb_dodge or p.g("roll_bomb") > 0:
 		G.bombs.append({ "x": p.x, "y": p.y, "t": 0.7, "safe": true })
+	if not p.procs.is_empty():
+		Effects.fire("on_roll", { "x": p.x, "y": p.y })
 
 ## Called by Player.update_move each tick while rolling.
 static func while_rolling(p: Player, dt: float) -> void:
@@ -1462,7 +1506,7 @@ static func _update_player_base(p: Player, dt: float) -> void:
 	p.fire_cd -= dt
 	var rate := Weapons.wrate(p) * (1.45 if p.frenzy_t > 0 else 1.0) * (1.4 if raging else 1.0)
 	if aim != null and p.fire_cd <= 0 and p.dodge_t <= 0 and G.enemies_active():
-		p.fire_cd = 1.0 / rate
+		p.fire_cd = maxf(1.0 / rate, Effects.MIN_SHOT_INTERVAL)
 		player_shoot(p, aim)
 		if p.triple > 0 and randf() < p.triple:
 			p.volleys.append({ "t": 0.07 })

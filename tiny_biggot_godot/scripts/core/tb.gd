@@ -100,6 +100,20 @@ static func text_w(s: String, scale: int = 1) -> int:
 	var n := s.length()
 	return (n * 4 - 1) * scale if n > 0 else 0
 
+## Damage label: exact up to 99,999, then K / M / B / T so huge numbers from
+## broken builds never overflow or flood the screen (spec section 3).
+static func fmt_dmg(v: float) -> String:
+	if not is_finite(v):
+		return "INF"
+	if v < 100000:
+		return str(maxi(1, roundi(v)))
+	var units := ["K", "M", "B", "T"]
+	var u := -1
+	while v >= 1000 and u < units.size() - 1:
+		v /= 1000.0
+		u += 1
+	return ("%.0f" % v if v >= 100 else "%.1f" % v) + units[u]
+
 ## Ruby Float#to_s-ish for the "+1.5 HP" style labels.
 static func num_str(v: float) -> String:
 	return str(int(v)) if v == floor(v) else str(v)
