@@ -13,6 +13,9 @@ extends RefCounted
 ##   --weapon=ID                  start with this weapon (see data/weapons.gd)
 ##   --weapon-cycle=SECONDS       switch to the next weapon every N seconds (soak tests)
 ##   --ui=choice|traits           open the relic choice or a level-up trait pick at start
+##   --no-save                    neither read nor write the save file (repeatable test runs)
+##   --unlock-all                 every shrine unlock and every skill-tree node
+##   --trace=FILE                 write one line of game state per second (replay comparison)
 ##   --bench[=N]                  keep ~N enemy shots alive and print logic time per tick
 
 static var _args := {}

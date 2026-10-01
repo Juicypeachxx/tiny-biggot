@@ -11,7 +11,17 @@ var meta := {
 }
 
 func _ready() -> void:
-	load_save()
+	if not DebugArgs.has("no-save"):
+		load_save()
+	if DebugArgs.has("unlock-all"):
+		unlock_all()
+
+## Debug: every shrine unlock and every skill-tree node.
+func unlock_all() -> void:
+	for u in GameData.UNLOCKS:
+		meta["unlocked"][u["id"]] = true
+	for h in GameData.HEROES:
+		meta["tree"][h["id"]] = [4, 4, 4]
 
 func unlocked(id: String) -> bool:
 	return meta["unlocked"].get(id, false) == true
@@ -34,6 +44,8 @@ func load_save() -> void:
 			meta[k] = {}
 
 func write_save() -> void:
+	if DebugArgs.has("no-save"):
+		return
 	var f := FileAccess.open(SAVE_FILE, FileAccess.WRITE)
 	if f == null:
 		return

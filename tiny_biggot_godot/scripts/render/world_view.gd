@@ -24,6 +24,10 @@ var top: DrawLayer       # z 2300  aim reticle
 var vignette: Sprite2D   # z 2500
 var texts: DrawLayer     # z 3000  floating numbers
 
+## Rendering has its own random stream so drawing never shifts the game's
+## RNG: a seeded run plays out identically headless or on screen.
+var _vr := RandomNumberGenerator.new()
+
 const PICKUP_SPRITE := { "coin": "coin", "heart": "heartPick", "potion": "potion", "gem": "gem", "bomb": "bomb",
 	"key": "key", "armor": "armor", "ember": "ember" }
 
@@ -63,7 +67,7 @@ func refresh() -> void:
 		return
 	var sh := G.shake
 	if sh > 0:
-		position = Vector2(-roundf((randf() - 0.5) * sh), -roundf((randf() - 0.5) * sh))
+		position = Vector2(-roundf((_vr.randf() - 0.5) * sh), -roundf((_vr.randf() - 0.5) * sh))
 	else:
 		position = Vector2.ZERO
 	if G.dyn_dirty:
@@ -216,13 +220,13 @@ func _paint_lower(ci: CanvasItem) -> void:
 	for z in G.zones:
 		match z["kind"]:
 			"fire":
-				if randf() < 0.5:
-					var col: String = TB.pick(["#e8873a", "#f2c94c", "#d8443c"])
-					Gfx.px(ci, TB.c(col), z["x"] + TB.rint(-z["r"], z["r"]) * 0.7, z["y"] + TB.rint(-3, 3), 2)
+				if _vr.randf() < 0.5:
+					var col: String = ["#e8873a", "#f2c94c", "#d8443c"][_vr.randi() % 3]
+					Gfx.px(ci, TB.c(col), z["x"] + _vr.randi_range(-z["r"], z["r"]) * 0.7, z["y"] + _vr.randi_range(-3, 3), 2)
 			"poison":
 				for k in 3:
-					var col := TB.ca(TB.pick(["#b8e05a", "#63b84f"]), 160)
-					Gfx.px(ci, col, z["x"] + cos(t * 2 + randf() * 6) * z["r"] * randf(), z["y"] + sin(t * 3 + randf() * 6) * z["r"] * 0.6)
+					var col := TB.ca(["#b8e05a", "#63b84f"][_vr.randi() % 2], 160)
+					Gfx.px(ci, col, z["x"] + cos(t * 2 + _vr.randf() * 6) * z["r"] * _vr.randf(), z["y"] + sin(t * 3 + _vr.randf() * 6) * z["r"] * 0.6)
 	# Room objects (z 6-8).
 	for o in room.objects:
 		if o.get("gone", false):
@@ -274,8 +278,8 @@ func _paint_lower(ci: CanvasItem) -> void:
 			"portal":
 				var zz := 1 + sin(t * 4) * 0.05
 				Gfx.sp(ci, "portal", x, y + 6, zz, zz)
-				if randf() < 0.4 and G.state == &"play":
-					Fx.particle(x + TB.rint(-5, 5), y + TB.rint(-5, 5), 0, -20, 0.5, "#a35bd6")
+				if _vr.randf() < 0.4 and G.state == &"play":
+					Fx.particle(x + _vr.randi_range(-5, 5), y + _vr.randi_range(-5, 5), 0, -20, 0.5, "#a35bd6")
 	if not G.locked:
 		_paint_exit_signs(ci, room, t)
 	# Pickups and bombs (z 9).

@@ -12,6 +12,7 @@ var hud: Node2D
 var overlay: OverlayView
 
 var bot: DebugBot = null
+var _trace: FileAccess = null
 var _bench_us := 0
 var _bench_n := 0
 var _ticks := 0
@@ -25,6 +26,8 @@ func _ready() -> void:
 	_shot_frame = DebugArgs.get_int("shot-frame", 60)
 	if DebugArgs.has("bot"):
 		bot = DebugBot.new()
+	if DebugArgs.has("trace"):
+		_trace = FileAccess.open(DebugArgs.get_str("trace"), FileAccess.WRITE)
 	world = WorldView.new()
 	add_child(world)
 	var hud_layer := CanvasLayer.new()
@@ -82,6 +85,8 @@ func _physics_process(_delta: float) -> void:
 	overlay.refresh()
 	fade_view.queue_redraw()
 	_ticks += 1
+	if _trace != null and _ticks % 60 == 0:
+		_trace.store_line(Trace.line(_ticks))
 	if DebugArgs.has("weapon-cycle") and G.player != null:
 		var every := maxi(1, DebugArgs.get_int("weapon-cycle")) * 60
 		if _ticks % every == 0:
