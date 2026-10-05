@@ -21,7 +21,7 @@ changed one), and carry on from there. What he says last outranks this file.
 |---|---|---|
 | 1 | The IPA installs and runs on the iPad | **Done** (he confirmed, 5 Oct) |
 | 2 | Performance patch | **Done**: nothing to patch (he reports a good 60 fps, 5 Oct) |
-| 3 | Stability patch | In progress (3.1 done) |
+| 3 | Stability patch | In progress (3.1, 3.2 done) |
 | 4 | New content: environments, mobs, bosses, weapons, equipment, characters; everything unique | Not started |
 | 5 | Sprite revamp: every sprite redrawn, "cool and pixelated" | Not started |
 
@@ -93,8 +93,10 @@ Each step ends with `tools/check.sh` green.
       an error, and must not be overwritten until the next real save. Add a
       test. (Done: also keeps the save before as a backup, loaded when the
       save is damaged. `tests/save_test.tscn`.)
-- [ ] 3.2 **Known small fault:** hit points can stay above the maximum after
-      a synergy is lost. Find it, fix it, add a test.
+- [x] 3.2 **Known small fault:** hit points can stay above the maximum after
+      a synergy is lost. Find it, fix it, add a test. (Done: a lost synergy
+      or combo is now taken back with the same limits as gear. Also fixed
+      roll charges going below 0 when PHANTOM is lost.)
 - [ ] 3.3 **Long soaks, no screen.** Every hero, floors 0-10, all 8 rift
       worlds, `--classic`, both options off, three loops: at least 10 minutes
       of game time each (`--quit-after 36000`), with `--weapon-cycle=1` in
@@ -227,3 +229,7 @@ before-and-after picture for him, a new IPA.
   checksum, and the one before is kept as a backup. Damaged saves load the
   backup, or start fresh, without an engine error. Old saves still load.
   New test `tests/save_test.tscn` in `tools/check.sh`. No IPA yet (3.6).
+- 5 Oct 2026: 3.2 done. A lost synergy or combo is taken back through
+  `Effects.apply_equipment` (the gear limits): hit points no higher than the
+  new maximum, roll charges between 0 and the rolls there are. Test in
+  `tests/unit_tests.gd` (failed before the fix, passes after).

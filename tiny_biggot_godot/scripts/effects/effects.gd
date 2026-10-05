@@ -360,7 +360,7 @@ static func _update_synergies(p: Player, owned: Dictionary) -> void:
 				Snd.play("unlock")
 			elif not on and p.synergies.has(key):
 				p.synergies.erase(key)
-				apply(p, tier["effects"], -1, key)
+				apply_equipment(p, tier["effects"], -1, key)   # with the clamps: hp, rolls
 	for c in Synergies.COMBOS:
 		var key: String = "combo:" + c["id"]
 		var on := true
@@ -374,7 +374,7 @@ static func _update_synergies(p: Player, owned: Dictionary) -> void:
 			Snd.play("unlock")
 		elif not on and p.synergies.has(key):
 			p.synergies.erase(key)
-			apply(p, c["effects"], -1, key)
+			apply_equipment(p, c["effects"], -1, key)
 
 ## True when the item carries any new mechanic, so callers can skip work otherwise.
 static func has_new(p: Player) -> bool:

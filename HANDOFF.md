@@ -160,9 +160,19 @@ ask for them and reopen 2.2-2.4.
 - Not checked: the iPad. On iOS `rename` replaces the target the same way, and
   the atlas file already relies on that.
 
+**3.2, hit points above the maximum (done).** `Effects._update_synergies`
+took a lost synergy or combo back with `apply`, which has no limits. Losing
+IRONCLAD (bulwark 6: +1 max heart) at full health left 2 hit points above the
+maximum; losing PHANTOM (shadow 6: +1 roll charge) with every roll spent left
+-1 charges. Now it uses `apply_equipment`, the same limits gear and gear sets
+use when taken off (max hp at least 2, hp between 1 and max, armor and revive
+not below 0, rolls between 0 and the rolls there are, potions not above the
+most). Only new content has tag synergies; combos need named items. Test:
+`_test_synergy_loss` in `tests/unit_tests.gd`, red before, green after.
+
 ## Noted, not yet acted on
 
-- Hit points can stay above the maximum after a synergy is lost (older note).
+- Nothing open.
 
 ## Tools
 

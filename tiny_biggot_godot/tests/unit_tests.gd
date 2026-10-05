@@ -9,6 +9,7 @@ func _ready() -> void:
 	_test_ruby_math()
 	_test_keyboard()
 	_test_menu_taps()
+	_test_synergy_loss()
 	print("unit tests: %s" % ("PASSED" if _fails == 0 else "%d FAILED" % _fails))
 	get_tree().quit(1 if _fails > 0 else 0)
 
@@ -140,3 +141,24 @@ func _test_menu_taps() -> void:
 	G.tchoice = {}
 	G.state = old
 	tc.queue_free()
+
+## Losing a synergy takes back what it gave and leaves the hero within the limits: hit points
+## not above the (lower) maximum, roll charges between 0 and the (fewer) charges there are.
+func _test_synergy_loss() -> void:
+	for tag in ["bulwark", "shadow"]:
+		var p := Player.new(GameData.heroes()[0])
+		var base_max := p.max_hp
+		var base_rolls := p.dodge_charges
+		for i in 6:
+			p.relics.append({ "id": "t_%s_%d" % [tag, i], "tags": [tag], "new": true, "effects": [] })
+		Effects.recount_tags(p)
+		_eq("%s synergy on" % tag, p.synergies.has("syn:%s:1" % tag), true)
+		p.hp = p.max_hp
+		p.charges = p.dodge_charges if tag == "bulwark" else 0   # full heal; all rolls spent
+		p.relics.pop_back()
+		Effects.recount_tags(p)
+		_eq("%s synergy off" % tag, p.synergies.has("syn:%s:1" % tag), false)
+		_eq("%s max hp back" % tag, p.max_hp, base_max)
+		_eq("%s rolls back" % tag, p.dodge_charges, base_rolls)
+		_eq("%s hp within max" % tag, p.hp <= p.max_hp and p.hp >= 1, true)
+		_eq("%s roll charges within limits" % tag, p.charges >= 0 and p.charges <= p.dodge_charges, true)
