@@ -104,9 +104,8 @@ Each step ends with `tools/check.sh` green.
       Print the object count (`Performance.OBJECT_COUNT`) every minute in one
       30-minute run: it must level off. (Done: `tools/dev/soak.sh`, 29 runs
       clean; object count levels off. See `HANDOFF.md`.)
-- [ ] 3.4 **Menus under random input.** Add a debug option that presses
-      random buttons in every menu and during play (the "monkey"), seeded, and
-      run it for an hour of game time. Same pass condition.
+- [~] 3.4 Moved to 4.10 at his request (5 Oct): the monkey test runs once
+      the new content is in, so it covers that too.
 - [ ] 3.5 **Leaving and coming back.** On iOS the game stops when the app
       goes to the background. Check by reading the code that nothing depends
       on wall-clock time across that gap (cooldowns, music), and that a run in
@@ -121,6 +120,26 @@ before that for **10+ rooms, 100+ weapons and 10+ characters with their own
 playstyles**, and that **every weapon, relic and piece of equipment feels
 unique**. The game has 252 weapons, 14 heroes, 34 kinds of foe, 11 guardians,
 26 named combos, 11 floors, 8 rift worlds and 9 event rooms already.
+
+**What he asked for on 5 Oct (outranks the proposals below where they differ):**
+
+- Weapons, equipment, relics and **abilities** with ideas from Enter the
+  Gungeon, Slay the Spire, Worms Armageddon, Risk of Rain, Cabal, Aion,
+  GTA V, Saints Row: The Third and Dead Cells. Ideas and mechanics only:
+  every name, sprite and effect is our own (rule 3). No item may carry a
+  name, character or logo from those games.
+- Cool pixelated effects for them (in the look of `EFFECTS.md` and
+  `ATTACK_EFFECTS.md`).
+- Every part must feel mechanically new and be unique (the test below).
+- **+1 projectile stacks without limit.** Every new weapon and effect must
+  stay correct, readable and within the frame budget at any projectile
+  count (say 1, 10, 100, 1000): a shape that still makes sense with many
+  shots (fans that close into rings, volleys that queue, beams that thicken
+  instead of multiplying), per-shot extras that scale by merging rather than
+  by copying, and the existing live-shot cap (`Effects.pbullet_cap`) as the
+  only limit. `tests/content_test.tscn` gets a check that gives each new
+  weapon a huge count and measures it.
+- Then the monkey test (4.10).
 
 Where he gave no number, the numbers below are a proposal. Tell him the
 proposal in one line at the start of the step; he can change it.
@@ -176,6 +195,10 @@ look (stage 5 redraws everything together later).
       Gaolbird is the model for depth.
 - [ ] 4.9 After each of 4.3 to 4.8: `tools/check.sh` green, a new IPA, and
       three things for him to try in it.
+
+- [ ] 4.10 **Menus under random input** (was 3.4). Add a debug option that presses
+      random buttons in every menu and during play (the "monkey"), seeded, and
+      run it for an hour of game time. Same pass condition. Run it over all the new content.
 
 ## Stage 5: sprite revamp
 
@@ -240,3 +263,9 @@ before-and-after picture for him, a new IPA.
   flat within a run once the build stops growing, and back to the same level
   at every new run (409 runs in 4 hours: +23 objects over the last 200, all
   in caches with a limit). New debug option `--objects`. Nothing to fix.
+- 5 Oct 2026: he moved the monkey test (3.4) to after the new content
+  (now 4.10), and asked for weapons, gear, relics and abilities with ideas
+  from Enter the Gungeon, Slay the Spire, Worms Armageddon, Risk of Rain,
+  Cabal, Aion, GTA V, Saints Row 3 and Dead Cells, cool pixel effects,
+  every one mechanically unique, and safe at any projectile count (written
+  into stage 4). Next: 3.5, then 3.6 (the IPA that closes stage 3).
