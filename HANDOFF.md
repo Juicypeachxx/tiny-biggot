@@ -490,6 +490,45 @@ re-recorded; the 6 classic ones identical. `tools/check.sh`: CHECK PASSED.
 The IPA with part 3 was pushed with `[ipa]` after that (release
 `ipa-latest`). Not tested on the iPad.
 
+**4.6 part 4, GUNPLAY AND ODDITIES (done; 4.6 complete: 100 weapons).** 25
+weapons, seventeen new attack kinds; details in
+`tiny_biggot_godot/ARSENAL.md`. `scripts/combat/oddities.gd` (class
+`Oddities`); new hooks: `player_shoot`, `kill_enemy` (`Oddities.on_kill`:
+frozen foes shatter), `Hazards.update`, `G.enter_room`, `world_view` (a shrunk
+foe is drawn at 0.55 size), and `Enemy.shrink_t` (no touch damage while
+shrunk). Sprite `s_fish`. Two ids were already taken (`highroller`,
+`avalanche`): GILDED SLOTS and SNOW ROLLER. Two ideas were dropped before
+building because the game already has them (shots that grow as they
+pierce, shots that ricochet between foes). The weapon test found the aegis
+dome harmless to foes that keep their distance, so each attack also lances
+the nearest foe. Junk fires in turn (testable), and the coin is tossed along
+the line of fire (so shots can hit it). Tests: `tests/arsenal_test` covers
+all 100 weapons, plus squashing a shrunk foe, the calling card spent once a
+foe, yellow paint hastening you, the payday cannon spending a coin a shot
+(lint when broke), and a frozen foe shattering. Planted faults caught (the
+calling card on every hit, no squash). Desktop logic 0.16-0.27 ms a tick for
+the new kinds; the slot pistols and the coin flipper use the old shot path
+(worst ticks 13-23 ms with 999 more projectiles, like the old guns).
+Uniqueness report: no new weapon in a "same" or "near" group. The part 4
+soaks found two more things, both fixed: (1) a swarm of crawlers huddled on
+the bot was never hit by the new kinds' own shots, which start a few pixels
+out and only looked for foes where they were each tick, so the interceptor
+sat in one room for five minutes; now every such shot (part 4's, part 2's
+charged balls and javelin, part 1's rockets) checks the whole path it flew
+that tick, starting at the hero (`Arsenal.swept`; the weapon test checks a
+foe pressed against the hero is hit). (2) Bubbles and the shrink ray did
+almost nothing to guardians and mini-bosses (they can't be trapped or shrunk;
+the soap cannon took two minutes over one room): a bubble now bursts on them
+for 1.5x, and the shrink ray hits them for 2.5x. (3) In a room where two
+tollkeepers pour crawlers onto the hero, a single-target gun that only ever
+shoots the nearest crawler never reaches the summoners (even the original
+repeater is slow there; it gets through because its bolts pierce): the flak
+guns' shots now go on through a foe, and hit a little harder (the
+interceptor then cleared 37 rooms in 10 minutes on the seed where it had
+been stuck in room 7). Re-soaked after the fixes: all 25 part-4 weapons and
+the 11 older ones whose shots changed, 0 errors, no stalls (the slowest, the
+plasma slugger, spends up to two minutes in summoner rooms).
+
 ## Noted, not yet acted on
 
 - Saving a run in progress (so iOS closing the app does not end it). Needs

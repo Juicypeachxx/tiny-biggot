@@ -358,6 +358,7 @@ func _paint_lower(ci: CanvasItem) -> void:
 	Arsenal.draw_floor(ci, t)
 	Charged.draw_floor(ci, t)
 	Summons.draw_floor(ci, t)
+	Oddities.draw_floor(ci, t)
 	var fancy := Vfx.enabled
 	if fancy:
 		Vfx.draw_floor(ci, t)
@@ -634,7 +635,7 @@ func _draw_enemy(ci: CanvasItem, e: Enemy, t: float) -> void:
 	if boss and e.hidden:
 		return
 	var name := _enemy_sprite(e)
-	var sc := e.scale
+	var sc := e.scale * (0.55 if e.shrink_t > 0 else 1.0)   # shrunk by the shrink ray (oddities.gd)
 	var foot := e.y + e.r + (2 if boss else 0)
 	var sx := 1.0
 	var sy := 1.0
@@ -721,6 +722,7 @@ func _paint_fx(ci: CanvasItem) -> void:
 	Arsenal.draw_over(ci, G.time)
 	Charged.draw_over(ci, G.time)
 	Summons.draw_over(ci, G.time)
+	Oddities.draw_over(ci, G.time)
 
 # ---------- z 1900: additive glows ----------
 ## Small markers: a pink chevron over exposed foes (they take +25% damage), and

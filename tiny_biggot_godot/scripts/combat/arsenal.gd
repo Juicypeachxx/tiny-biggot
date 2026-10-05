@@ -69,6 +69,12 @@ static func spend(n: int, keep: int) -> Array:
 	var extra := n - shots
 	return [shots, 1.0 + 0.35 * extra, minf(2.0, 1.0 + 0.06 * sqrt(float(extra)))]
 
+## True when a foe is within `reach` of the path a shot took this tick, (x0, y0) to (x1, y1). A shot
+## starts its first tick at the hero, so a foe pressed against the hero is hit too.
+static func swept(e: Enemy, x0: float, y0: float, x1: float, y1: float, reach: float) -> bool:
+	var at := Vector2(e.x, e.y)
+	return Geometry2D.get_closest_point_to_segment(at, Vector2(x0, y0), Vector2(x1, y1)).distance_to(at) < reach
+
 static func _col(w: Dictionary) -> String:
 	return Weapons.TAG_COLS[w["tags"][0] if w["tags"].size() > 0 else "core"][0]
 
@@ -123,7 +129,7 @@ static func fire(p: Player, a: float, forced: bool) -> void:
 			for i in shots:
 				var ang := a + (i - (shots - 1) / 2.0) * spread
 				var o := base.duplicate()
-				o.merge({ "k": "rocket", "x": p.x + cos(ang) * 8, "y": p.y - 3 + sin(ang) * 8, "a": ang, "spd": speed, "fuse": fuse,
+				o.merge({ "k": "rocket", "x": p.x + cos(ang) * 8, "y": p.y - 3 + sin(ang) * 8, "px": p.x, "py": p.y - 3, "a": ang, "spd": speed, "fuse": fuse,
 					"seed": randf() * TAU, "hit": {} })
 				_add(o)
 			Snd.play("charge")
@@ -533,10 +539,14 @@ static func _rocket(o: Dictionary, p: Player, room: Room, dt: float) -> bool:
 			TB.pick(["#8b8f9c", "#4e4a5e", "#f2c94c"]), 2)
 	if World.solid(room, floori(nx / TB.TS), floori(ny / TB.TS), World.M_BULLET):
 		return false if not w.get("fireworks", 0) else _star(o)
+	var x0: float = o.get("px", o["x"])
+	var y0: float = o.get("py", o["y"])
+	o["px"] = nx
+	o["py"] = ny
 	o["x"] = nx
 	o["y"] = ny
 	for e in G.enemies:
-		if not e.targetable() or TB.dist_xy(e.x, e.y, nx, ny) >= e.r + 4:
+		if not e.targetable() or not swept(e, x0, y0, nx, ny, e.r + 4):
 			continue
 		if w.get("fireworks", 0) > 0:
 			# Festival rockets fly through foes (half damage each), and burst when their flight ends.

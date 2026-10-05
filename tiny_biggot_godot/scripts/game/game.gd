@@ -244,6 +244,7 @@ func enter_room(r: Room) -> void:
 	Arsenal.clear()
 	Charged.clear()
 	Summons.clear()
+	Oddities.clear()
 	pickups = room.pickups
 	enemies = []
 	for b in pbullets:

@@ -204,7 +204,7 @@ static func _charge_shot(p: Player, a: float, w: Dictionary, n: int, more: float
 		G.add_shake(1 + 2 * lv)
 		return made
 	var bow: bool = w.get("roll_draw", false)
-	var o := { "x": p.x + cos(a) * 8, "y": p.y - 3 + sin(a) * 8, "a": a, "spd": Weapons.wspd(p) * (0.7 + 0.5 * lv),
+	var o := { "x": p.x + cos(a) * 8, "y": p.y - 3 + sin(a) * 8, "px": p.x, "py": p.y - 3, "a": a, "spd": Weapons.wspd(p) * (0.7 + 0.5 * lv),
 		"r": (2.0 if bow else 2.5 + 4.0 * lv) * Weapons.wsize(p) * grow, "dmg": Weapons.wdmg(p) * (0.4 + 2.6 * lv) * more,
 		"life": Weapons.wlife(p), "t": 0.0, "lv": lv, "pierce": 99 if full or w.get("pull", 0.0) > 0 else Weapons.wpierce(p),
 		"hit": {}, "crit": forced or (full and bow), "w": w["id"], "col": _col(w), "arrow": bow }
@@ -262,7 +262,7 @@ static func _start_dash(p: Player, a: float, dist: float, dmg: float, crit: bool
 
 static func _javelin(p: Player, a: float, w: Dictionary, more: float, forced: bool) -> void:
 	if jav.is_empty():
-		jav = { "x": p.x + cos(a) * 6, "y": p.y - 3 + sin(a) * 6, "a": a, "spd": Weapons.wspd(p), "life": Weapons.wlife(p),
+		jav = { "x": p.x + cos(a) * 6, "y": p.y - 3 + sin(a) * 6, "px": p.x, "py": p.y - 3, "a": a, "spd": Weapons.wspd(p), "life": Weapons.wlife(p),
 			"t": 0.0, "state": "fly", "dmg": Weapons.wdmg(p) * more, "crit": forced, "w": w["id"], "zap": 0.0 }
 		_stat("throw")
 		Snd.play("hatchet")
@@ -568,12 +568,16 @@ static func _ball(o: Dictionary, p: Player, room: Room, dt: float) -> bool:
 	var ny: float = o["y"] + sin(a) * o["spd"] * dt
 	if World.solid(room, floori(nx / TB.TS), floori(ny / TB.TS), World.M_BULLET):
 		return _ball_end(o, w)
+	var x0: float = o["px"]
+	var y0: float = o["py"]
+	o["px"] = nx
+	o["py"] = ny
 	o["x"] = nx
 	o["y"] = ny
 	var rr: float = o["r"]
 	var lv: float = o["lv"]
 	for e in G.enemies.duplicate():
-		if not e.targetable() or o["hit"].has(e.uid) or TB.dist_xy(e.x, e.y, nx, ny) >= e.r + rr:
+		if not e.targetable() or o["hit"].has(e.uid) or not Arsenal.swept(e, x0, y0, nx, ny, e.r + rr):
 			continue
 		o["hit"][e.uid] = true
 		var c := Combat.damage_enemy(e, o["dmg"], { "force_crit": o["crit"], "kx": cos(a) * 80 * lv, "ky": sin(a) * 80 * lv })
@@ -715,10 +719,14 @@ static func _tick_jav(p: Player, room: Room, dt: float) -> void:
 				Snd.play("place")
 				Afx.dust(jav["x"], jav["y"])
 				return
+			var x0: float = jav["px"]
+			var y0: float = jav["py"]
+			jav["px"] = nx
+			jav["py"] = ny
 			jav["x"] = nx
 			jav["y"] = ny
 			for e in G.enemies:
-				if e.targetable() and TB.dist_xy(e.x, e.y, nx, ny) < e.r + 3:
+				if e.targetable() and Arsenal.swept(e, x0, y0, nx, ny, e.r + 3):
 					var c := Combat.damage_enemy(e, jav["dmg"], { "force_crit": jav["crit"] })
 					Combat.on_hit_effects(e, jav["dmg"], c, p, null)
 					jav["state"] = "foe"

@@ -158,7 +158,50 @@ Seven new attack kinds (`scripts/combat/summons.gd`), and a taming whip:
 for each projectile past the first; a blade dance throws up to 8 shivs and a horn calls up to 6
 wolves, then they merge. A mirror image fires at most three shots, the rest merged into them.
 
+## Part 4: GUNPLAY AND ODDITIES (strange guns and tricks)
+
+Seventeen new attack kinds (`scripts/combat/oddities.gd`), one thing an attack each:
+
+| Weapon | Kind | What makes it different |
+|---|---|---|
+| TYPEWRITER | letters | every shot is a letter of BOOM; the last one's hit goes boom (the word shows over the hero) |
+| PROPHET'S QUILL | letters | spells a random word: ZAP, ICE, BURN, GOLD or DOOM, cast by the last letter's hit |
+| BUBBLE BLASTER | bubble | a bubble traps the first foe it meets; the next bubble on it pops it for triple damage (too big to trap: it bursts) |
+| SOAP CANNON | bubble | big bubbles trap up to three foes together; pop one and they all pop |
+| FLAK PISTOL | flak | shots pop the enemy shots they touch, three each, and go on through a foe (an idea from Cabal) |
+| INTERCEPTOR | flak | for every 15 enemy shots popped, a ring of 12 shots |
+| INK GUN | paint | ink on the floor: foes in it are slowed and take more damage |
+| TRICOLOR SPLATTER | paint | red burns foes, blue chills them; in yellow you move and fire faster |
+| SLOT PISTOL | slots | three reels a shot (over the hero): pairs and three of a kind pay out, sevens a jackpot |
+| GILDED SLOTS | slots | stakes a coin a spin while you have one; every payout three times bigger |
+| SNOW ROLLER | roller | a snowball that rolls, grows and chills, then bursts |
+| MOSS BOULDER | roller | rolls and grows; at rest it stands as cover for 5 s, stopping enemy shots |
+| PAYDAY CANNON | money | a coin a shot for a gold slug, +1% for every coin you hold; broke, it fires lint |
+| FLASH CAMERA | camera | a flash that stuns; a foe's third photo develops into a huge crit |
+| GLACIER RAY | ray | a foe held in the ray 1.2 s freezes solid; dying frozen, it shatters into ice |
+| JUNK CANNON | junk | in turn: a boot (knocks back), a can (bounces), a bottle (shatters), a tire (rolls through) |
+| FISH CANNON | junk | fish flop on the floor; a foe that steps on one slips and falls |
+| HOME RUN BAT | bat | foes knocked flying hit the ones they meet (billiards) and slam into walls |
+| CROQUET MALLET | bat | the nearest foe rolls along your aim, off two walls, through all in its way |
+| BACKSTAB DIRK | stab | a stab in the back of a foe facing away always crits, twice as hard |
+| CALLING CARD | duel | the first hit on each foe is four times the damage, always a crit |
+| SHRINK RAY | shrink | shrunk foes deal no touch damage and take more; walk onto one to squash it (too big to shrink: 2.5x damage) |
+| LEAF BLOWER | blower | turns enemy shots around (now yours) and pushes foes back |
+| AEGIS PROJECTOR | dome | a dome that pops enemy shots and burns foes in it; each attack lances the nearest foe |
+| COIN FLIPPER | coin | every 3rd shot tosses a coin; a shot that hits it splits into two seeking crits |
+
++1 projectile: every kind here makes one thing an attack, and each projectile past the first adds
+35% damage to it (a ball also grows); slots and the coin flipper fire through the usual shot path.
+
 ## Code
+
+`scripts/combat/oddities.gd` (class `Oddities`): `fire`, `tick`, `draw_floor`, `draw_over`,
+`on_kill` (shattering). New on the foe: `Enemy.shrink_t` (drawn at 0.55 size, no touch damage).
+Sprite `s_fish`. The weapon test found the aegis dome harmless to foes that keep their
+distance, so each attack also lances the nearest foe. Every shot of the new kinds that starts a
+few pixels out (part 4's, part 2's charged balls and javelin, part 1's rockets) checks the whole
+path it flew each tick, from the hero on (`Arsenal.swept`): a soak found crawlers pressed against
+the hero that no such shot could touch.
 
 `scripts/combat/summons.gd` (class `Summons`): `fire` (from `Combat.player_shoot`), `tick` (from
 `Hazards.update`), `draw_floor` and `draw_over` (world_view), `on_kill` (bone thralls), the

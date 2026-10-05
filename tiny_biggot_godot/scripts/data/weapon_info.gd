@@ -21,7 +21,10 @@ const KIND_TYPE := { "slash": "SLASHING", "whip": "SLASHING", "disc": "SLASHING"
 	"dynamite": "BLAST", "wave": "PHYSICAL",
 	"charge": "ARCANE", "slam": "PHYSICAL", "dash": "SLASHING", "javelin": "PIERCING", "hook": "PHYSICAL", "combo": "SLASHING",
 	"heat": "FIRE", "reload": "PIERCING", "orbit": "ARCANE", "recall": "SLASHING",
-	"deck": "ARCANE", "turret": "PIERCING", "thrall": "SHADOW", "command": "PHYSICAL", "mirror": "ARCANE", "swarm": "SHADOW", "egg": "FIRE" }
+	"deck": "ARCANE", "turret": "PIERCING", "thrall": "SHADOW", "command": "PHYSICAL", "mirror": "ARCANE", "swarm": "SHADOW", "egg": "FIRE",
+	"letters": "ARCANE", "bubble": "FROST", "flak": "PIERCING", "paint": "ARCANE", "slots": "PIERCING", "roller": "PHYSICAL",
+	"money": "PIERCING", "camera": "ARCANE", "ray": "FROST", "junk": "PHYSICAL", "bat": "PHYSICAL", "stab": "PIERCING",
+	"duel": "PIERCING", "shrink": "ARCANE", "blower": "PHYSICAL", "dome": "ARCANE", "coin": "PIERCING" }
 const TYPE_COL := { "SLASHING": "bone", "PIERCING": "bone", "BLAST": "orange", "FIRE": "orange", "FROST": "cyan",
 	"POISON": "lime", "LIGHTNING": "cyan", "ARCANE": "pink", "SHADOW": "purple" }
 

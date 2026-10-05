@@ -20,6 +20,11 @@ extends Node
 ##      poison; a countdown bomb waits for three more cards; two tesla coils burn a foe between them;
 ##      a mending totem heals; kills rise as bone thralls; the egg hatches, and is an egg again (half
 ##      warm) in the next room; a tamed foe is not aimed at.
+##   7. Part 4 (oddities.gd): a shrunk foe is squashed underfoot; the calling card is spent once a
+##      foe; yellow paint hastens you; the payday cannon spends a coin a shot (lint when broke); a
+##      foe that dies frozen shatters.
+##   8. A foe pressed against the hero is hit by the new kinds' own shots (a charged ball, flak, a
+##      rocket, a javelin, a letter, a calling card): a soak found crawlers hugging the hero untouched.
 ## Prints "arsenal test: PASSED" or a FAIL line per problem.
 
 ## Part 1 (MAYHEM): weapon id -> the trick (Arsenal.stats key) that shows it works.
@@ -44,9 +49,19 @@ const PART3 := { "duelistdeck": "card_bash", "poisonpack": "catalyst", "shivdeck
 	"implantern": "fireball", "wolfhorn": "bite", "mimicchest": "chomp", "petwhistle": "pet_bite", "shepherdcrook": "sheep_blow",
 	"lookingglass": "image_shot", "doppelganger": "shadow_cut", "batcloud": "bat_bite", "fireflyjar": "flare",
 	"dragonegg": "hatch", "tamerswhip": "charm_hit" }
+## Part 4 (GUNPLAY AND ODDITIES): weapon id -> the trick (Oddities.stats key).
+const PART4 := { "typewriter": "word_BOOM", "prophetquill": "word", "bubbleblaster": "pop_bubble", "soapcannon": "soap_pop",
+	"flakpistol": "pop", "interceptor": "barrage", "inkgun": "inked", "tricolor": "painted_chill", "slotpistol": "pair",
+	"gildedslots": "stake", "snowroller": "ball_hit", "mossboulder": "cover", "paydaycannon": "slug", "flashcamera": "develop",
+	"glacierray": "freeze", "junkcannon": "bottle", "fishcannon": "slip", "homerunbat": "billiard", "croquetmallet": "croquet_bounce",
+	"backstabdirk": "backstab", "callingcard": "calling", "shrinkray": "shrink", "leafblower": "turned", "aegisprojector": "dome_pop",
+	"coinflipper": "ricochet" }
+## Kinds shot at now and then (enemy shots to pop, turn round or stop), and kinds given gold.
+const SHOT_AT := ["flakpistol", "interceptor", "leafblower", "aegisprojector"]
+const GOLD := ["paydaycannon", "gildedslots"]
 ## Where the foes stand for a kind: close (fists, blades, combos), near (a slam's ring), else farther.
-const CLOSE := ["slash", "thrust", "combo", "mirror"]
-const NEAR := ["slam", "turret", "whip"]
+const CLOSE := ["slash", "thrust", "combo", "mirror", "bubble", "bat", "stab"]
+const NEAR := ["slam", "turret", "whip", "camera", "blower", "dome"]
 ## Kinds fed weak foes now and then (their deaths are the trick: a reload, a thrall, a coin).
 const FEED := ["deadeye", "gravecaller", "mimicchest"]
 ## Kinds that move the hero (dashes): the test does not hold him in place.
@@ -65,12 +80,14 @@ func _ready() -> void:
 	Meta.opts["autofire"] = true
 	_data()
 	var only := DebugArgs.get_str("ids")   # --ids=a,b: only these weapons (any weapon, to compare with)
-	for id in (Array(only.split(",")) if only != "" else PART1.keys() + PART2.keys() + PART3.keys()):
-		_fight(id, PART1.get(id, PART2.get(id, PART3.get(id, ""))))
+	for id in (Array(only.split(",")) if only != "" else PART1.keys() + PART2.keys() + PART3.keys() + PART4.keys()):
+		_fight(id, PART1.get(id, PART2.get(id, PART3.get(id, PART4.get(id, "")))))
 	if only == "":
 		_rolling()
 		_charging()
 		_den()
+		_odd()
+		_point_blank()
 	for n in notes:
 		print("[arsenal] ", n)
 	print("arsenal test: PASSED" if fails == 0 else "arsenal test: %d FAILED" % fails)
@@ -91,7 +108,7 @@ func _data() -> void:
 		if seen.has(w["name"]):
 			fail("two weapons named %s" % w["name"])
 		seen[w["name"]] = true
-	for id in PART1.keys() + PART2.keys() + PART3.keys():
+	for id in PART1.keys() + PART2.keys() + PART3.keys() + PART4.keys():
 		if not Weapons._by_id.has(id):
 			fail("no weapon " + id)
 			continue
@@ -190,6 +207,11 @@ func _run(id: String, extra: int, secs: float) -> Dictionary:
 		if id == "parasite" or id == "dynamite":
 			for e in foes:
 				e.hp = maxf(e.hp, 1e6)   # keep the targets standing
+		if id in SHOT_AT and i % 10 == 0:
+			var f: Enemy = foes[(i / 10) % foes.size()]
+			Combat.eshot(f.x, f.y, TB.ang_xy(f.x, f.y, G.player.x, G.player.y), 90, "red")
+		if id in GOLD and i % 30 == 0:
+			G.player.gold = maxi(G.player.gold, 100)
 		if id in FEED and i % 90 == 45:
 			# A weak foe now and then: its death reloads the revolver, rises as a thrall, drops a coin.
 			var w := Combat.spawn_enemy("skeleton", G.player.x + 30.0, G.player.y - 50.0, false, true)
@@ -203,6 +225,7 @@ func _run(id: String, extra: int, secs: float) -> Dictionary:
 		worst = maxf(worst, ms)
 		most_live = maxi(most_live, maxi(Arsenal.live.size(), maxi(Charged.balls.size(), maxi(Charged.rings.size(), Charged.stars.size()))))
 		most_live = maxi(most_live, maxi(Summons.turrets.size(), maxi(Summons.thralls.size(), maxi(Summons.swarms.size(), Summons.cards.size()))))
+		most_live = maxi(most_live, maxi(Oddities.shots.size(), maxi(Oddities.balls.size(), Oddities.puddles.size())))
 		most_shots = maxi(most_shots, G.pbullets.size())
 	var dealt := 0.0
 	for e in foes:
@@ -215,14 +238,15 @@ func _fight(id: String, trick: String) -> void:
 	Arsenal.stats.clear()
 	Charged.stats.clear()
 	Summons.stats.clear()
+	Oddities.stats.clear()
 	var a := _run(id, 0, 8.0)
-	var seen: Dictionary = Charged.stats if PART2.has(id) else (Summons.stats if PART3.has(id) else Arsenal.stats)
+	var seen: Dictionary = Charged.stats if PART2.has(id) else (Summons.stats if PART3.has(id) else (Oddities.stats if PART4.has(id) else Arsenal.stats))
 	if a["dealt"] <= 0:
 		fail("%s did no damage in 8 s" % id)
 	if trick != "" and seen.get(trick, 0) <= 0:
 		fail("%s: its trick (%s) never happened; seen %s" % [id, trick, seen])
 	var b := _run(id, 999, 8.0)
-	var cap := Charged.MAX_BALLS if PART2.has(id) or PART3.has(id) else Arsenal.MAX_LIVE
+	var cap := Arsenal.MAX_LIVE if PART1.has(id) else (Oddities.MAX_SHOTS if PART4.has(id) else Charged.MAX_BALLS)
 	if b["live"] > cap:
 		fail("%s with 999 more projectiles: %d things alive (cap %d)" % [id, b["live"], cap])
 	if b["shots"] > Effects.pbullet_cap() + 64:
@@ -499,4 +523,88 @@ func _den() -> void:
 	Summons.charm(tame, 8.0)
 	if tame.charm_t <= 0 or Combat.auto_target(p, 320) != other:
 		fail("a tamed foe is still aimed at (or was not tamed)")
+	Meta.opts["autofire"] = true
+
+## Part 4: squashing, the calling card, yellow paint, the payday cannon, a frozen foe shattering.
+func _odd() -> void:
+	Meta.opts["autofire"] = false
+	var hold := Vector2(14.0 * TB.TS, 13.0 * TB.TS)
+	var p := _start()
+	_arena()
+	p.x = hold.x
+	p.y = hold.y
+	Weapons.equip_weapon(p, Weapons.by_id("shrinkray"))
+	_tick(2, hold)
+	var small := Combat.spawn_enemy("skeleton", p.x + 30.0, p.y, false, true)
+	small.speed = 0.0
+	small.shrink_t = 5.0
+	Oddities.stats.clear()
+	_tick(2, hold)
+	if small.hp <= 0:
+		fail("a shrunk foe 30 px away was squashed")
+	_tick(2, Vector2(small.x, small.y))
+	if small.hp > 0 or Oddities.stats.get("squash", 0) != 1:
+		fail("walking onto a shrunk foe did not squash it")
+	# The calling card: once a foe.
+	Weapons.equip_weapon(p, Weapons.by_id("callingcard"))
+	_tick(2, hold)
+	var duel := Combat.spawn_enemy("skeleton", p.x, p.y - 60.0, false, true)
+	duel.speed = 0.0
+	duel.max_hp = 1e6
+	duel.hp = 1e6
+	Oddities.stats.clear()
+	for i in 3:
+		Oddities.fire(p, -PI / 2, false)
+		_tick(20, hold)
+	if Oddities.stats.get("calling", 0) != 1:
+		fail("the calling card was played %d times on one foe (once)" % Oddities.stats.get("calling", 0))
+	# Yellow paint under you: faster.
+	Weapons.equip_weapon(p, Weapons.by_id("tricolor"))
+	_tick(2, hold)
+	p.haste_t = 0.0
+	Oddities.puddles.append({ "x": p.x, "y": p.y, "r": 16.0, "t": 5.0, "c": "yellow", "tick": 0.0, "seed": 0.0 })
+	_tick(3, hold)
+	if p.haste_t <= 0:
+		fail("standing in yellow paint did not hasten the hero")
+	# The payday cannon: a coin a shot; broke, lint.
+	Weapons.equip_weapon(p, Weapons.by_id("paydaycannon"))
+	_tick(2, hold)
+	p.gold = 2
+	Oddities.stats.clear()
+	for i in 3:
+		Oddities.fire(p, -PI / 2, false)
+	if p.gold != 0 or Oddities.stats.get("slug", 0) != 2 or Oddities.stats.get("lint", 0) != 1:
+		fail("the payday cannon: %d gold left, %s" % [p.gold, Oddities.stats])
+	# The glacier ray: a foe that dies frozen shatters.
+	Weapons.equip_weapon(p, Weapons.by_id("glacierray"))
+	_tick(2, hold)
+	var ice := Combat.spawn_enemy("skeleton", p.x + 40.0, p.y, false, true)
+	Oddities.frozen[ice.uid] = 2.0
+	Oddities.stats.clear()
+	Combat.damage_enemy(ice, 1e9, { "no_crit": true })
+	_tick(2, hold)
+	if Oddities.stats.get("shatter", 0) != 1:
+		fail("a foe that died frozen did not shatter")
+	Meta.opts["autofire"] = true
+
+## Shots that start a little way out still hit a foe pressed against the hero.
+func _point_blank() -> void:
+	Meta.opts["autofire"] = false
+	for id in ["plasmaslug", "flakpistol", "alleyrpg", "warjavelin", "typewriter", "callingcard"]:
+		var p := _start()
+		_arena()
+		var hold := Vector2(14.0 * TB.TS, 13.0 * TB.TS)
+		p.x = hold.x
+		p.y = hold.y
+		Weapons.equip_weapon(p, Weapons.by_id(id))
+		_tick(2, hold)
+		var hug := Combat.spawn_enemy("skeleton", p.x + 1.0, p.y - 1.0, false, true)
+		hug.speed = 0.0
+		hug.max_hp = 1e6
+		hug.hp = 1e6
+		_tick(1, hold)
+		Combat.player_shoot(p, -PI / 2)
+		_tick(10, hold)
+		if hug.hp >= 1e6:
+			fail("%s: a foe pressed against the hero was not hit" % id)
 	Meta.opts["autofire"] = true

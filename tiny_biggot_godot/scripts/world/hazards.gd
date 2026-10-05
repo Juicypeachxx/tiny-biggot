@@ -73,6 +73,7 @@ static func update(dt: float) -> void:
 	Arsenal.tick(room, dt)
 	Charged.tick(room, dt)
 	Summons.tick(room, dt)
+	Oddities.tick(room, dt)
 	if room.hazards.is_empty() and room.strike == "" and room.marks.is_empty():
 		return
 	var active := G.enemies_active()

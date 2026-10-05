@@ -252,7 +252,7 @@ look (stage 5 redraws everything together later).
       wave. Beaten, he rolls over and comes along as a pet. Art, sounds and
       moves are this game's own; the sword idea only nods at the picture he
       sent. See RIFTS.md. IPA built after it.
-- [ ] 4.6 **A hundred new weapons.** In batches of 20 to 25, each batch a
+- [x] 4.6 **A hundred new weapons.** In batches of 20 to 25, each batch a
       theme (for example: thrown, summoning, charged, two-stage, cursed).
       **His ask, 5 Oct: four parts of 25, and an IPA at the end of each part**
       (so a session cut off by usage limits still leaves him a working build).
@@ -271,7 +271,10 @@ look (stage 5 redraws everything together later).
         summons and companions, seven new attack kinds (deck, turret,
         thrall, command, mirror, swarm, egg) and a taming whip. See
         `ARSENAL.md`. IPA built after it.
-      - [ ] Part 4: gunplay and oddities.
+      - [x] Part 4, GUNPLAY AND ODDITIES (5 Oct): 25 strange guns and
+        tricks, seventeen new attack kinds (letters, bubble, flak, paint,
+        slots, roller, money, camera, ray, junk, bat, stab, duel, shrink,
+        blower, dome, coin). See `ARSENAL.md`. IPA built after it.
 - [ ] 4.7 **New equipment and relics.** Proposal: 40 gear pieces over the 8
       slots, with at least 3 new sets, and 20 relics, aimed at the thin spots
       stock-taking showed. Same "unique" test.

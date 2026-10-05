@@ -14,7 +14,7 @@ and the look of an attack. A gear piece's set counts for "same", not for "near".
 
 | | Items | Original | New | In a "same" group | In a "near" group | New items in a "near" group | Numbers only (new) |
 |---|---|---|---|---|---|---|---|
-| Weapons | 327 | 113 | 214 | 4 | 33 | 4 | 50 (16) |
+| Weapons | 352 | 113 | 239 | 4 | 33 | 4 | 65 (31) |
 | Relics | 173 | 66 | 107 | 6 | 6 | 0 | 48 (0) |
 | Gear | 231 | 96 | 135 | 0 | 10 | 0 | 46 (0) |
 
@@ -56,9 +56,9 @@ and the look of an attack. A gear piece's set counts for "same", not for "near".
 - 2: `thrust |  |  | `  
   pike (ORIGINAL), warlance
 
-### Numbers only (50, 16 of them new)
+### Numbers only (65, 31 of them new)
 
-hexwand (ORIGINAL), emberwand (ORIGINAL), rimerod (ORIGINAL), pithatchet (ORIGINAL), graveshovel (ORIGINAL), flasksling (ORIGINAL), firebottle (ORIGINAL), frostvial (ORIGINAL), lantern (ORIGINAL), rustblade (ORIGINAL), pike (ORIGINAL), prismrod (ORIGINAL), firespitter (ORIGINAL), bilesprayer (ORIGINAL), frostbellows (ORIGINAL), sawblade (ORIGINAL), thunderring (ORIGINAL), emberorb (ORIGINAL), frozenheart (ORIGINAL), plaguebell (ORIGINAL), sparkrune (ORIGINAL), bonechime (ORIGINAL), snaremine (ORIGINAL), frosttrap (ORIGINAL), arbalest (ORIGINAL), burstpistol (ORIGINAL), crankgun (ORIGINAL), sunspitter (ORIGINAL), drovewhip (ORIGINAL), bramblewhip (ORIGINAL), lightninglash (ORIGINAL), gravebell (ORIGINAL), hivestaff (ORIGINAL), warbanner (ORIGINAL), banesabre, shackleflail, warlance, swarmpod, pocketmortar, signalflare, dynamite, repulsor, plasmaslug, quakemaul, dashblade, warjavelin, grapple, steamrepeater, starcaller, snapback
+hexwand (ORIGINAL), emberwand (ORIGINAL), rimerod (ORIGINAL), pithatchet (ORIGINAL), graveshovel (ORIGINAL), flasksling (ORIGINAL), firebottle (ORIGINAL), frostvial (ORIGINAL), lantern (ORIGINAL), rustblade (ORIGINAL), pike (ORIGINAL), prismrod (ORIGINAL), firespitter (ORIGINAL), bilesprayer (ORIGINAL), frostbellows (ORIGINAL), sawblade (ORIGINAL), thunderring (ORIGINAL), emberorb (ORIGINAL), frozenheart (ORIGINAL), plaguebell (ORIGINAL), sparkrune (ORIGINAL), bonechime (ORIGINAL), snaremine (ORIGINAL), frosttrap (ORIGINAL), arbalest (ORIGINAL), burstpistol (ORIGINAL), crankgun (ORIGINAL), sunspitter (ORIGINAL), drovewhip (ORIGINAL), bramblewhip (ORIGINAL), lightninglash (ORIGINAL), gravebell (ORIGINAL), hivestaff (ORIGINAL), warbanner (ORIGINAL), banesabre, shackleflail, warlance, swarmpod, pocketmortar, signalflare, dynamite, repulsor, plasmaslug, quakemaul, dashblade, warjavelin, grapple, steamrepeater, starcaller, snapback, bubbleblaster, flakpistol, slotpistol, snowroller, paydaycannon, flashcamera, glacierray, junkcannon, homerunbat, backstabdirk, callingcard, shrinkray, leafblower, aegisprojector, coinflipper
 
 ### Every weapon
 
@@ -391,6 +391,31 @@ hexwand (ORIGINAL), emberwand (ORIGINAL), rimerod (ORIGINAL), pithatchet (ORIGIN
 | fireflyjar | FIREFLY JAR | new | `swarm | swarm=fireflies,swarm=fireflies |  |  | ` |
 | dragonegg | DRAGON EGG | new | `egg |  |  |  | on_hit>warm` |
 | tamerswhip | TAMER'S WHIP | new | `whip |  |  |  | on_hit>charm` |
+| typewriter | TYPEWRITER | new | `letters | words=BOOM |  |  | ` |
+| prophetquill | PROPHET'S QUILL | new | `letters | words=ZAP/ICE/BURN/GOLD/DOOM |  |  | ` |
+| bubbleblaster | BUBBLE BLASTER | new | `bubble |  |  |  | ` |
+| soapcannon | SOAP CANNON | new | `bubble | soap |  |  | ` |
+| flakpistol | FLAK PISTOL | new | `flak |  |  |  | ` |
+| interceptor | INTERCEPTOR | new | `flak | barrage |  |  | ` |
+| inkgun | INK GUN | new | `paint | colors=ink |  |  | ` |
+| tricolor | TRICOLOR SPLATTER | new | `paint | colors=red/blue/yellow |  |  | ` |
+| slotpistol | SLOT PISTOL | new | `slots |  |  |  | ` |
+| gildedslots | GILDED SLOTS | new | `slots | stakes |  |  | ` |
+| snowroller | SNOW ROLLER | new | `roller |  |  |  | ` |
+| mossboulder | MOSS BOULDER | new | `roller | moss |  |  | ` |
+| paydaycannon | PAYDAY CANNON | new | `money |  |  |  | ` |
+| flashcamera | FLASH CAMERA | new | `camera |  |  |  | ` |
+| glacierray | GLACIER RAY | new | `ray |  |  |  | ` |
+| junkcannon | JUNK CANNON | new | `junk |  |  |  | ` |
+| fishcannon | FISH CANNON | new | `junk | fish |  |  | ` |
+| homerunbat | HOME RUN BAT | new | `bat |  |  |  | ` |
+| croquetmallet | CROQUET MALLET | new | `bat | croquet |  |  | ` |
+| backstabdirk | BACKSTAB DIRK | new | `stab |  |  |  | ` |
+| callingcard | CALLING CARD | new | `duel |  |  |  | ` |
+| shrinkray | SHRINK RAY | new | `shrink |  |  |  | ` |
+| leafblower | LEAF BLOWER | new | `blower |  |  |  | ` |
+| aegisprojector | AEGIS PROJECTOR | new | `dome |  |  |  | ` |
+| coinflipper | COIN FLIPPER | new | `coin |  |  |  | ` |
 
 ## Relics
 
