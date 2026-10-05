@@ -21,8 +21,8 @@ changed one), and carry on from there. What he says last outranks this file.
 |---|---|---|
 | 1 | The IPA installs and runs on the iPad | **Done** (he confirmed, 5 Oct) |
 | 2 | Performance patch | **Done**: nothing to patch (he reports a good 60 fps, 5 Oct) |
-| 3 | Stability patch | In progress (3.1-3.3, 3.5 done; 3.4 moved to 4.10) |
-| 4 | New content: environments, mobs, bosses, weapons, equipment, characters; everything unique | Not started |
+| 3 | Stability patch | Done except the IPA: 3.4 and 3.6 moved to the end of stage 4 (his call) |
+| 4 | New content: environments, mobs, bosses, weapons, equipment, relics, abilities, characters; everything unique | **Next** |
 | 5 | Sprite revamp: every sprite redrawn, "cool and pixelated" | Not started |
 
 ---
@@ -111,7 +111,8 @@ Each step ends with `tools/check.sh` green.
       on wall-clock time across that gap (cooldowns, music), and that a run in
       progress is not lost. Tell him what to try on the iPad: lock the screen
       in a fight, come back.
-- [ ] 3.6 New IPA; he plays it.
+- [~] 3.6 Moved: he wants the next IPA only after the new content (5 Oct).
+      It is built at 4.11 and carries the stage 3 fixes too.
 
 ## Stage 4: new content
 
@@ -139,7 +140,10 @@ unique**. The game has 252 weapons, 14 heroes, 34 kinds of foe, 11 guardians,
   by copying, and the existing live-shot cap (`Effects.pbullet_cap`) as the
   only limit. `tests/content_test.tscn` gets a check that gives each new
   weapon a huge count and measures it.
-- Then the monkey test (4.10).
+- **New themed environments with a variety of mobs, each with attack
+  patterns of its own** (4.3, 4.4, 4.5).
+- Then the monkey test (4.10), then **one IPA with everything** (4.11).
+  No IPA in between unless he asks: 4.9's per-step IPAs are dropped.
 
 Where he gave no number, the numbers below are a proposal. Tell him the
 proposal in one line at the start of the step; he can change it.
@@ -199,6 +203,9 @@ look (stage 5 redraws everything together later).
 - [ ] 4.10 **Menus under random input** (was 3.4). Add a debug option that presses
       random buttons in every menu and during play (the "monkey"), seeded, and
       run it for an hour of game time. Same pass condition. Run it over all the new content.
+
+- [ ] 4.11 `tools/check.sh` green, the IPA (`[ipa]` commit), and a list for
+      him of what is new and what to try. This also delivers stage 3.
 
 ## Stage 5: sprite revamp
 
@@ -274,3 +281,7 @@ before-and-after picture for him, a new IPA.
   background mid-fight opens the pause menu and saves progress. A run in
   progress is still not saved: if iOS closes the app, that run is gone
   (embers already earned are kept). Saving a run is a bigger job; asked him.
+- 5 Oct 2026: he wants all of stage 4 first (weapons, gear, relics,
+  abilities, themed environments, mobs with their own attack patterns), then
+  the monkey test, then one IPA (4.11). Stage 3's IPA waits for that. Run
+  saving (see HANDOFF) not answered yet.
