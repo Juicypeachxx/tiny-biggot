@@ -20,8 +20,8 @@ changed one), and carry on from there. What he says last outranks this file.
 | Stage | What | State |
 |---|---|---|
 | 1 | The IPA installs and runs on the iPad | **Done** (he confirmed, 5 Oct) |
-| 2 | Performance patch | Next |
-| 3 | Stability patch | Not started |
+| 2 | Performance patch | **Done**: nothing to patch (he reports a good 60 fps, 5 Oct) |
+| 3 | Stability patch | Next |
 | 4 | New content: environments, mobs, bosses, weapons, equipment, characters; everything unique | Not started |
 | 5 | Sprite revamp: every sprite redrawn, "cool and pixelated" | Not started |
 
@@ -59,7 +59,7 @@ time per frame; together they should stay under about 8 on the iPad, which
 leaves the graphics chip half the frame. `WORST` is the longest frame of the
 last second: 17 is steady, 33 is one missed frame.
 
-- [ ] 2.1 Get the numbers. If all four are steady at 60 with `WORST` near 17,
+- [x] 2.1 Get the numbers. If all four are steady at 60 with `WORST` near 17,
       write that down here and close the stage: there is nothing to patch.
 - [ ] 2.2 If `LOGIC` is high: profile that fight with
       `tests/heavy_profile.tscn` and `tests/shot_profile.tscn` and take the
@@ -72,7 +72,12 @@ last second: 17 is steady, 33 is one missed frame.
       name it: "first time I open the inventory"). `--hitch-log=20` prints
       long frames with their tick. First-use stalls are covered in
       `IOS_BUILD.md`; anything new goes into `scripts/render/warmup.gd`.
-- [ ] 2.5 Build a new IPA, and he confirms on the iPad.
+- [x] 2.5 Build a new IPA, and he confirms on the iPad. (Not needed: nothing
+      was changed, the IPA he has is the one he measured.)
+
+**Closed 5 Oct 2026.** He reports the game runs a good 60 fps on the iPad.
+2.2 to 2.4 were not needed. He did not send the full SHOW FPS lines, so if he
+later sees stutter or a drop, reopen this stage with those four numbers.
 
 Not allowed as a "fix": fewer particles, shots, effects or enemies, a lower
 shot cap, a lower frame rate.
@@ -215,3 +220,5 @@ before-and-after picture for him, a new IPA.
   moments (title, ordinary fight, busiest fight, a guardian full of shots) and
   when anything stutters. Waiting on his numbers. Offered to do stage 3
   (stability, needs no iPad numbers) in the meantime if he prefers.
+- 5 Oct 2026: 2.1 done, stage 2 closed. He says it runs a good 60 fps "for
+  now". Nothing to patch; no new IPA needed. Next: 3.1 (the save file).

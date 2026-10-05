@@ -129,8 +129,9 @@ as `Payload/`. The IPA is kept with the run and published as the release
 
 ## Stage 2 (performance)
 
-2.1 is waiting on him: the SHOW FPS line (`FPS  LOGIC  DRAW  CALLS  WORST`)
-from four moments on the iPad. Nothing measured or changed yet.
+Closed 5 Oct with no change: he reports a good 60 fps on the iPad Air M1
+("for now"). He did not send the SHOW FPS lines; if a drop shows up later,
+ask for them and reopen 2.2-2.4. Next is stage 3, step 3.1 (the save file).
 
 ## Noted, not yet acted on
 
