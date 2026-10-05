@@ -241,6 +241,7 @@ func enter_room(r: Room) -> void:
 	Juice.reset()
 	EBullets.clear()
 	RiftBosses.clear()
+	Arsenal.clear()
 	pickups = room.pickups
 	enemies = []
 	for b in pbullets:

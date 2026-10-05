@@ -141,6 +141,9 @@ func _mech(w: Dictionary) -> String:
 			out.append("count-")
 		elif k in ["pierce", "bounce", "chain"] and b > a:
 			out.append(k + "+")
+	for k in Arsenal.TWISTS:
+		if w.has(k) and not base.has(k) and w[k]:
+			out.append(k)                  # a twist on a ROADMAP 4.6 kind (scripts/combat/arsenal.gd)
 	return ",".join(out)
 
 func _weapon_sig(w: Dictionary) -> String:

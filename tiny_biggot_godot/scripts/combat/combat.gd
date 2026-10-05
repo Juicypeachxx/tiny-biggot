@@ -592,7 +592,9 @@ static func update_enemies(dt: float) -> void:
 				Fx.hide = false
 			continue
 		e.t -= ddt
-		if e.is_boss():
+		if e.puppet_t > 0:
+			Arsenal.puppet_tick(e, ddt)   # a puppet walks into other foes (arsenal.gd)
+		elif e.is_boss():
 			BossAI.update_boss(e, ddt)
 		else:
 			EnemyAI.run(e, ddt, p)
@@ -602,7 +604,7 @@ static func update_enemies(dt: float) -> void:
 			e.ky *= 0.82
 			if absf(e.kx) < 2: e.kx = 0.0
 			if absf(e.ky) < 2: e.ky = 0.0
-		if not e.hidden and TB.dist(e, p) < e.r + p.r and not e.d.has("no_touch"):
+		if not e.hidden and TB.dist(e, p) < e.r + p.r and not e.d.has("no_touch") and e.puppet_t <= 0:
 			hurt_player(1, e.d["name"] if e.is_boss() else e.d.get("label", "a " + e.type))
 			if p.thorns > 0 and not e.thorn_cd > 0:
 				damage_enemy(e, p.thorns, { "no_crit": true, "col": "green" })
@@ -799,6 +801,10 @@ static func player_shoot(p: Player, a: float, echo_ok: bool = true) -> void:
 				Snd.play("shoot")
 		"zap":
 			attack_zap(p, a, forced)
+		_ when Arsenal.handles(w["kind"]):
+			Arsenal.fire(p, a, forced)   # the new kinds: thrown, launched and called-down things
+		_ when p.g("piggy") > 0 and Arsenal.piggy_shot(p, a):
+			pass   # the piggy bank was full: this shot is the pig
 		_:
 			made = fire_projectiles(p, a)
 			if w["kind"] == "burst":
@@ -841,7 +847,7 @@ static func player_shoot(p: Player, a: float, echo_ok: bool = true) -> void:
 		dt_.split = 0
 	if echo_ok and p.echo > 0 and randf() < p.echo:
 		p.volleys.append({ "t": 0.15 })
-	if not w["kind"] in ["slash", "thrust", "whip", "beam", "zap"]:
+	if not w["kind"] in ["slash", "thrust", "whip", "beam", "zap", "wave"]:
 		Fx.particle(p.x + cos(a) * 8, p.y - 2 + sin(a) * 8, 0, 0, 0.06, "#fffbe0", 3)
 	if not p.procs.is_empty():
 		Effects.fire("on_shoot", { "x": p.x, "y": p.y })
@@ -1274,6 +1280,7 @@ static func update_pbullets(dt: float) -> void:
 					Vfx.blast(b.x, b.y, 30.0)
 	# Base update.
 	var lens := p.lens
+	var wall_shards := p.g("wall_shrapnel") > 0
 	var lens_max := 0.0
 	if lens:
 		lens_max = 2.5 * Weapons.wsize(p) * 2.2
@@ -1428,6 +1435,8 @@ static func update_pbullets(dt: float) -> void:
 					b.vy = -b.vy
 			else:
 				b.life = 0
+				if wall_shards:
+					Arsenal.wall_shards(b, p)   # the shrapnel shotgun's pellets burst on walls
 				if p.explode > 0:
 					if b.kind == "flask":
 						Vfx.next_col = "#b8e05a"
@@ -1807,6 +1816,7 @@ static func on_roll_start(p: Player) -> void:
 		G.zones.append({ "x": p.x, "y": p.y, "r": 24, "t": 2.5, "kind": "smoke", "tick": 0.0 })
 	if p.bomb_dodge or p.g("roll_bomb") > 0:
 		G.bombs.append({ "x": p.x, "y": p.y, "t": 0.7, "safe": true })
+	Arsenal.on_roll(p)
 	if not p.procs.is_empty():
 		Effects.fire("on_roll", { "x": p.x, "y": p.y })
 

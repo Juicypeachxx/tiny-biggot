@@ -42,6 +42,9 @@ extends RefCounted
 ##   The Gaolbird:
 ##   ["tempo", n]                         raise (or lower) tempo, 0..tempo_max (scripts/combat/tempo.gd)
 ##   ["leap", speed, reach, [actions]]    a hero special: jump onto a foe, see abilities.gd
+##   ROADMAP 4.6 weapons (scripts/combat/arsenal.gd):
+##   ["plant", delay, dmg_mult, radius]   a charge on the foe that blows a moment later
+##   ["puppet", seconds]                  the foe walks into another foe and bursts
 
 ## Cartomancer deck: [name, actions]. The hook "card_double" plays each card twice.
 const CARDS := [
@@ -246,6 +249,16 @@ static func run(a: Array, stacks: int, ctx: Dictionary) -> void:
 			var at := _pos(ctx)
 			if G.zones.size() < 60:
 				G.zones.append({ "x": at.x, "y": at.y, "r": float(a[2]), "t": float(a[3]), "kind": a[1], "tick": 0.0 })
+		"plant":
+			# ["plant", delay, dmg_mult, radius]: a charge on the foe, blowing a moment later (arsenal.gd)
+			var e: Enemy = ctx.get("enemy")
+			if e != null:
+				# A fist or a blade fires no projectiles: each +1 projectile makes the charge stronger and wider.
+				var sp: Array = Arsenal.spend(Weapons.wcount(G.player), 1) if G.player.weapon["kind"] in ["slash", "whip"] else [1, 1.0, 1.0]
+				Arsenal.plant(e, float(a[1]), Weapons.wdmg(G.player) * float(a[2]) * stacks * sp[1], float(a[3]) * sp[2])
+		"puppet":
+			# ["puppet", seconds]: the foe walks into another and bursts (arsenal.gd)
+			Arsenal.puppet(ctx.get("enemy"), float(a[1]))
 		"transmute":
 			var e: Enemy = ctx.get("enemy")
 			if e != null and e.hp > 0 and not e.elite and not e.is_boss() and e.type != "dummy" and not e.d.get("mini", false):

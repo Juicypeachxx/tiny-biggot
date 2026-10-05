@@ -14,7 +14,7 @@ and the look of an attack. A gear piece's set counts for "same", not for "near".
 
 | | Items | Original | New | In a "same" group | In a "near" group | New items in a "near" group | Numbers only (new) |
 |---|---|---|---|---|---|---|---|
-| Weapons | 252 | 113 | 139 | 4 | 33 | 4 | 37 (3) |
+| Weapons | 277 | 113 | 164 | 4 | 33 | 4 | 42 (8) |
 | Relics | 173 | 66 | 107 | 6 | 6 | 0 | 48 (0) |
 | Gear | 231 | 96 | 135 | 0 | 10 | 0 | 46 (0) |
 
@@ -56,9 +56,9 @@ and the look of an attack. A gear piece's set counts for "same", not for "near".
 - 2: `thrust |  |  | `  
   pike (ORIGINAL), warlance
 
-### Numbers only (37, 3 of them new)
+### Numbers only (42, 8 of them new)
 
-hexwand (ORIGINAL), emberwand (ORIGINAL), rimerod (ORIGINAL), pithatchet (ORIGINAL), graveshovel (ORIGINAL), flasksling (ORIGINAL), firebottle (ORIGINAL), frostvial (ORIGINAL), lantern (ORIGINAL), rustblade (ORIGINAL), pike (ORIGINAL), prismrod (ORIGINAL), firespitter (ORIGINAL), bilesprayer (ORIGINAL), frostbellows (ORIGINAL), sawblade (ORIGINAL), thunderring (ORIGINAL), emberorb (ORIGINAL), frozenheart (ORIGINAL), plaguebell (ORIGINAL), sparkrune (ORIGINAL), bonechime (ORIGINAL), snaremine (ORIGINAL), frosttrap (ORIGINAL), arbalest (ORIGINAL), burstpistol (ORIGINAL), crankgun (ORIGINAL), sunspitter (ORIGINAL), drovewhip (ORIGINAL), bramblewhip (ORIGINAL), lightninglash (ORIGINAL), gravebell (ORIGINAL), hivestaff (ORIGINAL), warbanner (ORIGINAL), banesabre, shackleflail, warlance
+hexwand (ORIGINAL), emberwand (ORIGINAL), rimerod (ORIGINAL), pithatchet (ORIGINAL), graveshovel (ORIGINAL), flasksling (ORIGINAL), firebottle (ORIGINAL), frostvial (ORIGINAL), lantern (ORIGINAL), rustblade (ORIGINAL), pike (ORIGINAL), prismrod (ORIGINAL), firespitter (ORIGINAL), bilesprayer (ORIGINAL), frostbellows (ORIGINAL), sawblade (ORIGINAL), thunderring (ORIGINAL), emberorb (ORIGINAL), frozenheart (ORIGINAL), plaguebell (ORIGINAL), sparkrune (ORIGINAL), bonechime (ORIGINAL), snaremine (ORIGINAL), frosttrap (ORIGINAL), arbalest (ORIGINAL), burstpistol (ORIGINAL), crankgun (ORIGINAL), sunspitter (ORIGINAL), drovewhip (ORIGINAL), bramblewhip (ORIGINAL), lightninglash (ORIGINAL), gravebell (ORIGINAL), hivestaff (ORIGINAL), warbanner (ORIGINAL), banesabre, shackleflail, warlance, swarmpod, pocketmortar, signalflare, dynamite, repulsor
 
 ### Every weapon
 
@@ -316,6 +316,31 @@ hexwand (ORIGINAL), emberwand (ORIGINAL), rimerod (ORIGINAL), pithatchet (ORIGIN
 | tentacle | KRAKEN TENTACLE | new | `whip |  | poison |  | every_n_shots>pull+status_area:weakened` |
 | joustrocket | JOUSTING ROCKET | new | `thrust |  |  |  | on_hit>explode; on_roll>buff:dmg` |
 | homingaxes | BLOODHOUND HATCHETS | new | `spin | pierce+,homing |  |  | on_kill>refund_roll` |
+| pineapple | PINEAPPLE GRENADE | new | `grenade | shrapnel |  |  | ` |
+| skipcharge | SKIPPING CHARGE | new | `grenade | skips |  |  | ` |
+| pomegranate | POMEGRANATE | new | `grenade | cluster |  |  | ` |
+| hoarfrost | HOARFROST GRENADE | new | `grenade | freeze |  |  | ` |
+| fruitcake | GRANDMA'S FRUITCAKE | new | `grenade | heavy,crumbs |  |  | ` |
+| bottlerockets | BOTTLE ROCKETS | new | `rocket | count+,wobble | burn |  | ` |
+| alleyrpg | BACKALLEY RPG | new | `rocket | backblast |  |  | ` |
+| festival | FESTIVAL LAUNCHER | new | `rocket | fireworks |  |  | ` |
+| pathfinder | PATHFINDER ROCKET | new | `rocket | guided,ramp |  |  | ` |
+| swarmpod | SWARM POD | new | `missile |  |  |  | ` |
+| lockon | LOCK-ON LAUNCHER | new | `missile | lock |  | elite_dmg | ` |
+| stickyjar | STICKY JAR | new | `sticky | rolldet |  |  | ` |
+| limpets | LIMPET CHARGES | new | `sticky | remote |  |  | ` |
+| pocketmortar | POCKET MORTAR | new | `mortar |  |  |  | ` |
+| snowglobe | SNOWGLOBE MORTAR | new | `mortar | zone | vs_chill |  | ` |
+| clockmice | CLOCKWORK MICE | new | `walker | count+ |  |  | ` |
+| keg | ROLLING KEG | new | `walker | roll |  |  | ` |
+| signalflare | SIGNAL FLARE | new | `strike |  | burn |  | ` |
+| skyhammer | SKY HAMMER | new | `strike | pillar |  |  | ` |
+| dynamite | DYNAMITE BUNDLE | new | `dynamite |  |  |  | ` |
+| repulsor | REPULSOR | new | `wave |  |  |  | ` |
+| shrapnelgun | SHRAPNEL SHOTGUN | new | `shot | count+ |  | wall_shrapnel | ` |
+| blastknuckles | BLASTING KNUCKLES | new | `slash |  |  |  | on_hit>plant` |
+| parasite | PARASITE LAUNCHER | new | `flask |  | poison |  | on_hit>puppet` |
+| piggybank | PIGGY BANK | new | `shot | count+ |  | gold_hit,piggy | ` |
 
 ## Relics
 

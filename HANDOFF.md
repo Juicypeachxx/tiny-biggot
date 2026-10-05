@@ -402,6 +402,23 @@ pets test has REX; three 10-minute soaks from the barn, 0 errors.
 rift bosses, the pets and Rex was pushed with `[ipa]` after that (release
 `ipa-latest`). Not tested on the iPad.
 
+**4.6 part 1, MAYHEM (done).** 25 weapons, nine new attack kinds; details in
+`tiny_biggot_godot/ARSENAL.md`. `scripts/combat/arsenal.gd` (class `Arsenal`)
+fires, moves, blasts and draws them; hooks are one line each (listed there).
++1 projectile merges past a few thrown things (+35% damage each, wider blast),
+and thrown things never pass 48. Grenades and dynamite are aimed at the foe
+nearest the aim and stop at a foe's feet. Tests: `tests/arsenal_test` (in
+`check.sh`): data, each weapon's own trick in a fight, then 999 more
+projectiles (caps kept, more damage, desktop logic 0.15-0.35 ms a tick for the
+new kinds; the shot and flask kinds 1-1.6 ms with worst ticks of 12-17 ms,
+the same as the old shotguns and flasks at that count, so not new). Planted
+faults caught (no dynamite chain, no remote click). Content test passes (plant
+and puppet registered as actions). The uniqueness report now counts a new
+kind's twists: no part-1 weapon is in a "same" or "near" group; five are the
+plain weapon of a new kind. 25 soaks of 10 minutes, one per weapon (half with
++6 projectiles), 0 errors. Full-content replays re-recorded; the 6 classic ones
+identical. Not tested on the iPad.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress (so iOS closing the app does not end it). Needs

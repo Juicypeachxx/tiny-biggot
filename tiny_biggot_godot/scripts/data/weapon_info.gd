@@ -16,7 +16,9 @@ const TAG_TYPE := { "pyre": "FIRE", "frost": "FROST", "venom": "POISON", "storm"
 const KIND_TYPE := { "slash": "SLASHING", "whip": "SLASHING", "disc": "SLASHING", "spin": "SLASHING", "boomer": "SLASHING",
 	"thrust": "PIERCING", "bolt": "PIERCING", "rail": "PIERCING", "burst": "PIERCING", "gatling": "PIERCING", "shot": "PIERCING",
 	"flask": "BLAST", "mine": "BLAST", "flame": "FIRE", "orb": "ARCANE", "nova": "ARCANE", "pulse": "ARCANE",
-	"beam": "ARCANE", "zap": "LIGHTNING", "summon": "ARCANE" }
+	"beam": "ARCANE", "zap": "LIGHTNING", "summon": "ARCANE",
+	"grenade": "BLAST", "rocket": "BLAST", "missile": "BLAST", "sticky": "BLAST", "mortar": "BLAST", "walker": "BLAST", "strike": "BLAST",
+	"dynamite": "BLAST", "wave": "PHYSICAL" }
 const TYPE_COL := { "SLASHING": "bone", "PIERCING": "bone", "BLAST": "orange", "FIRE": "orange", "FROST": "cyan",
 	"POISON": "lime", "LIGHTNING": "cyan", "ARCANE": "pink", "SHADOW": "purple" }
 

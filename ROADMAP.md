@@ -254,10 +254,18 @@ look (stage 5 redraws everything together later).
       sent. See RIFTS.md. IPA built after it.
 - [ ] 4.6 **A hundred new weapons.** In batches of 20 to 25, each batch a
       theme (for example: thrown, summoning, charged, two-stage, cursed).
+      **His ask, 5 Oct: four parts of 25, and an IPA at the end of each part**
+      (so a session cut off by usage limits still leaves him a working build).
       Every weapon passes the "unique" test above against all weapons, old and
       new; put its signature in `UNIQUENESS.md`. Each needs an icon, and a
       shot or swing picture if no existing one fits. `tests/content_test.tscn`
       must pass and all shown text must fit the font.
+      - [x] Part 1, MAYHEM (5 Oct): 25 explosives and mischief, nine new
+        attack kinds (grenade, rocket, missile, sticky, mortar, walker,
+        strike, dynamite, wave). See `ARSENAL.md`. IPA built after it.
+      - [ ] Part 2: charged and two-stage weapons.
+      - [ ] Part 3: cards, summons and companions.
+      - [ ] Part 4: gunplay and oddities.
 - [ ] 4.7 **New equipment and relics.** Proposal: 40 gear pieces over the 8
       slots, with at least 3 new sets, and 20 relics, aimed at the thin spots
       stock-taking showed. Same "unique" test.

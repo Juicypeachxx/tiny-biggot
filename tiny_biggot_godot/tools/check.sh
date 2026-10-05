@@ -77,6 +77,11 @@ timeout 900 "$GODOT" --headless --path . res://tests/pets_test.tscn -- --no-save
 grep -E "pets test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:|WARNING" "$LOG"; then status=1; fi
 
+echo "== the new weapons (4.6): each one's trick in a fight; 999 more projectiles stay within the caps"
+timeout 900 "$GODOT" --headless --path . res://tests/arsenal_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "arsenal test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== the constellation: the web, taking and giving back stars, a run with them"
 timeout 300 "$GODOT" --headless --path . res://tests/stars_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "stars test" "$LOG"

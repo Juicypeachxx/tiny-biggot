@@ -46,7 +46,8 @@ const ACTIONS := ["nova", "shoot", "explode", "status", "heal", "buff", "chain",
 	"refund_roll", "armor", "drop", "damage", "hurt_self", "xp", "clear_shots", "card", "heat", "scroll",
 	"dash", "channel", "invuln", "status_area", "vfx", "area",
 	"meteor", "bolts", "pull", "push", "bomb", "zone", "transmute", "rand_status", "shoot_at", "chaos",   # content batch 4
-	"tempo", "leap"]   # the Gaolbird
+	"tempo", "leap",   # the Gaolbird
+	"plant", "puppet"]   # ROADMAP 4.6 weapons (arsenal.gd)
 const STATUSES := ["burn", "poison", "chill", "bleed", "stun", "curse", "mark", "shock", "vulnerable", "weakened"]
 const CONDITIONS := ["elite", "boss", "burning", "poisoned", "chilled", "bleeding", "shocked", "cursed",
 	"low_hp", "full_hp", "moving", "still", "crit", "danger", "fighting", "hot", "rich", "armored", "flight"]
