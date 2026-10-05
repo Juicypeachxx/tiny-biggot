@@ -295,6 +295,7 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 	EventRooms.on_kill(e)
 	RiftExtras.on_kill(e)
 	RiftBosses.on_kill(e)
+	Pets.on_kill(e)
 	var boss := e.is_boss()
 	var cols := ["#f4ecd8", "#f2c94c", "#d8443c", "#a35bd6"] if boss else ["#f4ecd8", "#8b8f9c", GameData.SPRITE_COLOR.get(e.d["sprite"], "#d8443c")]
 	Fx.burst(e.x, e.y, cols, 60 if boss else 14, 140 if boss else 70, 1.0 if boss else 0.45)
@@ -455,6 +456,8 @@ static func hurt_player(amount: int, source: String) -> void:
 static func _hurt_player_base(p: Player, amount: int, source: String) -> void:
 	if p.invuln > 0 or p.dodge_t > 0 or G.state != &"play" or G.god:
 		return
+	if Pets.absorb(p):
+		return   # a loyal slime took it
 	if p.evade > 0 and randf() < minf(p.evade, 0.6):
 		p.invuln = 0.4
 		Fx.float_text(p.x, p.y - 12, "DODGED", "purple")
@@ -1926,3 +1929,4 @@ static func _update_player_base(p: Player, dt: float) -> void:
 			for e in _nearest_targets(p, 3):
 				lightning(e, Weapons.wdmg(p) * 1.2)
 	update_familiars(p, dt)
+	Pets.update(p, dt)

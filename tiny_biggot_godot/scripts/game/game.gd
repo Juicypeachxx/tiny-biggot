@@ -276,6 +276,7 @@ func enter_room(r: Room) -> void:
 	for f in familiars:
 		f["x"] = p.x
 		f["y"] = p.y
+	Pets.enter_room(p)
 	if not room.objects_ready:
 		room.objects_ready = true
 		setup_objects(room)
@@ -591,6 +592,13 @@ func setup_objects(r: Room) -> void:
 			r.objects.append({ "kind": "campfire", "x": cx, "y": cy })
 			if GameData.rogues():
 				r.objects.append({ "kind": "anvil", "x": cx + 56, "y": cy })
+	# Pets (expanded game only): a cage in some treasure rooms, vaults and hidden rooms, one for sale in some shops.
+	if GameData.rogues():
+		var chance: float = { "treasure": 0.12, "vault": 0.35, "secret": 0.2, "shop": 0.25 }.get(r.type, 0.0)
+		if chance > 0 and (r.type != "secret" or r.event == "") and randf() < chance:
+			var at: Vector2 = { "treasure": Vector2(cx + 100, cy + 10), "vault": Vector2(cx + 84, cy),
+				"secret": Vector2(cx + 76, cy - 6), "shop": Vector2(cx, cy + 44) }[r.type]
+			r.objects.append(Pets.cage(player, at.x, at.y, "gold" if r.type == "shop" else "key"))
 	# Rogues layer: a loose brick in the wall of some quiet rooms opens a hidden door.
 	if GameData.rogues() and r.type in ["treasure", "shrine", "rest", "shop"] and randf() < 0.2:
 		r.objects.append({ "kind": "brick", "x": (2.0 if randf() < 0.5 else 26.0) * TB.TS, "y": 5.0 * TB.TS })
@@ -679,6 +687,7 @@ func room_cleared() -> void:
 	room.cleared = true
 	Saloon.on_room_clear(room)
 	EventRooms.on_room_clear(room)
+	Pets.on_room_clear()
 	dyn_dirty = true
 	Snd.play("door")
 	var p := player
@@ -774,6 +783,8 @@ func on_boss_dead(b: Enemy) -> void:
 			Combat.drop_pickup("gem", b.x, b.y)
 		for i in 2:
 			Combat.drop_pickup("ember", b.x, b.y)
+		if randf() < 0.5:
+			room.objects.append(Pets.cage(player, 14.0 * TB.TS + 56, 10.0 * TB.TS, "free"))
 		Snd.music(room.theme["music"])
 		open_exits()
 		return
@@ -860,6 +871,8 @@ func interact(o: Dictionary) -> void:
 		return EventRooms.interact(o)
 	if RiftExtras.handles(o["kind"]):
 		return RiftExtras.interact(o)
+	if Pets.handles(o["kind"]):
+		return Pets.interact(o)
 	var p := player
 	# 05b_items.rb: weapons and gear on the floor or for sale.
 	if o["kind"] == "item":

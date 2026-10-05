@@ -227,10 +227,18 @@ look (stage 5 redraws everything together later).
         30. Tap to read, tap again to take, hold to give back, drag and
         pinch. (`scripts/game/stars.gd`, `scripts/render/star_view.gd`,
         `tests/stars_test`.)
-- [ ] 4.5 **New bosses.** Proposal: a guardian and a mini-boss for each new
+- [x] 4.5 **New bosses.** Proposal: a guardian and a mini-boss for each new
       environment. A guardian has at least three attacks, each with a warning
       the player can read (the lanes, rings and bands in
       `ATTACK_EFFECTS.md`), and a second phase. One a session.
+      (Done 5 Oct, all three in one session at his "go": THE SQUALL HERON and
+      THE STORMCROWN, THE DROWNED CAPTAIN and THE BILGE HYDRA, THE BELLRINGER
+      and THE BRASS ORGAN. Mini-bosses end a new world's second room; the
+      guardian is behind a second door in the champion's room, an optional
+      fight. Every boss has a second phase. See RIFTS.md.)
+- [x] 4.5b **Pets and companions** (his ask, 5 Oct: "also add companions and
+      pets"). Ten pets, each with a trick of its own and three levels, found
+      in cages (key, gold, or free from a rift guardian). See PETS.md.
 - [ ] 4.6 **A hundred new weapons.** In batches of 20 to 25, each batch a
       theme (for example: thrown, summoning, charged, two-stage, cursed).
       Every weapon passes the "unique" test above against all weapons, old and

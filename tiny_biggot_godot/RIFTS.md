@@ -81,6 +81,46 @@ head holds its links strongly, so the two never keep each other alive). Webs and
 - Art: `kit_skyreach.png` (mossy flagstones, cloud-stone walls, crystal pillars, sky and
   cliff-lip tiles at row 2, columns 2 and 3) and `galewarden(_elite).png`.
 
+### Rift bosses (October 2026, `scripts/entities/rift_bosses.gd`, ROADMAP 4.5)
+
+The three new worlds each have a **mini-boss** (the last wave of the rift's second room) and a
+**guardian**. When the world's champion falls, its room has a second door, named after the
+guardian, leading deeper: an optional fight in an open arena (`Room.rift_step` 3, room type
+"boss"), with a guardian's hoard (a boss chest, a weapon, gear, gems, embers) and the way back.
+It counts as a guardian beaten (constellation points). No portal: the floor goes on.
+
+Every attack is shown before it lands. Below half health each boss has a **second phase**: 1.4 s
+in which it takes no damage and every shot on screen vanishes, a line on the banner, then a
+harder plan with new attacks.
+
+- **THE SQUALL HERON** (Skyreach): quills that stop in the air, flash, and turn on you; lightning
+  rods round you joined by arcs (thin flickering lines first); a gale along its row (the world's
+  gust). Phase 2: rings of quills, arcs to itself as well, a second gale across.
+- **THE STORMCROWN** (Skyreach): sky lances (pale bands with falling chevrons, then a bolt and
+  sparks); a ring of shots round you that closes in, with one gold gap; downdrafts (gusts); ball
+  lightning joined by arcs. Phase 2: a cyclone that hunts you, lances in crosses, and the eye of
+  the storm pulls you gently in.
+- **THE DROWNED CAPTAIN** (Bastion): throws his anchor down a lane and hauls himself after it
+  along the chain; swings it round (a ring on the floor first); lobs sludge barrels (landing
+  rings). Phase 2: more of each, and the haul leaves sludge.
+- **THE BILGE HYDRA** (Bastion): heads lunge down lanes; a breath sweeps an arc (its edges shown
+  first) and leaves sludge; spit in arcs; it calls the toxic tide. Phase 2: two more heads grow,
+  two breaths cross.
+- **THE BELLRINGER** (Cathedral): tolls, rings of sound that spread (roll through them); a hymn of
+  notes that weave; drops the bell where you stand, and takes half again as much damage until it
+  comes back. Phase 2: three tolls, the bell bounces after you twice.
+- **THE BRASS ORGAN** (Cathedral): each pipe glows before it fires (a toccata that runs along the
+  pipes, a fugue of aimed triplets); a chord: only the gold lanes on the floor are safe; a choir
+  of foes. Its nave has three tables to flip. Phase 2: pedal waves down the room with one gap,
+  two wall turrets, and it slides along the wall as it plays.
+
+Data: minis are `GameData.ENEMIES` rows with `"ai": "riftboss"` (and `"champion"`, so their health
+grows with the floor and the world's hazards leave them be); guardians are `GameData.BOSSES` rows
+with `"rift": true`. Both carry `"rule": "phase"`. Themes name them (`"mini"`, `"guardian"`). In a
+guardian's arena the world's own hazard does not fire by itself: the guardian calls it.
+Debug: `--rift=ID --step=3` starts in the arena; `--spawn=TYPE` puts one foe in the room.
+Tested by `tests/bosses_test.tscn`.
+
 Champions are data rows in `GameData.ENEMIES` with `"champion": true` and a `"moves"`
 list run by `scripts/entities/champion_ai.gd` (charge, ring, fan, spiral, burst, duel,
 lob, rain, summon, blink). Below half health they speed up by 35%. Beating one drops
@@ -161,7 +201,7 @@ the icon, so those pieces now show in their real colours.
 
 ## Debug arguments
 
-    --rift=ID [--step=0..2]   start inside a rift world (step 2 is the champion)
+    --rift=ID [--step=0..3]   start inside a rift world (step 2 is the champion, 3 a new world's guardian)
     --event=NAME              start in an event room
 
 ## Tests

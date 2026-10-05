@@ -188,8 +188,9 @@ func draw_prompt(ci: CanvasItem, o: Dictionary) -> void:
 	var title := ""
 	var desc := ""
 	var extra := ""
-	if Saloon.handles(o["kind"]) or EventRooms.handles(o["kind"]) or RiftExtras.handles(o["kind"]):
-		var sl := Saloon.prompt(o) if Saloon.handles(o["kind"]) else (EventRooms.prompt(o) if EventRooms.handles(o["kind"]) else RiftExtras.prompt(o))
+	if Saloon.handles(o["kind"]) or EventRooms.handles(o["kind"]) or RiftExtras.handles(o["kind"]) or Pets.handles(o["kind"]):
+		var sl := Saloon.prompt(o) if Saloon.handles(o["kind"]) else (EventRooms.prompt(o) if EventRooms.handles(o["kind"]) \
+			else (RiftExtras.prompt(o) if RiftExtras.handles(o["kind"]) else Pets.prompt(o)))
 		title = sl[0]
 		desc = sl[1]
 		extra = sl[2]

@@ -73,7 +73,7 @@ scripts for comparing pictures between two builds and for timing.
 How the code is laid out, and the traps of the port: `PORTING_NOTES.md`.
 Items are data (an id and a list of effects): `scripts/effects/`,
 `scripts/data/`, `CONTENT_BATCH_1.md`. A hero with a mechanic of its own, as a
-model: `GAOLBIRD.md`. Rooms and events: `RIFTS.md`, `BIOMES.md`. Effects:
+model: `GAOLBIRD.md`. Rooms, events and rift bosses: `RIFTS.md`, `BIOMES.md`. Pets: `PETS.md`. Effects:
 `EFFECTS.md`, `ATTACK_EFFECTS.md`. Speed: `PERFORMANCE.md`, `IOS_BUILD.md`.
 
 ## Checks before anything is called done

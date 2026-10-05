@@ -348,6 +348,37 @@ clips, art and names our own.
 - Not tested: the iPad (touch on the constellation: drag, pinch, hold), and
   frame time there.
 
+**4.5, rift bosses (done).** `scripts/entities/rift_bosses.gd` (class
+`RiftBosses`); details in `tiny_biggot_godot/RIFTS.md`. Minis: ENEMIES rows
+with `"ai": "riftboss"` and `"champion"`; guardians: BOSSES rows with `"rift"`;
+both `"rule": "phase"` (EnemyAI2.adjust_damage hands it to RiftBosses: no damage
+in the grace between phases, the bellringer +50% without its bell). Enemy
+gained `phase` and `parts`. Their things (quills, rods, arcs, bands, rings,
+orbs, cyclones, lobs, tolls, notes, pipes, chords, pedal waves) are lists in
+RiftBosses, ticked from `Hazards.update` and emptied on entering a room and on
+a guardian's fall. Flow: `G.spawn_wave` (mini as the last wave of rift step 1),
+`G.open_exits` (`_deeper_door` in step 2 of a new world), `G.leave_room` (step
+3 is a "boss" room), `G.update_play` (spawns `theme.guardian`), `G.on_boss_dead`
+(rift branch: hoard, way back, no portal), `Combat.spawn_boss` (health x floor),
+`BossAI.update_boss` and `EnemyAI.run` dispatch, `world_view` (ground warnings,
+over-layer, parts with the body), Afx got public `lane`, `landing`, `circle`,
+`reach`. In a guardian's arena the world's hazard does not fire by itself (the
+guardian calls gusts, tides, turrets). The organ's nave has three tables. The
+bot now takes a rift's deeper door. Tests: `tests/bosses_test` (planted faults
+caught: no shot clearing, no deeper door, a stuck attack), rift test updated
+(the deeper door; its saloon check had a latent flake with the house special,
+fixed), six 10-minute soaks in the new worlds, 0 errors. Desktop logic in the
+fights 0.16-0.29 ms a tick on average, worst tick 2-5 ms. Not tested on iPad.
+
+**4.5b, pets (done).** `scripts/entities/pets.gd`; details in
+`tiny_biggot_godot/PETS.md`. Tests: `tests/pets_test` (planted faults caught:
+a level off by one, Gloop taking every hit). The full soak set now gives ten
+heroes a pet; 33 runs, 0 errors; objects 2,815 to 3,325 in 30 minutes (a
+different random path from before; same kind of growth). The bosses test's
+killing blow now strikes until the boss falls (a summoned deacon can halve it).
+Full-content replays re-recorded (cages add random draws); the 6 classic ones
+identical. **The IPA built before 4.5 does not have the bosses or the pets.**
+
 ## Noted, not yet acted on
 
 - Saving a run in progress (so iOS closing the app does not end it). Needs

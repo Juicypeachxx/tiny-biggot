@@ -165,7 +165,10 @@ func _fight(world: String, key: String, guardian: bool) -> void:
 	var bosses0: int = Meta.meta["bosses"]
 	var floor0 := G.floor_index
 	var pick0 := G.pickups.size()
-	Combat.damage_enemy(e, e.hp * 2.0 + 10.0, { "no_crit": true, "no_mult": true, "silent": true })
+	# (A choir's deacon may be shielding it: half damage. Strike until it falls.)
+	for k in 6:
+		if e.hp > 0:
+			Combat.damage_enemy(e, e.hp * 2.0 + 10.0, { "no_crit": true, "no_mult": true, "silent": true })
 	_tick(2)
 	if not RiftBosses._quiet():
 		fail("%s: its things are still about after it fell" % key)

@@ -414,6 +414,8 @@ func _paint_lower(ci: CanvasItem) -> void:
 				EventRooms.draw(ci, o, t)
 			"x_table", "x_lever", "x_skull", "x_fisher", "x_saint", "x_ratpile":
 				RiftExtras.draw(ci, o, t)
+			"pet_cage":
+				Pets.draw_cage(ci, o, t)
 			"jukebox":
 				Gfx.sp(ci, "jukebox", x, y + 10, 2, 2)
 				if not o.get("used", false) and floori(t * 4) % 2 == 0:
@@ -538,6 +540,8 @@ func _paint_shadows(ci: CanvasItem, room: Room) -> void:
 		shadow(ci, e.x, e.y + e.r + (2 if e.is_boss() else 0), tex.get_width() * e.scale * 0.75)
 	var p := G.player
 	shadow(ci, p.x, p.y + 5, 10 - p.air * 0.2)   # smaller while a leap carries the hero up
+	if Pets.active(p) and not Pets.st in ["gone", "splat"]:
+		shadow(ci, Pets.x, Pets.y + 5, 5 if p.pet in ["zappy", "glimmer", "hoots"] else 7)
 
 # ---------- Entities (sorted by y) ----------
 func _enemy_sprite(e: Enemy) -> String:
@@ -555,6 +559,7 @@ func _paint_ents(ci: CanvasItem) -> void:
 	list.sort_custom(func(a, b): return a.y < b.y)
 	for e in list:
 		if e == p:
+			Pets.draw(ci, p, t)
 			_draw_player(ci, p, t)
 		else:
 			_draw_enemy(ci, e, t)
@@ -700,6 +705,7 @@ func _paint_fx(ci: CanvasItem) -> void:
 	RiftExtras.draw_hazards(ci, G.time)
 	EnemyAI2.draw_marks(ci, G.time)
 	RiftBosses.draw_over(ci, G.time)
+	Pets.draw_over(ci, G.player, G.time)
 
 # ---------- z 1900: additive glows ----------
 ## Small markers: a pink chevron over exposed foes (they take +25% damage), and

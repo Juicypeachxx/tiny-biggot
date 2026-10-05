@@ -145,6 +145,10 @@ func _draw() -> void:
 	draw_rect(Rect2(5, 28, 82, 3), TB.c("#140f1c"))
 	draw_rect(Rect2(6, 29, roundf(80.0 * p.xp / need), 1), TB.c("#b8e05a"))
 	Gfx.text(self, "LV %d" % p.level, 90, 27, "lime")
+	if Pets.active(p):
+		# The pet: its picture, name and level.
+		Gfx.sp(self, "pet_" + p.pet, 12, 47)
+		Gfx.text(self, "%s %s" % [Pets.pet_name(p.pet), "*".repeat(p.pet_lv)], 20, 38, "gold")
 	# (The special ability meter is drawn by _paint_anim: it animates every tick.)
 	# Racketeer heat meter (step 6): one pip per level.
 	if p.hero.get("hud", "") == "heat":

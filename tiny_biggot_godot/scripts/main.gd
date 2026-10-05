@@ -102,6 +102,10 @@ func _ready() -> void:
 		var step := DebugArgs.get_int("step", 0)
 		G.enter_room(World.make_room(G.floor_d, ["combat", "elite", "elite", "boss"][clampi(step, 0, 3)], "", "s",
 			{ "theme": DebugArgs.get_str("rift"), "step": step }))
+	# --pet=ID[:LEVEL] starts with a pet (scripts/entities/pets.gd).
+	if DebugArgs.has("pet"):
+		var pv := DebugArgs.get_str("pet").split(":")
+		Pets.give(G.player, pv[0], clampi(int(pv[1]) if pv.size() > 1 else 1, 1, 3))
 	# --spawn=TYPE puts one foe (a GameData.ENEMIES key) in the middle of the room (picture tests).
 	if DebugArgs.has("spawn"):
 		G.locked = true
