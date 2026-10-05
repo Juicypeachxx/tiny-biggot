@@ -26,7 +26,7 @@ tail -n 5 "$LOG"
 if grep -E "SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
 echo "== unit tests"
-timeout 900 "$GODOT" --headless --path . --quit-after 3000 res://tests/unit_tests.tscn >"$LOG" 2>&1
+timeout 900 "$GODOT" --headless --path . --quit-after 3000 res://tests/unit_tests.tscn -- --no-save >"$LOG" 2>&1
 tail -n 1 "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 

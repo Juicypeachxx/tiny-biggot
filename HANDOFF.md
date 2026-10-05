@@ -196,9 +196,22 @@ can walk into a pillar and stay there (seed 5, 91 min: room cleared, doors
 open and reachable); and with a locked hero (`--hero=5` without a save or
 `--unlock-all`) the bot cannot start a new run after dying. Both are the bot.
 
+**3.5, leaving and coming back (done).** Read through: the rules advance by
+`G.update(TB.DT)` once per physics tick, `max_physics_steps_per_frame=1`, so a
+suspended app resumes exactly where it was, with no jump. `Time.*` is used
+only for the SHOW FPS / perf readouts (WORST shows one long frame after
+coming back). Touches are dropped on focus loss (`touch_controls.gd`). Music
+is engine-paused by iOS. Added `G._notification`: on
+`NOTIFICATION_APPLICATION_PAUSED` or `FOCUS_OUT`, a fight in progress goes to
+the pause menu and `Meta.write_save()` runs. Test `_test_background` in
+`tests/unit_tests.gd` (unit tests now run with `--no-save` in check.sh).
+Not done: a run in progress is not saved; if iOS ends the app in the
+background, the run is lost (meta progress is saved). Not tested on iPad.
+
 ## Noted, not yet acted on
 
-- Nothing open.
+- Saving a run in progress (so iOS closing the app does not end it). Needs
+  his say: it is a large change (the whole run state).
 
 ## Tools
 

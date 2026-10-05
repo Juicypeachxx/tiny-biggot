@@ -10,6 +10,7 @@ func _ready() -> void:
 	_test_keyboard()
 	_test_menu_taps()
 	_test_synergy_loss()
+	_test_background()
 	print("unit tests: %s" % ("PASSED" if _fails == 0 else "%d FAILED" % _fails))
 	get_tree().quit(1 if _fails > 0 else 0)
 
@@ -162,3 +163,14 @@ func _test_synergy_loss() -> void:
 		_eq("%s rolls back" % tag, p.dodge_charges, base_rolls)
 		_eq("%s hp within max" % tag, p.hp <= p.max_hp and p.hp >= 1, true)
 		_eq("%s roll charges within limits" % tag, p.charges >= 0 and p.charges <= p.dodge_charges, true)
+
+## Going to the background mid-fight opens the pause menu; elsewhere nothing changes.
+func _test_background() -> void:
+	var was: StringName = G.state
+	G.state = &"play"
+	G.notification(NOTIFICATION_APPLICATION_PAUSED)
+	_eq("background in a fight pauses", G.state, &"pause")
+	G.state = &"title"
+	G.notification(NOTIFICATION_APPLICATION_FOCUS_OUT)
+	_eq("background on the title stays there", G.state, &"title")
+	G.state = was

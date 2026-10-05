@@ -1665,6 +1665,16 @@ func update_options() -> void:
 		Snd.play("confirm")
 		Meta.write_save()
 
+## The app goes to the background (iPad locked, another app opened): a fight in progress waits
+## in the pause menu, and the progress so far is saved in case iOS closes the app meanwhile.
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_APPLICATION_PAUSED or what == NOTIFICATION_APPLICATION_FOCUS_OUT:
+		if state == &"play":
+			state = &"pause"
+			menu = 0
+			quit_armed = false
+		Meta.write_save()
+
 func update_play(dt: float) -> void:
 	run_stats["time"] += dt
 	if Keys.pause():

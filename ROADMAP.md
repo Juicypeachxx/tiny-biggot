@@ -21,7 +21,7 @@ changed one), and carry on from there. What he says last outranks this file.
 |---|---|---|
 | 1 | The IPA installs and runs on the iPad | **Done** (he confirmed, 5 Oct) |
 | 2 | Performance patch | **Done**: nothing to patch (he reports a good 60 fps, 5 Oct) |
-| 3 | Stability patch | In progress (3.1-3.3 done) |
+| 3 | Stability patch | In progress (3.1-3.3, 3.5 done; 3.4 moved to 4.10) |
 | 4 | New content: environments, mobs, bosses, weapons, equipment, characters; everything unique | Not started |
 | 5 | Sprite revamp: every sprite redrawn, "cool and pixelated" | Not started |
 
@@ -106,7 +106,7 @@ Each step ends with `tools/check.sh` green.
       clean; object count levels off. See `HANDOFF.md`.)
 - [~] 3.4 Moved to 4.10 at his request (5 Oct): the monkey test runs once
       the new content is in, so it covers that too.
-- [ ] 3.5 **Leaving and coming back.** On iOS the game stops when the app
+- [x] 3.5 **Leaving and coming back.** On iOS the game stops when the app
       goes to the background. Check by reading the code that nothing depends
       on wall-clock time across that gap (cooldowns, music), and that a run in
       progress is not lost. Tell him what to try on the iPad: lock the screen
@@ -269,3 +269,8 @@ before-and-after picture for him, a new IPA.
   Cabal, Aion, GTA V, Saints Row 3 and Dead Cells, cool pixel effects,
   every one mechanically unique, and safe at any projectile count (written
   into stage 4). Next: 3.5, then 3.6 (the IPA that closes stage 3).
+- 5 Oct 2026: 3.5 done. Nothing in the rules uses the clock (fixed 1/60 s
+  steps, at most one per frame: no catch-up after a pause). New: going to the
+  background mid-fight opens the pause menu and saves progress. A run in
+  progress is still not saved: if iOS closes the app, that run is gone
+  (embers already earned are kept). Saving a run is a bigger job; asked him.
