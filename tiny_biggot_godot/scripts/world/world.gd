@@ -54,7 +54,7 @@ static func make_room(floor_d: Dictionary, kind: String, reward: String, entranc
 			room.champion = room.theme["champion"]
 	room.event = opts.get("event", "")
 	# Some fights hide a cracked wall on a side wall: bomb it to open a hidden room.
-	if (kind == "combat" or kind == "elite") and room.theme.is_empty() and TB.rnd() < 0.28:
+	if (kind == "combat" or kind == "elite") and room.theme.is_empty() and not opts.get("no_secret", false) and TB.rnd() < 0.28:
 		var sides := ["e", "w"]
 		sides.erase(entrance)
 		var side: String = TB.pick(sides)
@@ -291,6 +291,7 @@ static func open_secret(room: Room, d: String) -> void:
 	room.exits[d] = { "type": "secret", "reward": "" }
 	for cr in door_tiles(d):
 		room.set_tile(cr.x, cr.y, T_DOOR)
+	FloorMap.on_secret_opened(room, d)   # on a floor map, the wall hid a room of the map
 
 # ---------- Collision ----------
 static func solid(room: Room, c: int, r: int, mode: int) -> bool:

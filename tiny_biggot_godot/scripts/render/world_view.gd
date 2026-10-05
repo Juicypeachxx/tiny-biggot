@@ -284,7 +284,7 @@ func _paint_dyn(ci: CanvasItem) -> void:
 			continue
 		var ex = room.exits.get(d)
 		var fc := TB.c(GameData.ROOM_COL.get(ex["type"], "#8b8f9c") if ex != null else "#4e4a5e")
-		var shut: bool = G.locked or room.sealed.has(d) or d == room.entrance
+		var shut: bool = G.locked or room.sealed.has(d) or (d == room.entrance and not room.exits.has(d))
 		match d:
 			"n":
 				ci.draw_rect(Rect2(13 * ts - 3, 0, 2 * ts + 6, 2 * ts), ol)
@@ -443,6 +443,10 @@ func _paint_lower(ci: CanvasItem) -> void:
 					Gfx.sp(ci, o["relic"]["sprite"], x, y + bob, 2, 2)
 			"item":
 				var it: Dictionary = o["item"]
+				if ItemShow.active():
+					if o.get("pedestal", false):
+						ItemShow.pedestal(ci, x, y)
+					ItemShow.beam(ci, o, t)
 				Gfx.sp(ci, it["sprite"], x, y + 2 + bob, 1.5, 1.5)
 			"shop":
 				ci.draw_rect(Rect2(roundf(x - 9), roundf(y + 2), 18, 6), TB.c("#4e4a5e"))

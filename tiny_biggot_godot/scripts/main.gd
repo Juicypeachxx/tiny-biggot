@@ -55,6 +55,10 @@ func _ready() -> void:
 	add_child(menu_layer)
 	menus = MenuView.new()
 	menu_layer.add_child(menus)
+	var star_layer := CanvasLayer.new()
+	star_layer.layer = 26   # the constellation screen, over the menus
+	add_child(star_layer)
+	star_layer.add_child(StarView.new())
 	var top := CanvasLayer.new()
 	top.layer = 50
 	add_child(top)
@@ -111,6 +115,14 @@ func _ready() -> void:
 			G.player.pending = 2
 			G.offer_traits()
 		"hud": pass
+		"stars":   # the constellation; with --unlock-all, a few stars already taken
+			G.state = &"title"
+			StarView.open()
+			if DebugArgs.has("unlock-all"):
+				for id in ["n1", "n2", "n2b1", "n2b2", "n2b3", "e1", "s1", "s2"]:
+					Stars.taken()[id] = true
+				StarView.sel = Stars.nodes().find_custom(func(n): return n["id"] == "n2b3")
+				StarView.cam = Stars.nodes()[StarView.sel]["pos"] * 0.6
 		"inventory":
 			G.state = &"inventory"
 		"tree":

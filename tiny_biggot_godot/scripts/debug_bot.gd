@@ -53,7 +53,18 @@ func tick() -> void:
 		_room = G.room
 		rooms += 1
 		_door = ""
-	if _door == "" and not G.locked:
+	var map_done := false
+	if _door == "" and not G.locked and FloorMap.active():
+		_door = FloorMap.bot_door(G.room)   # the floor map: explore, then go to the guardian
+		if _door != "" and (not G.room.exits.has(_door) or G.room.sealed.has(_door)):
+			_door = ""
+		map_done = _door == ""   # nowhere left to go: the way on is the guardian's portal
+	if map_done:
+		for o in G.room.objects:
+			if o["kind"] in ["portal", "loopportal"] and not o.get("used", false):
+				_target = Vector2(o["x"], o["y"])
+				_retarget = 1.0
+	if _door == "" and not G.locked and not map_done:
 		var open := []
 		for d in G.room.exits:
 			if not G.room.sealed.has(d):

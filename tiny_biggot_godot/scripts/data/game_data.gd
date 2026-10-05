@@ -300,7 +300,7 @@ const ENEMIES := {
 	"shellpriest": { "sprite": "shellpriest", "hp": 20, "speed": 36, "r": 5, "ai": "shellpriest", "shot": "red", "gold": 0.45, "label": "a shell priest" },
 	"dervish": { "sprite": "dervish", "hp": 22, "speed": 44, "r": 5, "ai": "dervish", "rule": "dizzy", "shot": "red", "gold": 0.45, "label": "a bullet dervish" },
 	"deacon": { "sprite": "deacon", "hp": 16, "speed": 40, "r": 5, "ai": "deacon", "gold": 0.5, "label": "a deacon" },
-	"beltfeeder": { "sprite": "beltfeeder", "hp": 26, "speed": 40, "r": 6, "ai": "beltfeeder", "shot": "red", "gold": 0.5, "label": "a belt feeder" },
+	"beltfeeder": { "sprite": "beltfeeder", "hp": 26, "speed": 40, "r": 6, "ai": "beltfeeder", "shot": "red", "summon": "beltlink", "gold": 0.5, "label": "a belt feeder" },
 	"beltlink": { "sprite": "beltlink", "hp": 12, "speed": 40, "r": 5, "ai": "beltlink", "shot": "red", "gold": 0.1, "label": "a belt link" },
 	"ammomimic": { "sprite": "ammomimic", "hp": 22, "speed": 30, "r": 6, "ai": "ammomimic", "shot": "red", "gold": 0.6, "label": "an ammo mimic" },
 	# The original floors, expanded game only (EnemyAI2.OLD_FLOOR_EXTRA).
@@ -468,6 +468,8 @@ const ROOM_KINDS := {
 	"boss": { "name": "GUARDIAN", "icon": "icon_skull", "col": "red" }, "rest": { "name": "CAMPFIRE", "icon": "icon_fire", "col": "orange" },
 	# Rift worlds (a themed side stage) and mystery rooms (a random event).
 	"rift": { "name": "RIFT", "icon": "riftdoor", "col": "pink" }, "mystery": { "name": "MYSTERY", "icon": "icon_secret", "col": "pink" },
+	# The floor map: the way back to where the floor began, and out of a room off the map.
+	"start": { "name": "ENTRANCE", "icon": "icon_level", "col": "grey" }, "back": { "name": "BACK", "icon": "icon_level", "col": "grey" },
 }
 
 ## What a door shows: its room kind, with a rift door named after its world
@@ -488,4 +490,4 @@ static func door_kind(c: Dictionary) -> Dictionary:
 ## Door frame colours per room type (Render.rb ROOM_COL).
 const ROOM_COL := { "boss": "#d8443c", "treasure": "#f2c94c", "shop": "#63b84f", "shrine": "#a35bd6", "combat": "#8b8f9c",
 	"elite": "#d8443c", "rest": "#e8873a", "vault": "#e8873a", "secret": "#e86fb4", "challenge": "#6fd3e0",
-	"rift": "#e86fb4", "mystery": "#a35bd6" }
+	"rift": "#e86fb4", "mystery": "#a35bd6", "start": "#5c5a78", "back": "#5c5a78" }

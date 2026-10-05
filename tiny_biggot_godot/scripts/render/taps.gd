@@ -27,8 +27,9 @@ static func zones() -> Array:
 	var sw := TB.SW
 	match G.state:
 		&"title":
-			for i in G.TITLE_ITEMS.size():
-				out.append(_z(Rect2(sw / 2 - 85, 142 + i * 17 - 4, 170, 17), func(): G.menu = i, G.menu == i, true))
+			var dy := MenuView.title_dy()
+			for i in G.title_items().size():
+				out.append(_z(Rect2(sw / 2 - 85, 142 + i * dy - 4, 170, dy), func(): G.menu = i, G.menu == i, true))
 		&"options", &"pause":
 			var opts := G.state == &"options"
 			var n: int = G.OPTION_LIST.size() if opts else G.PAUSE_ITEMS.size()
@@ -85,6 +86,10 @@ static func zones() -> Array:
 			var x0 := (sw - (n * w + (n - 1) * gap)) / 2
 			for i in n:
 				out.append(_z(Rect2(x0 + i * (w + gap), 68, w, 144), func(): G.choice["idx"] = i, G.choice["idx"] == i))
+		&"traits" when TraitView.active():
+			for i in G.tchoice["opts"].size():
+				out.append(_z(TraitView.row_rect(i), func(): G.tchoice["idx"] = i, G.tchoice["idx"] == i))
+			out.append(_act(Rect2(sw / 2 + 40, TraitView.ROW_Y + 4 * TraitView.ROW_STEP + 4, 140, 14), func(): send(&"pause")))
 		&"traits":
 			var n: int = G.tchoice["opts"].size()
 			var x0 := (sw - (n * 128 + (n - 1) * 10)) / 2

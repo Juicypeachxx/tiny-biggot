@@ -130,6 +130,8 @@ func new_run() -> void:
 	if Meta.unlocked("perk_heart"):
 		p.max_hp += 2
 		p.hp += 2
+	if GameData.rogues():
+		Stars.apply_to(p)   # the constellation (scripts/game/stars.gd)
 	if dread >= 5:
 		p.max_hp = maxi(2, p.max_hp - 2)
 		p.hp = mini(p.hp, p.max_hp)
@@ -217,7 +219,12 @@ func start_floor() -> void:
 	Meta.write_save()
 	Snd.music(GameData.floor_music(floor_index))
 	room = null
-	enter_room(World.make_room(floor_d, "start", "", ""))
+	if FloorMap.wanted():
+		FloorMap.generate(floor_d, player)
+		floor_d["map"]["cells"][floor_d["map"]["start"]]["visited"] = true
+		enter_room(FloorMap.room_at(floor_d["map"]["start"], ""))
+	else:
+		enter_room(World.make_room(floor_d, "start", "", ""))
 	Effects.fire("on_floor_start")
 	state = &"play"
 	show_banner(GameData.floors()[floor_index]["name"], "FLOOR %d OF %d" % [floor_index + 1, GameData.floors().size()]
@@ -281,7 +288,7 @@ func enter_room(r: Room) -> void:
 			d.hp = 1e6
 	locked = false
 	_spawned = false
-	match room.type:
+	match "" if room.cleared else room.type:   # a cleared room on the floor map stays cleared
 		"combat", "elite":
 			locked = true
 			room.waves_left = (2 if room.type == "elite" else 1) + (1 if randf() < 0.25 + 0.08 * floor_index else 0)
@@ -326,6 +333,11 @@ func open_exits() -> void:
 		# Inside a rift there is one way on: deeper, and then to its champion.
 		World.assign_exits(room, [{ "type": "rift", "reward": "rare" if room.rift_step == 0 else "", "theme": room.theme["id"],
 			"step": room.rift_step + 1 }])
+	elif FloorMap.active():
+		if room.on_map:
+			FloorMap.link(room)
+		else:
+			FloorMap.link_back(room)   # a rift's last room, a hidden room: back to the map
 	else:
 		World.assign_exits(room, World.gen_choices(floor_d, player))
 	for d in room.exits:
@@ -341,6 +353,9 @@ func open_exits() -> void:
 func leave_room(dir: String) -> void:
 	var c = room.exits.get(dir)
 	if c == null:
+		return
+	if c.get("map", false):
+		_leave_on_map(dir, c)
 		return
 	# The second and third rooms of a rift are a detour, like a hidden room: the floor does not advance.
 	var inner: bool = c["type"] == "rift" and c.get("step", 0) > 0
@@ -368,6 +383,26 @@ func leave_room(dir: String) -> void:
 		if randf() < 0.18:
 			opts["event"] = TB.pick(EventRooms.SPECIAL)   # a special room: rarer than an event
 	var nr := World.make_room(floor_d, kind, reward, World.OPP[dir], opts)
+	start_fade(func(): enter_room(nr))
+
+## The floor map: through a door to the next room of the map (made the first time), back from a
+## room off the map, or into the floor's rift (its three rooms are off the map; the last leads back).
+func _leave_on_map(dir: String, c: Dictionary) -> void:
+	if c["type"] == "rift" and room.on_map:
+		var to: Vector2i = room.cell + World.DIRS[dir]
+		var cell: Dictionary = FloorMap.cells()[to]
+		floor_d["rift_done"] = true
+		run_stats["rifts"].append(cell["theme"])
+		FloorMap.close_cell(to)
+		var rr := World.make_room(floor_d, "combat", World.roll_reward(player), World.OPP[dir], { "theme": cell["theme"], "step": 0 })
+		start_fade(func(): enter_room(rr))
+		return
+	if c["type"] == "secret" and room.on_map:
+		var cell2: Dictionary = FloorMap.cells().get(room.cell + World.DIRS[dir], {})
+		if not cell2.is_empty() and not cell2["visited"]:
+			Meta.meta["secrets"] += 1
+			run_stats["secrets"] += 1
+	var nr := FloorMap.step(dir)
 	start_fade(func(): enter_room(nr))
 
 ## Events of a MYSTERY room, and the ones a hidden room may hold instead of its old three finds.
@@ -491,7 +526,9 @@ func setup_objects(r: Room) -> void:
 	var f := floor_index
 	match r.type:
 		"treasure":
-			if randf() < 0.35:
+			if ItemShow.active() and randf() < 0.4:
+				ItemShow.pedestal_room(r)   # the expanded game: three items on pedestals, take one
+			elif randf() < 0.35:
 				r.objects.append({ "kind": "chest", "x": cx - 24, "y": cy })
 				r.objects.append({ "kind": "ichest", "x": cx + 24, "y": cy })
 			else:
@@ -1278,7 +1315,10 @@ func offer_traits() -> void:
 		if w > 0:
 			cands.append([t, w])
 	var opts := []
-	for k in 3:
+	var n_opts := 3
+	if TraitView.active() and p.luck > 0 and randf() < minf(0.9, p.luck * 0.15):
+		n_opts = 4   # the expanded game: luck can add a fourth trait to choose from
+	for k in n_opts:
 		if cands.is_empty():
 			break
 		var tot := 0
@@ -1296,7 +1336,7 @@ func offer_traits() -> void:
 	if opts.is_empty():
 		p.pending = 0
 		return
-	tchoice = { "opts": opts, "idx": mini(1, opts.size() - 1) }
+	tchoice = { "opts": opts, "idx": 0 if TraitView.active() else mini(1, opts.size() - 1), "t0": time }
 	state = &"traits"
 
 func take_trait(t: Dictionary) -> void:
@@ -1345,20 +1385,24 @@ func update_choice() -> void:
 
 ## Trait pick: LEFT/RIGHT choose, USE takes it, MENU rerolls (limited).
 func update_traits() -> void:
+	if TraitView.active() and not TraitView.ready():
+		return   # the starburst and the rows coming in
 	menu = tchoice["idx"]
-	var go := menu_nav(tchoice["opts"].size(), true)
+	var go := menu_nav(tchoice["opts"].size(), not TraitView.active())
 	tchoice["idx"] = menu
 	if Keys.back():
 		if player.rerolls > 0:
 			player.rerolls -= 1
 			Snd.play("confirm")
 			offer_traits()
+			tchoice["t0"] = time - TraitView.BURST   # a reroll: the rows again, not the starburst
 		elif player.gold >= reroll_cost():
 			# New (design spec 4): once the free rerolls are gone, rerolls cost gold.
 			player.gold -= reroll_cost()
 			player.paid_rerolls += 1
 			Snd.play("coin")
 			offer_traits()
+			tchoice["t0"] = time - TraitView.BURST
 		else:
 			Snd.play("deny")
 		return
@@ -1394,6 +1438,9 @@ func update(dt: float) -> void:
 		return
 	match state:
 		&"title": update_title(dt)
+		&"stars":
+			update_embers(dt)
+			StarView.keys(dt)
 		&"hero": update_hero()
 		&"tree":
 			update_embers(dt)
@@ -1501,27 +1548,39 @@ func update_embers(dt: float) -> void:
 			keep.append(e)
 	embers = keep
 
+## The title menu; the expanded game adds the constellation (scripts/game/stars.gd).
+func title_items() -> Array:
+	var out: Array = TITLE_ITEMS.duplicate()
+	if GameData.rogues():
+		out.insert(2, "CONSTELLATION")
+	return out
+
+func title_index(item: String) -> int:
+	return maxi(0, title_items().find(item))
+
 func update_title(dt: float) -> void:
 	update_embers(dt)
-	if not menu_nav(TITLE_ITEMS.size()):
+	var items := title_items()
+	if not menu_nav(items.size()):
 		return
 	Snd.play("confirm")
-	match menu:
-		0:
+	match items[menu]:
+		"START RUN":
 			state = &"hero"
 			menu = hero_index
-		1:
+		"SKILL TREES":
 			state = &"tree"
 			tree_hero = hero_index
 			tree_b = 0
 			tree_n = 0
-		2:
+		"CONSTELLATION": StarView.open()
+		"EMBER SHRINE":
 			state = &"shrine"
 			menu = shrine_i
-		3:
+		"CODEX":
 			state = &"codex"
 			menu = codex_i
-		4: state = &"howto"
+		"HOW TO PLAY": state = &"howto"
 		_:
 			state = &"options"
 			opt_from = &"title"
@@ -1590,7 +1649,7 @@ func update_tree() -> void:
 		Snd.play("select")
 	if Keys.back():
 		state = &"hero" if tree_from == &"hero" else &"title"
-		menu = hero_index if tree_from == &"hero" else 1
+		menu = hero_index if tree_from == &"hero" else title_index("SKILL TREES")
 		tree_from = &""
 		Snd.play("select")
 		return
@@ -1627,7 +1686,7 @@ func update_shrine() -> void:
 	shrine_i = menu
 	if Keys.back():
 		state = &"title"
-		menu = 2
+		menu = title_index("EMBER SHRINE")
 		Snd.play("select")
 		return
 	if not go:
@@ -1662,12 +1721,12 @@ func update_codex() -> void:
 		Snd.play("select")
 	if Keys.back() or Keys.confirm():
 		state = &"title"
-		menu = 3
+		menu = title_index("CODEX")
 		Snd.play("select")
 
 func update_options() -> void:
 	var go := menu_nav(OPTION_LIST.size())
-	var back_menu := 5 if opt_from == &"title" else 4
+	var back_menu := title_index("OPTIONS") if opt_from == &"title" else 4
 	if Keys.back():
 		state = opt_from
 		menu = back_menu

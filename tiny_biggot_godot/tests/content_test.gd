@@ -188,6 +188,17 @@ func lint() -> void:
 		for need in c["needs"]:
 			if not ids.has(need):
 				fail("combo %s needs unknown item %s" % [c["id"], need])
+	# The constellation's stars (scripts/game/stars.gd): known stats and actions, the game font,
+	# and no notable star named like an item.
+	var names := {}
+	for t in [Relics.all(), Gear.all(), Weapons.all(), Traits.all()]:
+		for it in t:
+			names[String(it["name"])] = true
+	for n in Stars.nodes():
+		lint_effects("star " + n["id"], n["effects"], false)
+		_font("star " + n["id"], [n["name"], n["text"]])
+		if n["notable"] and names.has(n["name"]):
+			fail("star %s is named like an item: %s" % [n["id"], n["name"]])
 
 func _uniq(ids: Dictionary, kind: String, id: String) -> void:
 	var key := kind + ":" + id
@@ -465,6 +476,7 @@ func leveling() -> void:
 	var cost := G.reroll_cost()
 	p.pending += 1
 	G.state = &"traits"
+	G.tchoice["t0"] = G.time - 10.0   # past the level-up burst, when the screen takes keys
 	Input.action_press(&"pause")
 	Keys.tick()
 	G.update_traits()

@@ -222,6 +222,11 @@ func _bar_foe() -> Enemy:
 
 func _minimap() -> void:
 	var f := G.floor_d
+	if FloorMap.active():
+		FloorMap.draw_minimap(self, TB.SW - 6, 2)
+		var secs2 := int(G.run_stats.get("time", 0.0))
+		Gfx.text(self, "FLOOR %d  %02d:%02d" % [G.floor_index + 1, secs2 / 60, secs2 % 60], TB.SW - 6, 40, "bone", 1, 1)
+		return
 	var n: int = f["total"]
 	var w := 7
 	var ox := TB.SW - 6 - (n + 1) * w

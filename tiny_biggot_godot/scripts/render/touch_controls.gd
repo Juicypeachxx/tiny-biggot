@@ -104,6 +104,12 @@ func _layout() -> void:
 				aim_r = maxf(aim_r, aim_center.distance_to(b["pos"]) + b["r"])
 
 func _input(event: InputEvent) -> void:
+	if G.state == &"stars":
+		# The constellation reads fingers itself: drag, pinch, hold (scripts/render/star_view.gd).
+		if event is InputEventScreenTouch or event is InputEventScreenDrag:
+			StarView.touch(event)
+			get_viewport().set_input_as_handled()
+		return
 	if visible and _is_pad_or_key(event):
 		_hide()
 		return

@@ -128,8 +128,9 @@ func draw_title(ci: CanvasItem) -> void:
 	for i in shown.size():
 		_sprite(shown[i]["sprite"], TB.SW / 2 - (shown.size() - 1) * gap / 2 + i * gap, 128 + (-1 if floori(t * 3 + i) % 2 == 1 else 0),
 			2, i >= shown.size() / 2)
-	for i in G.TITLE_ITEMS.size():
-		_menu_item(ci, G.TITLE_ITEMS[i], TB.SW / 2, 142 + i * 17, i, 2, 170)
+	var items := G.title_items()
+	for i in items.size():
+		_menu_item(ci, items[i], TB.SW / 2, 142 + i * title_dy(), i, 2, 170)
 	var m := Meta.meta
 	var line := "EMBERS %d    RUNS %d    WINS %d    DEEPEST FLOOR %d" % [m["embers"], m["runs"], m["wins"], m["best"]]
 	if m.get("best_loop", 0) > 0:
@@ -139,6 +140,10 @@ func draw_title(ci: CanvasItem) -> void:
 	Gfx.text(ci, "PRESS USE TO SELECT", TB.SW / 2, 268, "dim", 1, 0.5)
 
 # ---------- Hero select ----------
+## Title menu row spacing (taps.gd uses it too): a little tighter with the constellation's row.
+static func title_dy() -> int:
+	return 17 if G.title_items().size() <= 6 else 15
+
 ## Hero strip geometry, shared with the tap zones (taps.gd): up to six panels
 ## are shown and the strip scrolls to keep the selected hero in view.
 ## Returns [first index, shown count, x of the first panel].

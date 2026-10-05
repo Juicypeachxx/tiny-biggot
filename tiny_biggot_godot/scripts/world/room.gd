@@ -37,6 +37,8 @@ var gusts: Array = []    # Skyreach Isles wind bands (hazards.gd)
 var tides: Array = []    # Drowned Bastion sludge waves (rift_extras.gd)
 var turrets: Array = []  # Caliber Cathedral wall guns (rift_extras.gd)
 var goo: Array = []      # webs and sludge left by foes (enemy_ai2.gd)
+var cell := Vector2i.ZERO # its place on the floor map (floor_map.gd)
+var on_map := false      # false: a room off the map (a rift's rooms, a hidden room, a debug room)
 var hits := 0            # times the hero was hurt in this room (a flawless fight can reveal a door)
 
 func tile(c: int, r: int) -> int:

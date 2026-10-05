@@ -37,8 +37,11 @@ func _paint_base(ci: CanvasItem) -> void:
 			_shade(ci, 215)
 			draw_choice(ci)
 		&"traits":
-			_shade(ci, 215)
-			draw_traits(ci)
+			if TraitView.active():
+				TraitView.draw(ci)
+			else:
+				_shade(ci, 215)
+				draw_traits(ci)
 
 # ---------- Prompts ----------
 func draw_exit_prompt(ci: CanvasItem) -> void:
@@ -161,7 +164,15 @@ func draw_item_prompt(ci: CanvasItem, o: Dictionary, it: Dictionary, price: int 
 	Gfx.panel(ci, px, py, w, h, GameData.RARITY_HEX[it["rarity"]])
 	var left := GameData.rogues()   # Rogues layer: left-aligned item cards
 	for i in lines.size():
-		Gfx.text(ci, lines[i][0], px + 5 if left else px + w / 2, py + 4 + i * 8, lines[i][1], 1, 0.0 if left else 0.5)
+		if ItemShow.active():
+			ItemShow.rich_line(ci, lines[i][0], px + 5, py + 4 + i * 8, lines[i][1])
+		else:
+			Gfx.text(ci, lines[i][0], px + 5 if left else px + w / 2, py + 4 + i * 8, lines[i][1], 1, 0.0 if left else 0.5)
+	if ItemShow.active():
+		var all := ""
+		for l in lines:
+			all += " " + l[0]
+		ItemShow.keyword_panels(ci, all, px, py, w)
 
 const SHOP_TEXT := {
 	"potion": ["RED POTION", "STORE IT. HEAL BUTTON HEALS 2 HEARTS"], "heart": ["HEART", "HEALS 1 HEART"],
@@ -390,6 +401,8 @@ func _paint_glow(ci: CanvasItem) -> void:
 			var x: int = g[3] + G.choice["idx"] * (g[1] + g[2])
 			Gfx.at(ci, "glow_white", x + g[1] / 2 - 24, 72 + 20)
 		&"traits":
+			if TraitView.active():
+				return
 			var x: int = _traits_x0(G.tchoice["opts"].size()) + G.tchoice["idx"] * 138
 			Gfx.at(ci, "glow_white", x + 128 / 2 - 24, 58 + 4)
 
