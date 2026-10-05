@@ -95,6 +95,7 @@ var charges := 0
 var repeat := 0
 # Rift bosses (rift_bosses.gd)
 var phase := 1                 # 2 below half health
+var charm_t := 0.0             # tamed by the tamer's whip: fights other foes (summons.gd)
 var puppet_t := 0.0            # a parasite's puppet: walks into other foes, then bursts (arsenal.gd)
 var parts: Array = []          # what it carries: an anchor, a bell, the hydra's heads
 

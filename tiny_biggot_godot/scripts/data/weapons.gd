@@ -63,6 +63,14 @@ const ARCH := {
 	"reload": { "name": "MAGAZINE GUN", "dmg": 4.0, "rate": 6.0, "speed": 300, "life": 0.8, "size": 1.0, "pierce": 0, "count": 1, "spread": 0.04, "homing": 0.0, "mag": 6, "reload": 1.0 },
 	"orbit": { "name": "STAR GATHERER", "dmg": 5.0, "rate": 2.2, "speed": 230, "life": 1.6, "size": 1.0, "pierce": 0, "count": 1, "spread": 0, "homing": 4.0, "stars": 6 },
 	"recall": { "name": "SNAPBACK", "dmg": 7.0, "rate": 1.6, "speed": 480, "life": 0.45, "size": 1.0, "pierce": 99, "count": 1, "spread": 0, "homing": 0.0 },
+	# ROADMAP 4.6 part 3, DECK AND DEN (scripts/combat/summons.gd): cards, turrets, summoned fighters.
+	"deck": { "name": "CARD DECK", "dmg": 5.0, "rate": 2.0, "speed": 360, "life": 0, "size": 1.0, "pierce": 0, "count": 1, "spread": 0, "homing": 0.0 },
+	"turret": { "name": "TURRET KIT", "dmg": 5.0, "rate": 0.5, "speed": 0, "life": 0, "size": 1.0, "pierce": 0, "count": 1, "spread": 0, "homing": 0.0 },
+	"thrall": { "name": "SUMMONING", "dmg": 4.0, "rate": 1.4, "speed": 230, "life": 0.9, "size": 1.0, "pierce": 0, "count": 1, "spread": 0.1, "homing": 0.0 },
+	"command": { "name": "PET COMMAND", "dmg": 7.0, "rate": 0.9, "speed": 0, "life": 0, "size": 1.0, "pierce": 0, "count": 1, "spread": 0, "homing": 0.0 },
+	"mirror": { "name": "MIRROR", "dmg": 2.4, "rate": 2.5, "speed": 260, "life": 0.8, "size": 1.0, "pierce": 0, "count": 1, "spread": 0.1, "homing": 0.0 },
+	"swarm": { "name": "SWARM", "dmg": 5.0, "rate": 1.5, "speed": 0, "life": 0, "size": 1.0, "pierce": 0, "count": 1, "spread": 0, "homing": 0.0 },
+	"egg": { "name": "EGG", "dmg": 3.6, "rate": 2.6, "speed": 240, "life": 0.8, "size": 1.0, "pierce": 0, "count": 1, "spread": 0.1, "homing": 0.0 },
 }
 const ARCH_DESC := {
 	"bolt": "FIRES FAST BOLTS", "orb": "HOMING BOLTS", "spin": "SPINNING THROWS THAT PIERCE", "shot": "A SPREAD OF SHOT",
@@ -79,10 +87,13 @@ const ARCH_DESC := {
 	"javelin": "THROW IT, THEN DASH TO IT", "hook": "PULLS A FOE IN, THEN PUNCHES", "combo": "THREE DIFFERENT ATTACKS IN TURN",
 	"heat": "FIRES FAST, OVERHEATS AND VENTS", "reload": "A MAGAZINE OF SHOTS, THEN A RELOAD", "orbit": "GATHERS STARS, THEN SENDS THEM",
 	"recall": "FLIES OUT AND WAITS TO BE CALLED BACK",
+	"deck": "A DECK OF CARDS, ONE PLAYED AN ATTACK", "turret": "BUILDS TURRETS THAT FIGHT BY THEMSELVES", "thrall": "CALLS FIGHTERS TO YOUR SIDE",
+	"command": "SENDS A SPIRIT AT THE FOE", "mirror": "IMAGES OF YOU THAT FIGHT TOO", "swarm": "A SWARM YOU SEND AT FOES",
+	"egg": "AN EGG THAT HATCHES A DRAGON",
 }
 const BULLET_KIND := { "bolt": "bolt", "orb": "hex", "spin": "spin", "shot": "clod", "flask": "flask", "boomer": "boomer",
 	"flame": "fire", "disc": "disc", "pulse": "pulse", "nova": "spark", "mine": "mine", "rail": "rail", "burst": "bolt",
-	"gatling": "bolt", "summon": "hex" }
+	"gatling": "bolt", "summon": "hex", "thrall": "hex", "mirror": "bolt", "egg": "hex" }
 const HERO_WEAPON := { "hexer": "hexwand", "poacher": "repeater", "brute": "pithatchet", "gravedigger": "graveshovel",
 	"alchemist": "flasksling", "warden": "lantern",
 	# Step 6 heroes (signature weapons are rows after content batch 1).
@@ -423,6 +434,32 @@ const ROWS := [
 	["magdump", "MAGDUMP CARBINE", "reload", "common", ["demolition"], "rifle", { "mag": 12, "rate": 9.0, "dmg": 2.6, "reload": 1.4, "throw_mag": 5.0 }, [], [], "TWELVE QUICK SHOTS. THE EMPTY MAGAZINE IS THROWN AT THE FOE AND BLOWS UP."],
 	["starcaller", "STARCALLER", "orbit", "epic", ["arcane", "swarm"], "rod", {}, [], [], "EACH ATTACK ADDS A STAR CIRCLING YOU THAT HURTS FOES IT TOUCHES. AT SIX THEY ALL FLY OUT AND HUNT."],
 	["snapback", "SNAPBACK DISC", "recall", "rare", ["edge", "storm"], "disc", {}, [], [], "FLIES OUT AND SPINS IN PLACE. YOUR NEXT ATTACK CALLS IT BACK THROUGH FOES FOR DOUBLE DAMAGE."],
+	# ---------- ROADMAP 4.6 part 3: DECK AND DEN (cards, turrets, summons; scripts/combat/summons.gd) ----------
+	["duelistdeck", "DUELIST'S DECK", "deck", "rare", ["edge"], "cards", { "deck": ["strike", "strike", "strike", "bash", "cleave", "flurry"] }, [], [], "PLAYS ONE CARD AN ATTACK: STRIKE, BASH, CLEAVE, FLURRY. THE NEXT THREE SHOW OVER YOUR HEAD."],
+	["poisonpack", "POISONER'S PACK", "deck", "epic", ["venom"], "cards", { "deck": ["toxin", "toxin", "toxin", "catalyst", "noxious", "strike"] }, [], [], "TOXIN POISONS, NOXIOUS LEAVES A CLOUD, AND CATALYST DOUBLES THE POISON ON EVERY FOE NEAR ITS TARGET."],
+	["shivdeck", "SHIV DECK", "deck", "rare", ["malice", "edge"], "cards", { "deck": ["dance", "dance", "shiv", "shiv", "finisher"] }, [], [], "SHIVS AND BLADE DANCES, THEN THE FINISHER: HARDER FOR EVERY CARD PLAYED SINCE THE LAST SHUFFLE."],
+	["countdowndeck", "COUNTDOWN DECK", "deck", "epic", ["demolition"], "cards", { "deck": ["bomb", "strike", "strike", "bash", "flurry"] }, [], [], "THE BOMB CARD LEAVES A BOMB THAT BLOWS WHEN THREE MORE CARDS HAVE BEEN PLAYED."],
+	["echodeck", "ECHO DECK", "deck", "legend", ["arcane"], "cards", { "deck": ["double", "strike", "cleave", "double", "flurry", "bash"] }, [], [], "DOUBLE TAP PLAYS THE NEXT CARD TWICE."],
+	["ascenddeck", "ASCENDING DECK", "deck", "rare", ["fortune"], "cards", { "deck": ["strike", "strike", "bash", "cleave", "flurry"], "ascend": true }, [], [], "EVERY SHUFFLE UPGRADES ONE CARD: +50% UNTIL YOU LEAVE THE ROOM."],
+	["sentrykit", "SENTRY KIT", "turret", "rare", ["bulwark"], "kit", { "turret": "gun" }, [], [], "EACH ATTACK BUILDS A GUN TURRET AT YOUR FEET, TWO AT A TIME. THEY SHOOT THE NEAREST FOE."],
+	["flamesentry", "FLAME SENTRY", "turret", "epic", ["pyre"], "kit", { "turret": "flame" }, [["burn", 0.3]], [], "TURRETS THAT SPRAY FIRE AT FOES CLOSE TO THEM. 30% BURN."],
+	["teslapair", "TESLA PAIR", "turret", "epic", ["storm"], "coil", { "turret": "tesla" }, [], [], "COILS THAT ZAP FOES NEAR THEM. TWO COILS ARE JOINED BY A BEAM THAT BURNS FOES CROSSING IT."],
+	["frostbeacon", "FROST BEACON", "turret", "rare", ["frost"], "beacon", { "turret": "frost" }, [], [], "BEACONS THAT PULSE COLD: FOES NEAR THEM ARE HURT AND CHILLED."],
+	["sawtrap", "SAW TRAP", "turret", "common", ["edge"], "trap", { "turret": "saw" }, [], [], "THROWS A SAW TRAP BY THE FOE YOU AIM AT. IT CUTS AND SLOWS WHAT WALKS OVER IT."],
+	["mendtotem", "MENDING TOTEM", "turret", "epic", ["venom", "bulwark"], "totem", { "turret": "mend" }, [], [], "TOTEMS THAT ZAP FOES. STANDING BY ONE HEALS HALF A HEART EVERY 12S."],
+	["gravecaller", "GRAVECALLER STAFF", "thrall", "epic", ["malice", "shadow"], "staff", { "thrall": "bones" }, [], [], "FOES YOU KILL RISE AS BONE THRALLS THAT FIGHT FOR YOU FOR 12S, UP TO 4."],
+	["claygolem", "CLAY GOLEM", "thrall", "legend", ["bulwark"], "clay", { "thrall": "golem", "dmg": 6.0 }, [], [], "EACH ATTACK ADDS CLAY TO YOUR GOLEM. IT GROWS FIVE TIMES, AND FULL-GROWN ITS PUNCHES SHAKE THE FLOOR."],
+	["implantern", "IMP LANTERN", "thrall", "rare", ["pyre", "shadow"], "lantern", { "thrall": "imp", "dmg": 6.0 }, [], [], "EACH ATTACK CALLS AN IMP, UP TO 3, THAT FLITS AROUND YOU THROWING FIREBALLS."],
+	["wolfhorn", "WOLF HORN", "thrall", "epic", ["fury", "blood"], "horn", { "thrall": "wolf" }, [], [], "EACH BLAST OF THE HORN SENDS THREE SPIRIT WOLVES AT THE FOE YOU AIM AT. THEIR BITES BLEED."],
+	["mimicchest", "MIMIC CHEST", "thrall", "rare", ["fortune"], "chest", { "thrall": "mimic", "dmg": 5.0 }, [], [], "A HUNGRY CHEST FOLLOWS YOU. EACH ATTACK IT HOPS ONTO A FOE AND CHOMPS. ITS KILLS DROP A COIN."],
+	["petwhistle", "PET WHISTLE", "command", "rare", ["fortune", "fury"], "whistle", { "command": "leap" }, [], [], "YOUR PET'S SPIRIT LEAPS AT THE FOE YOU AIM AT AND BITES, HARDER FOR EACH PET LEVEL. NO PET: A SPIRIT PUP."],
+	["shepherdcrook", "SHEPHERD'S CROOK", "command", "epic", ["bulwark", "fortune"], "crook", { "command": "lob" }, [], [], "LOBS A SHEEP ONTO THE FOE YOU AIM AT. IT BAAS, THEN BLOWS UP. WITH A PET, ITS SPIRIT GOES INSTEAD AND BLOWS BIGGER."],
+	["lookingglass", "LOOKING GLASS", "mirror", "epic", ["arcane"], "mirror", { "mirror": "image" }, [], [], "EACH ATTACK LEAVES A MIRROR IMAGE OF YOU, TWO AT A TIME, THAT FIRES WHEN YOU FIRE."],
+	["doppelganger", "DOPPELGANGER BLADE", "mirror", "legend", ["shadow", "edge"], "sword", { "mirror": "shadow", "dmg": 7.0, "rate": 2.2, "range": 30, "arc": 110 }, [], [], "YOUR SHADOW FOLLOWS ONE SECOND BEHIND YOU AND REPEATS EVERY CUT FROM WHERE IT IS."],
+	["batcloud", "BAT CLOUD", "swarm", "rare", ["shadow", "blood"], "bats", { "swarm": "bats" }, [], [], "EACH ATTACK ADDS BATS TO A CLOUD THAT FLIES AT THE FOE YOU AIM AT AND BITES ALL IN IT."],
+	["fireflyjar", "FIREFLY JAR", "swarm", "common", ["pyre"], "jar", { "swarm": "fireflies", "dmg": 4.0 }, [], [], "FIREFLIES CIRCLE THE FOE YOU AIM AT AND BURN IT. THREE ON ONE FOE FLARE UP IN A BLAST."],
+	["dragonegg", "DRAGON EGG", "egg", "legend", ["pyre", "arcane"], "egg", {}, [], [], "WARM IT BY HITTING FOES: 15 HITS HATCH A BABY DRAGON THAT BREATHES FIRE FOR THE REST OF THE ROOM.", [{ "on": "on_hit", "do": [["warm", 1]] }]],
+	["tamerswhip", "TAMER'S WHIP", "whip", "epic", ["fury"], "whip", { "dmg": 5.0 }, [], [], "25% OF HITS TAME AN ORDINARY FOE: FOR 8S IT FIGHTS FOR YOU.", [{ "on": "on_hit", "chance": 0.25, "cd": 1.0, "do": [["charm", 8.0]] }]],
 ]
 
 static var _by_id := {}

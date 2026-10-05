@@ -16,6 +16,10 @@ extends Node
 ##      was when you let go; a roll draws the swiftdraw bow fully at once; the chain glaive's chain
 ##      breaks on a miss; the javelin dash takes the javelin back; the anchor chain drags its foe
 ##      through another.
+##   6. Part 3 (summons.gd): the hand plays in the order shown, and shuffles back; catalyst doubles
+##      poison; a countdown bomb waits for three more cards; two tesla coils burn a foe between them;
+##      a mending totem heals; kills rise as bone thralls; the egg hatches, and is an egg again (half
+##      warm) in the next room; a tamed foe is not aimed at.
 ## Prints "arsenal test: PASSED" or a FAIL line per problem.
 
 ## Part 1 (MAYHEM): weapon id -> the trick (Arsenal.stats key) that shows it works.
@@ -33,9 +37,18 @@ const PART2 := { "plasmaslug": "full_hit", "shatterball": "shard", "gravityglobe
 	"cutlass": "finisher_crit", "chainglaive": "step_spin", "flarefist": "step_upper", "steamrepeater": "vent",
 	"reactorrifle": "hot_shot", "deadeye": "kill_reload", "magdump": "mag_throw", "starcaller": "launch",
 	"snapback": "recall_hit" }
+## Part 3 (DECK AND DEN): weapon id -> the trick (Summons.stats key).
+const PART3 := { "duelistdeck": "card_bash", "poisonpack": "catalyst", "shivdeck": "finisher_hit", "countdowndeck": "bomb_blow",
+	"echodeck": "doubled", "ascenddeck": "ascend", "sentrykit": "turret_shot", "flamesentry": "flame", "teslapair": "zap",
+	"frostbeacon": "frost_pulse", "sawtrap": "saw", "mendtotem": "mend_zap", "gravecaller": "bones_hit", "claygolem": "stomp",
+	"implantern": "fireball", "wolfhorn": "bite", "mimicchest": "chomp", "petwhistle": "pet_bite", "shepherdcrook": "sheep_blow",
+	"lookingglass": "image_shot", "doppelganger": "shadow_cut", "batcloud": "bat_bite", "fireflyjar": "flare",
+	"dragonegg": "hatch", "tamerswhip": "charm_hit" }
 ## Where the foes stand for a kind: close (fists, blades, combos), near (a slam's ring), else farther.
-const CLOSE := ["slash", "thrust", "whip", "combo"]
-const NEAR := ["slam"]
+const CLOSE := ["slash", "thrust", "combo", "mirror"]
+const NEAR := ["slam", "turret", "whip"]
+## Kinds fed weak foes now and then (their deaths are the trick: a reload, a thrall, a coin).
+const FEED := ["deadeye", "gravecaller", "mimicchest"]
 ## Kinds that move the hero (dashes): the test does not hold him in place.
 const FREE := ["dash", "javelin", "hook"]
 
@@ -52,11 +65,12 @@ func _ready() -> void:
 	Meta.opts["autofire"] = true
 	_data()
 	var only := DebugArgs.get_str("ids")   # --ids=a,b: only these weapons (any weapon, to compare with)
-	for id in (Array(only.split(",")) if only != "" else PART1.keys() + PART2.keys()):
-		_fight(id, PART1.get(id, PART2.get(id, "")))
+	for id in (Array(only.split(",")) if only != "" else PART1.keys() + PART2.keys() + PART3.keys()):
+		_fight(id, PART1.get(id, PART2.get(id, PART3.get(id, ""))))
 	if only == "":
 		_rolling()
 		_charging()
+		_den()
 	for n in notes:
 		print("[arsenal] ", n)
 	print("arsenal test: PASSED" if fails == 0 else "arsenal test: %d FAILED" % fails)
@@ -77,7 +91,7 @@ func _data() -> void:
 		if seen.has(w["name"]):
 			fail("two weapons named %s" % w["name"])
 		seen[w["name"]] = true
-	for id in PART1.keys() + PART2.keys():
+	for id in PART1.keys() + PART2.keys() + PART3.keys():
 		if not Weapons._by_id.has(id):
 			fail("no weapon " + id)
 			continue
@@ -176,8 +190,8 @@ func _run(id: String, extra: int, secs: float) -> Dictionary:
 		if id == "parasite" or id == "dynamite":
 			for e in foes:
 				e.hp = maxf(e.hp, 1e6)   # keep the targets standing
-		if id == "deadeye" and i % 90 == 45:
-			# A weak foe now and then: its death reloads the revolver.
+		if id in FEED and i % 90 == 45:
+			# A weak foe now and then: its death reloads the revolver, rises as a thrall, drops a coin.
 			var w := Combat.spawn_enemy("skeleton", G.player.x + 30.0, G.player.y - 50.0, false, true)
 			w.speed = 0.0
 			w.hp = 1.0
@@ -188,6 +202,7 @@ func _run(id: String, extra: int, secs: float) -> Dictionary:
 		total += ms
 		worst = maxf(worst, ms)
 		most_live = maxi(most_live, maxi(Arsenal.live.size(), maxi(Charged.balls.size(), maxi(Charged.rings.size(), Charged.stars.size()))))
+		most_live = maxi(most_live, maxi(Summons.turrets.size(), maxi(Summons.thralls.size(), maxi(Summons.swarms.size(), Summons.cards.size()))))
 		most_shots = maxi(most_shots, G.pbullets.size())
 	var dealt := 0.0
 	for e in foes:
@@ -199,14 +214,15 @@ func _fight(id: String, trick: String) -> void:
 		return
 	Arsenal.stats.clear()
 	Charged.stats.clear()
+	Summons.stats.clear()
 	var a := _run(id, 0, 8.0)
-	var seen: Dictionary = Charged.stats if PART2.has(id) else Arsenal.stats
+	var seen: Dictionary = Charged.stats if PART2.has(id) else (Summons.stats if PART3.has(id) else Arsenal.stats)
 	if a["dealt"] <= 0:
 		fail("%s did no damage in 8 s" % id)
 	if trick != "" and seen.get(trick, 0) <= 0:
 		fail("%s: its trick (%s) never happened; seen %s" % [id, trick, seen])
 	var b := _run(id, 999, 8.0)
-	var cap := Charged.MAX_BALLS if PART2.has(id) else Arsenal.MAX_LIVE
+	var cap := Charged.MAX_BALLS if PART2.has(id) or PART3.has(id) else Arsenal.MAX_LIVE
 	if b["live"] > cap:
 		fail("%s with 999 more projectiles: %d things alive (cap %d)" % [id, b["live"], cap])
 	if b["shots"] > Effects.pbullet_cap() + 64:
@@ -360,4 +376,127 @@ func _charging() -> void:
 	_tick(60, hold)
 	if Charged.stats.get("drag_hit", 0) < 1 or by.hp >= 1e6:
 		fail("the anchor chain did not drag its foe through the other (%s)" % Charged.stats)
+	Meta.opts["autofire"] = true
+
+## Part 3: the deck, catalyst, the countdown, the tesla beam, the totem, thralls, the egg, a tame.
+func _den() -> void:
+	Meta.opts["autofire"] = false
+	var hold := Vector2(14.0 * TB.TS, 13.0 * TB.TS)
+	var p := _start()
+	_arena()
+	p.x = hold.x
+	p.y = hold.y
+	var foes := _foes(p, false)
+	Weapons.equip_weapon(p, Weapons.by_id("duelistdeck"))
+	_tick(2, hold)
+	Summons.fire(p, -PI / 2, false)   # the first card makes the deck
+	var shown: Array = Summons.draw.slice(0, 3).map(func(c): return c["id"])
+	for i in 3:
+		Summons.fire(p, -PI / 2, false)
+	var played: Array = Summons.discard.slice(1, 4).map(func(c): return c["id"])
+	if played != shown:
+		fail("the deck did not play the hand in the order shown (%s, then %s)" % [shown, played])
+	Summons.stats.clear()
+	for i in 2:
+		Summons.fire(p, -PI / 2, false)
+	if Summons.stats.get("shuffle", 0) != 1 or Summons.draw.size() != 6 or not Summons.discard.is_empty():
+		fail("the deck did not shuffle back when its pile ran out (%d in the pile)" % Summons.draw.size())
+	# Catalyst: the poison on a foe near the target, doubled.
+	Weapons.equip_weapon(p, Weapons.by_id("poisonpack"))
+	_tick(2, hold)
+	for e in foes:
+		e.poison = 2.0
+	Summons.draw = [{ "id": "catalyst", "up": 0 }, { "id": "strike", "up": 0 }]
+	Summons.discard = []
+	var target := Summons._aimed(p, -PI / 2)
+	Summons.fire(p, -PI / 2, false)
+	_tick(25, hold)
+	for e in foes:
+		var near: bool = TB.dist(e, target) < 60.0 + e.r
+		if (near and e.poison < 3.0) or (not near and e.poison > 2.1):
+			fail("catalyst: a foe %.0f px from its target has %.1f poison (2 before)" % [TB.dist(e, target), e.poison])
+	# The countdown bomb: it blows when three more cards have been played.
+	Weapons.equip_weapon(p, Weapons.by_id("countdowndeck"))
+	_tick(2, hold)
+	Summons.draw = []
+	for id in ["bomb", "strike", "strike", "strike", "strike"]:
+		Summons.draw.append({ "id": id, "up": 0 })
+	Summons.discard = [{ "id": "flurry", "up": 0 }]
+	Summons.stats.clear()
+	Summons.fire(p, -PI / 2, false)
+	_tick(30, hold)
+	for i in 2:
+		Summons.fire(p, -PI / 2, false)
+		_tick(2, hold)
+	if Summons.stats.get("bomb_blow", 0) > 0 or Summons.bombs.size() != 1:
+		fail("the countdown bomb blew too soon")
+	Summons.fire(p, -PI / 2, false)
+	_tick(2, hold)
+	if Summons.stats.get("bomb_blow", 0) != 1:
+		fail("the countdown bomb did not blow after three more cards")
+	# Two tesla coils, a foe between them.
+	p = _start()
+	_arena()
+	p.x = hold.x - 40.0
+	p.y = hold.y
+	Weapons.equip_weapon(p, Weapons.by_id("teslapair"))
+	_tick(2)
+	Summons.fire(p, 0.0, false)
+	p.x = hold.x + 40.0
+	Summons.fire(p, 0.0, false)
+	var mid := Combat.spawn_enemy("skeleton", hold.x, hold.y - 8.0, false, true)
+	mid.speed = 0.0
+	mid.hp = 1e6
+	mid.max_hp = 1e6
+	Summons.stats.clear()
+	_tick(30, Vector2(hold.x + 40.0, hold.y))
+	if Summons.stats.get("link", 0) < 1:
+		fail("two tesla coils did not burn the foe between them (%s)" % Summons.stats)
+	# The mending totem: half a heart for 12 s by it.
+	p = _start()
+	_arena()
+	p.x = hold.x
+	p.y = hold.y
+	Weapons.equip_weapon(p, Weapons.by_id("mendtotem"))
+	_tick(2, hold)
+	Summons.fire(p, 0.0, false)
+	p.hp = p.max_hp - 1
+	for i in 60 * 13:
+		p.x = hold.x
+		p.y = hold.y
+		Keys.tick()
+		G.update(TB.DT)
+	if p.hp != p.max_hp:
+		fail("standing by the mending totem for 13 s did not heal (%d of %d)" % [p.hp, p.max_hp])
+	# The gravecaller: a kill rises as a bone thrall.
+	Weapons.equip_weapon(p, Weapons.by_id("gravecaller"))
+	_tick(2, hold)
+	var weak := Combat.spawn_enemy("skeleton", p.x + 20.0, p.y, false, true)
+	Combat.damage_enemy(weak, 1e9, { "no_crit": true })
+	_tick(2, hold)
+	if Summons.thralls.filter(func(o): return o["k"] == "bones").size() != 1:
+		fail("a kill with the gravecaller did not rise as a thrall")
+	# The dragon egg: 15 warms hatch it; in the next room it is an egg again, half warm.
+	Weapons.equip_weapon(p, Weapons.by_id("dragonegg"))
+	_tick(2, hold)
+	Summons.warm(14)
+	if not Summons.dragon.is_empty():
+		fail("the egg hatched before 15 warms")
+	Summons.warm(1)
+	if Summons.dragon.is_empty():
+		fail("15 warms did not hatch the egg")
+	_arena()
+	_tick(2, hold)
+	if not Summons.dragon.is_empty() or Summons.warmth != Summons.HATCH / 2:
+		fail("in the next room the dragon is not an egg again, half warm (warmth %d)" % Summons.warmth)
+	# A tamed foe is not aimed at.
+	p = _start()
+	_arena()
+	p.x = hold.x
+	p.y = hold.y
+	var tame := Combat.spawn_enemy("skeleton", p.x + 30.0, p.y, false, true)
+	var other := Combat.spawn_enemy("skeleton", p.x + 120.0, p.y, false, true)
+	Summons.charm(tame, 8.0)
+	if tame.charm_t <= 0 or Combat.auto_target(p, 320) != other:
+		fail("a tamed foe is still aimed at (or was not tamed)")
 	Meta.opts["autofire"] = true

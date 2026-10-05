@@ -162,7 +162,8 @@ static func fire(p: Player, a: float, forced: bool) -> void:
 				var off := Vector2.ZERO if i == 0 else Vector2.from_angle(TAU * i / shots + a) * 26.0
 				var to := RiftBosses._inside(at + off)
 				var o := base.duplicate()
-				o.merge({ "k": "mortar", "x0": p.x, "y0": p.y - 6, "x": to.x, "y": to.y, "fuse": fuse * (1.0 + 0.1 * i), "zone": w.get("zone", "") })
+				o.merge({ "k": "mortar", "x0": p.x, "y0": p.y - 6, "x": to.x, "y": to.y, "fuse": fuse * (1.0 + 0.1 * i), "zone": w.get("zone", ""),
+					"fuse0": fuse * (1.0 + 0.1 * i), "e": weakref(tgt) if tgt != null else null, "ox": off.x, "oy": off.y })
 				_add(o)
 			Snd.play("boom")
 		"walker":
@@ -445,6 +446,13 @@ static func _move(o: Dictionary, p: Player, room: Room, dt: float) -> bool:
 			return _missile(o, room, dt)
 		"mortar":
 			o["fuse"] -= dt
+			# The shell follows its foe for most of the flight (the ring moves with it), so a quick
+			# foe cannot always step out from under it.
+			var e: Enemy = o["e"].get_ref() if o.get("e") != null else null
+			if e != null and e.hp > 0 and o["fuse"] > o["fuse0"] * 0.3:
+				var to := RiftBosses._inside(Vector2(e.x + o["ox"], e.y + o["oy"]))
+				o["x"] = to.x
+				o["y"] = to.y
 			if o["fuse"] <= 0:
 				_stat("shell")
 			return o["fuse"] > 0

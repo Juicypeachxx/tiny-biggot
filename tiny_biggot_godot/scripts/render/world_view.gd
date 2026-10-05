@@ -357,6 +357,7 @@ func _paint_lower(ci: CanvasItem) -> void:
 	RiftBosses.draw_ground(ci, t)
 	Arsenal.draw_floor(ci, t)
 	Charged.draw_floor(ci, t)
+	Summons.draw_floor(ci, t)
 	var fancy := Vfx.enabled
 	if fancy:
 		Vfx.draw_floor(ci, t)
@@ -658,6 +659,8 @@ func _draw_enemy(ci: CanvasItem, e: Enemy, t: float) -> void:
 		tint = TB.rgba(111, 211, 224, 130)
 	if e.puppet_t > 0:
 		tint = TB.rgba(163, 91, 214, 150) if floori(t * 8) % 2 == 0 else TB.rgba(163, 91, 214, 90)   # a puppet
+	elif e.charm_t > 0:
+		tint = TB.rgba(232, 111, 180, 130)   # tamed: fights for you
 	if e.state == &"charge" and e.stun_t <= 0.0 and Vfx.enabled and (not boss or e.sub == 2):
 		# A charge leaves afterimages behind the runner.
 		for k in range(3, 0, -1):
@@ -717,6 +720,7 @@ func _paint_fx(ci: CanvasItem) -> void:
 	Pets.draw_over(ci, G.player, G.time)
 	Arsenal.draw_over(ci, G.time)
 	Charged.draw_over(ci, G.time)
+	Summons.draw_over(ci, G.time)
 
 # ---------- z 1900: additive glows ----------
 ## Small markers: a pink chevron over exposed foes (they take +25% damage), and

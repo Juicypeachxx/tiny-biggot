@@ -45,6 +45,8 @@ extends RefCounted
 ##   ROADMAP 4.6 weapons (scripts/combat/arsenal.gd):
 ##   ["plant", delay, dmg_mult, radius]   a charge on the foe that blows a moment later
 ##   ["puppet", seconds]                  the foe walks into another foe and bursts
+##   ["charm", seconds]                   an ordinary foe fights for you (summons.gd)
+##   ["warm", n]                          the dragon egg grows warmer; at 15 it hatches (summons.gd)
 
 ## Cartomancer deck: [name, actions]. The hook "card_double" plays each card twice.
 const CARDS := [
@@ -259,6 +261,12 @@ static func run(a: Array, stacks: int, ctx: Dictionary) -> void:
 		"puppet":
 			# ["puppet", seconds]: the foe walks into another and bursts (arsenal.gd)
 			Arsenal.puppet(ctx.get("enemy"), float(a[1]))
+		"charm":
+			# ["charm", seconds]: an ordinary foe fights for you (summons.gd)
+			Summons.charm(ctx.get("enemy"), float(a[1]))
+		"warm":
+			# ["warm", n]: the dragon egg grows warmer (summons.gd)
+			Summons.warm(int(a[1]) * stacks)
 		"transmute":
 			var e: Enemy = ctx.get("enemy")
 			if e != null and e.hp > 0 and not e.elite and not e.is_boss() and e.type != "dummy" and not e.d.get("mini", false):

@@ -35,7 +35,7 @@ nearest your aim (no farther than the arm throws), and a grenade rolling into a 
 | LOCK-ON LAUNCHER | missile | locks on to the toughest foe, then a missile that never misses; +50% to elites |
 | STICKY JAR | sticky | sticks to foes and walls; rolling sets it off at once |
 | LIMPET CHARGES | sticky | charges wait; every 4th throw is the click that sets them all off, each stronger for the others |
-| POCKET MORTAR | mortar | lobbed over walls onto the foe you aim at |
+| POCKET MORTAR | mortar | lobbed over walls onto the foe you aim at (the shell follows it most of the way) |
 | SNOWGLOBE MORTAR | mortar | leaves a snowstorm for 3 s; chilled foes take +30% |
 | CLOCKWORK MICE | walker | two wind-up mice run to the nearest foe and blow |
 | ROLLING KEG | walker | rolls straight, bounces off two walls, blows on the first foe |
@@ -111,7 +111,61 @@ disc also grow, up to twice as big). The choke adds pellets up to 14 and the sta
 up to 12, then they merge. Heat and magazine guns fire through the usual shot path. Shots in
 flight never pass 24, rings 12, stars 12.
 
+## Part 3: DECK AND DEN (cards, summons and companions)
+
+Seven new attack kinds (`scripts/combat/summons.gd`), and a taming whip:
+
+- **deck** (Slay the Spire's idea): a deck of cards, one played an attack. The next three show
+  over the hero's head; when the pile runs out the played cards are shuffled back in (a short
+  pause). Cards fly to the foe you aim at. Entering a room shuffles the whole deck anew.
+- **turret**: each attack builds a turret (or a trap) by you; two at a time, the oldest goes.
+- **thrall**: fighters on your side, who cannot be hurt.
+- **command**: your pet's spirit (or a sheep) sent at the foe you aim at.
+- **mirror**: images of you that fire when you fire, or a shadow that repeats your cuts.
+- **swarm**: a bat cloud or fireflies sent at the foe you aim at.
+- **egg**: hits warm the egg; at 15 a baby dragon hatches for the room (the next room: an egg
+  again, half warm).
+
+| Weapon | Kind | What makes it different |
+|---|---|---|
+| DUELIST'S DECK | deck | strikes, a bash (vulnerable), a cleave all round, a flurry of four hits |
+| POISONER'S PACK | deck | toxin, a noxious cloud, and catalyst: the poison on every foe near its target doubled |
+| SHIV DECK | deck | shivs and blade dances, then the finisher: harder for every card since the shuffle |
+| COUNTDOWN DECK | deck | the bomb card: a bomb that blows when three more cards have been played |
+| ECHO DECK | deck | double tap: the next card is played twice |
+| ASCENDING DECK | deck | every shuffle upgrades one card (+50%) until you leave the room |
+| SENTRY KIT | turret | gun turrets |
+| FLAME SENTRY | turret | turrets that spray fire close by |
+| TESLA PAIR | turret | coils that zap; two coils are joined by a beam that burns foes crossing it |
+| FROST BEACON | turret | beacons that pulse cold |
+| SAW TRAP | turret | thrown by the foe you aim at: cuts and slows what walks over it |
+| MENDING TOTEM | turret | zaps foes; standing by it heals half a heart every 12 s |
+| GRAVECALLER STAFF | thrall | foes you kill rise as bone thralls (12 s, four at most) |
+| CLAY GOLEM | thrall | each attack adds clay: the golem grows five times, then its punches shake the floor |
+| IMP LANTERN | thrall | imps that flit around you throwing fireballs (three at most) |
+| WOLF HORN | thrall | three spirit wolves run at the foe you aim at; their bites bleed |
+| MIMIC CHEST | thrall | a chest that follows you and hops onto foes to chomp; its kills drop a coin |
+| PET WHISTLE | command | your pet's spirit leaps and bites, harder for each pet level (no pet: a spirit pup) |
+| SHEPHERD'S CROOK | command | lobs a sheep that baas, then blows (with a pet: its spirit, a bigger blast) |
+| LOOKING GLASS | mirror | each attack leaves a mirror image (two at a time) that fires when you fire |
+| DOPPELGANGER BLADE | mirror | your shadow follows a second behind and repeats every cut from where it is |
+| BAT CLOUD | swarm | each attack adds bats to a cloud that flies at the foe and bites all in it |
+| FIREFLY JAR | swarm | fireflies circle the foe and burn it; three on one foe flare up in a blast |
+| DRAGON EGG | egg | 15 hits hatch a baby dragon that breathes fire for the room |
+| TAMER'S WHIP | whip | 25% of hits tame an ordinary foe: for 8 s it fights for you (and is not aimed at) |
+
++1 projectile: cards, turrets, thralls, the pet's leap, the bats and the dragon hit 35% harder
+for each projectile past the first; a blade dance throws up to 8 shivs and a horn calls up to 6
+wolves, then they merge. A mirror image fires at most three shots, the rest merged into them.
+
 ## Code
+
+`scripts/combat/summons.gd` (class `Summons`): `fire` (from `Combat.player_shoot`), `tick` (from
+`Hazards.update`), `draw_floor` and `draw_over` (world_view), `on_kill` (bone thralls), the
+actions `charm` and `warm` (`actions.gd`), and `charm_tick` (from `Combat.update_enemies` for a
+tamed foe, which also does not hurt you by touch and is skipped by `Combat.auto_target`; drawn
+pink). Sprites: `s_bones`, `s_golem`, `s_imp`, `s_wolf`, `s_mimic`, `s_sheep`, `s_dragon`,
+`s_egg`; mirror images and the shadow are the hero's own sprite, tinted.
 
 `scripts/combat/charged.gd` (class `Charged`): `hold` (the charge, from
 `Combat._update_player_base` in place of the usual cooldown for the held kinds), `fire` (from

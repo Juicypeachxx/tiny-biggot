@@ -14,7 +14,7 @@ and the look of an attack. A gear piece's set counts for "same", not for "near".
 
 | | Items | Original | New | In a "same" group | In a "near" group | New items in a "near" group | Numbers only (new) |
 |---|---|---|---|---|---|---|---|
-| Weapons | 302 | 113 | 189 | 4 | 33 | 4 | 50 (16) |
+| Weapons | 327 | 113 | 214 | 4 | 33 | 4 | 50 (16) |
 | Relics | 173 | 66 | 107 | 6 | 6 | 0 | 48 (0) |
 | Gear | 231 | 96 | 135 | 0 | 10 | 0 | 46 (0) |
 
@@ -366,6 +366,31 @@ hexwand (ORIGINAL), emberwand (ORIGINAL), rimerod (ORIGINAL), pithatchet (ORIGIN
 | magdump | MAGDUMP CARBINE | new | `reload | throw_mag |  |  | ` |
 | starcaller | STARCALLER | new | `orbit |  |  |  | ` |
 | snapback | SNAPBACK DISC | new | `recall |  |  |  | ` |
+| duelistdeck | DUELIST'S DECK | new | `deck | deck=strike/strike/strike/bash/cleave/flurry |  |  | ` |
+| poisonpack | POISONER'S PACK | new | `deck | deck=toxin/toxin/toxin/catalyst/noxious/strike |  |  | ` |
+| shivdeck | SHIV DECK | new | `deck | deck=dance/dance/shiv/shiv/finisher |  |  | ` |
+| countdowndeck | COUNTDOWN DECK | new | `deck | deck=bomb/strike/strike/bash/flurry |  |  | ` |
+| echodeck | ECHO DECK | new | `deck | deck=double/strike/cleave/double/flurry/bash |  |  | ` |
+| ascenddeck | ASCENDING DECK | new | `deck | deck=strike/strike/bash/cleave/flurry,ascend |  |  | ` |
+| sentrykit | SENTRY KIT | new | `turret | turret=gun |  |  | ` |
+| flamesentry | FLAME SENTRY | new | `turret | turret=flame | burn |  | ` |
+| teslapair | TESLA PAIR | new | `turret | turret=tesla |  |  | ` |
+| frostbeacon | FROST BEACON | new | `turret | turret=frost |  |  | ` |
+| sawtrap | SAW TRAP | new | `turret | turret=saw |  |  | ` |
+| mendtotem | MENDING TOTEM | new | `turret | turret=mend |  |  | ` |
+| gravecaller | GRAVECALLER STAFF | new | `thrall | thrall=bones |  |  | ` |
+| claygolem | CLAY GOLEM | new | `thrall | thrall=golem |  |  | ` |
+| implantern | IMP LANTERN | new | `thrall | thrall=imp |  |  | ` |
+| wolfhorn | WOLF HORN | new | `thrall | thrall=wolf |  |  | ` |
+| mimicchest | MIMIC CHEST | new | `thrall | thrall=mimic |  |  | ` |
+| petwhistle | PET WHISTLE | new | `command | command=leap |  |  | ` |
+| shepherdcrook | SHEPHERD'S CROOK | new | `command | command=lob |  |  | ` |
+| lookingglass | LOOKING GLASS | new | `mirror | mirror=image |  |  | ` |
+| doppelganger | DOPPELGANGER BLADE | new | `mirror | range,arc,mirror=shadow |  |  | ` |
+| batcloud | BAT CLOUD | new | `swarm | swarm=bats,swarm=bats |  |  | ` |
+| fireflyjar | FIREFLY JAR | new | `swarm | swarm=fireflies,swarm=fireflies |  |  | ` |
+| dragonegg | DRAGON EGG | new | `egg |  |  |  | on_hit>warm` |
+| tamerswhip | TAMER'S WHIP | new | `whip |  |  |  | on_hit>charm` |
 
 ## Relics
 

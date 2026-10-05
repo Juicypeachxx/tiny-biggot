@@ -37,8 +37,8 @@ static func auto_target(p: Player, max_d: float) -> Enemy:
 	var fb: Enemy = null
 	var fd := max_d
 	for e in G.enemies:
-		if not e.targetable():
-			continue
+		if not e.targetable() or e.charm_t > 0:
+			continue   # (a tamed foe fights for you: summons.gd)
 		var d := TB.dist(p, e)
 		if d < fd:
 			fd = d
@@ -298,6 +298,7 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 	RiftBosses.on_kill(e)
 	Pets.on_kill(e)
 	Charged.on_kill(e)   # the deadeye reloads
+	Summons.on_kill(e)   # the gravecaller raises it
 	var boss := e.is_boss()
 	var cols := ["#f4ecd8", "#f2c94c", "#d8443c", "#a35bd6"] if boss else ["#f4ecd8", "#8b8f9c", GameData.SPRITE_COLOR.get(e.d["sprite"], "#d8443c")]
 	if boss and e.boss == "rex":
@@ -595,6 +596,8 @@ static func update_enemies(dt: float) -> void:
 		e.t -= ddt
 		if e.puppet_t > 0:
 			Arsenal.puppet_tick(e, ddt)   # a puppet walks into other foes (arsenal.gd)
+		elif e.charm_t > 0:
+			Summons.charm_tick(e, ddt)   # a tamed foe fights for you (summons.gd)
 		elif e.is_boss():
 			BossAI.update_boss(e, ddt)
 		else:
@@ -605,7 +608,7 @@ static func update_enemies(dt: float) -> void:
 			e.ky *= 0.82
 			if absf(e.kx) < 2: e.kx = 0.0
 			if absf(e.ky) < 2: e.ky = 0.0
-		if not e.hidden and TB.dist(e, p) < e.r + p.r and not e.d.has("no_touch") and e.puppet_t <= 0:
+		if not e.hidden and TB.dist(e, p) < e.r + p.r and not e.d.has("no_touch") and e.puppet_t <= 0 and e.charm_t <= 0:
 			hurt_player(1, e.d["name"] if e.is_boss() else e.d.get("label", "a " + e.type))
 			if p.thorns > 0 and not e.thorn_cd > 0:
 				damage_enemy(e, p.thorns, { "no_crit": true, "col": "green" })
@@ -802,6 +805,8 @@ static func player_shoot(p: Player, a: float, echo_ok: bool = true) -> void:
 				Snd.play("shoot")
 		"zap":
 			attack_zap(p, a, forced)
+		_ when Summons.handles(w["kind"]):
+			made = Summons.fire(p, a, forced)   # decks, turrets, summons (summons.gd)
 		_ when Charged.handles(w["kind"]):
 			made = Charged.fire(p, a, forced)   # charged and two-stage kinds (charged.gd)
 		_ when Arsenal.handles(w["kind"]):
@@ -850,7 +855,7 @@ static func player_shoot(p: Player, a: float, echo_ok: bool = true) -> void:
 		dt_.split = 0
 	if echo_ok and p.echo > 0 and randf() < p.echo:
 		p.volleys.append({ "t": 0.15 })
-	if not w["kind"] in ["slash", "thrust", "whip", "beam", "zap", "wave", "slam", "dash", "combo", "hook", "javelin", "recall", "orbit"]:
+	if not w["kind"] in ["slash", "thrust", "whip", "beam", "zap", "wave", "slam", "dash", "combo", "hook", "javelin", "recall", "orbit", "deck", "turret", "thrall", "command", "swarm"]:
 		Fx.particle(p.x + cos(a) * 8, p.y - 2 + sin(a) * 8, 0, 0, 0.06, "#fffbe0", 3)
 	if not p.procs.is_empty():
 		Effects.fire("on_shoot", { "x": p.x, "y": p.y })

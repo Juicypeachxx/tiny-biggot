@@ -267,7 +267,10 @@ look (stage 5 redraws everything together later).
         weapons, ten new attack kinds (charge, slam, dash, javelin, hook,
         combo, heat, reload, orbit, recall). See `ARSENAL.md`. IPA built
         after it.
-      - [ ] Part 3: cards, summons and companions.
+      - [x] Part 3, DECK AND DEN (5 Oct): 25 weapons of cards, turrets,
+        summons and companions, seven new attack kinds (deck, turret,
+        thrall, command, mirror, swarm, egg) and a taming whip. See
+        `ARSENAL.md`. IPA built after it.
       - [ ] Part 4: gunplay and oddities.
 - [ ] 4.7 **New equipment and relics.** Proposal: 40 gear pieces over the 8
       slots, with at least 3 new sets, and 20 relics, aimed at the thin spots

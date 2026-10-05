@@ -141,9 +141,9 @@ func _mech(w: Dictionary) -> String:
 			out.append("count-")
 		elif k in ["pierce", "bounce", "chain"] and b > a:
 			out.append(k + "+")
-	for k in Arsenal.TWISTS + Charged.TWISTS:
+	for k in Arsenal.TWISTS + Charged.TWISTS + Summons.TWISTS:
 		if w.has(k) and not base.has(k) and w[k]:
-			# A twist on a ROADMAP 4.6 kind (arsenal.gd, charged.gd). A list or a word is part of the
+			# A twist on a ROADMAP 4.6 kind (arsenal.gd, charged.gd, summons.gd). A list or a word is part of the
 			# mechanic (a combo's steps, a mortar's zone); a number is not.
 			var v = w[k]
 			if v is Array:

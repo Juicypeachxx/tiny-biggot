@@ -455,6 +455,39 @@ Full-content replays re-recorded; the 6 classic ones identical.
 `tools/check.sh`: CHECK PASSED. The IPA with part 2 was pushed with `[ipa]`
 after that (release `ipa-latest`). Not tested on the iPad.
 
+**4.6 part 3, DECK AND DEN (done).** 25 weapons: card decks (a real deck:
+the next three cards over the hero, a shuffle when the pile runs out),
+turrets and traps, summoned fighters (bone thralls from kills, a growing clay
+golem, imps, a wolf pack, a mimic), pet commands, mirror images and a
+shadow, swarms, a dragon egg, and a whip that tames foes. Details in
+`tiny_biggot_godot/ARSENAL.md`. `scripts/combat/summons.gd` (class
+`Summons`); new hooks: `player_shoot`, `kill_enemy` (`Summons.on_kill`),
+`update_enemies` (a tamed foe's turn, `Enemy.charm_t`; no touch damage),
+`auto_target` (skips tamed foes), the actions `charm` and `warm`,
+`Hazards.update`, `G.enter_room`, `world_view` (pink tint for tamed foes).
+Eight new sprites (`s_*`); mirror images and the shadow are the hero's
+sprite, tinted. Found and fixed: a soak caught the mimic never catching a
+fast wisp (it hopped to where the foe had been), which left the bot stuck in
+one room for ten minutes; the hop now follows its foe, and bone thralls and
+the golem move fast enough for quick foes. The mending totem, the pet whistle
+and the frost beacon were far weaker than the rest (the bot cleared 14-42
+rooms in 10 minutes against about 90) and were made stronger (the totem now
+72). The looking glass's images fire at most three shots each (with 999 more
+projectiles they had tripled the cost: worst tick 45 ms, now 13 ms like the
+old guns). Tests: `tests/arsenal_test` covers all 75 weapons, and checks that
+the hand plays in the order shown and shuffles back, catalyst doubles poison,
+the countdown bomb waits three cards, two tesla coils burn a foe between
+them, the totem heals, kills rise as thralls, the egg hatches and is an egg
+again (half warm) in the next room, and a tamed foe is not aimed at.
+Planted faults caught (the deck played from the wrong end, catalyst not
+doubling). Desktop logic 0.15-0.25 ms a tick for the new kinds. The same
+"lands where the foe was" flaw was fixed in two more weapons: the shepherd's
+sheep follows its foe in the air and waddles at the nearest foe before it
+blows, and part 1's mortar shells follow their foe for the first 70% of the
+flight (the ring moves with it). 25 soaks of 10 minutes after the fixes, plus
+the crook and both mortars again: 0 errors, no stalls. Full-content replays
+re-recorded; the 6 classic ones identical.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress (so iOS closing the app does not end it). Needs
