@@ -185,7 +185,7 @@ func _physics_process(_delta: float) -> void:
 			print("[weapon] ", all[idx]["id"], " (", all[idx]["kind"], ")")
 	# --objects prints, once a minute of game time, how many engine objects there are (leak soaks).
 	if DebugArgs.has("objects") and _ticks % 3600 == 0:
-		print("[objects] t=%dm objects=%d nodes=%d resources=%d enemies=%d" % [_ticks / 3600,
+		print("[objects] t=%dm %s objects=%d nodes=%d resources=%d enemies=%d" % [_ticks / 3600, G.state,
 			Performance.get_monitor(Performance.OBJECT_COUNT), Performance.get_monitor(Performance.OBJECT_NODE_COUNT),
 			Performance.get_monitor(Performance.OBJECT_RESOURCE_COUNT), G.enemies.size()])
 	# --hurt-at=TICK lands one hit on the hero at that tick (picture tests of hit reactions).
