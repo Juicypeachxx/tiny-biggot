@@ -42,14 +42,26 @@ var _missing := {}
 ## was: slower to start, the same pictures, and silhouettes are worked out from
 ## the copy kept in memory. The game then writes CACHED, so the next start is
 ## quick again. Nothing has to be run by hand, and a picture that is out of
-## date is not shown. A file that is damaged (its pixels no longer add up to
-## the sum noted in it) is turned down the same way.
-const BAKED := "res://assets/atlas/sprites.res"
-const CACHED := "user://sprite_atlas.res"
+## date is not shown.
+##
+## Neither file is handed to the engine to make sense of. Each is read as plain
+## bytes that begin with a checksum of all the rest, and nothing in it is
+## unpacked or used until the checksum has been found right. A file that was
+## cut short when it was copied, written to a full disk or damaged later is
+## therefore turned down like one that does not fit, and the game's own is
+## written again. (The engine's own file reader stops the whole game on some
+## damaged files, which is why it is not used here.)
+const BAKED := "res://assets/atlas/sprites.tbatlas"
+const CACHED := "user://sprite_atlas.tbatlas"
 ## Raise this whenever pack(), whiten() or what a ready-made file holds changes: the files
 ## games have already written for themselves are then made again. (The sizes below are part
 ## of the fingerprint, so changing one of those needs nothing more.)
-const BAKE_VERSION := 4
+const BAKE_VERSION := 5
+## A ready-made file: these four letters, 16 bytes of checksum (MD5 of everything after them),
+## the size of the notes once unpacked (4 bytes), then the notes, packed.
+const FILE_MAGIC := "TBAT"
+const FILE_HEAD := 24
+const FILE_MAX := 1 << 26       # no notes unpack to more than this (64 MB)
 const ATLAS_W := 1024
 const ATLAS_MAX_W := 1024
 const ATLAS_MAX_H := 96
@@ -183,8 +195,8 @@ static func stamp_of(names: PackedStringArray, files_of: Callable) -> String:
 				ctx.update(bytes)
 	return ctx.finish().hex_encode()
 
-## Whether a ready-made atlas, by the notes it carries, was made from exactly these graphics.
-## Anything can be in a file, so nothing about the notes is taken on trust.
+## Whether a ready-made atlas, by its notes, was made from exactly these graphics and holds a
+## whole picture. Nothing about the notes is taken on trust.
 static func bake_fits(m, names: PackedStringArray, stamp: String) -> bool:
 	if not (m is Dictionary) or stamp == "":
 		return false
@@ -194,6 +206,9 @@ static func bake_fits(m, names: PackedStringArray, stamp: String) -> bool:
 	var packed = m.get("names")
 	var rects = m.get("rects")
 	var dx = m.get("white_dx")
+	var w = m.get("width")
+	var h = m.get("height")
+	var px = m.get("pixels")
 	if not (version is int) or version != BAKE_VERSION:
 		return false
 	if not (folder is PackedStringArray) or folder != names:
@@ -202,33 +217,89 @@ static func bake_fits(m, names: PackedStringArray, stamp: String) -> bool:
 		return false
 	if not (packed is PackedStringArray) or not (rects is PackedInt32Array) or rects.size() != packed.size() * 4:
 		return false
-	return dx is int and dx == ATLAS_W and m.get("sum") is int
-
-## Whether the picture in a ready-made file is the one its notes describe: its shape, every
-## sprite inside it, and its pixels adding up to the sum noted when it was written.
-static func picture_fits(img: Image, m: Dictionary) -> bool:
-	if img.get_format() != Image.FORMAT_RGBA8 or img.has_mipmaps() or img.get_width() != ATLAS_W * 2:
+	if not (dx is int) or dx != ATLAS_W or not (w is int) or w != ATLAS_W * 2 or not (h is int) or h < 1 or h > 4096:
 		return false
-	var h := img.get_height()
+	return px is PackedByteArray and px.size() == w * h * 4
+
+## Whether every sprite's place in the notes lies inside the picture's sprite half.
+static func picture_fits(m: Dictionary) -> bool:
+	var h: int = m["height"]
 	var rects: PackedInt32Array = m["rects"]
 	var i := 0
 	while i < rects.size():
 		if rects[i] < 0 or rects[i + 1] < 0 or rects[i + 2] < 1 or rects[i + 3] < 1 or rects[i] + rects[i + 2] > ATLAS_W or rects[i + 1] + rects[i + 3] > h:
 			return false
 		i += 4
-	return hash(img.get_data()) == m["sum"]
+	return true
 
-## Loads a ready-made atlas if it was made from exactly the graphics the game would load now.
+static func _md5(bytes: PackedByteArray) -> PackedByteArray:
+	var ctx := HashingContext.new()
+	ctx.start(HashingContext.HASH_MD5)
+	if not bytes.is_empty():
+		ctx.update(bytes)
+	return ctx.finish()
+
+## A ready-made atlas (its notes, the picture's pixels among them) as the bytes of its file.
+static func file_bytes(m: Dictionary) -> PackedByteArray:
+	var raw := var_to_bytes(m)
+	var rest := PackedByteArray()
+	rest.resize(4)
+	rest.encode_u32(0, raw.size())
+	rest.append_array(raw.compress(FileAccess.COMPRESSION_ZSTD))
+	var out := FILE_MAGIC.to_ascii_buffer()
+	out.append_array(_md5(rest))
+	out.append_array(rest)
+	return out
+
+## The notes in the bytes of a ready-made file, or nothing if the bytes are not, to the last
+## one, what file_bytes once made. Until the checksum has been found right nothing is unpacked.
+static func notes_in(bytes: PackedByteArray) -> Dictionary:
+	if bytes.size() <= FILE_HEAD or bytes.slice(0, 4) != FILE_MAGIC.to_ascii_buffer():
+		return {}
+	if _md5(bytes.slice(20)) != bytes.slice(4, 20):
+		return {}
+	var size := bytes.decode_u32(20)
+	if size < 1 or size > FILE_MAX:
+		return {}
+	var raw := bytes.slice(FILE_HEAD).decompress(size, FileAccess.COMPRESSION_ZSTD)
+	if raw.size() != size:
+		return {}
+	var m = bytes_to_var(raw)
+	return m if m is Dictionary else {}
+
+## The notes in a ready-made file; nothing if it is not there or not whole.
+static func read_file(path: String) -> Dictionary:
+	if not FileAccess.file_exists(path):
+		return {}
+	return notes_in(FileAccess.get_file_as_bytes(path))
+
+## Writes a file whole or not at all: under another name first, read back and compared byte for
+## byte (a full disk does not always say so), then moved into place.
+static func write_whole(path: String, bytes: PackedByteArray) -> Error:
+	var tmp := path + ".tmp"
+	var f := FileAccess.open(tmp, FileAccess.WRITE)
+	if f == null:
+		return FileAccess.get_open_error()
+	f.store_buffer(bytes)
+	var err := f.get_error()
+	f.close()
+	if err == OK and FileAccess.get_file_as_bytes(tmp) != bytes:
+		err = ERR_FILE_CANT_WRITE
+	if err == OK:
+		err = DirAccess.rename_absolute(tmp, path)
+	if err != OK:
+		DirAccess.remove_absolute(tmp)
+	return err
+
+## Loads a ready-made atlas if its file is whole and was made from exactly the graphics the game
+## would load now.
 func _load_baked(path: String, names: PackedStringArray, stamp: String, source: String) -> bool:
-	if stamp == "" or not ResourceLoader.exists(path):
+	if stamp == "":
 		return false
-	# Not from the engine's cache of loaded files: the game's own file may have been written again since.
-	var img = ResourceLoader.load(path, "Image", ResourceLoader.CACHE_MODE_IGNORE)
-	if not (img is Image) or not img.has_meta("atlas"):
+	var m := read_file(path)
+	if not bake_fits(m, names, stamp) or not picture_fits(m):
 		return false
-	var m = img.get_meta("atlas")
-	if not bake_fits(m, names, stamp) or not picture_fits(img, m):
-		return false
+	var img := Image.create_from_data(m["width"], m["height"], false, Image.FORMAT_RGBA8, m["pixels"])
 	_adopt(img, m["names"], m["rects"], m["white_dx"], source)
 	return true
 
@@ -312,14 +383,12 @@ func bake() -> Error:
 		return ERR_CANT_CREATE
 	return save_bake(packed, names, graphics_stamp(names), BAKED)
 
-## Writes a packed atlas (see pack) as a ready-made file: under another name first, then moved
-## into place, so a half-written file is never left where the game looks.
+## Writes a packed atlas (see pack) as a ready-made file.
 func save_bake(packed: Dictionary, names: PackedStringArray, stamp: String, path: String) -> Error:
 	DirAccess.make_dir_recursive_absolute(path.get_base_dir())
-	var tmp := path.get_basename() + ".tmp.res"
 	# Can a file be written there at all? Asked first, so that where it cannot the silhouettes
 	# below are not worked out for nothing every time the game starts.
-	var probe := FileAccess.open(tmp, FileAccess.WRITE)
+	var probe := FileAccess.open(path + ".tmp", FileAccess.WRITE)
 	if probe == null:
 		return FileAccess.get_open_error()
 	probe.close()
@@ -328,14 +397,8 @@ func save_bake(packed: Dictionary, names: PackedStringArray, stamp: String, path
 	var out := Image.create(ATLAS_W * 2, h, false, Image.FORMAT_RGBA8)
 	out.blit_rect(src, Rect2i(0, 0, ATLAS_W, h), Vector2i.ZERO)
 	out.blit_rect(whiten(src), Rect2i(0, 0, ATLAS_W, h), Vector2i(ATLAS_W, 0))
-	out.set_meta("atlas", { "version": BAKE_VERSION, "folder": names, "stamp": stamp, "names": packed["names"],
-		"rects": packed["rects"], "white_dx": ATLAS_W, "sum": hash(out.get_data()) })
-	var err := ResourceSaver.save(out, tmp, ResourceSaver.FLAG_COMPRESS)
-	if err == OK:
-		err = DirAccess.rename_absolute(tmp, path)
-	if err != OK:
-		DirAccess.remove_absolute(tmp)
-	return err
+	return write_whole(path, file_bytes({ "version": BAKE_VERSION, "folder": names, "stamp": stamp, "names": packed["names"],
+		"rects": packed["rects"], "white_dx": ATLAS_W, "width": ATLAS_W * 2, "height": h, "pixels": out.get_data() }))
 
 func t(name: String) -> Texture2D:
 	var tex = _cache.get(name)
