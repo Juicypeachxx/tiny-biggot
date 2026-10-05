@@ -11,6 +11,9 @@ extends RefCounted
 ##   kit      tile set (assets/graphics/kit_<id>.png, laid out like kit0)
 ##   pool     foes of its fights (keys of GameData.ENEMIES)
 ##   champion its boss (a GameData.ENEMIES entry with "champion")
+##   mini     (the new worlds) its mini-boss: the last wave of its second room (rift_bosses.gd)
+##   guardian (the new worlds) its guardian (GameData.BOSSES), behind a second door in the
+##            champion's room: an optional fight
 ##   hazard   a key of Hazards.THEME (or "")
 ##   decor    floor markings drawn over the tiles: "road", "rug", "" ...
 ##   fog      true: drifting fog over the room (drawing only)
@@ -43,13 +46,13 @@ const LIST := [
 	  "pool": ["outlaw", "dynamiter", "sharpshooter", "coyote", "outlaw", "coyote"], "champion": "marshal", "hazard": "dynamite",
 	  "decor": "", "music": 3 },
 	{ "id": "skyreach", "name": "SKYREACH ISLES", "sub": "MIND THE DROP", "kit": "kit_skyreach", "accent_hex": "#9fc3ee",
-	  "pool": ["skykite", "gustling", "stormharpy", "thunderhead", "mirrorwing", "crow"], "champion": "galewarden", "hazard": "gusts",
+	  "pool": ["skykite", "gustling", "stormharpy", "thunderhead", "mirrorwing", "crow"], "champion": "galewarden", "mini": "squallheron", "guardian": "stormcrown", "hazard": "gusts",
 	  "decor": "", "layouts": "isles", "music": 5 },
 	{ "id": "bastion", "name": "THE DROWNED BASTION", "sub": "THE TIDE COMES IN POISONED", "kit": "kit_bastion", "accent_hex": "#63b84f",
-	  "pool": ["rampartguard", "sludgecrawler", "chainwarden", "tidecaller", "longpike", "drowned"], "champion": "rotking", "hazard": "tide",
+	  "pool": ["rampartguard", "sludgecrawler", "chainwarden", "tidecaller", "longpike", "drowned"], "champion": "rotking", "mini": "tidecaptain", "guardian": "bilgehydra", "hazard": "tide",
 	  "decor": "", "layouts": "bastion", "music": 4 },
 	{ "id": "cathedral", "name": "THE CALIBER CATHEDRAL", "sub": "FLIP A TABLE. SAY A PRAYER", "kit": "kit_cathedral", "accent_hex": "#f2c94c",
-	  "pool": ["shellpriest", "dervish", "deacon", "beltfeeder", "ammomimic", "gunman"], "champion": "highcaliber", "hazard": "turrets",
+	  "pool": ["shellpriest", "dervish", "deacon", "beltfeeder", "ammomimic", "gunman"], "champion": "highcaliber", "mini": "bellringer", "guardian": "brassorgan", "hazard": "turrets",
 	  "decor": "", "layouts": "cathedral", "music": 3 },
 ]
 

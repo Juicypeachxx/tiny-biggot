@@ -35,6 +35,7 @@ static func run(e: Enemy, dt: float, p: Player) -> void:
 		"turret": ai_turret(e, dt, p)
 		"flee": ai_flee(e, dt, p)
 		"champion": ChampionAI.run(e, dt, p)
+		"riftboss": RiftBosses.update(e, dt)
 	if e.d.get("mini", false) and not e.d.get("champion", false):
 		_mini_extra(e, dt)
 

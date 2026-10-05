@@ -353,6 +353,7 @@ func _paint_lower(ci: CanvasItem) -> void:
 			Gfx.text(ci, lines[i], TB.SW / 2 - w / 2, 6 * TB.TS + i * 10, "bone", 1, 0.0, true, 120 / 255.0)
 	Hazards.draw_floor(ci, t)
 	EnemyAI2.draw_goo(ci, t)
+	RiftBosses.draw_ground(ci, t)
 	var fancy := Vfx.enabled
 	if fancy:
 		Vfx.draw_floor(ci, t)
@@ -649,6 +650,8 @@ func _draw_enemy(ci: CanvasItem, e: Enemy, t: float) -> void:
 			Gfx.sp(ci, name, e.x - cos(e.ca) * 9.0 * k, foot + bob - e.z - sin(e.ca) * 9.0 * k, sc * sx, sc * sy, 0.0, e.face < 0,
 				0.52 - 0.13 * k, Color(1.0, 0.54, 0.54, 0.7))
 	Gfx.sp(ci, name, e.x, foot + bob - e.z, sc * sx, sc * sy, 0.0, e.face < 0, 46 / 255.0 if e.hidden else 1.0, tint)
+	if not e.parts.is_empty():
+		RiftBosses.draw_parts(ci, e, foot + bob - e.z, t)
 	if e.type == "dummy":
 		Gfx.text(ci, "DPS %s" % TB.fmt_dmg(e.dps), e.x, foot - 24, "gold" if e.dps > 0 else "dim", 1, 0.5)
 
@@ -696,6 +699,7 @@ func _paint_fx(ci: CanvasItem) -> void:
 	Hazards.draw_gusts(ci, G.time)
 	RiftExtras.draw_hazards(ci, G.time)
 	EnemyAI2.draw_marks(ci, G.time)
+	RiftBosses.draw_over(ci, G.time)
 
 # ---------- z 1900: additive glows ----------
 ## Small markers: a pink chevron over exposed foes (they take +25% damage), and

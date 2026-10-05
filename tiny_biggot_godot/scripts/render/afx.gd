@@ -30,7 +30,8 @@ const SHOT_COL := { "red": "#ff8a8a", "redBig": "#ff8a8a", "bone": "#f4ecd8", "w
 ## A guardian's own colour: its circle while it casts, its lanes and beams.
 const BOSS_COL := { "colossus": "#d9d0b4", "sporemother": "#b8e05a", "librarian": "#6fd3e0", "tyrant": "#e8873a",
 	"rimewarden": "#c8f0ff", "regent": "#a35bd6", "bogmatriarch": "#b8e05a", "ashwarlord": "#e8873a",
-	"frozenabbot": "#c8f0ff", "crowking": "#a35bd6", "umbralsun": "#e86fb4" }
+	"frozenabbot": "#c8f0ff", "crowking": "#a35bd6", "umbralsun": "#e86fb4",
+	"stormcrown": "#6fd3e0", "bilgehydra": "#b8e05a", "brassorgan": "#e8873a" }
 ## States in which a guardian stands and casts: it gets a turning circle under it.
 const CASTING := [&"ring", &"volley", &"spiral", &"burst", &"cloud", &"pages", &"tide", &"freeze", &"hail", &"shards",
 	&"sweep", &"embers", &"curtain", &"bogspit", &"arrowrain", &"gunline", &"eclipse", &"summon"]
@@ -347,6 +348,19 @@ static func _reach(x: float, y: float, a: float, most: float, mode: int) -> floa
 			return d - 1.0
 		d += 8.0
 	return most
+
+## The warning pictures, for the rift bosses (scripts/entities/rift_bosses.gd).
+static func reach(x: float, y: float, a: float, most: float, mode: int) -> float:
+	return _reach(x, y, a, most, mode)
+
+static func lane(ci: CanvasItem, x: float, y: float, a: float, half: float, ln: float, k: float, col: Color, t: float) -> void:
+	_lane(ci, x, y, a, half, ln, k, col, t)
+
+static func landing(ci: CanvasItem, x: float, y: float, r: float, k: float, col: Color, t: float) -> void:
+	_landing(ci, x, y, r, k, col, t)
+
+static func circle(ci: CanvasItem, x: float, y: float, r: float, col: Color, t: float, a: float) -> void:
+	_circle(ci, x, y, r, col, t, a)
 
 ## A charge lane on the floor: where the foe is about to run. It fills from the foe outward
 ## as the wind-up ends (k from 0 to 1), with chevrons marching along it.

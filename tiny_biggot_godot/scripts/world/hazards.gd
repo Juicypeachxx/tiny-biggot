@@ -69,6 +69,7 @@ static func update(dt: float) -> void:
 	if not room.tides.is_empty() or not room.turrets.is_empty() or room.theme.get("hazard", "") == "tide":
 		RiftExtras.update(room, dt)
 	EnemyAI2.tick(room, dt)
+	RiftBosses.tick(room, dt)
 	if room.hazards.is_empty() and room.strike == "" and room.marks.is_empty():
 		return
 	var active := G.enemies_active()
@@ -155,7 +156,7 @@ const GUST_BLOW := 1.4
 static func _update_gusts(room: Room, dt: float) -> void:
 	var p := G.player
 	var active := G.enemies_active()
-	if active and room.theme.get("hazard", "") == "gusts":
+	if active and room.theme.get("hazard", "") == "gusts" and room.type != "boss":   # a guardian calls its own
 		room.strike_t -= dt
 		if room.strike_t <= 0:
 			room.strike_t = 3.4 + randf() * 1.2

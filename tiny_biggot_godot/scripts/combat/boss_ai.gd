@@ -46,6 +46,9 @@ static func done(e: Enemy, wait: float = 0.8) -> void:
 	e.t = wait * (0.7 if h else 1.0)
 
 static func update_boss(e: Enemy, dt: float) -> void:
+	if RiftBosses.handles(e):
+		RiftBosses.update(e, dt)   # the rift guardians (scripts/entities/rift_bosses.gd)
+		return
 	var p := G.player
 	var h := half(e)
 	e.st += dt

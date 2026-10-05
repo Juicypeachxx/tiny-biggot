@@ -167,7 +167,8 @@ func worlds() -> void:
 			if step < 2 and (rifts != 1 or G.room.exits.size() != 1):
 				fail("world %s step %d: %d rift doors of %d" % [th["id"], step, rifts, G.room.exits.size()])
 			if step == 2:
-				if rifts != 0 or G.room.exits.is_empty():
+				# The new worlds' champion rooms also have a door deeper, to their guardian (ROADMAP 4.5).
+				if rifts != (1 if th.has("guardian") else 0) or G.room.exits.size() <= rifts:
 					fail("world %s: the champion's room does not lead back to the floor" % th["id"])
 				if not G.room.objects.any(func(o): return o["kind"] == "chest" and o.get("boss", false)):
 					fail("world %s: no champion's hoard" % th["id"])
@@ -465,9 +466,12 @@ func saloon() -> void:
 	var crit0 := p.crit
 	var armor0 := p.armor
 	var gold_before := p.gold
+	var cost := Saloon.drink_price()
+	if drink["drink"] == "special":
+		cost += (gold_before - cost) / 10   # the house special spills a tenth of what is left
 	G.interact(drink)
-	if p.gold != gold_before - Saloon.drink_price():
-		fail("saloon: a drink cost %d, not %d" % [gold_before - p.gold, Saloon.drink_price()])
+	if p.gold != gold_before - cost:
+		fail("saloon: a drink cost %d, not %d" % [gold_before - p.gold, cost])
 	if not drink.get("gone", false):
 		fail("saloon: a drink was not drunk")
 	match drink["drink"]:

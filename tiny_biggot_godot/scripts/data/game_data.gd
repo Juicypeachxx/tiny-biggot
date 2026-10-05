@@ -318,6 +318,14 @@ const ENEMIES := {
 		"moves": [["burst", 12], ["fan", 9, 0.35, 3], ["spiral", 44], ["blink"], ["summon", "gunman", 2], ["ring", 24, 70, 2]] },
 	"casingrat": { "sprite": "casingrat", "hp": 30, "speed": 100, "r": 5, "ai": "flee", "gold": 0.0, "label": "a casing rat",
 		"away": "THE RAT GOT AWAY WITH YOUR GOLD" },
+	# Rift mini-bosses (ROADMAP 4.5, scripts/entities/rift_bosses.gd): the last wave of a new world's
+	# second room. "champion": health grows with the floor, the world's hazards leave them be.
+	"squallheron": { "sprite": "squallheron", "name": "THE SQUALL HERON", "hp": 150, "speed": 70, "r": 9, "ai": "riftboss",
+		"shot": "cyan", "scale": 2.0, "mini": true, "champion": true, "fly": true, "gold": 4.0, "rule": "phase" },
+	"tidecaptain": { "sprite": "tidecaptain", "name": "THE DROWNED CAPTAIN", "hp": 165, "speed": 40, "r": 9, "ai": "riftboss",
+		"shot": "spore", "scale": 2.0, "mini": true, "champion": true, "gold": 4.0, "rule": "phase" },
+	"bellringer": { "sprite": "bellringer", "name": "THE BELLRINGER", "hp": 160, "speed": 36, "r": 9, "ai": "riftboss",
+		"shot": "bone", "scale": 2.0, "mini": true, "champion": true, "gold": 4.0, "rule": "phase" },
 	# Event rooms.
 	"target": { "sprite": "target", "hp": 1, "speed": 0, "r": 6, "ai": "target", "gold": 0.0, "label": "a target", "no_touch": true },
 	"goblin": { "sprite": "goblin", "hp": 40, "speed": 96, "r": 5, "ai": "flee", "gold": 0.0, "label": "a loot goblin" },
@@ -340,6 +348,11 @@ const BOSSES := {
 	"frozenabbot": { "name": "THE FROZEN ABBOT", "sprite": "frozenabbot", "hp": 1500, "r": 13, "scale": 2 },
 	"crowking": { "name": "THE CROW KING", "sprite": "crowking", "hp": 1650, "r": 13, "scale": 2 },
 	"umbralsun": { "name": "THE UMBRAL SUN", "sprite": "umbralsun", "hp": 2100, "r": 13, "scale": 2.4 },
+	# Rift guardians (ROADMAP 4.5, scripts/entities/rift_bosses.gd): behind the champion of a new
+	# world, an optional fight. "rift": health grows with the floor (Combat.spawn_boss).
+	"stormcrown": { "name": "THE STORMCROWN", "sprite": "stormcrown", "hp": 400, "r": 14, "scale": 2, "rift": true, "rule": "phase" },
+	"bilgehydra": { "name": "THE BILGE HYDRA", "sprite": "bilgehydra", "hp": 440, "r": 18, "scale": 2, "rift": true, "rule": "phase" },
+	"brassorgan": { "name": "THE BRASS ORGAN", "sprite": "brassorgan", "hp": 420, "r": 20, "scale": 2, "rift": true, "rule": "phase" },
 }
 
 const FLOORS := [
@@ -410,7 +423,7 @@ const SPRITE_COLOR := {
 	"static": "#8b8f9c", "tollkeeper": "#2a2838", "rustbutcher": "#7a5236", "neighbour": "#e86fb4", "robovac": "#8b8f9c",
 	"burglar": "#2a2838", "gnome": "#d8443c", "landlord": "#e86fb4", "gangster": "#2a2838", "biker": "#d8443c",
 	"riotcop": "#2b4f8a", "kingpin": "#f4ecd8", "outlaw": "#7a5236", "dynamiter": "#4d9be6", "sharpshooter": "#63b84f",
-	"coyote": "#a8705a", "marshal": "#7a5236", "galewarden": "#9fc3ee", "target": "#d8443c", "skykite": "#9fc3ee", "gustling": "#c8f0ff", "stormharpy": "#a35bd6", "thunderhead": "#8b8f9c", "mirrorwing": "#6fd3e0", "rampartguard": "#3f7a5a", "sludgecrawler": "#63b84f", "chainwarden": "#8b8f9c", "tidecaller": "#2b4f8a", "longpike": "#f4ecd8", "shellpriest": "#d8443c", "dervish": "#d8443c", "deacon": "#f4ecd8", "beltfeeder": "#f2c94c", "beltlink": "#f2c94c", "ammomimic": "#7a5236", "tombspider": "#5c3483", "candlewight": "#f4ecd8", "gargoyle": "#8b8f9c", "wardrummer": "#8a2a33", "bloodleech": "#d8443c", "rotking": "#3f7a5a", "highcaliber": "#d8443c", "casingrat": "#8b8f9c", "goblin": "#63b84f", "mimic": "#7a5236", "shadow": "#3c1d47",
+	"coyote": "#a8705a", "marshal": "#7a5236", "galewarden": "#9fc3ee", "target": "#d8443c", "skykite": "#9fc3ee", "gustling": "#c8f0ff", "stormharpy": "#a35bd6", "thunderhead": "#8b8f9c", "mirrorwing": "#6fd3e0", "rampartguard": "#3f7a5a", "sludgecrawler": "#63b84f", "chainwarden": "#8b8f9c", "tidecaller": "#2b4f8a", "longpike": "#f4ecd8", "shellpriest": "#d8443c", "dervish": "#d8443c", "deacon": "#f4ecd8", "beltfeeder": "#f2c94c", "beltlink": "#f2c94c", "ammomimic": "#7a5236", "tombspider": "#5c3483", "candlewight": "#f4ecd8", "gargoyle": "#8b8f9c", "wardrummer": "#8a2a33", "bloodleech": "#d8443c", "rotking": "#3f7a5a", "highcaliber": "#d8443c", "squallheron": "#9fc3ee", "tidecaptain": "#3f7a5a", "bellringer": "#5c3483", "casingrat": "#8b8f9c", "goblin": "#63b84f", "mimic": "#7a5236", "shadow": "#3c1d47",
 }
 
 ## Ember Shrine: things to unlock between runs.
@@ -447,7 +460,7 @@ const ENEMY_XP := { "bat": 2, "slime": 3, "slimelet": 1, "skeleton": 3, "mushroo
 	"glitch": 4, "chrome": 7, "turret": 4, "thug": 4, "molotov": 4, "copper": 5, "bomber": 3, "orderly": 4, "crawler": 2,
 	"static": 4, "tollkeeper": 5, "neighbour": 4, "robovac": 5, "burglar": 4, "gnome": 4, "gangster": 5, "biker": 5,
 	"riotcop": 7, "outlaw": 5, "dynamiter": 4, "sharpshooter": 4, "coyote": 2, "goblin": 10, "mimic": 15, "shadow": 40,
-	"turnkey": 45, "carrionknight": 45, "broker": 45, "mayor": 45, "rustbutcher": 45, "landlord": 45, "kingpin": 45, "marshal": 45, "galewarden": 45, "target": 0, "rotking": 45, "highcaliber": 45, "casingrat": 6, "skykite": 3, "gustling": 3, "stormharpy": 4, "thunderhead": 4, "mirrorwing": 4, "rampartguard": 6, "sludgecrawler": 4, "chainwarden": 5, "tidecaller": 5, "longpike": 4, "shellpriest": 5, "dervish": 5, "deacon": 5, "beltfeeder": 6, "beltlink": 2, "ammomimic": 6, "tombspider": 3, "candlewight": 4, "gargoyle": 6, "wardrummer": 4, "bloodleech": 3 }
+	"turnkey": 45, "carrionknight": 45, "broker": 45, "mayor": 45, "rustbutcher": 45, "landlord": 45, "kingpin": 45, "marshal": 45, "galewarden": 45, "target": 0, "rotking": 45, "highcaliber": 45, "squallheron": 40, "tidecaptain": 40, "bellringer": 40, "casingrat": 6, "skykite": 3, "gustling": 3, "stormharpy": 4, "thunderhead": 4, "mirrorwing": 4, "rampartguard": 6, "sludgecrawler": 4, "chainwarden": 5, "tidecaller": 5, "longpike": 4, "shellpriest": 5, "dervish": 5, "deacon": 5, "beltfeeder": 6, "beltlink": 2, "ammomimic": 6, "tombspider": 3, "candlewight": 4, "gargoyle": 6, "wardrummer": 4, "bloodleech": 3 }
 
 static func xp_needed(level: int) -> int:
 	return roundi(10 + 7 * pow(level, 1.35))
@@ -485,7 +498,9 @@ static func door_kind(c: Dictionary) -> Dictionary:
 		name = "DEEPER IN"
 	elif step == 2:
 		name = GameData.ENEMIES[th["champion"]]["name"]
-	return { "name": name, "icon": "icon_skull" if step == 2 else kind["icon"], "col": "red" if step == 2 else kind["col"] }
+	elif step == 3:
+		name = GameData.BOSSES[th["guardian"]]["name"]   # deeper still: the world's guardian
+	return { "name": name, "icon": "icon_skull" if step >= 2 else kind["icon"], "col": "red" if step >= 2 else kind["col"] }
 
 ## Door frame colours per room type (Render.rb ROOM_COL).
 const ROOM_COL := { "boss": "#d8443c", "treasure": "#f2c94c", "shop": "#63b84f", "shrine": "#a35bd6", "combat": "#8b8f9c",

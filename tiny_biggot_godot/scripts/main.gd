@@ -97,11 +97,15 @@ func _ready() -> void:
 			kind = "elite"
 			G.floor_d["depth"] = G.floor_d["total"] - 2
 		G.enter_room(World.make_room(G.floor_d, kind, "gold" if kind == "combat" else "", "s"))
-	# --rift=ID [--step=0..2] jumps into a rift world, --event=NAME into an event room.
+	# --rift=ID [--step=0..3] jumps into a rift world (3: a new world's guardian), --event=NAME into an event room.
 	if DebugArgs.has("rift"):
 		var step := DebugArgs.get_int("step", 0)
-		G.enter_room(World.make_room(G.floor_d, "combat" if step == 0 else "elite", "", "s",
+		G.enter_room(World.make_room(G.floor_d, ["combat", "elite", "elite", "boss"][clampi(step, 0, 3)], "", "s",
 			{ "theme": DebugArgs.get_str("rift"), "step": step }))
+	# --spawn=TYPE puts one foe (a GameData.ENEMIES key) in the middle of the room (picture tests).
+	if DebugArgs.has("spawn"):
+		G.locked = true
+		Combat.spawn_enemy(DebugArgs.get_str("spawn"), 14.0 * TB.TS, 7.0 * TB.TS, false, true)
 	# --tempo=N starts the Gaolbird with N tempo that does not fade for a while (picture tests).
 	if DebugArgs.has("tempo") and G.player.tempo_max > 0:
 		Tempo.set_to(G.player, DebugArgs.get_int("tempo"))

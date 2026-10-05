@@ -239,6 +239,7 @@ func enter_room(r: Room) -> void:
 	Fx.clear()
 	Juice.reset()
 	EBullets.clear()
+	RiftBosses.clear()
 	pickups = room.pickups
 	enemies = []
 	for b in pbullets:
@@ -327,7 +328,7 @@ func open_exits() -> void:
 	if room.exits_open:
 		return
 	room.exits_open = true
-	if room.type == "boss":
+	if room.type == "boss" and room.rift_step < 3:
 		return
 	if not room.theme.is_empty() and room.rift_step < 2:
 		# Inside a rift there is one way on: deeper, and then to its champion.
@@ -340,6 +341,8 @@ func open_exits() -> void:
 			FloorMap.link_back(room)   # a rift's last room, a hidden room: back to the map
 	else:
 		World.assign_exits(room, World.gen_choices(floor_d, player))
+	if room.rift_step == 2 and room.theme.has("guardian"):
+		_deeper_door(room)
 	for d in room.exits:
 		var c: Dictionary = room.exits[d]
 		if c["type"] != "vault":
@@ -349,6 +352,17 @@ func open_exits() -> void:
 		var iy: int = { "n": 26, "s": -22 }.get(d, 0)
 		room.objects.append({ "kind": "lockdoor", "dir": d, "x": pos.x + ix, "y": pos.y + iy })
 	dyn_dirty = true
+
+## A new world's champion room: one more door, to the world's guardian (an optional fight).
+func _deeper_door(r: Room) -> void:
+	for d in ["n", "e", "w"]:
+		if d == r.entrance or r.exits.has(d) or r.secret_dirs.has(d):
+			continue
+		r.exits[d] = { "type": "rift", "reward": "", "theme": r.theme["id"], "step": 3 }
+		r.doors[d] = true
+		for cr in World.door_tiles(d):
+			r.set_tile(cr.x, cr.y, World.T_DOOR)
+		return
 
 func leave_room(dir: String) -> void:
 	var c = room.exits.get(dir)
@@ -377,7 +391,7 @@ func leave_room(dir: String) -> void:
 			run_stats["rifts"].append(c["theme"])
 			reward = World.roll_reward(player)
 		opts = { "theme": c["theme"], "step": step }
-		kind = "combat" if step == 0 else "elite"
+		kind = ["combat", "elite", "elite", "boss"][clampi(step, 0, 3)]
 	elif kind == "mystery":
 		opts = { "event": TB.pick(MYSTERY_EVENTS) }
 		if randf() < 0.18:
@@ -624,6 +638,11 @@ func spawn_wave(hard: bool = false) -> void:
 		room.champion = ""
 		show_banner(ch.d["name"], "CHAMPION OF " + room.theme["name"])
 		n = maxi(2, n / 2)
+	elif room.rift_step == 1 and room.theme.has("mini") and room.waves_left == 1:
+		# A new world's mini-boss is the last wave of its second room (scripts/entities/rift_bosses.gd).
+		var mb := Combat.spawn_enemy(room.theme["mini"], 14.0 * TB.TS, 7.0 * TB.TS)
+		show_banner(mb.d["name"], "IT KEEPS THE WAY TO THE CHAMPION")
+		n = maxi(1, n / 3)
 	for i in n:
 		var type: String = TB.pick(pool)
 		var s := World.free_spot(room, player, 90, World.M_FLYER if GameData.ENEMIES[type].get("fly", false) else World.M_WALKER)
@@ -744,6 +763,20 @@ func on_boss_dead(b: Enemy) -> void:
 		Combat.drop_pickup("coin", b.x, b.y)
 	Combat.drop_pickup("heart", b.x, b.y)
 	Combat.drop_pickup("ember", b.x, b.y)
+	RiftBosses.clear()
+	if room.rift_step == 3:
+		# A rift guardian: its hoard, and the way back to the floor (no portal: the floor goes on).
+		show_banner(b.d["name"] + " FALLS", "ITS HOARD IS YOURS. THE WAY BACK IS OPEN")
+		room.objects.append({ "kind": "chest", "x": 14.0 * TB.TS, "y": 10.0 * TB.TS, "boss": true })
+		drop_item(Weapons.random_weapon(Gear.roll_item_rarity(floor_index, "boss"), player.weapon), b.x - 20, b.y + 20)
+		drop_item(Gear.random_gear(Gear.roll_item_rarity(floor_index, "boss")), b.x + 20, b.y + 20)
+		for i in 6:
+			Combat.drop_pickup("gem", b.x, b.y)
+		for i in 2:
+			Combat.drop_pickup("ember", b.x, b.y)
+		Snd.music(room.theme["music"])
+		open_exits()
+		return
 	var last := floor_index >= GameData.floors().size() - 1
 	if floor_index == GameData.THRONE_FLOOR and not last and not run_stats.get("throne", false):
 		throne_victory()
@@ -1807,8 +1840,12 @@ func update_play(dt: float) -> void:
 		boss_delay -= dt
 		if boss_delay <= 0:
 			boss_delay = null
-			Combat.spawn_boss(GameData.floors()[floor_index]["boss"])
-			show_banner(boss.d["name"], "")
+			if room.rift_step == 3:
+				Combat.spawn_boss(room.theme["guardian"])
+				show_banner(boss.d["name"], "GUARDIAN OF " + room.theme["name"])
+			else:
+				Combat.spawn_boss(GameData.floors()[floor_index]["boss"])
+				show_banner(boss.d["name"], "")
 	if win_timer != null:
 		win_timer -= dt
 		var all_open := true

@@ -54,6 +54,12 @@ static func layout(room: Room, pat: int) -> void:
 
 # ---------- Room contents ----------
 static func setup(room: Room) -> void:
+	if room.type == "boss" and room.theme.get("id", "") == "cathedral":
+		# The brass organ's nave: three tables to flip against its chords.
+		for sp in [[6, 11], [13, 13], [20, 11]]:
+			room.objects.append({ "kind": "x_table", "c": sp[0], "r": sp[1], "x": (sp[0] + 1.0) * TB.TS,
+				"y": (sp[1] + 0.5) * TB.TS + 10.0, "flipped": false })
+		return
 	if room.theme.is_empty() or not room.type in ["combat", "elite"]:
 		return
 	match room.theme["id"]:
@@ -222,7 +228,7 @@ static func hazard_setup(room: Room, kind: String) -> void:
 				"shots": 0 })
 
 static func update(room: Room, dt: float) -> void:
-	var kind: String = room.theme.get("hazard", "")
+	var kind: String = "" if room.type == "boss" else room.theme.get("hazard", "")   # a guardian calls its own
 	var active := G.enemies_active()
 	if kind == "tide" or not room.tides.is_empty():
 		_update_tide(room, dt, active and kind == "tide")

@@ -242,6 +242,9 @@ static func close_cell(c: Vector2i) -> void:
 ## A door toward a room not yet seen; when all are seen, toward the guardian.
 static func bot_door(room: Room) -> String:
 	if not room.on_map:
+		for d in room.exits:
+			if room.exits[d]["type"] == "rift":
+				return d   # deeper into a rift (to a new world's guardian, too)
 		return room.entrance if room.exits.has(room.entrance) else (room.exits.keys()[0] if not room.exits.is_empty() else "")
 	var cs := cells()
 	var p := G.player

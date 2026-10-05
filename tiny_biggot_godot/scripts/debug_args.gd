@@ -21,6 +21,7 @@ extends RefCounted
 ##   --no-save                    neither read nor write the save file, nor the sprite atlas the game keeps for
 ##                                itself (repeatable test runs)
 ##   --unlock-all                 every shrine unlock and every skill-tree node, all 30 constellation points
+##   --spawn=TYPE                 put one foe of that type (GameData.ENEMIES) in the middle of the room
 ##   --give=relic:ID,gear:ID,...  start with these items (relic, gear, trait at max rank, weapon)
 ##   --combo=ID                   start with everything a named combo needs (data/synergies.gd)
 ##   --loop=N                     start on loop playthrough N (0 = first time through)

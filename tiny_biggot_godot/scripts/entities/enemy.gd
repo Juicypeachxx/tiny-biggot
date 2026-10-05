@@ -93,6 +93,9 @@ var to := Vector2.ZERO
 var slams := 0
 var charges := 0
 var repeat := 0
+# Rift bosses (rift_bosses.gd)
+var phase := 1                 # 2 below half health
+var parts: Array = []          # what it carries: an anchor, a bell, the hydra's heads
 
 func _init() -> void:
 	uid = _next_uid
