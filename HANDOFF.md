@@ -451,8 +451,9 @@ caught (a charge firing while the aim is held, no javelin dash, a dash in a
 dummy room). Uniqueness report: a twist's words count (a combo's steps); no
 part-2 weapon in a "same" or "near" group; eight are the plain weapon of a
 new kind. 25 soaks of 10 minutes plus three from the first floor, 0 errors.
-Full-content replays re-recorded; the 6 classic ones identical. Not tested
-on the iPad.
+Full-content replays re-recorded; the 6 classic ones identical.
+`tools/check.sh`: CHECK PASSED. The IPA with part 2 was pushed with `[ipa]`
+after that (release `ipa-latest`). Not tested on the iPad.
 
 ## Noted, not yet acted on
 
