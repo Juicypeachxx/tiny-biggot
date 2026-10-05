@@ -1,0 +1,148 @@
+name: Build the iPad app (IPA)
+
+# Builds an unsigned TinyBiggot.ipa on one of GitHub's Macs. SideStore signs it with your
+# Apple ID when it installs it.
+#
+# It runs when
+#   - you press "Run workflow" on the Actions page (once this file is on the default branch), or
+#   - a commit is pushed whose message contains [ipa].
+# Other pushes start nothing, so no Mac minutes are spent on them.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["**"]
+
+permissions:
+  contents: write        # to publish the IPA as a release you can download with one tap
+
+concurrency:
+  group: ipa-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ipa:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[ipa]')
+    runs-on: macos-15
+    timeout-minutes: 45
+    env:
+      PROJECT: tiny_biggot_godot
+      GODOT_RELEASE: 4.6.1-stable
+      TEMPLATES: 4.6.1.stable
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Godot and the iOS export template (kept between runs)
+        id: godot
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/godot
+            ~/Library/Application Support/Godot/export_templates
+          key: godot-${{ env.GODOT_RELEASE }}-macos-ios-1
+
+      - name: Download Godot and the iOS export template
+        if: steps.godot.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          BASE="https://github.com/godotengine/godot/releases/download/$GODOT_RELEASE"
+          mkdir -p ~/godot && cd ~/godot
+          curl -fsSL --retry 3 -o godot.zip "$BASE/Godot_v${GODOT_RELEASE}_macos.universal.zip"
+          unzip -q godot.zip && rm godot.zip
+          curl -fsSL --retry 3 -o templates.tpz "$BASE/Godot_v${GODOT_RELEASE}_export_templates.tpz"
+          T="$HOME/Library/Application Support/Godot/export_templates/$TEMPLATES"
+          mkdir -p "$T"
+          unzip -q -j templates.tpz templates/ios.zip templates/version.txt -d "$T"
+          rm templates.tpz
+          ls -la "$T"
+
+      - name: Import the project
+        run: |
+          set -euo pipefail
+          G=~/godot/Godot.app/Contents/MacOS/Godot
+          "$G" --version
+          xcodebuild -version
+          mkdir -p build
+          "$G" --headless --path "$PROJECT" --import > build/import.log 2>&1 || true
+          "$G" --headless --path "$PROJECT" --import >> build/import.log 2>&1
+          tail -n 3 build/import.log
+
+      - name: Make the sprite atlas from this import and test it
+        run: |
+          set -euo pipefail
+          GODOT=~/godot/Godot.app/Contents/MacOS/Godot bash "$PROJECT/tools/bake_atlas.sh"
+
+      - name: Twenty seconds of play without a screen
+        run: |
+          set -euo pipefail
+          G=~/godot/Godot.app/Contents/MacOS/Godot
+          "$G" --headless --path "$PROJECT" --fixed-fps 60 --quit-after 1200 -- --no-save --bot --smart-bot --god --seed=6 --hero=2 --room=elite > build/smoke.log 2>&1 || true
+          grep "\[bot\]" build/smoke.log | tail -n 1
+          if grep -E "SCRIPT ERROR|Parse Error|ERROR:" build/smoke.log; then exit 1; fi
+
+      - name: Export the Xcode project (release engine)
+        run: |
+          set -euo pipefail
+          G=~/godot/Godot.app/Contents/MacOS/Godot
+          mkdir -p build/ios
+          "$G" --headless --path "$PROJECT" --export-release "iOS" "$PWD/build/ios/TinyBiggot.xcodeproj" > build/export.log 2>&1 || true
+          grep -E "ERROR|WARNING" build/export.log | sort | uniq -c | head -n 20 || true
+          test -d build/ios/TinyBiggot.xcodeproj
+          ls build/ios
+
+      - name: Build the app (not signed here)
+        run: |
+          set -euo pipefail
+          cd build/ios
+          xcodebuild -project TinyBiggot.xcodeproj -scheme TinyBiggot -configuration Release \
+            -sdk iphoneos -destination 'generic/platform=iOS' -derivedDataPath "$PWD/dd" \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+            build > ../xcodebuild.log 2>&1 || { tail -n 120 ../xcodebuild.log; exit 1; }
+          tail -n 3 ../xcodebuild.log
+
+      - name: Package TinyBiggot.ipa
+        run: |
+          set -euo pipefail
+          APP=$(find build/ios/dd/Build/Products -maxdepth 2 -name "*.app" | head -n 1)
+          test -n "$APP"
+          rm -rf build/Payload && mkdir -p build/Payload
+          cp -R "$APP" build/Payload/
+          (cd build && zip -qry TinyBiggot.ipa Payload)
+          ls -la build/TinyBiggot.ipa
+          NAME=$(basename "$APP")
+          /usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "build/Payload/$NAME/Info.plist"
+          /usr/libexec/PlistBuddy -c "Print :MinimumOSVersion" "build/Payload/$NAME/Info.plist"
+          /usr/libexec/PlistBuddy -c "Print :LSSupportsGameMode" "build/Payload/$NAME/Info.plist"
+          lipo -archs "build/Payload/$NAME/${NAME%.app}"
+          ls "build/Payload/$NAME" | head -n 40
+
+      - name: Keep the IPA with this run
+        uses: actions/upload-artifact@v4
+        with:
+          name: TinyBiggot-ipa
+          path: build/TinyBiggot.ipa
+          if-no-files-found: error
+
+      - name: Publish it as the "latest iPad build" release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh release delete ipa-latest --yes --cleanup-tag || true
+          sleep 3
+          gh release create ipa-latest build/TinyBiggot.ipa \
+            --target "$GITHUB_SHA" --prerelease \
+            --title "Tiny Biggot Rogues: latest iPad build" \
+            --notes "Unsigned IPA built from commit $GITHUB_SHA. Open it with SideStore on the iPad; SideStore signs it with your Apple ID."
+
+      - name: Keep the logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs
+          path: |
+            build/import.log
+            build/smoke.log
+            build/export.log
+            build/xcodebuild.log
+          if-no-files-found: ignore

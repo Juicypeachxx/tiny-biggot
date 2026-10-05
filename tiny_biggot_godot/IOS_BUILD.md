@@ -19,7 +19,7 @@ did depends on how Xogot runs the game, which I cannot see from here.
 | A hitch at the first shot, the first ring, the first lightning bolt, the first glow | The graphics driver builds a program for each kind of drawing the first time that kind is drawn | Every kind is drawn once, invisibly, in the first two frames after launch (`scripts/render/warmup.gd`) |
 | A hitch when the number of shots on screen reaches a value it has not had before | The count was part of how the shot batch was handed to the driver, so each new count could mean new set-up work. The software renderer used for the tests stalled at every new count; a graphics chip's driver may or may not | The batch always hands over the same number; the ones not in use are parked off screen |
 | A small hiccup the first time each sound plays | Its file was opened at that moment | All 28 sounds and 7 music tracks are loaded at launch |
-| A slow launch | At every launch each of the 837 small graphics was decoded, handed to the graphics chip and, on a tablet, read back from it, to pack the sprite atlas | The atlas is loaded ready-made (`assets/atlas/sprites.res`). The graphics' own files are still read, but only to check that the atlas was made from them; they are small (0.2 MB in all) |
+| A slow launch | At every launch each of the 837 small graphics was decoded, handed to the graphics chip and, on a tablet, read back from it, to pack the sprite atlas | The atlas is loaded ready-made (`assets/atlas/sprites.tbatlas`). The graphics' own files are still read, but only to check that the atlas was made from them; they are small (0.2 MB in all) |
 | Godot's logo at launch | | A black screen until the title appears |
 
 ## Measured
@@ -37,7 +37,7 @@ launch is. The previous build against this one.
 | Graphics programs built in the middle of play | 1-2 | none |
 | Atlas read back from the graphics chip during play (25 s / 60 s) | 8 / 19 times | never |
 | Sounds opened in the middle of play (25 s / 60 s) | 16 / 21 | none |
-| Loading the graphics at launch | 100-150 ms | 55-65 ms |
+| Loading the graphics at launch | 100-150 ms | about 50 ms |
 
 The two stray frames in the new build came at a different moment in each run
 and went with no drawing call that was slow. I take them for the test machine
@@ -159,15 +159,17 @@ use of each kind of weapon.
 
 ## The ready-made sprite atlas
 
-`assets/atlas/sprites.res` holds the sprite atlas and the white silhouettes.
-You do not have to look after it:
+`assets/atlas/sprites.tbatlas` holds the sprite atlas and the white
+silhouettes. You do not have to look after it:
 
 - It carries a fingerprint of the graphics it was made from: every graphic's
   name and the bytes of the file the engine imported it into. Every time the
   game starts it works the fingerprint out again and uses the file only if
-  it fits. So a picture that is out of date is not shown. A damaged file is
-  turned down too (its pixels are added up and compared with a sum kept in
-  it).
+  it fits. So a picture that is out of date is not shown.
+- A file that is damaged or was cut short (an interrupted copy, a full disk)
+  is turned down too. The file begins with a checksum of everything else in
+  it, and the game uses nothing from it until that has been found right. It
+  then carries on as if the file did not fit.
 - If it does not fit (you added or redrew a graphic, or the iPad or the Mac
   stores imported graphics differently from my machine), the game packs the
   atlas from the separate graphics as it always did, and writes a fitting
