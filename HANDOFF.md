@@ -306,6 +306,45 @@ off, caught), rift and content tests, 11 ten-minute soaks with 0 errors.
 Desktop logic time in the busiest new room about 0.3 ms a frame (old floor
 about 0.2). Not measured on the iPad.
 
+**4.4b, floors as a map and the three clip features (done; IPA next).** His
+ask on 5 Oct, with three clips: mechanics, layout and timing close to the
+clips, art and names our own.
+- `scripts/world/floor_map.gd` (`FloorMap`): `generate` grows a tree of cells
+  (no loops; guardian at the farthest leaf, rest stop and mini-boss before it,
+  at least 4 side leaves for shop, rift, treasure, mystery, shrine, vault,
+  challenge; 1-2 hidden cells off fights), stored in `G.floor_d["map"]`.
+  `room_at` builds a cell's room on its first visit; `link` gives it a door to
+  each neighbour (hidden ones as cracked walls, the vault sealed with a lock
+  door). Hooks: `G.start_floor`, `G.open_exits`, `G.leave_room`
+  (`_leave_on_map`), `G.enter_room` (cleared rooms stay cleared),
+  `World.open_secret`, the bot (`FloorMap.bot_door`), the HUD minimap. Off
+  in `--classic` and with `--linear`.
+- `scripts/render/trait_view.gd` (`TraitView`): the level-up screen in the
+  expanded game (burst 0.9 s, rows shining in 0.14 s apart, keyword panels, a
+  4th choice at luck x 15%, at most 90%). `G.update_traits` waits for
+  `TraitView.ready()`; `taps.gd` has its zones.
+- `scripts/render/item_show.gd` (`ItemShow`): rarity beams under items, the
+  coloured keywords on item cards, and the pedestal treasure room (40% of
+  treasure rooms in the expanded game).
+- `scripts/game/stars.gd` (`Stars`, the rules) and
+  `scripts/render/star_view.gd` (`StarView`, its own CanvasLayer 26): the
+  constellation. Taken stars are in `Meta.meta["stars"]`; `G.new_run` calls
+  `Stars.apply_to` in the expanded game. Title menu items are now looked up
+  by name (`G.title_items()`, `G.title_index`); `TouchControls` hands touches
+  to `StarView.touch` on that screen. `--ui=stars` opens it,
+  `--unlock-all` gives the 30 points.
+- Tests: `tests/map_test` (planted fault caught), `tests/stars_test`
+  (planted fault caught), the content test lints the stars (effects, font,
+  no notable named like an item; four renamed for that). The content test's
+  paid-reroll check now waits out the level-up burst.
+- Soaks (`tools/dev/soak.sh`, now with the 3 new rift worlds): 33 ten-minute
+  runs, 0 error lines; the 30-minute object run went 2,783 to 3,247 (the
+  stage 3 baseline went 2,666 to 3,133: the same growth with the build).
+  Replays: the 6 classic ones identical; the 8 full-content ones re-recorded
+  (the map changes every run's rooms).
+- Not tested: the iPad (touch on the constellation: drag, pinch, hold), and
+  frame time there.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress (so iOS closing the app does not end it). Needs

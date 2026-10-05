@@ -67,6 +67,11 @@ timeout 900 "$GODOT" --headless --path . --quit-after 600000 res://tests/map_tes
 grep -E "map test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:|WARNING" "$LOG"; then status=1; fi
 
+echo "== the constellation: the web, taking and giving back stars, a run with them"
+timeout 300 "$GODOT" --headless --path . res://tests/stars_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "stars test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:|WARNING" "$LOG"; then status=1; fi
+
 echo "== the twenty new foes: data, and each one's own trick"
 timeout 900 "$GODOT" --headless --path . --quit-after 400000 res://tests/foes_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "^\[foes\]|foes test" "$LOG"

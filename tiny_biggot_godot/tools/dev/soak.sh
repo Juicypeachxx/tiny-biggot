@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Long soaks without a screen (ROADMAP 3.3): every hero (on floors 0-10 in turn), all 8 rift
+# Long soaks without a screen (ROADMAP 3.3): every hero (on floors 0-10 in turn), all 11 rift
 # worlds, --classic, FAST DRAWING and FANCY EFFECTS off, loops 1-3. Each run is TICKS of game
 # time (default 36000 = 10 minutes) with the bot and --god, --weapon-cycle=1 in about half.
 # Then one run of OBJ_TICKS (default 108000 = 30 minutes) prints the object count every minute.
@@ -20,7 +20,7 @@ for h in $(seq 0 13); do
   runs+=("hero$h --hero=$h --floor=$((h % 11)) --seed=$((h + 1)) $wc")
 done
 r=0
-for w in gaol brand neon streets fog burb heist dust; do
+for w in gaol brand neon streets fog burb heist dust skyreach bastion cathedral; do
   wc=""; [ $((r % 2)) -eq 0 ] && wc="--weapon-cycle=1"
   runs+=("rift_$w --rift=$w --step=$((r % 3)) --hero=$(((r * 5) % 14)) --floor=$((r % 6)) --seed=$((20 + r)) $wc")
   r=$((r + 1))

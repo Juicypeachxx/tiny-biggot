@@ -143,7 +143,8 @@ unique**. The game has 252 weapons, 14 heroes, 34 kinds of foe, 11 guardians,
 - **New themed environments with a variety of mobs, each with attack
   patterns of its own** (4.3, 4.4, 4.5).
 - Then the monkey test (4.10), then **one IPA with everything** (4.11).
-  No IPA in between unless he asks: 4.9's per-step IPAs are dropped.
+  No IPA in between unless he asks: 4.9's per-step IPAs are dropped. (He
+  asked for one after 4.4b, before 4.5.)
 
 Where he gave no number, the numbers below are a proposal. Tell him the
 proposal in one line at the start of the step; he can change it.
@@ -202,6 +203,30 @@ look (stage 5 redraws everything together later).
       over the old floors, 20 in all. Each moves or attacks in a way no
       present foe does. Each needs a sprite, a place in a floor's pool, and a
       line in the content test.
+- [x] 4.4b **Floors as a map, and three things from his clips** (his ask, 5 Oct:
+      "98% identical" in mechanics, layout and timing; the art, icons and
+      names are this game's own, rule 3). Then **an IPA for him to test
+      before 4.5** (his ask; the one exception to "no IPA in between").
+      - **Floors are a branching map**, not a chain: dead ends with the shop,
+        the rift, treasure, mystery and shrine rooms; the guardian at the
+        farthest dead end; hidden rooms behind cracked walls (bomb them); a
+        vault behind a locked door; a minimap. `--classic` and `--linear`
+        keep the chain. (`scripts/world/floor_map.gd`, `tests/map_test`.)
+      - **Level-up screen**: a burst of light, then a framed panel of trait
+        rows that shine in one by one, keywords in colour with their
+        explanations in small panels, a 4th choice with luck.
+        (`scripts/render/trait_view.gd`.)
+      - **Items on the floor**: sparkles fall, then a beam in the rarity's
+        colour comes down and settles; the card colours its keywords and
+        explains them beside it; a treasure room can hold three items on
+        stone pedestals, take one and the rest sink away.
+        (`scripts/render/item_show.gd`.)
+      - **The constellation** (title menu): a web of 89 passive stars in
+        four directions (offense, defense, agility, fortune), 21 of them
+        named notables. Points from guardians beaten (1) and wins (2), up to
+        30. Tap to read, tap again to take, hold to give back, drag and
+        pinch. (`scripts/game/stars.gd`, `scripts/render/star_view.gd`,
+        `tests/stars_test`.)
 - [ ] 4.5 **New bosses.** Proposal: a guardian and a mini-boss for each new
       environment. A guardian has at least three attacks, each with a warning
       the player can read (the lanes, rings and bands in
