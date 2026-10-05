@@ -398,6 +398,9 @@ cages: `IDS` stays ten). New: `Room.kit`, `spawn_boss(key, quiet)`, sounds
 turrets): a gust's shard could land in the grace. Tests: bosses test section 6
 (planted faults caught: no double damage asleep, a bowl that does nothing),
 pets test has REX; three 10-minute soaks from the barn, 0 errors.
+`tools/check.sh`: CHECK PASSED, all 14 replays identical. The IPA with the
+rift bosses, the pets and Rex was pushed with `[ipa]` after that (release
+`ipa-latest`). Not tested on the iPad.
 
 ## Noted, not yet acted on
 
