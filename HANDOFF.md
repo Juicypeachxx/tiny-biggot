@@ -417,7 +417,8 @@ and puppet registered as actions). The uniqueness report now counts a new
 kind's twists: no part-1 weapon is in a "same" or "near" group; five are the
 plain weapon of a new kind. 25 soaks of 10 minutes, one per weapon (half with
 +6 projectiles), 0 errors. Full-content replays re-recorded; the 6 classic ones
-identical. Not tested on the iPad.
+identical. `tools/check.sh`: CHECK PASSED. The IPA with part 1 was pushed with
+`[ipa]` after that (release `ipa-latest`). Not tested on the iPad.
 
 ## Noted, not yet acted on
 
