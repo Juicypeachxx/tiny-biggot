@@ -527,7 +527,10 @@ guns' shots now go on through a foe, and hit a little harder (the
 interceptor then cleared 37 rooms in 10 minutes on the seed where it had
 been stuck in room 7). Re-soaked after the fixes: all 25 part-4 weapons and
 the 11 older ones whose shots changed, 0 errors, no stalls (the slowest, the
-plasma slugger, spends up to two minutes in summoner rooms).
+plasma slugger, spends up to two minutes in summoner rooms). Full-content
+replays re-recorded; the 6 classic ones identical. `tools/check.sh`: CHECK
+PASSED. The IPA with all 100 new weapons was pushed with `[ipa]` after that
+(release `ipa-latest`). Not tested on the iPad.
 
 ## Noted, not yet acted on
 
