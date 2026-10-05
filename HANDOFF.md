@@ -1,7 +1,8 @@
 # Handoff: where the work stands
 
 Kept up to date at every push, so that a session that is cut off (it has
-happened twice to usage limits) loses nothing. Read this first.
+happened twice to usage limits) loses nothing. `CLAUDE.md` has the rules and
+`ROADMAP.md` the plan, step by step; this file is the detail of what was done.
 
 The Godot project is in `tiny_biggot_godot/` (Godot 4.6.1, GL Compatibility).
 `TinyBiggot-Stage2.zip` is the RPG Maker original it was ported from.

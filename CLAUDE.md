@@ -1,0 +1,96 @@
+# Tiny Biggot Rogues
+
+A pixel roguelite for iPad, made in Godot 4.6.1 (GL Compatibility renderer).
+The project is in `tiny_biggot_godot/`. `TinyBiggot-Stage2.zip` is the RPG
+Maker original it was ported from; leave it alone.
+
+**Start every session by reading `ROADMAP.md` (what to do next) and
+`HANDOFF.md` (where things stand).** Do the next open step in `ROADMAP.md`
+unless the owner says otherwise.
+
+## The owner
+
+Jože plays on an iPad Air M1. He installs the game as an IPA with SideStore
+and can also open the project in Xogot (Godot 4.6.1 on iPad). He is not a
+programmer. Write to him in short, plain English. Always say what you
+measured, and what you could not test (there is no iPad and no Mac in the
+cloud container).
+
+## Rules that do not change
+
+1. **Nothing is removed or toned down.** No weapon, effect, enemy, "broken"
+   build or bit of chaos goes away to make something else easier.
+2. **A steady 60 frames a second on the iPad Air M1.**
+3. **Art is original.** The look takes ideas from Tiny Rogues, Dead Cells,
+   Aion and League of Legends. No sprite, character, name or logo from any
+   game is copied or traced.
+4. **Original content stays as it was.** `tests/replays/classic/` are
+   recordings of the original game's rules. They are never re-recorded. If
+   they change, something original was broken.
+5. **Godot 4.6.1 only.** No 4.7 features: the project must still open in Xogot.
+
+## His usage is limited
+
+Sessions have been cut off by usage limits more than once. So:
+
+- One step of `ROADMAP.md` per session, unless he asks for more.
+- Commit and push after every piece that works. Update `HANDOFF.md` in the
+  same push.
+- No long exploration. No sub-agents unless a step in `ROADMAP.md` calls for a
+  review. Run the one test that covers your change while you work, and the
+  full suite once at the end of the step.
+- When a step is done: say in five lines what changed, what was checked, what
+  he should try on the iPad, and stop.
+
+## Working on the project
+
+Setup in a fresh container (about a minute):
+
+    curl -fsSL -o /tmp/godot.zip https://github.com/godotengine/godot/releases/download/4.6.1-stable/Godot_v4.6.1-stable_linux.x86_64.zip
+    unzip -q /tmp/godot.zip -d /opt/godot
+    export GODOT=/opt/godot/Godot_v4.6.1-stable_linux.x86_64
+    cd tiny_biggot_godot && $GODOT --headless --path . --import
+
+Commands, run in `tiny_biggot_godot/`:
+
+| What | Command |
+|---|---|
+| The whole test suite (8-10 minutes) | `GODOT=$GODOT bash tools/check.sh` |
+| One test | `$GODOT --headless --path . res://tests/NAME.tscn -- --no-save` |
+| Play 30 s without a screen | `$GODOT --headless --path . --fixed-fps 60 --quit-after 1800 -- --no-save --bot --smart-bot --god --seed=3 --hero=2` |
+| A screenshot | `xvfb-run -a $GODOT --path . --rendering-driver opengl3 -- --no-save --seed=3 --hero=2 --shot=/tmp/a.png --shot-frame=300` |
+| After adding or changing any graphic | `GODOT=$GODOT bash tools/bake_atlas.sh` |
+| After adding content on purpose | `GODOT=$GODOT tools/replay.sh record` (full-content replays only) |
+
+All test options are listed in `scripts/debug_args.gd`. `tools/dev/` has the
+scripts for comparing pictures between two builds and for timing.
+
+How the code is laid out, and the traps of the port: `PORTING_NOTES.md`.
+Items are data (an id and a list of effects): `scripts/effects/`,
+`scripts/data/`, `CONTENT_BATCH_1.md`. A hero with a mechanic of its own, as a
+model: `GAOLBIRD.md`. Rooms and events: `RIFTS.md`, `BIOMES.md`. Effects:
+`EFFECTS.md`, `ATTACK_EFFECTS.md`. Speed: `PERFORMANCE.md`, `IOS_BUILD.md`.
+
+## Checks before anything is called done
+
+- `tools/check.sh` ends with `CHECK PASSED`.
+- A change that is not meant to change the picture changes no pixel: record
+  the same seeded run before and after (`tools/dev/cmpbuilds.sh`).
+- A change that is not meant to change the rules leaves all replays identical.
+- New content: `tests/content_test.tscn` passes (it gives every item to a hero
+  in a live fight and checks every shown string fits the pixel font).
+- New or changed graphics: the atlas is baked and `tests/atlas_test.tscn`
+  passes. A graphic taller than 96 px stays out of the atlas and costs draw
+  calls: keep sprites within that.
+
+## Building the IPA
+
+Push a commit whose message contains `[ipa]`. GitHub builds the app on a Mac
+in about a minute and a half and publishes `TinyBiggot.ipa` as the release
+`ipa-latest`. Do this once at the end of a step, not on every commit.
+Follow it with `gh run list` and `gh run watch <id>`.
+
+## Git
+
+Work on a `claude/...` branch and push it. Do not push to `main` unless the
+owner asks. End commit messages with the session's attribution lines.
