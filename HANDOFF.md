@@ -19,19 +19,20 @@ The Godot project is in `tiny_biggot_godot/` (Godot 4.6.1, GL Compatibility).
 - Write to him in plain, short English. Say what was measured and what could
   not be tested (there is no iPad and no Mac in the cloud container).
 
-## What he asked for on 5 Oct (the roadmap)
+## What he asked for on 5 Oct, in his order
 
-1. **An IPA** he can sideload on the iPad Air M1, built through GitHub.
-2. **A stability check and a performance check**, thorough.
-3. **10+ new rooms, 100+ new weapons, 10+ new characters** with their own
-   playstyles. Every weapon, relic and piece of equipment must feel unique
-   (the game has 252 weapons, 14 heroes and 96+ gear pieces already, so this
-   includes going through the existing ones for near-duplicates).
-4. **A pixel-art revamp of all sprites** in the spirit of the influences above,
-   at sizes that still fit the game.
+1. **A working IPA** he can sideload on the iPad Air M1, built through GitHub.
+   Done: see "The IPA build". Waiting for his word that it installs and runs.
+2. **A performance patch**, then a stability check. Best done from what he
+   reports from the iPad (OPTIONS > SHOW FPS: FPS, LOGIC, DRAW, WORST).
+3. **New things, last**: 10+ rooms, 100+ weapons, 10+ characters with their
+   own playstyles, every weapon, relic and piece of equipment unique (the game
+   already has 252 weapons, 14 heroes and 96+ gear pieces, so this includes
+   going through the existing ones for near-duplicates), and a pixel-art
+   revamp of all sprites in the spirit of the influences above.
 
-Order agreed so far: 1 first. 3 and 4 are large and need his answers on art
-direction and priorities before they start (asked on 5 Oct; see the chat).
+He asked not to spend his usage on debugging and new things before the IPA
+works. Keep each step small, commit and push after each.
 
 ## Branch and commits
 
@@ -71,36 +72,56 @@ With the atlas stored as `assets/atlas/sprites.res`:
   sprite places accepted in 21 of 120;
 - `ResourceSaver.save` reports OK on a full disk and leaves a partial file.
 
-## State of the fix
+## State of the fix: done (ef0d6af, 101017b)
 
 The atlas file is no longer a Godot resource. It is a file of the game's own
-(`sprites.tbatlas`: "TBAT", an MD5 of everything after it, the unpacked size,
-then `var_to_bytes` of the notes and pixels, zstd-packed). `Img.notes_in`
-checks the checksum before anything is unpacked, and `Img.write_whole` reads
-back what it wrote before moving it into place.
+(`assets/atlas/sprites.tbatlas`: "TBAT", an MD5 of everything after it, the
+unpacked size, then `var_to_bytes` of the notes and pixels, zstd-packed).
+`Img.notes_in` checks the checksum before anything is unpacked, and
+`Img.write_whole` reads back what it wrote before moving it into place. Both
+export presets include `*.tbatlas` (it is not a resource, so only a filter
+gets it into the pack).
 
-Done:
-- `scripts/core/img.gd`: the new format, loader and writer. It runs: a first
-  start packs the atlas and writes the game's own file, the next start loads
-  it ("cached").
+Checked on 101017b:
+- `tools/check.sh` passes, 14 replays identical.
+- `tests/atlas_test.gd`: 513 single-bit flips, 342 cuts and eleven other kinds
+  of damage are refused without an engine error; eight planted faults in the
+  loader were each caught.
+- The project's file cut at seven lengths, or with a bit flipped: the game
+  starts and packs the atlas itself. A full disk leaves no partial file.
+- 30 seeded runs, 17,400 frames, against 4ecba1f: no pixel differs, sound the
+  same, with the atlas loaded from the project's file (25 runs), packed at
+  start-up (2), loaded from the game's own file (2) and switched off (1).
+  (The commit message of 101017b says 17,820 frames; 17,400 is right.)
+- A Linux release export carries the file and loads it ("baked", about 50 ms).
 
-Not done yet (in this order):
-1. `tests/atlas_test.gd` still uses the old API and will not compile. Rewrite
-   for `read_file` / `notes_in` / `bake_fits` / `picture_fits(m)`, and add
-   file-damage cases: every header byte and many body bytes flipped, cuts at
-   many lengths, zeroed blocks, wrong magic, a right checksum around garbage.
-   All must be refused with no engine error line.
-2. `export_presets.cfg`: `include_filter="*.json, *.tbatlas"` in both presets
-   (the file is not a resource, so it is only exported if a filter names it).
-3. Delete `assets/atlas/sprites.res`, run `tools/bake_atlas.sh` to write
-   `sprites.tbatlas`, fix the old file name in `tools/bake_atlas.sh`,
-   `IOS_BUILD.md` and `PORTING_NOTES.md`.
-4. Re-run: `tools/check.sh`; pictures and traces against 4ecba1f in the four
-   atlas modes (shipped file, `--no-bake`, the game's own file, `--no-atlas`);
-   a clean unpack; Linux and iOS exports (does the pack hold the file, does the
-   exported build say "baked"); the cut and bit-flip campaigns (0 crashes).
-5. Re-measure only the atlas load time for `IOS_BUILD.md`; the stall figures
-   there do not depend on the file format.
+Not redone after the file-format change, because nothing they measure
+changed: the stall timings and the 45-scene sweep in `IOS_BUILD.md`.
+
+## The IPA build
+
+`.github/workflows/build-ipa.yml` builds an unsigned `TinyBiggot.ipa` on a
+GitHub Mac (macos-15): Godot 4.6.1 imports the project, `tools/bake_atlas.sh`
+makes and tests the atlas, the iOS preset exports the Xcode project with the
+release engine, `xcodebuild` builds it with signing off, and the app is zipped
+as `Payload/`. The IPA is kept with the run and published as the release
+`ipa-latest` (replaced by each build).
+
+- It runs when a pushed commit message contains `[ipa]`, or from the Actions
+  page ("Run workflow") once the file is on the default branch. Other pushes
+  start nothing.
+- First run: 1 min 18 s, green. The IPA is 28 MB: arm64, release engine,
+  bundle id `com.joze.tinybiggot`, minimum iOS 14.0, Game Mode keys set, not
+  signed (SideStore signs it).
+- Its pack, run with a Linux desktop player, loads the atlas ("baked") and
+  plays. All 842 imported graphics in it are byte-identical to the Linux
+  import, so the atlas file made on Linux fits what the Mac imports.
+- From a cloud session: `gh run list`, `gh run watch <id>` and
+  `gh api repos/Juicypeachxx/tiny-biggot/releases/tags/ipa-latest` work.
+  Run logs and run artifacts cannot be downloaded (blocked by the session's
+  network rules); the release asset can:
+  `gh api -H "Accept: application/octet-stream" repos/Juicypeachxx/tiny-biggot/releases/assets/<id> > TinyBiggot.ipa`.
+- **Not known yet:** that it installs with SideStore and runs on the iPad.
 
 ## Noted, not yet acted on
 

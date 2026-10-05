@@ -77,8 +77,22 @@ the script side of drawing.
 
 ## Building it
 
-Not tested here: there is no Mac. These are the usual steps for Godot 4.6
-and Xcode.
+### On GitHub (what is used now)
+
+The repository builds the IPA itself, on one of GitHub's Macs
+(`.github/workflows/build-ipa.yml`). A build starts when a commit is pushed
+whose message contains `[ipa]`, and takes about a minute and a half. The
+result is `TinyBiggot.ipa` under Releases > "Tiny Biggot Rogues: latest iPad
+build". It is not signed: SideStore signs it with your Apple ID when it
+installs it.
+
+The build imports the project, makes the sprite atlas from that import and
+tests it, plays 20 seconds without a screen, exports the Xcode project with
+the release engine, and builds it with Xcode.
+
+### By hand on a Mac
+
+Not tested: these are the usual steps for Godot 4.6 and Xcode.
 
 1. On the Mac, install **Godot 4.6.1** (the standard build, the same version
    the project is made for) and Xcode. In Godot: Editor > Manage Export
@@ -187,16 +201,18 @@ Keeping the atlas's pixels in memory costs 16 MB of RAM.
 - **The iPad's graphics chip.** Everything above was measured with a software
   renderer. How long the launch warm-up takes on the iPad, and how much of
   each stall the iPad had, I do not know.
-- **The Xcode build, signing, the IPA and SideStore.** No Mac here. The iOS
-  export itself was run here as far as it goes on Linux: it writes the Xcode
-  project, with the release engine, "Apple Development" as the signing
-  identity, the Game Mode lines in the Info.plist, a black launch screen,
-  and a resource pack that a desktop player runs with the same pictures.
-  That Xcode accepts the signing settings is what its documentation and
-  other people's reports say; I have not seen it.
-- **Whether the atlas file fits on the iPad and on the Mac at once.** Both
-  import the graphics themselves when they first open the project. If they
-  store them differently from this machine, the first start in Xogot, and
-  the first launch of the app, take longer once (see above).
+- **Installing with SideStore and running on the iPad.** The IPA is built
+  and I have opened it: the app is for arm64 with the release engine, the
+  Game Mode lines are in its Info.plist, and its resource pack runs in a
+  desktop player with the same pictures. Whether SideStore installs it and
+  the iPad runs it, I have not seen.
+- **Signing in Xcode by hand.** The preset asks for "Apple Development".
+  That Xcode accepts it with a free Apple ID is what its documentation and
+  other people's reports say. The GitHub build does not sign at all.
+- **Whether the atlas file fits in Xogot at once.** Xogot imports the
+  graphics itself when it first opens the project. If it stores them
+  differently from this machine, the first start there takes longer once (see
+  above). On GitHub's Mac the import came out byte for byte the same as here,
+  and the app's atlas is made from that import, so the app is not affected.
 - **Game Mode.** The lines are the ones Apple documents. I have not seen the
   system react to them.
