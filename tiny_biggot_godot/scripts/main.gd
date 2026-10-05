@@ -183,6 +183,11 @@ func _physics_process(_delta: float) -> void:
 			var idx: int = (_ticks / every) % all.size()
 			Weapons.equip_weapon(G.player, all[idx])
 			print("[weapon] ", all[idx]["id"], " (", all[idx]["kind"], ")")
+	# --objects prints, once a minute of game time, how many engine objects there are (leak soaks).
+	if DebugArgs.has("objects") and _ticks % 3600 == 0:
+		print("[objects] t=%dm objects=%d nodes=%d resources=%d enemies=%d" % [_ticks / 3600,
+			Performance.get_monitor(Performance.OBJECT_COUNT), Performance.get_monitor(Performance.OBJECT_NODE_COUNT),
+			Performance.get_monitor(Performance.OBJECT_RESOURCE_COUNT), G.enemies.size()])
 	# --hurt-at=TICK lands one hit on the hero at that tick (picture tests of hit reactions).
 	if DebugArgs.has("hurt-at") and _ticks == DebugArgs.get_int("hurt-at") and G.player != null and G.state == &"play":
 		var was_god := G.god

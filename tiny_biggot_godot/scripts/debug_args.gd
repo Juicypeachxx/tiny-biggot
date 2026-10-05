@@ -27,6 +27,7 @@ extends RefCounted
 ##   --trace=FILE                 write one line of game state per second (replay comparison)
 ##   --bench[=N]                  keep ~N enemy shots alive and print logic time per tick
 ##   --hitch-log=MS               print every frame that took longer than MS milliseconds
+##   --objects                    print the engine's object count once a minute of game time (leak soaks)
 ##   --no-warmup                  skip the launch warm-up (scripts/render/warmup.gd)
 ##   --no-bake                    pack the sprite atlas at start-up instead of loading a ready-made one
 ##   --no-atlas                   no sprite atlas at all: every graphic is its own texture
