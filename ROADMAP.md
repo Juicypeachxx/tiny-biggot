@@ -176,6 +176,24 @@ look (stage 5 redraws everything together later).
       with its own tiles, a hazard of its own, and at least 4 room layouts
       that use it (that gives the 10+ rooms). `BIOMES.md` and `RIFTS.md` show
       how the present ones are built. One environment a session.
+- [ ] 4.3b **Event rooms, special rooms, NPCs, easter eggs** (his ask, 5 Oct).
+      - A **saloon** event room: a whole bar with NPCs. A bartender sells
+        booze (drinks are timed buffs, each with a catch of its own); a
+        merchant NPC sells things; a quest giver hands out quests (a goal
+        for this floor, such as "kill 3 elites without being hit", with a
+        reward when it is done). Needs a small quest system: one quest at a
+        time, shown on the HUD, checked by the rules, saved in the run.
+      - Proposal: 5 more event rooms of that kind (rooms with people and
+        something happening, not only a chest) and 3 special rooms. Tell
+        him the list in one line first.
+      - **Easter eggs** in those rooms (a hidden interaction, a joke, a
+        secret reward). Original jokes only, no names from other games.
+      - **NPCs scattered smartly**: rare wanderers in ordinary rooms that
+        have a reason to be there (a lost merchant in a cleared room, a
+        drunk from the saloon on the next floor, a quest giver's helper),
+        never in a fight's way, never blocking a door.
+      - Sprites for every NPC, the bar and its props; the content test
+        visits every room and talks to every NPC.
 - [ ] 4.4 **New mobs.** Proposal: 5 for each new environment and 5 more spread
       over the old floors, 20 in all. Each moves or attacks in a way no
       present foe does. Each needs a sprite, a place in a floor's pool, and a
@@ -298,3 +316,7 @@ before-and-after picture for him, a new IPA.
 - 5 Oct 2026: 4.2 done (part 2: 49 gear, 19 relics). Every new item now
   has a mechanic of its own; content test passes, classic replays
   identical, full replays d, g, h re-recorded. Next: 4.3 (environments).
+- 5 Oct 2026: he asked for event rooms with NPCs (a saloon with a
+  bartender selling booze, a merchant, a quest giver), special rooms,
+  easter eggs and smartly scattered NPCs: new step 4.3b, after the first
+  environment. 4.3 started: a new rift world, SKYREACH ISLES.
