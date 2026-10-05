@@ -126,6 +126,12 @@ as `Payload/`. The IPA is kept with the run and published as the release
   `gh api -H "Accept: application/octet-stream" repos/Juicypeachxx/tiny-biggot/releases/assets/<id> > TinyBiggot.ipa`.
 - He installed it with SideStore on the iPad Air M1 on 5 Oct: it installs and
   works.
+- 5 Oct, part 1 build: the release came out as a hidden **draft** (its URL read
+  `untagged-...`, and fetching it by tag gave 404). The old tag's deletion
+  landed after the new release was made, and GitHub drafts a release whose
+  tag is deleted. The workflow now moves the tag (`git tag -f`, force push)
+  instead of deleting it, and publishes the release if it is still a draft.
+  After a build, check `draft: false` in the release list.
 
 ## Stage 2 (performance)
 
