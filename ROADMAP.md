@@ -161,11 +161,13 @@ full-content replays (`tools/replay.sh record`) at the end of each step that
 adds content. Every new thing needs its sprite; draw it in the game's present
 look (stage 5 redraws everything together later).
 
-- [ ] 4.1 **Take stock.** Write `UNIQUENESS.md`: every weapon, relic and gear
+- [x] 4.1 **Take stock.** Write `UNIQUENESS.md`: every weapon, relic and gear
       piece with a short "signature" worked out from its data (kind, attack
       pattern, effects, conditions). List the groups whose signatures are the
       same or nearly so. No changes yet. Tell him the count and three
-      examples.
+      examples. (Done: `tiny_biggot_godot/UNIQUENESS.md`, made by
+      `tests/uniqueness_report.tscn`. About 114 new items need a mechanic of
+      their own: 20 weapons, 45 relics, 49 gear; "numbers only" items count.)
 - [ ] 4.2 **Make the duplicates different.** For each group from 4.1 give all
       but one a mechanic of its own. Nothing is deleted, and original items
       are left alone (they are the classic game). Largest groups first; stop
@@ -285,3 +287,7 @@ before-and-after picture for him, a new IPA.
   abilities, themed environments, mobs with their own attack patterns), then
   the monkey test, then one IPA (4.11). Stage 3's IPA waits for that. Run
   saving (see HANDOFF) not answered yet.
+- 5 Oct 2026: 4.1 done. `UNIQUENESS.md` lists 252 weapons, 173 relics and
+  231 gear pieces with a signature each. New items that are near-copies of
+  another or change only numbers: 20 weapons, 45 relics, 49 gear (114).
+  Originals are listed but left alone. Next: 4.2.

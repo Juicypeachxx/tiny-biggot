@@ -1,0 +1,889 @@
+# Uniqueness: what every weapon, relic and gear piece does
+
+Made by `tests/uniqueness_report.tscn` from the game's data (ROADMAP 4.1). Do not edit by hand:
+run it again after changing items. Numbers are left out on purpose: two swords that differ by
+10% damage are one sword. ORIGINAL items are the classic game and are not changed.
+Not seen by the signature: what a hero does with a signature weapon (`Weapons.HERO_WEAPON`),
+and the look of an attack. A gear piece's set counts for "same", not for "near".
+
+- **Same**: identical signatures.
+- **Near**: the same once it is set aside how much, and in which way, a stat is changed; for a
+  weapon also which plain stats it gives (same attack kind, mechanics and triggered effects).
+- **Numbers only**: no triggered effect, no hook and (weapons) no mechanic of its own beyond its
+  attack kind: it only changes numbers.
+
+| | Items | Original | New | In a "same" group | In a "near" group | New items in a "near" group | Numbers only (new) |
+|---|---|---|---|---|---|---|---|
+| Weapons | 252 | 113 | 139 | 10 | 51 | 19 | 46 (12) |
+| Relics | 173 | 66 | 107 | 49 | 49 | 29 | 84 (36) |
+| Gear | 231 | 96 | 135 | 2 | 31 | 14 | 93 (47) |
+
+## Weapons
+
+### Same signature (5 groups)
+
+- 2: `flame |  | poison |  | `  
+  bilesprayer (ORIGINAL), bogpump
+- 2: `slash |  |  |  | on_roll>nova`  
+  twinshivs, tumbleredge
+- 2: `summon |  | fam_rate |  | `  
+  hivestaff (ORIGINAL), wispcrook
+- 2: `thrust |  |  |  | `  
+  pike (ORIGINAL), warlance
+- 2: `whip |  |  |  | `  
+  drovewhip (ORIGINAL), shackleflail
+
+### Near (18 groups)
+
+- 5: `flame |  |  | `  
+  firespitter (ORIGINAL), bilesprayer (ORIGINAL), frostbellows (ORIGINAL), bogpump, lampflamer
+- 5: `whip |  |  | `  
+  drovewhip (ORIGINAL), bramblewhip (ORIGINAL), lightninglash (ORIGINAL), shackleflail, hexchain
+- 4: `flask |  |  | `  
+  flasksling (ORIGINAL), firebottle (ORIGINAL), frostvial (ORIGINAL), firepot
+- 4: `summon |  |  | `  
+  gravebell (ORIGINAL), hivestaff (ORIGINAL), warbanner (ORIGINAL), wispcrook
+- 4: `thrust |  |  | `  
+  pike (ORIGINAL), warlance, ironpike, briarspear
+- 3: `orb |  |  | `  
+  hexwand (ORIGINAL), emberwand (ORIGINAL), rimerod (ORIGINAL)
+- 3: `pulse |  |  | `  
+  emberorb (ORIGINAL), frozenheart (ORIGINAL), plaguebell (ORIGINAL)
+- 3: `slash |  |  | `  
+  rustblade (ORIGINAL), banesabre, frostfang
+- 2: `bolt | pierce |  | `  
+  repeater (ORIGINAL), warbow
+- 2: `disc |  |  | `  
+  sawblade (ORIGINAL), thunderring (ORIGINAL)
+- 2: `disc | count+ |  | `  
+  mirrorshard, giltdeck
+- 2: `gatling |  |  | `  
+  crankgun (ORIGINAL), sunspitter (ORIGINAL)
+- 2: `mine |  |  | `  
+  snaremine (ORIGINAL), frosttrap (ORIGINAL)
+- 2: `nova | count+ |  | `  
+  frostbloom (ORIGINAL), thorntome (ORIGINAL)
+- 2: `pulse |  | linger | `  
+  gravitywell (ORIGINAL), blightcenser
+- 2: `slash |  |  | on_roll>nova`  
+  twinshivs, tumbleredge
+- 2: `slash |  | parry | `  
+  sabre (ORIGINAL), wayfareredge
+- 2: `thrust |  | parry | `  
+  halberd (ORIGINAL), towershield
+
+### Numbers only (46, 12 of them new)
+
+hexwand (ORIGINAL), emberwand (ORIGINAL), rimerod (ORIGINAL), pithatchet (ORIGINAL), graveshovel (ORIGINAL), flasksling (ORIGINAL), firebottle (ORIGINAL), frostvial (ORIGINAL), lantern (ORIGINAL), rustblade (ORIGINAL), pike (ORIGINAL), prismrod (ORIGINAL), firespitter (ORIGINAL), bilesprayer (ORIGINAL), frostbellows (ORIGINAL), sawblade (ORIGINAL), thunderring (ORIGINAL), emberorb (ORIGINAL), frozenheart (ORIGINAL), plaguebell (ORIGINAL), sparkrune (ORIGINAL), bonechime (ORIGINAL), snaremine (ORIGINAL), frosttrap (ORIGINAL), arbalest (ORIGINAL), burstpistol (ORIGINAL), crankgun (ORIGINAL), sunspitter (ORIGINAL), drovewhip (ORIGINAL), bramblewhip (ORIGINAL), lightninglash (ORIGINAL), gravebell (ORIGINAL), hivestaff (ORIGINAL), warbanner (ORIGINAL), wispcrook, banesabre, shackleflail, warlance, bogpump, firepot, ironpike, frostfang, iciclerepeater, lampflamer, hexchain, briarspear
+
+### Every weapon
+
+| id | name | | signature |
+|---|---|---|---|
+| repeater | REPEATER | ORIGINAL | `bolt | pierce |  |  | ` |
+| huntbow | HUNTING BOW | ORIGINAL | `bolt |  |  | far_dmg | ` |
+| streetpistol | STREET PISTOL | ORIGINAL | `bolt |  |  | nth_big | ` |
+| silvercrossbow | SILVERED CROSSBOW | ORIGINAL | `bolt | pierce |  | elite_dmg | ` |
+| longrifle | LONG RIFLE | ORIGINAL | `bolt | pierce |  | still_dmg | ` |
+| thornbow | THORNBOW | ORIGINAL | `bolt |  | poison | split | ` |
+| sunpiercer | SUNPIERCER | ORIGINAL | `bolt | pierce | burn | nth_nova | ` |
+| hexwand | HEX WAND | ORIGINAL | `orb |  |  |  | ` |
+| emberwand | EMBER WAND | ORIGINAL | `orb |  | burn |  | ` |
+| rimerod | RIME ROD | ORIGINAL | `orb |  | chill |  | ` |
+| witchstaff | WITCHWOOD STAFF | ORIGINAL | `orb |  |  | mark | ` |
+| stormcaller | STORMCALLER | ORIGINAL | `orb |  | chain | nth_zap | ` |
+| soulstaff | SOULREAVER STAFF | ORIGINAL | `orb |  |  | souls | ` |
+| laststar | THE LAST STAR | ORIGINAL | `orb |  |  | grow,split | ` |
+| pithatchet | PIT HATCHET | ORIGINAL | `spin |  |  |  | ` |
+| woodaxe | WOODSMAN'S AXE | ORIGINAL | `spin |  |  | knock | ` |
+| bonecleaver | BONE CLEAVER | ORIGINAL | `spin |  |  | execute | ` |
+| tomahawk | FEATHERED TOMAHAWK | ORIGINAL | `spin |  |  | kill_wisp | ` |
+| ragefang | RAGEFANG AXE | ORIGINAL | `spin |  |  | kill_haste,low_hp_dmg | ` |
+| twincrescent | TWIN CRESCENTS | ORIGINAL | `spin | count+,pierce+ |  | accel | ` |
+| graveshovel | GRAVE SHOVEL | ORIGINAL | `shot |  |  |  | ` |
+| blunderbuss | BLUNDERBUSS | ORIGINAL | `shot | count+ |  | close_dmg | ` |
+| sawnoff | SAWN-OFF | ORIGINAL | `shot | count+ |  | close_dmg,knock | ` |
+| nailspitter | NAIL SPITTER | ORIGINAL | `shot | count+ | poison | shred | ` |
+| hailcannon | HAILSTORM CANNON | ORIGINAL | `shot | count+ | chill | status_dmg | ` |
+| dragonbreath | DRAGON'S BREATH | ORIGINAL | `shot | count+ | burn | kill_explode | ` |
+| flasksling | FLASK SLING | ORIGINAL | `flask |  | explode,poison |  | ` |
+| firebottle | FIREBOTTLE | ORIGINAL | `flask |  | burn,explode |  | ` |
+| acidjar | ACID JAR | ORIGINAL | `flask |  | explode,poison | shred | ` |
+| frostvial | FROST VIAL | ORIGINAL | `flask |  | chill,explode |  | ` |
+| bottledstorm | BOTTLED STORM | ORIGINAL | `flask |  | chain,explode | nth_zap | ` |
+| panacea | PANACEA | ORIGINAL | `flask |  | explode | leech,status_dmg | ` |
+| lantern | WARDEN'S LANTERN | ORIGINAL | `boomer |  |  |  | ` |
+| boomerang | HUNTER'S BOOMERANG | ORIGINAL | `boomer |  |  | gold_hit | ` |
+| chakram | ROVING CHAKRAM | ORIGINAL | `boomer |  |  | accel,mark | ` |
+| reaperhook | REAPER'S HOOK | ORIGINAL | `boomer |  |  | execute,kill_roll | ` |
+| sunlantern | SUNLANTERN | ORIGINAL | `boomer |  | burn | nth_nova | ` |
+| moonglaive | MOONGLAIVE | ORIGINAL | `boomer | count+ | chill | split | ` |
+| rustblade | RUSTED BLADE | ORIGINAL | `slash |  |  |  | ` |
+| sabre | DUELIST SABRE | ORIGINAL | `slash |  |  | parry | ` |
+| wandererkatana | WANDERER'S KATANA | ORIGINAL | `slash |  |  | first_hit,parry | ` |
+| huntsword | SILVER HUNTSWORD | ORIGINAL | `slash |  |  | elite_dmg,status_dmg | ` |
+| gallows | GALLOWS GREATSWORD | ORIGINAL | `slash |  |  | knock,low_hp_dmg | ` |
+| cinderbrand | CINDERBRAND | ORIGINAL | `slash |  | burn | kill_explode | ` |
+| mirrorblade | MIRRORBLADE | ORIGINAL | `slash |  |  | parry,reflect | ` |
+| pike | FOOTMAN'S PIKE | ORIGINAL | `thrust |  |  |  | ` |
+| boarspear | BOAR SPEAR | ORIGINAL | `thrust |  | armor | knock | ` |
+| halberd | WATCHMAN'S HALBERD | ORIGINAL | `thrust |  |  | parry | ` |
+| tidetrident | TIDECALLER TRIDENT | ORIGINAL | `thrust | count+ | chill |  | ` |
+| serpentlance | SERPENT LANCE | ORIGINAL | `thrust |  | poison | pierce_dmg | ` |
+| stormspear | STORMSPEAR | ORIGINAL | `thrust |  | chain | nth_zap | ` |
+| prismrod | PRISM ROD | ORIGINAL | `beam |  |  |  | ` |
+| burninglens | BURNING LENS | ORIGINAL | `beam |  | burn | still_dmg | ` |
+| leechrod | LEECHING ROD | ORIGINAL | `beam |  |  | leech | ` |
+| winterbreath | WINTER'S BREATH | ORIGINAL | `beam |  | chill | status_dmg | ` |
+| voidlight | VOIDLIGHT | ORIGINAL | `beam | pierce |  | mark | ` |
+| judgement | JUDGEMENT RAY | ORIGINAL | `beam | pierce |  | gold_dmg,gold_hit | ` |
+| firespitter | FIRE SPITTER | ORIGINAL | `flame |  | burn |  | ` |
+| bilesprayer | BILE SPRAYER | ORIGINAL | `flame |  | poison |  | ` |
+| frostbellows | FROST BELLOWS | ORIGINAL | `flame |  | chill |  | ` |
+| locustcenser | LOCUST CENSER | ORIGINAL | `flame |  |  | kill_wisp | ` |
+| hellmaw | HELLMAW | ORIGINAL | `flame |  | burn | close_dmg | ` |
+| phoenixbellows | PHOENIX BELLOWS | ORIGINAL | `flame |  | burn | kill_explode,kill_heal | ` |
+| sawblade | SAWBLADE | ORIGINAL | `disc |  |  |  | ` |
+| razordisc | RAZOR DISC | ORIGINAL | `disc |  |  | shred | ` |
+| doubloon | LUCKY DOUBLOON | ORIGINAL | `disc |  | ricochet | gold_hit | ` |
+| thunderring | THUNDER RING | ORIGINAL | `disc |  | chain |  | ` |
+| nightstar | NIGHT STARS | ORIGINAL | `disc | count+ |  | first_hit | ` |
+| worldeater | WORLD-EATER | ORIGINAL | `disc | bounce+ |  | crit_explode,grow | ` |
+| emberorb | EMBER ORB | ORIGINAL | `pulse |  | burn |  | ` |
+| frozenheart | FROZEN HEART | ORIGINAL | `pulse |  | chill |  | ` |
+| plaguebell | PLAGUE BELL | ORIGINAL | `pulse |  | poison |  | ` |
+| gravitywell | GRAVITY WELL | ORIGINAL | `pulse |  |  | linger | ` |
+| blacksun | BLACK SUN | ORIGINAL | `pulse |  |  | linger,souls | ` |
+| sparkrune | SPARK RUNE | ORIGINAL | `zap |  |  |  | ` |
+| coppercoil | COPPER COIL | ORIGINAL | `zap |  |  | nth_zap | ` |
+| maledict | MALEDICTION RUNE | ORIGINAL | `zap |  |  | mark | ` |
+| stormgauntlet | STORM GAUNTLET | ORIGINAL | `zap | chain+ |  | status_dmg | ` |
+| heavensrod | HEAVEN'S ROD | ORIGINAL | `zap | chain+ | crit | crit_explode | ` |
+| bonechime | BONE CHIME | ORIGINAL | `nova |  |  |  | ` |
+| frostbloom | FROST BLOOM | ORIGINAL | `nova | count+ | chill |  | ` |
+| bloodstar | BLOOD STAR | ORIGINAL | `nova |  |  | low_hp_dmg | ` |
+| thorntome | TOME OF THORNS | ORIGINAL | `nova | count+ | poison |  | ` |
+| cataclysm | CATACLYSM | ORIGINAL | `nova | count+ |  | kill_explode,roll_nova | ` |
+| snaremine | SNARE MINES | ORIGINAL | `mine |  |  |  | ` |
+| frosttrap | FROST TRAP | ORIGINAL | `mine |  | chill |  | ` |
+| spiketrap | SPIKE TRAP | ORIGINAL | `mine |  |  | execute | ` |
+| hivepod | HIVE POD | ORIGINAL | `mine |  |  | kill_wisp | ` |
+| doomspring | DOOMSPRING | ORIGINAL | `mine |  |  | crit_explode,kill_explode | ` |
+| arbalest | ARBALEST | ORIGINAL | `rail |  |  |  | ` |
+| harpoon | WHALING HARPOON | ORIGINAL | `rail |  | chill | knock | ` |
+| handcannon | HAND CANNON | ORIGINAL | `rail |  | crit | crit_explode | ` |
+| dawnlance | LANCE OF DAWN | ORIGINAL | `rail |  |  | nth_nova | ` |
+| deicide | DEICIDE | ORIGINAL | `rail |  |  | boss_dmg,execute | ` |
+| burstpistol | THREE-ROUND PISTOL | ORIGINAL | `burst |  |  |  | ` |
+| alleysprayer | ALLEY SPRAYER | ORIGINAL | `burst |  |  | moving_dmg | ` |
+| triplecrossbow | TRIPLE CROSSBOW | ORIGINAL | `burst |  | pierce | pierce_dmg | ` |
+| gildedrevolver | GILDED REVOLVER | ORIGINAL | `burst |  |  | gold_dmg,gold_hit | ` |
+| hailfire | HAILFIRE | ORIGINAL | `burst |  | count | moving_dmg,nth_zap | ` |
+| crankgun | CRANK GUN | ORIGINAL | `gatling |  |  |  | ` |
+| rotarybow | ROTARY BOW | ORIGINAL | `gatling |  |  | kill_wisp | ` |
+| bonegrinder | BONEGRINDER | ORIGINAL | `gatling |  |  | shred | ` |
+| sunspitter | SUNSPITTER | ORIGINAL | `gatling |  | burn |  | ` |
+| dreadnought | DREADNOUGHT | ORIGINAL | `gatling |  | armor | armor_dmg | ` |
+| drovewhip | DROVER'S WHIP | ORIGINAL | `whip |  |  |  | ` |
+| chainlash | CHAIN LASH | ORIGINAL | `whip |  |  | parry | ` |
+| bramblewhip | BRAMBLE WHIP | ORIGINAL | `whip |  | poison |  | ` |
+| lightninglash | LIGHTNING LASH | ORIGINAL | `whip |  | chain |  | ` |
+| bloodvine | BLOODVINE | ORIGINAL | `whip |  |  | execute,leech | ` |
+| gravebell | GRAVE BELL | ORIGINAL | `summon |  |  |  | ` |
+| hivestaff | HIVE STAFF | ORIGINAL | `summon |  | fam_rate |  | ` |
+| bonetome | BONE TOME | ORIGINAL | `summon |  | familiars | kill_wisp | ` |
+| warbanner | WARBANNER | ORIGINAL | `summon |  | fam_dmg,familiars |  | ` |
+| needledirk | NEEDLE DIRK | new | `slash |  | crit |  | on_crit>buff:rate` |
+| drifterblade | DRIFTER'S BLADE | new | `slash |  | crit | parry | every_n_shots>damage` |
+| deadeyebow | DEADEYE LONGBOW | new | `bolt | pierce | crit,crit_mult | far_dmg | on_crit[if elite]>status:mark` |
+| mirrorshard | SHARDS OF THE MIRROR | new | `disc | count+ | crit,overcrit |  | ` |
+| truthseeker | TRUTHSEEKER | new | `rail |  | crit |  | on_crit>explode` |
+| flayinghook | FLAYING HOOK | new | `whip |  |  |  | on_hit>status:bleed` |
+| sanguinering | SANGUINE CHAKRAM | new | `boomer |  |  |  | on_hit>status:bleed; on_kill[if bleeding]>heal` |
+| pactknives | PACT KNIVES | new | `bolt | count+ |  |  | on_room_enter>hurt_self+buff:dmg` |
+| hemoclaws | HEMOCLAWS | new | `slash |  |  | leech | on_hit>status:bleed` |
+| kindlingstaff | KINDLING STAFF | new | `orb |  | burn |  | on_kill[if burning]>explode` |
+| magmamaul | MAGMA MAUL | new | `slash |  | burn | knock | every_n_shots>explode` |
+| flarepistol | FLARE PISTOL | new | `burst |  | burn |  | on_hit>explode` |
+| sunforge | SUNFORGE HALO | new | `nova | count+ | burn |  | on_crit>status:burn` |
+| sporelauncher | SPORE LAUNCHER | new | `flask |  | explode,poison |  | on_kill[if poisoned]>status:poison` |
+| widowneedles | WIDOW NEEDLES | new | `bolt | count+ | poison |  | every_n_shots>status:weakened` |
+| blightcenser | BLIGHT CENSER | new | `pulse |  | poison | linger | ` |
+| serpentspine | SERPENT SPINE | new | `whip |  | poison |  | on_hit[if poisoned]>status:vulnerable` |
+| sparkingrod | SPARKING ROD | new | `zap |  |  |  | on_hit>status:shock` |
+| thunderlance | THUNDER LANCE | new | `thrust |  | chain |  | every_n_shots>lightning` |
+| capacitor | CAPACITOR CANNON | new | `rail |  |  |  | on_hit>status:shock; on_kill[if shocked]>chain` |
+| stormbreaker | STORMBREAKER | new | `gatling |  | chain |  | every_n_shots>lightning+status:shock` |
+| scatterwand | SCATTER WAND | new | `orb | count+ |  |  | every_n_shots>nova` |
+| prismbow | PRISM BOW | new | `bolt | pierce |  | split | ` |
+| orreryblades | ORRERY OF BLADES | new | `disc | count+,bounce+ |  | accel | ` |
+| thousandcuts | THOUSAND CUTS | new | `burst | count+ | ricochet |  | on_shoot>shoot` |
+| wispcrook | WISPHERD'S CROOK | new | `summon |  | fam_rate |  | ` |
+| hivelantern | HIVE LANTERN | new | `boomer |  |  |  | on_kill>summon` |
+| bonebell | BONE BELL | new | `nova |  |  |  | every_n_shots>summon` |
+| courtofshades | COURT OF SHADES | new | `summon |  | fam_dmg,familiars |  | on_room_enter>summon+summon` |
+| twinshivs | TWIN SHIVS | new | `slash |  |  |  | on_roll>nova` |
+| smokebow | SMOKE BOW | new | `bolt |  | roll_speed |  | on_roll>clear_shots` |
+| eclipsescythe | ECLIPSE SCYTHE | new | `slash |  |  | kill_roll | ` |
+| phantomvolley | PHANTOM VOLLEY | new | `disc |  | charges,dodge_charges |  | on_roll>shoot` |
+| towershield | TOWER SHIELD | new | `thrust |  | armor | parry | ` |
+| spikedgauntlets | SPIKED GAUNTLETS | new | `slash |  | thorns |  | on_damage_taken>nova` |
+| ironwoodstaff | IRONWOOD STAFF | new | `orb |  |  | armor_dmg | on_room_clear>armor` |
+| aegisorb | AEGIS ORB | new | `pulse |  |  |  | on_damage_taken>clear_shots+buff:dmg` |
+| ragecleaver | RAGE CLEAVER | new | `slash |  |  | low_hp_dmg | on_kill>buff:rate` |
+| graveslab | GRAVESLAB | new | `slash |  |  | knock | on_kill[if low_hp]>heal` |
+| warhornaxe | WARHORN AXE | new | `spin |  |  |  | on_damage_taken>buff:rate` |
+| frenzychain | FRENZY CHAIN | new | `whip |  |  |  | while_low_hp>buff:rate+buff:dmg` |
+| undyinghatchets | UNDYING HATCHETS | new | `spin | count+ |  |  | while_low_hp>buff:dmg` |
+| coincannon | COIN CANNON | new | `shot | count+ |  | gold_hit | on_kill>gold` |
+| gildedrapier | GILDED RAPIER | new | `slash |  |  | gold_dmg | on_crit>gold` |
+| luckydeck | LUCKY DECK | new | `disc | count+ | crit |  | on_crit>gold` |
+| tithescepter | TITHE SCEPTER | new | `zap | chain+ |  | gold_dmg,gold_hit | on_room_clear>gold` |
+| hexsickle | HEXBOUND SICKLE | new | `slash |  |  |  | on_hit>status:curse` |
+| cursedflintlock | CURSED FLINTLOCK | new | `rail |  | max_hp |  | on_hit[if cursed]>damage` |
+| weepingstaff | WEEPING IDOL STAFF | new | `orb |  |  |  | on_shoot>hurt_self; pct:dmg` |
+| doombell | DOOMSAYER'S KNELL | new | `nova | count+ |  |  | on_hit>status:curse; on_kill[if cursed]>explode` |
+| juggler | JUGGLER'S PINS | new | `spin | count+ |  | accel | every_n_shots>nova` |
+| bannerpike | RALLYING PIKE | new | `thrust |  | familiars |  | on_room_clear>summon+summon` |
+| banesabre | BANE SABRE | new | `slash |  | crit |  | ` |
+| ironslab | IRON SLAB | new | `slash |  |  | knock | ` |
+| wayfareredge | WAYFARER'S EDGE | new | `slash |  | crit | parry | ` |
+| snubguns | SNUB GUNS | new | `burst | count+ |  |  | on_kill>drop` |
+| shackleflail | SHACKLE FLAIL | new | `whip |  |  |  | ` |
+| giltdeck | GILT DECK | new | `disc | count+ |  |  | ` |
+| warlance | WAR LANCE | new | `thrust |  |  |  | ` |
+| irontalons | IRON TALONS | new | `slash |  | crit |  | every_n_shots>area+vfx:spin+vfx:ring` |
+| bogpump | BOG PUMP | new | `flame |  | poison |  | ` |
+| leechlance | LEECHING LANCE | new | `thrust |  |  | leech,status_dmg | ` |
+| frogspawn | FROGSPAWN SATCHEL | new | `mine |  | poison |  | on_kill>summon` |
+| witchlight | WITCH-LIGHT LANTERN | new | `pulse |  | poison |  | every_n_shots>shoot` |
+| rainmaker | RAINMAKER'S ROD | new | `zap | chain+ |  |  | every_n_seconds[if fighting]>lightning` |
+| warbow | WARBOW | new | `bolt | pierce | crit |  | ` |
+| volleybow | VOLLEY BOW | new | `bolt | count+ |  |  | ` |
+| firepot | FIREPOT SLING | new | `flask |  | burn |  | ` |
+| siegearbalest | SIEGE ARBALEST | new | `rail |  |  | knock | on_room_clear>armor` |
+| bannermaul | BANNER MAUL | new | `slash |  | full_hp_dmg |  | on_kill>buff:rate` |
+| cinderwhip | CINDER WHIP | new | `whip |  | burn |  | on_kill[if burning]>explode` |
+| scorchcannon | SCORCH CANNON | new | `gatling |  | burn |  | every_n_shots>shoot` |
+| ironpike | IRON PIKE | new | `thrust |  | armor |  | ` |
+| prayerbeads | PRAYER BEADS | new | `nova | count+ |  |  | on_roll>nova` |
+| frostfang | FROSTBITE FANG | new | `slash |  | chill,vs_chill |  | ` |
+| avalanche | AVALANCHE STAFF | new | `orb |  | chill |  | on_kill[if chilled]>explode` |
+| quarterstaff | MONK'S QUARTERSTAFF | new | `thrust |  |  |  | on_roll>buff:dmg` |
+| templebell | TEMPLE BELL | new | `pulse |  |  |  | on_damage_taken>nova` |
+| iciclerepeater | ICICLE REPEATER | new | `bolt |  | chill |  | ` |
+| stillwater | BLADE OF STILL WATER | new | `slash |  | crit |  | on_hit[if still]>damage; on_roll[if danger]>buff:dmg` |
+| sixshooter | SIX-SHOOTER | new | `burst |  | crit |  | every_n_shots>damage` |
+| alleyscatter | ALLEY SCATTERGUN | new | `shot | count+ |  |  | ` |
+| throwknives | THROWING KNIVES | new | `bolt | count+ | crit | kill_roll | ` |
+| drumgun | DRUM GUN | new | `gatling |  |  |  | on_kill>drop` |
+| grapnel | GRAPPLING HOOK | new | `whip |  |  |  | on_hit>status:mark` |
+| smokecharges | SMOKE CHARGES | new | `mine |  |  |  | on_roll>clear_shots` |
+| goldengun | GOLDEN GUN | new | `rail |  | crit | gold_dmg | on_kill>gold` |
+| crowcaller | CROWCALLER | new | `summon |  |  |  | on_kill>summon` |
+| lampflamer | STREETLAMP FLAMER | new | `flame |  | burn,vs_burn |  | ` |
+| voidray | VOID RAY | new | `beam |  |  |  | on_hit>status:curse+status:weakened` |
+| eclipseorb | ECLIPSE ORB | new | `pulse |  |  |  | on_kill>lightning` |
+| umbralscythe | UMBRAL SCYTHE | new | `slash |  | curse |  | on_kill[if cursed]>heal` |
+| starfall | STARFALL CHIME | new | `nova | count+ |  |  | every_n_shots>chain` |
+| hexchain | HEX CHAIN | new | `whip |  | curse |  | ` |
+| riftcannon | RIFT CANNON | new | `rail |  |  |  | on_hit>explode` |
+| bloodletter | BLOODLETTER | new | `disc | bounce+ |  |  | on_hit>status:bleed` |
+| bonesaw | BONE SAW | new | `spin | pierce+ |  |  | ` |
+| nightwing | NIGHT-WING STAFF | new | `summon |  | familiars |  | on_kill>heal` |
+| hivecannon | HIVE CANNON | new | `flask |  | poison |  | on_hit>summon` |
+| shieldcannon | SHIELD CANNON | new | `rail |  | armor |  | on_damage_taken>nova` |
+| briarspear | BRIAR SPEAR | new | `thrust |  | poison,thorns |  | ` |
+| tumbleredge | TUMBLER'S EDGE | new | `slash |  |  |  | on_roll>nova` |
+| phantombow | PHANTOM BOW | new | `bolt | homing |  |  | on_roll>buff:dmg` |
+| skullsplitter | SKULLSPLITTER | new | `spin |  |  |  | while_low_hp>buff:rate` |
+| wrathbuss | WRATH BLUNDERBUSS | new | `shot | count+ |  |  | on_damage_taken>buff:dmg` |
+| flippedcoin | FLIPPED COIN | new | `disc |  | luck |  | on_crit>gold` |
+| taxbell | TAXMAN'S BELL | new | `nova |  |  |  | on_kill[if elite]>gold; on_room_clear>gold` |
+| thornidol | IDOL OF THORNS | new | `orb |  | thorns |  | on_room_enter>hurt_self+buff:dmg` |
+| arcsprayer | ARC SPRAYER | new | `flame |  | chain |  | on_hit>status:shock` |
+| thunderdrum | THUNDER DRUM | new | `pulse |  |  |  | on_hit>status:shock; on_kill[if shocked]>nova` |
+| powdermortar | POWDER MORTAR | new | `flask |  | bomb_r |  | on_kill>drop` |
+| deadfall | DEADFALL TRAPS | new | `mine |  |  |  | on_damage_taken>drop` |
+| whimsywand | WAND OF WHIMSY | new | `orb |  |  |  | every_n_shots>chaos` |
+| meteorstaff | METEOR STAFF | new | `orb |  | burn |  | every_n_shots>meteor` |
+| singularity | SINGULARITY CANNON | new | `rail |  |  |  | on_hit>pull+explode` |
+| gravitymaul | GRAVITY MAUL | new | `slash |  |  | knock | every_n_shots>pull+explode` |
+| beehive | ANGRY BEEHIVE | new | `gatling | homing | poison |  | on_kill>summon` |
+| midascannon | MIDAS CANNON | new | `shot | count+ |  | gold_hit | on_hit>transmute` |
+| discoball | DISCO BALL | new | `pulse |  |  | linger | on_hit>rand_status; on_shoot>nova` |
+| boomstick | BOOMSTICK | new | `shot | count+ |  | close_dmg | on_kill>bomb` |
+| razoryoyo | RAZOR YO-YO | new | `boomer |  | crit |  | on_crit>buff:size` |
+| pinball | PINBALL CANNON | new | `disc | bounce+ | ricochet |  | on_hit>buff:rate` |
+| teslacoil | TESLA COIL | new | `zap | chain+ |  |  | on_kill>bolts` |
+| volcano | POCKET VOLCANO | new | `flask |  | burn,explode |  | every_n_shots>meteor+meteor+meteor; on_hit>zone` |
+| frostfist | FROST GIANT'S FIST | new | `slash |  | chill | knock | every_n_shots>status_area:stun+status_area:chill+vfx:ring` |
+| slimecannon | SLIME CANNON | new | `flask |  | explode,poison |  | on_hit>zone; on_kill[if poisoned]>summon` |
+| doomclock | DOOMSDAY CLOCK | new | `mine |  |  |  | every_n_seconds[if fighting]>area+status_area:curse+vfx:flash+vfx:label+vfx:sigil` |
+| chainsaw | RIPSAW | new | `flame |  |  |  | on_hit>status:bleed; on_kill>buff:rate; while_low_hp>buff:dmg` |
+| slotmachine | ONE-ARMED BANDIT | new | `burst |  | luck |  | on_kill>chaos` |
+| orbitallaser | ORBITAL LASER | new | `beam | pierce |  |  | every_n_seconds[if fighting]>bolts` |
+| peppershaker | GHOST PEPPER SHAKER | new | `nova | count+ | burn |  | on_roll>zone+buff:speed` |
+| bubblewand | BUBBLE WAND | new | `orb | pierce |  |  | on_hit>status:weakened` |
+| clownhammer | SQUEAKY HAMMER | new | `slash |  | crit | knock | on_crit>gold+push` |
+| necroflute | BONE FLUTE | new | `summon |  | curse |  | on_kill[if cursed]>summon` |
+| backfire | BACKFIRE BLUNDERBUSS | new | `shot | count+ |  |  | on_shoot>shoot_at` |
+| crossfirebow | CROSSFIRE BOW | new | `bolt | pierce | crit |  | on_shoot>shoot_at+shoot_at+shoot_at` |
+| tentacle | KRAKEN TENTACLE | new | `whip |  | poison |  | every_n_shots>pull+status_area:weakened` |
+| joustrocket | JOUSTING ROCKET | new | `thrust |  |  |  | on_hit>explode; on_roll>buff:dmg` |
+| homingaxes | BLOODHOUND HATCHETS | new | `spin | pierce+,homing |  |  | on_kill>refund_roll` |
+
+## Relics
+
+### Same signature (22 groups)
+
+- 3: `add:count; mul:dmg`  
+  splitfang (ORIGINAL), manyhands, warfletching
+- 3: `add:familiars`  
+  wispjar (ORIGINAL), twinwisp (ORIGINAL), seedpouch
+- 3: `add:poison`  
+  viper (ORIGINAL), toadstool, marshreed
+- 3: `add_cap:shop_disc; mul:gold_mult`  
+  crown (ORIGINAL), gildedtooth (ORIGINAL), goldtongue
+- 3: `add_floor:max_hp; clamp_max:hp; mul:dmg`  
+  glassheart (ORIGINAL), bargain, shatteredcrown
+- 2: `add:armor`  
+  filings (ORIGINAL), boneshield (ORIGINAL)
+- 2: `add:burn`  
+  coal (ORIGINAL), matchbook
+- 2: `add:burn; add:vs_burn`  
+  phoenixash, crownofash
+- 2: `add:chain`  
+  spark (ORIGINAL), copperwire
+- 2: `add:chill`  
+  needle (ORIGINAL), snowglobe
+- 2: `add:crit`  
+  luckycoin (ORIGINAL), sharpstone
+- 2: `add:echo`  
+  echostone, mirroredsoul
+- 2: `add:familiars; mul:fam_rate`  
+  hivemind, hivecrown
+- 2: `add:keys`  
+  skeletonkey (ORIGINAL), lockpick
+- 2: `add:max_hp; add_cap:hp`  
+  garnet (ORIGINAL), ironrations
+- 2: `add:revive`  
+  phoenix (ORIGINAL), undyingember
+- 2: `mul:dodge_cd`  
+  hourglass (ORIGINAL), quickcloak
+- 2: `mul:rate; mul:shot_speed`  
+  quiver (ORIGINAL), spentcasing
+- 2: `mul:speed`  
+  sparrow (ORIGINAL), ravenquill
+- 2: `on_room_clear>heal`  
+  crimsonfont, fielddressing
+- 2: `set:miser`  
+  misers (ORIGINAL), ledgerofdebt
+- 2: `while_low_hp>buff:dmg`  
+  redmist, bloodmoon
+
+### Near (22 groups)
+
+- 3: `add_cap:shop_disc; stat:gold_mult`  
+  crown (ORIGINAL), gildedtooth (ORIGINAL), goldtongue
+- 3: `add_floor:max_hp; clamp_max:hp; stat:dmg`  
+  glassheart (ORIGINAL), bargain, shatteredcrown
+- 3: `stat:count; stat:dmg`  
+  splitfang (ORIGINAL), manyhands, warfletching
+- 3: `stat:familiars`  
+  wispjar (ORIGINAL), twinwisp (ORIGINAL), seedpouch
+- 3: `stat:poison`  
+  viper (ORIGINAL), toadstool, marshreed
+- 2: `add_cap:hp; stat:max_hp`  
+  garnet (ORIGINAL), ironrations
+- 2: `on_room_clear>heal`  
+  crimsonfont, fielddressing
+- 2: `set:miser`  
+  misers (ORIGINAL), ledgerofdebt
+- 2: `stat:armor`  
+  filings (ORIGINAL), boneshield (ORIGINAL)
+- 2: `stat:burn`  
+  coal (ORIGINAL), matchbook
+- 2: `stat:burn; stat:vs_burn`  
+  phoenixash, crownofash
+- 2: `stat:chain`  
+  spark (ORIGINAL), copperwire
+- 2: `stat:chill`  
+  needle (ORIGINAL), snowglobe
+- 2: `stat:crit`  
+  luckycoin (ORIGINAL), sharpstone
+- 2: `stat:dodge_cd`  
+  hourglass (ORIGINAL), quickcloak
+- 2: `stat:echo`  
+  echostone, mirroredsoul
+- 2: `stat:fam_rate; stat:familiars`  
+  hivemind, hivecrown
+- 2: `stat:keys`  
+  skeletonkey (ORIGINAL), lockpick
+- 2: `stat:rate; stat:shot_speed`  
+  quiver (ORIGINAL), spentcasing
+- 2: `stat:revive`  
+  phoenix (ORIGINAL), undyingember
+- 2: `stat:speed`  
+  sparrow (ORIGINAL), ravenquill
+- 2: `while_low_hp>buff:dmg`  
+  redmist, bloodmoon
+
+### Numbers only (84, 36 of them new)
+
+whetstone (ORIGINAL), twitch (ORIGINAL), splitfang (ORIGINAL), owl (ORIGINAL), sparrow (ORIGINAL), bramble (ORIGINAL), sap (ORIGINAL), seeker (ORIGINAL), coal (ORIGINAL), needle (ORIGINAL), viper (ORIGINAL), luckycoin (ORIGINAL), hourglass (ORIGINAL), lantern (ORIGINAL), moon (ORIGINAL), dice (ORIGINAL), arrowhead (ORIGINAL), thorn (ORIGINAL), heavy (ORIGINAL), fever (ORIGINAL), bonecharm (ORIGINAL), echo (ORIGINAL), rage (ORIGINAL), sigil (ORIGINAL), shells (ORIGINAL), spark (ORIGINAL), tallow (ORIGINAL), skeletonkey (ORIGINAL), quiver (ORIGINAL), filings (ORIGINAL), gravedust (ORIGINAL), mothwing (ORIGINAL), bitterroot (ORIGINAL), tinwhistle (ORIGINAL), rustynail (ORIGINAL), wispjar (ORIGINAL), emberheart (ORIGINAL), boneshield (ORIGINAL), huntersmark (ORIGINAL), staticcoil (ORIGINAL), ricochet (ORIGINAL), coldiron (ORIGINAL), splinter (ORIGINAL), phoenix (ORIGINAL), twinwisp (ORIGINAL), stormcrown (ORIGINAL), deepeye (ORIGINAL), cindercrown (ORIGINAL), sharpstone, keeneye, killingblow, matchbook, oilflask, phoenixash, toadstool, copperwire, overload, mirrorbead, manyhands, glowworm, hivemind, quickcloak, nightveil, stonehide, marshreed, prayerflag, snowglobe, lockpick, spentcasing, candlestub, ravenquill, copperspool, seedpouch, bogwater, blastingcaps, echostone, cursedcompass, leadweight, warfletching, alleycateye, crownofash, mirroredsoul, undyingember, hivecrown
+
+### Every relic
+
+| id | name | | signature |
+|---|---|---|---|
+| whetstone | WHETSTONE | ORIGINAL | `mul:dmg` |
+| twitch | TWITCHING FINGER | ORIGINAL | `mul:rate` |
+| splitfang | SPLIT FANG | ORIGINAL | `add:count; mul:dmg` |
+| owl | OWL FEATHER | ORIGINAL | `mul:life; mul:shot_speed` |
+| sparrow | SPARROW BOOTS | ORIGINAL | `mul:speed` |
+| garnet | BLOOD GARNET | ORIGINAL | `add:max_hp; add_cap:hp` |
+| bramble | BRAMBLE RING | ORIGINAL | `add:pierce` |
+| sap | RUBBER SAP | ORIGINAL | `add:bounce; mul:life` |
+| seeker | SEEKER'S EYE | ORIGINAL | `add:homing` |
+| coal | CINDER COAL | ORIGINAL | `add:burn` |
+| needle | FROST NEEDLE | ORIGINAL | `add:chill` |
+| viper | VIPER TOOTH | ORIGINAL | `add:poison` |
+| luckycoin | CROOKED COIN | ORIGINAL | `add:crit` |
+| hourglass | SAND GLASS | ORIGINAL | `mul:dodge_cd` |
+| lantern | GRAVE LANTERN | ORIGINAL | `add:lifesteal` |
+| buckler | IRON BUCKLER | ORIGINAL | `set:buckler` |
+| moon | PALE MOON | ORIGINAL | `add:orbitals` |
+| sapbomb | POWDER POUCH | ORIGINAL | `set:bomb_dodge` |
+| dice | LOADED DIE | ORIGINAL | `add:triple` |
+| arrowhead | BARBED TIP | ORIGINAL | `mul:dmg; mul:shot_speed` |
+| thorn | THORN LEAF | ORIGINAL | `add:thorns` |
+| crown | PAUPER'S CROWN | ORIGINAL | `add_cap:shop_disc; mul:gold_mult` |
+| heavy | LEAD SHOT | ORIGINAL | `mul:dmg; mul:rate; mul:size` |
+| fever | FEVER SCROLL | ORIGINAL | `add:frenzy` |
+| bonecharm | BONE CHARM | ORIGINAL | `add:charges; add:dodge_charges` |
+| glassheart | GLASS HEART | ORIGINAL | `add_floor:max_hp; clamp_max:hp; mul:dmg` |
+| echo | ECHO RING | ORIGINAL | `add:backshot` |
+| witcheye | WITCH EYE | ORIGINAL | `add:crit; at_least:crit_mult` |
+| rage | WRATH EMBER | ORIGINAL | `add:rage` |
+| lodestone | LODESTONE | ORIGINAL | `mul:gold_mult; set:magnet` |
+| sigil | WARDING SIGIL | ORIGINAL | `add:ward` |
+| shells | VOLATILE SHELLS | ORIGINAL | `add:explode` |
+| spark | CHAIN SPARK | ORIGINAL | `add:chain` |
+| keyring | WARDEN'S KEY | ORIGINAL | `add:max_potions; add_cap:potions` |
+| tallow | TALLOW CANDLE | ORIGINAL | `add:bombs; mul:bomb_mult` |
+| skeletonkey | SKELETON KEY | ORIGINAL | `add:keys` |
+| quiver | QUIVER STRAP | ORIGINAL | `mul:rate; mul:shot_speed` |
+| filings | IRON FILINGS | ORIGINAL | `add:armor` |
+| gravedust | GRAVE DUST | ORIGINAL | `mul:gold_drop` |
+| mothwing | MOTH WING | ORIGINAL | `mul:roll_speed` |
+| bitterroot | BITTER ROOT | ORIGINAL | `add:potion_heal` |
+| tinwhistle | TIN WHISTLE | ORIGINAL | `mul:dodge_cd; mul:speed` |
+| chalk | MAPPER'S CHALK | ORIGINAL | `add:bombs; set:reveal` |
+| rustynail | RUSTY NAIL | ORIGINAL | `add:pierce; mul:dmg` |
+| wispjar | WISP JAR | ORIGINAL | `add:familiars` |
+| emberheart | EMBER HEART | ORIGINAL | `add:aura` |
+| boneshield | BONE SHIELD | ORIGINAL | `add:armor` |
+| huntersmark | HUNTER'S MARK | ORIGINAL | `add:elite_mult` |
+| glasslens | GLASS LENS | ORIGINAL | `set:lens` |
+| staticcoil | STATIC COIL | ORIGINAL | `add:coil` |
+| bloodoath | BLOOD OATH | ORIGINAL | `set:oath` |
+| ricochet | RICOCHET BEAD | ORIGINAL | `add:ricochet` |
+| misers | MISER'S PURSE | ORIGINAL | `set:miser` |
+| shadowstep | SHADOW STEP | ORIGINAL | `set:shadowstep` |
+| coldiron | COLD IRON | ORIGINAL | `add:chill; mul:dmg` |
+| splinter | SPLINTER | ORIGINAL | `add:splinter` |
+| phoenix | PHOENIX FEATHER | ORIGINAL | `add:revive` |
+| twinwisp | TWIN LANTERNS | ORIGINAL | `add:familiars` |
+| stormcrown | STORM CROWN | ORIGINAL | `add:storm` |
+| hollowmirror | HOLLOW MIRROR | ORIGINAL | `set:mirror` |
+| gildedtooth | GILDED TOOTH | ORIGINAL | `add_cap:shop_disc; mul:gold_mult` |
+| overcharge | OVERCHARGE | ORIGINAL | `add:count; add_floor:max_hp; clamp_max:hp; mul:rate` |
+| deepeye | EYE OF THE DEEP | ORIGINAL | `add:count; add:homing` |
+| cindercrown | CROWN OF CINDERS | ORIGINAL | `add:burn; mul:dmg` |
+| ageglass | GLASS OF AGES | ORIGINAL | `add:charges; add:dodge_charges; set:roll_reload` |
+| worldseed | WORLDSEED | ORIGINAL | `add:max_hp; copy:hp` |
+| sharpstone | OILED WHETSTONE | new | `add:crit` |
+| keeneye | KEEN EYE | new | `add:crit_mult` |
+| firstblood | FIRST NICK | new | `add:crit; hook:first_hit` |
+| hairtrigger | HAIR TRIGGER | new | `on_crit>buff:rate` |
+| killingblow | THE KILLING BLOW | new | `add:crit; add:overcrit` |
+| leechtooth | LEECH TOOTH | new | `on_kill[if bleeding]>heal` |
+| openwound | OPEN WOUND | new | `on_hit>status:bleed` |
+| bloodprice | BLOOD PRICE | new | `add_floor:potion_heal; mul:dmg` |
+| crimsonfont | CRIMSON FONT | new | `on_room_clear>heal` |
+| matchbook | DAMP MATCHBOOK | new | `add:burn` |
+| firework | FIREWORK | new | `on_kill[if burning]>explode` |
+| oilflask | LAMP OIL | new | `add:burn_dmg` |
+| phoenixash | PYRE ASH | new | `add:burn; add:vs_burn` |
+| toadstool | TOADSTOOL | new | `add:poison` |
+| contagion | CONTAGION | new | `on_kill[if poisoned]>status:poison` |
+| witherroot | WITHERROOT | new | `on_hit[if poisoned]>status:weakened` |
+| blackbile | BLACK BILE | new | `add:poison_dmg; set:poison_fast` |
+| copperwire | COPPER WIRE | new | `add:chain` |
+| stormjar | STORM IN A JAR | new | `on_hit>status:shock` |
+| groundingrod | GROUNDING SPIKE | new | `every_n_seconds>lightning` |
+| overload | OVERLOAD COIL | new | `add:chain_jumps; add:storm_dmg` |
+| mirrorbead | MIRROR BEAD | new | `add:pierce; mul:shot_speed` |
+| prismshard | PRISM SHARD | new | `hook:split` |
+| starchart | STAR CHART | new | `every_n_shots>nova` |
+| manyhands | MANY HANDS | new | `add:count; mul:dmg` |
+| glowworm | GLOW-WORM JAR | new | `add:fam_dmg` |
+| broodmother | BROOD EGG | new | `on_kill>summon` |
+| hivemind | HIVEMIND | new | `add:familiars; mul:fam_rate` |
+| quickcloak | QUICKSILVER THREAD | new | `mul:dodge_cd` |
+| shadowcut | SHADOW CUT | new | `on_roll>nova` |
+| afterimage | AFTERIMAGE | new | `on_roll>buff:dmg` |
+| nightveil | NIGHT VEIL | new | `add:charges; add:dodge_charges; add:evade` |
+| ironrations | IRON RATIONS | new | `add:max_hp; add_cap:hp` |
+| spikedcollar | SPIKED COLLAR | new | `add:thorns; on_damage_taken>nova` |
+| towerkey | BASTION KEY | new | `on_room_clear>armor` |
+| stonehide | STONEHIDE | new | `add:armor; add:fortress` |
+| redmist | RED MIST | new | `while_low_hp>buff:dmg` |
+| warpaint | WAR PAINT | new | `on_kill>buff:rate` |
+| grudge | OLD GRUDGE | new | `on_damage_taken>buff:dmg` |
+| lastbreath | LAST BREATH | new | `while_low_hp>buff:dmg+buff:rate+buff:speed` |
+| copperpenny | LUCKY PENNY | new | `on_kill>gold` |
+| goldtongue | GOLDEN TONGUE | new | `add_cap:shop_disc; mul:gold_mult` |
+| ledgerofdebt | LEDGER OF DEBTS | new | `set:miser` |
+| dragonhoard | DRAGON'S HOARD | new | `hook:gold_dmg; on_room_clear>gold` |
+| evileye | EVIL EYE | new | `on_hit>status:curse` |
+| bargain | DEVIL'S BARGAIN | new | `add_floor:max_hp; clamp_max:hp; mul:dmg` |
+| cursedcoin | CURSED COIN | new | `mul:gold_mult; on_room_enter>hurt_self` |
+| voidheart | VOID HEART | new | `on_hit>status:curse; on_hit[if cursed]>damage` |
+| wanderersmap | WANDERER'S MAP | new | `add:keys; set:reveal` |
+| emptyflask | BOTTOMLESS FLASK | new | `add:max_potions; on_room_clear>drop` |
+| marshreed | MARSH REED | new | `add:poison` |
+| warhorn | CRACKED WARHORN | new | `on_room_enter>buff:rate` |
+| prayerflag | PRAYER FLAG | new | `add:hp; add:max_hp` |
+| snowglobe | SNOW GLOBE | new | `add:chill` |
+| lockpick | BENT LOCKPICK | new | `add:keys` |
+| spentcasing | SPENT CASING | new | `mul:rate; mul:shot_speed` |
+| candlestub | CANDLE STUB | new | `add:burn; add:burn_time` |
+| ravenquill | RAVEN QUILL | new | `mul:speed` |
+| copperspool | COPPER SPOOL | new | `add:chain_jumps` |
+| seedpouch | SEED POUCH | new | `add:familiars` |
+| rooftile | LOOSE ROOF TILE | new | `on_floor_start>drop` |
+| bogwater | JAR OF BOGWATER | new | `add:poison_dmg` |
+| stillpond | STILL POND | new | `on_hit[if still]>damage` |
+| bloodmoon | BLOOD MOON | new | `while_low_hp>buff:dmg` |
+| trophyteeth | STRING OF TROPHY TEETH | new | `on_kill[if elite]>drop` |
+| mudcharm | MUD-CAKED CHARM | new | `on_roll>status_area:poison` |
+| ironwill | IRON WILL | new | `on_damage_taken>armor` |
+| tailwind | TAILWIND | new | `on_hit[if moving]>damage` |
+| sparkgap | SPARK GAP | new | `on_hit[if shocked]>damage` |
+| frozentear | FROZEN TEAR | new | `on_hit[if chilled]>explode` |
+| fielddressing | FIELD DRESSING | new | `on_room_clear>heal` |
+| scavsack | SCAVENGER'S SACK | new | `on_room_clear>drop` |
+| kindlingheart | KINDLING HEART | new | `on_hit[if burning]>explode` |
+| rotgut | ROTGUT FLASK | new | `on_hit[if poisoned]>status:vulnerable` |
+| stormglass | STORM GLASS | new | `on_crit>lightning` |
+| bladeoil | BLADE OIL | new | `on_crit>status:bleed` |
+| queensjelly | QUEEN'S JELLY | new | `add:fam_dmg; on_kill>summon` |
+| nightshade | NIGHTSHADE | new | `on_roll>status:curse` |
+| towerbanner | TOWER BANNER | new | `hook:armor_dmg` |
+| heavypurse | HEAVY PURSE | new | `hook:gold_dmg` |
+| blastingcaps | BLASTING CAPS | new | `mul:bomb_mult; mul:bomb_r` |
+| echostone | ECHO STONE | new | `add:echo` |
+| loadeddice | LOADED DICE | new | `add:luck; on_crit>damage` |
+| shatteredcrown | SHATTERED CROWN | new | `add_floor:max_hp; clamp_max:hp; mul:dmg` |
+| bloodtithe | BLOOD TITHE | new | `mul:dmg; on_kill>hurt_self` |
+| hungeringedge | HUNGERING EDGE | new | `mul:dmg; on_room_enter>hurt_self` |
+| cursedcompass | CURSED COMPASS | new | `add:luck; mul:speed` |
+| leadweight | LEAD WEIGHT | new | `mul:dmg; mul:rate` |
+| voidpact | VOID PACT | new | `add:charges; add:dodge_charges; add_floor:max_hp; clamp_max:hp; on_roll>clear_shots` |
+| warfletching | WAR FLETCHING | new | `add:count; mul:dmg` |
+| monasterybell | MONASTERY BELL | new | `on_room_enter>status_area:chill` |
+| alleycateye | ALLEY CAT'S EYE | new | `add:crit; add:evade` |
+| eclipseshard | ECLIPSE SHARD | new | `every_n_seconds[if fighting]>status_area:curse+status_area:weakened+vfx:ring` |
+| fallenstar | HEART OF A FALLEN STAR | new | `add:hp; add:max_hp; every_n_shots>nova` |
+| crownofash | CROWN OF ASH | new | `add:burn; add:vs_burn` |
+| mirroredsoul | MIRRORED SOUL | new | `add:echo` |
+| kingsransom | KING'S RANSOM | new | `add:gold; hook:gold_dmg` |
+| undyingember | EMBER OF THE UNDYING | new | `add:revive` |
+| thundertorc | THUNDERLORD'S TORC | new | `on_hit>lightning` |
+| hivecrown | CROWN OF THE HIVE | new | `add:familiars; mul:fam_rate` |
+| redgodidol | IDOL OF THE RED GOD | new | `mul:dmg; on_kill>heal` |
+| tonicmight | TONIC OF MIGHT | new | `attr:str` |
+| quickdraught | QUICKENING DRAUGHT | new | `attr:dex` |
+| sagesink | SAGE'S INK | new | `attr:int` |
+| heavennectar | HEAVENLY NECTAR | new | `add:hp; add:max_hp; attr:highest` |
+| balancestone | STONE OF BALANCE | new | `attr:dex; attr:int; attr:str` |
+| smithhammer | SMITH'S HAMMER | new | `upgrade:weapon` |
+
+## Gear
+
+### Same signature (1 groups)
+
+- 2: `feet | speed |  | `  
+  worntboots (ORIGINAL), scoutboots
+
+### Near (13 groups)
+
+- 4: `feet | speed |  | `  
+  thunder_boots (ORIGINAL), worntboots (ORIGINAL), scoutboots, hunt_boots
+- 4: `head | crit |  | `  
+  huntershood (ORIGINAL), duel_hat, hunt_hood, jester_cap
+- 3: `body | max_hp |  | `  
+  plague_coat (ORIGINAL), paddedjack (ORIGINAL), hunt_coat
+- 2: `feet | dodge_cd |  | `  
+  frost_boots (ORIGINAL), sandals (ORIGINAL)
+- 2: `feet | speed |  | fire_steps`  
+  ember_boots (ORIGINAL), star_boots
+- 2: `feet | speed |  | toxic_steps`  
+  plague_boots (ORIGINAL), blightboots
+- 2: `hands | rate |  | `  
+  brawlerwraps, conclave_gloves
+- 2: `head | armor |  | `  
+  bastion_helm (ORIGINAL), tinhelm (ORIGINAL)
+- 2: `head | burn |  | `  
+  ember_hood (ORIGINAL), star_helm
+- 2: `head | evade |  | `  
+  night_hood (ORIGINAL), void_cowl
+- 2: `head | fam_dmg |  | `  
+  shep_hat (ORIGINAL), beekeeperhat
+- 2: `head | max_hp |  | `  
+  leathercap (ORIGINAL), rav_helm
+- 2: `trinket | dmg |  | status_dmg`  
+  ember_ring (ORIGINAL), plague_censer (ORIGINAL)
+
+### Numbers only (93, 47 of them new)
+
+ember_hood (ORIGINAL), frost_helm (ORIGINAL), frost_boots (ORIGINAL), plague_mask (ORIGINAL), plague_coat (ORIGINAL), thunder_helm (ORIGINAL), thunder_boots (ORIGINAL), butcher_cap (ORIGINAL), bastion_helm (ORIGINAL), bastion_plate (ORIGINAL), bastion_boots (ORIGINAL), night_hood (ORIGINAL), night_boots (ORIGINAL), arch_hat (ORIGINAL), arch_robe (ORIGINAL), arch_boots (ORIGINAL), arch_orb (ORIGINAL), gild_crown (ORIGINAL), gild_boots (ORIGINAL), sapper_helm (ORIGINAL), shep_hat (ORIGINAL), shep_boots (ORIGINAL), shep_crook (ORIGINAL), tinhelm (ORIGINAL), leathercap (ORIGINAL), huntershood (ORIGINAL), scholarcap (ORIGINAL), paddedjack (ORIGINAL), chainshirt (ORIGINAL), travelcloak (ORIGINAL), acolyterobe (ORIGINAL), spikedmail (ORIGINAL), smugglercoat (ORIGINAL), worntboots (ORIGINAL), ironboots (ORIGINAL), sandals (ORIGINAL), ninjatabi (ORIGINAL), luckycharm (ORIGINAL), whetring (ORIGINAL), quickring (ORIGINAL), vialbelt (ORIGINAL), bombbag (ORIGINAL), toothnecklace (ORIGINAL), hourglassamulet (ORIGINAL), stormbottle (ORIGINAL), gamblerdie (ORIGINAL), duel_hat, duel_ring, rav_helm, razorcharm, rotgloves, conductorhelm, volleyrobe, ricochetband, beekeeperhat, callingwhistle, silkboots, anvilhelm, goldtoes, thornedcrown, pilgrimpack, scoutboots, brawlerwraps, flintgloves, gravedigmitts, boneamulet, copperband, whetband, cinderring, swiftring, goldband, echoring, seersring, conclave_gloves, conclave_sigil, conclave_ring_a, conclave_ring_b, hunt_hood, hunt_coat, hunt_gloves, hunt_boots, mirehelm, rooftopboots, snowtreads, jester_cap, star_helm, void_cowl, void_wraps, void_amulet, void_ring, ricochetring, bigring, tinyring
+
+### Every gear
+
+| id | name | | signature |
+|---|---|---|---|
+| ember_hood | EMBERWEAVE HOOD | ORIGINAL | `head set:emberweave | burn |  | ` |
+| ember_robe | EMBERWEAVE ROBE | ORIGINAL | `body set:emberweave | max_hp | fire_aura | ` |
+| ember_boots | EMBERWEAVE TREADS | ORIGINAL | `feet set:emberweave | speed | fire_steps | ` |
+| ember_ring | EMBERWEAVE BAND | ORIGINAL | `trinket set:emberweave | dmg | status_dmg | ` |
+| frost_helm | HOARFROST CROWN | ORIGINAL | `head set:hoarfrost | chill |  | ` |
+| frost_plate | HOARFROST PLATE | ORIGINAL | `body set:hoarfrost | armor | frost_skin | ` |
+| frost_boots | HOARFROST GREAVES | ORIGINAL | `feet set:hoarfrost | dodge_cd |  | ` |
+| frost_amulet | HOARFROST LOCKET | ORIGINAL | `trinket set:hoarfrost | crit | chill_crit | ` |
+| plague_mask | PLAGUE DOCTOR'S MASK | ORIGINAL | `head set:plaguedoc | poison |  | ` |
+| plague_coat | PLAGUE DOCTOR'S COAT | ORIGINAL | `body set:plaguedoc | max_hp |  | ` |
+| plague_boots | PLAGUE DOCTOR'S BOOTS | ORIGINAL | `feet set:plaguedoc | speed | toxic_steps | ` |
+| plague_censer | PLAGUE CENSER | ORIGINAL | `trinket set:plaguedoc | dmg | status_dmg | ` |
+| thunder_helm | THUNDERBORN HELM | ORIGINAL | `head set:thunderborn | chain |  | ` |
+| thunder_mail | THUNDERBORN MAIL | ORIGINAL | `body set:thunderborn | armor | spark_skin | ` |
+| thunder_boots | THUNDERBORN BOOTS | ORIGINAL | `feet set:thunderborn | speed |  | ` |
+| thunder_ring | THUNDERBORN SIGNET | ORIGINAL | `trinket set:thunderborn | rate | nth_zap | ` |
+| butcher_cap | BUTCHER'S CAP | ORIGINAL | `head set:butcher | crit_mult |  | ` |
+| butcher_apron | BUTCHER'S APRON | ORIGINAL | `body set:butcher | max_hp | kill_heal | ` |
+| butcher_boots | BUTCHER'S CLOGS | ORIGINAL | `feet set:butcher | speed | close_dmg | ` |
+| butcher_hook | BUTCHER'S HOOK | ORIGINAL | `trinket set:butcher | dmg | execute | ` |
+| bastion_helm | BASTION GREATHELM | ORIGINAL | `head set:bastion | armor |  | ` |
+| bastion_plate | BASTION PLATE | ORIGINAL | `body set:bastion | armor,max_hp |  | ` |
+| bastion_boots | BASTION SABATONS | ORIGINAL | `feet set:bastion | thorns |  | ` |
+| bastion_seal | BASTION SEAL | ORIGINAL | `trinket set:bastion |  | room_armor | ` |
+| night_hood | NIGHTSTALKER COWL | ORIGINAL | `head set:nightstalker | evade |  | ` |
+| night_cloak | NIGHTSTALKER CLOAK | ORIGINAL | `body set:nightstalker | roll_speed | roll_ambush | ` |
+| night_boots | NIGHTSTALKER SOFTSTEPS | ORIGINAL | `feet set:nightstalker | dodge_cd,speed |  | ` |
+| night_fang | NIGHTSTALKER FANG | ORIGINAL | `trinket set:nightstalker | crit | first_hit | ` |
+| arch_hat | ARCHMAGE HAT | ORIGINAL | `head set:archmage | homing |  | ` |
+| arch_robe | ARCHMAGE ROBE | ORIGINAL | `body set:archmage | dmg,size |  | ` |
+| arch_boots | ARCHMAGE SLIPPERS | ORIGINAL | `feet set:archmage | shot_speed |  | ` |
+| arch_orb | ARCHMAGE ORRERY | ORIGINAL | `trinket set:archmage | orbitals |  | ` |
+| gild_crown | GILDED CIRCLET | ORIGINAL | `head set:gilded | luck |  | ` |
+| gild_vest | GILDED VEST | ORIGINAL | `body set:gilded | max_hp | gold_dmg | ` |
+| gild_boots | GILDED BOOTS | ORIGINAL | `feet set:gilded | shop_disc |  | ` |
+| gild_ring | GILDED RING | ORIGINAL | `trinket set:gilded | gold_mult | gold_hit | ` |
+| sapper_helm | SAPPER'S HELMET | ORIGINAL | `head set:sapper | bomb_r |  | ` |
+| sapper_vest | SAPPER'S BLAST VEST | ORIGINAL | `body set:sapper | armor | bomb_immune | ` |
+| sapper_boots | SAPPER'S BOOTS | ORIGINAL | `feet set:sapper | speed | roll_bomb | ` |
+| sapper_fuse | SAPPER'S FUSE | ORIGINAL | `trinket set:sapper | shrapnel | bomb_on_kill | ` |
+| shep_hat | SHEPHERD'S HAT | ORIGINAL | `head set:shepherd | fam_dmg |  | ` |
+| shep_cloak | SHEPHERD'S CLOAK | ORIGINAL | `body set:shepherd | max_hp | kill_wisp | ` |
+| shep_boots | SHEPHERD'S SANDALS | ORIGINAL | `feet set:shepherd | fam_rate |  | ` |
+| shep_crook | SHEPHERD'S BELL | ORIGINAL | `trinket set:shepherd | familiars |  | ` |
+| tinhelm | DENTED TIN HELM | ORIGINAL | `head | armor |  | ` |
+| leathercap | LEATHER CAP | ORIGINAL | `head | max_hp |  | ` |
+| huntershood | HUNTER'S HOOD | ORIGINAL | `head | crit |  | ` |
+| scholarcap | SCHOLAR'S CAP | ORIGINAL | `head | xp_mult |  | ` |
+| ironmask | IRON DEATHMASK | ORIGINAL | `head | dmg | low_hp_dmg | ` |
+| owlhelm | OWL-EYED HELM | ORIGINAL | `head | life | far_dmg | ` |
+| crownofthorns | CROWN OF THORNS | ORIGINAL | `head | poison,thorns | thorns_nova | ` |
+| hornedhelm | HORNED WARHELM | ORIGINAL | `head | dmg,max_hp | kill_haste | ` |
+| seerveil | SEER'S VEIL | ORIGINAL | `head | luck | trait_dmg | ` |
+| kingscrown | CROWN OF THE LOST KING | ORIGINAL | `head | gold_mult,luck | relic_dmg | ` |
+| stormcrownhelm | TEMPEST DIADEM | ORIGINAL | `head | chain,chain_jumps | crit_chain | ` |
+| headsman | HEADSMAN'S HOOD | ORIGINAL | `head | crit | execute | ` |
+| paddedjack | PADDED JACK | ORIGINAL | `body | max_hp |  | ` |
+| chainshirt | CHAIN SHIRT | ORIGINAL | `body | armor,speed |  | ` |
+| travelcloak | TRAVELLER'S CLOAK | ORIGINAL | `body | evade,speed |  | ` |
+| acolyterobe | ACOLYTE ROBE | ORIGINAL | `body | rate |  | ` |
+| bloodplate | BLOODSTAINED PLATE | ORIGINAL | `body | armor,max_hp | kill_heal | ` |
+| spikedmail | SPIKED MAIL | ORIGINAL | `body | armor,thorns |  | ` |
+| hunterscoat | MONSTER HUNTER'S COAT | ORIGINAL | `body | max_hp,potion_heal | elite_dmg | ` |
+| smugglercoat | SMUGGLER'S COAT | ORIGINAL | `body | keys,max_potions |  | ` |
+| mirrorplate | MIRROR PLATE | ORIGINAL | `body | armor | reflect_hit | ` |
+| berserkerhide | BERSERKER HIDE | ORIGINAL | `body | armor,max_hp | low_hp_dmg | ` |
+| phoenixmantle | PHOENIX MANTLE | ORIGINAL | `body | burn,max_hp | revive_g | ` |
+| voidshroud | VOID SHROUD | ORIGINAL | `body | charges,dodge_charges,evade | roll_nova | ` |
+| worntboots | WORN BOOTS | ORIGINAL | `feet | speed |  | ` |
+| ironboots | IRON BOOTS | ORIGINAL | `feet | armor,speed |  | ` |
+| sandals | PILGRIM SANDALS | ORIGINAL | `feet | dodge_cd |  | ` |
+| runnersboots | COURIER BOOTS | ORIGINAL | `feet | speed | moving_dmg | ` |
+| ninjatabi | SILENT TABI | ORIGINAL | `feet | charges,dodge_charges,roll_speed |  | ` |
+| anchorboots | ANCHOR BOOTS | ORIGINAL | `feet | armor | still_dmg | ` |
+| wingedboots | WINGED BOOTS | ORIGINAL | `feet | dodge_cd,speed | roll_zap | ` |
+| coalwalkers | COALWALKERS | ORIGINAL | `feet | burn,speed | fire_steps | ` |
+| sevenleague | SEVEN-LEAGUE BOOTS | ORIGINAL | `feet | dodge_cd,roll_speed,speed | moving_dmg | ` |
+| luckycharm | RABBIT'S FOOT | ORIGINAL | `trinket | luck |  | ` |
+| whetring | WHETSTONE RING | ORIGINAL | `trinket | dmg |  | ` |
+| quickring | QUICKSILVER RING | ORIGINAL | `trinket | rate |  | ` |
+| vialbelt | BELT OF VIALS | ORIGINAL | `trinket | max_potions,potions |  | ` |
+| bombbag | POWDER BANDOLIER | ORIGINAL | `trinket | bombs |  | ` |
+| toothnecklace | WOLF TOOTH NECKLACE | ORIGINAL | `trinket | crit,crit_mult |  | ` |
+| hourglassamulet | SANDS OF ESCAPE | ORIGINAL | `trinket | charges,dodge_charges |  | ` |
+| emberheartgem | EMBER HEART | ORIGINAL | `trinket | burn | fire_aura | ` |
+| frostshard | SHARD OF WINTER | ORIGINAL | `trinket | chill | chill_crit | ` |
+| venomsac | VENOM SAC | ORIGINAL | `trinket | poison | status_dmg | ` |
+| stormbottle | BOTTLED LIGHTNING | ORIGINAL | `trinket | chain |  | ` |
+| ledger | MERCHANT'S LEDGER | ORIGINAL | `trinket | shop_disc | room_gold | ` |
+| vampirefang | VAMPIRE FANG | ORIGINAL | `trinket | crit | leech | ` |
+| eyeofstorm | EYE OF THE STORM | ORIGINAL | `trinket | chain | nth_zap | ` |
+| hollowidol | HOLLOW IDOL | ORIGINAL | `trinket | count,dmg | split | ` |
+| grimoire | BLACK GRIMOIRE | ORIGINAL | `trinket | dmg | souls | ` |
+| heartofglass | HEART OF GLASS | ORIGINAL | `trinket | dmg,max_hp | crit_explode | ` |
+| dragonheart | DRAGON'S HEART | ORIGINAL | `trinket | burn,max_hp | kill_explode | ` |
+| gamblerdie | GAMBLER'S LAST DIE | ORIGINAL | `trinket | crit,crit_mult,luck |  | ` |
+| duel_hat | DUELIST'S FEATHERCAP | new | `head set:duelist | crit |  | ` |
+| duel_coat | DUELIST'S DOUBLET | new | `body set:duelist | max_hp |  | on_crit>buff:speed` |
+| duel_boots | DUELIST'S STEPS | new | `feet set:duelist | speed |  | on_roll>buff:crit_mult` |
+| duel_ring | DUELIST'S SIGNET | new | `trinket set:duelist | crit_mult |  | ` |
+| rav_helm | RAVAGER'S HELM | new | `head set:ravager | max_hp |  | ` |
+| rav_hide | RAVAGER'S HIDE | new | `body set:ravager | max_hp | low_hp_dmg | ` |
+| rav_boots | RAVAGER'S TREADS | new | `feet set:ravager | speed |  | on_kill>buff:speed` |
+| rav_tooth | RAVAGER'S FANG | new | `trinket set:ravager | dmg |  | on_damage_taken>buff:dmg` |
+| hawkmonocle | HAWK MONOCLE | new | `head | crit | far_dmg | ` |
+| razorcharm | RAZOR CHARM | new | `trinket | crit,overcrit |  | ` |
+| leechmail | LEECH-LINK MAIL | new | `body | armor | leech | ` |
+| clotring | CLOTTING RING | new | `trinket | bleed |  | on_kill[if bleeding]>heal` |
+| butchermask | SCARLET HOOD | new | `head | dmg |  | on_room_enter>hurt_self+buff:dmg` |
+| ashcloak | ASHEN CLOAK | new | `body | burn | fire_aura | ` |
+| cinderboots | CINDER SANDALS | new | `feet | speed |  | on_roll>explode` |
+| kilnheart | KILN HEART | new | `trinket | burn |  | on_kill[if burning]>explode` |
+| rotgloves | ROTTING WRAPS | new | `body | poison |  | ` |
+| miasmamask | MIASMA MASK | new | `head | poison | status_dmg | ` |
+| blightboots | BLIGHTSTEP BOOTS | new | `feet | speed | toxic_steps | ` |
+| conductorhelm | CONDUCTOR'S HELM | new | `head | chain,chain_jumps |  | ` |
+| staticboots | STATIC STRIDERS | new | `feet | speed |  | on_roll>status:shock` |
+| lightningrod | LIGHTNING ROD | new | `trinket | rate |  | every_n_seconds>lightning` |
+| splittinglens | SPLITTING LENS | new | `head | shot_speed | split | ` |
+| volleyrobe | VOLLEY ROBE | new | `body | count |  | ` |
+| ricochetband | RICOCHET BAND | new | `trinket | ricochet |  | ` |
+| beekeeperhat | KEEPER'S VEIL | new | `head | fam_dmg |  | ` |
+| broodcloak | BROOD CLOAK | new | `body | max_hp |  | on_damage_taken>summon` |
+| callingwhistle | CALLING WHISTLE | new | `trinket | fam_rate,familiars |  | ` |
+| fadingcowl | FADING COWL | new | `head | evade |  | on_roll>buff:dmg` |
+| silkboots | SILKEN SLIPPERS | new | `feet | dodge_cd,roll_speed |  | ` |
+| mirrorcape | MIRROR CAPE | new | `body | charges,dodge_charges |  | on_roll>clear_shots` |
+| anvilhelm | ANVIL HELM | new | `head | armor,speed |  | ` |
+| thornplate | BRAMBLE PLATE | new | `body | thorns | thorns_nova | ` |
+| oathstone | OATHSTONE | new | `trinket | max_hp |  | on_room_clear>armor` |
+| skullcap | BATTLE SKULLCAP | new | `head | dmg |  | while_low_hp>buff:dmg` |
+| bloodboil | BLOODBOIL VIAL | new | `trinket | rate |  | on_kill>buff:rate` |
+| merchantshat | MERCHANT'S TRICORN | new | `head | gold_mult |  | on_room_clear>gold` |
+| coinpurse | BOTTOMLESS PURSE | new | `trinket | luck | gold_dmg | ` |
+| goldtoes | GOLD-TOED BOOTS | new | `feet | shop_disc,speed |  | ` |
+| thornedcrown | CROWN OF SPITE | new | `head | dmg,max_hp |  | ` |
+| hexedmantle | HEXED MANTLE | new | `body | max_hp |  | on_hit>status:curse` |
+| grudgeboots | GRUDGE BOOTS | new | `feet | speed |  | on_damage_taken>status:curse+status:vulnerable` |
+| blackpearl | BLACK PEARL | new | `trinket | max_hp |  | on_kill[if cursed]>explode; pct:dmg` |
+| pilgrimpack | PILGRIM'S PACK | new | `body | max_potions,potion_heal |  | ` |
+| luckyhorseshoe | BENT HORSESHOE | new | `trinket | luck |  | on_kill>gold` |
+| scoutboots | SCOUT'S BOOTS | new | `feet | speed |  | ` |
+| tinkerhelm | TINKER'S GOGGLES | new | `head | bomb_r |  | on_room_clear>drop` |
+| frostwardcoat | FROSTWARD COAT | new | `body | armor,chill |  | on_damage_taken>status:weakened` |
+| brawlerwraps | BRAWLER'S WRAPS | new | `hands | rate |  | ` |
+| ironfist | IRON FIST | new | `hands | armor |  | on_damage_taken>damage` |
+| pickpocket | PICKPOCKET'S GLOVES | new | `hands | gold_mult |  | on_hit>gold` |
+| alchemistmitts | ALCHEMIST'S MITTS | new | `hands | potion_heal |  | on_potion>status_area:poison+vfx:ring` |
+| flintgloves | FLINT GLOVES | new | `hands | burn |  | ` |
+| frostgrip | FROSTGRIP | new | `hands | chill |  | on_roll>status_area:chill` |
+| duelistgauntlet | PARRYING GAUNTLET | new | `hands | crit |  | on_roll[if danger]>clear_shots+vfx:label` |
+| quickdraw | QUICKDRAW GLOVES | new | `hands | rate |  | on_weapon_swap>buff:rate` |
+| stormknuckles | STORM KNUCKLES | new | `hands | chain |  | on_crit>status:shock` |
+| gravedigmitts | GRAVEDIGGER'S MITTS | new | `hands | bomb_mult,bombs |  | ` |
+| beastglove | BEASTMASTER'S GLOVE | new | `hands | fam_dmg |  | on_room_clear>summon` |
+| midasglove | TOUCH OF MIDAS | new | `hands | gold_mult | gold_dmg | on_kill>drop+drop` |
+| boneamulet | BONE AMULET | new | `neck | curse |  | ` |
+| hourglass | SANDS OF RESPITE | new | `neck | dodge_cd |  | on_room_enter>refund_roll` |
+| phylactery | CRACKED PHYLACTERY | new | `neck | max_hp |  | grant:revive; on_floor_start>armor` |
+| stormeye | EYE OF THE GALE | new | `neck | chain_jumps |  | every_n_seconds[if fighting]>status:shock` |
+| emberheart | EMBER LOCKET | new | `neck | burn |  | on_damage_taken>status_area:burn` |
+| wolftooth | WOLF-TOOTH CHARM | new | `neck | crit |  | on_crit[if bleeding]>heal` |
+| frostlocket | WINTER LOCKET | new | `neck | armor |  | on_damage_taken>clear_shots` |
+| sagestone | SAGE'S STONE | new | `neck | xp_mult |  | on_level_up>nova` |
+| dragonscale | DRAGONSCALE PENDANT | new | `neck | dmg |  | every_n_seconds[if low_hp]>explode` |
+| deckpendant | THE LAST CARD | new | `neck | luck |  | every_n_seconds[if fighting]>card` |
+| copperband | COPPER BAND | new | `ring | chain |  | ` |
+| whetband | WHETSTONE RING | new | `ring | crit_mult |  | ` |
+| cinderring | CINDER RING | new | `ring | burn |  | ` |
+| swiftring | RING OF HASTE | new | `ring | speed |  | ` |
+| goldband | GOLD BAND | new | `ring | gold_mult |  | ` |
+| venomring | ASP RING | new | `ring | poison |  | on_kill[if poisoned]>status:poison` |
+| bloodring | BLOOD-PACT RING | new | `ring | dmg |  | on_room_enter>hurt_self` |
+| echoring | RING OF ECHOES | new | `ring | echo |  | ` |
+| thornring | THORNED RING | new | `ring | thorns |  | on_damage_taken>buff:dmg` |
+| wispring | WISP-CALLER RING | new | `ring | fam_rate |  | on_kill>summon` |
+| ragering | RING OF RANCOR | new | `ring |  | low_hp_dmg | ` |
+| bombring | FUSE RING | new | `ring | bomb_mult |  | on_room_clear>drop` |
+| seersring | SEER'S RING | new | `ring | crit,homing |  | ` |
+| doomring | RING OF DOOM | new | `ring | curse |  | on_kill[if cursed]>explode+status_area:curse` |
+| conclave_gloves | CONCLAVE GLOVES | new | `hands set:conclave | rate |  | ` |
+| conclave_sigil | CONCLAVE SIGIL | new | `neck set:conclave | count |  | ` |
+| conclave_ring_a | CONCLAVE RING OF DUSK | new | `ring set:conclave | homing |  | ` |
+| conclave_ring_b | CONCLAVE RING OF DAWN | new | `ring set:conclave | pierce |  | ` |
+| hunt_hood | HEADHUNTER'S HOOD | new | `head set:headhunter | crit |  | ` |
+| hunt_coat | HEADHUNTER'S COAT | new | `body set:headhunter | max_hp |  | ` |
+| hunt_gloves | HEADHUNTER'S GLOVES | new | `hands set:headhunter | crit_mult |  | ` |
+| hunt_boots | HEADHUNTER'S BOOTS | new | `feet set:headhunter | speed |  | ` |
+| mirehelm | MIRE-DIVER'S HELM | new | `head | armor,poison |  | ` |
+| monkrobe | MONK'S HABIT | new | `body | charges,dodge_charges |  | on_roll[if danger]>status_area:chill` |
+| warcloak | WAR-TORN CLOAK | new | `body | dmg |  | on_room_enter>buff:dmg` |
+| rooftopboots | ROOFRUNNER BOOTS | new | `feet | roll_speed,speed |  | ` |
+| eclipsecrown | CROWN OF THE ECLIPSE | new | `head | dmg |  | on_floor_start>scroll` |
+| snowtreads | SNOW TREADS | new | `feet | chill |  | ` |
+| jester_cap | JESTER'S CAP | new | `head set:jester | crit |  | ` |
+| jester_coat | JESTER'S MOTLEY | new | `body set:jester | max_hp |  | on_damage_taken>push` |
+| jester_shoes | JESTER'S CURLY SHOES | new | `feet set:jester | speed |  | on_roll>drop` |
+| jester_bauble | JESTER'S BAUBLE | new | `trinket set:jester | gold_mult |  | on_crit>gold` |
+| star_helm | STARFALL CROWN | new | `head set:starfall | burn |  | ` |
+| star_plate | STARFALL PLATE | new | `body set:starfall | armor |  | on_damage_taken>meteor` |
+| star_gloves | STARFALL GAUNTLETS | new | `hands set:starfall | bomb_mult |  | on_kill>bomb` |
+| star_boots | STARFALL GREAVES | new | `feet set:starfall | speed | fire_steps | ` |
+| void_cowl | VOIDWALKER COWL | new | `head set:voidwalker | evade |  | ` |
+| void_wraps | VOIDWALKER WRAPS | new | `hands set:voidwalker | dodge_cd |  | ` |
+| void_amulet | VOIDWALKER LOCKET | new | `neck set:voidwalker | charges,dodge_charges |  | ` |
+| void_ring | VOIDWALKER BAND | new | `ring set:voidwalker | curse |  | ` |
+| magnethelm | MAGNET HELM | new | `head | armor |  | every_n_seconds[if fighting]>pull+status_area:shock` |
+| partyhat | PARTY HAT | new | `head | xp_mult |  | on_level_up>nova+gold+vfx:label` |
+| thirdeye | THIRD EYE | new | `head | crit,homing |  | on_crit>rand_status` |
+| bombvest | POWDERKEG VEST | new | `body | armor,bombs | bomb_immune | on_damage_taken>bomb` |
+| giantbelt | GIANT'S GIRDLE | new | `body | max_hp,size |  | on_kill>buff:size` |
+| ghostsheet | BEDSHEET GHOST | new | `body | evade |  | on_damage_taken>clear_shots+invuln+vfx:label` |
+| hedgehogmail | HEDGEHOG MAIL | new | `body | armor,thorns |  | every_n_seconds[if fighting]>nova` |
+| rocketboots | ROCKET BOOTS | new | `feet | roll_speed |  | on_roll>explode+zone` |
+| slipperysoles | BUTTERED SOLES | new | `feet | speed |  | on_roll>status_area:stun` |
+| springheels | SPRING HEELS | new | `feet | dodge_cd |  | on_roll>buff:speed` |
+| goldengoose | GOLDEN GOOSE | new | `trinket | luck | gold_dmg | every_n_seconds[if fighting]>drop` |
+| chaosdie | CHAOS DIE | new | `trinket | luck |  | on_kill>chaos; on_room_enter>chaos` |
+| pocketsun | POCKET SUN | new | `trinket | burn | fire_aura | every_n_seconds[if fighting]>status_area:burn+vfx:ring` |
+| stormcloud | PET STORMCLOUD | new | `trinket | chain |  | every_n_seconds[if fighting]>bolts` |
+| boxinggloves | BOXING GLOVES | new | `hands | dmg |  | every_n_shots>area+push` |
+| fireworkmitts | FIREWORK MITTS | new | `hands | crit |  | on_crit>nova` |
+| puppetstrings | PUPPETEER'S STRINGS | new | `hands | familiars |  | on_hit>summon` |
+| monkeypaw | MONKEY'S PAW | new | `hands | luck |  | on_room_enter>chaos; on_room_enter>hurt_self; pct:dmg` |
+| cowbell | LOUD COWBELL | new | `neck | max_hp |  | on_damage_taken>status_area:stun+vfx:ring` |
+| collapsedstar | COLLAPSED STAR | new | `neck | dmg |  | every_n_seconds[if fighting]>pull+area+vfx:sigil` |
+| ricochetring | RING OF REBOUNDS | new | `ring | bounce,ricochet |  | ` |
+| bigring | RING OF BIGNESS | new | `ring | size |  | ` |
+| tinyring | RING OF SMALLNESS | new | `ring | rate,size |  | ` |
+| twinring | TWIN-SOUL RING | new | `ring | count,echo |  | every_n_shots>shoot_at` |
+| toadring | TOAD RING | new | `ring | poison |  | on_kill[if poisoned]>zone` |
+

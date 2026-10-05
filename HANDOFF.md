@@ -208,6 +208,20 @@ the pause menu and `Meta.write_save()` runs. Test `_test_background` in
 Not done: a run in progress is not saved; if iOS ends the app in the
 background, the run is lost (meta progress is saved). Not tested on iPad.
 
+## Stage 4 (new content)
+
+**4.1, stock-taking (done).** `tests/uniqueness_report.tscn` writes
+`tiny_biggot_godot/UNIQUENESS.md` from the data. Signature, without numbers:
+weapon = kind | mechanics it adds to its kind (count+, homing, bounce, ...) |
+stat names | hooks | effects; relic = effects; gear = slot (+ set) | stat
+names | hooks | effects. An effect is `op:stat` or `trigger[if]>actions`.
+"Same" = identical; "near" = identical once how a stat is changed (add, mul,
+pct) is set aside (gear: and the set); "numbers only" = nothing triggered,
+no hook, no mechanic. Result: weapons 252 (5 same, 18 near groups, 46 numbers
+only), relics 173 (22 same groups, 84 numbers only), gear 231 (13 near
+groups, 93 numbers only). New items needing work in 4.2: 20 weapons, 45
+relics, 49 gear. Not seen by it: hero signature weapons' hero mechanics.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress (so iOS closing the app does not end it). Needs
