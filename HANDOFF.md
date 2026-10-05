@@ -342,6 +342,9 @@ clips, art and names our own.
   stage 3 baseline went 2,666 to 3,133: the same growth with the build).
   Replays: the 6 classic ones identical; the 8 full-content ones re-recorded
   (the map changes every run's rooms).
+- `tools/check.sh`: CHECK PASSED (with the stars test), all 14 replays
+  identical.
+- IPA for him to test: pushed with `[ipa]` after that (release `ipa-latest`).
 - Not tested: the iPad (touch on the constellation: drag, pinch, hold), and
   frame time there.
 
