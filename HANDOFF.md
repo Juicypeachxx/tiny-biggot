@@ -222,6 +222,24 @@ only), relics 173 (22 same groups, 84 numbers only), gear 231 (13 near
 groups, 93 numbers only). New items needing work in 4.2: 20 weapons, 45
 relics, 49 gear. Not seen by it: hero signature weapons' hero mechanics.
 
+**4.2, part 1 (done).** Only data (`scripts/data/weapons.gd`,
+`relics.gd`): descriptions and one triggered effect each, built from the
+existing actions. Weapons: bogpump, lampflamer, hexchain, firepot,
+wispcrook, ironpike, briarspear, frostfang, warbow, mirrorshard,
+blightcenser, tumbleredge, towershield, iciclerepeater. Relics: goldtongue,
+bargain, shatteredcrown, manyhands, warfletching, seedpouch, toadstool,
+marshreed, ironrations, fielddressing, ledgerofdebt, matchbook, crownofash,
+copperwire, snowglobe, sharpstone, quickcloak, mirroredsoul, hivecrown,
+lockpick, spentcasing, undyingember, ravenquill, bloodmoon. Nothing lost:
+each keeps its old stats. Left alone on purpose: banesabre, shackleflail,
+warlance, wayfareredge, giltdeck (hero signature weapons). Still to do: the
+new gear in near groups or numbers only (49) and 21 numbers-only relics
+(keeneye, killingblow, oilflask, overload, mirrorbead, glowworm, nightveil,
+stonehide, prayerflag, candlestub, copperspool, bogwater, blastingcaps,
+cursedcompass, leadweight, alleycateye, phoenixash, hivemind, echostone,
+crimsonfont, redmist: the last five each had a twin that changed, so they
+already differ, but still only change numbers).
+
 ## Noted, not yet acted on
 
 - Saving a run in progress (so iOS closing the app does not end it). Needs

@@ -291,3 +291,7 @@ before-and-after picture for him, a new IPA.
   231 gear pieces with a signature each. New items that are near-copies of
   another or change only numbers: 20 weapons, 45 relics, 49 gear (114).
   Originals are listed but left alone. Next: 4.2.
+- 5 Oct 2026: 4.2 part 1. 14 weapons and 24 relics each keep what they
+  did and gain one triggered effect of their own. No new relic is a
+  near-copy now. Content test passes; classic replays identical; full
+  replays a and b re-recorded (their heroes carry changed relics).
