@@ -68,6 +68,7 @@ static func update(dt: float) -> void:
 		_off_the_edge(room)
 	if not room.tides.is_empty() or not room.turrets.is_empty() or room.theme.get("hazard", "") == "tide":
 		RiftExtras.update(room, dt)
+	EnemyAI2.tick(room, dt)
 	if room.hazards.is_empty() and room.strike == "" and room.marks.is_empty():
 		return
 	var active := G.enemies_active()

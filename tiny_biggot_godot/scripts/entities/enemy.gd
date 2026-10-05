@@ -76,6 +76,14 @@ var cycle := 0
 var sub := 0
 var angle := 0.0
 var beams: Array = []
+# New foes (enemy_ai2.gd)
+var guard_t := 0.0             # a deacon's shield: half damage while it lasts
+var haste_t := 0.0             # a war drum: 50% faster while it lasts
+var aux := 0.0
+var aux2 := 0.0
+var links: Array = []          # a belt feeder's links
+var trail: Array = []          # a belt feeder's recent positions (its links follow them)
+var lead: WeakRef = null       # a belt link's head (weak, so the two do not keep each other alive)
 var has_target := false
 var target := Vector2.ZERO
 var has_telegraph := false

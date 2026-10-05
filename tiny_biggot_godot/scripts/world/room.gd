@@ -36,6 +36,7 @@ var cars: Array = []     # Heist City traffic (hazards.gd)
 var gusts: Array = []    # Skyreach Isles wind bands (hazards.gd)
 var tides: Array = []    # Drowned Bastion sludge waves (rift_extras.gd)
 var turrets: Array = []  # Caliber Cathedral wall guns (rift_extras.gd)
+var goo: Array = []      # webs and sludge left by foes (enemy_ai2.gd)
 var hits := 0            # times the hero was hurt in this room (a flawless fight can reveal a door)
 
 func tile(c: int, r: int) -> int:

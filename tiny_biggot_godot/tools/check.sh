@@ -62,6 +62,11 @@ timeout 900 "$GODOT" --headless --path . --quit-after 400000 res://tests/rift_te
 grep -E "^\[rift\]|rift test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== the twenty new foes: data, and each one's own trick"
+timeout 900 "$GODOT" --headless --path . --quit-after 400000 res://tests/foes_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[foes\]|foes test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:|WARNING" "$LOG"; then status=1; fi
+
 echo "== the Gaolbird (starter hero): tempo, rally, rolls, dive"
 timeout 900 "$GODOT" --headless --path . --quit-after 400000 res://tests/gaolbird_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "^\[gaolbird\]|gaolbird test" "$LOG"

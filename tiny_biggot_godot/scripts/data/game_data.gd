@@ -284,6 +284,31 @@ const ENEMIES := {
 	"galewarden": { "sprite": "galewarden", "name": "THE GALE WARDEN", "hp": 180, "speed": 50, "r": 10, "ai": "champion",
 		"shot": "ice", "scale": 2.0, "mini": true, "champion": true, "fly": true, "gold": 5.0, "style": "ranged",
 		"moves": [["blink"], ["fan", 7, 0.45, 3], ["spiral", 36], ["summon", "crow", 3], ["ring", 18, 70, 2], ["rain", 5]] },
+	# New foes (ROADMAP 4.4, scripts/entities/enemy_ai2.gd). Skyreach Isles.
+	"skykite": { "sprite": "skykite", "hp": 10, "speed": 70, "r": 5, "ai": "skykite", "fly": true, "shot": "cyan", "gold": 0.3, "label": "a sky kite" },
+	"gustling": { "sprite": "gustling", "hp": 12, "speed": 55, "r": 5, "ai": "gustling", "fly": true, "shot": "cyan", "gold": 0.3, "label": "a gustling" },
+	"stormharpy": { "sprite": "stormharpy", "hp": 14, "speed": 60, "r": 5, "ai": "stormharpy", "fly": true, "shot": "cyan", "gold": 0.35, "label": "a storm harpy" },
+	"thunderhead": { "sprite": "thunderhead", "hp": 18, "speed": 30, "r": 6, "ai": "thunderhead", "fly": true, "gold": 0.4, "label": "a thunderhead" },
+	"mirrorwing": { "sprite": "mirrorwing", "hp": 12, "speed": 90, "r": 5, "ai": "mirrorwing", "fly": true, "shot": "cyan", "gold": 0.35, "label": "a mirrorwing" },
+	# The Drowned Bastion.
+	"rampartguard": { "sprite": "rampartguard", "hp": 30, "speed": 32, "r": 6, "ai": "rampartguard", "rule": "shield", "gold": 0.5, "label": "a rampart guard" },
+	"sludgecrawler": { "sprite": "sludgecrawler", "hp": 16, "speed": 38, "r": 5, "ai": "sludgecrawler", "gold": 0.35, "label": "a sludge crawler" },
+	"chainwarden": { "sprite": "chainwarden", "hp": 24, "speed": 36, "r": 6, "ai": "chainwarden", "shot": "bone", "gold": 0.5, "label": "a chain warden" },
+	"tidecaller": { "sprite": "tidecaller", "hp": 18, "speed": 34, "r": 5, "ai": "tidecaller", "gold": 0.45, "label": "a tidecaller" },
+	"longpike": { "sprite": "longpike", "hp": 18, "speed": 44, "r": 5, "ai": "longpike", "gold": 0.4, "label": "a longpike" },
+	# The Caliber Cathedral.
+	"shellpriest": { "sprite": "shellpriest", "hp": 20, "speed": 36, "r": 5, "ai": "shellpriest", "shot": "red", "gold": 0.45, "label": "a shell priest" },
+	"dervish": { "sprite": "dervish", "hp": 22, "speed": 44, "r": 5, "ai": "dervish", "rule": "dizzy", "shot": "red", "gold": 0.45, "label": "a bullet dervish" },
+	"deacon": { "sprite": "deacon", "hp": 16, "speed": 40, "r": 5, "ai": "deacon", "gold": 0.5, "label": "a deacon" },
+	"beltfeeder": { "sprite": "beltfeeder", "hp": 26, "speed": 40, "r": 6, "ai": "beltfeeder", "shot": "red", "gold": 0.5, "label": "a belt feeder" },
+	"beltlink": { "sprite": "beltlink", "hp": 12, "speed": 40, "r": 5, "ai": "beltlink", "shot": "red", "gold": 0.1, "label": "a belt link" },
+	"ammomimic": { "sprite": "ammomimic", "hp": 22, "speed": 30, "r": 6, "ai": "ammomimic", "shot": "red", "gold": 0.6, "label": "an ammo mimic" },
+	# The original floors, expanded game only (EnemyAI2.OLD_FLOOR_EXTRA).
+	"tombspider": { "sprite": "tombspider", "hp": 12, "speed": 50, "r": 5, "ai": "tombspider", "gold": 0.3, "label": "a tomb spider" },
+	"candlewight": { "sprite": "candlewight", "hp": 14, "speed": 40, "r": 5, "ai": "candlewight", "fly": true, "shot": "fire", "gold": 0.35, "label": "a candlewight" },
+	"gargoyle": { "sprite": "gargoyle", "hp": 40, "speed": 70, "r": 6, "ai": "gargoyle", "gold": 0.5, "label": "a gargoyle" },
+	"wardrummer": { "sprite": "wardrummer", "hp": 18, "speed": 36, "r": 5, "ai": "wardrummer", "gold": 0.45, "label": "a war drummer" },
+	"bloodleech": { "sprite": "bloodleech", "hp": 10, "speed": 55, "r": 4, "ai": "bloodleech", "no_touch": true, "gold": 0.25, "label": "a blood leech" },
 	# The Drowned Bastion and the Caliber Cathedral.
 	"rotking": { "sprite": "rotking", "name": "THE ROTTING KING", "hp": 190, "speed": 40, "r": 10, "ai": "champion", "shot": "spore",
 		"scale": 2.0, "mini": true, "champion": true, "gold": 5.0, "style": "melee",
@@ -294,7 +319,7 @@ const ENEMIES := {
 	"casingrat": { "sprite": "casingrat", "hp": 30, "speed": 100, "r": 5, "ai": "flee", "gold": 0.0, "label": "a casing rat",
 		"away": "THE RAT GOT AWAY WITH YOUR GOLD" },
 	# Event rooms.
-	"target": { "sprite": "target", "hp": 1, "speed": 0, "r": 6, "ai": "target", "gold": 0.0, "label": "a target" },
+	"target": { "sprite": "target", "hp": 1, "speed": 0, "r": 6, "ai": "target", "gold": 0.0, "label": "a target", "no_touch": true },
 	"goblin": { "sprite": "goblin", "hp": 40, "speed": 96, "r": 5, "ai": "flee", "gold": 0.0, "label": "a loot goblin" },
 	"mimic": { "sprite": "mimic", "hp": 80, "speed": 46, "r": 8, "ai": "golem", "shot": "red", "scale": 1.3, "gold": 2.0, "label": "a mimic" },
 	"shadow": { "sprite": "shadow", "name": "YOUR SHADOW", "hp": 150, "speed": 60, "r": 6, "ai": "champion", "shot": "dark",
@@ -353,6 +378,11 @@ static func floors() -> Array:
 	if _floors.is_empty():
 		_floors = FLOORS.duplicate()
 		if not DebugArgs.has("classic"):
+			# The expanded game: a few new foes join the original floors (the original data is untouched).
+			for i in EnemyAI2.OLD_FLOOR_EXTRA:
+				var f: Dictionary = _floors[i].duplicate(true)
+				f["pool"] = f["pool"] + EnemyAI2.OLD_FLOOR_EXTRA[i]
+				_floors[i] = f
 			_floors.append_array(NEW_FLOORS)
 	return _floors
 
@@ -380,7 +410,7 @@ const SPRITE_COLOR := {
 	"static": "#8b8f9c", "tollkeeper": "#2a2838", "rustbutcher": "#7a5236", "neighbour": "#e86fb4", "robovac": "#8b8f9c",
 	"burglar": "#2a2838", "gnome": "#d8443c", "landlord": "#e86fb4", "gangster": "#2a2838", "biker": "#d8443c",
 	"riotcop": "#2b4f8a", "kingpin": "#f4ecd8", "outlaw": "#7a5236", "dynamiter": "#4d9be6", "sharpshooter": "#63b84f",
-	"coyote": "#a8705a", "marshal": "#7a5236", "galewarden": "#9fc3ee", "target": "#d8443c", "rotking": "#3f7a5a", "highcaliber": "#d8443c", "casingrat": "#8b8f9c", "goblin": "#63b84f", "mimic": "#7a5236", "shadow": "#3c1d47",
+	"coyote": "#a8705a", "marshal": "#7a5236", "galewarden": "#9fc3ee", "target": "#d8443c", "skykite": "#9fc3ee", "gustling": "#c8f0ff", "stormharpy": "#a35bd6", "thunderhead": "#8b8f9c", "mirrorwing": "#6fd3e0", "rampartguard": "#3f7a5a", "sludgecrawler": "#63b84f", "chainwarden": "#8b8f9c", "tidecaller": "#2b4f8a", "longpike": "#f4ecd8", "shellpriest": "#d8443c", "dervish": "#d8443c", "deacon": "#f4ecd8", "beltfeeder": "#f2c94c", "beltlink": "#f2c94c", "ammomimic": "#7a5236", "tombspider": "#5c3483", "candlewight": "#f4ecd8", "gargoyle": "#8b8f9c", "wardrummer": "#8a2a33", "bloodleech": "#d8443c", "rotking": "#3f7a5a", "highcaliber": "#d8443c", "casingrat": "#8b8f9c", "goblin": "#63b84f", "mimic": "#7a5236", "shadow": "#3c1d47",
 }
 
 ## Ember Shrine: things to unlock between runs.
@@ -417,7 +447,7 @@ const ENEMY_XP := { "bat": 2, "slime": 3, "slimelet": 1, "skeleton": 3, "mushroo
 	"glitch": 4, "chrome": 7, "turret": 4, "thug": 4, "molotov": 4, "copper": 5, "bomber": 3, "orderly": 4, "crawler": 2,
 	"static": 4, "tollkeeper": 5, "neighbour": 4, "robovac": 5, "burglar": 4, "gnome": 4, "gangster": 5, "biker": 5,
 	"riotcop": 7, "outlaw": 5, "dynamiter": 4, "sharpshooter": 4, "coyote": 2, "goblin": 10, "mimic": 15, "shadow": 40,
-	"turnkey": 45, "carrionknight": 45, "broker": 45, "mayor": 45, "rustbutcher": 45, "landlord": 45, "kingpin": 45, "marshal": 45, "galewarden": 45, "target": 0, "rotking": 45, "highcaliber": 45, "casingrat": 6 }
+	"turnkey": 45, "carrionknight": 45, "broker": 45, "mayor": 45, "rustbutcher": 45, "landlord": 45, "kingpin": 45, "marshal": 45, "galewarden": 45, "target": 0, "rotking": 45, "highcaliber": 45, "casingrat": 6, "skykite": 3, "gustling": 3, "stormharpy": 4, "thunderhead": 4, "mirrorwing": 4, "rampartguard": 6, "sludgecrawler": 4, "chainwarden": 5, "tidecaller": 5, "longpike": 4, "shellpriest": 5, "dervish": 5, "deacon": 5, "beltfeeder": 6, "beltlink": 2, "ammomimic": 6, "tombspider": 3, "candlewight": 4, "gargoyle": 6, "wardrummer": 4, "bloodleech": 3 }
 
 static func xp_needed(level: int) -> int:
 	return roundi(10 + 7 * pow(level, 1.35))

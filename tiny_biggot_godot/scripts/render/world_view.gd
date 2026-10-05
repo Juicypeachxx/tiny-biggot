@@ -352,6 +352,7 @@ func _paint_lower(ci: CanvasItem) -> void:
 			var w := TB.text_w(lines[i]) + 1
 			Gfx.text(ci, lines[i], TB.SW / 2 - w / 2, 6 * TB.TS + i * 10, "bone", 1, 0.0, true, 120 / 255.0)
 	Hazards.draw_floor(ci, t)
+	EnemyAI2.draw_goo(ci, t)
 	var fancy := Vfx.enabled
 	if fancy:
 		Vfx.draw_floor(ci, t)
@@ -690,6 +691,7 @@ func _paint_fx(ci: CanvasItem) -> void:
 	Hazards.draw_traffic(ci, G.time)
 	Hazards.draw_gusts(ci, G.time)
 	RiftExtras.draw_hazards(ci, G.time)
+	EnemyAI2.draw_marks(ci, G.time)
 
 # ---------- z 1900: additive glows ----------
 ## Small markers: a pink chevron over exposed foes (they take +25% damage), and

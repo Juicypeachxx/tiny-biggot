@@ -23,6 +23,10 @@ static func run(e: Enemy, dt: float, p: Player) -> void:
 		"gunman": ai_gunman(e, dt, p)
 		"dummy": ai_dummy(e)
 		"target": pass   # the shooting gallery's pop-up targets just stand there
+		"skykite", "gustling", "stormharpy", "thunderhead", "mirrorwing", "rampartguard", "sludgecrawler", "chainwarden", \
+				"tidecaller", "longpike", "shellpriest", "dervish", "deacon", "beltfeeder", "beltlink", "ammomimic", "tombspider", \
+				"candlewight", "gargoyle", "wardrummer", "bloodleech":
+			EnemyAI2.run(e, dt, p)
 		# Rift worlds and event rooms.
 		"runner": ai_runner(e, dt, p)
 		"lobber": ai_lobber(e, dt, p)

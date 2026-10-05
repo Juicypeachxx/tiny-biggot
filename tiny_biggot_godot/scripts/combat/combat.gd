@@ -259,6 +259,8 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	if not o.get("no_mult", false): dmg *= player_damage_mult(p) * hook_mult(p, e)
 	if e.vuln_t > 0 or e.shock > 0:
 		dmg *= Statuses.dmg_mult(e)
+	if e.guard_t > 0 or e.d.has("rule"):
+		dmg = EnemyAI2.adjust_damage(e, dmg)   # shields, a deacon's guard, a dizzy dervish
 	e.hp -= dmg
 	e.flash = 0.08
 	if o.has("kx") and not e.is_boss():
@@ -591,7 +593,7 @@ static func update_enemies(dt: float) -> void:
 			e.ky *= 0.82
 			if absf(e.kx) < 2: e.kx = 0.0
 			if absf(e.ky) < 2: e.ky = 0.0
-		if not e.hidden and TB.dist(e, p) < e.r + p.r and e.type != "target":
+		if not e.hidden and TB.dist(e, p) < e.r + p.r and not e.d.has("no_touch"):
 			hurt_player(1, e.d["name"] if e.is_boss() else e.d.get("label", "a " + e.type))
 			if p.thorns > 0 and not e.thorn_cd > 0:
 				damage_enemy(e, p.thorns, { "no_crit": true, "col": "green" })
@@ -1757,7 +1759,7 @@ static func update_player(p: Player, dt: float) -> void:
 	p.haste_t = maxf(0.0, p.haste_t - dt)
 	if hasted:
 		p.speed *= 1.3
-	var bogged := Hazards.in_pool(p)   # stage 7 mire pools (never on original floors)
+	var bogged := Hazards.in_pool(p) or EnemyAI2.in_web(p)   # mire pools (new floors), webs (new foes)
 	if bogged:
 		p.speed *= 0.6
 	_update_player_base(p, dt)

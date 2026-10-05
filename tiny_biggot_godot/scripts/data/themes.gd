@@ -43,13 +43,13 @@ const LIST := [
 	  "pool": ["outlaw", "dynamiter", "sharpshooter", "coyote", "outlaw", "coyote"], "champion": "marshal", "hazard": "dynamite",
 	  "decor": "", "music": 3 },
 	{ "id": "skyreach", "name": "SKYREACH ISLES", "sub": "MIND THE DROP", "kit": "kit_skyreach", "accent_hex": "#9fc3ee",
-	  "pool": ["crow", "wisp", "torchimp", "crow", "wisp", "crow"], "champion": "galewarden", "hazard": "gusts",
+	  "pool": ["skykite", "gustling", "stormharpy", "thunderhead", "mirrorwing", "crow"], "champion": "galewarden", "hazard": "gusts",
 	  "decor": "", "layouts": "isles", "music": 5 },
 	{ "id": "bastion", "name": "THE DROWNED BASTION", "sub": "THE TIDE COMES IN POISONED", "kit": "kit_bastion", "accent_hex": "#63b84f",
-	  "pool": ["drowned", "skeleton", "bogling", "ghost", "drowned", "golem"], "champion": "rotking", "hazard": "tide",
+	  "pool": ["rampartguard", "sludgecrawler", "chainwarden", "tidecaller", "longpike", "drowned"], "champion": "rotking", "hazard": "tide",
 	  "decor": "", "layouts": "bastion", "music": 4 },
 	{ "id": "cathedral", "name": "THE CALIBER CATHEDRAL", "sub": "FLIP A TABLE. SAY A PRAYER", "kit": "kit_cathedral", "accent_hex": "#f2c94c",
-	  "pool": ["gunman", "sharpshooter", "cultist", "gunman", "outlaw", "sharpshooter"], "champion": "highcaliber", "hazard": "turrets",
+	  "pool": ["shellpriest", "dervish", "deacon", "beltfeeder", "ammomimic", "gunman"], "champion": "highcaliber", "hazard": "turrets",
 	  "decor": "", "layouts": "cathedral", "music": 3 },
 ]
 
