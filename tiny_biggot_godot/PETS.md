@@ -25,6 +25,7 @@ original game (`--classic`) never shows a cage, and its replays do not change.
 | HOOTS (an owl) | every 7 s marks the toughest foe (a ring), then swoops: a heavy blow, a stun | every 6 s, harder | every 5 s; a foe it kills drops a gem |
 | SNIP (a crab) | snips foes beside you; every 15 snips, 1 armor (once a room) | faster | faster still |
 | KABOOMBA (a fuse beetle) | every 6 s runs at a foe and blows up, then hatches again | every 5 s, bigger | every 4 s, the blast leaves fire |
+| REX (a very good boy; never in a cage: beat him in his barn) | every 8 s hops onto the biggest crowd (a ring shows where) and flops | every 7 s, and the flop stuns | every 6 s, sunglasses on: the flop throws a ring of shots |
 
 +1 projectile stacks without limit, so ZAPPY's zap grows stronger with it (+25% a projectile)
 instead of zapping more often. Pet damage is a share of the weapon's damage, like the wisps'.

@@ -30,6 +30,7 @@ static func zones() -> Array:
 			var dy := MenuView.title_dy()
 			for i in G.title_items().size():
 				out.append(_z(Rect2(sw / 2 - 85, 142 + i * dy - 4, 170, dy), func(): G.menu = i, G.menu == i, true))
+			out.append(_act(Rex.title_rect(), func(): Rex.poke()))   # the sleeping dog in the corner
 		&"options", &"pause":
 			var opts := G.state == &"options"
 			var n: int = G.OPTION_LIST.size() if opts else G.PAUSE_ITEMS.size()

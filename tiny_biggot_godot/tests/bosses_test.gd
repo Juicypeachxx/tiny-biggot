@@ -12,6 +12,10 @@ extends Node
 ##   4. The rift: a new world's second room ends with its mini-boss; its champion's room has a door
 ##      to the guardian (named on the door); an old world's champion room has no such door.
 ##   5. Logic time per tick in each fight (desktop; printed).
+##   6. REX (rex.gd): asleep in his barn until you come close (blows on a sleeping dog count
+##      double); his bowl wakes him full and slow; every move of both phases; beaten, his hoard
+##      and his offer to come along; the title's secret puts a door to his barn in the next run's
+##      first room; a hidden room on the second floor or later is his barn about 12% of the time.
 ## Prints "bosses test: PASSED" or a FAIL line per problem.
 
 const NEW_WORLDS := ["skyreach", "bastion", "cathedral"]
@@ -32,6 +36,8 @@ func _ready() -> void:
 		_fight(w, th["guardian"], true)
 		_fight(w, th["mini"], false)
 	_rift_flow()
+	_rex()
+	_rex_doors()
 	for n in notes:
 		print("[bosses] ", n)
 	print("bosses test: PASSED" if fails == 0 else "bosses test: %d FAILED" % fails)
@@ -269,3 +275,150 @@ func _rift_flow() -> void:
 		_tick(80)
 		if G.boss == null or G.boss.boss != th["guardian"]:
 			fail("%s: its guardian did not come" % w)
+
+# ---------- Rex ----------
+func _barn() -> Enemy:
+	_start()
+	G.floor_index = 0
+	G.enter_room(World.make_room(G.floor_d, "barn", "", "s"))
+	for e in G.enemies:
+		if e.boss == "rex":
+			return e
+	return null
+
+func _rex() -> void:
+	for s in ["REX'S BARN", "SOMETHING BIG IS SNORING", "GOOD BOY, REX!", "HE ROLLS OVER FOR A BELLY RUB", "HE WANTS TO PLAY",
+			"YOU WOKE HIM UP", "HE WAKES UP FOR DINNER. FULL AND SLOW", GameData.BOSSES["rex"]["name"], RiftBosses.PHASE_LINE["rex"],
+			"WOOF! REX WANTS TO PLAY. HIS BARN IS BY YOUR FIRST ROOM", "EMPTY. FILL IT AND HE WAKES UP FULL AND SLOW"]:
+		_font("rex", s)
+	for spr in ["rex", "rex_lie", "rex_shades", "rex_sword", "pet_rex", "kit_barn", "rex_hay", "rex_mat", "rex_bowl", "rex_potatoes",
+			"rex_potato", "icon_barn"]:
+		if not Img.has(spr):
+			fail("missing sprite " + spr)
+	# Asleep until you come close.
+	var e := _barn()
+	if e == null or e.state != &"sleep":
+		fail("rex is not asleep in his barn")
+		return
+	var p := G.player
+	var fire0: bool = Meta.opts["autofire"]
+	Meta.opts["autofire"] = false   # (a hero firing by himself would wake him)
+	_tick(180, Vector2(3.0 * TB.TS, 15.0 * TB.TS))
+	Meta.opts["autofire"] = fire0
+	if e.state != &"sleep" or G.locked:
+		fail("rex woke up with no one near (state %s)" % e.state)
+	if RiftBosses.adjust_damage(e, 10.0) != 20.0:
+		fail("a blow on sleeping rex counts %.1f, not double" % RiftBosses.adjust_damage(e, 10.0))
+	Combat.damage_enemy(e, 10.0, { "no_crit": true, "no_mult": true, "silent": true })
+	_tick(2)
+	if e.state != &"nap" and RiftBosses.adjust_damage(e, 10.0) != 10.0:
+		fail("a blow on awake rex counts %.1f" % RiftBosses.adjust_damage(e, 10.0))
+	if e.state == &"sleep" or not G.locked:
+		fail("rex slept through a blow, or the barn did not lock")
+	# His bowl: he wakes up for dinner, full and slow.
+	e = _barn()
+	var bowl: Dictionary = {}
+	for o in G.room.objects:
+		if o["kind"] == "x_bowl":
+			bowl = o
+	if bowl.is_empty():
+		fail("no bowl in the barn")
+	else:
+		var max0 := e.max_hp
+		p = G.player
+		p.gold = Rex.BOWL_PRICE
+		G.interact(bowl)
+		if p.gold != 0 or absf(e.max_hp - max0 * 0.85) > 0.01 or e.state == &"sleep":
+			fail("the bowl: gold %d, health %.0f of %.0f, state %s" % [p.gold, e.max_hp, max0, e.state])
+	# The fight, as for the other bosses.
+	e = _barn()
+	var hold := Vector2(14.0 * TB.TS, 6.0 * TB.TS)
+	_tick(30, hold)
+	e.max_hp = 1e9
+	e.hp = 1e9
+	var hits0: int = G.room.hits
+	var seen := _watch(e, 70.0, hold, "rex", 1)
+	for a in RiftBosses.PLANS["rex"][0]:
+		if not seen.has(a):
+			fail("rex never did %s in his first phase" % a)
+	if G.room.hits == hits0:
+		fail("rex never hit a hero standing still")
+	e.hp = e.max_hp * 0.45
+	_tick(1, hold)
+	if e.state != &"phase":
+		fail("rex did not start his second phase (state %s)" % e.state)
+	_tick(int(RiftBosses.PHASE_T * 60) + 5, hold)
+	if e.phase != 2:
+		fail("rex has no second phase")
+	seen = _watch(e, 80.0, hold, "rex", 2)
+	for a in RiftBosses.PLANS["rex"][1]:
+		if not seen.has(a):
+			fail("rex never did %s in his second phase" % a)
+	notes.append("rex: logic %.2f ms a tick on average, %.2f at worst" % [_ms_avg, _ms_max])
+	var bosses0: int = Meta.meta["bosses"]
+	var rex0: int = Meta.meta.get("rex", 0)
+	for k in 6:
+		if e.hp > 0:
+			Combat.damage_enemy(e, e.hp * 2.0 + 10.0, { "no_crit": true, "no_mult": true, "silent": true })
+	_tick(2)
+	var offer: Dictionary = {}
+	var chest := false
+	for o in G.room.objects:
+		if o["kind"] == "pet_cage" and o.get("nocage", false):
+			offer = o
+		if o["kind"] == "chest" and o.get("boss", false):
+			chest = true
+	if not chest or offer.is_empty() or offer["pet"] != "rex":
+		fail("beaten rex left no hoard or no offer (chest %s)" % chest)
+	if G.locked or Meta.meta["bosses"] != bosses0 + 1 or Meta.meta.get("rex", 0) != rex0 + 1:
+		fail("after rex: locked %s, guardians %d, rex %d" % [G.locked, Meta.meta["bosses"] - bosses0, Meta.meta.get("rex", 0) - rex0])
+	if not offer.is_empty():
+		G.interact(offer)
+		if G.player.pet != "rex":
+			fail("rex did not come along")
+
+func _rex_doors() -> void:
+	# The title's secret: three pokes, and the next run's first room has a door to his barn.
+	Rex.pokes = 0
+	G.rex_call = false
+	for i in 3:
+		Rex.poke()
+	if not G.rex_call:
+		fail("three pokes did not wake the title's rex")
+	G.hero_index = 1
+	G.new_run()   # the first room of the first floor
+	var door := ""
+	for d in G.room.exits:
+		if G.room.exits[d]["type"] == "barn":
+			door = d
+	if door == "" or G.rex_call:
+		fail("no door to the barn in the first room (call %s)" % G.rex_call)
+	else:
+		var depth: int = G.floor_d["depth"]
+		G.leave_room(door)
+		_tick(30)
+		if G.room.type != "barn" or G.floor_d["depth"] != depth:
+			fail("the barn door led to %s (depth %d to %d)" % [G.room.type, depth, G.floor_d["depth"]])
+	# Natural barns: hidden rooms from the second floor on, about one floor in eight.
+	var barns := 0
+	var floors := 0
+	var first := 0
+	for i in 400:
+		G.run_stats["rex"] = false
+		G.floor_index = 0 if i % 4 == 0 else 1 + i % 6
+		var fd := World.new_floor(G.floor_index)
+		FloorMap.generate(fd, G.player)
+		for c in fd["map"]["cells"]:
+			if fd["map"]["cells"][c]["type"] == "barn":
+				if G.floor_index == 0:
+					first += 1
+				else:
+					barns += 1
+		if G.floor_index > 0:
+			floors += 1
+	notes.append("rex's barn on %d of %d floors past the first" % [barns, floors])
+	if first > 0:
+		fail("a barn on the first floor")
+	if barns < floors * 0.05 or barns > floors * 0.22:
+		fail("barns on %d of %d floors (want about 12%%)" % [barns, floors])
+	G.run_stats["rex"] = false

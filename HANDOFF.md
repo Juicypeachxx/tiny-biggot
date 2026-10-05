@@ -379,6 +379,26 @@ killing blow now strikes until the boss falls (a summoned deacon can halve it).
 Full-content replays re-recorded (cages add random draws); the 6 classic ones
 identical. **The IPA built before 4.5 does not have the bosses or the pets.**
 
+**4.5c, Rex (done; IPA built).** `scripts/entities/rex.gd` (class `Rex`): his
+barn (room type "barn": `World.build_room` calls `Rex.layout`, which sets
+`Room.kit = "kit_barn"` and four hay-bale pillars; `G.setup_objects` puts his
+bowl; `G.enter_room` calls `Rex.on_enter`, which spawns him asleep with
+`Combat.spawn_boss("rex", true)`, quiet), his moves (run inside RiftBosses:
+`PLANS["rex"]`, a "sleep" state before "intro", `Rex.to_hay` in the grace,
+potatoes as a lob kind), his drawing (`world_view._enemy_sprite` asks
+`Rex.sprite`; the sunglasses and the sword are parts), his defeat (no blasts,
+hearts and a bark in `Combat.kill_enemy`; `G.on_boss_dead` calls
+`Rex.on_beaten`: a hoard and a cage-less offer of the pet REX, Meta "rex" +1),
+the title secret (`MenuView` draws him, `Taps` and SPECIAL call `Rex.poke`,
+`G.rex_call` puts a "barn" door in the next on-map room entered), and the map
+(`FloorMap.generate` makes a hidden cell a barn). Pet REX in `pets.gd` (not in
+cages: `IDS` stays ten). New: `Room.kit`, `spawn_boss(key, quiet)`, sounds
+`cc_bark.wav` and `cc_snore.wav` (made from sine waves and noise), debug
+`--rex`. A phase change now also pauses the room's own hazards (gusts, tides,
+turrets): a gust's shard could land in the grace. Tests: bosses test section 6
+(planted faults caught: no double damage asleep, a bowl that does nothing),
+pets test has REX; three 10-minute soaks from the barn, 0 errors.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress (so iOS closing the app does not end it). Needs

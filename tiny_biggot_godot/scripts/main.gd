@@ -72,7 +72,7 @@ func _ready() -> void:
 	G.hero_index = clampi(DebugArgs.get_int("hero", 0), 0, GameData.heroes().size() - 1)
 	# The game opens on the title screen. Test options start a run directly.
 	var quick := false
-	for k in ["bot", "room", "floor", "hero", "ui", "bench", "quick", "weapon", "heavy", "rift", "event"]:
+	for k in ["bot", "room", "floor", "hero", "ui", "bench", "quick", "weapon", "heavy", "rift", "event", "rex"]:
 		if DebugArgs.has(k):
 			quick = true
 	if not quick:
@@ -106,6 +106,9 @@ func _ready() -> void:
 	if DebugArgs.has("pet"):
 		var pv := DebugArgs.get_str("pet").split(":")
 		Pets.give(G.player, pv[0], clampi(int(pv[1]) if pv.size() > 1 else 1, 1, 3))
+	# --rex starts in Rex's barn (scripts/entities/rex.gd).
+	if DebugArgs.has("rex"):
+		G.enter_room(World.make_room(G.floor_d, "barn", "", "s"))
 	# --spawn=TYPE puts one foe (a GameData.ENEMIES key) in the middle of the room (picture tests).
 	if DebugArgs.has("spawn"):
 		G.locked = true

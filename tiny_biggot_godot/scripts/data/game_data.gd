@@ -353,6 +353,8 @@ const BOSSES := {
 	"stormcrown": { "name": "THE STORMCROWN", "sprite": "stormcrown", "hp": 400, "r": 14, "scale": 2, "rift": true, "rule": "phase" },
 	"bilgehydra": { "name": "THE BILGE HYDRA", "sprite": "bilgehydra", "hp": 440, "r": 18, "scale": 2, "rift": true, "rule": "phase" },
 	"brassorgan": { "name": "THE BRASS ORGAN", "sprite": "brassorgan", "hp": 420, "r": 20, "scale": 2, "rift": true, "rule": "phase" },
+	# A hidden boss after the owner's dog (scripts/entities/rex.gd). "rift": his health grows with the floor too.
+	"rex": { "name": "REX THE FAT GOLDEN RETRIEVER", "sprite": "rex", "hp": 380, "r": 18, "scale": 2, "rift": true, "rule": "phase" },
 }
 
 const FLOORS := [
@@ -483,6 +485,7 @@ const ROOM_KINDS := {
 	"rift": { "name": "RIFT", "icon": "riftdoor", "col": "pink" }, "mystery": { "name": "MYSTERY", "icon": "icon_secret", "col": "pink" },
 	# The floor map: the way back to where the floor began, and out of a room off the map.
 	"start": { "name": "ENTRANCE", "icon": "icon_level", "col": "grey" }, "back": { "name": "BACK", "icon": "icon_level", "col": "grey" },
+	"barn": { "name": "REX'S BARN", "icon": "icon_barn", "col": "gold" },   # a hidden boss (rex.gd)
 }
 
 ## What a door shows: its room kind, with a rift door named after its world
@@ -505,4 +508,4 @@ static func door_kind(c: Dictionary) -> Dictionary:
 ## Door frame colours per room type (Render.rb ROOM_COL).
 const ROOM_COL := { "boss": "#d8443c", "treasure": "#f2c94c", "shop": "#63b84f", "shrine": "#a35bd6", "combat": "#8b8f9c",
 	"elite": "#d8443c", "rest": "#e8873a", "vault": "#e8873a", "secret": "#e86fb4", "challenge": "#6fd3e0",
-	"rift": "#e86fb4", "mystery": "#a35bd6", "start": "#5c5a78", "back": "#5c5a78" }
+	"rift": "#e86fb4", "mystery": "#a35bd6", "start": "#5c5a78", "back": "#5c5a78", "barn": "#c9a35a" }

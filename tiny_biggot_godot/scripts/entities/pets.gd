@@ -19,6 +19,8 @@ extends RefCounted
 ##   HOOTS       marks the toughest foe, then swoops on it: a heavy blow and a stun
 ##   SNIP        snips foes beside you; every 15 snips, a piece of armor
 ##   KABOOMBA    runs at a foe and blows up, then hatches again
+##   REX         (never in a cage: beat him in his barn and he comes along) flops onto the biggest
+##               crowd of foes; at level 3 he wears his sunglasses and the flop throws a ring of shots
 ##
 ## Names, looks and numbers are this game's own. The state of the pet's body (where it is, what it
 ## is doing) lives here and is reset on entering a room; what you own is on the Player (pet,
@@ -46,6 +48,8 @@ const PETS := {
 		"SNIPS FASTER", "SNIPS FASTER STILL"] },
 	"kaboomba": { "name": "KABOOMBA", "kind": "A FUSE BEETLE", "lv": ["EVERY 6S RUNS AT A FOE AND BLOWS UP. HATCHES AGAIN",
 		"EVERY 5S, A BIGGER BLAST", "EVERY 4S, AND THE BLAST LEAVES FIRE"] },
+	"rex": { "name": "REX", "kind": "A VERY GOOD BOY", "special": true, "lv": ["EVERY 8S FLOPS ONTO THE BIGGEST CROWD OF FOES",
+		"EVERY 7S, AND THE FLOP STUNS", "EVERY 6S. SUNGLASSES ON: THE FLOP THROWS A RING OF SHOTS"] },
 }
 const IDS := ["biscuit", "zappy", "cindertail", "bramble", "glimmer", "gulp", "gloop", "hoots", "snip", "kaboomba"]
 
@@ -65,6 +69,8 @@ static var wall := ""          # glimmer: the hollow wall it found
 static var bolts: Array = []   # zaps to draw: { a, b, t }
 static var glow := 0.0         # glimmer: how long it has glowed at the hollow wall
 static var _mark := -1.0       # hoots: time left on its mark
+static var carry_from := Vector2.ZERO   # rex: where his hop began
+static var hop_to := Vector2.ZERO       # rex: where he lands
 
 static func active(p: Player) -> bool:
 	return p != null and p.pet != ""
@@ -173,6 +179,7 @@ static func update(p: Player, dt: float) -> void:
 		"hoots": _hoots(p, dt, fighting)
 		"snip": _snip(p, dt, fighting)
 		"kaboomba": _kaboomba(p, dt, fighting)
+		"rex": _rex(p, dt, fighting)
 
 ## Walk (or fly) towards a point at a speed; true on arrival.
 static func _go(tx: float, ty: float, speed: float, dt: float) -> bool:
@@ -462,6 +469,53 @@ static func _kaboomba(p: Player, dt: float, fighting: bool) -> void:
 				cd = [0.0, 6.0, 5.0, 4.0][p.pet_lv]
 				Fx.burst(x, y, ["#2a2838", "#d8443c"], 8, 40)
 
+## REX: hops onto the foe with the most others around it (a ring shows where), and flops.
+static func _rex(p: Player, dt: float, fighting: bool) -> void:
+	match st:
+		"follow":
+			_follow(p, dt)
+			if cd > 0 or not fighting:
+				return
+			var best: Enemy = null
+			var crowd := -1
+			for e in G.enemies:
+				if not e.targetable() or e.type == "dummy" or TB.dist_xy(e.x, e.y, x, y) > 200:
+					continue
+				var n := 0
+				for o in G.enemies:
+					if o.targetable() and TB.dist(o, e) < 40:
+						n += 1
+				if n > crowd:
+					crowd = n
+					best = e
+			if best == null:
+				return
+			tgt = weakref(best)
+			st = "hop"
+			t = 0.0
+			carry_from = Vector2(x, y)
+			hop_to = Vector2(best.x, best.y)
+			Snd.play("bark")
+		"hop":
+			var k := minf(1.0, -t / 0.55)
+			x = lerpf(carry_from.x, hop_to.x, k)
+			y = lerpf(carry_from.y, hop_to.y, k)
+			if k >= 1.0:
+				var r := 34.0
+				for e in G.enemies.duplicate():
+					if e.targetable() and TB.dist_xy(e.x, e.y, x, y) < r + e.r:
+						_hit(p, e, 2.2 * lv_mult(p), "gold")
+						if p.pet_lv >= 2:
+							e.stun_t = maxf(e.stun_t, 0.4)
+				if p.pet_lv >= 3:
+					for i in 8:
+						Combat.spawn_pbullet(p, float(i) / 8 * TAU, Weapons.wdmg(p) * 0.8, "spark")
+				Fx.burst(x, y + 4, ["#d9d0b4", "#f4ecd8"], 12, 70)
+				G.add_shake(2)
+				Snd.play("boom")
+				st = "follow"
+				cd = [0.0, 8.0, 7.0, 6.0][p.pet_lv]
+
 # ---------- Cages ----------
 static func handles(kind: String) -> bool:
 	return kind == "pet_cage"
@@ -484,7 +538,7 @@ static func cage(p: Player, x0: float, y0: float, how: String) -> Dictionary:
 static func prompt(o: Dictionary) -> Array:
 	var id: String = o["pet"]
 	var p := G.player
-	var how := "SET IT FREE"
+	var how := "TAKE HIM ALONG" if o.get("nocage", false) else "SET IT FREE"
 	match o["how"]:
 		"key": how = "OPEN WITH 1 KEY"
 		"gold": how = "BUY FOR %d GOLD" % o["price"]
@@ -524,6 +578,17 @@ static func interact(o: Dictionary) -> void:
 
 # ---------- Drawing ----------
 static func draw_cage(ci: CanvasItem, o: Dictionary, t0: float) -> void:
+	if o.get("nocage", false):
+		# Rex, beaten: belly up for a rub (until he comes along, or someone takes his place).
+		if o.get("used", false) and o["pet"] == "rex":
+			return
+		if o["pet"] == "rex":
+			Gfx.sp(ci, "rex_lie", o["x"], o["y"] - 2 + roundf(sin(t0 * 3.0)), 2.0, 2.0, PI)
+			if floori(t0 * 2) % 2 == 0:
+				Gfx.text(ci, "<3", o["x"] + 18, o["y"] - 30, "pink")
+		else:
+			Gfx.sp(ci, "pet_" + o["pet"], o["x"], o["y"] + 6 + roundf(sin(t0 * 3.0) * 1.0))
+		return
 	if o.get("used", false):
 		Gfx.sp(ci, "pet_cage", o["x"], o["y"] + 10, 1.5, 1.5, 0.0, false, 0.5)
 		return
@@ -554,7 +619,11 @@ static func draw(ci: CanvasItem, p: Player, t0: float) -> void:
 		"glimmer":
 			ci.draw_circle(Vector2(x, y + bob - 4), 56.0, Color(1.0, 0.9, 0.5, 0.05))
 			ci.draw_circle(Vector2(x, y + bob - 4), 30.0, Color(1.0, 0.9, 0.5, 0.06))
+	if p.pet == "rex" and st == "hop":
+		bob -= sin(minf(1.0, -t / 0.55) * PI) * 22.0
 	Gfx.sp(ci, spr, x, y + 6 + bob, 1.0, 1.0, 0.0, flip)
+	if p.pet == "rex" and p.pet_lv >= 3:
+		ci.draw_rect(Rect2(roundf(x) - (5 if not flip else -1), roundf(y + bob) - 3, 5, 1), TB.c("#140f1c"))   # sunglasses
 	if p.pet_lv >= 2:
 		for i in p.pet_lv - 1:
 			ci.draw_rect(Rect2(roundf(x) - 2 + i * 3 - (p.pet_lv - 2) * 1.5, roundf(y + bob) - 9, 2, 2), TB.c("#f2c94c"))
@@ -566,6 +635,8 @@ static func draw_over(ci: CanvasItem, p: Player, t0: float) -> void:
 	for b in bolts:
 		ci.draw_line(b["a"], b["b"], Color(0.43, 0.83, 0.88, 0.9), 2.0)
 		ci.draw_line(b["a"], b["b"], Color(1, 1, 1, 1), 1.0)
+	if p.pet == "rex" and st == "hop":
+		Afx.landing(ci, hop_to.x, hop_to.y + 4, 34.0, minf(1.0, -t / 0.55), TB.c("#f2c94c"), t0)
 	if p.pet == "hoots" and st == "mark":
 		var e := _foe()
 		if e != null:

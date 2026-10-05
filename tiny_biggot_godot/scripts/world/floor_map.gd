@@ -124,6 +124,13 @@ static func generate(floor_d: Dictionary, p: Object) -> void:
 			cells[to]["hidden"] = true
 			hid += 1
 			break
+	# Rex's barn (rex.gd): from the second floor, once a run, a hidden room may be his.
+	if hid > 0 and G.floor_index >= 1 and not G.run_stats.get("rex", false) and TB.rnd() < Rex.CHANCE:
+		for c in cells:
+			if cells[c]["hidden"]:
+				cells[c]["type"] = "barn"
+				G.run_stats["rex"] = true
+				break
 	floor_d["map"] = { "cells": cells, "cur": start, "start": start, "boss": boss }
 	floor_d["shop_done"] = true   # the map has its own shop; the chain's draw never adds one
 

@@ -172,6 +172,8 @@ static func build_room(room: Room) -> void:
 	room.grid = g
 	room.crate_hp = {}
 	room.layout = 0
+	if room.type == "barn":
+		Rex.layout(room)
 	if room.type in ["combat", "elite", "challenge"]:
 		# Rogues layer: eight more layouts (9-16).
 		var pat := rng.int_range(0, 16 if GameData.rogues() else 8)

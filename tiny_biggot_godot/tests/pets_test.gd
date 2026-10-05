@@ -23,7 +23,7 @@ func _ready() -> void:
 	seed(11)
 	Meta.opts["autofire"] = false
 	_data()
-	for id in Pets.IDS:
+	for id in Pets.IDS + ["rex"]:
 		_fight(id)
 	_levels()
 	_cages()
@@ -35,9 +35,11 @@ func _ready() -> void:
 	get_tree().quit()
 
 func _data() -> void:
-	if Pets.IDS.size() != 10 or Pets.PETS.size() != 10:
-		fail("%d pets" % Pets.IDS.size())
-	for id in Pets.IDS:
+	if Pets.IDS.size() != 10 or Pets.PETS.size() != 11:
+		fail("%d pets in cages, %d in all" % [Pets.IDS.size(), Pets.PETS.size()])
+	if "rex" in Pets.IDS or not Pets.PETS.has("rex"):
+		fail("rex must come only from his barn")
+	for id in Pets.IDS + ["rex"]:
 		var d: Dictionary = Pets.PETS[id]
 		if d["lv"].size() != 3:
 			fail("%s has %d level lines" % [id, d["lv"].size()])
@@ -129,12 +131,13 @@ func _fight(id: String) -> void:
 			"hoots": ok = ok or seen.has("swoop")
 			"snip": ok = ok or Pets.count > 0
 			"kaboomba": ok = ok or seen.has("gone")
+			"rex": ok = ok or seen.has("hop")
 	if not ok:
 		fail("%s never did its trick (states %s)" % [id, seen.keys()])
 	var hp1 := 0.0
 	for e in foes:
 		hp1 += maxf(0.0, e.hp)
-	if id in ["zappy", "bramble", "hoots", "snip", "kaboomba", "cindertail"] and hp1 >= hp0:
+	if id in ["zappy", "bramble", "hoots", "snip", "kaboomba", "cindertail", "rex"] and hp1 >= hp0:
 		fail("%s did no damage" % id)
 	notes.append("%s: the foes lost %d health in 15 s (the hero not firing)" % [id, roundi(hp0 - hp1)])
 

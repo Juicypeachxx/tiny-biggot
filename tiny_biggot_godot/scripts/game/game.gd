@@ -39,6 +39,7 @@ var temp_fams: Array = []
 var swings: Array = []
 var boss: Enemy = null
 var champ: Enemy = null       # a rift champion or floor mini-boss in the room: it gets the boss bar
+var rex_call := false         # the title's sleeping Rex was woken: the next run starts beside his barn (rex.gd)
 var god := false              # debug: --god
 var menu := 0
 var choice: Dictionary = {}    # relic choice: { relics, idx }
@@ -308,6 +309,10 @@ func enter_room(r: Room) -> void:
 			open_exits()
 		_:
 			open_exits()
+	if room.type == "barn":
+		Rex.on_enter(room)   # Rex asleep on his mat
+	if rex_call and GameData.rogues() and room.on_map and room.type != "boss" and Rex.add_door(room):
+		rex_call = false     # the title's secret: a door to his barn from this room
 	if GameData.rogues():
 		# Rogues layer: a rift world plays its own track and announces itself; event rooms set their scene.
 		if room.type != "boss":
@@ -374,7 +379,7 @@ func leave_room(dir: String) -> void:
 		return
 	# The second and third rooms of a rift are a detour, like a hidden room: the floor does not advance.
 	var inner: bool = c["type"] == "rift" and c.get("step", 0) > 0
-	if c["type"] != "secret" and not inner:
+	if c["type"] != "secret" and c["type"] != "barn" and not inner:
 		floor_d["depth"] += 1
 		floor_d["path"].append(c)
 	if c["type"] == "shop":
@@ -588,6 +593,8 @@ func setup_objects(r: Room) -> void:
 					r.pickups.append(_room_pickup("gem", cx - 20 + i * 20, cy + 20))
 		"challenge":
 			r.objects.append({ "kind": "bell", "x": cx, "y": cy })
+		"barn":
+			Rex.setup_objects(r)
 		"rest":
 			r.objects.append({ "kind": "campfire", "x": cx, "y": cy })
 			if GameData.rogues():
@@ -773,6 +780,9 @@ func on_boss_dead(b: Enemy) -> void:
 	Combat.drop_pickup("heart", b.x, b.y)
 	Combat.drop_pickup("ember", b.x, b.y)
 	RiftBosses.clear()
+	if room.type == "barn":
+		Rex.on_beaten(b)   # a good boy rolls over: his hoard, and he offers to come along
+		return
 	if room.rift_step == 3:
 		# A rift guardian: its hoard, and the way back to the floor (no portal: the floor goes on).
 		show_banner(b.d["name"] + " FALLS", "ITS HOARD IS YOURS. THE WAY BACK IS OPEN")
@@ -873,6 +883,8 @@ func interact(o: Dictionary) -> void:
 		return RiftExtras.interact(o)
 	if Pets.handles(o["kind"]):
 		return Pets.interact(o)
+	if Rex.handles(o["kind"]):
+		return Rex.interact(o)
 	var p := player
 	# 05b_items.rb: weapons and gear on the floor or for sale.
 	if o["kind"] == "item":
@@ -1606,6 +1618,8 @@ func title_index(item: String) -> int:
 
 func update_title(dt: float) -> void:
 	update_embers(dt)
+	if Keys.triggered(&"special"):
+		Rex.poke()   # the sleeping dog in the corner
 	var items := title_items()
 	if not menu_nav(items.size()):
 		return

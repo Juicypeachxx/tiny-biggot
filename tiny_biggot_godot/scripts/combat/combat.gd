@@ -149,7 +149,7 @@ static func spawn_enemy(type: String, x: float, y: float, elite: bool = false, i
 		Snd.play("spawn")
 	return e
 
-static func spawn_boss(key: String) -> Enemy:
+static func spawn_boss(key: String, quiet: bool = false) -> Enemy:
 	var d: Dictionary = GameData.BOSSES[key]
 	var hp: float = d["hp"] * (1 + 0.15 * dread()) * loop_scale()
 	if d.get("rift", false):
@@ -170,8 +170,9 @@ static func spawn_boss(key: String) -> Enemy:
 	e.scale = d["scale"]
 	G.enemies.append(e)
 	G.boss = e
-	Snd.play("roar")
-	G.add_shake(6)
+	if not quiet:
+		Snd.play("roar")
+		G.add_shake(6)
 	return e
 
 # ---------- Enemy shots ----------
@@ -298,10 +299,12 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 	Pets.on_kill(e)
 	var boss := e.is_boss()
 	var cols := ["#f4ecd8", "#f2c94c", "#d8443c", "#a35bd6"] if boss else ["#f4ecd8", "#8b8f9c", GameData.SPRITE_COLOR.get(e.d["sprite"], "#d8443c")]
+	if boss and e.boss == "rex":
+		cols = ["#e86fb4", "#d8443c", "#f4ecd8"]   # a good boy rolls over: hearts, no blasts
 	Fx.burst(e.x, e.y, cols, 60 if boss else 14, 140 if boss else 70, 1.0 if boss else 0.45)
-	if boss:
+	if boss and e.boss != "rex":
 		Vfx.blast(e.x, e.y, 60.0, "#f2c94c")   # a guardian goes up in a cluster of blasts
-	Snd.play("boom" if boss else "kill")
+	Snd.play(("bark" if e.boss == "rex" else "boom") if boss else "kill")
 	G.add_shake(10 if boss else 2)
 	Juice.kill(e, e.d["sprite"] + ("_elite" if e.elite and not boss else ""))
 	# Experience.

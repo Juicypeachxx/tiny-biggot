@@ -183,7 +183,7 @@ func _paint_bg(ci: CanvasItem) -> void:
 		return
 	var ts := TB.TS
 	# A rift world has its own tiles.
-	var kit := Img.t(room.theme["kit"] if not room.theme.is_empty() else "kit%d" % G.floor_index)
+	var kit := Img.t(room.kit if room.kit != "" else (room.theme["kit"] if not room.theme.is_empty() else "kit%d" % G.floor_index))
 	ci.draw_rect(Rect2(0, 0, TB.SW, TB.SH), TB.c("#140f1c"))
 	var rng := SeedRng.new(room.seed_value ^ 0x5bd1e995)
 	for r in range(TB.IY0, TB.IY0 + TB.IH):
@@ -352,6 +352,7 @@ func _paint_lower(ci: CanvasItem) -> void:
 			var w := TB.text_w(lines[i]) + 1
 			Gfx.text(ci, lines[i], TB.SW / 2 - w / 2, 6 * TB.TS + i * 10, "bone", 1, 0.0, true, 120 / 255.0)
 	Hazards.draw_floor(ci, t)
+	Rex.draw_floor(ci, t)
 	EnemyAI2.draw_goo(ci, t)
 	RiftBosses.draw_ground(ci, t)
 	var fancy := Vfx.enabled
@@ -416,6 +417,8 @@ func _paint_lower(ci: CanvasItem) -> void:
 				RiftExtras.draw(ci, o, t)
 			"pet_cage":
 				Pets.draw_cage(ci, o, t)
+			"x_bowl":
+				Rex.draw_bowl(ci, o, t)
 			"jukebox":
 				Gfx.sp(ci, "jukebox", x, y + 10, 2, 2)
 				if not o.get("used", false) and floori(t * 4) % 2 == 0:
@@ -545,6 +548,8 @@ func _paint_shadows(ci: CanvasItem, room: Room) -> void:
 
 # ---------- Entities (sorted by y) ----------
 func _enemy_sprite(e: Enemy) -> String:
+	if e.boss == "rex":
+		return Rex.sprite(e)   # lying down to sleep, nap and run
 	var key: String = e.d["sprite"]
 	if key == "bat" and floori(e.anim * 8) % 2 == 1:
 		key = "bat2"

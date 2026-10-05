@@ -47,14 +47,16 @@ const PLANS := {
 	"bilgehydra": [["bite", "breath", "spit", "bite", "flood"], ["bite", "breath", "spit", "flood", "bite", "breath"]],
 	"bellringer": [["toll", "hymn", "drop"], ["toll", "hymn", "drop", "toll"]],
 	"brassorgan": [["toccata", "fugue", "chord", "choir", "toccata"], ["toccata", "chord", "fugue", "pedal", "chord", "choir"]],
+	"rex": [["flop", "zoomies", "dig", "woof", "nap"], ["spin", "leap", "fetch", "flop", "wave", "woof"]],   # rex.gd
 }
 const PHASE_LINE := {
 	"squallheron": "THE SQUALL BREAKS", "stormcrown": "THE EYE OF THE STORM OPENS",
 	"tidecaptain": "THE DEEP WILL NOT KEEP HIM", "bilgehydra": "CUT ONE, TWO MORE RISE",
 	"bellringer": "THE BELL CRACKS. IT RINGS LOUDER", "brassorgan": "THE ORGAN PLAYS ITSELF",
+	"rex": "SUNGLASSES ON. HE FOUND A SWORD IN THE HAY",
 }
 const COL := { "squallheron": "#9fc3ee", "stormcrown": "#6fd3e0", "tidecaptain": "#63b84f", "bilgehydra": "#b8e05a",
-	"bellringer": "#f2c94c", "brassorgan": "#e8873a" }
+	"bellringer": "#f2c94c", "brassorgan": "#e8873a", "rex": "#f2c94c" }
 ## The organ's pipes: column and top row in its 40 x 28 picture (drawn twice as large).
 const PIPE_COL := [3.5, 7.5, 10.5, 13.5, 16.5, 19.5, 22.5, 25.5, 28.5, 31.5, 35.5]
 const PIPE_ROW := [4, 1, 6, 1, 6, 1, 6, 1, 6, 1, 4]
@@ -98,6 +100,8 @@ static func adjust_damage(e: Enemy, dmg: float) -> float:
 		return 0.0
 	if e.type == "bellringer" and _bell_out(e):
 		return dmg * 1.5
+	if e.boss == "rex":
+		return Rex.adjust_damage(e, dmg)
 	return dmg
 
 ## A mini-boss down (Combat.kill_enemy): its things stop, and it leaves a little hoard.
@@ -118,6 +122,9 @@ static func update(e: Enemy, dt: float) -> void:
 	e.st += dt
 	if e.parts.is_empty():
 		_setup(e, k)
+	if e.state == &"sleep":
+		Rex.sleeping(e, dt)   # Rex, asleep on his mat until you come close
+		return
 	if e.state == &"intro":
 		if e.t <= 0:
 			_pick(e, k)
@@ -130,6 +137,8 @@ static func update(e: Enemy, dt: float) -> void:
 		if k == "bilgehydra":
 			for h in e.parts:
 				h["grow"] = minf(1.0, h["grow"] + dt / PHASE_T)
+		if k == "rex":
+			Rex.to_hay(e, dt)
 		_idle_parts(e, k, dt)
 		if e.st >= PHASE_T:
 			e.phase = 2
@@ -157,6 +166,7 @@ static func update(e: Enemy, dt: float) -> void:
 		"bilgehydra": _hydra(e, p, dt)
 		"bellringer": _ringer(e, p, dt)
 		"brassorgan": _organ(e, p, dt)
+		"rex": Rex.attack(e, p, dt)
 	_idle_parts(e, k, dt)
 
 static func _setup(e: Enemy, k: String) -> void:
@@ -205,6 +215,12 @@ static func _begin_phase(e: Enemy, k: String) -> void:
 	EBullets.clear_all()
 	for l in [held, notes, lobs, orbs, twisters, pipes, chords, sweeps, arcs, rods, bands, rings, waves]:
 		l.clear()
+	# The room's own hazards pause too: gusts and tides end, turrets go back to waiting.
+	G.room.gusts.clear()
+	G.room.tides.clear()
+	for tr in G.room.turrets:
+		tr["state"] = 0
+		tr["t"] = maxf(tr["t"], PHASE_T + 0.5)
 	for part in e.parts:
 		part["out"] = false
 		part["st"] = "idle"
@@ -231,6 +247,8 @@ static func _rest_move(e: Enemy, k: String, p: Player, dt: float) -> void:
 		"tidecaptain", "bellringer":
 			EnemyAI.wander_keep(e, dt, p, 70, 130)
 			e.face = 1 if p.x > e.x else -1
+		"rex":
+			Rex.rest_move(e, p, dt)
 
 static func _pull(e: Enemy, p: Player, dt: float) -> void:
 	if p.dodge_t > 0 or p.leap_max > 0:
@@ -243,7 +261,7 @@ static func _pull(e: Enemy, p: Player, dt: float) -> void:
 
 static func _shot(k: String) -> String:
 	return { "squallheron": "cyan", "stormcrown": "cyan", "tidecaptain": "spore", "bilgehydra": "spore",
-		"bellringer": "bone", "brassorgan": "fire" }[k]
+		"bellringer": "bone", "brassorgan": "fire", "rex": "bone" }[k]
 
 ## A point kept inside the room.
 static func _inside(v: Vector2) -> Vector2:
@@ -976,6 +994,12 @@ static func _tick_lobs(p: Player, dt: float) -> void:
 			"home":
 				if owner != null and not owner.parts.is_empty():
 					owner.parts[0]["out"] = false
+			"potato":   # Rex's potatoes
+				if TB.dist_xy(x, y, p.x, p.y) < 12.0 + p.r:
+					Combat.hurt_player(1, l["by"])
+				Combat.ering(x, y, 5, 50, randf() * TAU, "bone")
+				Fx.burst(x, y, ["#704f38", "#d48c84"], 8, 50)
+				Snd.play("hit")
 
 static func _tick_waves(p: Player, dt: float) -> void:
 	var keep := []
@@ -1087,6 +1111,8 @@ static func draw_ground(ci: CanvasItem, t: float) -> void:
 				&"toccata", &"fugue", &"pedal", &"choir"]:
 			Afx.circle(ci, e.x, e.y + e.r * 0.6, e.r + 14.0, col, t, clampf(e.st * 4.0, 0.0, 1.0))
 		match k:
+			"rex":
+				Rex.draw_ground(ci, e, t)
 			"tidecaptain":
 				if e.state == &"anchor" and e.sub == 1:
 					Afx.lane(ci, e.x, e.y, e.ca, 5.0, e.aux2, e.st / 0.6, Afx.C_WARN, t)
@@ -1145,7 +1171,7 @@ static func draw_ground(ci: CanvasItem, t: float) -> void:
 		if l["kind"] == "home":
 			continue
 		var big: bool = l["kind"] == "bell"
-		Afx.landing(ci, l["x1"], l["y1"], 26.0 if big else 14.0, l["t"] / l["dur"], Afx.C_WARN, t)
+		Afx.landing(ci, l["x1"], l["y1"], 26.0 if big else (12.0 if l["kind"] == "potato" else 14.0), l["t"] / l["dur"], Afx.C_WARN, t)
 	for c in chords:
 		if c["warn"] <= 0:
 			continue
@@ -1227,6 +1253,8 @@ static func draw_over(ci: CanvasItem, t: float) -> void:
 		match l["kind"]:
 			"bell", "home":
 				Gfx.sp(ci, "rb_bell", x, y + 6, 2.0, 2.0)
+			"potato":
+				Gfx.sp(ci, "rex_potato", x, y + 4, 1.5, 1.5, l["t"] * 10.0)
 			_:
 				ci.draw_circle(Vector2(x, y), 5.0, TB.c("#140f1c"))
 				ci.draw_circle(Vector2(x, y), 4.0, TB.c("#63b84f"))
@@ -1294,6 +1322,8 @@ static func draw_parts(ci: CanvasItem, e: Enemy, foot: float, t: float) -> void:
 	if e.parts.is_empty():
 		return
 	match key(e):
+		"rex":
+			Rex.draw_parts(ci, e, foot, t)
 		"tidecaptain":
 			if e.parts[0]["out"]:
 				var hand := Vector2(e.x + 6 * e.face, e.y + 2)

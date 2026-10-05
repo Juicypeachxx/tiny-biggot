@@ -239,6 +239,19 @@ look (stage 5 redraws everything together later).
 - [x] 4.5b **Pets and companions** (his ask, 5 Oct: "also add companions and
       pets"). Ten pets, each with a trick of its own and three levels, found
       in cages (key, gold, or free from a rift guardian). See PETS.md.
+- [x] 4.5c **REX THE FAT GOLDEN RETRIEVER** (his ask, 5 Oct: an easter-egg
+      boss made from photos of his own dog, a second phase "with a sword in
+      his mouth", a themed boss room, then an IPA). Rex sleeps in REX'S BARN
+      (old stone and beams, green hay, his blue striped mat, a potato patch,
+      his bowl). A hidden room may be his barn (12% a floor from the second,
+      once a run); on the title screen a sleeping Rex in the corner can be
+      woken (tap him, or SPECIAL, three times) and the next run's first room
+      gets a door to the barn. Phase 1: belly flop, zoomies, potato dig,
+      woof, nap. Phase 2: sunglasses on, a sword pulled from the hay: spin,
+      leap slash, fetch (throws the sword and runs to bring it back), sword
+      wave. Beaten, he rolls over and comes along as a pet. Art, sounds and
+      moves are this game's own; the sword idea only nods at the picture he
+      sent. See RIFTS.md. IPA built after it.
 - [ ] 4.6 **A hundred new weapons.** In batches of 20 to 25, each batch a
       theme (for example: thrown, summoning, charged, two-stage, cursed).
       Every weapon passes the "unique" test above against all weapons, old and
