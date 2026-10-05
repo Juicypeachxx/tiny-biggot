@@ -72,6 +72,38 @@ A `?` door leads to one of nine events (`MYSTERY_EVENTS` in `scripts/game/game.g
   the piano (play it four times), the WANTED poster (it is you), the sleeping drunk (sometimes
   a key in his boot). Furniture stands on `World.T_PROP` tiles (blocks all but flyers).
 
+### More event rooms, special rooms and wanderers (October 2026, `scripts/game/event_rooms.gd`)
+
+Event rooms (in the MYSTERY pool):
+
+- pit: THE FIGHTING PIT. Bet gold with the pit boss; the room locks for three waves; win three
+  times the bet and two gems.
+- chopshop: THE CHOP SHOP. The mechanic bolts a random mod onto your weapon for gold, one per
+  weapon: SERRATED, TWIN FEED, INCENDIARY, TRACER, RECOIL KICK, HUNTER SCOPE. The weapon is
+  copied; the weapon list is never changed.
+- fortune: THE FORTUNE TELLER. Three cards face down, each a blessing with a curse for the run
+  (+1 projectile, +30% damage, +2 armor and a heart, +20% crit, +1 roll / -1 heart, -15% speed,
+  -15% fire rate, slower rolls, dearer shops). Pick one; the others vanish.
+- courier: THE COURIER'S POST. Carry a parcel through the next 3 rooms within 100 s: a relic
+  and 25 gold. Too slow, or a new floor, and it is lost. Shown on the HUD in cyan.
+- gallery: THE SHOOTING GALLERY. 20 s of pop-up targets (harmless `target` foes); 4 hits gold,
+  8 gear too, 12 a relic too.
+
+Special rooms (an 18% chance that a MYSTERY door holds one of these instead):
+
+- beacon: THE SIGNAL BEACON. Light it: the room locks and foes keep coming; stand in its circle
+  for 45 s in all; then an iron chest and embers.
+- vault: THE PLATE VAULT. A statue flashes four colours (and says them); step on the plates in
+  that order for two iron chests. A wrong plate resets them and fires darts.
+- cursed: THE CURSED ARMORY. Three epic or legendary weapons; each carries a curse that stays
+  for the run (shown in its prompt). Take one; the others are locked away.
+
+Wanderers, after a fight is won (combat or elite, not in a rift), placed on open floor at least
+70 px from every door and 50 px from the hero:
+
+- the drunk, on a floor after one where you met the saloon (30%, once a floor): a gift;
+- a lost merchant (6%, once a floor): one potion, key, bomb or armor for gold.
+
 ## Hidden doors
 
 - Half of all secret rooms now hold an event instead of a plain chest.

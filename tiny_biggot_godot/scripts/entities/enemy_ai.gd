@@ -22,6 +22,7 @@ static func run(e: Enemy, dt: float, p: Player) -> void:
 		"monk": ai_monk(e, dt, p)
 		"gunman": ai_gunman(e, dt, p)
 		"dummy": ai_dummy(e)
+		"target": pass   # the shooting gallery's pop-up targets just stand there
 		# Rift worlds and event rooms.
 		"runner": ai_runner(e, dt, p)
 		"lobber": ai_lobber(e, dt, p)

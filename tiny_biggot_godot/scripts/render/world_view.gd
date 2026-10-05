@@ -407,6 +407,9 @@ func _paint_lower(ci: CanvasItem) -> void:
 				Gfx.sp(ci, "bed", x, y + 8, 2, 2)
 			"s_decor", "s_bartender", "s_drink", "s_merchant", "s_broker", "s_drunk", "s_piano", "s_poster":
 				Saloon.draw(ci, o, t)
+			"e_pitboss", "e_mechanic", "e_teller", "e_card", "e_courier", "e_attendant", "e_beacon", "e_statue", "e_plate", \
+					"e_decor", "w_drunk", "w_merchant":
+				EventRooms.draw(ci, o, t)
 			"jukebox":
 				Gfx.sp(ci, "jukebox", x, y + 10, 2, 2)
 				if not o.get("used", false) and floori(t * 4) % 2 == 0:
@@ -515,7 +518,8 @@ func _paint_shadows(ci: CanvasItem, room: Room) -> void:
 			"chest", "ichest", "cchest", "mimicchest", "tome", "jukebox": shadow(ci, o["x"], o["y"] + 4, 12)
 			"idol", "campfire", "altar", "fountain", "wheel", "well", "bloodstall", "bed": shadow(ci, o["x"], o["y"] + 4, 14)
 			"bell": shadow(ci, o["x"], o["y"] + 4, 10)
-			"s_merchant", "s_broker": shadow(ci, o["x"], o["y"] + 1, 8)
+			"s_merchant", "s_broker", "e_pitboss", "e_mechanic", "e_teller", "e_courier", "e_attendant", "w_merchant": \
+				shadow(ci, o["x"], o["y"] + 1, 8)
 			"item": shadow(ci, o["x"], o["y"] + 6, 10)
 	for k: Pickup in G.pickups:
 		shadow(ci, k.x, k.y + 2, 6)

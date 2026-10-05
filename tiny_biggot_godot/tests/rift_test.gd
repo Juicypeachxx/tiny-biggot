@@ -14,6 +14,11 @@ extends Node
 ##      boost and their catch; the fifth chat earns a free round; each bounty is paid when done, shows
 ##      on the HUD while on, and runs out on a new floor; the piano, poster and drunk pay out; all
 ##      its text fits the font.
+##   9. The other event rooms, special rooms and wanderers, each played to its payout: the pit's
+##      bet and waves, a chop-shop mod (and the weapon list left untouched), a fortune card, the
+##      courier's parcel (delivered, too slow, lost on the stairs), the gallery's score and prizes,
+##      the beacon held, the vault's plates (wrong and right), a cursed weapon, the drunk and the
+##      lost merchant placed clear of the doors; all their text fits the font.
 ## Prints "rift test: PASSED" or a FAIL line per problem.
 
 var fails := 0
@@ -67,6 +72,7 @@ func _ready() -> void:
 	hidden()
 	isles()
 	saloon()
+	event_rooms()
 	print("rift test: PASSED" if fails == 0 else "rift test: %d FAILED" % fails)
 	get_tree().quit()
 
@@ -263,6 +269,8 @@ func events() -> void:
 				_tick(20)
 		if used == 0:
 			fail("event %s: nothing to use" % ev)
+		if G.locked and ev == "pit":
+			_fight_through(6000)   # the pit's bet: its waves must be fought
 		if G.locked:
 			fail("event %s: the room stayed locked" % ev)
 		if ev == "armory":
@@ -566,3 +574,191 @@ func saloon() -> void:
 	G.interact(drunk)
 	if G.pickups.size() != n0 + 1:
 		fail("saloon: the drunk kept his key")
+
+func _event(ev: String) -> Player:
+	_start(2)
+	G.enter_room(World.make_room(G.floor_d, "mystery", "", "s", { "event": ev }))
+	_tick(5)
+	var p: Player = G.player
+	p.gold = 5000
+	return p
+
+func _fight_through(max_ticks: int) -> void:
+	for i in max_ticks / 10:
+		_tick(10)
+		_kill_all()
+		if not G.locked:
+			return
+
+func event_rooms() -> void:
+	# Text.
+	var texts := []
+	for ev in EventRooms.TITLE:
+		texts.append_array(EventRooms.TITLE[ev])
+	for k in EventRooms.MODS:
+		texts.append_array([EventRooms.MODS[k][0], EventRooms.MODS[k][1]])
+	for b in EventRooms.BLESSINGS:
+		texts.append(b[0])
+	for c in EventRooms.CURSES:
+		texts.append_array([c[0], "CURSED: " + c[0], "BUT " + c[0]])
+	texts.append_array(EventRooms.CARD_NAMES)
+	texts.append_array(EventRooms.TELLER_LINES)
+	texts.append_array(EventRooms.MECHANIC_LINES)
+	texts.append_array(EventRooms.PITBOSS_LINES)
+	texts.append("PARCEL: 3 ROOMS, 100S")
+	for ev in EventRooms.EVENTS + EventRooms.SPECIAL:
+		_event(ev)
+		for o in G.room.objects:
+			if EventRooms.handles(o["kind"]):
+				texts.append_array(EventRooms.prompt(o))
+	_font("event rooms", texts)
+	# The pit: the bet is taken, the room locks, three waves, three times the bet.
+	var p := _event("pit")
+	var boss := _obj("e_pitboss")
+	var g0 := p.gold
+	G.interact(boss)
+	var bet: int = boss["bet"]
+	if bet <= 0 or p.gold != g0 - bet or not G.locked:
+		fail("pit: the bet was not taken or the room not locked")
+	_fight_through(6000)
+	if G.locked or p.gold != g0 - bet + bet * 3:
+		fail("pit: no payout after the waves (gold %d, expected %d)" % [p.gold, g0 + bet * 2])
+	# The chop shop: a mod, once; the weapon list is not changed.
+	p = _event("chopshop")
+	var wid: String = p.weapon["id"]
+	var n_fx: int = Weapons.by_id(wid)["effects"].size()
+	G.interact(_obj("e_mechanic"))
+	if not p.weapon.has("mod") or p.weapon["effects"].size() != n_fx + 1:
+		fail("chopshop: no mod on the weapon")
+	if Weapons.by_id(wid)["effects"].size() != n_fx or Weapons.by_id(wid).has("mod"):
+		fail("chopshop: the weapon list itself was changed")
+	var g1 := p.gold
+	G.interact(_obj("e_mechanic"))
+	if p.gold != g1:
+		fail("chopshop: a second mod was sold")
+	# The fortune teller: one card, the others vanish, its blessing and curse stay.
+	p = _event("fortune")
+	var card := _obj("e_card")
+	G.interact(card)
+	if not p.granted.has("card:" + card["name"]):
+		fail("fortune: the card did nothing")
+	if G.room.objects.filter(func(o): return o["kind"] == "e_card" and not o.get("gone", false)).size() != 1:
+		fail("fortune: the other cards did not vanish")
+	# The courier: delivered after three rooms; too slow; lost on a new floor.
+	p = _event("courier")
+	G.interact(_obj("e_courier"))
+	if EventRooms.hud_line() == "":
+		fail("courier: no parcel on the HUD")
+	var rel0 := p.relics.size()
+	g0 = p.gold
+	for i in 3:
+		G.enter_room(World.make_room(G.floor_d, "treasure", "", "s"))
+		_tick(2)
+	if p.relics.size() != rel0 + 1 or p.gold < g0 + 25 or not EventRooms.parcel().is_empty():
+		fail("courier: the parcel was not paid for")
+	p = _event("courier")
+	G.interact(_obj("e_courier"))
+	EventRooms.parcel()["t"] = 0.1
+	_tick(10)
+	if not EventRooms.parcel().is_empty():
+		fail("courier: a stale parcel was still carried")
+	p = _event("courier")
+	G.interact(_obj("e_courier"))
+	G.floor_index += 1
+	G.start_floor()
+	if not EventRooms.parcel().is_empty():
+		fail("courier: a parcel outlived its floor")
+	# The gallery: targets pop up, shots score, prizes by score, targets do not hurt.
+	p = _event("gallery")
+	var att := _obj("e_attendant")
+	G.interact(att)
+	if att["t"] <= 0:
+		fail("gallery: the round did not start")
+	var hits := 0
+	for i in 1300:
+		_tick(1)
+		for e in G.enemies.duplicate():
+			if e.type == "target" and e.hp > 0:
+				Combat.damage_enemy(e, 5.0, { "no_crit": true, "no_mult": true, "silent": true })
+				hits += 1
+		if att["t"] <= 0:
+			break
+	if att["score"] < 12 or att["score"] != hits:
+		fail("gallery: score %d from %d hits" % [att["score"], hits])
+	if not att["done"] or G.enemies.any(func(e): return e.type == "target"):
+		fail("gallery: the round did not end cleanly")
+	# The beacon: lit, held in its light, then a chest and the doors open.
+	p = _event("beacon")
+	var bc := _obj("e_beacon")
+	G.interact(bc)
+	if not G.locked:
+		fail("beacon: lighting it did not lock the room")
+	for i in 3200:
+		p.x = bc["x"]
+		p.y = bc["y"] + 20
+		_tick(1)
+		if i % 30 == 0:
+			_kill_all()
+		if not G.locked:
+			break
+	if G.locked or _obj("ichest").is_empty():
+		fail("beacon: holding it gave nothing (held %.1f s)" % bc["held"])
+	# The vault: a wrong plate resets; the right order opens it.
+	p = _event("vault")
+	var st := _obj("e_statue")
+	G.interact(st)
+	var plates := {}
+	for o in G.room.objects:
+		if o["kind"] == "e_plate":
+			plates[o["col"]] = o
+	var wrong: String = st["order"][1]
+	p.x = plates[wrong]["x"]
+	p.y = plates[wrong]["y"]
+	_tick(2)
+	if st["step"] != 0 or plates[wrong]["lit"]:
+		fail("vault: a wrong plate was taken")
+	for col in st["order"]:
+		p.x = 14.0 * TB.TS
+		p.y = 15.0 * TB.TS
+		_tick(2)
+		p.x = plates[col]["x"]
+		p.y = plates[col]["y"]
+		_tick(2)
+	if not st["done"] or G.room.objects.filter(func(o): return o["kind"] == "ichest").size() != 2:
+		fail("vault: the right order did not open it")
+	# The cursed armory: the weapon comes with its curse; the others are locked away.
+	p = _event("cursed")
+	var item := _obj("item")
+	var cu: int = item["curse"]
+	G.interact(item)
+	if not p.granted.has("curse:" + str(cu)):
+		fail("cursed: the curse did not stick")
+	if G.room.objects.filter(func(o): return o["kind"] == "item" and o.get("curse", -1) >= 0 and not o.get("gone", false)).size() != 0:
+		fail("cursed: the other weapons were not locked away")
+	# Wanderers: placed clear of the doors and of the hero; each gives what it should.
+	var placed := { "w_drunk": 0, "w_merchant": 0 }
+	for sd in 400:
+		_start(3)
+		G.run_stats["saloon_floor"] = 1
+		seed(sd)
+		var r := World.make_room(G.floor_d, "combat", "", "s")
+		G.enter_room(r)
+		_tick(2)
+		EventRooms.on_room_clear(r)
+		for o in r.objects:
+			if placed.has(o["kind"]):
+				placed[o["kind"]] += 1
+				for d in ["n", "s", "w", "e"]:
+					if TB.dist_xy(o["x"], o["y"], World.door_center(d).x, World.door_center(d).y) < 70:
+						fail("wanderer %s next to the %s door" % [o["kind"], d])
+				if World.hits_solid(r, o["x"], o["y"], 6, World.M_PLAYER):
+					fail("wanderer %s in a wall" % o["kind"])
+				var n0 := G.pickups.size()
+				G.player.gold = 500
+				G.interact(o)
+				if G.pickups.size() != n0 + 1:
+					fail("wanderer %s gave nothing" % o["kind"])
+		if placed["w_drunk"] > 0 and placed["w_merchant"] > 0:
+			break
+	if placed["w_drunk"] == 0 or placed["w_merchant"] == 0:
+		fail("wanderers never met: %s" % [placed])

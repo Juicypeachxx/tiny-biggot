@@ -44,6 +44,7 @@ const QUESTS := {
 # ---------- The room ----------
 static func setup(r: Room) -> void:
 	var ts := TB.TS
+	G.run_stats["saloon_floor"] = G.floor_index   # its drunk may turn up again on a later floor
 	# The bar along the top left, with the shelf of bottles on the wall behind it.
 	for c in range(3, 11):
 		r.set_tile(c, 5, World.T_PROP)

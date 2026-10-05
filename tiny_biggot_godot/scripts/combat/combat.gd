@@ -288,6 +288,7 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 	p.room_kills += 1
 	G.run_stats["kills"] += 1
 	Saloon.on_kill(e)
+	EventRooms.on_kill(e)
 	var boss := e.is_boss()
 	var cols := ["#f4ecd8", "#f2c94c", "#d8443c", "#a35bd6"] if boss else ["#f4ecd8", "#8b8f9c", GameData.SPRITE_COLOR.get(e.d["sprite"], "#d8443c")]
 	Fx.burst(e.x, e.y, cols, 60 if boss else 14, 140 if boss else 70, 1.0 if boss else 0.45)
@@ -589,7 +590,7 @@ static func update_enemies(dt: float) -> void:
 			e.ky *= 0.82
 			if absf(e.kx) < 2: e.kx = 0.0
 			if absf(e.ky) < 2: e.ky = 0.0
-		if not e.hidden and TB.dist(e, p) < e.r + p.r:
+		if not e.hidden and TB.dist(e, p) < e.r + p.r and e.type != "target":
 			hurt_player(1, e.d["name"] if e.is_boss() else e.d.get("label", "a " + e.type))
 			if p.thorns > 0 and not e.thorn_cd > 0:
 				damage_enemy(e, p.thorns, { "no_crit": true, "col": "green" })

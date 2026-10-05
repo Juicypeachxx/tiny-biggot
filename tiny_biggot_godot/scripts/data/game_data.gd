@@ -285,6 +285,7 @@ const ENEMIES := {
 		"shot": "ice", "scale": 2.0, "mini": true, "champion": true, "fly": true, "gold": 5.0, "style": "ranged",
 		"moves": [["blink"], ["fan", 7, 0.45, 3], ["spiral", 36], ["summon", "crow", 3], ["ring", 18, 70, 2], ["rain", 5]] },
 	# Event rooms.
+	"target": { "sprite": "target", "hp": 1, "speed": 0, "r": 6, "ai": "target", "gold": 0.0, "label": "a target" },
 	"goblin": { "sprite": "goblin", "hp": 40, "speed": 96, "r": 5, "ai": "flee", "gold": 0.0, "label": "a loot goblin" },
 	"mimic": { "sprite": "mimic", "hp": 80, "speed": 46, "r": 8, "ai": "golem", "shot": "red", "scale": 1.3, "gold": 2.0, "label": "a mimic" },
 	"shadow": { "sprite": "shadow", "name": "YOUR SHADOW", "hp": 150, "speed": 60, "r": 6, "ai": "champion", "shot": "dark",
@@ -370,7 +371,7 @@ const SPRITE_COLOR := {
 	"static": "#8b8f9c", "tollkeeper": "#2a2838", "rustbutcher": "#7a5236", "neighbour": "#e86fb4", "robovac": "#8b8f9c",
 	"burglar": "#2a2838", "gnome": "#d8443c", "landlord": "#e86fb4", "gangster": "#2a2838", "biker": "#d8443c",
 	"riotcop": "#2b4f8a", "kingpin": "#f4ecd8", "outlaw": "#7a5236", "dynamiter": "#4d9be6", "sharpshooter": "#63b84f",
-	"coyote": "#a8705a", "marshal": "#7a5236", "galewarden": "#9fc3ee", "goblin": "#63b84f", "mimic": "#7a5236", "shadow": "#3c1d47",
+	"coyote": "#a8705a", "marshal": "#7a5236", "galewarden": "#9fc3ee", "target": "#d8443c", "goblin": "#63b84f", "mimic": "#7a5236", "shadow": "#3c1d47",
 }
 
 ## Ember Shrine: things to unlock between runs.
@@ -407,7 +408,7 @@ const ENEMY_XP := { "bat": 2, "slime": 3, "slimelet": 1, "skeleton": 3, "mushroo
 	"glitch": 4, "chrome": 7, "turret": 4, "thug": 4, "molotov": 4, "copper": 5, "bomber": 3, "orderly": 4, "crawler": 2,
 	"static": 4, "tollkeeper": 5, "neighbour": 4, "robovac": 5, "burglar": 4, "gnome": 4, "gangster": 5, "biker": 5,
 	"riotcop": 7, "outlaw": 5, "dynamiter": 4, "sharpshooter": 4, "coyote": 2, "goblin": 10, "mimic": 15, "shadow": 40,
-	"turnkey": 45, "carrionknight": 45, "broker": 45, "mayor": 45, "rustbutcher": 45, "landlord": 45, "kingpin": 45, "marshal": 45, "galewarden": 45 }
+	"turnkey": 45, "carrionknight": 45, "broker": 45, "mayor": 45, "rustbutcher": 45, "landlord": 45, "kingpin": 45, "marshal": 45, "galewarden": 45, "target": 0 }
 
 static func xp_needed(level: int) -> int:
 	return roundi(10 + 7 * pow(level, 1.35))

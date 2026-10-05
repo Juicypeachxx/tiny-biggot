@@ -169,6 +169,9 @@ func _draw() -> void:
 	var bounty := Saloon.hud_line()
 	if bounty != "":
 		Gfx.text(self, "BOUNTY: " + bounty, TB.SW / 2, 20, "gold", 1, 0.5)
+	var parcel := EventRooms.hud_line()
+	if parcel != "":
+		Gfx.text(self, parcel, TB.SW / 2, 28 if bounty != "" else 20, "cyan", 1, 0.5)
 	# Rogues layer: the quick belt, under the floor name (keys 1-4, or tap).
 	if GameData.rogues():
 		for i in Consumables.BELT_SIZE:

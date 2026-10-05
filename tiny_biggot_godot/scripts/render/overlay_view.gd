@@ -177,8 +177,8 @@ func draw_prompt(ci: CanvasItem, o: Dictionary) -> void:
 	var title := ""
 	var desc := ""
 	var extra := ""
-	if Saloon.handles(o["kind"]):
-		var sl := Saloon.prompt(o)
+	if Saloon.handles(o["kind"]) or EventRooms.handles(o["kind"]):
+		var sl := Saloon.prompt(o) if Saloon.handles(o["kind"]) else EventRooms.prompt(o)
 		title = sl[0]
 		desc = sl[1]
 		extra = sl[2]
@@ -274,6 +274,8 @@ func draw_prompt(ci: CanvasItem, o: Dictionary) -> void:
 			title = "LEAVE IN VICTORY"
 			desc = "END THE RUN AND CLAIM YOUR EMBERS"
 	var lines := [title, desc, "PRESS USE" if extra == "" else extra]
+	if o.has("curse"):
+		lines.insert(lines.size() - 1, "CURSED: " + EventRooms.CURSES[o["curse"]][0])
 	if o["kind"] == "pedestal" and o["relic"] != null:
 		lines.insert(1, GameData.RARITY_NAME[o["relic"]["rarity"]])
 	if o["kind"] == "shop" and o["item"] == "relic":

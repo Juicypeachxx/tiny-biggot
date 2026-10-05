@@ -211,6 +211,7 @@ func start_floor() -> void:
 		player.floor_kills = 0
 	floor_d = World.new_floor(floor_index)
 	Saloon.on_floor_start()
+	EventRooms.on_floor_start()
 	run_stats["floor"] = floor_index + 1
 	Meta.meta["best"] = maxi(Meta.meta["best"], floor_index + 1)
 	Meta.write_save()
@@ -227,6 +228,7 @@ const ENTRY_SPOTS := { "s": Vector2(14.0 * 16, 16.0 * 16), "n": Vector2(14.0 * 1
 
 func enter_room(r: Room) -> void:
 	room = r
+	EventRooms.on_enter_room()
 	Fx.clear()
 	Juice.reset()
 	EBullets.clear()
@@ -362,11 +364,14 @@ func leave_room(dir: String) -> void:
 		kind = "combat" if step == 0 else "elite"
 	elif kind == "mystery":
 		opts = { "event": TB.pick(MYSTERY_EVENTS) }
+		if randf() < 0.18:
+			opts["event"] = TB.pick(EventRooms.SPECIAL)   # a special room: rarer than an event
 	var nr := World.make_room(floor_d, kind, reward, World.OPP[dir], opts)
 	start_fade(func(): enter_room(nr))
 
 ## Events of a MYSTERY room, and the ones a hidden room may hold instead of its old three finds.
-const MYSTERY_EVENTS := ["wheel", "market", "mimic", "armory", "well", "goblin", "mirror", "library", "safehouse", "saloon"]
+const MYSTERY_EVENTS := ["wheel", "market", "mimic", "armory", "well", "goblin", "mirror", "library", "safehouse", "saloon",
+	"pit", "chopshop", "fortune", "courier", "gallery"]
 const SECRET_EVENTS := ["market", "armory", "goblin", "mirror", "library"]
 
 const EVENT_TITLE := {
@@ -385,6 +390,9 @@ func _setup_event(r: Room, ev: String) -> void:
 	r.event = ev
 	if EVENT_TITLE.has(ev):
 		show_banner(EVENT_TITLE[ev][0], EVENT_TITLE[ev][1])
+	elif EventRooms.TITLE.has(ev):
+		show_banner(EventRooms.TITLE[ev][0], EventRooms.TITLE[ev][1])
+		EventRooms.setup(r, ev)
 	match ev:
 		"wheel":
 			r.objects.append({ "kind": "wheel", "x": cx, "y": cy, "uses": 3 })
@@ -613,6 +621,7 @@ func room_cleared() -> void:
 	locked = false
 	room.cleared = true
 	Saloon.on_room_clear(room)
+	EventRooms.on_room_clear(room)
 	dyn_dirty = true
 	Snd.play("door")
 	var p := player
@@ -776,9 +785,13 @@ func deny(o: Dictionary, text: String) -> void:
 func interact(o: Dictionary) -> void:
 	if Saloon.handles(o["kind"]):
 		return Saloon.interact(o)
+	if EventRooms.handles(o["kind"]):
+		return EventRooms.interact(o)
 	var p := player
 	# 05b_items.rb: weapons and gear on the floor or for sale.
 	if o["kind"] == "item":
+		if o.has("curse"):
+			EventRooms.take_cursed(p, o)
 		var old = swap_item(o, o["item"])
 		if old != null and not to_backpack(old):
 			o["item"] = old
@@ -1705,6 +1718,7 @@ func update_play(dt: float) -> void:
 	Combat.update_bombs(dt)
 	Combat.update_zones(dt)
 	Hazards.update(dt)
+	EventRooms.update(dt)
 	Fx.update(dt)
 	Juice.update(dt, p)
 	var keep := []

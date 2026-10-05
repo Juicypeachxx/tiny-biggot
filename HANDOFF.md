@@ -271,6 +271,19 @@ Content test: once (of 8 runs) "gaolbird: dash did not move the hero";
 not reproduced; likely a random layout's pillar in front of the dash, so
 the specials check now clears the arena floor first.
 
+**4.3b part 2: event rooms, special rooms, wanderers (done).** All in
+`scripts/game/event_rooms.gd` (class `EventRooms`, same shape as `Saloon`).
+Hooks: `G._setup_event` (titles and setup), `G.interact` (first lines; and
+`take_cursed` in the item branch), `G.enter_room` (parcel rooms),
+`G.update_play` (after `Hazards.update`), `G.room_cleared` (wanderers, Rogues
+only), `G.start_floor` (parcel lost), `Combat.kill_enemy` (gallery score),
+the touch-damage check skips `target`, `EnemyAI` has a do-nothing "target"
+behaviour, `overlay_view` (prompts, curse line), `world_view` (draw,
+shadows), `hud_view` (parcel line). Mystery doors: 18% become a special room
+(`EventRooms.SPECIAL`). Tests: rift test section 9 (each room to its payout,
+wanderer placement, font), with a planted fault (weapon list edited in
+place) caught; a 5-minute soak starting in each of the 8 rooms, 0 errors.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress (so iOS closing the app does not end it). Needs

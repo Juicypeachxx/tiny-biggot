@@ -177,9 +177,9 @@ look (stage 5 redraws everything together later).
       that use it (that gives the 10+ rooms). `BIOMES.md` and `RIFTS.md` show
       how the present ones are built. One environment a session.
       (1 of 3 done, 5 Oct: SKYREACH ISLES, a rift world. See RIFTS.md.)
-- [ ] 4.3b **Event rooms, special rooms, NPCs, easter eggs** (his ask, 5 Oct).
-      (Saloon done 5 Oct. Left: 5 more event rooms, 3 special rooms, more
-      easter eggs, wandering NPCs; send him the list first.)
+- [x] 4.3b **Event rooms, special rooms, NPCs, easter eggs** (his ask, 5 Oct).
+      (Done 5 Oct: the saloon, 5 event rooms, 3 special rooms, wanderers.
+      He approved the list. See RIFTS.md.)
       - A **saloon** event room: a whole bar with NPCs. A bartender sells
         booze (drinks are timed buffs, each with a catch of its own); a
         merchant NPC sells things; a quest giver hands out quests (a goal
@@ -332,3 +332,8 @@ before-and-after picture for him, a new IPA.
   bounty broker with 3 floor quests on the HUD, piano / poster / drunk
   easter eggs). Rift test section 8; content test's specials check now
   clears the arena floor (one unreproduced dash failure, likely a pillar).
+- 5 Oct 2026: 4.3b done. Event rooms: fighting pit, chop shop, fortune
+  teller, courier, shooting gallery. Special rooms: signal beacon, plate
+  vault, cursed armory. Wanderers: the saloon drunk on later floors, a lost
+  merchant. Rift test section 9 plays each to its payout. Next: 4.3,
+  environments 2 and 3.
