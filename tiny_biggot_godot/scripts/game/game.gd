@@ -272,6 +272,7 @@ func enter_room(r: Room) -> void:
 		room.objects_ready = true
 		setup_objects(room)
 		Hazards.setup(room, floor_index)
+		RiftExtras.setup(room)
 	if GameData.rogues() and room.type == "start":
 		# Rogues layer: two training dummies to test your damage.
 		for dx in [5.0, 23.0]:
@@ -787,6 +788,8 @@ func interact(o: Dictionary) -> void:
 		return Saloon.interact(o)
 	if EventRooms.handles(o["kind"]):
 		return EventRooms.interact(o)
+	if RiftExtras.handles(o["kind"]):
+		return RiftExtras.interact(o)
 	var p := player
 	# 05b_items.rb: weapons and gear on the floor or for sale.
 	if o["kind"] == "item":

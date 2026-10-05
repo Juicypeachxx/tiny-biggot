@@ -36,6 +36,9 @@ static func setup(room: Room, floor_index: int) -> void:
 	if kind == "traffic" or kind == "gusts":
 		room.strike_t = 2.0
 		return
+	if kind == "tide" or kind == "turrets":
+		RiftExtras.hazard_setup(room, kind)
+		return
 	room.strike = kind if STRIKES.has(kind) else ""
 	room.strike_t = 2.0
 	if STATIC.has(kind):
@@ -63,6 +66,8 @@ static func update(dt: float) -> void:
 		_update_gusts(room, dt)
 	if room.theme.get("layouts", "") == "isles":
 		_off_the_edge(room)
+	if not room.tides.is_empty() or not room.turrets.is_empty() or room.theme.get("hazard", "") == "tide":
+		RiftExtras.update(room, dt)
 	if room.hazards.is_empty() and room.strike == "" and room.marks.is_empty():
 		return
 	var active := G.enemies_active()

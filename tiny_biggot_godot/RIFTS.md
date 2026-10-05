@@ -21,9 +21,29 @@ homages: setting and mood only, own names, own art.
 | burb | MAPLE COURT | neighbour, robovac, burglar, gnome | kitchen fires | THE LANDLORD |
 | heist | HEIST CITY | gangster, biker, riotcop | traffic lanes | THE KINGPIN |
 | dust | DUSTWATER | outlaw, dynamiter, sharpshooter, coyote | dynamite | THE MARSHAL |
+| bastion | THE DROWNED BASTION | drowned, skeleton, bogling, ghost, golem (own foes: 4.4) | toxic tide | THE ROTTING KING |
+| cathedral | THE CALIBER CATHEDRAL | gunman, sharpshooter, cultist, outlaw (own foes: 4.4) | wall turrets | THE HIGH CALIBER |
 | skyreach | SKYREACH ISLES | crow, wisp, torchimp (own foes come in ROADMAP 4.4) | gusts, open sky | THE GALE WARDEN |
 
 A run prefers worlds it has not shown yet (`Themes.pick`).
+
+### The Drowned Bastion and the Caliber Cathedral (October 2026, `scripts/world/rift_extras.gd`)
+
+Moods of a rain-soaked rampart over a poisoned sea, and of a brass temple built from bullets.
+Original names and art.
+
+- **Bastion:** the **toxic tide**: a band is marked green with arrows for 1.2 s, then a sludge
+  wave sweeps along it at 220 px/s; it hurts the hero once and every foe it passes (12 x floor
+  scale, not champions). **Levers** on the top wall (30% of fights) open a hidden alcove: 4 coins,
+  sometimes a key. Easter eggs: a **skull on a pike** (its third joke spits out a gem; 22%), a
+  **hooded fisher** at a puddle (a fish that heals, or a boot with a coin; 8%).
+- **Cathedral:** **tables** in every fight room: USE flips one into cover (`World.T_PROP`: stops
+  shots and walkers; anyone inside is pushed out). Two **wall turrets** show a red aim line for
+  0.8 s, then fire three shots. Easter eggs: the **bullet saint** shrine (gold for +20% damage,
+  90 s; 25%), a **rat asleep on casings** (it steals gold and flees; catch it and it pays back
+  double; 12%).
+- Layouts 201-204 (ramparts, cells, broken bridge, chapel) and 301-304 (pews, altar, crossfire,
+  nave). Champions: THE ROTTING KING, THE HIGH CALIBER.
 
 ### Skyreach Isles (October 2026)
 

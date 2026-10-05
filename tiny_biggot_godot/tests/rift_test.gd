@@ -19,6 +19,10 @@ extends Node
 ##      courier's parcel (delivered, too slow, lost on the stairs), the gallery's score and prizes,
 ##      the beacon held, the vault's plates (wrong and right), a cursed weapon, the drunk and the
 ##      lost merchant placed clear of the doors; all their text fits the font.
+##  10. The Drowned Bastion and the Caliber Cathedral: every layout leaves all floor reachable; a
+##      flipped table stops shots and walkers and leaves no one stuck; levers, the skull, the fisher,
+##      the saint and the rat each pay out (the rat pays back double); the tide hurts foes and the
+##      hero; the turrets aim, then fire.
 ## Prints "rift test: PASSED" or a FAIL line per problem.
 
 var fails := 0
@@ -73,6 +77,7 @@ func _ready() -> void:
 	isles()
 	saloon()
 	event_rooms()
+	worlds2()
 	print("rift test: PASSED" if fails == 0 else "rift test: %d FAILED" % fails)
 	get_tree().quit()
 
@@ -88,7 +93,7 @@ func lint() -> void:
 		_font("world " + id, [th["name"], th["sub"]])
 		if not Img.has(th["kit"]):
 			fail("world %s: missing tiles %s" % [id, th["kit"]])
-		if th.get("hazard", "") != "" and not th["hazard"] in ["traffic", "gusts"] and not Hazards.STATIC.has(th["hazard"]) \
+		if th.get("hazard", "") != "" and not th["hazard"] in ["traffic", "gusts", "tide", "turrets"] and not Hazards.STATIC.has(th["hazard"]) \
 				and not Hazards.STRIKES.has(th["hazard"]):
 			fail("world %s: unknown hazard %s" % [id, th["hazard"]])
 		for t in th["pool"] + [th["champion"]]:
@@ -762,3 +767,163 @@ func event_rooms() -> void:
 			break
 	if placed["w_drunk"] == 0 or placed["w_merchant"] == 0:
 		fail("wanderers never met: %s" % [placed])
+
+func _reachable_all(room: Room) -> bool:
+	var start := Vector2i(13, 16)
+	var reach := { start: true }
+	var q := [start]
+	while not q.is_empty():
+		var c: Vector2i = q.pop_back()
+		for dv in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
+			var n2: Vector2i = c + dv
+			if reach.has(n2) or World.solid(room, n2.x, n2.y, World.M_PLAYER):
+				continue
+			reach[n2] = true
+			q.append(n2)
+	for r in TB.ROWS:
+		for c in TB.COLS:
+			var t := room.tile(c, r)
+			if (t == World.T_FLOOR or t == World.T_DOOR) and not reach.has(Vector2i(c, r)):
+				return false
+	return true
+
+func _rift_room(world: String) -> Room:
+	_start(2)
+	G.enter_room(World.make_room(G.floor_d, "combat", "", "s", { "theme": world, "step": 0 }))
+	_tick(3)
+	return G.room
+
+func worlds2() -> void:
+	_start(2)
+	G.locked = false   # door tiles count as floor for the flood
+	for world in ["bastion", "cathedral"]:
+		var seen := {}
+		var base := 200 if world == "bastion" else 300
+		for sd in 400:
+			var room := World.make_room(G.floor_d, "combat", "", "s", { "theme": world, "step": 0 })
+			room.seed_value = sd * 7919 + 3
+			room.doors = { "n": true, "w": true, "e": true, "s": true }
+			World.build_room(room)
+			if room.layout <= base or room.layout > base + 4:
+				fail("%s: a fight room has layout %d" % [world, room.layout])
+				continue
+			if not _reachable_all(room):
+				fail("%s: layout %d cuts floor off" % [world, room.layout])
+			seen[room.layout] = true
+		if seen.size() != 4:
+			fail("%s: only layouts %s seen" % [world, seen.keys()])
+	_font("worlds2", RiftExtras.SKULL_JOKES + ["THE DROWNED BASTION", "THE TIDE COMES IN POISONED", "THE CALIBER CATHEDRAL",
+		"FLIP A TABLE. SAY A PRAYER", "THE ROTTING KING", "THE HIGH CALIBER", "THE RAT GOT AWAY WITH YOUR GOLD",
+		"A HIDDEN ALCOVE GRINDS OPEN", "THE SKULL SPITS OUT A GEM. TOUGH CROWD", "SHH. THEY'RE BITING.", "A FISH! WELL, IT'S FOOD.",
+		"AN OLD BOOT. THERE WAS A COIN IN IT.", "THE BULLET SAINT BLESSES YOUR ROUNDS: +20% FOR 90S", "A RAT! IT GRABS 99 GOLD AND RUNS",
+		"CAUGHT IT. THE RAT PAYS BACK DOUBLE"])
+	for kind in RiftExtras.KINDS:
+		_font("worlds2 " + kind, RiftExtras.prompt({ "kind": kind }))
+	# Tables: every cathedral fight room has some; a flipped one is cover and leaves no one inside it.
+	var rm := _rift_room("cathedral")
+	var tables := rm.objects.filter(func(o): return o["kind"] == "x_table")
+	if tables.is_empty():
+		fail("cathedral: a fight room without tables")
+	else:
+		var tb: Dictionary = tables[0]
+		var p: Player = G.player
+		p.x = tb["c"] * TB.TS + 10.0
+		p.y = tb["r"] * TB.TS + 8.0
+		G.interact(tb)
+		if rm.tile(tb["c"], tb["r"]) != World.T_PROP or not World.solid(rm, tb["c"] + 1, tb["r"], World.M_BULLET) \
+				or not World.solid(rm, tb["c"], tb["r"], World.M_WALKER):
+			fail("cathedral: a flipped table is not cover")
+		if World.hits_solid(rm, p.x, p.y, p.r, World.M_PLAYER):
+			fail("cathedral: the hero was left inside a flipped table")
+		var n0: int = EBullets.n
+		EBullets.add(tb["x"], tb["y"] - 40.0, 0.0, 200.0, "red", 2.5, -1.0, "")
+		for i in 30:
+			EBullets.update(TB.DT)
+		if EBullets.n > n0:
+			fail("cathedral: a shot went through a flipped table")
+	# The turrets aim, then fire.
+	rm = _rift_room("cathedral")
+	if rm.turrets.is_empty():
+		fail("cathedral: no turrets")
+	else:
+		var foe0 := Combat.spawn_enemy("skeleton", 60.0, 250.0, false, true)
+		foe0.spawn_t = 0.0
+		var shots0: int = EBullets.n
+		var aimed := false
+		for i in 400:
+			for e in G.enemies:
+				e.hp = e.max_hp
+			Hazards.update(TB.DT)
+			EBullets.update(TB.DT)
+			if rm.turrets[0]["state"] == 1:
+				aimed = true
+			if EBullets.n > shots0 + 2:
+				break
+		if not aimed or EBullets.n <= shots0:
+			fail("cathedral: the turrets never aimed and fired")
+	# The saint and the rat.
+	rm = _rift_room("cathedral")
+	var p2: Player = G.player
+	p2.gold = 200
+	var saint := { "kind": "x_saint", "x": 200.0, "y": 150.0 }
+	rm.objects.append(saint)
+	var b0 := p2.buffs.size()
+	G.interact(saint)
+	if p2.gold != 200 - G.price(15 + G.floor_index * 3) or p2.buffs.size() != b0 + 1:
+		fail("cathedral: the saint took no gold or gave no blessing")
+	var pile := { "kind": "x_ratpile", "x": 220.0, "y": 180.0 }
+	rm.objects.append(pile)
+	var g0 := p2.gold
+	G.interact(pile)
+	var stolen: int = pile.get("stolen", 0)
+	var rat = null
+	for e in G.enemies:
+		if e.type == "casingrat":
+			rat = e
+	if stolen <= 0 or p2.gold != g0 - stolen or rat == null:
+		fail("cathedral: the rat stole nothing or never appeared")
+	else:
+		Combat.damage_enemy(rat, rat.hp * 3 + 1, { "no_crit": true, "no_mult": true, "silent": true })
+		if p2.gold != g0 + stolen:
+			fail("cathedral: the caught rat paid back %d, not %d" % [p2.gold - (g0 - stolen), stolen * 2])
+	# The bastion: lever, skull, fisher.
+	rm = _rift_room("bastion")
+	var lever := { "kind": "x_lever", "x": 100.0, "y": 36.0, "pulled": false }
+	var skull := { "kind": "x_skull", "x": 150.0, "y": 150.0, "talks": 0 }
+	var fisher := { "kind": "x_fisher", "x": 250.0, "y": 150.0, "talks": 0 }
+	rm.objects.append_array([lever, skull, fisher])
+	var n1 := G.pickups.size()
+	G.interact(lever)
+	if G.pickups.size() < n1 + 4 or not lever["pulled"]:
+		fail("bastion: the lever opened nothing")
+	n1 = G.pickups.size()
+	for i in 3:
+		G.interact(skull)
+	if G.pickups.size() != n1 + 1 or not skull.get("used", false):
+		fail("bastion: the skull's third joke paid nothing")
+	n1 = G.pickups.size()
+	G.interact(fisher)
+	G.interact(fisher)
+	if G.pickups.size() != n1 + 1:
+		fail("bastion: the fisher caught nothing")
+	# The tide: it hurts foes in its band and the hero once.
+	rm = _rift_room("bastion")
+	var ph: Player = G.player
+	ph.x = 200.0
+	ph.y = 150.0
+	ph.invuln = 0.0
+	var foe := Combat.spawn_enemy("skeleton", 120.0, 150.0, false, true)
+	foe.max_hp = 1000.0
+	foe.hp = 1000.0
+	rm.strike_t = 99.0
+	rm.tides = [{ "y": 150.0, "dir": 1, "t": 0.0, "x": 20.0, "hit": {}, "hit_p": false }]
+	var hp0 := ph.hp
+	G.god = false
+	for i in 120:
+		ph.dodge_t = 0.0
+		RiftExtras.update(rm, TB.DT)
+	G.god = true
+	if foe.hp >= 1000.0:
+		fail("bastion: the tide did not hurt a foe in its band")
+	if ph.hp >= hp0 and ph.armor <= 0:
+		fail("bastion: the tide did not hurt the hero")

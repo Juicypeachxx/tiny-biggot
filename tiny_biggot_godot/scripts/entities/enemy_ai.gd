@@ -457,7 +457,7 @@ static func ai_flee(e: Enemy, dt: float, p: Player) -> void:
 	e.cyc += dt
 	if e.cyc > 14.0:
 		Fx.burst(e.x, e.y, ["#63b84f", "#f2c94c"], 14, 70)
-		G.toast("THE GOBLIN GOT AWAY", "grey")
+		G.toast(e.d.get("away", "THE GOBLIN GOT AWAY"), "grey")
 		e.hp = 0
 		return
 	if not e.has_wander or e.wt <= 0 or TB.dist_xy(e.x, e.y, e.wander.x, e.wander.y) < 10:

@@ -179,6 +179,10 @@ static func build_room(room: Room) -> void:
 			pat = 0   # a champion gets an open arena
 		elif room.theme.get("layouts", "") == "isles":
 			pat = 100 + rng.int_range(1, 4)   # islands in the sky (layouts 101-104)
+		elif room.theme.get("layouts", "") == "bastion":
+			pat = 200 + rng.int_range(1, 4)   # rampart ruins (rift_extras.gd)
+		elif room.theme.get("layouts", "") == "cathedral":
+			pat = 300 + rng.int_range(1, 4)   # the brass nave (rift_extras.gd)
 		match pat:
 			1:
 				_put(room, 5, 3, 2); _put(room, 6, 3, 2); _put(room, 5, 4, 2); _put(room, 6, 4, 2)
@@ -252,6 +256,8 @@ static func build_room(room: Room) -> void:
 					for b in range(1, 7):
 						if (a + b) % 3 == 0:
 							_put(room, a, b, T_VOID)
+		if pat > 200:
+			RiftExtras.layout(room, pat)
 		room.layout = pat
 	for d in room.doors.keys():
 		for cr in door_tiles(d):

@@ -284,6 +284,17 @@ shadows), `hud_view` (parcel line). Mystery doors: 18% become a special room
 wanderer placement, font), with a planted fault (weapon list edited in
 place) caught; a 5-minute soak starting in each of the 8 rooms, 0 errors.
 
+**4.3, environments 2 and 3 (done).** `scripts/world/rift_extras.gd` (class
+`RiftExtras`): layouts 201-204/301-304 (called from `World.build_room` after
+the match), room contents (`G.enter_room`, after `Hazards.setup`),
+interactions, prompts, drawing, and the tide and turret hazards (called
+from `Hazards.update`; `Room.tides`, `Room.turrets`). `ai_flee` now reads an
+optional `away` line. New foes in data: champions rotking, highcaliber; the
+casingrat. Layout 203 was random rubble at first; the test showed it could
+wall off a pocket of floor, so it is fixed spots now. Tests: rift test
+section 10 (layouts reachable, table cover, turrets, every easter egg, the
+tide), planted fault (table not cover) caught; six 10-minute soaks, 0 errors.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress (so iOS closing the app does not end it). Needs

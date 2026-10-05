@@ -410,6 +410,8 @@ func _paint_lower(ci: CanvasItem) -> void:
 			"e_pitboss", "e_mechanic", "e_teller", "e_card", "e_courier", "e_attendant", "e_beacon", "e_statue", "e_plate", \
 					"e_decor", "w_drunk", "w_merchant":
 				EventRooms.draw(ci, o, t)
+			"x_table", "x_lever", "x_skull", "x_fisher", "x_saint", "x_ratpile":
+				RiftExtras.draw(ci, o, t)
 			"jukebox":
 				Gfx.sp(ci, "jukebox", x, y + 10, 2, 2)
 				if not o.get("used", false) and floori(t * 4) % 2 == 0:
@@ -687,6 +689,7 @@ func _paint_fx(ci: CanvasItem) -> void:
 	Hazards.draw_marks(ci, G.time)
 	Hazards.draw_traffic(ci, G.time)
 	Hazards.draw_gusts(ci, G.time)
+	RiftExtras.draw_hazards(ci, G.time)
 
 # ---------- z 1900: additive glows ----------
 ## Small markers: a pink chevron over exposed foes (they take +25% damage), and

@@ -284,6 +284,15 @@ const ENEMIES := {
 	"galewarden": { "sprite": "galewarden", "name": "THE GALE WARDEN", "hp": 180, "speed": 50, "r": 10, "ai": "champion",
 		"shot": "ice", "scale": 2.0, "mini": true, "champion": true, "fly": true, "gold": 5.0, "style": "ranged",
 		"moves": [["blink"], ["fan", 7, 0.45, 3], ["spiral", 36], ["summon", "crow", 3], ["ring", 18, 70, 2], ["rain", 5]] },
+	# The Drowned Bastion and the Caliber Cathedral.
+	"rotking": { "sprite": "rotking", "name": "THE ROTTING KING", "hp": 190, "speed": 40, "r": 10, "ai": "champion", "shot": "spore",
+		"scale": 2.0, "mini": true, "champion": true, "gold": 5.0, "style": "melee",
+		"moves": [["charge", 2], ["ring", 16, 60, 3], ["lob", 3], ["summon", "drowned", 3], ["spiral", 30], ["rain", 4]] },
+	"highcaliber": { "sprite": "highcaliber", "name": "THE HIGH CALIBER", "hp": 175, "speed": 44, "r": 10, "ai": "champion", "shot": "red",
+		"scale": 2.0, "mini": true, "champion": true, "gold": 5.0, "style": "ranged",
+		"moves": [["burst", 12], ["fan", 9, 0.35, 3], ["spiral", 44], ["blink"], ["summon", "gunman", 2], ["ring", 24, 70, 2]] },
+	"casingrat": { "sprite": "casingrat", "hp": 30, "speed": 100, "r": 5, "ai": "flee", "gold": 0.0, "label": "a casing rat",
+		"away": "THE RAT GOT AWAY WITH YOUR GOLD" },
 	# Event rooms.
 	"target": { "sprite": "target", "hp": 1, "speed": 0, "r": 6, "ai": "target", "gold": 0.0, "label": "a target" },
 	"goblin": { "sprite": "goblin", "hp": 40, "speed": 96, "r": 5, "ai": "flee", "gold": 0.0, "label": "a loot goblin" },
@@ -371,7 +380,7 @@ const SPRITE_COLOR := {
 	"static": "#8b8f9c", "tollkeeper": "#2a2838", "rustbutcher": "#7a5236", "neighbour": "#e86fb4", "robovac": "#8b8f9c",
 	"burglar": "#2a2838", "gnome": "#d8443c", "landlord": "#e86fb4", "gangster": "#2a2838", "biker": "#d8443c",
 	"riotcop": "#2b4f8a", "kingpin": "#f4ecd8", "outlaw": "#7a5236", "dynamiter": "#4d9be6", "sharpshooter": "#63b84f",
-	"coyote": "#a8705a", "marshal": "#7a5236", "galewarden": "#9fc3ee", "target": "#d8443c", "goblin": "#63b84f", "mimic": "#7a5236", "shadow": "#3c1d47",
+	"coyote": "#a8705a", "marshal": "#7a5236", "galewarden": "#9fc3ee", "target": "#d8443c", "rotking": "#3f7a5a", "highcaliber": "#d8443c", "casingrat": "#8b8f9c", "goblin": "#63b84f", "mimic": "#7a5236", "shadow": "#3c1d47",
 }
 
 ## Ember Shrine: things to unlock between runs.
@@ -408,7 +417,7 @@ const ENEMY_XP := { "bat": 2, "slime": 3, "slimelet": 1, "skeleton": 3, "mushroo
 	"glitch": 4, "chrome": 7, "turret": 4, "thug": 4, "molotov": 4, "copper": 5, "bomber": 3, "orderly": 4, "crawler": 2,
 	"static": 4, "tollkeeper": 5, "neighbour": 4, "robovac": 5, "burglar": 4, "gnome": 4, "gangster": 5, "biker": 5,
 	"riotcop": 7, "outlaw": 5, "dynamiter": 4, "sharpshooter": 4, "coyote": 2, "goblin": 10, "mimic": 15, "shadow": 40,
-	"turnkey": 45, "carrionknight": 45, "broker": 45, "mayor": 45, "rustbutcher": 45, "landlord": 45, "kingpin": 45, "marshal": 45, "galewarden": 45, "target": 0 }
+	"turnkey": 45, "carrionknight": 45, "broker": 45, "mayor": 45, "rustbutcher": 45, "landlord": 45, "kingpin": 45, "marshal": 45, "galewarden": 45, "target": 0, "rotking": 45, "highcaliber": 45, "casingrat": 6 }
 
 static func xp_needed(level: int) -> int:
 	return roundi(10 + 7 * pow(level, 1.35))

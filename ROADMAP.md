@@ -172,11 +172,12 @@ look (stage 5 redraws everything together later).
       but one a mechanic of its own. Nothing is deleted, and original items
       are left alone (they are the classic game). Largest groups first; stop
       at about 40 items a session.
-- [ ] 4.3 **New environments.** Proposal: 3 new floors or rift worlds, each
+- [x] 4.3 **New environments.** Proposal: 3 new floors or rift worlds, each
       with its own tiles, a hazard of its own, and at least 4 room layouts
       that use it (that gives the 10+ rooms). `BIOMES.md` and `RIFTS.md` show
       how the present ones are built. One environment a session.
-      (1 of 3 done, 5 Oct: SKYREACH ISLES, a rift world. See RIFTS.md.)
+      (Done 5 Oct: SKYREACH ISLES, THE DROWNED BASTION, THE CALIBER
+      CATHEDRAL, all rift worlds. See RIFTS.md.)
 - [x] 4.3b **Event rooms, special rooms, NPCs, easter eggs** (his ask, 5 Oct).
       (Done 5 Oct: the saloon, 5 event rooms, 3 special rooms, wanderers.
       He approved the list. See RIFTS.md.)
@@ -337,3 +338,8 @@ before-and-after picture for him, a new IPA.
   vault, cursed armory. Wanderers: the saloon drunk on later floors, a lost
   merchant. Rift test section 9 plays each to its payout. Next: 4.3,
   environments 2 and 3.
+- 5 Oct 2026: 4.3 done. Environments 2 and 3 at his request in the moods of
+  Dead Cells and Enter the Gungeon: THE DROWNED BASTION (toxic tide,
+  levers, a joking skull, a fisher) and THE CALIBER CATHEDRAL (flippable
+  tables as cover, wall turrets, a bullet saint, a thieving rat). Rift
+  test section 10. Next: 4.4 (new mobs, 5 per new world and 5 more).
