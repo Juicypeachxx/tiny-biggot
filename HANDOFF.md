@@ -170,6 +170,32 @@ not below 0, rolls between 0 and the rolls there are, potions not above the
 most). Only new content has tag synergies; combos need named items. Test:
 `_test_synergy_loss` in `tests/unit_tests.gd`, red before, green after.
 
+**3.3, long soaks (done, nothing to fix).** `tools/dev/soak.sh` (about 7
+minutes here, 4 at a time) runs 29 soaks of 10 minutes of game time with the
+bot, `--smart-bot` and `--god`: the 14 heroes on floors 0-10 in turn, the 8
+rift worlds (`--rift=ID --step=0..2`), `--classic` twice, `--plain-draw
+--no-vfx` (FAST DRAWING and FANCY EFFECTS off) twice, `--loop=1..3`;
+`--weapon-cycle=1` in 15 of them. Result: no `SCRIPT ERROR`, `ERROR:` or
+`WARNING` line in any, every run reached floors 4-10 at level 11-25.
+
+Object count (new option `--objects`, once a minute of game time):
+- One run, `--god`, 30 minutes: 2,666 at 1 min, 3,133 at 30. It grows with the
+  build (75 relics, 49 traits by 52 min, when the bot won) and is flat after.
+- Restarting runs (no `--god`, hero 0, seed 5, `--smart-bot`), counted at the
+  start of each new run, 409 runs in 4 hours: 2,581 at the first, 2,704 by
+  run 10, 2,819 by run 100, 2,882 at the last. Of that, the known caches:
+  sprite silhouettes `Img._white` (88; at most one per graphic), outfit
+  pictures `HeroGear._cache` (31; cleared at 257), the shot pool
+  `Combat._pool` (21; at most 4,096). The rest went 2,658, 2,709, 2,742: about
+  +0.1 a run over the last 200.
+- Weak references showed every old hero, room, foe and pickup is freed.
+- Exits report no leaked objects (that check is in the error grep).
+
+Two things that look like faults and are not: without `--smart-bot` the bot
+can walk into a pillar and stay there (seed 5, 91 min: room cleared, doors
+open and reachable); and with a locked hero (`--hero=5` without a save or
+`--unlock-all`) the bot cannot start a new run after dying. Both are the bot.
+
 ## Noted, not yet acted on
 
 - Nothing open.

@@ -21,7 +21,7 @@ changed one), and carry on from there. What he says last outranks this file.
 |---|---|---|
 | 1 | The IPA installs and runs on the iPad | **Done** (he confirmed, 5 Oct) |
 | 2 | Performance patch | **Done**: nothing to patch (he reports a good 60 fps, 5 Oct) |
-| 3 | Stability patch | In progress (3.1, 3.2 done) |
+| 3 | Stability patch | In progress (3.1-3.3 done) |
 | 4 | New content: environments, mobs, bosses, weapons, equipment, characters; everything unique | Not started |
 | 5 | Sprite revamp: every sprite redrawn, "cool and pixelated" | Not started |
 
@@ -97,12 +97,13 @@ Each step ends with `tools/check.sh` green.
       a synergy is lost. Find it, fix it, add a test. (Done: a lost synergy
       or combo is now taken back with the same limits as gear. Also fixed
       roll charges going below 0 when PHANTOM is lost.)
-- [ ] 3.3 **Long soaks, no screen.** Every hero, floors 0-10, all 8 rift
+- [x] 3.3 **Long soaks, no screen.** Every hero, floors 0-10, all 8 rift
       worlds, `--classic`, both options off, three loops: at least 10 minutes
       of game time each (`--quit-after 36000`), with `--weapon-cycle=1` in
       half of them. Not one line with `SCRIPT ERROR`, `ERROR:` or `WARNING`.
       Print the object count (`Performance.OBJECT_COUNT`) every minute in one
-      30-minute run: it must level off.
+      30-minute run: it must level off. (Done: `tools/dev/soak.sh`, 29 runs
+      clean; object count levels off. See `HANDOFF.md`.)
 - [ ] 3.4 **Menus under random input.** Add a debug option that presses
       random buttons in every menu and during play (the "monkey"), seeded, and
       run it for an hour of game time. Same pass condition.
@@ -233,3 +234,9 @@ before-and-after picture for him, a new IPA.
   `Effects.apply_equipment` (the gear limits): hit points no higher than the
   new maximum, roll charges between 0 and the rolls there are. Test in
   `tests/unit_tests.gd` (failed before the fix, passes after).
+- 5 Oct 2026: 3.3 done. `tools/dev/soak.sh`: 29 runs of 10 minutes (every
+  hero, floors 0-10, 8 rift worlds, classic, both options off, loops 1-3,
+  weapon cycling in 15) without one error or warning line. Object count:
+  flat within a run once the build stops growing, and back to the same level
+  at every new run (409 runs in 4 hours: +23 objects over the last 200, all
+  in caches with a limit). New debug option `--objects`. Nothing to fix.
