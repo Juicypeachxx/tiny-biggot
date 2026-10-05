@@ -240,6 +240,12 @@ cursedcompass, leadweight, alleycateye, phoenixash, hivemind, echostone,
 crimsonfont, redmist: the last five each had a twin that changed, so they
 already differ, but still only change numbers).
 
+**4.2, part 2 (done).** 48 gear pieces plus star_boots
+(`scripts/data/gear.gd`) and 19 relics each gained one triggered effect,
+keeping their old stats. `UNIQUENESS.md` now: no new relic or gear piece in a
+"same" or "near" group or numbers-only; weapons only the 3-4 hero signature
+weapons. Full replays d, g, h re-recorded.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress (so iOS closing the app does not end it). Needs

@@ -168,7 +168,7 @@ look (stage 5 redraws everything together later).
       examples. (Done: `tiny_biggot_godot/UNIQUENESS.md`, made by
       `tests/uniqueness_report.tscn`. About 114 new items need a mechanic of
       their own: 20 weapons, 45 relics, 49 gear; "numbers only" items count.)
-- [ ] 4.2 **Make the duplicates different.** For each group from 4.1 give all
+- [x] 4.2 **Make the duplicates different.** For each group from 4.1 give all
       but one a mechanic of its own. Nothing is deleted, and original items
       are left alone (they are the classic game). Largest groups first; stop
       at about 40 items a session.
@@ -295,3 +295,6 @@ before-and-after picture for him, a new IPA.
   did and gain one triggered effect of their own. No new relic is a
   near-copy now. Content test passes; classic replays identical; full
   replays a and b re-recorded (their heroes carry changed relics).
+- 5 Oct 2026: 4.2 done (part 2: 49 gear, 19 relics). Every new item now
+  has a mechanic of its own; content test passes, classic replays
+  identical, full replays d, g, h re-recorded. Next: 4.3 (environments).
