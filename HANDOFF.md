@@ -127,6 +127,11 @@ as `Payload/`. The IPA is kept with the run and published as the release
 - He installed it with SideStore on the iPad Air M1 on 5 Oct: it installs and
   works.
 
+## Stage 2 (performance)
+
+2.1 is waiting on him: the SHOW FPS line (`FPS  LOGIC  DRAW  CALLS  WORST`)
+from four moments on the iPad. Nothing measured or changed yet.
+
 ## Noted, not yet acted on
 
 - `Meta.write_save` writes the save file in place. On a full disk it is left

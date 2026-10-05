@@ -211,3 +211,7 @@ before-and-after picture for him, a new IPA.
   works. He widened stage 4 (environments, mobs, bosses, equipment), wants a
   working IPA at the end of every stage, and will steer during the work.
   Work now goes on the branch `claude/dev`.
+- 5 Oct 2026: 2.1 started. Asked him for the SHOW FPS line from the four
+  moments (title, ordinary fight, busiest fight, a guardian full of shots) and
+  when anything stutters. Waiting on his numbers. Offered to do stage 3
+  (stability, needs no iPad numbers) in the meantime if he prefers.
