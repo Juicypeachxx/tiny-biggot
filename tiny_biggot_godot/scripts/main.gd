@@ -34,6 +34,8 @@ func _ready() -> void:
 		bot = DebugBot.new()
 	if DebugArgs.has("trace"):
 		_trace = FileAccess.open(DebugArgs.get_str("trace"), FileAccess.WRITE)
+	if not DebugArgs.has("no-warmup"):
+		add_child(Warmup.new())   # under everything, for the first frames: see scripts/render/warmup.gd
 	world = WorldView.new()
 	add_child(world)
 	if DebugArgs.has("seed"):
@@ -129,6 +131,23 @@ func _ready() -> void:
 		var other:
 			G.state = StringName(other)
 
+## SHOW FPS: the longest gap between two frames in the last second. A stall shows here even
+## when the average frame rate looks fine (17 ms is a steady 60 fps; 33 is one frame lost).
+## --hitch-log=MS prints every frame that took longer than MS milliseconds, with its tick.
+var _frame_us := 0
+var _worst_us := 0
+var _hitch_us := DebugArgs.get_int("hitch-log", 0) * 1000
+func _process(_delta: float) -> void:
+	if not (Meta.opts.get("fps", false) or _hitch_us > 0 or DebugArgs.has("perf")):
+		_frame_us = 0
+		return
+	var now := Time.get_ticks_usec()
+	if _frame_us > 0:
+		_worst_us = maxi(_worst_us, now - _frame_us)
+		if _hitch_us > 0 and now - _frame_us > _hitch_us:
+			print("[hitch] tick %d: %.1f ms" % [_ticks, (now - _frame_us) / 1000.0])
+	_frame_us = now
+
 func _physics_process(_delta: float) -> void:
 	if bot != null:
 		bot.tick()
@@ -137,14 +156,17 @@ func _physics_process(_delta: float) -> void:
 	if DebugArgs.has("bench"):
 		_bench_feed()
 	G.update(TB.DT)
+	var us := Time.get_ticks_usec() - t0
+	if _hitch_us > 0 and us > _hitch_us:
+		print("[hitch] tick %d: the rules took %.1f ms (%s)" % [_ticks, us / 1000.0, G.state])
 	if DebugArgs.has("bench") and _ticks > 120:
-		_bench_us += Time.get_ticks_usec() - t0
+		_bench_us += us
 		_bench_n += 1
 		if _bench_n % 600 == 0:
 			print("[bench] %d enemy shots, %d player shots, %d particles: logic %.2f ms/tick avg" % [
 				EBullets.n, G.pbullets.size(), Fx.n, _bench_us / 1000.0 / _bench_n])
 	if DebugArgs.has("perf") or Meta.opts.get("fps", false):
-		_perf_tick(Time.get_ticks_usec() - t0)
+		_perf_tick(us)
 	world.refresh()
 	world.visible = world.visible and HudView.world_state()
 	hud.refresh()
@@ -259,11 +281,13 @@ func _perf_tick(us: int) -> void:
 		total += DrawLayer.perf[k]
 		if parts.size() < (24 if DebugArgs.has("perf-all") else 6):
 			parts.append("%s %.2f" % [k, DrawLayer.perf[k] / 1000.0 / _perf_n])
-	HudView.perf_line = "%d FPS  LOGIC %.1f  DRAW %.1f  CALLS %d" % [Engine.get_frames_per_second(),
-		_perf_logic / 1000.0 / _perf_n, total / 1000.0 / _perf_n, _perf_calls]
-	if DebugArgs.has("perf"): print("[perf] fps %d | logic %.2f ms | draw %.2f ms (%s) | render cpu %.2f gpu %.2f ms, peak %d draw calls | shots %d, foe shots %d, pickups %d, fx %d, texts %d" % [
+	HudView.perf_line = "%d FPS  LOGIC %.1f  DRAW %.1f  CALLS %d  WORST %d" % [Engine.get_frames_per_second(),
+		_perf_logic / 1000.0 / _perf_n, total / 1000.0 / _perf_n, _perf_calls, roundi(_worst_us / 1000.0)]
+	if DebugArgs.has("perf"): print("[perf] fps %d | logic %.2f ms | draw %.2f ms (%s) | render cpu %.2f gpu %.2f ms, peak %d draw calls | shots %d, foe shots %d, pickups %d, fx %d, texts %d | worst frame %.1f ms" % [
 		Engine.get_frames_per_second(), _perf_logic / 1000.0 / _perf_n, total / 1000.0 / _perf_n, ", ".join(parts),
-		_perf_rcpu / _perf_n, _perf_rgpu / _perf_n, _perf_calls, G.pbullets.size(), EBullets.n, G.pickups.size(), Fx.n, Fx.texts.size()])
+		_perf_rcpu / _perf_n, _perf_rgpu / _perf_n, _perf_calls, G.pbullets.size(), EBullets.n, G.pickups.size(), Fx.n, Fx.texts.size(),
+		_worst_us / 1000.0])
+	_worst_us = 0
 	_perf_rcpu = 0.0
 	_perf_rgpu = 0.0
 	_perf_calls = 0

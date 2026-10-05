@@ -77,3 +77,21 @@ has the measurements. In short: 1500 enemy shots draw in a quarter of the time
 (one pass instead of one per kind), shots are still one instanced draw and
 every kind is now in it, and ordinary fights draw 0.02-0.06 ms a frame more on
 desktop. `tests/draw_bench.tscn` times the two painters with a fixed crowd.
+
+## The exported app (later again)
+
+A pass on what an app built with Xcode does differently: stalls the first
+time something is drawn, tinted or heard, and the launch. IOS_BUILD.md has
+the causes, the measurements and the build steps. In short, on a release
+export with an empty shader cache: 25 s of play had 11-12 frames of 40 ms or
+more before and has 0-1 now, and 60 s with a new weapon every second had 23
+and has 0-1. The steady cost of a frame is unchanged: this pass moved work to
+the launch, it did not take any out of a fight.
+
+SHOW FPS now ends with WORST, the longest frame of the last second in
+milliseconds (17 is a steady 60 fps, 33 is one missed frame). The averages
+before it hide a single stall; WORST shows it.
+
+    --hitch-log=MS       prints every frame that took longer than MS milliseconds
+    --no-warmup          skips the launch warm-up (scripts/render/warmup.gd)
+    --no-bake            packs the sprite atlas at start-up, as before this pass

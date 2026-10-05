@@ -45,10 +45,8 @@ static func palette(g: Dictionary) -> Array:
 	if _pal.has(key):
 		return _pal[key]
 	var counts := {}
-	var img := Img.t(key).get_image()
+	var img := Img.image(key)      # from the atlas kept in memory: nothing is read back from the graphics card
 	if img != null:
-		if img.is_compressed():
-			img.decompress()
 		for y in img.get_height():
 			for x in img.get_width():
 				var c := img.get_pixel(x, y)

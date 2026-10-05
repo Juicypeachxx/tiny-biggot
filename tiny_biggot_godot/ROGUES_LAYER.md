@@ -46,7 +46,9 @@ full of cards, numbers and particles) was limited by drawing:
   test machine from about 18 to 6 ms. Before this, each damage-number glyph
   switched between the shadow and colour font textures (2 calls per
   letter). Screenshots with and without the atlas are pixel-identical
-  (`--no-atlas` turns it off for comparison).
+  (`--no-atlas` turns it off for comparison). Later the atlas became a
+  ready-made file that is loaded instead of packed at every start:
+  IOS_BUILD.md.
 - **SHOW FPS** in Options (or `--perf`): an on-screen line with fps, logic
   ms, drawing ms and draw calls. Use it on the iPad in a big fight.
 

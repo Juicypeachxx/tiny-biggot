@@ -30,6 +30,16 @@ func _ready() -> void:
 	_bgm = AudioStreamPlayer.new()
 	add_child(_bgm)
 	_bgm.finished.connect(_on_bgm_finished)
+	_preload()
+
+## Loads every sound and track now (about a megabyte and a half in all), so the first time one
+## plays, in the middle of a fight or as a floor begins, no file has to be opened.
+func _preload() -> void:
+	for dir in ["res://assets/audio/se/", "res://assets/audio/bgm/"]:
+		for f in DirAccess.get_files_at(dir):
+			var base := f.trim_suffix(".import").trim_suffix(".remap")
+			if base.ends_with(".wav"):
+				_stream(dir + base)
 
 func _stream(path: String) -> AudioStream:
 	var s = _streams.get(path)

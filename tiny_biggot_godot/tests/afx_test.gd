@@ -255,11 +255,41 @@ func whirl_flood() -> void:
 			G.pbullets.append(b)
 		world._prepare_shots()
 		world._prepare_shots()   # (a table reset, if one was due, happens at the start of a tick)
-		var shown: int = world._shots.multimesh.visible_instance_count
+		var sb: ShotBatch = world._shots
+		var shown: int = sb.used
 		if shown != count + mini(count, ShotBatch.WHIRL_MAX):
-			fail("%d spinning shots: %d instances drawn, want %d" % [count, shown, count + mini(count, ShotBatch.WHIRL_MAX)])
-		if world._shots.buf.size() < shown * ShotBatch.STRIDE:
+			fail("%d spinning shots: %d instances written, want %d" % [count, shown, count + mini(count, ShotBatch.WHIRL_MAX)])
+		if sb.buf.size() != sb.cap * ShotBatch.STRIDE or sb.cap < shown or sb.multimesh.instance_count != sb.cap:
 			fail("the batch buffer is too small for what it shows")
+		# The batch always draws its whole buffer; what is not in use is parked off-screen.
+		if sb.multimesh.visible_instance_count != sb.cap:
+			fail("%d spinning shots: the batch draws %d instances, not its whole buffer of %d" % [count, sb.multimesh.visible_instance_count, sb.cap])
+		var loose := 0
+		for i in range(shown, sb.cap):
+			if sb.buf[i * ShotBatch.STRIDE + 3] != ShotBatch.PARK or sb.buf[i * ShotBatch.STRIDE + 7] != ShotBatch.PARK:
+				loose += 1
+		for i in shown:
+			if sb.buf[i * ShotBatch.STRIDE + 3] == ShotBatch.PARK:
+				loose += 1
+		if loose > 0:
+			fail("%d spinning shots: %d instances are not where they should be (in use on screen, the rest parked)" % [count, loose])
+	# Fewer shots than the tick before: the ones no longer in use are parked again; none at all: nothing is drawn.
+	for count in [5, 0]:
+		for b in G.pbullets:
+			Combat.recycle(b)
+		G.pbullets.clear()
+		for i in count:
+			var b := _shot("bolt", "pyre")
+			b.x = 40.0 + i * 20
+			G.pbullets.append(b)
+		world._prepare_shots()
+		var sb2: ShotBatch = world._shots
+		var stray := 0
+		for i in range(count, sb2.cap):
+			if sb2.buf[i * ShotBatch.STRIDE + 3] != ShotBatch.PARK:
+				stray += 1
+		if sb2.used != count or stray > 0 or sb2.multimesh.visible_instance_count != (sb2.cap if count > 0 else 0):
+			fail("after a flood, %d shots: %d written, %d left on screen, %d instances drawn" % [count, sb2.used, stray, sb2.multimesh.visible_instance_count])
 	# The tables fill while shots with whirls are in the air, some drawn by the plain painter:
 	# the reset must leave nothing pointing at a row that is gone (this once threw an error).
 	ShotBatch.reset_table()

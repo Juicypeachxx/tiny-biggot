@@ -10,9 +10,12 @@ to report.
 1. Copy the whole `tiny_biggot_godot/` folder to the iPad and open it in
    Xogot. The first open re-imports assets (`.godot/` is rebuilt), which can
    take a minute.
-2. Run the project. The title screen should say **TINY BIGGOT ROGUES**.
+2. Run the project. The screen is black for a moment (no Godot logo any
+   more), then the title screen says **TINY BIGGOT ROGUES**.
    - Report if: the screen is blurry (it should be crisp pixels at 5x) or
      not centred with dark borders.
+   - Report if: the black moment is long. The very first run after copying
+     the project may take about a second longer than the ones after it.
 
 ## Touch
 
@@ -77,9 +80,17 @@ to report.
         against the floor.
       - A guardian fight full of shots should now run smoother than before, not
         slower.
-12. **Sound:** music and effects play, and the options can mute them.
+12. **Stalls:** turn OPTIONS > SHOW FPS on. The line now ends with WORST, the
+    longest frame of the last second in milliseconds: 17 is a steady 60 fps,
+    33 is one missed frame, 50 and more is a hitch you can see.
+    - Start the game fresh and play the first rooms. WORST should stay near
+      17 at the first shot, the first hit on a foe (the white flash), the
+      first lightning or explosion, the first sound of each kind.
+    - Report if: WORST jumps at a moment you can name ("the first time I
+      picked up a helmet"). That is exactly what IOS_BUILD.md is about.
+13. **Sound:** music and effects play, and the options can mute them.
 
 ## Save
 
-13. Finish or quit a run, close Xogot completely and reopen. Your embers,
+14. Finish or quit a run, close Xogot completely and reopen. Your embers,
     unlocks and skill tree should still be there.

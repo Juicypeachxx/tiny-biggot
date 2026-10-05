@@ -105,5 +105,5 @@ ATTACK_EFFECTS.md).
 ## Art
 
 `assets/graphics/fx_*.png`, 28 strips. A strip is one row of equal frames; the
-frame counts are in `Vfx.FRAMES`. They are packed into the sprite atlas at
-start-up like every other small graphic.
+frame counts are in `Vfx.FRAMES`. They are in the sprite atlas like every
+other small graphic.

@@ -35,7 +35,8 @@ Godot skips it.
 tiny_biggot_godot/
   project.godot           settings, autoloads
   PORTING_NOTES.md        this file
-  assets/graphics/        Graphics/CC/*.png (531 files, names unchanged)
+  assets/graphics/        Graphics/CC/*.png (names unchanged)
+  assets/atlas/           sprites.res: the sprite atlas, ready-made (see Img)
   assets/titles/          Cover.png
   assets/audio/se|bgm/    Audio/SE, Audio/BGM (names unchanged)
   assets/controls.json    original Empo touch layout and pad bindings
@@ -59,7 +60,11 @@ tiny_biggot_godot/
   reference/ruby/         original scripts (ignored by Godot)
   tests/                  unit tests and the compile-everything checker
   tools/check.sh          headless import + compile + run check
+  tools/bake_atlas.sh     remakes assets/atlas/sprites.res after a graphic changes
 ```
+
+The app built with Xcode: IOS_BUILD.md (what was done for it, the build
+steps, the export preset).
 
 ## Ruby to GDScript traps
 

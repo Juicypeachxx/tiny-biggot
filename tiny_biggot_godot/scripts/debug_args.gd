@@ -17,7 +17,8 @@ extends RefCounted
 ##   --ui=SCREEN                  open a screen at start: choice, traits, title, hero, tree, shrine,
 ##                                codex, howto, options, pause, traitlist, gearpage, relics, dead, win,
 ##                                ending (the true-ending room with the loop and exit portals)
-##   --no-save                    neither read nor write the save file (repeatable test runs)
+##   --no-save                    neither read nor write the save file, nor the sprite atlas the game keeps for
+##                                itself (repeatable test runs)
 ##   --unlock-all                 every shrine unlock and every skill-tree node
 ##   --give=relic:ID,gear:ID,...  start with these items (relic, gear, trait at max rank, weapon)
 ##   --combo=ID                   start with everything a named combo needs (data/synergies.gd)
@@ -25,6 +26,10 @@ extends RefCounted
 ##   --classic                    original items only in every pool (no Rogues content)
 ##   --trace=FILE                 write one line of game state per second (replay comparison)
 ##   --bench[=N]                  keep ~N enemy shots alive and print logic time per tick
+##   --hitch-log=MS               print every frame that took longer than MS milliseconds
+##   --no-warmup                  skip the launch warm-up (scripts/render/warmup.gd)
+##   --no-bake                    pack the sprite atlas at start-up instead of loading a ready-made one
+##   --no-atlas                   no sprite atlas at all: every graphic is its own texture
 
 static var _args := {}
 static var _parsed := false

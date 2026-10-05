@@ -98,7 +98,7 @@ void fragment() {
 static var _classes := {}      # key -> class id
 static var _rects := PackedVector4Array()
 static var _parms := PackedVector4Array()
-static var _dirty := true
+static var _version := 1       # goes up whenever the tables change; each batch hands them to its shader once per version
 static var _atlas: Texture2D = null
 ## Frames of each class, by class id. Shots of one class animate in step, off one clock the
 ## shader is handed once a frame (gf), so animation costs the painter nothing per shot.
@@ -116,8 +116,20 @@ static var fancy := true
 static var specs: Array = []
 static var _spec_ids := {}     # key -> index in specs
 
+## One shader for every batch: the graphics card builds its program once, whichever batch draws first.
+static var _shader: Shader = null
+
+## Instances not in use are parked far off-screen rather than left out of the draw: with any
+## shot in the air the batch draws its whole buffer, so the graphics card is asked for the
+## same kind of draw every frame whatever the number of shots. (How the per-draw data is
+## stepped depends on the count drawn. A driver may build a new pipeline the first time it
+## meets each count, a stall each time; the software one used for the tests always does.)
+const PARK := -4096.0
+
 var buf := PackedFloat32Array()
 var cap := 0
+var used := 0           # instances written this tick
+var _seen := 0          # the table version this batch's shader has
 
 func _init() -> void:
 	multimesh = MultiMesh.new()
@@ -127,23 +139,30 @@ func _init() -> void:
 	var q := QuadMesh.new()
 	q.size = Vector2.ONE
 	multimesh.mesh = q
-	var sh := Shader.new()
-	sh.code = SHADER
+	if _shader == null:
+		_shader = Shader.new()
+		_shader.code = SHADER
 	var m := ShaderMaterial.new()
-	m.shader = sh
+	m.shader = _shader
 	material = m
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	_reserve(512)
 
 func _reserve(count: int) -> void:
 	cap = count
+	used = 0
 	multimesh.instance_count = cap
 	multimesh.visible_instance_count = 0
+	# The whole screen, so the engine neither works the bounds out from every instance each
+	# frame nor skips the batch.
+	multimesh.custom_aabb = AABB(Vector3(-64, -64, 0), Vector3(TB.SW + 128, TB.SH + 128, 1))
 	buf.resize(cap * STRIDE)
 	buf.fill(0.0)
 	for i in cap:
 		buf[i * STRIDE] = 1.0        # identity basis: the shader does zoom and angle
 		buf[i * STRIDE + 5] = 1.0
+		buf[i * STRIDE + 3] = PARK
+		buf[i * STRIDE + 7] = PARK
 
 ## Makes room for `count` shots and returns the buffer to write into.
 func begin(count: int) -> PackedFloat32Array:
@@ -158,8 +177,8 @@ func finish(count: int, gf: int = 0) -> void:
 	if gf != _gf:
 		_gf = gf
 		material.set_shader_parameter("gf", float(gf))
-	if _dirty and _atlas != null:
-		_dirty = false
+	if _seen != _version and _atlas != null:
+		_seen = _version
 		texture = _atlas
 		var rr := _rects.duplicate()
 		var pp := _parms.duplicate()
@@ -167,7 +186,12 @@ func finish(count: int, gf: int = 0) -> void:
 		pp.resize(MAX_CLASSES)
 		material.set_shader_parameter("rects", rr)
 		material.set_shader_parameter("parms", pp)
-	multimesh.visible_instance_count = count
+	# Park what was in use last tick and is not now.
+	for i in range(count, used):
+		buf[i * STRIDE + 3] = PARK
+		buf[i * STRIDE + 7] = PARK
+	used = count
+	multimesh.visible_instance_count = cap if count > 0 else 0
 	if count > 0:
 		multimesh.buffer = buf
 
@@ -190,7 +214,7 @@ static func _row(key: String, sprite: String, zmin: float, zdiv: float, rot: flo
 		_rects.append(Vector4(rg.position.x, rg.position.y, rg.size.x, rg.size.y))
 		_parms.append(Vector4(zmin, zdiv, rot + 10.0 * (nframes - 1), special))
 		frames.append(nframes)
-		_dirty = true
+		_version += 1
 	_classes[key] = id
 	return id
 
@@ -240,7 +264,7 @@ static func reset_table() -> void:
 	for sp in specs:
 		sp[7] = -1
 	overflow = false
-	_dirty = true
+	_version += 1
 
 ## A number as the batch's shader receives it. The engine hands a shot's velocity, spin, size and
 ## life to the shader as 16-bit floats; the plain painter rounds the same way, so a shot turned

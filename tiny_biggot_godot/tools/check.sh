@@ -5,6 +5,8 @@
 set -u
 cd "$(dirname "$0")/.."
 GODOT="${GODOT:-godot}"
+# macOS has no `timeout`: run without a time limit there.
+command -v timeout >/dev/null 2>&1 || timeout() { shift; "$@"; }
 FRAMES="${1:-600}"
 shift || true
 LOG=$(mktemp)
@@ -27,6 +29,18 @@ echo "== unit tests"
 timeout 900 "$GODOT" --headless --path . --quit-after 3000 res://tests/unit_tests.tscn >"$LOG" 2>&1
 tail -n 1 "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
+echo "== sprite atlas: the ready-made file is what packing the graphics gives now"
+timeout 900 "$GODOT" --headless --path . --quit-after 400000 res://tests/atlas_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[atlas\]|atlas test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:|WARNING" "$LOG"; then status=1; fi
+
+echo "== 10 s of play with the atlas packed at start-up instead, and with no atlas at all"
+for extra in "--no-bake" "--no-atlas"; do
+  "$GODOT" --headless --path . --fixed-fps 60 --quit-after 600 -- --bot --smart-bot --god --seed=6 --hero=2 --room=elite $extra --no-save >"$LOG" 2>&1
+  grep "\[bot\]" "$LOG" | tail -n 1
+  if grep -E "SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+done
 
 echo "== item effects vs the original Ruby (tests/ruby_effects.json)"
 timeout 900 "$GODOT" --headless --path . --quit-after 6000 res://tests/effects_test.tscn >"$LOG" 2>&1
