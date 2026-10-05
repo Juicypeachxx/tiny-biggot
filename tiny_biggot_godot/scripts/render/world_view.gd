@@ -201,10 +201,23 @@ func _paint_bg(ci: CanvasItem) -> void:
 		ci.draw_texture_rect_region(kit, Rect2(0, r * ts, ts, ts), Rect2(3 * ts, ts, ts, ts))
 		ci.draw_texture_rect_region(kit, Rect2(27 * ts, r * ts, ts, ts), Rect2(4 * ts, ts, ts, ts))
 	_paint_decor(ci, room)
+	_paint_void(ci, room, kit)
 	for r in range(TB.IY0, TB.IY0 + TB.IH):
 		for c in range(TB.IX0, TB.IX0 + TB.IW):
 			if room.tile(c, r) == World.T_PILLAR:
 				ci.draw_texture_rect_region(kit, Rect2(c * ts, r * ts - 4, ts + 1, 2 * ts), Rect2(0, 2 * ts, ts + 1, 2 * ts))
+
+## Open sky between islands (Skyreach Isles): the sky tile, with a cliff lip under any floor above it.
+func _paint_void(ci: CanvasItem, room: Room, kit: Texture2D) -> void:
+	if room.theme.get("layouts", "") != "isles":
+		return
+	var ts := TB.TS
+	for r in range(TB.IY0, TB.IY0 + TB.IH):
+		for c in range(TB.IX0, TB.IX0 + TB.IW):
+			if room.tile(c, r) != World.T_VOID:
+				continue
+			var lip := room.tile(c, r - 1) != World.T_VOID
+			ci.draw_texture_rect_region(kit, Rect2(c * ts, r * ts, ts, ts), Rect2((3 if lip else 2) * ts, 2 * ts, ts, ts))
 
 ## Floor markings of a rift world, over the tiles and under everything else.
 func _paint_decor(ci: CanvasItem, room: Room) -> void:
@@ -666,6 +679,7 @@ func _paint_fx(ci: CanvasItem) -> void:
 	_paint_marks(ci, G.player, G.time)
 	Hazards.draw_marks(ci, G.time)
 	Hazards.draw_traffic(ci, G.time)
+	Hazards.draw_gusts(ci, G.time)
 
 # ---------- z 1900: additive glows ----------
 ## Small markers: a pink chevron over exposed foes (they take +25% damage), and

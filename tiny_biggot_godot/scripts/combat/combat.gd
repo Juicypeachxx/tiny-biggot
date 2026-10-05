@@ -1394,8 +1394,8 @@ static func update_pbullets(dt: float) -> void:
 		var ny := b.y + b.vy * dt
 		var c := floori(nx / TB.TS)
 		var r := floori(ny / TB.TS)
-		# Inlined World.solid(room, c, r, M_BULLET): anything but floor stops a shot.
-		if c < 0 or r < 0 or c >= TB.COLS or r >= TB.ROWS or grid[r * TB.COLS + c] != World.T_FLOOR:
+		# Inlined World.solid(room, c, r, M_BULLET): anything but floor (or open sky) stops a shot.
+		if c < 0 or r < 0 or c >= TB.COLS or r >= TB.ROWS or (grid[r * TB.COLS + c] != World.T_FLOOR and grid[r * TB.COLS + c] != World.T_VOID):
 			hit_crate(room, c, r, b.dmg)
 			if b.back == PBullet.BACK_OUT:
 				b.back = PBullet.BACK_RETURN

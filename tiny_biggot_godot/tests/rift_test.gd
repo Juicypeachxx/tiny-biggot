@@ -7,6 +7,9 @@ extends Node
 ##   4. Every floor offers a rift door.
 ##   5. Every event room: each object is used, event fights are won, the room opens again.
 ##   6. Hidden doors: a flawless fight and a loose brick both open one.
+##   7. Skyreach Isles: every island layout leaves all floor reachable from every door; open sky
+##      stops the hero and walkers but not flyers or shots; a gust shoves the hero along its band;
+##      a hero left on open sky steps back onto an island.
 ## Prints "rift test: PASSED" or a FAIL line per problem.
 
 var fails := 0
@@ -58,6 +61,7 @@ func _ready() -> void:
 	doors()
 	events()
 	hidden()
+	isles()
 	print("rift test: PASSED" if fails == 0 else "rift test: %d FAILED" % fails)
 	get_tree().quit()
 
@@ -73,7 +77,7 @@ func lint() -> void:
 		_font("world " + id, [th["name"], th["sub"]])
 		if not Img.has(th["kit"]):
 			fail("world %s: missing tiles %s" % [id, th["kit"]])
-		if th.get("hazard", "") != "" and th["hazard"] != "traffic" and not Hazards.STATIC.has(th["hazard"]) \
+		if th.get("hazard", "") != "" and not th["hazard"] in ["traffic", "gusts"] and not Hazards.STATIC.has(th["hazard"]) \
 				and not Hazards.STRIKES.has(th["hazard"]):
 			fail("world %s: unknown hazard %s" % [id, th["hazard"]])
 		for t in th["pool"] + [th["champion"]]:
@@ -302,3 +306,82 @@ func hidden() -> void:
 	if not opened and G.pickups.is_empty():
 		fail("hidden: the loose brick did nothing")
 	print("[rift] hidden doors: %d of 40 flawless fights opened one; the loose brick works" % flawless)
+
+func isles() -> void:
+	_start(0)
+	var seen := {}
+	for sd in 400:
+		var room := World.make_room(G.floor_d, "combat", "", "s", { "theme": "skyreach", "step": 0 })
+		room.seed_value = sd * 7919 + 1
+		room.doors = { "n": true, "w": true, "e": true, "s": true }
+		World.build_room(room)
+		if room.layout < 101 or room.layout > 104:
+			fail("isles: a Skyreach fight room has layout %d" % room.layout)
+			continue
+		if seen.has(room.layout):
+			continue
+		seen[room.layout] = true
+		# Flood the floor from the south door; every floor tile must be reached.
+		var start := Vector2i(13, 16)
+		var reach := { start: true }
+		var q := [start]
+		while not q.is_empty():
+			var c: Vector2i = q.pop_back()
+			for dv in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
+				var n2: Vector2i = c + dv
+				if reach.has(n2) or World.solid(room, n2.x, n2.y, World.M_PLAYER):
+					continue
+				reach[n2] = true
+				q.append(n2)
+		var voids := 0
+		for r in TB.ROWS:
+			for c in TB.COLS:
+				var t := room.tile(c, r)
+				if t == World.T_VOID:
+					voids += 1
+				elif (t == World.T_FLOOR or t == World.T_DOOR) and not reach.has(Vector2i(c, r)):
+					fail("isles: layout %d leaves tile %d,%d cut off" % [room.layout, c, r])
+		if voids == 0:
+			fail("isles: layout %d has no open sky" % room.layout)
+	if seen.size() != 4:
+		fail("isles: only layouts %s seen in 400 rooms" % [seen.keys()])
+	# The rules of open sky.
+	var room := World.make_room(G.floor_d, "combat", "", "s", { "theme": "skyreach", "step": 0 })
+	room.set_tile(5, 5, World.T_VOID)
+	if not World.solid(room, 5, 5, World.M_PLAYER) or not World.solid(room, 5, 5, World.M_WALKER):
+		fail("isles: open sky does not stop the hero or a walker")
+	if World.solid(room, 5, 5, World.M_FLYER) or World.solid(room, 5, 5, World.M_BULLET):
+		fail("isles: open sky stops a flyer or a shot")
+	# A gust shoves the hero along its band, and only inside it.
+	G.enter_room(World.make_room(G.floor_d, "combat", "", "s", { "theme": "skyreach", "step": 0 }))
+	_tick(5)
+	var pl: Player = G.player
+	for e in G.enemies:
+		e.spawn_t = 0.0
+	for r in TB.ROWS:
+		for c in TB.COLS:
+			if G.room.tile(c, r) == World.T_VOID or G.room.tile(c, r) == World.T_PILLAR:
+				G.room.set_tile(c, r, World.T_FLOOR)
+	pl.x = 200.0
+	pl.y = 150.0
+	G.room.strike_t = 99.0
+	G.room.gusts = [{ "horiz": true, "pos": 150.0, "dir": 1, "t": 0.0, "blow": 1.0, "spawn": 9.0 }]
+	var x0 := pl.x
+	for i in 30:
+		Hazards.update(TB.DT)
+	if pl.x - x0 < 50.0:
+		fail("isles: a gust moved the hero only %.1f px" % (pl.x - x0))
+	pl.x = 200.0
+	pl.y = 100.0
+	G.room.gusts = [{ "horiz": true, "pos": 150.0, "dir": 1, "t": 0.0, "blow": 1.0, "spawn": 9.0 }]
+	for i in 30:
+		Hazards.update(TB.DT)
+	if absf(pl.x - 200.0) > 0.01:
+		fail("isles: a gust moved a hero outside its band")
+	# Stranded on open sky: back onto the nearest island.
+	G.room.set_tile(12, 9, World.T_VOID)
+	pl.x = 12 * TB.TS + 8.0
+	pl.y = 9 * TB.TS + 8.0
+	Hazards.update(TB.DT)
+	if G.room.tile(floori(pl.x / TB.TS), floori(pl.y / TB.TS)) != World.T_FLOOR:
+		fail("isles: a hero on open sky was not put back on an island")

@@ -33,6 +33,7 @@ var champion := ""       # the champion still to appear in this room
 var event := ""          # the event of a mystery or hidden room
 var event_fight := false # an event's fight is on: the room unlocks when the foes are dead
 var cars: Array = []     # Heist City traffic (hazards.gd)
+var gusts: Array = []    # Skyreach Isles wind bands (hazards.gd)
 var hits := 0            # times the hero was hurt in this room (a flawless fight can reveal a door)
 
 func tile(c: int, r: int) -> int:

@@ -176,6 +176,7 @@ look (stage 5 redraws everything together later).
       with its own tiles, a hazard of its own, and at least 4 room layouts
       that use it (that gives the 10+ rooms). `BIOMES.md` and `RIFTS.md` show
       how the present ones are built. One environment a session.
+      (1 of 3 done, 5 Oct: SKYREACH ISLES, a rift world. See RIFTS.md.)
 - [ ] 4.3b **Event rooms, special rooms, NPCs, easter eggs** (his ask, 5 Oct).
       - A **saloon** event room: a whole bar with NPCs. A bartender sells
         booze (drinks are timed buffs, each with a catch of its own); a
@@ -320,3 +321,8 @@ before-and-after picture for him, a new IPA.
   bartender selling booze, a merchant, a quest giver), special rooms,
   easter eggs and smartly scattered NPCs: new step 4.3b, after the first
   environment. 4.3 started: a new rift world, SKYREACH ISLES.
+- 5 Oct 2026: 4.3, first environment: SKYREACH ISLES (rift world): open
+  sky tiles, 4 island layouts, gusts, the Gale Warden. Rift test extended
+  (layouts reachable, sky rules, gusts); classic replays identical; 7 full
+  replays re-recorded (a 9th world changes which rift a run is offered).
+  Next: 4.3b (saloon and event rooms) or the second environment.

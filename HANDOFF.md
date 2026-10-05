@@ -246,6 +246,18 @@ keeping their old stats. `UNIQUENESS.md` now: no new relic or gear piece in a
 "same" or "near" group or numbers-only; weapons only the 3-4 hero signature
 weapons. Full replays d, g, h re-recorded.
 
+**4.3, environment 1 of 3: SKYREACH ISLES (done).** Details in
+`tiny_biggot_godot/RIFTS.md`. New tile `World.T_VOID` (5): `World.solid`
+blocks it for M_PLAYER and M_WALKER only; the two inlined bullet checks
+(`ebullets.gd`, `combat.gd` player shots) let shots pass it. Original rooms
+never contain it. Theme key `layouts: "isles"` picks layouts 101-104 (one
+`rng.int_range(1, 4)` draw, same count as before). Hazard `gusts` lives in
+`hazards.gd` next to the traffic code; `Room.gusts` holds the bands. Foe pool
+is crow, wisp, torchimp until 4.4. Checked: rift test (with new section 7,
+two planted faults caught), content test, atlas test, three 10-minute
+soaks in the world (0 errors), screenshots of layouts and a gust. Not
+checked: how it plays on the iPad.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress (so iOS closing the app does not end it). Needs

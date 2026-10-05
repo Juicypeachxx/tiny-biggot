@@ -15,6 +15,7 @@ extends RefCounted
 ##   decor    floor markings drawn over the tiles: "road", "rug", "" ...
 ##   fog      true: drifting fog over the room (drawing only)
 ##   music    which of the original tracks plays
+##   layouts  "isles": the world's own room layouts (islands over open sky, World.T_VOID)
 
 const LIST := [
 	{ "id": "gaol", "name": "BLACKROCK GAOL", "sub": "NO ONE LEAVES THE ISLAND", "kit": "kit_gaol", "accent_hex": "#8fa3a0",
@@ -41,6 +42,9 @@ const LIST := [
 	{ "id": "dust", "name": "DUSTWATER", "sub": "THIS TOWN AIN'T BIG ENOUGH", "kit": "kit_dust", "accent_hex": "#c9a35a",
 	  "pool": ["outlaw", "dynamiter", "sharpshooter", "coyote", "outlaw", "coyote"], "champion": "marshal", "hazard": "dynamite",
 	  "decor": "", "music": 3 },
+	{ "id": "skyreach", "name": "SKYREACH ISLES", "sub": "MIND THE DROP", "kit": "kit_skyreach", "accent_hex": "#9fc3ee",
+	  "pool": ["crow", "wisp", "torchimp", "crow", "wisp", "crow"], "champion": "galewarden", "hazard": "gusts",
+	  "decor": "", "layouts": "isles", "music": 5 },
 ]
 
 static var _by_id := {}

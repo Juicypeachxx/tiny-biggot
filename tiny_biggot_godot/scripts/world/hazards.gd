@@ -9,6 +9,8 @@ extends RefCounted
 ##   icicle   icicles fall where you stand, two at a time (telegraphed strikes)
 ##   vent     rooftop steam vents puff rings of scalding steam
 ##   rift     void rifts that spit rings, plus falling dark stars (strikes)
+##   gusts    Skyreach Isles: a band across the room is marked for 1 s (arrows show the way), then
+##            the wind blows along it for 1.4 s, shoving you and the foes and carrying debris
 ## A strike marks the floor for 1 s, then hurts whoever stands in it (a roll
 ## dodges it, like any hit) and bursts into a small ring of shots.
 
@@ -31,7 +33,7 @@ static func setup(room: Room, floor_index: int) -> void:
 	var kind: String = fdef.get("hazard", "") if room.theme.is_empty() else room.theme.get("hazard", "")
 	if kind == "" or not room.type in ["combat", "elite", "challenge"]:
 		return
-	if kind == "traffic":
+	if kind == "traffic" or kind == "gusts":
 		room.strike_t = 2.0
 		return
 	room.strike = kind if STRIKES.has(kind) else ""
@@ -57,6 +59,10 @@ static func update(dt: float) -> void:
 		return
 	if room.theme.get("hazard", "") == "traffic" or not room.cars.is_empty():
 		_update_traffic(room, dt)
+	if room.theme.get("hazard", "") == "gusts" or not room.gusts.is_empty():
+		_update_gusts(room, dt)
+	if room.theme.get("layouts", "") == "isles":
+		_off_the_edge(room)
 	if room.hazards.is_empty() and room.strike == "" and room.marks.is_empty():
 		return
 	var active := G.enemies_active()
@@ -134,6 +140,133 @@ static func _update_traffic(room: Room, dt: float) -> void:
 				Combat.damage_enemy(e, 16.0 * Combat.floor_scale(), { "no_crit": true, "no_mult": true, "col": "orange",
 					"kx": car["dir"] * 220.0, "ky": 0.0 })
 	room.cars = keep
+
+const GUST_PUSH := 150.0   # px/s along the band
+const GUST_HALF := 18.0    # half the band's width
+const GUST_WARN := 1.0
+const GUST_BLOW := 1.4
+
+static func _update_gusts(room: Room, dt: float) -> void:
+	var p := G.player
+	var active := G.enemies_active()
+	if active and room.theme.get("hazard", "") == "gusts":
+		room.strike_t -= dt
+		if room.strike_t <= 0:
+			room.strike_t = 3.4 + randf() * 1.2
+			var horiz := randf() < 0.5
+			var near := randf() < 0.6   # usually where you stand
+			var pos: float
+			if horiz:
+				pos = clampf(p.y if near else randf_range(4 * TB.TS, 16 * TB.TS), 4 * TB.TS, 16 * TB.TS)
+			else:
+				pos = clampf(p.x if near else randf_range(3 * TB.TS, 25 * TB.TS), 3 * TB.TS, 25 * TB.TS)
+			room.gusts.append({ "horiz": horiz, "pos": pos, "dir": 1 if randf() < 0.5 else -1, "t": GUST_WARN,
+				"blow": GUST_BLOW, "spawn": 0.0 })
+	var keep := []
+	for g in room.gusts:
+		if g["t"] > 0:
+			g["t"] -= dt
+			if active:
+				keep.append(g)   # a warning whose fight ended just fades
+			continue
+		g["blow"] -= dt
+		if g["blow"] <= 0:
+			continue
+		keep.append(g)
+		var step: float = g["dir"] * GUST_PUSH * dt
+		if _in_band(g, p.x, p.y):
+			World.move_body(room, p, step if g["horiz"] else 0.0, 0.0 if g["horiz"] else step, World.M_PLAYER)
+		for e in G.enemies:
+			if e.targetable() and not e.is_boss() and not e.d.get("champion", false) and _in_band(g, e.x, e.y):
+				World.move_body(room, e, step if g["horiz"] else 0.0, 0.0 if g["horiz"] else step,
+					World.M_FLYER if e.d.get("fly", false) else World.M_WALKER)
+		if not active:
+			continue
+		g["spawn"] -= dt
+		if g["spawn"] <= 0:
+			g["spawn"] = 0.22
+			var off := randf_range(-GUST_HALF + 4, GUST_HALF - 4)
+			if g["horiz"]:
+				var x0 := TB.TS + 4.0 if g["dir"] > 0 else TB.SW - TB.TS - 4.0
+				Combat.eshot(x0, g["pos"] + off, 0.0 if g["dir"] > 0 else PI, 170.0, "ice", 2.5)
+			else:
+				var y0 := 3.0 * TB.TS + 4.0 if g["dir"] > 0 else 17.0 * TB.TS - 4.0
+				Combat.eshot(g["pos"] + off, y0, PI / 2 if g["dir"] > 0 else -PI / 2, 170.0, "ice", 2.5)
+	room.gusts = keep
+
+static func _in_band(g: Dictionary, x: float, y: float) -> bool:
+	return absf((y if g["horiz"] else x) - g["pos"]) < GUST_HALF
+
+## Nothing should ever leave the hero standing on open sky (a dash, a blink): step back onto the
+## nearest island floor.
+static func _off_the_edge(room: Room) -> void:
+	var p := G.player
+	if p == null:
+		return
+	var c := floori(p.x / TB.TS)
+	var r := floori(p.y / TB.TS)
+	if room.tile(c, r) != World.T_VOID:
+		return
+	for d in range(1, 6):
+		for dr in range(-d, d + 1):
+			for dc in range(-d, d + 1):
+				if maxi(absi(dr), absi(dc)) != d:
+					continue
+				var x := (c + dc) * TB.TS + 8.0
+				var y := (r + dr) * TB.TS + 8.0
+				if room.tile(c + dc, r + dr) == World.T_FLOOR and not World.hits_solid(room, x, y, p.r, World.M_PLAYER):
+					p.x = x
+					p.y = y
+					return
+
+## Gust warnings (a pale band with arrows) and the wind itself (streaks blowing along the band).
+static func draw_gusts(ci: CanvasItem, t: float) -> void:
+	var room := G.room
+	if room == null or room.gusts.is_empty():
+		return
+	for g in room.gusts:
+		var horiz: bool = g["horiz"]
+		var pos: float = g["pos"]
+		var band := Rect2(TB.TS, pos - GUST_HALF, TB.SW - 2 * TB.TS, GUST_HALF * 2) if horiz \
+			else Rect2(pos - GUST_HALF, 3 * TB.TS, GUST_HALF * 2, 14 * TB.TS)
+		if g["t"] > 0:
+			var a := 0.2 + (0.14 if floori(t * 10) % 2 == 0 else 0.0)
+			ci.draw_rect(band, Color(0.3, 0.6, 0.9, a))
+			var edge := Color(0.17, 0.31, 0.54, 0.85)
+			if horiz:
+				ci.draw_rect(Rect2(band.position.x, band.position.y, band.size.x, 1), edge)
+				ci.draw_rect(Rect2(band.position.x, band.end.y - 1, band.size.x, 1), edge)
+			else:
+				ci.draw_rect(Rect2(band.position.x, band.position.y, 1, band.size.y), edge)
+				ci.draw_rect(Rect2(band.end.x - 1, band.position.y, 1, band.size.y), edge)
+			var k := 20.0
+			while k < (TB.SW if horiz else 14 * TB.TS) - 20:
+				var along: float = k if g["dir"] > 0 else (TB.SW if horiz else 14 * TB.TS) - k
+				for s in 2:
+					var o: float = float(s) * 3.0 * g["dir"]
+					if horiz:
+						ci.draw_rect(Rect2(roundf(along + o), pos - 3 + s, 2, 6 - 2 * s), Color(0.17, 0.31, 0.54, 0.9))
+					else:
+						ci.draw_rect(Rect2(pos - 3 + s, roundf(3 * TB.TS + along + o), 6 - 2 * s, 2), Color(0.17, 0.31, 0.54, 0.9))
+				k += 26.0
+		else:
+			var life: float = g["blow"] / GUST_BLOW
+			for i in 14:
+				var lane := pos - GUST_HALF + 3 + fmod(i * 7.3, GUST_HALF * 2 - 8)
+				var span := TB.SW if horiz else 14 * TB.TS
+				var x := fmod(t * 260.0 + i * 61.0, span)
+				if g["dir"] < 0:
+					x = span - x
+				var col := Color(0.3, 0.6, 0.9, 0.8 * life)
+				var head := Color(0.86, 0.93, 1.0, 0.9 * life)
+				var hx: float = x + (8.0 if g["dir"] > 0 else 0.0)
+				if horiz:
+					ci.draw_rect(Rect2(roundf(x), roundf(lane), 14, 2), col)
+					ci.draw_rect(Rect2(roundf(hx), roundf(lane), 5, 2), head)
+				else:
+					ci.draw_rect(Rect2(roundf(lane), roundf(3 * TB.TS + x), 2, 14), col)
+					ci.draw_rect(Rect2(roundf(lane), roundf(3 * TB.TS + hx), 2, 5), head)
+			ci.draw_rect(band, Color(0.3, 0.6, 0.9, 0.16 * life))
 
 ## Lane warnings and cars (drawn with the telegraphs, over the floor).
 static func draw_traffic(ci: CanvasItem, t: float) -> void:

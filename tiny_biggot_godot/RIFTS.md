@@ -21,8 +21,27 @@ homages: setting and mood only, own names, own art.
 | burb | MAPLE COURT | neighbour, robovac, burglar, gnome | kitchen fires | THE LANDLORD |
 | heist | HEIST CITY | gangster, biker, riotcop | traffic lanes | THE KINGPIN |
 | dust | DUSTWATER | outlaw, dynamiter, sharpshooter, coyote | dynamite | THE MARSHAL |
+| skyreach | SKYREACH ISLES | crow, wisp, torchimp (own foes come in ROADMAP 4.4) | gusts, open sky | THE GALE WARDEN |
 
 A run prefers worlds it has not shown yet (`Themes.pick`).
+
+### Skyreach Isles (October 2026)
+
+- **Open sky** (`World.T_VOID`): islands in the sky. The hero and walking foes cannot
+  cross it; flying foes and every shot pass over it. A hero left on it by anything
+  (a dash, a blink) steps back onto the nearest island (`Hazards._off_the_edge`).
+  Pickups move like walkers, so none can land in the sky.
+- **Four layouts of its own** (101-104 in `World.build_room`): four sky lakes, a ring of
+  sky round the middle island, three lanes split by long drops, stepping stones. The
+  champion room is the open arena, as in every world.
+- **Gusts** (`Hazards._update_gusts`): a band across the room is marked for 1 s, pale
+  blue with arrows showing the way; then the wind blows along it for 1.4 s, shoving the
+  hero and foes (not champions) 150 px/s and carrying ice debris shots. Step out of the
+  band or roll through the debris.
+- **The Gale Warden**: a flying champion (blink, fans, a spiral, ice rings, falling
+  strikes, calls crows).
+- Art: `kit_skyreach.png` (mossy flagstones, cloud-stone walls, crystal pillars, sky and
+  cliff-lip tiles at row 2, columns 2 and 3) and `galewarden(_elite).png`.
 
 Champions are data rows in `GameData.ENEMIES` with `"champion": true` and a `"moves"`
 list run by `scripts/entities/champion_ai.gd` (charge, ring, fan, spiral, burst, duel,

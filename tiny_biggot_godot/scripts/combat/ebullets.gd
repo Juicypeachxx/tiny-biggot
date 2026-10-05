@@ -135,10 +135,10 @@ static func update(dt: float) -> void:
 		y += vys[i] * dt * slow
 		xs[i] = x
 		ys[i] = y
-		# Inlined World.solid(..., M_BULLET): anything but floor stops a shot.
+		# Inlined World.solid(..., M_BULLET): anything but floor (or open sky) stops a shot.
 		var c := floori(x * inv_ts)
 		var r := floori(y * inv_ts)
-		if c < 0 or r < 0 or c >= TB.COLS or r >= TB.ROWS or grid[r * TB.COLS + c] != World.T_FLOOR:
+		if c < 0 or r < 0 or c >= TB.COLS or r >= TB.ROWS or (grid[r * TB.COLS + c] != World.T_FLOOR and grid[r * TB.COLS + c] != World.T_VOID):
 			lifes[i] = 0.0
 			Fx.burst(x, y, ["#8b8f9c", "#4e4a5e"], 3, 30, 0.2)
 			i += 1

@@ -9,6 +9,9 @@ const T_WALL := 1
 const T_PILLAR := 2
 const T_DOOR := 3
 const T_CRATE := 4
+## Open sky between islands (Skyreach Isles only): heroes and walking foes cannot cross it;
+## flying foes and every shot pass over it.
+const T_VOID := 5
 
 const DIRS := { "n": Vector2i(0, -1), "s": Vector2i(0, 1), "e": Vector2i(1, 0), "w": Vector2i(-1, 0) }
 const OPP := { "n": "s", "s": "n", "e": "w", "w": "e" }
@@ -171,6 +174,8 @@ static func build_room(room: Room) -> void:
 		var pat := rng.int_range(0, 16 if GameData.rogues() else 8)
 		if room.champion != "":
 			pat = 0   # a champion gets an open arena
+		elif room.theme.get("layouts", "") == "isles":
+			pat = 100 + rng.int_range(1, 4)   # islands in the sky (layouts 101-104)
 		match pat:
 			1:
 				_put(room, 5, 3, 2); _put(room, 6, 3, 2); _put(room, 5, 4, 2); _put(room, 6, 4, 2)
@@ -224,6 +229,26 @@ static func build_room(room: Room) -> void:
 			16:  # pillared hall: two rows of columns
 				for i in [2, 5, 8, 11]:
 					_put(room, i, 2, 2); _put(room, i, 5, 2)
+			101:  # four sky lakes, one in each quarter
+				for a in range(3, 8):
+					for b in range(2, 5):
+						_put(room, a, b, T_VOID)
+				_put(room, 10, 2, T_PILLAR)
+			102:  # a ring of sky around the middle island, bridged in the four directions
+				for a in range(8, 12):
+					_put(room, a, 3, T_VOID)
+				for b in range(3, 7):
+					_put(room, 8, b, T_VOID)
+				_put(room, 4, 2, T_PILLAR)
+			103:  # three lanes split by two long drops (gusts love lanes)
+				for a in range(1, 10):
+					_put(room, a, 4, T_VOID)
+				_put(room, 5, 1, T_PILLAR)
+			104:  # stepping stones: a field of small holes
+				for a in range(2, 11):
+					for b in range(1, 7):
+						if (a + b) % 3 == 0:
+							_put(room, a, b, T_VOID)
 		room.layout = pat
 	for d in room.doors.keys():
 		for cr in door_tiles(d):
@@ -267,6 +292,8 @@ static func solid(room: Room, c: int, r: int, mode: int) -> bool:
 		return mode != M_PLAYER or G.locked or room.sealed.has(door_dir_at(c, r))
 	if t == T_WALL:
 		return true
+	if t == T_VOID:
+		return mode == M_PLAYER or mode == M_WALKER
 	return mode != M_FLYER
 
 static func hits_solid(room: Room, x: float, y: float, r: float, mode: int) -> bool:
