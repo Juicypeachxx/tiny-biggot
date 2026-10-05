@@ -55,9 +55,13 @@ func draw_exit_prompt(ci: CanvasItem) -> void:
 		return
 	var c: Dictionary = G.room.exits[best]
 	var pos := World.door_center(best)
-	var kind: Dictionary = GameData.ROOM_KINDS[c["type"]]
+	var kind: Dictionary = GameData.door_kind(c)
 	var has_reward: bool = c.get("reward", "") != ""
 	var lines := [kind["name"]]
+	if c["type"] == "rift" and c.get("step", 0) == 0:
+		lines.append("A RIFT: 3 ROOMS AND A CHAMPION")
+	elif c["type"] == "mystery":
+		lines.append("WHO KNOWS WHAT WAITS INSIDE")
 	if has_reward:
 		lines.append("REWARD: " + GameData.REWARDS[c["reward"]]["name"])
 	lines.append("LOCKED. USE A KEY ON THE LOCK" if G.room.sealed.has(best) else "WALK THROUGH TO ENTER")
@@ -70,7 +74,7 @@ func draw_exit_prompt(ci: CanvasItem) -> void:
 	var py := 40.0 if best == "n" else clampf(roundf(pos.y - h - 18), 34, TB.SH - h - 4)
 	Gfx.panel(ci, px, py, w, h, GameData.ROOM_COL.get(c["type"], "#8b8f9c"))
 	for i in lines.size():
-		var col: String = kind["col"] if i == 0 else (GameData.REWARDS[c["reward"]]["col"] if i == 1 and has_reward else "white")
+		var col: String = kind["col"] if i == 0 else (GameData.REWARDS[c["reward"]]["col"] if has_reward and lines[i].begins_with("REWARD") else "white")
 		Gfx.text(ci, lines[i], px + w / 2, py + 4 + i * 8, col, 1, 0.5)
 
 static func _tag_names(tags: Array) -> String:
@@ -223,6 +227,38 @@ func draw_prompt(ci: CanvasItem, o: Dictionary) -> void:
 			else:
 				desc = "UPGRADE %s TO +%d (+8%% DAMAGE)" % [ap.weapon["name"], WeaponInfo.plus(ap.weapon) + 1]
 				extra = "PAY %d GOLD" % G.price(WeaponInfo.anvil_cost(ap))
+		# ---------- Event rooms ----------
+		"mimicchest":
+			title = "OLD CHEST"
+			desc = "CHOOSE A RELIC"
+		"wheel":
+			title = "WHEEL OF FATE"
+			desc = "SPIN FOR GEMS, HEALING, A RELIC... OR A BITE"
+			extra = "PAY %d GOLD (%d SPINS LEFT)" % [G.price(12 + G.floor_index * 4), o.get("uses", 0)]
+		"bloodshop":
+			title = o["relic"]["name"]
+			desc = o["relic"]["desc"]
+			extra = "PAY 1 MAX HEART"
+		"well":
+			title = "WISHING WELL"
+			desc = "TOSS A COIN IN AND MAKE A WISH"
+			extra = "PAY %d GOLD (%d WISHES LEFT)" % [G.price(8 + G.floor_index * 2), o.get("uses", 0)]
+		"mirror":
+			title = "DARK MIRROR"
+			desc = "YOUR SHADOW WAITS INSIDE. BEAT IT FOR A RARE RELIC"
+		"tome":
+			title = "FORBIDDEN TOME"
+			desc = "READ IT: GAIN A LEVEL, LOSE HALF A HEART"
+		"bed":
+			title = "A SAFE BED"
+			desc = "SLEEP: HEAL 2 HEARTS"
+		"jukebox":
+			title = "JUKEBOX"
+			desc = "A GOOD TUNE: +25% DAMAGE AND +15% SPEED FOR 60S"
+			extra = "PAY %d GOLD" % G.price(10 + G.floor_index * 2)
+		"brick":
+			title = "LOOSE BRICK"
+			desc = "IT WOBBLES WHEN TOUCHED"
 		"portal":
 			title = "DESCEND"
 			desc = "GO DEEPER INTO THE CRYPT"
@@ -236,6 +272,8 @@ func draw_prompt(ci: CanvasItem, o: Dictionary) -> void:
 	if o["kind"] == "pedestal" and o["relic"] != null:
 		lines.insert(1, GameData.RARITY_NAME[o["relic"]["rarity"]])
 	if o["kind"] == "shop" and o["item"] == "relic":
+		lines.insert(1, GameData.RARITY_NAME[o["relic"]["rarity"]])
+	if o["kind"] == "bloodshop":
 		lines.insert(1, GameData.RARITY_NAME[o["relic"]["rarity"]])
 	var w := 0
 	for l in lines:

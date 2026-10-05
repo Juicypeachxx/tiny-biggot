@@ -13,6 +13,16 @@ const SHOCK_MAX := 5
 
 static func apply(e: Enemy, name: String, amount: float, hit_dmg: float) -> void:
 	var p := G.player
+	# Drawing only: a small pop when a status first takes hold.
+	if Vfx.enabled:
+		if name == "burn" and e.burn_t <= 0:
+			Vfx.puff(e.x, e.y, "fire")
+		elif name == "chill" and e.chill_t <= 0:
+			Vfx.puff(e.x, e.y, "frost")
+		elif name == "curse" and e.curse_t <= 0:
+			Vfx.puff(e.x, e.y, "void")
+		elif name == "poison" and e.poison <= 0:
+			Vfx.puff(e.x, e.y, "venom")
 	match name:
 		"burn": e.burn_t = maxf(e.burn_t, (3.0 + p.burn_time) * maxf(1.0, amount))
 		"poison": e.poison = minf(12, e.poison + amount)

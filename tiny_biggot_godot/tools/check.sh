@@ -38,6 +38,53 @@ timeout 900 "$GODOT" --headless --path . --quit-after 400000 res://tests/content
 grep -E "^\[content\]|content test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== rift worlds and event rooms"
+timeout 900 "$GODOT" --headless --path . --quit-after 400000 res://tests/rift_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[rift\]|rift test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
+echo "== the Gaolbird (starter hero): tempo, rally, rolls, dive"
+timeout 900 "$GODOT" --headless --path . --quit-after 400000 res://tests/gaolbird_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[gaolbird\]|gaolbird test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
+echo "== the Gaolbird on screen (30 s: full tempo and tree, a hit, dives, feathers; every painter runs)"
+"$GODOT" --headless --path . --fixed-fps 60 --quit-after 1800 -- --bot --smart-bot --seed=3 --hero=6 --unlock-all --room=elite --tempo=10 --hurt-at=240 --no-save >"$LOG" 2>&1
+grep "\[bot\]" "$LOG" | tail -n 1
+if grep -E "SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
+echo "== ability effects: drawing only, bounded, every painter"
+timeout 900 "$GODOT" --headless --path . --quit-after 400000 res://tests/vfx_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[vfx\]|vfx test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
+echo "== attack effects: shot rules, class tables, drawing only, bounded, every painter"
+timeout 900 "$GODOT" --headless --path . --quit-after 400000 res://tests/afx_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[afx\]|afx test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
+echo "== guardian attacks on screen (20 s each: charges and lanes, beams and blinks, slams)"
+for fl in 3 5 0; do
+  "$GODOT" --headless --path . --fixed-fps 60 --quit-after 1200 -- --bot --smart-bot --god --seed=4 --hero=6 --floor=$fl --room=boss --no-save >"$LOG" 2>&1
+  grep "\[bot\]" "$LOG" | tail -n 1
+  if grep -E "SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+done
+
+echo "== a new weapon every second for 100 s (fills the shot class tables), fast and plain drawing"
+for extra in "" "--plain-draw"; do
+  "$GODOT" --headless --path . --fixed-fps 60 --quit-after 6000 -- --bot --smart-bot --god --unlock-all --seed=3 --hero=12 --weapon-cycle=1 $extra --no-save >"$LOG" 2>&1
+  grep "\[bot\]" "$LOG" | tail -n 1
+  if grep -E "SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+done
+
+echo "== ability effects in a heavy fight (30 s: every effect in turn; then 15 s with FANCY EFFECTS off)"
+"$GODOT" --headless --path . --fixed-fps 60 --quit-after 1800 -- --bot --smart-bot --god --seed=5 --hero=11 --floor=6 --weapon=worldeater --heavy --fx-demo --no-save >"$LOG" 2>&1
+grep "\[bot\]" "$LOG" | tail -n 1
+if grep -E "SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+"$GODOT" --headless --path . --fixed-fps 60 --quit-after 900 -- --bot --smart-bot --god --seed=5 --hero=11 --floor=6 --weapon=worldeater --heavy --fx-demo --no-vfx --no-save >"$LOG" 2>&1
+grep "\[bot\]" "$LOG" | tail -n 1
+if grep -E "SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== bot soak (60 s, god mode, boss room on floor 3)"
 "$GODOT" --headless --path . --fixed-fps 60 --quit-after 3600 -- --bot --smart-bot --god --seed=1 --floor=2 --room=boss >"$LOG" 2>&1
 grep "\[bot\]" "$LOG" | tail -n 1

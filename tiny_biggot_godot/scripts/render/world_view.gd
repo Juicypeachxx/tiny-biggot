@@ -15,6 +15,7 @@ var lower: DrawLayer     # z 2-9   torches, hint, shadows, zones, objects, signs
 var ents: DrawLayer      # z 100+y player, foes and the held weapon, sorted by y
 var fx: DrawLayer        # z 1800  spawn rings, charge telegraphs, beams
 var glow: DrawLayer      # z 1900  additive glows
+var vfx: DrawLayer       # z 1950  ability effects (Vfx): blasts, lightning, marks on afflicted foes
 var pbul: DrawLayer      # z 2000  player shots, moons, wisps
 var bars: DrawLayer      # z 2050  foe health bars
 var ebul: DrawLayer      # z 2100  enemy shots
@@ -24,6 +25,8 @@ var top: DrawLayer       # z 2300  aim reticle
 var vignette: Sprite2D   # z 2500
 var screen: DrawLayer    # z 2600  hurt / low-health edges, flashes (Juice)
 var texts: DrawLayer     # z 3000  floating numbers
+var _floats: FloatTexts
+var _labels: DrawLayer
 
 ## Rendering has its own random stream so drawing never shifts the game's
 ## RNG: a seeded run plays out identically headless or on screen.
@@ -40,7 +43,10 @@ func _ready() -> void:
 	ents = _layer(_paint_ents)
 	fx = _layer(_paint_fx)
 	glow = _layer(_paint_glow, true)
+	vfx = _layer(_paint_vfx)
 	pbul = _layer(_paint_pbullets)
+	_shots = ShotBatch.new()
+	pbul.add_child(_shots)
 	bars = _layer(_paint_bars)
 	ebul = _layer(EBullets.draw)
 	parts = _layer(_paint_parts)
@@ -50,17 +56,47 @@ func _ready() -> void:
 	vignette.texture = Img.t("vignette")
 	vignette.centered = false
 	add_child(vignette)
-	screen = _layer(func(ci): Juice.draw_screen(ci, G.player, G.time))
+	screen = _layer(func(ci):
+		_paint_fog(ci)
+		Juice.draw_screen(ci, G.player, G.time))
 	texts = _layer(_paint_texts)
+	_floats = FloatTexts.new()
+	texts.add_child(_floats)
+	_labels = DrawLayer.new(_paint_labels)
+	texts.add_child(_labels)
 	G.room_changed.connect(_on_room_changed)
+
+## Ashfall Town: banks of fog drift across the room and the edges close in (drawing only).
+func _paint_fog(ci: CanvasItem) -> void:
+	if G.room == null or not G.room.theme.get("fog", false):
+		return
+	var t := G.time
+	for i in 5:
+		var w := 150.0 + 40.0 * (i % 3)
+		var x := fposmod(t * (9.0 + i * 3.0) + i * 110.0, TB.SW + w) - w
+		var y := 40.0 + i * 46.0 + sin(t * 0.4 + i) * 10.0
+		ci.draw_rect(Rect2(roundf(x), roundf(y), w, 26), Color(0.78, 0.8, 0.78, 0.07))
+		ci.draw_rect(Rect2(roundf(x + 14), roundf(y + 5), w - 28, 16), Color(0.78, 0.8, 0.78, 0.07))
+	for k in 4:
+		var th := 10.0 * (k + 1)
+		var c := Color(0.62, 0.65, 0.62, 0.09)
+		ci.draw_rect(Rect2(0, 0, TB.SW, th), c)
+		ci.draw_rect(Rect2(0, TB.SH - th, TB.SW, th), c)
+		ci.draw_rect(Rect2(0, 0, th, TB.SH), c)
+		ci.draw_rect(Rect2(TB.SW - th, 0, th, TB.SH), c)
 
 func _paint_parts(ci: CanvasItem) -> void:
 	Fx.draw_particles(ci)
 	Juice.draw_sparks(ci)
 
+## The top layer, bottom to top: loot name plates (this layer), floating
+## numbers (FloatTexts, kept on the canvas), then ability labels and cards.
 func _paint_texts(ci: CanvasItem) -> void:
 	_paint_plates(ci)
-	Fx.draw_texts(ci)
+
+func _paint_labels(ci: CanvasItem) -> void:
+	if not Meta.opts.get("fast_draw", true):
+		Fx.draw_texts(ci)   # FAST DRAWING off: floating numbers drawn the plain way
 	Juice.draw_labels(ci)
 
 ## Rogues layer: name plates over nearby loot (the one you stand on shows its full card instead).
@@ -131,7 +167,10 @@ func refresh() -> void:
 	if G.dyn_dirty:
 		G.dyn_dirty = false
 		dyn.queue_redraw()
-	for l in [lower, ents, fx, glow, pbul, bars, ebul, parts, swing, top, screen, texts]:
+	_prepare_shots()
+	_floats.sync()
+	_labels.queue_redraw()
+	for l in [lower, ents, fx, glow, vfx, pbul, bars, ebul, parts, swing, top, screen, texts]:
 		l.queue_redraw()
 
 static func deg(rgss_deg: float) -> float:
@@ -143,7 +182,8 @@ func _paint_bg(ci: CanvasItem) -> void:
 	if room == null:
 		return
 	var ts := TB.TS
-	var kit := Img.t("kit%d" % G.floor_index)
+	# A rift world has its own tiles.
+	var kit := Img.t(room.theme["kit"] if not room.theme.is_empty() else "kit%d" % G.floor_index)
 	ci.draw_rect(Rect2(0, 0, TB.SW, TB.SH), TB.c("#140f1c"))
 	var rng := SeedRng.new(room.seed_value ^ 0x5bd1e995)
 	for r in range(TB.IY0, TB.IY0 + TB.IH):
@@ -160,10 +200,35 @@ func _paint_bg(ci: CanvasItem) -> void:
 	for r in range(TB.IY0, TB.ROWS - 1):
 		ci.draw_texture_rect_region(kit, Rect2(0, r * ts, ts, ts), Rect2(3 * ts, ts, ts, ts))
 		ci.draw_texture_rect_region(kit, Rect2(27 * ts, r * ts, ts, ts), Rect2(4 * ts, ts, ts, ts))
+	_paint_decor(ci, room)
 	for r in range(TB.IY0, TB.IY0 + TB.IH):
 		for c in range(TB.IX0, TB.IX0 + TB.IW):
 			if room.tile(c, r) == World.T_PILLAR:
 				ci.draw_texture_rect_region(kit, Rect2(c * ts, r * ts - 4, ts + 1, 2 * ts), Rect2(0, 2 * ts, ts + 1, 2 * ts))
+
+## Floor markings of a rift world, over the tiles and under everything else.
+func _paint_decor(ci: CanvasItem, room: Room) -> void:
+	var ts := TB.TS
+	match room.theme.get("decor", ""):
+		"road":
+			# A street: kerbs along the top and bottom, lane dashes on the traffic lanes.
+			var line := Color(0.95, 0.79, 0.3, 0.55)
+			var kerb := Color(0.55, 0.56, 0.61, 0.5)
+			ci.draw_rect(Rect2(ts, 3 * ts, TB.IW * ts, 2), kerb)
+			ci.draw_rect(Rect2(ts, 16 * ts - 2, TB.IW * ts, 2), kerb)
+			for y in [92.0, 132.0, 172.0, 212.0]:
+				var x := ts + 6.0
+				while x < TB.SW - ts - 12:
+					ci.draw_rect(Rect2(x, y, 12, 2), line)
+					x += 28
+		"rug":
+			# A big rug in the middle of the room.
+			var rr := Rect2(8 * ts, 6 * ts, 12 * ts, 7 * ts)
+			ci.draw_rect(rr, Color(0.54, 0.16, 0.2, 0.85))
+			ci.draw_rect(rr.grow(-3), Color(0.85, 0.27, 0.24, 0.85))
+			ci.draw_rect(rr.grow(-6), Color(0.54, 0.16, 0.2, 0.85))
+			ci.draw_rect(rr.grow(-8), Color(0.95, 0.79, 0.3, 0.5))
+			ci.draw_rect(rr.grow(-10), Color(0.72, 0.22, 0.24, 0.9))
 
 # ---------- Doors, crates, cracked walls (redraw_dyn) ----------
 func _bars(ci: CanvasItem, x0: int, y0: int, w: int, h: int, vertical: bool) -> void:
@@ -249,7 +314,7 @@ func _paint_exit_signs(ci: CanvasItem, room: Room, t: float) -> void:
 		var p := World.door_center(d)
 		var sx: float = p.x + { "w": 30, "e": -30 }.get(d, 0)
 		var sy: float = p.y + { "n": 30 }.get(d, -2)
-		var kind: Dictionary = GameData.ROOM_KINDS[c["type"]]
+		var kind: Dictionary = GameData.door_kind(c)
 		var bob := roundf(sin(t * 3 + sx) * 1.5)
 		var has_reward: bool = c.get("reward", "") != ""
 		Gfx.sp(ci, kind["icon"], sx - (7 if has_reward else 0), sy + bob)
@@ -274,9 +339,15 @@ func _paint_lower(ci: CanvasItem) -> void:
 			var w := TB.text_w(lines[i]) + 1
 			Gfx.text(ci, lines[i], TB.SW / 2 - w / 2, 6 * TB.TS + i * 10, "bone", 1, 0.0, true, 120 / 255.0)
 	Hazards.draw_floor(ci, t)
+	var fancy := Vfx.enabled
+	if fancy:
+		Vfx.draw_floor(ci, t)
 	_paint_shadows(ci, room)
-	# Zone motes (z 5).
-	for z in G.zones:
+	if fancy:
+		Afx.draw_ground(ci, t)
+		Vfx.draw_ground(ci, t)
+	# Zone motes (z 5): the plain look, when FANCY EFFECTS is off.
+	for z in ([] if fancy else G.zones):
 		match z["kind"]:
 			"fire":
 				if _vr.randf() < 0.5:
@@ -296,6 +367,37 @@ func _paint_lower(ci: CanvasItem) -> void:
 		match o["kind"]:
 			"chest":
 				Gfx.sp(ci, "chestOpen" if o.get("opened", false) else "chest", x, y + 4)
+			# ---------- Event rooms ----------
+			"mimicchest":
+				Gfx.sp(ci, "chest", x, y + 4)   # looks just like a chest
+			"wheel":
+				# It shudders for a moment after a spin.
+				var spun: float = t - o.get("spin", -9.0)
+				Gfx.sp(ci, "wheel", x + (roundf(sin(t * 60) * 1.5) if spun < 0.5 else 0.0), y + 10, 2, 2)
+			"well":
+				Gfx.sp(ci, "well", x, y + 10, 2, 2)
+			"bloodstall":
+				Gfx.sp(ci, "bloodstall", x, y + 6, 2, 2)
+			"bloodshop":
+				ci.draw_rect(Rect2(roundf(x - 9), roundf(y + 2), 18, 6), TB.c("#3a161c"))
+				ci.draw_rect(Rect2(roundf(x - 9), roundf(y + 2), 18, 1), TB.c("#8a2a33"))
+				Gfx.sp(ci, o["relic"]["sprite"], x, y + bob, 2, 2)
+				Gfx.at(ci, "heart_full", roundf(x - 9), roundf(y + 10))
+				Gfx.text(ci, "-1", roundf(x), roundf(y + 11), "red")
+			"mirror":
+				if not o.get("used", false):
+					var zm := 2.0 + sin(t * 3) * 0.08
+					Gfx.sp(ci, "riftdoor", x, y + 8, zm, zm)
+			"tome":
+				Gfx.sp(ci, "tome", x, y + 6 + (0.0 if o.get("used", false) else bob), 2, 2)
+			"bed":
+				Gfx.sp(ci, "bed", x, y + 8, 2, 2)
+			"jukebox":
+				Gfx.sp(ci, "jukebox", x, y + 10, 2, 2)
+				if not o.get("used", false) and floori(t * 4) % 2 == 0:
+					Gfx.px(ci, TB.c("#f2c94c"), x - 6 + floori(t * 2) % 3 * 6, y - 16, 2)
+			"brick":
+				Gfx.sp(ci, "brick", x, y)
 			"ichest":
 				Gfx.sp(ci, "chestIronOpen" if o.get("opened", false) else "chestIron", x, y + 4)
 			"cchest":
@@ -376,9 +478,7 @@ func _paint_lower(ci: CanvasItem) -> void:
 		Gfx.sp(ci, "bomb", b["x"], b["y"] + 4, 1.25 if big else 1.0, 1.25 if big else 1.0, 0.0, false, 1.0,
 			TB.rgba(255, 80, 60, 170) if blink else Color(0, 0, 0, 0))
 	# Mines sit on the floor (z 6).
-	for b: PBullet in G.pbullets:
-		if b.kind != "mine":
-			continue
+	for b: PBullet in _mines:
 		var bm := Img.t(b.icon)
 		var blink := b.arm <= 0 and floori(G.time * 6) % 2 == 1
 		Gfx.sprite(ci, b.icon, b.x, b.y, bm.get_width() / 2, bm.get_height() / 2, 1, 1, 0.0, false, 1.0,
@@ -397,8 +497,8 @@ func _paint_shadows(ci: CanvasItem, room: Room) -> void:
 		if o.get("gone", false):
 			continue
 		match o["kind"]:
-			"chest", "ichest", "cchest": shadow(ci, o["x"], o["y"] + 4, 12)
-			"idol", "campfire", "altar", "fountain": shadow(ci, o["x"], o["y"] + 4, 14)
+			"chest", "ichest", "cchest", "mimicchest", "tome", "jukebox": shadow(ci, o["x"], o["y"] + 4, 12)
+			"idol", "campfire", "altar", "fountain", "wheel", "well", "bloodstall", "bed": shadow(ci, o["x"], o["y"] + 4, 14)
 			"bell": shadow(ci, o["x"], o["y"] + 4, 10)
 			"item": shadow(ci, o["x"], o["y"] + 6, 10)
 	for k: Pickup in G.pickups:
@@ -409,7 +509,7 @@ func _paint_shadows(ci: CanvasItem, room: Room) -> void:
 		var tex := Img.t(_enemy_sprite(e))
 		shadow(ci, e.x, e.y + e.r + (2 if e.is_boss() else 0), tex.get_width() * e.scale * 0.75)
 	var p := G.player
-	shadow(ci, p.x, p.y + 5, 10)
+	shadow(ci, p.x, p.y + 5, 10 - p.air * 0.2)   # smaller while a leap carries the hero up
 
 # ---------- Entities (sorted by y) ----------
 func _enemy_sprite(e: Enemy) -> String:
@@ -435,19 +535,33 @@ func _paint_ents(ci: CanvasItem) -> void:
 func _draw_player(ci: CanvasItem, p: Player, t: float) -> void:
 	var name: String = p.hero["sprite"]
 	for tr in p.trail:
-		Gfx.sp(ci, name, tr["x"], tr["y"] + 6, 1.0, 1.0, 0.0, tr["face"] < 0, clampf(tr["life"] * 2.5, 0.0, 1.0), Color(1, 1, 1, 1))
-	if p.invuln > 0 and floori(t * 20) % 2 == 1 and p.dodge_t <= 0:
+		# Roll and dash ghosts are white; the Gaolbird's tempo ghosts carry their own colour.
+		Gfx.sp(ci, name, tr["x"], tr["y"] + 6 - tr.get("air", 0.0), 1.0, 1.0, 0.0, tr["face"] < 0,
+			clampf(tr["life"] * 2.5, 0.0, 1.0), tr.get("col", Color(1, 1, 1, 1)))
+	var airborne := p.leap_max > 0
+	if p.invuln > 0 and floori(t * 20) % 2 == 1 and p.dodge_t <= 0 and not airborne:
 		return
 	var behind := sin(p.aim_a) < -0.3
 	if behind:
 		_draw_weapon(ci, p)
 	var bob := -1 if p.moving and p.dodge_t <= 0 and floori(p.walk_t * 10) % 2 == 1 else 0
-	Gfx.sp(ci, name, p.x, p.y + 6 + bob, 1.0, 0.85 if p.dodge_t > 0 else 1.0, 0.0, p.face < 0)
+	var zx := 1.0
+	var zy := 0.85 if p.dodge_t > 0 else 1.0
+	var py := p.y + 6 + bob
+	if airborne:
+		# A leap: stretched on the way up, tucked in on the way down, lifted off its shadow.
+		var rising := p.dash_t > p.leap_max * 0.5
+		zx = 0.9 if rising else 1.1
+		zy = 1.15 if rising else 0.9
+		py = p.y + 6 - p.air
+	Gfx.sp(ci, name, p.x, py, zx, zy, 0.0, p.face < 0)
+	# Equipped gear is painted over the hero (visual only).
+	HeroGear.draw(ci, p, p.x, py, zx, zy, p.face < 0)
 	if not behind:
 		_draw_weapon(ci, p)
 
 func _draw_weapon(ci: CanvasItem, p: Player) -> void:
-	if p.weapon == null or p.dodge_t > 0:
+	if p.weapon == null or p.dodge_t > 0 or p.leap_max > 0:
 		return
 	var wn: String = p.weapon["sprite"]
 	var wb := Img.t(wn)
@@ -456,8 +570,10 @@ func _draw_weapon(ci: CanvasItem, p: Player) -> void:
 	var hx := p.x + cos(p.aim_a) * (6 - kick)
 	var hy := p.y - 1 + sin(p.aim_a) * (4 - kick * 0.6)
 	var left := cos(p.aim_a) < 0
-	# RGSS: angle = -(aim - PI) deg + 45, negated when mirrored; converted to Godot radians.
-	var rot := -(p.aim_a - PI) + PI / 4 if left else p.aim_a - PI / 4
+	# The icon points up and to the right, so aiming right turns it by (aim - 45 degrees).
+	# Aiming left is the mirror image of aiming right: the flipped sprite turns the other
+	# way round. (The first port turned it the same way, so a weapon aimed up-left pointed down-left.)
+	var rot := (p.aim_a - PI) + PI / 4 if left else p.aim_a - PI / 4
 	if GameData.rogues() and p.weapon.get("rarity", "") == "legend":
 		# Rogues layer: legendary weapons glow in their theme's colour.
 		var th := WeaponFx.theme_of(WeaponFx.weapon_tag(p.weapon))
@@ -500,6 +616,11 @@ func _draw_enemy(ci: CanvasItem, e: Enemy, t: float) -> void:
 		sy *= 0.84
 	elif e.chill_t > 0:
 		tint = TB.rgba(111, 211, 224, 130)
+	if e.state == &"charge" and e.stun_t <= 0.0 and Vfx.enabled and (not boss or e.sub == 2):
+		# A charge leaves afterimages behind the runner.
+		for k in range(3, 0, -1):
+			Gfx.sp(ci, name, e.x - cos(e.ca) * 9.0 * k, foot + bob - e.z - sin(e.ca) * 9.0 * k, sc * sx, sc * sy, 0.0, e.face < 0,
+				0.52 - 0.13 * k, Color(1.0, 0.54, 0.54, 0.7))
 	Gfx.sp(ci, name, e.x, foot + bob - e.z, sc * sx, sc * sy, 0.0, e.face < 0, 46 / 255.0 if e.hidden else 1.0, tint)
 	if e.type == "dummy":
 		Gfx.text(ci, "DPS %s" % TB.fmt_dmg(e.dps), e.x, foot - 24, "gold" if e.dps > 0 else "dim", 1, 0.5)
@@ -507,6 +628,7 @@ func _draw_enemy(ci: CanvasItem, e: Enemy, t: float) -> void:
 # ---------- z 1800: spawn rings, telegraphs, boss beams ----------
 func _paint_fx(ci: CanvasItem) -> void:
 	var t := G.time
+	var fancy := Vfx.enabled
 	var accent := TB.c(GameData.floors()[G.floor_index]["accent_hex"])
 	for e: Enemy in G.enemies:
 		if e.spawn_t > 0:
@@ -517,7 +639,9 @@ func _paint_fx(ci: CanvasItem) -> void:
 				Gfx.px(ci, accent, e.x + cos(a) * r, e.y + sin(a) * r * 0.6 + 4)
 			if floori(t * 12) % 2 == 1:
 				Gfx.px(ci, accent, e.x - 1, e.y + 3, 2)
-		if e.type == "knight" and e.state == &"tele":
+		if fancy:
+			continue   # Afx draws the wind-up marks and the beams (lanes on the floor, lines and beams below)
+		if e.d.get("ai", "") == "knight" and e.state == &"tele":
 			var i := 10
 			while i < 160:
 				Gfx.px(ci, TB.ca("#d8443c", 130), e.x + cos(e.ca) * i - 1, e.y + sin(e.ca) * i - 1, 2)
@@ -535,11 +659,46 @@ func _paint_fx(ci: CanvasItem) -> void:
 					Gfx.bar(ci, TB.c("#ffffff"), e.x + 2 * sin(ba), e.y - 4 - 2 * cos(ba), 520, 4, ba)
 				else:
 					Gfx.bar(ci, TB.ca("#a35bd6", 180 if floori(t * 16) % 2 == 1 else 80), e.x, e.y - 4, 520, 2, ba)
+	if fancy:
+		Afx.draw_marks(ci, t)
 	Juice.draw_rings(ci)
 	Juice.draw_magic(ci, G.player, G.time)
+	_paint_marks(ci, G.player, G.time)
 	Hazards.draw_marks(ci, G.time)
+	Hazards.draw_traffic(ci, G.time)
 
 # ---------- z 1900: additive glows ----------
+## Small markers: a pink chevron over exposed foes (they take +25% damage), and
+## the Gaolbird's rally: the heart at stake, the blows landed and the time left.
+func _paint_marks(ci: CanvasItem, p: Player, t: float) -> void:
+	if not GameData.rogues():
+		return
+	var pink := TB.c("#e86fb4")
+	for e: Enemy in G.enemies:
+		if e.vuln_t <= 0 or e.hp <= 0 or e.hidden or e.spawn_t > 0:
+			continue
+		if e.vuln_t < 0.8 and floori(t * 12) % 2 == 1:
+			continue   # blinks as it runs out
+		var x := roundf(e.x)
+		var y := roundf(e.y - e.r - 11 - e.z + sin(t * 8 + e.uid) * 1.5)
+		for k in 3:
+			ci.draw_rect(Rect2(x - 2 + k, y + k, 1, 2), pink)
+			ci.draw_rect(Rect2(x + 2 - k, y + k, 1, 2), pink)
+	if p == null or p.rally_t <= 0:
+		return
+	var left := Rally.time_left(p)
+	if left < 0.35 and floori(t * 14) % 2 == 1:
+		return   # flickers when time is nearly up
+	var hx := roundf(p.x - 4)
+	var hy := roundf(p.y - 27 - p.air)
+	ci.draw_texture_rect_region(Img.t("heart_rally"), Rect2(hx, hy, 9, 8), Rect2(0, 0, 9, 8), Color(1, 1, 1, 0.75 + 0.25 * sin(t * 12)))
+	var n := p.rally_n
+	var x0 := roundf(p.x - n + 0.5)
+	ci.draw_rect(Rect2(x0 - 1, hy + 9, n * 2 + 1, 4), Color(0.08, 0.06, 0.11, 0.85))
+	for k in n:
+		ci.draw_rect(Rect2(x0 + k * 2, hy + 10, 1, 2), TB.c("#f2c94c") if k < p.rally_prog else TB.c("#4e4a5e"))
+	ci.draw_rect(Rect2(x0 - 1, hy + 13, roundf((n * 2 + 1) * left), 1), TB.c("#fffbe0"))
+
 func _paint_glow(ci: CanvasItem) -> void:
 	var t := G.time
 	# Polish: light beams over rare, epic and legendary loot.
@@ -559,8 +718,10 @@ func _paint_glow(ci: CanvasItem) -> void:
 		var x: float = o["x"]
 		var y: float = o["y"]
 		match o["kind"]:
-			"chest", "ichest":
+			"chest", "ichest", "mimicchest", "wheel", "well":
 				if not o.get("opened", false): Gfx.at(ci, "glow_white", x - 24, y - 24)
+			"mirror", "tome":
+				if not o.get("used", false): Gfx.at(ci, "glow_purple", x - 30, y - 30)
 			"cchest":
 				if not o.get("opened", false): Gfx.at(ci, "glow_purple", x - 30, y - 30)
 			"campfire":
@@ -583,30 +744,59 @@ func _paint_glow(ci: CanvasItem) -> void:
 		if k.kind == "ember":
 			Gfx.at(ci, "glow_small", k.x - 12, k.y - 14 - k.z)
 	var p := G.player
+	if p.tempo > 0:
+		# The Gaolbird's tempo: a pink glow that grows with it and flares in full flight.
+		var tc := TB.c("#e86fb4")
+		if Tempo.full(p):
+			Gfx.sprite(ci, "glow_white", p.x - 24, p.y - 24 - p.air, 0, 0, 1, 1, 0.0, false, 0.42 + 0.14 * sin(t * 10),
+				Color(tc.r, tc.g, tc.b, 0.8))
+		elif p.tempo >= 3:
+			Gfx.sprite(ci, "glow_small", p.x - 12, p.y - 12 - p.air, 0, 0, 1, 1, 0.0, false, 0.06 * p.tempo,
+				Color(tc.r, tc.g, tc.b, 0.8))
 	for i in G.familiars.size():
 		if i >= p.familiars:
 			break
 		var f: Dictionary = G.familiars[i]
 		Gfx.at(ci, "glow_small", f["x"] - 12, f["y"] - 12)
-	# At most 40 shot glows, as in the original.
-	var gl := 0
-	for b: PBullet in G.pbullets:
-		if gl >= 40:
-			break
+	if Vfx.enabled:
+		# The new look: a shot glows in its own family's colour.
+		var gw := Img.t("glow_white")
+		for b: PBullet in _glows:
+			var c := Afx.shot_col(b.kind, b.tag)
+			match b.kind:
+				"hex", "boomer":
+					ci.draw_texture_rect(gw, Rect2(roundf(b.x) - 14, roundf(b.y) - 14, 28, 28), false, Color(c.r, c.g, c.b, 0.85))
+				"rail":
+					ci.draw_texture_rect(gw, Rect2(roundf(b.x) - 24, roundf(b.y) - 24, 48, 48), false, Color(c.r, c.g, c.b, 0.55))
+				"pulse":
+					var s := b.r * 9.0
+					ci.draw_texture_rect(gw, Rect2(roundf(b.x - s * 0.5), roundf(b.y - s * 0.5), s, s), false, Color(c.r, c.g, c.b, 0.8))
+	for b: PBullet in ([] if Vfx.enabled else _glows):
 		match b.kind:
 			"hex", "boomer":
-				gl += 1
 				Gfx.at(ci, "glow_small", b.x - 12, b.y - 12)
 			"rail":
-				gl += 1
 				Gfx.at(ci, "glow_white", b.x - 24, b.y - 24, 120 / 255.0)
 			"pulse":
 				# RGSS zooms about the sprite origin, here its top-left corner.
 				var z := b.r / 3.0
 				Gfx.sprite(ci, "glow_small", b.x - 12, b.y - 12, 0, 0, z, z)
+	if Vfx.enabled:
+		Vfx.draw_glow(ci)
+		Afx.draw_glow(ci)
+
+# ---------- z 1950: ability effects ----------
+func _paint_vfx(ci: CanvasItem) -> void:
+	if Vfx.enabled:
+		Vfx.draw_over(ci, G.time)
 
 # ---------- z 2000: player shots, moons, wisps ----------
 const PULSE_SPRITE := { "pyre": "orb_fireBig", "frost": "orb_iceBig", "shadow": "orb_darkBig", "venom": "orb_fireBig" }
+
+var _shots: ShotBatch
+var _plain: Array = []     # this tick's shots for the plain painter
+var _mines: Array = []     # this tick's mines (drawn on the floor)
+var _glows: Array = []     # this tick's first 40 glowing shots
 
 func _paint_pbullets(ci: CanvasItem) -> void:
 	var p := G.player
@@ -621,13 +811,120 @@ func _paint_pbullets(ci: CanvasItem) -> void:
 			break
 		var f: Dictionary = G.familiars[i]
 		Gfx.sp(ci, "familiar", f["x"], f["y"] + 4 + roundf(sin(t * 6 + i) * 1.5))
-	for b: PBullet in G.pbullets:
-		_draw_pbullet(ci, b)
+	# Shots were sorted by _prepare_shots this tick: nearly all of them are in
+	# the ShotBatch child (one instanced draw, on top); the kinds its shader
+	# has no rule for are drawn here as before.
+	var gf := ShotBatch.clock(t)
+	var whirls := ShotBatch.WHIRL_MAX
+	for b: PBullet in _plain:
+		if b.ds >= 0:
+			if b.dw >= 0 and whirls > 0:
+				whirls -= 1
+				_draw_spec(ci, b, ShotBatch.specs[b.dw], gf % 2)
+			var sp: Array = ShotBatch.specs[b.ds]
+			_draw_spec(ci, b, sp, gf % int(sp[2]))
+		else:
+			_draw_pbullet(ci, b)
+
+## One pass over the player's shots per tick, shared by the three layers
+## that show them (it used to be one loop over every shot in each layer):
+## the batch buffer for the shot layer, the mines for the floor layer and
+## the first 40 glowing shots for the glow layer.
+func _prepare_shots() -> void:
+	var t0 := Time.get_ticks_usec() if DrawLayer.perf_on else 0
+	_plain.clear()
+	_mines.clear()
+	_glows.clear()
+	var list: Array = G.pbullets
+	if ShotBatch.try_reset():
+		# The class tables filled up last tick and have just been emptied: every live shot is sorted
+		# again below, so the classes in use take their places before anything is drawn.
+		for b: PBullet in list:
+			b.dk = -1
+	var specs := ShotBatch.specs
+	# Room for every shot plus the whirls under spinning weapons (a whirl with no room left is skipped).
+	var buf := _shots.begin(list.size() + ShotBatch.WHIRL_MAX)
+	var spare := ShotBatch.WHIRL_MAX
+	var i := 0
+	var gl := 0
+	# OPTIONS > FAST DRAWING off: every shot goes to the plain painter, as before.
+	var fast: bool = Meta.opts.get("fast_draw", true)
+	for b: PBullet in list:
+		var dk := b.dk
+		if dk < 0:
+			dk = ShotBatch.classify(b)
+		if dk < ShotBatch.PLAIN and not fast:
+			dk = ShotBatch.PLAIN
+		if dk < ShotBatch.PLAIN:
+			var wk: int = specs[b.dw][7] if b.dw >= 0 else -1
+			if wk >= 0 and spare > 0:
+				# The whirl under a spinning weapon: one more instance, drawn first.
+				spare -= 1
+				buf[i + 3] = roundf(b.x)
+				buf[i + 7] = roundf(b.y)
+				buf[i + 8] = b.vx
+				buf[i + 9] = b.vy
+				buf[i + 12] = fmod(b.rot * 40, 360)
+				buf[i + 13] = b.r
+				buf[i + 14] = wk
+				buf[i + 15] = 1.0
+				i += ShotBatch.STRIDE
+			# Eight numbers per shot; the sprite, frame, zoom and angle are worked out in the shader.
+			buf[i + 3] = roundf(b.x)
+			buf[i + 7] = roundf(b.y)
+			buf[i + 8] = b.vx
+			buf[i + 9] = b.vy
+			buf[i + 12] = fmod(b.rot * 40, 360)
+			buf[i + 13] = b.r
+			buf[i + 14] = dk
+			buf[i + 15] = b.life / maxf(b.max_life, 0.01)
+			i += ShotBatch.STRIDE
+		elif dk == ShotBatch.PLAIN:
+			_plain.append(b)
+		else:
+			_mines.append(b)
+		if b.gk != 0 and gl < 40:
+			# At most 40 shot glows, as in the original (pulse orbs ride along uncounted).
+			if b.gk == 1:
+				gl += 1
+			_glows.append(b)
+	_shots.finish(i / ShotBatch.STRIDE, ShotBatch.clock(G.time))
+	if DrawLayer.perf_on:
+		DrawLayer.perf["shots"] = DrawLayer.perf.get("shots", 0) + Time.get_ticks_usec() - t0
 
 func _centered(ci: CanvasItem, name: String, b: PBullet, zx: float = 1.0, zy: float = 1.0, rot: float = 0.0,
 		alpha: float = 1.0, tint: Color = Color(0, 0, 0, 0)) -> void:
 	var tex := Img.t(name)
 	Gfx.sprite(ci, name, b.x, b.y, tex.get_width() / 2, tex.get_height() / 2, zx, zy, rot, false, alpha, tint)
+
+## The new look, drawn in script: the same sprite, frame, zoom and angle the batch's shader works out
+## from the same rule (ShotBatch.specs), so FAST DRAWING on and off give the same picture.
+func _draw_spec(ci: CanvasItem, b: PBullet, sp: Array, frame: int) -> void:
+	var r := ShotBatch.half(b.r)      # the shader gets these as 16-bit floats: round the same way
+	var z: float = sp[3]
+	if sp[4] > 0.0:
+		z = maxf(sp[3], r / sp[4])
+	var alpha := 1.0
+	var special: float = sp[6]
+	if special == ShotBatch.S_HEX:
+		if r > 3.5:
+			sp = ShotBatch.specs[sp[8]]
+		z = r / 5.0 if r > 6.0 else 1.0
+	elif special == ShotBatch.S_FIRE:
+		var k := ShotBatch.half(b.life / maxf(b.max_life, 0.01))
+		z = 0.6 + 0.8 * (1.0 - k)
+		alpha = clampf(k * 1.5, 0.0, 1.0)
+	var a := 0.0
+	if sp[5] == ShotBatch.R_SPIN:
+		a = -deg_to_rad(ShotBatch.half(fmod(b.rot * 40, 360)))
+	elif sp[5] == ShotBatch.R_HEADING:
+		a = atan2(ShotBatch.half(b.vy), ShotBatch.half(b.vx))
+	var cell: Rect2 = sp[1]
+	var org := Vector2(floorf(cell.size.x * 0.5), floorf(cell.size.y * 0.5))
+	ci.draw_set_transform(Vector2(roundf(b.x), roundf(b.y)), a, Vector2(z, z))
+	ci.draw_texture_rect_region(Img.t(sp[0]), Rect2(-org, cell.size),
+		Rect2(cell.position + Vector2(frame * cell.size.x, 0), cell.size), Color(1, 1, 1, alpha))
+	ci.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 
 func _draw_pbullet(ci: CanvasItem, b: PBullet) -> void:
 	match b.kind:
@@ -655,6 +952,8 @@ func _draw_pbullet(ci: CanvasItem, b: PBullet) -> void:
 			var k := b.life / maxf(b.max_life, 0.01)
 			var z := 0.6 + 0.8 * (1 - k)
 			_centered(ci, "orb_fire", b, z, z, 0.0, clampf(k * 1.5, 0.0, 1.0))
+		"feather":
+			_centered(ci, "feather", b, 1.0, 1.0, atan2(b.vy, b.vx))
 		"pulse":
 			var z := b.r / 4.0
 			_centered(ci, PULSE_SPRITE.get(b.tag, "orb_hexBig"), b, z, z, 0.0, 1.0,
@@ -688,6 +987,9 @@ func _paint_bars(ci: CanvasItem) -> void:
 
 # ---------- z 2250: melee arcs, thrusts, rays ----------
 func _paint_swings(ci: CanvasItem) -> void:
+	if Vfx.enabled:
+		Afx.draw_swings(ci, G.time)   # smears, lances, lashes, beams and the hit flashes
+		return
 	for w in G.swings:
 		var k: float = w["t"] / w["max"]
 		var tag: String = w["tag"] if w["tag"] != "" else "core"

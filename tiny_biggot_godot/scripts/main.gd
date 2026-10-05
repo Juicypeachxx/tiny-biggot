@@ -18,10 +18,16 @@ var _bench_n := 0
 var _ticks := 0
 var _shot_path := ""
 var _shot_frame := -1
+var _boss_key := ""
 
 func _ready() -> void:
 	if DebugArgs.has("seed"):
 		seed(DebugArgs.get_int("seed"))
+		# Visual-only generators too, so a seeded run draws the same frame every time (picture tests).
+		Juice._rng.seed = DebugArgs.get_int("seed")
+		WeaponFx._rng.seed = DebugArgs.get_int("seed")
+		Vfx._rng.seed = DebugArgs.get_int("seed")
+		Afx._rng.seed = DebugArgs.get_int("seed")
 	_shot_path = DebugArgs.get_str("shot")
 	_shot_frame = DebugArgs.get_int("shot-frame", 60)
 	if DebugArgs.has("bot"):
@@ -30,6 +36,8 @@ func _ready() -> void:
 		_trace = FileAccess.open(DebugArgs.get_str("trace"), FileAccess.WRITE)
 	world = WorldView.new()
 	add_child(world)
+	if DebugArgs.has("seed"):
+		world._vr.seed = DebugArgs.get_int("seed")
 	var hud_layer := CanvasLayer.new()
 	hud_layer.layer = 10
 	add_child(hud_layer)
@@ -58,7 +66,7 @@ func _ready() -> void:
 	G.hero_index = clampi(DebugArgs.get_int("hero", 0), 0, GameData.heroes().size() - 1)
 	# The game opens on the title screen. Test options start a run directly.
 	var quick := false
-	for k in ["bot", "room", "floor", "hero", "ui", "bench", "quick", "weapon", "heavy"]:
+	for k in ["bot", "room", "floor", "hero", "ui", "bench", "quick", "weapon", "heavy", "rift", "event"]:
 		if DebugArgs.has(k):
 			quick = true
 	if not quick:
@@ -68,6 +76,14 @@ func _ready() -> void:
 	G.floor_index = clampi(DebugArgs.get_int("floor", 0), 0, GameData.floors().size() - 1)
 	if G.floor_index > 0:
 		G.start_floor()
+	if DebugArgs.has("plain-draw"):   # picture tests: the plain painters instead of FAST DRAWING
+		Meta.opts["fast_draw"] = false
+	if DebugArgs.has("no-vfx"):   # the plain effects, as with FANCY EFFECTS off
+		Meta.opts["vfx"] = false
+		Vfx.reset()
+	if DebugArgs.has("long"):   # performance tests: long-lived bouncy shots fill the room to the shot cap
+		G.player.life *= 4.0
+		G.player.bounce += 8
 	if DebugArgs.has("room"):
 		var kind := DebugArgs.get_str("room")
 		G.floor_d["depth"] = G.floor_d["total"] - 1 if kind == "boss" else 2
@@ -75,6 +91,17 @@ func _ready() -> void:
 			kind = "elite"
 			G.floor_d["depth"] = G.floor_d["total"] - 2
 		G.enter_room(World.make_room(G.floor_d, kind, "gold" if kind == "combat" else "", "s"))
+	# --rift=ID [--step=0..2] jumps into a rift world, --event=NAME into an event room.
+	if DebugArgs.has("rift"):
+		var step := DebugArgs.get_int("step", 0)
+		G.enter_room(World.make_room(G.floor_d, "combat" if step == 0 else "elite", "", "s",
+			{ "theme": DebugArgs.get_str("rift"), "step": step }))
+	# --tempo=N starts the Gaolbird with N tempo that does not fade for a while (picture tests).
+	if DebugArgs.has("tempo") and G.player.tempo_max > 0:
+		Tempo.set_to(G.player, DebugArgs.get_int("tempo"))
+		G.player.tempo_t = 600.0
+	if DebugArgs.has("event"):
+		G.enter_room(World.make_room(G.floor_d, "mystery", "", "s", { "event": DebugArgs.get_str("event") }))
 	match DebugArgs.get_str("ui"):
 		"": pass
 		"choice": G.open_choice("chest", { "x": 200.0, "y": 150.0 })
@@ -134,8 +161,76 @@ func _physics_process(_delta: float) -> void:
 			var idx: int = (_ticks / every) % all.size()
 			Weapons.equip_weapon(G.player, all[idx])
 			print("[weapon] ", all[idx]["id"], " (", all[idx]["kind"], ")")
+	# --hurt-at=TICK lands one hit on the hero at that tick (picture tests of hit reactions).
+	if DebugArgs.has("hurt-at") and _ticks == DebugArgs.get_int("hurt-at") and G.player != null and G.state == &"play":
+		var was_god := G.god
+		G.god = false
+		G.player.invuln = 0.0
+		G.player.dodge_t = 0.0
+		Combat.hurt_player(1, "a test")
+		G.god = was_god
+	# --boss-log prints the guardian's attack each time it changes (to pick frames for pictures).
+	if DebugArgs.has("boss-log") and G.boss != null:
+		var key := "%s/%d" % [G.boss.state, G.boss.sub]
+		if key != _boss_key:
+			_boss_key = key
+			print("[boss] tick %d %s sub %d at %d %d hero %d %d" % [_ticks, G.boss.state, G.boss.sub, G.boss.x, G.boss.y, G.player.x, G.player.y])
+	# --attack-every=N: the hero attacks every N ticks whatever the range (picture tests of swings and shots).
+	if DebugArgs.has("attack-every") and G.player != null and G.state == &"play" and _ticks % maxi(1, DebugArgs.get_int("attack-every")) == 0:
+		Combat.player_shoot(G.player, G.player.aim_a, false)
+	# --fx-demo fires every ability effect in turn, one every half second; --fx-only=N repeats
+	# just step N (picture tests, and so that every effect painter runs in the checks).
+	if (DebugArgs.has("fx-demo") or DebugArgs.has("fx-only")) and _ticks % 30 == 0 and G.player != null and G.state == &"play":
+		_fx_demo(DebugArgs.get_int("fx-only", _ticks / 30))
 	if _shot_path != "" and _ticks == _shot_frame:
 		_take_shot()
+
+const FX_STEPS := 14
+func _fx_demo(step: int) -> void:
+	var p := G.player
+	var foes := G.enemies.filter(func(o): return o.targetable() and o.hp > 0)
+	var e: Enemy = foes[(_ticks / 30) % foes.size()] if not foes.is_empty() else null
+	var at := Vector2(e.x, e.y) if e != null else Vector2(p.x + 60, p.y - 30)
+	if DebugArgs.has("fx-keep"):   # recordings: the foes never die, so every step has its target
+		for o in foes:
+			o.hp = o.max_hp
+	if DebugArgs.has("fx-only"):   # picture tests crop around these
+		print("[fx] step %d at %d %d hero %d %d" % [step % FX_STEPS, at.x, at.y, p.x, p.y])
+	match step % FX_STEPS:
+		0:
+			if e != null: Combat.lightning(e, 0.1)
+		1: Combat.explode_at(at.x, at.y, 0.1, null, 18)
+		2:
+			if e != null: Combat.chain_from(e, 0.1)
+		3: Combat.explode_at(at.x, at.y, 0.1, null, 28, "#b8e05a")
+		4:   # a meteor on the chosen spot (the "meteor" action itself picks a random foe)
+			Vfx.meteor(at.x, at.y)
+			Combat.explode_at(at.x, at.y, 0.1, null, 34, "#e8873a", true)
+			G.zones.append({ "x": at.x, "y": at.y, "r": 15.0, "t": 2.0, "kind": "fire", "tick": 0.0 })
+		5: G.zones.append({ "x": at.x, "y": at.y, "r": 22.0, "t": 3.0, "kind": "fire", "tick": 0.0 })
+		6: G.zones.append({ "x": at.x, "y": at.y, "r": 24.0, "t": 3.0, "kind": "poison", "tick": 0.0 })
+		7:
+			# Each round hands the statuses out one place further on; --fx-shift=N fixes the place.
+			var shift := DebugArgs.get_int("fx-shift", _ticks / (30 * FX_STEPS))
+			for i in foes.size():
+				Statuses.apply(foes[i], Effects.STATUSES[(i + shift) % Effects.STATUSES.size()], 1.0, 1.0)
+		8: Combat.explode_at(at.x, at.y, 0.1, null, 46, "#e8873a", true)
+		9:
+			Actions.run(["pull", 110, 100], 1, { "x": at.x, "y": at.y })
+			Vfx.heal(p.x, p.y)
+		10:
+			Combat.explode_at(p.x, p.y, 0.1, null, 72, "#f2c94c", true)
+		11:
+			G.zones.append({ "x": p.x, "y": p.y, "r": 24.0, "t": 2.5, "kind": "smoke", "tick": 0.0 })
+			Actions.run(["bolts", 4, 0.1], 1, {})
+		12:   # blasts right beside the hero: drawn see-through, so the hero is never lost
+			Combat.explode_at(p.x + 7, p.y - 4, 0.1, null, 26, "#e8873a", true)
+			Combat.explode_at(p.x - 30, p.y + 4, 0.1, null, 40, "#b8e05a", true)
+		13:   # frost: ice shatters on a foe, a frost ring around the hero, every foe chilled
+			Vfx.shatter(at.x, at.y)
+			Vfx.nova(p.x, p.y, 90.0, "frost")
+			for o in foes:
+				Statuses.apply(o, "chill", 1.0, 1.0)
 
 ## --perf (or SHOW FPS in Options): every second prints logic and per-layer drawing cost (GDScript side)
 ## plus the frame rate. Use it on device to see what a heavy fight costs.
@@ -162,7 +257,7 @@ func _perf_tick(us: int) -> void:
 	keys.sort_custom(func(a, b): return DrawLayer.perf[a] > DrawLayer.perf[b])
 	for k in keys:
 		total += DrawLayer.perf[k]
-		if parts.size() < 6:
+		if parts.size() < (24 if DebugArgs.has("perf-all") else 6):
 			parts.append("%s %.2f" % [k, DrawLayer.perf[k] / 1000.0 / _perf_n])
 	HudView.perf_line = "%d FPS  LOGIC %.1f  DRAW %.1f  CALLS %d" % [Engine.get_frames_per_second(),
 		_perf_logic / 1000.0 / _perf_n, total / 1000.0 / _perf_n, _perf_calls]
@@ -196,4 +291,6 @@ func _take_shot() -> void:
 		path = ProjectSettings.globalize_path("res://" + path)
 	img.save_png(path)
 	print("screenshot saved: ", path)
+	if G.player != null:
+		print("[shot] hero %d %d" % [G.player.x, G.player.y])
 	get_tree().quit()

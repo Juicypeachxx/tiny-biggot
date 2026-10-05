@@ -44,10 +44,12 @@ const TRIGGERS := ["on_hit", "on_crit", "on_kill", "on_roll", "on_damage_taken",
 	"on_potion", "on_weapon_swap", "on_floor_start"]   # last three: new for the step-6 heroes
 const ACTIONS := ["nova", "shoot", "explode", "status", "heal", "buff", "chain", "lightning", "summon", "gold",
 	"refund_roll", "armor", "drop", "damage", "hurt_self", "xp", "clear_shots", "card", "heat", "scroll",
-	"dash", "channel", "invuln", "status_area", "vfx", "area"]   # last five: hero abilities and visuals
+	"dash", "channel", "invuln", "status_area", "vfx", "area",
+	"meteor", "bolts", "pull", "push", "bomb", "zone", "transmute", "rand_status", "shoot_at", "chaos",   # content batch 4
+	"tempo", "leap"]   # the Gaolbird
 const STATUSES := ["burn", "poison", "chill", "bleed", "stun", "curse", "mark", "shock", "vulnerable", "weakened"]
 const CONDITIONS := ["elite", "boss", "burning", "poisoned", "chilled", "bleeding", "shocked", "cursed",
-	"low_hp", "full_hp", "moving", "still", "crit", "danger", "fighting", "hot"]
+	"low_hp", "full_hp", "moving", "still", "crit", "danger", "fighting", "hot", "rich", "armored", "flight"]
 
 static var depth := 0
 static var budget := BUDGET
@@ -202,6 +204,9 @@ static func _cond(c: String, ctx: Dictionary) -> bool:
 		"danger": return EBullets.any_near(p.x, p.y, 30.0)   # a shot is close: perfect dodge
 		"fighting": return G.enemies_active()
 		"hot": return p.heat >= 3
+		"rich": return p.gold >= 100
+		"armored": return p.armor > 0
+		"flight": return Tempo.full(p)   # the Gaolbird at full tempo
 	return false
 
 ## Fires a trigger. ctx may carry: enemy, dmg, crit, x, y.

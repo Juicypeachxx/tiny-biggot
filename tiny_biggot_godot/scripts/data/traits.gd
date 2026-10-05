@@ -230,6 +230,7 @@ const HERO_BRANCH := {
 	"racketeer": { "name": "THE RACKET", "nodes": [["PROTECTION MONEY", "CLEARING A ROOM PAYS 3 GOLD"], ["HOT STREAK", "AT 3+ HEAT, KILLS FIRE A RING OF 6 SHOTS"], ["COOL HEAD", "GETTING HIT ONLY LOSES 1 HEAT"], ["MOST WANTED", "HEAT CAN RISE TO 8"]] },
 	"condemned": { "name": "ESCAPE ARTIST", "nodes": [["SCROLL HOARD", "READ A SECOND SCROLL ON EVERY FLOOR"], ["GRAVE ARSENAL", "SWAPPING WEAPONS REFUNDS A ROLL AND HEALS HALF A HEART (EVERY 20S)"], ["OLD WOUNDS", "+1 MAX HEART"], ["DEATH'S DOOR", "RISE ONE MORE TIME"]] },
 	"cartomancer": { "name": "THE ARCANA", "nodes": [["SLEIGHT OF HAND", "IN A FIGHT, DRAW AN EXTRA CARD EVERY 10S"], ["MARKED CARDS", "THROWN CARDS PIERCE +1"], ["HIGH ROLLER", "CLEARING A ROOM DRAWS A CARD"], ["FULL HOUSE", "EVERY CARD PLAYS TWICE"]] },
+	"gaolbird": { "name": "JAILBREAK", "nodes": [["KEEP TIME", "TEMPO HOLDS 2S LONGER BEFORE IT FADES"], ["OLD GRUDGE", "RALLY LASTS 1.5S LONGER AND RETURNS 3S SOONER"], ["HOLLOW BONES", "+1 ROLL CHARGE. KILLS IN FULL FLIGHT REFUND A ROLL"], ["MURDER OF CROWS", "KILLS IN FULL FLIGHT FIRE 8 FEATHERS. HITS COST 2 TEMPO"]] },
 	"sellsword": { "name": "FREE COMPANY", "nodes": [["SPURS", "ROLLS RECHARGE 20% FASTER"], ["SHIELD WALL", "WHEN HIT, ERASE NEARBY SHOTS (EVERY 6S)"], ["WAR PAY", "KILLING AN ELITE PAYS 12 GOLD"], ["THUNDERING CHARGE", "CHARGES HIT TWICE AS HARD AND KILLS REFUND THE ROLL"]] },
 }
 
@@ -259,6 +260,10 @@ const NODE_EFFECTS := {
 	"MARKED CARDS": [["add", "pierce", 1]],
 	"HIGH ROLLER": [{ "on": "on_room_clear", "do": [["card"]] }],
 	"FULL HOUSE": [["hook", "card_double", 1]],
+	"KEEP TIME": [["hook", "tempo_hold", 2.0]],
+	"OLD GRUDGE": [["hook", "rally_window", 1.5], ["hook", "rally_haste", 3.0]],
+	"HOLLOW BONES": [["add", "dodge_charges", 1], ["add", "charges", 1], { "on": "on_kill", "if": "flight", "do": [["refund_roll"]] }],
+	"MURDER OF CROWS": [["hook", "tempo_grit", 1], { "on": "on_kill", "if": "flight", "do": [["nova", 8, 0.6, "feather"]] }],
 	"SPURS": [["mul", "dodge_cd", 0.8]],
 	"SHIELD WALL": [{ "on": "on_damage_taken", "cd": 6.0, "do": [["clear_shots", 50]] }],
 	"WAR PAY": [{ "on": "on_kill", "if": "elite", "do": [["gold", 12]] }],

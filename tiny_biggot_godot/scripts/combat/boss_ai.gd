@@ -107,6 +107,7 @@ static func update_boss(e: Enemy, dt: float) -> void:
 				Snd.play("boom")
 				Combat.ering(e.x, e.y, 28 if h else 22, 85, randf(), "bone")
 				Fx.burst(e.x, e.y + 8, ["#8b8f9c", "#d9d0b4"], 20, 90)
+				Afx.dust(e.x, e.y + 8)
 				e.slams += 1
 				if e.slams >= (3 if h else 2):
 					e.slams = 0
@@ -222,6 +223,7 @@ static func update_boss(e: Enemy, dt: float) -> void:
 				if hit != 0 or e.st > 1.4:
 					G.add_shake(7)
 					Snd.play("boom")
+					Afx.dust(e.x, e.y + 8)
 					Combat.ering(e.x, e.y, 16 if h else 12, 80, randf(), "ice" if e.boss == "rimewarden" else _spr(e, "charge", "fire"))
 					if e.charges >= 3:
 						e.charges = 0
@@ -254,6 +256,7 @@ static func update_boss(e: Enemy, dt: float) -> void:
 				e.sub = 1
 				e.st = 0.0
 				Fx.burst(e.x, e.y, ["#a35bd6", "#5c3483"], 20, 80)
+				Afx.warp(e.x, e.y)
 				Snd.play("portal")
 			if e.sub == 1:
 				e.hidden = true
@@ -264,6 +267,7 @@ static func update_boss(e: Enemy, dt: float) -> void:
 					e.hidden = false
 					e.sub = 2
 					Fx.burst(e.x, e.y, ["#a35bd6", "#f4ecd8"], 20, 80)
+					Afx.warp(e.x, e.y)
 					Combat.ering(e.x, e.y, 18 if h else 14, 70, randf(), "darkBig")
 			if e.sub == 2 and e.st > 1.0:
 				done(e, 0.4)
@@ -349,6 +353,7 @@ static func update_boss(e: Enemy, dt: float) -> void:
 			if k >= 1:
 				G.add_shake(5)
 				Snd.play("boom")
+				Afx.dust(e.x, e.y + 8)
 				Combat.ering(e.x, e.y, 20 if h else 16, 75, randf(), "ice")
 				Combat.efan(e.x, e.y, TB.ang_to(e, p), 5, 0.5, 110, "ice")
 				e.slams += 1

@@ -53,6 +53,10 @@ const SETS := {
 	# Content batch 3 (step 8) sets.
 	"conclave": { "name": "CONCLAVE", "tag": "arcane", "b2": [["echo", 0.15]], "e4": [{ "on": "every_n_shots", "every": 6, "do": [["nova", 8, 0.6, "spark", 1.5]] }], "d2": "15% CHANCE FOR SHOTS TO CAST AGAIN", "d4": "EVERY 6TH ATTACK SPINS OUT A RING OF 8 STARS" },
 	"headhunter": { "name": "HEADHUNTER", "tag": "edge", "b2": [["elite_mult", 0.2]], "e4": [{ "on": "on_kill", "if": "elite", "do": [["gold", 8], ["buff", "crit", 1.0, 5.0], ["vfx", "label", "BOUNTY!", "#f2c94c"]] }], "d2": "+20% DAMAGE TO ELITES", "d4": "ELITE KILLS PAY 8 GOLD AND DOUBLE CRIT CHANCE FOR 5S" },
+	# Content batch 4 (chaos) sets.
+	"jester": { "name": "JESTER", "tag": "fortune", "b2": [["luck", 1]], "e4": [{ "on": "every_n_seconds", "period": 6.0, "if": "fighting", "do": [["chaos"]] }], "d2": "+1 LUCK", "d4": "EVERY 6S IN A FIGHT, SOMETHING RANDOM HAPPENS" },
+	"starfall": { "name": "STARFALL", "tag": "pyre", "b2": [["burn", 0.15]], "e4": [{ "on": "every_n_seconds", "period": 4.0, "if": "fighting", "do": [["meteor", 2.0, 32]] }], "d2": "+15% BURN CHANCE", "d4": "EVERY 4S IN A FIGHT A METEOR FALLS ON A FOE" },
+	"voidwalker": { "name": "VOIDWALKER", "tag": "shadow", "b2": [["evade", 0.08]], "e4": [{ "on": "on_roll", "cd": 1.0, "do": [["pull", 90, 260], ["explode", 38, 1.2]] }], "d2": "+8% DODGE CHANCE", "d4": "ROLLING DRAGS FOES IN AND BLASTS THEM FOR 120%" },
 }
 
 const ORIGINAL_COUNT := 96
@@ -258,6 +262,44 @@ const ROWS := [
 	["rooftopboots", "ROOFRUNNER BOOTS", "feet", "rare", ["shadow"], null, "boots", [["speed", 1.08], ["roll_speed", 1.1]], [], "+8% MOVE SPEED, FASTER ROLLS.", [], "g_ninjatabi"],
 	["eclipsecrown", "CROWN OF THE ECLIPSE", "head", "legend", ["malice", "arcane"], null, "crown", [["dmg", 1.15]], [], "+15% DAMAGE. EACH FLOOR STARTS WITH A SCROLL (A SMALL PERMANENT BOOST).", [{ "on": "on_floor_start", "do": [["scroll"]] }], "g_kingscrown"],
 	["snowtreads", "SNOW TREADS", "feet", "common", ["frost"], null, "boots", [["chill", 0.08]], [], "+8% CHILL CHANCE.", [], "g_frost_boots"],
+	# ---------- Content batch 4 (chaos): equipment ----------
+	["jester_cap", "JESTER'S CAP", "head", "rare", ["fortune"], "jester", "hat", [["crit", 0.05]], [], "JINGLES. +5% CRIT."],
+	["jester_coat", "JESTER'S MOTLEY", "body", "rare", ["fortune", "arcane"], "jester", "leather", [["max_hp", 2]], [], "+1 MAX HEART. WHEN HIT YOU HONK: EVERY FOE NEAR YOU IS FLUNG AWAY.", [{ "on": "on_damage_taken", "do": [["push", 80, 300]] }]],
+	["jester_shoes", "JESTER'S CURLY SHOES", "feet", "rare", ["fortune"], "jester", "boots", [["speed", 1.08]], [], "+8% MOVE SPEED. ROLLING DROPS A COIN (EVERY 5S).", [{ "on": "on_roll", "cd": 5.0, "do": [["drop", "coin"]] }]],
+	["jester_bauble", "JESTER'S BAUBLE", "trinket", "epic", ["fortune"], "jester", "charm", [["gold_mult", 1.15]], [], "+15% GOLD. 20% OF CRITS PAY 1 GOLD.", [{ "on": "on_crit", "chance": 0.2, "do": [["gold", 1]] }]],
+	["star_helm", "STARFALL CROWN", "head", "rare", ["pyre"], "starfall", "crown", [["burn", 0.1]], [], "+10% BURN CHANCE."],
+	["star_plate", "STARFALL PLATE", "body", "epic", ["pyre", "demolition"], "starfall", "plate", [["armor", 1]], [], "+1 ARMOR. WHEN HIT, A METEOR FALLS ON A FOE FOR 200%.", [{ "on": "on_damage_taken", "do": [["meteor", 2.0, 30]] }]],
+	["star_gloves", "STARFALL GAUNTLETS", "hands", "rare", ["pyre"], "starfall", "gloves", [["bomb_mult", 1.2]], [], "BOMBS DEAL +20%. 6% OF KILLS LEAVE A LIT BOMB (HARMLESS TO YOU).", [{ "on": "on_kill", "chance": 0.06, "do": [["bomb", 0.5]] }]],
+	["star_boots", "STARFALL GREAVES", "feet", "rare", ["pyre"], "starfall", "greaves", [["speed", 1.06]], [["fire_steps", 1]], "+6% MOVE SPEED. YOU LEAVE BURNING FOOTPRINTS."],
+	["void_cowl", "VOIDWALKER COWL", "head", "rare", ["shadow", "malice"], "voidwalker", "hood", [["evade", 0.05]], [], "5% CHANCE TO DODGE A HIT."],
+	["void_wraps", "VOIDWALKER WRAPS", "hands", "rare", ["shadow"], "voidwalker", "gloves", [["dodge_cd", 0.9]], [], "ROLLS RECHARGE 10% FASTER."],
+	["void_amulet", "VOIDWALKER LOCKET", "neck", "epic", ["shadow", "arcane"], "voidwalker", "amulet", [["dodge_charges", 1], ["charges", 1]], [], "+1 ROLL CHARGE."],
+	["void_ring", "VOIDWALKER BAND", "ring", "rare", ["malice"], "voidwalker", "ring", [["curse", 0.08]], [], "8% OF HITS CURSE."],
+	["magnethelm", "MAGNET HELM", "head", "rare", ["storm", "bulwark"], null, "helm", [["armor", 1]], [], "+1 ARMOR. EVERY 3S IN A FIGHT, FOES NEAR YOU ARE DRAGGED IN AND SHOCKED.", [{ "on": "every_n_seconds", "period": 3.0, "if": "fighting", "do": [["pull", 100, 200], ["status_area", "shock", 1, 100]] }]],
+	["partyhat", "PARTY HAT", "head", "common", ["fortune"], null, "hat", [["xp_mult", 1.1]], [], "+10% EXPERIENCE. EVERY LEVEL-UP THROWS A PARTY: 20 SPARKS AND 10 GOLD.", [{ "on": "on_level_up", "do": [["nova", 20, 0.8, "spark"], ["gold", 10], ["vfx", "label", "PARTY!", "#e86fb4"]] }]],
+	["thirdeye", "THIRD EYE", "head", "epic", ["arcane", "edge"], null, "mask", [["crit", 0.08], ["homing", 1.2]], [], "+8% CRIT. SHOTS HOME IN. CRITS INFLICT A RANDOM AILMENT.", [{ "on": "on_crit", "cd": 0.1, "do": [["rand_status", 1]] }]],
+	["bombvest", "POWDERKEG VEST", "body", "rare", ["demolition"], null, "plate", [["armor", 1], ["bombs", 2]], [["bomb_immune", 1]], "+1 ARMOR, +2 BOMBS. YOUR BOMBS CANNOT HURT YOU. WHEN HIT, YOU DROP A LIT ONE.", [{ "on": "on_damage_taken", "do": [["bomb", 0.6]] }]],
+	["giantbelt", "GIANT'S GIRDLE", "body", "epic", ["fury"], null, "leather", [["max_hp", 2], ["size", 1.25]], [], "+1 MAX HEART. SHOTS ARE 25% BIGGER, AND EVERY KILL SWELLS THEM 10% MORE FOR 3S.", [{ "on": "on_kill", "do": [["buff", "size", 0.1, 3.0]] }]],
+	["ghostsheet", "BEDSHEET GHOST", "body", "rare", ["shadow"], null, "cloak", [["evade", 0.05]], [], "5% DODGE. WHEN HIT YOU SHOUT BOO: SHOTS NEAR YOU VANISH AND NOTHING CAN HURT YOU FOR 1.5S.", [{ "on": "on_damage_taken", "do": [["clear_shots", 60], ["invuln", 1.5], ["vfx", "label", "BOO!", "#f4ecd8"]] }]],
+	["hedgehogmail", "HEDGEHOG MAIL", "body", "epic", ["bulwark"], null, "plate", [["armor", 1], ["thorns", 20]], [], "+1 ARMOR, +20 THORNS. EVERY 2S IN A FIGHT, 8 QUILLS FLY OUT AROUND YOU.", [{ "on": "every_n_seconds", "period": 2.0, "if": "fighting", "do": [["nova", 8, 0.5, "spark"]] }]],
+	["rocketboots", "ROCKET BOOTS", "feet", "epic", ["demolition", "pyre"], null, "greaves", [["roll_speed", 1.3]], [], "ROLLS GO 30% FURTHER AND LAUNCH WITH A BLAST FOR 100%, LEAVING FIRE BEHIND.", [{ "on": "on_roll", "cd": 0.5, "do": [["explode", 28, 1.0], ["zone", "fire", 14, 2.5]] }]],
+	["slipperysoles", "BUTTERED SOLES", "feet", "rare", ["frost"], null, "boots", [["speed", 1.12]], [], "+12% MOVE SPEED. ROLLING MAKES FOES NEAR YOU SLIP: STUNNED FOR 1S (EVERY 2S).", [{ "on": "on_roll", "cd": 2.0, "do": [["status_area", "stun", 1, 50]] }]],
+	["springheels", "SPRING HEELS", "feet", "common", ["shadow"], null, "boots", [["dodge_cd", 0.9]], [], "ROLLS RECHARGE 10% FASTER. ROLLING GIVES +30% MOVE SPEED FOR 2S.", [{ "on": "on_roll", "do": [["buff", "speed", 0.3, 2.0]] }]],
+	["goldengoose", "GOLDEN GOOSE", "trinket", "legend", ["fortune"], null, "charm", [["luck", 1]], [["gold_dmg", 0.08]], "+1 LUCK. +8% DAMAGE PER 100 GOLD. EVERY 4S IN A FIGHT THE GOOSE LAYS A COIN.", [{ "on": "every_n_seconds", "period": 4.0, "if": "fighting", "do": [["drop", "coin"]] }]],
+	["chaosdie", "CHAOS DIE", "trinket", "epic", ["arcane", "fortune"], null, "charm", [["luck", 1]], [], "+1 LUCK. ENTERING A ROOM ROLLS THE DIE. SO DOES EVERY 15TH KILL. ANYTHING CAN HAPPEN.", [{ "on": "on_room_enter", "do": [["chaos"]] }, { "on": "on_kill", "every": 15, "do": [["chaos"]] }]],
+	["pocketsun", "POCKET SUN", "trinket", "epic", ["pyre"], null, "amulet", [["burn", 0.15]], [["fire_aura", 1]], "FOES NEAR YOU CATCH FIRE. EVERY 5S IN A FIGHT IT FLARES, IGNITING EVERYTHING AROUND YOU.", [{ "on": "every_n_seconds", "period": 5.0, "if": "fighting", "do": [["status_area", "burn", 2, 100], ["vfx", "ring", "#f2c94c", 100]] }]],
+	["stormcloud", "PET STORMCLOUD", "trinket", "rare", ["storm"], null, "charm", [["chain", 0.1]], [], "+10% ARC CHANCE. EVERY 2.5S IN A FIGHT IT ZAPS A RANDOM FOE.", [{ "on": "every_n_seconds", "period": 2.5, "if": "fighting", "do": [["bolts", 1, 0.8]] }]],
+	["boxinggloves", "BOXING GLOVES", "hands", "rare", ["fury"], null, "gloves", [["dmg", 1.08]], [], "+8% DAMAGE. EVERY 5TH ATTACK IS A KNOCKOUT: FOES NEAR YOU TAKE 100% AND GO FLYING.", [{ "on": "every_n_shots", "every": 5, "do": [["area", 50, 1.0], ["push", 60, 320]] }]],
+	["fireworkmitts", "FIREWORK MITTS", "hands", "epic", ["pyre", "arcane"], null, "gloves", [["crit", 0.06]], [], "+6% CRIT. CRITS FIRE 6 SPARKS AROUND YOU.", [{ "on": "on_crit", "cd": 0.2, "do": [["nova", 6, 0.4, "spark"]] }]],
+	["puppetstrings", "PUPPETEER'S STRINGS", "hands", "epic", ["swarm"], null, "gloves", [["familiars", 1]], [], "+1 WISP. 5% OF HITS RAISE ANOTHER FOR 5S.", [{ "on": "on_hit", "chance": 0.05, "cd": 0.2, "do": [["summon", 5.0]] }]],
+	["monkeypaw", "MONKEY'S PAW", "hands", "legend", ["malice", "fortune"], null, "gloves", [["luck", 2]], [], "+40% DAMAGE, +2 LUCK. EVERY ROOM GRANTS A RANDOM WISH. ONE IN FOUR COSTS HALF A HEART.", [["pct", "dmg", 0.4], { "on": "on_room_enter", "do": [["chaos"]] }, { "on": "on_room_enter", "chance": 0.25, "do": [["hurt_self", 1]] }]],
+	["cowbell", "LOUD COWBELL", "neck", "common", ["fury"], null, "amulet", [["max_hp", 2]], [], "+1 MAX HEART. WHEN HIT, THE CLANG STUNS EVERY FOE NEAR YOU FOR 1S.", [{ "on": "on_damage_taken", "do": [["status_area", "stun", 1, 80], ["vfx", "ring", "#f2c94c", 80]] }]],
+	["collapsedstar", "COLLAPSED STAR", "neck", "legend", ["arcane", "shadow"], null, "amulet", [["dmg", 1.1]], [], "+10% DAMAGE. EVERY 5S IN A FIGHT, EVERYTHING NEAR YOU IS DRAGGED IN AND CRUSHED FOR 200%.", [{ "on": "every_n_seconds", "period": 5.0, "if": "fighting", "do": [["pull", 140, 280], ["area", 140, 2.0], ["vfx", "sigil", "#a35bd6", 70]] }]],
+	["ricochetring", "RING OF REBOUNDS", "ring", "epic", ["arcane"], null, "ring", [["ricochet", 1], ["bounce", 1]], [], "SHOTS JUMP TO ANOTHER FOE AND BOUNCE OFF A WALL."],
+	["bigring", "RING OF BIGNESS", "ring", "rare", ["fury"], null, "ring", [["size", 1.35]], [], "EVERYTHING YOU SHOOT IS 35% BIGGER."],
+	["tinyring", "RING OF SMALLNESS", "ring", "rare", ["shadow"], null, "ring", [["size", 0.8], ["rate", 1.2]], [], "SHOTS ARE 20% SMALLER BUT YOU FIRE 20% FASTER."],
+	["twinring", "TWIN-SOUL RING", "ring", "legend", ["arcane"], null, "ring", [["count", 1], ["echo", 0.1]], [], "+1 PROJECTILE. 10% ECHO. EVERY 5TH ATTACK ALSO FIRES 3 SHOTS BEHIND YOU.", [{ "on": "every_n_shots", "every": 5, "do": [["shoot_at", 3, 0.8, "", 0.2, 3.14159]] }]],
+	["toadring", "TOAD RING", "ring", "rare", ["venom"], null, "ring", [["poison", 1]], [], "+1 POISON ON HIT. POISONED FOES YOU KILL LEAVE A POISON POOL.", [{ "on": "on_kill", "if": "poisoned", "do": [["zone", "poison", 20, 3.0]] }]],
 ]
 
 ## Readable lines for stat tuples.

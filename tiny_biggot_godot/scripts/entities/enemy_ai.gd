@@ -22,7 +22,15 @@ static func run(e: Enemy, dt: float, p: Player) -> void:
 		"monk": ai_monk(e, dt, p)
 		"gunman": ai_gunman(e, dt, p)
 		"dummy": ai_dummy(e)
-	if e.d.get("mini", false):
+		# Rift worlds and event rooms.
+		"runner": ai_runner(e, dt, p)
+		"lobber": ai_lobber(e, dt, p)
+		"bomber": ai_bomber(e, dt, p)
+		"caller": ai_caller(e, dt, p)
+		"turret": ai_turret(e, dt, p)
+		"flee": ai_flee(e, dt, p)
+		"champion": ChampionAI.run(e, dt, p)
+	if e.d.get("mini", false) and not e.d.get("champion", false):
 		_mini_extra(e, dt)
 
 ## Bullet sprite: stage-7 foes reuse behaviours with their own shots (d["shot"]).
@@ -172,6 +180,7 @@ static func ai_knight(e: Enemy, dt: float, p: Player) -> void:
 				G.add_shake(3)
 				Snd.play("hit")
 				Fx.burst(e.x, e.y, ["#8b8f9c", "#f4ecd8"], 10, 60)
+				Afx.dust(e.x, e.y + 4)
 				if G.floor_index >= 3 or e.elite:
 					Combat.ering(e.x, e.y, 8, 70, 0, _shot(e, "red"))
 			elif e.st <= 0:
@@ -336,7 +345,7 @@ static func ai_gunman(e: Enemy, dt: float, p: Player) -> void:
 			e.ct -= dt
 			if e.ct <= 0:
 				e.ct = 0.09
-				Combat.eshot(e.x, e.y - 2, e.ca + (randf() - 0.5) * 0.12, 135, _shot(e, "red"), 2.5)
+				Combat.eshot(e.x, e.y - 2, e.ca + (randf() - 0.5) * 0.12, e.d.get("shot_speed", 135), _shot(e, "red"), 2.5)
 				Snd.play("ebullet")
 				e.sub -= 1
 				if e.sub <= 0:
@@ -346,7 +355,7 @@ static func ai_gunman(e: Enemy, dt: float, p: Player) -> void:
 	wander_keep(e, dt, p, 90, 150)
 	if e.t <= 0:
 		e.state = &"aim"
-		e.st = 0.55
+		e.st = e.d.get("aim", 0.55)
 
 ## Mini-bosses: on top of their behaviour, a ring burst every few seconds.
 static func _mini_extra(e: Enemy, dt: float) -> void:
@@ -369,3 +378,104 @@ static func ai_dummy(e: Enemy) -> void:
 	e.burn_t = 0.0
 	e.poison = 0.0
 	e.bleed_t = 0.0
+
+# ---------- Rift worlds and event rooms ----------
+## Runner: a bat on foot. Weaves at the hero and lunges.
+static func ai_runner(e: Enemy, dt: float, p: Player) -> void:
+	var a := TB.ang_to(e, p) + sin(e.anim * 6) * 0.7
+	if e.t <= 0:
+		e.t = randf() * 2 + 1.5
+		e.dash = 0.4
+	e.dash -= dt
+	var sp := e.speed * (2.0 if e.dash > 0 else 1.0)
+	World.move_body(G.room, e, cos(a) * sp * dt, sin(a) * sp * dt, _mode(e))
+	e.face = 1 if p.x > e.x else -1
+
+## A lobbed shot from (x, y) that comes to rest about where (tx, ty) is and
+## bursts into a ring there. Fused shots slow by 3% a tick, so the throw is
+## sized to the distance.
+static func lob(x: float, y: float, tx: float, ty: float, spr: String) -> void:
+	var d := TB.dist_xy(x, y, tx, ty)
+	var speed := clampf(d * 1.9, 70.0, 300.0) / Combat.shot_mult()
+	Combat.eshot(x, y, TB.ang_xy(x, y, tx, ty), speed, spr, 3.5, 1.05, spr)
+
+## Lobber: keeps its distance and throws a bomb at where you stand.
+static func ai_lobber(e: Enemy, dt: float, p: Player) -> void:
+	wander_keep(e, dt, p, 90, 150)
+	if e.t <= 0:
+		lob(e.x, e.y - 3, p.x, p.y, _shot(e, "fire"))
+		if e.elite:
+			lob(e.x, e.y - 3, p.x + randf_range(-30, 30), p.y + randf_range(-30, 30), _shot(e, "fire"))
+		Snd.play("ebullet")
+		e.t = 2.4 + randf()
+
+## Bomber: runs at you, flashes for a moment, then blows up.
+static func ai_bomber(e: Enemy, dt: float, p: Player) -> void:
+	if e.state == &"puff":
+		e.st -= dt
+		if e.st <= 0:
+			Combat.ering(e.x, e.y, 18 if e.elite else 12, 70, randf() * TAU, _shot(e, "fire"))
+			Fx.burst(e.x, e.y, ["#e8873a", "#f2c94c", "#d8443c"], 20, 100, 0.4, 2)
+			G.add_shake(3)
+			Snd.play("boom")
+			if TB.dist(e, p) < 26:
+				Combat.hurt_player(1, e.d.get("label", "a bomber"))
+			Combat.kill_enemy(e)
+		return
+	Combat.steer(e, p.x, p.y, e.speed, dt, _mode(e))
+	e.face = 1 if p.x > e.x else -1
+	if TB.dist(e, p) < 30:
+		e.state = &"puff"
+		e.st = 0.55
+		Snd.play("charge")
+
+## Caller: hangs back and calls in more of its smaller kin.
+static func ai_caller(e: Enemy, dt: float, p: Player) -> void:
+	wander_keep(e, dt, p, 110, 170)
+	if e.t <= 0:
+		e.t = 5.0 + randf()
+		if G.enemies.size() < 12:
+			for i in (3 if e.elite else 2):
+				Combat.spawn_enemy(e.d["summon"], e.x + randf_range(-18, 18), e.y + randf_range(-14, 14))
+			Fx.burst(e.x, e.y, ["#f2c94c", "#f4ecd8"], 10, 60)
+			Snd.play("bell")
+
+## Turret: stays put and fires a turning cross of shots.
+static func ai_turret(e: Enemy, dt: float, p: Player) -> void:
+	e.face = 1 if p.x > e.x else -1
+	if e.t <= 0:
+		e.t = 1.5
+		e.angle += 0.4
+		var n := 8 if e.elite else 4
+		for i in n:
+			Combat.eshot(e.x, e.y - 2, e.angle + i * TAU / n, 78, _shot(e, "red"), 2.5)
+		Snd.play("ebullet")
+
+## Loot goblin: runs from you, sheds coins, and slips away after 14 seconds.
+static func ai_flee(e: Enemy, dt: float, p: Player) -> void:
+	e.cyc += dt
+	if e.cyc > 14.0:
+		Fx.burst(e.x, e.y, ["#63b84f", "#f2c94c"], 14, 70)
+		G.toast("THE GOBLIN GOT AWAY", "grey")
+		e.hp = 0
+		return
+	if not e.has_wander or e.wt <= 0 or TB.dist_xy(e.x, e.y, e.wander.x, e.wander.y) < 10:
+		# The farthest of a few random free spots.
+		var best := Vector2(e.x, e.y)
+		var bd := -1.0
+		for i in 6:
+			var s := World.free_spot(G.room, null, 0)
+			var d := TB.dist_xy(s.x, s.y, p.x, p.y)
+			if d > bd:
+				bd = d
+				best = s
+		e.wander = best
+		e.has_wander = true
+		e.wt = 0.9
+	e.wt -= dt
+	if Combat.steer(e, e.wander.x, e.wander.y, e.speed, dt, _mode(e)) != 0:
+		e.wt = 0
+	e.face = 1 if e.wander.x > e.x else -1
+	if e.t <= 0:
+		e.t = 1.2
+		Combat.drop_pickup("coin", e.x, e.y)

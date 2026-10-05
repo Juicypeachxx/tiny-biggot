@@ -23,6 +23,11 @@ static var pmax := PackedFloat32Array()
 static var pdrag := PackedFloat32Array()
 static var psize := PackedByteArray()
 static var pcol := PackedColorArray()
+## Drawing only: particles made while this is set are simulated exactly as usual
+## (same random numbers, same slots, same lifetimes) but never drawn. The rules set
+## it around particles that a Vfx effect replaces.
+static var hide := false
+static var phide := PackedByteArray()
 static var texts: Array = []
 
 static func _ensure() -> void:
@@ -30,6 +35,7 @@ static func _ensure() -> void:
 		return
 	px.resize(CAP); py.resize(CAP); pvx.resize(CAP); pvy.resize(CAP)
 	plife.resize(CAP); pmax.resize(CAP); pdrag.resize(CAP); psize.resize(CAP); pcol.resize(CAP)
+	phide.resize(CAP)
 
 static func clear() -> void:
 	n = 0
@@ -42,6 +48,7 @@ static func particle(x: float, y: float, vx: float, vy: float, life: float, col:
 		return
 	px[n] = x; py[n] = y; pvx[n] = vx; pvy[n] = vy
 	plife[n] = life; pmax[n] = life; pdrag[n] = drag; psize[n] = size; pcol[n] = TB.c(col)
+	phide[n] = 1 if hide else 0
 	n += 1
 
 static func burst(x: float, y: float, cols: Array, count: int = 8, speed: float = 60, life: float = 0.4,
@@ -56,6 +63,7 @@ static func burst(x: float, y: float, cols: Array, count: int = 8, speed: float 
 		plife[n] = life * (0.6 + randf() * 0.6); pmax[n] = life; pdrag[n] = 0.9
 		psize[n] = mini(3, size + (1 if randf() < 0.3 else 0))
 		pcol[n] = TB.c(cols[randi() % cols.size()])
+		phide[n] = 1 if hide else 0
 		n += 1
 
 ## big: crits are drawn at double size with a small pop (drawing only).
@@ -63,20 +71,30 @@ static func float_text(x: float, y: float, text: Variant, col: String = "white",
 	texts.append({ "x": x + TB.rint(-3, 3), "y": y, "text": str(text), "col": col, "life": 0.7, "big": big })
 
 static func update(dt: float) -> void:
+	# Local references: reading a static member costs far more than a local in GDScript.
+	var xs := px
+	var ys := py
+	var vxs := pvx
+	var vys := pvy
+	var lifes := plife
+	var drags := pdrag
 	var w := 0
 	for i in n:
-		var l := plife[i] - dt
+		var l := lifes[i] - dt
 		if l <= 0:
 			continue
-		var d := pdrag[i]
+		var d := drags[i]
+		var vx := vxs[i]
+		var vy := vys[i]
 		if w != i:
-			psize[w] = psize[i]; pcol[w] = pcol[i]; pmax[w] = pmax[i]; pdrag[w] = d
-		px[w] = px[i] + pvx[i] * dt
-		py[w] = py[i] + pvy[i] * dt
-		pvx[w] = pvx[i] * d
-		pvy[w] = pvy[i] * d
-		plife[w] = l
+			psize[w] = psize[i]; pcol[w] = pcol[i]; pmax[w] = pmax[i]; drags[w] = d; phide[w] = phide[i]
+		xs[w] = xs[i] + vx * dt
+		ys[w] = ys[i] + vy * dt
+		vxs[w] = vx * d
+		vys[w] = vy * d
+		lifes[w] = l
 		w += 1
+	px = xs; py = ys; pvx = vxs; pvy = vys; plife = lifes; pdrag = drags
 	n = w
 	if n > LIVE_MAX:
 		_drop_oldest(n - LIVE_MAX)
@@ -97,14 +115,24 @@ static func _drop_oldest(k: int) -> void:
 		var j := i - k
 		px[j] = px[i]; py[j] = py[i]; pvx[j] = pvx[i]; pvy[j] = pvy[i]
 		plife[j] = plife[i]; pmax[j] = pmax[i]; pdrag[j] = pdrag[i]; psize[j] = psize[i]; pcol[j] = pcol[i]
+		phide[j] = phide[i]
 	n -= k
 
 static func draw_particles(ci: CanvasItem) -> void:
+	var xs := px
+	var ys := py
+	var lifes := plife
+	var maxs := pmax
+	var sizes := psize
+	var cols := pcol
+	var hides := phide
 	for i in n:
-		var sz := psize[i]
-		var c := pcol[i]
-		c.a = clampf(plife[i] / pmax[i] * 1.5, 0.0, 1.0)
-		ci.draw_rect(Rect2(roundf(px[i] - sz / 2), roundf(py[i] - sz / 2), sz, sz), c)
+		if hides[i] != 0:
+			continue
+		var sz := sizes[i]
+		var c := cols[i]
+		c.a = clampf(lifes[i] / maxs[i] * 1.5, 0.0, 1.0)
+		ci.draw_rect(Rect2(roundf(xs[i] - sz / 2), roundf(ys[i] - sz / 2), sz, sz), c)
 
 static func draw_texts(ci: CanvasItem) -> void:
 	for t in texts:

@@ -58,7 +58,7 @@ func _ready() -> void:
 	var bk := {}
 	for b in G.pbullets: bk[b.kind + "/" + str(b.homing > 0) + "/" + str(b.split) + "/" + str(b.pierce)] = bk.get(b.kind + "/" + str(b.homing > 0) + "/" + str(b.split) + "/" + str(b.pierce), 0) + 1
 	print("[profile] shots ", bk)
-	print("[profile] total %.2f ms/tick; shots %d, eshots %d, fx %d, sparks %d" % [total / 1800000.0, G.pbullets.size(), EBullets.n, Fx.n, Juice.sparks.size()])
+	print("[profile] total %.2f ms/tick; shots %d, eshots %d, fx %d, sparks %d" % [total / 1800000.0, G.pbullets.size(), EBullets.n, Fx.n, Juice.spark_n])
 	var keys := secs.keys()
 	keys.sort_custom(func(a, b): return secs[a] > secs[b])
 	for k in keys:

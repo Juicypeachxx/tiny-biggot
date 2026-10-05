@@ -21,7 +21,8 @@ static func items() -> Array:
 		["refund_roll"], ["armor", 1], ["drop", "coin"], ["damage", 0.3], ["hurt_self", 1], ["xp", 1], ["clear_shots", 40],
 		["card"], ["heat", 1], ["scroll"], ["dash", 600, 0.1, 1.0, [["explode", 20, 0.5]]],
 		["channel", 0.4, 0.1, [["area", 30, 0.3]]], ["invuln", 0.2], ["status_area", "burn", 1, 50],
-		["vfx", "sigil", "#f2c94c", 30], ["area", 30, 0.3]]
+		["vfx", "sigil", "#f2c94c", 30], ["area", 30, 0.3],
+		["tempo", 1], ["leap", 400, 80, [["explode", 20, 0.5], ["vfx", "slam", "#e86fb4", 30]]]]
 	for a in acts:
 		out.append({ "id": "fx_act_" + a[0], "effects": [{ "on": "on_hit", "chance": 0.3, "do": [a] }], "tags": ["storm"] })
 	# One per status and per condition.

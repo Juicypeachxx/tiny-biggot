@@ -5,8 +5,80 @@ extends Node2D
 ## and level, floor name, minimap, relic strip, weapon and gear slots, boss bar
 ## and toasts. The banner fades in and out over the room.
 
+## The HUD is many small draws (hearts, counters, minimap, relic strip, gear)
+## that almost never change from one tick to the next, so it is only redrawn
+## when something it shows has changed: refresh() compares a short list of
+## the values _draw reads (rounded the way they are drawn) with last tick's.
+## The two parts that animate on their own, the special meter and the room
+## banner, live in a small child layer that is redrawn every tick.
+var _sig: Array = []
+var _ticks := 0
+var _anim: DrawLayer
+
+func _ready() -> void:
+	_anim = DrawLayer.new(_paint_anim)
+	add_child(_anim)
+
 func refresh() -> void:
-	queue_redraw()
+	_ticks += 1
+	var sig := _signature()
+	# Every half second it is redrawn regardless, so nothing can stay stale.
+	if sig != _sig or _ticks % 30 == 0:
+		_sig = sig
+		queue_redraw()
+	_anim.queue_redraw()
+
+## Everything the static part of the HUD shows.
+func _signature() -> Array:
+	var p := G.player
+	if p == null or G.room == null or not world_state():
+		return [perf_line, Meta.opts.get("fps", false)]
+	var f := G.floor_d
+	var bo := _bar_foe()
+	var gear := []
+	for sl in Gear.slots():
+		var g = p.gear.get(sl)
+		gear.append(g["id"] if g != null else "")
+	return [perf_line, Meta.opts.get("fps", false), p.max_hp, p.hp, p.armor, p.max_potions, p.potions, p.gold,
+		p.dodge_charges, p.charges, roundi(5 * p.charge_t / p.dodge_cd), p.bombs, p.keys, p.embers_found,
+		G.msg.get("text", ""), G.msg.get("col", ""), p.level, roundf(80.0 * p.xp / GameData.xp_needed(p.level)),
+		p.hero.get("hud", ""), p.heat, p.heat_max, p.tempo, p.tempo_max, G.floor_index, G.loop, f["depth"], f["total"], f["path"].size(),
+		int(G.run_stats.get("time", 0.0)), p.belt.duplicate(), p.relics.size(),
+		p.relics[p.relics.size() - 1]["id"] if not p.relics.is_empty() else "",
+		p.weapon["sprite"] if p.weapon != null else "", p.weapon["rarity"] if p.weapon != null else "", gear,
+		ceilf(220.0 * bo.hp / bo.max_hp) if bo != null and bo.hp > 0 else -1.0, bo.d["name"] if bo != null else ""]
+
+## The parts that animate every tick: the special ability meter and the banner.
+func _paint_anim(ci: CanvasItem) -> void:
+	var p := G.player
+	if p == null or G.room == null or not world_state():
+		return
+	# Special ability meter (step-6 heroes): fills while it recharges.
+	if Abilities.has_special(p):
+		var sp: Dictionary = p.hero["special"]
+		var k := Abilities.charge(p)
+		var ready := k >= 1.0
+		var col: String = sp.get("col", "#f2c94c")
+		ci.draw_rect(Rect2(5, 34, 52, 5), TB.c("#140f1c"))
+		ci.draw_rect(Rect2(6, 35, roundf(50.0 * k), 3), TB.c(col) if ready or floori(G.time * 2) % 2 == 0 else TB.ca(col, 160))
+		if ready:
+			ci.draw_rect(Rect2(6, 35, 50, 1), Color(1, 1, 1, 0.5 + 0.5 * sin(G.time * 8)))
+		Gfx.text(ci, sp["name"] if ready else "%ds" % ceili(p.special_cd), 60, 34, "gold" if ready else "dim")
+	# Gaolbird rally: the health at stake pulses in gold over the lost hearts.
+	if p.rally_t > 0 and p.rally_hp > 0:
+		var a := 0.7 + 0.3 * sin(G.time * (22.0 if Rally.time_left(p) < 0.35 else 11.0))
+		var tex := Img.t("heart_rally")
+		var want := mini(p.hp + p.rally_hp, p.max_hp)
+		for i in p.max_hp / 2:
+			var have := clampi(p.hp - i * 2, 0, 2)
+			var ghost := clampi(want - i * 2, 0, 2)
+			if ghost <= have:
+				continue
+			# Left half is columns 0-3, right half 4-8 (the heart sprite's own split).
+			var x0 := 0 if have == 0 else 4
+			var x1 := 9 if ghost == 2 else 4
+			ci.draw_texture_rect_region(tex, Rect2(5 + i * 9 + x0, 6, x1 - x0, 8), Rect2(x0, 0, x1 - x0, 8), Color(1, 1, 1, a))
+	_banner(ci)
 
 static func world_state() -> bool:
 	match G.state:
@@ -73,22 +145,20 @@ func _draw() -> void:
 	draw_rect(Rect2(5, 28, 82, 3), TB.c("#140f1c"))
 	draw_rect(Rect2(6, 29, roundf(80.0 * p.xp / need), 1), TB.c("#b8e05a"))
 	Gfx.text(self, "LV %d" % p.level, 90, 27, "lime")
-	# Special ability meter (step-6 heroes): fills while it recharges.
-	if Abilities.has_special(p):
-		var sp: Dictionary = p.hero["special"]
-		var k := Abilities.charge(p)
-		var ready := k >= 1.0
-		var col: String = sp.get("col", "#f2c94c")
-		draw_rect(Rect2(5, 34, 52, 5), TB.c("#140f1c"))
-		draw_rect(Rect2(6, 35, roundf(50.0 * k), 3), TB.c(col) if ready or floori(G.time * 2) % 2 == 0 else TB.ca(col, 160))
-		if ready:
-			draw_rect(Rect2(6, 35, 50, 1), Color(1, 1, 1, 0.5 + 0.5 * sin(G.time * 8)))
-		Gfx.text(self, sp["name"] if ready else "%ds" % ceili(p.special_cd), 60, 34, "gold" if ready else "dim")
+	# (The special ability meter is drawn by _paint_anim: it animates every tick.)
 	# Racketeer heat meter (step 6): one pip per level.
 	if p.hero.get("hud", "") == "heat":
 		Gfx.text(self, "HEAT", 116, 27, "orange" if p.heat > 0 else "dim")
 		for k in p.heat_max:
 			draw_rect(Rect2(134 + k * 5, 28, 4, 4), TB.c("#e8873a" if k < p.heat else "#2a2838"))
+	# Gaolbird tempo meter: one pip per point, brighter toward the top; all lit in full flight.
+	if p.hero.get("hud", "") == "tempo":
+		var top := Tempo.full(p)
+		Gfx.text(self, "TEMPO", 116, 27, "pink" if p.tempo > 0 else "dim")
+		for k in p.tempo_max:
+			var on := k < p.tempo
+			draw_rect(Rect2(138 + k * 5, 26, 5, 7), TB.c("#140f1c"))
+			draw_rect(Rect2(139 + k * 5, 27, 3, 5), TB.c(("#ffffff" if top else ("#e86fb4" if k >= 5 else "#a35bd6")) if on else "#2a2838"))
 	# Floor name and minimap.
 	var fl: Dictionary = GameData.floors()[G.floor_index]
 	Gfx.text(self, fl["name"], TB.SW / 2, 4, fl["accent"], 1, 0.5)
@@ -121,8 +191,8 @@ func _draw() -> void:
 			draw_rect(Rect2(gx + 1, TB.SH - 15, 9, 9), TB.c("#17121e"))
 			if gp != null:
 				draw_texture_rect(Img.t(gp["sprite"]), Rect2(gx + 1, TB.SH - 15, 9, 9), false)
-	# Boss bar.
-	var bo := G.boss
+	# Boss bar (guardians, and rift champions and mini-bosses).
+	var bo := _bar_foe()
 	if bo != null and bo.hp > 0:
 		var w := 220
 		var bx := (TB.SW - w) / 2
@@ -134,7 +204,14 @@ func _draw() -> void:
 			draw_rect(Rect2(bx, by, fw, 4), TB.c("#d8443c"))
 			draw_rect(Rect2(bx, by, fw, 1), TB.c("#ff8a70"))
 		Gfx.text(self, bo.d["name"], TB.SW / 2, by - 9, "white", 1, 0.5)
-	_banner()
+
+## The foe the boss bar shows: the floor's guardian, else a champion or mini-boss.
+func _bar_foe() -> Enemy:
+	if G.boss != null:
+		return G.boss
+	if G.champ != null and G.champ.hp > 0:
+		return G.champ
+	return null
 
 func _minimap() -> void:
 	var f := G.floor_d
@@ -159,16 +236,16 @@ func _minimap() -> void:
 	else:
 		Gfx.text(self, "ROOM %d/%d" % [f["depth"], n], TB.SW - 6, 12, "grey", 1, 1)
 
-func _banner() -> void:
+func _banner(ci: CanvasItem) -> void:
 	var bn := G.banner
 	if bn.is_empty():
 		return
 	var a := clampf(minf(bn["t"], 2.6 - bn["t"]) * 4, 0.0, 1.0)
 	var sub: String = bn["sub"]
-	draw_rect(Rect2(0, 96, TB.SW, 26 if sub.is_empty() else 36), TB.rgba(13, 10, 18, roundi(190 * a)))
-	Gfx.text(self, bn["text"], TB.SW / 2, 96 + 5, "gold", 2, 0.5, true, a)
+	ci.draw_rect(Rect2(0, 96, TB.SW, 26 if sub.is_empty() else 36), TB.rgba(13, 10, 18, roundi(190 * a)))
+	Gfx.text(ci, bn["text"], TB.SW / 2, 96 + 5, "gold", 2, 0.5, true, a)
 	if not sub.is_empty():
-		Gfx.text(self, sub, TB.SW / 2, 96 + 22, "white", 1, 0.5, true, a)
+		Gfx.text(ci, sub, TB.SW / 2, 96 + 22, "white", 1, 0.5, true, a)
 
 ## Rogues layer: quick-belt slot i on the HUD (shared with the touch controls).
 static func belt_rect(i: int) -> Rect2:

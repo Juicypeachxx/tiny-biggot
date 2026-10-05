@@ -22,10 +22,16 @@ SCEN=(
   "e --bot --god --unlock-all --seed=105 --hero=4 --floor=3"
   "f --bot --god --seed=106 --hero=1 --floor=5 --room=boss"
 )
+# Full-pool only: heroes that do not exist under --classic (hero 6 is the Gaolbird).
+FULL_ONLY=(
+  "g --bot --seed=107 --hero=6"
+  "h --bot --god --unlock-all --seed=108 --hero=6 --floor=2"
+)
 status=0
-run() { # dir extra-args mode
+run() { # dir extra-args mode scenarios...
   local dir=$1 extra=$2 mode=$3
-  for s in "${SCEN[@]}"; do
+  shift 3
+  for s in "$@"; do
     name=${s%% *}; args=${s#* }
     base=$dir/$name.txt
     out=$base
@@ -38,6 +44,6 @@ run() { # dir extra-args mode
     else echo "recorded $base ($(wc -l < "$out") lines)"; fi
   done
 }
-run tests/replays/classic --classic check
-run tests/replays "" "$MODE"
+run tests/replays/classic --classic check "${SCEN[@]}"
+run tests/replays "" "$MODE" "${SCEN[@]}" "${FULL_ONLY[@]}"
 exit $status

@@ -20,7 +20,38 @@ static var labels: Array = []   # { text, col, x, y, t, max, big }: ability name
 static var cards: Array = []    # { name, x, y, t }: Cartomancer card pop-ups
 static var sigils: Array = []   # { x, y, r, t, max, col }: rotating rune circles
 static var spins: Array = []    # { t, max, col }: whirling blades around the hero
-static var sparks: Array = []   # { x, y, vx, vy, t, max, col }: own particles (own RNG)
+## Own particles (own RNG): parallel packed arrays, like Fx. spark_n are alive,
+## oldest first; at most SPARK_MAX stay after each update.
+const SPARK_CAP := 1024
+const SPARK_MAX := 300
+static var spark_n := 0
+static var _sx := PackedFloat64Array()
+static var _sy := PackedFloat64Array()
+static var _svx := PackedFloat64Array()
+static var _svy := PackedFloat64Array()
+static var _sg := PackedFloat64Array()
+static var _st := PackedFloat64Array()
+static var _smax := PackedFloat64Array()
+static var _scol := PackedColorArray()
+
+## One spark: place, velocity, gravity, lifetime and colour.
+static func spark(x: float, y: float, vx: float, vy: float, g: float, life: float, col: Color) -> void:
+	if _sx.size() != SPARK_CAP:
+		_sx.resize(SPARK_CAP); _sy.resize(SPARK_CAP); _svx.resize(SPARK_CAP); _svy.resize(SPARK_CAP)
+		_sg.resize(SPARK_CAP); _st.resize(SPARK_CAP); _smax.resize(SPARK_CAP); _scol.resize(SPARK_CAP)
+	if spark_n >= SPARK_CAP:
+		_drop_sparks(spark_n - SPARK_CAP + 1)
+	var i := spark_n
+	_sx[i] = x; _sy[i] = y; _svx[i] = vx; _svy[i] = vy; _sg[i] = g; _st[i] = 0.0; _smax[i] = life; _scol[i] = col
+	spark_n += 1
+
+## Drops the k oldest sparks.
+static func _drop_sparks(k: int) -> void:
+	for i in range(k, spark_n):
+		var j := i - k
+		_sx[j] = _sx[i]; _sy[j] = _sy[i]; _svx[j] = _svx[i]; _svy[j] = _svy[i]
+		_sg[j] = _sg[i]; _st[j] = _st[i]; _smax[j] = _smax[i]; _scol[j] = _scol[i]
+	spark_n -= k
 static var _was_ready := true
 
 const CARD_COL := { "BLADES": "#d9d0b4", "STORM": "#6fd3e0", "SHIELD": "#4d9be6", "MEND": "#e86a8e",
@@ -38,9 +69,10 @@ static func reset() -> void:
 	cards.clear()
 	sigils.clear()
 	spins.clear()
-	sparks.clear()
+	spark_n = 0
 	_was_ready = true
 	WeaponFx.reset()
+	Vfx.reset()
 
 # ---------- Notifications from game code ----------
 static func kill(e: Enemy, sprite: String) -> void:
@@ -82,6 +114,17 @@ static func ability(x: float, y: float, name: String, col: String) -> void:
 	flash(0.06)
 
 static func label(text: String, col: String, x: float, y: float, big: bool = false) -> void:
+	# A label that would land on top of a fresh one goes a line higher instead
+	# (a skill's name and FULL FLIGHT! in the same moment, say).
+	for pass_i in 4:
+		var moved := false
+		for l in labels:
+			var tall: bool = big or l["big"]
+			if l["t"] < 0.6 and absf(l["x"] - x) < 70 and absf(l["y"] - y) < (11 if tall else 7):
+				y = l["y"] - (12 if tall else 8)
+				moved = true
+		if not moved:
+			break
 	labels.append({ "text": text, "col": col, "x": x, "y": y, "t": 0.0, "max": 1.1 if big else 0.8, "big": big })
 	if labels.size() > 8:
 		labels.pop_front()
@@ -99,9 +142,9 @@ static func burst(x: float, y: float, col: String, n: int, speed: float) -> void
 	for i in n:
 		var a := _rng.randf() * TAU
 		var v := speed * (0.4 + _rng.randf() * 0.6)
-		sparks.append({ "x": x, "y": y, "vx": cos(a) * v, "vy": sin(a) * v, "t": 0.0, "max": 0.3 + _rng.randf() * 0.3, "col": c })
-	while sparks.size() > 300:
-		sparks.pop_front()
+		spark(x, y, cos(a) * v, sin(a) * v, 0.0, 0.3 + _rng.randf() * 0.3, c)
+	if spark_n > SPARK_MAX:
+		_drop_sparks(spark_n - SPARK_MAX)
 
 ## ["vfx", kind, colour, size]: visual-only effect data used by hero abilities.
 static func vfx(p: Player, a: Array) -> void:
@@ -114,6 +157,51 @@ static func vfx(p: Player, a: Array) -> void:
 		"flash": flash(float(a[3]) if a.size() > 3 else 0.1)
 		"burst": burst(p.x, p.y, col, int(a[3]) if a.size() > 3 else 12, 80)
 		"label": label(a[2], a[3] if a.size() > 3 else "#ffffff", p.x, p.y - 22)
+		"slam":
+			# A heavy landing: two rings, dust, feathers and a jolt.
+			var r: float = a[3] if a.size() > 3 else 46.0
+			ring(p.x, p.y + 3, 6, r, 0.32, col)
+			ring(p.x, p.y + 3, 3, r * 0.62, 0.22, "#ffffff")
+			burst(p.x, p.y + 4, "#d9d0b4", 12, 130)
+			feathers(p.x, p.y, 14, 110.0)
+			flash(0.03)
+			G.add_shake(5)
+			Snd.play("boom")
+
+# ---------- The Gaolbird ----------
+## A puff of feathers: grey, with a few pink ones, that flutter down.
+static func feathers(x: float, y: float, n: int, speed: float = 60.0) -> void:
+	for i in n:
+		var a := _rng.randf() * TAU
+		var v := speed * (0.3 + _rng.randf() * 0.7)
+		var roll := _rng.randf()
+		var col := TB.c("#e86fb4" if roll < 0.3 else ("#8b8f9c" if roll < 0.65 else "#5a5770"))
+		spark(x, y - 2, cos(a) * v, sin(a) * v - 18.0, 80.0, 0.45 + _rng.randf() * 0.35, col)
+	if spark_n > SPARK_MAX:
+		_drop_sparks(spark_n - SPARK_MAX)
+
+## The leap leaves the ground.
+static func takeoff(p: Player) -> void:
+	feathers(p.x, p.y, 10, 70.0)
+	ring(p.x, p.y + 4, 2, 18, 0.22, "#f4ecd8")
+
+## Tempo reaches the top.
+static func full_flight(p: Player) -> void:
+	label("FULL FLIGHT!", Tempo.COL, p.x, p.y - 28, true)
+	ring(p.x, p.y, 4, 40, 0.35, Tempo.COL)
+	ring(p.x, p.y, 2, 26, 0.25, "#ffffff")
+	feathers(p.x, p.y, 16, 90.0)
+	flash(0.05)
+
+## A heart won back.
+static func rallied(p: Player) -> void:
+	label("RALLIED!", Rally.COL, p.x, p.y - 24, true)
+	ring(p.x, p.y, 3, 30, 0.3, Rally.COL)
+	burst(p.x, p.y - 4, Rally.COL, 14, 80)
+
+## A roll passed through a foe.
+static func exposed(x: float, y: float) -> void:
+	burst(x, y, Tempo.COL, 5, 50)
 
 # ---------- Per logic tick (frozen during hitstop, like the game) ----------
 static func update(dt: float, p: Player) -> void:
@@ -125,19 +213,33 @@ static func update(dt: float, p: Player) -> void:
 				l.remove_at(j)
 			else:
 				j += 1
-	var k := 0
-	while k < sparks.size():
-		var sp: Dictionary = sparks[k]
-		sp["t"] += dt
-		if sp["t"] >= sp["max"]:
-			sparks.remove_at(k)
+	# Sparks: move, slow down, fall; the dead are squeezed out in place (order kept).
+	var sx := _sx
+	var sy := _sy
+	var svx := _svx
+	var svy := _svy
+	var sg := _sg
+	var st := _st
+	var smax := _smax
+	var w := 0
+	for k in spark_n:
+		var tt := st[k] + dt
+		if tt >= smax[k]:
 			continue
-		sp["x"] += sp["vx"] * dt
-		sp["y"] += sp["vy"] * dt
-		sp["vx"] *= 0.9
-		sp["vy"] *= 0.9
-		sp["vy"] += sp.get("g", 0.0) * dt
-		k += 1
+		var vx := svx[k]
+		var vy := svy[k]
+		var g := sg[k]
+		sx[w] = sx[k] + vx * dt
+		sy[w] = sy[k] + vy * dt
+		svx[w] = vx * 0.9
+		svy[w] = vy * 0.9 + g * dt
+		st[w] = tt
+		if w != k:
+			sg[w] = g
+			smax[w] = smax[k]
+			_scol[w] = _scol[k]
+		w += 1
+	spark_n = w
 	if p != null and Abilities.has_special(p):
 		var ready := Abilities.ready(p)
 		if ready and not _was_ready:
@@ -154,17 +256,21 @@ static func update(dt: float, p: Player) -> void:
 			else:
 				i += 1
 	WeaponFx.update(p)
-	while sparks.size() > 300:
-		sparks.pop_front()
+	Vfx.update(dt)
+	if spark_n > SPARK_MAX:
+		_drop_sparks(spark_n - SPARK_MAX)
 	hurt_t = maxf(0.0, hurt_t - dt)
 	flash_t = maxf(0.0, flash_t - dt)
 	clear_t = maxf(0.0, clear_t - dt)
 	recoil = maxf(0.0, recoil - dt * 9)
+	var fired := false
 	if p != null:
 		# The weapon's cooldown jumps back up exactly when it fires.
 		if p.fire_cd > _last_fire_cd + 0.001:
 			recoil = 1.0
+			fired = true
 		_last_fire_cd = p.fire_cd
+	Afx.update(p, fired)
 
 # ---------- Drawing helpers used by world_view.gd ----------
 static func draw_pops(ci: CanvasItem) -> void:
@@ -228,24 +334,35 @@ static func _hero_aura_tick(p: Player) -> void:
 		"racketeer":
 			if _rng.randf() < 0.07 * p.heat:
 				_ember(p, "#e8873a" if _rng.randf() < 0.5 else "#f2c94c")
+		"gaolbird":
+			# Tempo: feathers shed behind the hero as it builds; in full flight a pink shimmer rises.
+			if p.tempo >= 4 and p.moving and _rng.randf() < 0.03 * p.tempo:
+				var roll := _rng.randf()
+				spark(p.x + _rng.randf_range(-4, 4), p.y + _rng.randf_range(-4, 4), _rng.randf_range(-10, 10), -8.0, 70.0,
+					0.4 + _rng.randf() * 0.3, TB.c("#e86fb4" if roll < 0.35 else ("#8b8f9c" if roll < 0.7 else "#5a5770")))
+			if Tempo.full(p) and _rng.randf() < 0.45:
+				spark(p.x + _rng.randf_range(-6, 6), p.y + 5 - p.air, _rng.randf_range(-4, 4), -26.0 - _rng.randf() * 16,
+					0.0, 0.35 + _rng.randf() * 0.25, TB.c("#e86fb4" if _rng.randf() < 0.7 else "#ffffff"))
+			if (p.leap_max > 0 or p.dodge_t > 0) and _rng.randf() < 0.6:
+				feathers(p.x, p.y - p.air, 1, 30.0)   # feathers shed in a leap and in a roll
 		"banehunter":
 			# Blade oil glints on the weapon while the potion buff lasts.
 			if p.buffs.any(func(b): return b["stat"] == "dmg" and absf(b["v"] - 0.4) < 1e-6) and _rng.randf() < 0.4:
 				var wx := p.x + cos(p.aim_a) * 9
 				var wy := p.y - 1 + sin(p.aim_a) * 6
-				sparks.append({ "x": wx + _rng.randf_range(-2, 2), "y": wy, "vx": 0.0, "vy": -12.0, "t": 0.0, "max": 0.35, "col": TB.c("#f2c94c") })
-	if p.dash_t > 0:
+				spark(wx + _rng.randf_range(-2, 2), wy, 0.0, -12.0, 0.0, 0.35, TB.c("#f2c94c"))
+	if p.dash_t > 0 and p.leap_max <= 0:
 		burst(p.x, p.y + 4, p.hero["special"].get("col", "#ffffff"), 2, 30)
 
 static func _ember(p: Player, col: String) -> void:
-	sparks.append({ "x": p.x + _rng.randf_range(-6, 6), "y": p.y + 5, "vx": _rng.randf_range(-6, 6), "vy": -30.0 - _rng.randf() * 20,
-		"t": 0.0, "max": 0.5 + _rng.randf() * 0.3, "col": TB.c(col) })
+	spark(p.x + _rng.randf_range(-6, 6), p.y + 5, _rng.randf_range(-6, 6), -30.0 - _rng.randf() * 20,
+		0.0, 0.5 + _rng.randf() * 0.3, TB.c(col))
 
 static func draw_sparks(ci: CanvasItem) -> void:
-	for sp in sparks:
-		var c: Color = sp["col"]
-		c.a = 1.0 - sp["t"] / sp["max"]
-		ci.draw_rect(Rect2(roundf(sp["x"]), roundf(sp["y"]), 2, 2), c)
+	for i in spark_n:
+		var c := _scol[i]
+		c.a = 1.0 - _st[i] / _smax[i]
+		ci.draw_rect(Rect2(roundf(_sx[i]), roundf(_sy[i]), 2, 2), c)
 
 ## Sigils (rune circles with a rotating star) and the whirling blades.
 static func draw_magic(ci: CanvasItem, p: Player, t: float) -> void:
@@ -300,7 +417,7 @@ static func _font_col(hex: String) -> String:
 		"#f2c94c": return "gold"
 		"#6fd3e0", "#4d9be6": return "cyan"
 		"#d8443c": return "red"
-		"#e86a8e": return "pink"
+		"#e86a8e", "#e86fb4": return "pink"
 		"#e8873a": return "orange"
 		"#a35bd6": return "purple"
 		"#8b8f9c", "#d9d0b4": return "bone"

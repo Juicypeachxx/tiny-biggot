@@ -211,6 +211,21 @@ var dash_dmg := 0.0
 var dash_hit := {}
 var dash_end: Array = []        # actions run when the dash ends
 var channel := {}               # channelled ability: { t, period, timer, do }
+# The Gaolbird (scripts/combat/tempo.gd, rally.gd). All zero for every other hero.
+var tempo := 0                  # 0..tempo_max
+var tempo_max := 0              # 0 = this hero has no tempo
+var tempo_t := 0.0              # seconds left before tempo starts to fade
+var tempo_fade := 0.0           # time into the current fade step
+var tempo_hits := 0             # blows landed toward the next point
+var tempo_fx: Array = []        # the stat effects tempo is applying right now (taken back when it changes)
+var rally_n := 0                # blows that win a lost heart back (0 = no rally)
+var rally_hp := 0               # half-hearts at stake
+var rally_t := 0.0              # seconds left to win them back
+var rally_prog := 0
+var rally_cd := 0.0
+var expose_hit := {}            # foes already exposed by this roll
+var leap_max := 0.0             # length of the current leap (0 = the dash is a ground charge)
+var air := 0.0                  # height above the floor during a leap (drawing only)
 
 func _init(h: Dictionary) -> void:
 	hero = h
@@ -256,11 +271,13 @@ func update_move(dt: float) -> Vector2:
 	var vy := 0.0
 	if Keys.roll() and dodge_t <= 0 and charges > 0 and dash_t <= 0:
 		start_roll(mv)
+	var leaping := false
 	if dash_t > 0:
 		# Special-ability dash (new heroes only; originals never set dash_t).
 		vx = dash_dir.x * dash_speed
 		vy = dash_dir.y * dash_speed
-		trail.append({ "x": x, "y": y, "life": 0.25, "face": face })
+		leaping = leap_max > 0
+		trail.append({ "x": x, "y": y, "life": 0.25, "face": face, "air": air })
 		Abilities.while_dashing(self, dt)
 	elif dodge_t > 0:
 		dodge_t -= dt
@@ -277,7 +294,17 @@ func update_move(dt: float) -> Vector2:
 		walk_t += dt
 	if absf(vx) > 5 and dodge_t <= 0:
 		face = 1 if vx > 0 else -1
-	World.move_body(room, self, vx * dt, vy * dt, World.M_PLAYER)
+	# A leap clears pillars and crates, and comes down once its time is up. (Doors are
+	# shut to anything that flies, so a leap begun in a doorway walks until it is clear.)
+	var mode := World.M_PLAYER
+	if leaping and not World.hits_solid(room, x, y, r, World.M_FLYER):
+		mode = World.M_FLYER
+	World.move_body(room, self, vx * dt, vy * dt, mode)
+	if leaping:
+		if dash_t > 0:
+			air = sin((1.0 - dash_t / leap_max) * PI) * Abilities.LEAP_HEIGHT
+		else:
+			Abilities.land(self)
 	var i := 0
 	while i < trail.size():
 		trail[i]["life"] -= dt
@@ -296,6 +323,7 @@ func start_roll(mv: Vector2) -> void:
 	var d := mv if absf(mv.x) + absf(mv.y) > 0.1 else Vector2(float(face), 0.0)
 	dodge_dir = d / d.length()
 	step_hit = {}
+	expose_hit = {}
 	if roll_reload:
 		fire_cd = 0.0
 	Snd.play("dodge")
@@ -324,3 +352,4 @@ func heal(n: int) -> void:
 		Fx.float_text(x, y - 12, "+" + TB.num_str(gained) + " HP", "pink")
 		Snd.play("heal")
 		Fx.burst(x, y, ["#d8443c", "#ff8a8a"], 10, 40)
+		Vfx.heal(x, y)

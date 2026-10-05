@@ -177,15 +177,64 @@ static func compact() -> void:
 		w += 1
 	n = w
 
+## The old sprites by sprite id, and the new look's frames ([sprite * 4 + frame]: four frames each).
+static var _otex: Array[Texture2D] = []
+static var _ftex: Array[Texture2D] = []
+static var _ohw := PackedFloat32Array()
+static var _ohh := PackedFloat32Array()
+static var _fhw := PackedFloat32Array()
+static var _fhh := PackedFloat32Array()
+
+static func _textures() -> void:
+	for name in SPRITES:
+		var old := Img.t("orb_" + name)
+		_otex.append(old)
+		_ohw.append(old.get_width() / 2)
+		_ohh.append(old.get_height() / 2)
+		var strip := Img.t("eb_" + name)
+		var w := strip.get_width() / 4
+		var h := strip.get_height()
+		_fhw.append(w / 2)
+		_fhh.append(h / 2)
+		for f in 4:
+			var a := AtlasTexture.new()
+			if strip is AtlasTexture:
+				a.atlas = strip.atlas
+				a.region = Rect2(strip.region.position + Vector2(f * w, 0), Vector2(w, h))
+			else:
+				a.atlas = strip
+				a.region = Rect2(f * w, 0, w, h)
+			_ftex.append(a)
+
+## One pass over the bullets, one sprite each. Every sprite sits in the same atlas, so the
+## whole lot is still one batch. With FANCY EFFECTS on each kind is a four-frame animation
+## (all shots of a kind in step; the kinds out of step with each other); off, the old orbs.
 static func draw(ci: CanvasItem) -> void:
 	_ensure()
-	for s in SPRITES.size():
-		if counts[s] == 0:
-			continue
-		var tex := Img.t("orb_" + SPRITES[s])
-		var hw := tex.get_width() / 2
-		var hh := tex.get_height() / 2
+	if n == 0:
+		return
+	if _otex.is_empty():
+		_textures()
+	var xs := bx
+	var ys := by
+	var lf := blife
+	var sp := bspr
+	if Vfx.enabled:
+		var f := int(G.time * 10.0)
+		var tex := _ftex
+		var hw := _fhw
+		var hh := _fhh
 		for i in n:
-			if bspr[i] != s or blife[i] <= 0:
+			if lf[i] <= 0:
 				continue
-			ci.draw_texture(tex, Vector2(roundf(bx[i] - hw), roundf(by[i] - hh)))
+			var s := sp[i]
+			ci.draw_texture(tex[s * 4 + ((f + s) & 3)], Vector2(roundf(xs[i] - hw[s]), roundf(ys[i] - hh[s])))
+	else:
+		var tex := _otex
+		var hw := _ohw
+		var hh := _ohh
+		for i in n:
+			if lf[i] <= 0:
+				continue
+			var s := sp[i]
+			ci.draw_texture(tex[s], Vector2(roundf(xs[i] - hw[s]), roundf(ys[i] - hh[s])))

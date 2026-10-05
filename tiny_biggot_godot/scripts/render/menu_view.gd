@@ -34,6 +34,8 @@ func _paint_glow(ci: CanvasItem) -> void:
 func _paint_sprites(ci: CanvasItem) -> void:
 	for s in _sprites:
 		Gfx.sp(ci, s[0], s[1], s[2], s[3], s[3], 0.0, s[4], s[5], s[6])
+		if s.size() > 7:
+			HeroGear.draw(ci, s[7], s[1], s[2], s[3], s[3], s[4], s[5])
 
 func _shade(ci: CanvasItem, a: int) -> void:
 	ci.draw_rect(Rect2(0, 0, TB.SW, TB.SH), TB.rgba(13, 10, 18, a))
@@ -117,11 +119,14 @@ func draw_title(ci: CanvasItem) -> void:
 	# Design spec section 1: the game is now "Tiny Biggot Rogues".
 	Gfx.text(ci, "ROGUES", (TB.SW + l2.get_width()) / 2 + 6, 58 + l2.get_height() - 12 + wob, "red", 2)
 	var shown := []
-	for h in GameData.heroes():
+	for hi in GameData.hero_order():
+		var h: Dictionary = GameData.heroes()[hi]
 		if G.hero_unlocked(h):
 			shown.append(h)
+	# 36 px apart, closer once the whole roster is unlocked so the row stays on screen.
+	var gap := mini(36, (TB.SW - 48) / maxi(1, shown.size() - 1))
 	for i in shown.size():
-		_sprite(shown[i]["sprite"], TB.SW / 2 - (shown.size() - 1) * 18 + i * 36, 128 + (-1 if floori(t * 3 + i) % 2 == 1 else 0),
+		_sprite(shown[i]["sprite"], TB.SW / 2 - (shown.size() - 1) * gap / 2 + i * gap, 128 + (-1 if floori(t * 3 + i) % 2 == 1 else 0),
 			2, i >= shown.size() / 2)
 	for i in G.TITLE_ITEMS.size():
 		_menu_item(ci, G.TITLE_ITEMS[i], TB.SW / 2, 142 + i * 17, i, 2, 170)
@@ -143,7 +148,7 @@ const HERO_VIS := 6
 static func hero_window() -> Array:
 	var n := GameData.heroes().size()
 	var vis := mini(n, HERO_VIS)
-	var first := clampi(G.hero_index - 2, 0, n - vis)
+	var first := clampi(GameData.hero_order().find(G.hero_index) - 2, 0, n - vis)
 	return [first, vis, (TB.SW - (vis * HERO_W + (vis - 1) * HERO_GAP)) / 2]
 
 func draw_hero(ci: CanvasItem) -> void:
@@ -153,8 +158,9 @@ func draw_hero(ci: CanvasItem) -> void:
 	var w := HERO_W
 	var win := hero_window()
 	var x0: int = win[2]
+	var order := GameData.hero_order()   # free heroes first, then the ones bought at the shrine
 	for j in win[1]:
-		var i: int = win[0] + j
+		var i: int = order[win[0] + j]
 		var h: Dictionary = GameData.heroes()[i]
 		var x: int = x0 + j * (w + HERO_GAP)
 		var y := 30
@@ -173,10 +179,10 @@ func draw_hero(ci: CanvasItem) -> void:
 		Gfx.text(ci, "<", 6, 58, "orange", 2)
 	if win[0] + win[1] < n:
 		Gfx.text(ci, ">", TB.SW - 12, 58, "orange", 2)
-	Gfx.text(ci, "%d / %d" % [G.hero_index + 1, n], TB.SW / 2, 98, "dim", 1, 0.5)
+	Gfx.text(ci, "%d / %d" % [order.find(G.hero_index) + 1, n], TB.SW / 2, 98, "dim", 1, 0.5)
 	var h: Dictionary = GameData.heroes()[G.hero_index]
 	var open := G.hero_unlocked(h)
-	Gfx.panel(ci, 40, 104, TB.SW - 80, 118, "#4e4a5e", "#17121e")
+	Gfx.panel(ci, 40, 104, TB.SW - 80, 126, "#4e4a5e", "#17121e")   # tall enough for a three-line passive and a skill
 	Gfx.text(ci, h["name"], TB.SW / 2, 112, "gold" if open else "dim", 2, 0.5)
 	Gfx.text(ci, h["weapon"], TB.SW / 2, 128, "grey", 1, 0.5)
 	for k in h["hp"] / 2:
@@ -206,10 +212,11 @@ func draw_hero(ci: CanvasItem) -> void:
 	var mx: int = Meta.meta.get("dread_max", 0)
 	if mx > 0:
 		var d := mini(Meta.meta.get("dread", 0), mx)
-		Gfx.text(ci, "DREAD %d: %s" % [d, GameData.DREAD_DESC[d]], TB.SW / 2, 208, "red" if d > 0 else "grey", 1, 0.5)
-		Gfx.text(ci, "UP/DOWN CHANGES DREAD.  MORE DREAD, MORE EMBERS", TB.SW / 2, 230, "dim", 1, 0.5)
+		# Under the hero panel, so it never sits on a new hero's passive and skill text.
+		Gfx.text(ci, "DREAD %d: %s" % [d, GameData.DREAD_DESC[d]], TB.SW / 2, 236, "red" if d > 0 else "grey", 1, 0.5)
+		Gfx.text(ci, "UP/DOWN CHANGES DREAD.  MORE DREAD, MORE EMBERS", TB.SW / 2, 246, "dim", 1, 0.5)
 	else:
-		Gfx.text(ci, "WIN A RUN TO UNLOCK DREAD LEVELS", TB.SW / 2, 230, "dim", 1, 0.5)
+		Gfx.text(ci, "WIN A RUN TO UNLOCK DREAD LEVELS", TB.SW / 2, 240, "dim", 1, 0.5)
 	Gfx.text(ci, "< >  CHOOSE     USE  BEGIN     ROLL  SKILL TREE     MENU  BACK", TB.SW / 2, 262, "grey", 1, 0.5)
 
 # ---------- Ember shrine ----------
@@ -311,13 +318,16 @@ func draw_howto(ci: CanvasItem) -> void:
 	Gfx.text(ci, "PRESS ANY BUTTON", TB.SW / 2, 266, "dim", 1, 0.5)
 
 # ---------- Options and pause ----------
+## Where the option rows sit (the tap zones in taps.gd use the same numbers).
+const OPT_Y0 := 80
+const OPT_DY := 20
 func draw_options(ci: CanvasItem) -> void:
 	Gfx.text(ci, "OPTIONS", TB.SW / 2, 50, "gold", 2, 0.5)
 	for i in G.OPTION_LIST.size():
 		var label: String = G.OPTION_LIST[i][0]
 		var key: String = G.OPTION_LIST[i][1]
 		var txt := "%s:  %s" % [label, "ON" if Meta.opts[key] else "OFF"] if key != "" else label
-		_menu_item(ci, txt, TB.SW / 2, 86 + i * 22, i, 2, 260)
+		_menu_item(ci, txt, TB.SW / 2, OPT_Y0 + i * OPT_DY, i, 2, 260)
 
 func draw_pause(ci: CanvasItem) -> void:
 	Gfx.text(ci, "PAUSED", TB.SW / 2, 44, "gold", 3, 0.5)
@@ -503,6 +513,8 @@ func draw_end(ci: CanvasItem) -> void:
 	var win := G.state == &"win"
 	Gfx.text(ci, "THE CRYPT IS SILENT" if win else "YOU HAVE FALLEN", TB.SW / 2, 30, "gold" if win else "red", 3, 0.5)
 	_sprite(p.hero["sprite"], TB.SW / 2, 92, 3, false, 1.0 if win else 0.5, Color(0, 0, 0, 0) if win else Color(1, 1, 1, 1))
+	if win:
+		_sprites[_sprites.size() - 1].append(p)   # the winner wears their gear
 	var msg: String = p.hero["name"] + " ESCAPED WITH THE REGENT'S CROWN" + (" ON DREAD %d" % G.dread if G.dread > 0 else "") \
 		if win else "SLAIN BY " + G.death_by.to_upper()
 	Gfx.text(ci, msg, TB.SW / 2, 102, "white", 1, 0.5)

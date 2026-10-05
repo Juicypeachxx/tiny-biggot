@@ -61,6 +61,22 @@ to report.
     - The red edge when hurt.
     - Light beams over rare loot.
     - Report if: anything flickers or looks wrong at the iPad's scale.
+    - The new ability effects (EFFECTS.md): lightning should be a thin, sharp
+      forked bolt, explosions pixel fireballs. Report if: lightning is missing,
+      blurry or broken into dots, or a fight with many explosions slows down.
+      OPTIONS > FANCY EFFECTS turns them off; tell me if that fixes it.
+    - The new attack effects (ATTACK_EFFECTS.md):
+      - Your shots should animate (a staff orb's sparkle, a flame's tongues) and
+        point where they fly. Report if: shots are missing, frozen on one frame,
+        or show slivers of another picture at their edges. If so, turn
+        OPTIONS > FAST DRAWING off and say whether that fixes it.
+      - Sword swings should be a bright crescent, not a grey one.
+      - A guardian's charge should show a red lane on the floor first, its beams
+        a faint band before they fire.
+      - Enemy shots should throb or spin. Report if: any kind is hard to see
+        against the floor.
+      - A guardian fight full of shots should now run smoother than before, not
+        slower.
 12. **Sound:** music and effects play, and the options can mute them.
 
 ## Save

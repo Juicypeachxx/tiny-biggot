@@ -12,16 +12,28 @@ extends RefCounted
 ## A strike marks the floor for 1 s, then hurts whoever stands in it (a roll
 ## dodges it, like any hit) and bursts into a small ring of shots.
 
-const STATIC := { "bog": ["pool", 3], "warfront": ["pit", 2], "vent": ["vent", 3], "rift": ["rift", 2] }
-const STRIKES := { "warfront": ["ARROW VOLLEY", "bone", 1], "icicle": ["FALLING ICICLES", "ice", 2], "rift": ["FALLING STAR", "dark", 1] }
+const STATIC := { "bog": ["pool", 3], "warfront": ["pit", 2], "vent": ["vent", 3], "rift": ["rift", 2],
+	# Rift worlds: the same kinds of hazard under their own names.
+	"pylons": ["vent", 3], "barrels": ["pit", 2], "kitchen": ["pit", 2], "bloodrain": ["pit", 1], "ash": ["rift", 1] }
+const STRIKES := { "warfront": ["ARROW VOLLEY", "bone", 1], "icicle": ["FALLING ICICLES", "ice", 2], "rift": ["FALLING STAR", "dark", 1],
+	"spikes": ["A SPIKE TRAP", "bone", 2], "bloodrain": ["BLOOD RAIN", "dark", 2], "dynamite": ["DYNAMITE", "fire", 1],
+	"ash": ["FALLING ASH", "dark", 1] }
+## Heist City traffic: a lane is marked for a second, then a car tears across
+## it. It runs over whoever is in the lane, foes included.
+const CAR_SPEED := 360.0
+const LANES := [72.0, 112.0, 152.0, 192.0, 232.0]
 const PERIOD := { "pool": 2.6, "pit": 3.6, "vent": 3.0, "rift": 2.4 }
 const SHOT := { "pool": ["spore", 6, 40.0], "pit": ["fire", 8, 60.0], "vent": ["water", 10, 55.0], "rift": ["dark", 12, 50.0] }
 
 static func setup(room: Room, floor_index: int) -> void:
 	var fdef: Dictionary = GameData.floors()[floor_index]
-	if not fdef.has("hazard") or not room.type in ["combat", "elite", "challenge"]:
+	# A rift world brings its own hazard in place of the floor's.
+	var kind: String = fdef.get("hazard", "") if room.theme.is_empty() else room.theme.get("hazard", "")
+	if kind == "" or not room.type in ["combat", "elite", "challenge"]:
 		return
-	var kind: String = fdef["hazard"]
+	if kind == "traffic":
+		room.strike_t = 2.0
+		return
 	room.strike = kind if STRIKES.has(kind) else ""
 	room.strike_t = 2.0
 	if STATIC.has(kind):
@@ -41,7 +53,11 @@ static func in_pool(p: Player) -> bool:
 
 static func update(dt: float) -> void:
 	var room := G.room
-	if room == null or (room.hazards.is_empty() and room.strike == "" and room.marks.is_empty()):
+	if room == null:
+		return
+	if room.theme.get("hazard", "") == "traffic" or not room.cars.is_empty():
+		_update_traffic(room, dt)
+	if room.hazards.is_empty() and room.strike == "" and room.marks.is_empty():
 		return
 	var active := G.enemies_active()
 	for h in room.hazards:
@@ -71,13 +87,72 @@ static func update(dt: float) -> void:
 			keep.append(m)
 			continue
 		var p := G.player
-		var st: Array = STRIKES.get(room.strike, ["", "dark", 1])
+		var st: Array = STRIKES.get(room.strike, ["A CHAMPION'S STRIKE", "dark", 1])
 		if TB.dist_xy(p.x, p.y, m["x"], m["y"]) < m["r"]:
 			Combat.hurt_player(1, st[0])
 		Combat.ering(m["x"], m["y"], 8, 55, randf() * TAU, st[1])
 		G.add_shake(2)
 		Snd.play("boom")
 	room.marks = keep
+
+static func _update_traffic(room: Room, dt: float) -> void:
+	var p := G.player
+	var active := G.enemies_active()
+	if active and room.theme.get("hazard", "") == "traffic":
+		room.strike_t -= dt
+		if room.strike_t <= 0:
+			room.strike_t = 3.0 + randf() * 1.2
+			var lane: float = LANES[randi() % LANES.size()]
+			if randf() < 0.6:
+				# Usually the lane you are standing in.
+				for ly in LANES:
+					if absf(ly - p.y) < absf(lane - p.y):
+						lane = ly
+			var dir := 1 if randf() < 0.5 else -1
+			room.cars.append({ "y": lane, "t": 1.0, "x": -24.0 if dir > 0 else TB.SW + 24.0, "dir": dir, "hit": {} })
+	var keep := []
+	for car in room.cars:
+		if car["t"] > 0:
+			car["t"] -= dt
+			if not active:
+				continue   # the fight ended while it was still only a warning
+			if car["t"] <= 0:
+				Snd.play("charge")
+			keep.append(car)
+			continue
+		car["x"] += car["dir"] * CAR_SPEED * dt
+		if car["x"] < -40 or car["x"] > TB.SW + 40:
+			continue
+		keep.append(car)
+		if absf(p.y - car["y"]) < 10 and absf(p.x - car["x"]) < 14:
+			Combat.hurt_player(1, "a getaway car")
+		for e in G.enemies.duplicate():
+			if not e.targetable() or car["hit"].has(e.uid):
+				continue
+			if absf(e.y - car["y"]) < 9 + e.r and absf(e.x - car["x"]) < 13 + e.r:
+				car["hit"][e.uid] = true
+				Combat.damage_enemy(e, 16.0 * Combat.floor_scale(), { "no_crit": true, "no_mult": true, "col": "orange",
+					"kx": car["dir"] * 220.0, "ky": 0.0 })
+	room.cars = keep
+
+## Lane warnings and cars (drawn with the telegraphs, over the floor).
+static func draw_traffic(ci: CanvasItem, t: float) -> void:
+	var room := G.room
+	if room == null or room.cars.is_empty():
+		return
+	for car in room.cars:
+		var y: float = car["y"]
+		if car["t"] > 0:
+			var a := 0.16 + (0.14 if floori(t * 10) % 2 == 0 else 0.0)
+			ci.draw_rect(Rect2(TB.TS, y - 8, TB.SW - 2 * TB.TS, 16), Color(0.85, 0.2, 0.2, a))
+			# Chevrons point the way the car will come.
+			var x := 24.0
+			while x < TB.SW - 24:
+				var cx: float = x if car["dir"] > 0 else TB.SW - x
+				ci.draw_rect(Rect2(roundf(cx), y - 1, 6, 2), Color(1, 0.85, 0.3, a * 2.2))
+				x += 28
+		else:
+			Gfx.sprite(ci, "car", car["x"], y + 5, 10, 10, 1, 1, 0.0, car["dir"] < 0)
 
 # ---------- Drawing ----------
 static func draw_floor(ci: CanvasItem, t: float) -> void:
@@ -116,7 +191,7 @@ static func draw_marks(ci: CanvasItem, t: float) -> void:
 		return
 	for m in room.marks:
 		var at := Vector2(roundf(m["x"]), roundf(m["y"]))
-		var k: float = 1.0 - m["t"]
+		var k: float = clampf(1.0 - m["t"], 0.0, 1.0)
 		var c := TB.c("#d8443c")
 		c.a = 0.35 + 0.35 * (1.0 if floori(t * 12) % 2 == 0 else 0.0)
 		ci.draw_arc(at, m["r"], 0, TAU, 24, c, 1.0, false)

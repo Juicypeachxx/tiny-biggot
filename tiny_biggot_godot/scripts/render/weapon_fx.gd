@@ -6,7 +6,7 @@ extends RefCounted
 ## shed rising embers, frost leaves drifting flakes, venom drips, storm
 ## crackles, shadow trails wisps, and so on. Themes show on shot trails,
 ## at the start of melee swings, as sparks where foes are hit, and as an
-## aura around legendary weapons. Particles go into Juice.sparks (capped).
+## aura around legendary weapons. Particles are Juice sparks (capped).
 
 ## motion: rise / fall (gravity) / drift (slow, floaty) / burst (fast, short) / still
 const THEME := {
@@ -77,8 +77,7 @@ static func emit(tag: String, x: float, y: float, spread: float = 1.0, dir: floa
 			life = 0.12 + _rng.randf() * 0.1
 		_:
 			life = 0.25 + _rng.randf() * 0.25
-	Juice.sparks.append({ "x": x + _rng.randf_range(-1.5, 1.5), "y": y + _rng.randf_range(-1.5, 1.5), "vx": vx, "vy": vy,
-		"g": g, "t": 0.0, "max": life, "col": col })
+	Juice.spark(x + _rng.randf_range(-1.5, 1.5), y + _rng.randf_range(-1.5, 1.5), vx, vy, g, life, col)
 
 ## Per logic tick, after the game update (called from Juice.update).
 static func update(p: Player) -> void:

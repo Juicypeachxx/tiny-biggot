@@ -25,18 +25,30 @@ const HIT_Y := 2
 
 static func new_floor(index: int) -> Dictionary:
 	var total := mini(7 + index, 11)
-	return { "index": index, "total": total, "depth": 0,
+	var fd := { "index": index, "total": total, "depth": 0,
 		"shop_depth": TB.rint(total / 2 - 1, total / 2 + 1), "shop_done": false, "path": [] }
+	if GameData.rogues():
+		# Rogues layer: every floor offers one RIFT door (a themed side stage) somewhere in its middle.
+		fd["rift_depth"] = TB.rint(2, maxi(2, total - 3))
+		fd["rift_done"] = false
+	return fd
 
-static func make_room(floor_d: Dictionary, kind: String, reward: String, entrance: String) -> Room:
+## opts (Rogues layer): "theme" (a rift world id), "step" (0-2 inside a rift), "event" (a mystery room's event).
+static func make_room(floor_d: Dictionary, kind: String, reward: String, entrance: String, opts: Dictionary = {}) -> Room:
 	var room := Room.new()
 	room.type = kind
 	room.reward = reward
 	room.depth = floor_d["depth"]
 	room.entrance = entrance
 	room.seed_value = randi() % 1000000000
+	if opts.has("theme"):
+		room.theme = Themes.by_id(opts["theme"])
+		room.rift_step = opts.get("step", 0)
+		if room.rift_step == 2:
+			room.champion = room.theme["champion"]
+	room.event = opts.get("event", "")
 	# Some fights hide a cracked wall on a side wall: bomb it to open a hidden room.
-	if (kind == "combat" or kind == "elite") and TB.rnd() < 0.28:
+	if (kind == "combat" or kind == "elite") and room.theme.is_empty() and TB.rnd() < 0.28:
 		var sides := ["e", "w"]
 		sides.erase(entrance)
 		var side: String = TB.pick(sides)
@@ -68,13 +80,19 @@ static func gen_choices(floor_d: Dictionary, p: Object) -> Array:
 	var fdef: Dictionary = GameData.floors()[floor_d["index"]]
 	if fdef.has("mini") and d == floor_d["total"] - 2:
 		return [{ "type": "elite", "reward": "rare" }]
+	# Rogues layer: the floor's rift door, to a world this run has not seen yet.
+	if floor_d.has("rift_depth") and not floor_d["rift_done"] and d >= floor_d["rift_depth"] and d < floor_d["total"] - 1:
+		out.append({ "type": "rift", "reward": "", "theme": Themes.pick(G.run_stats.get("rifts", [])), "step": 0 })
 	var n := 2 if d < 2 else (3 if TB.rnd() < 0.55 else 2)
 	var tries := 0
 	var fi: int = floor_d["index"]
 	while out.size() < n and tries < 40:
 		tries += 1
-		var kind: String = TB.weighted({ "combat": 46, "elite": 14 if (fi >= 1 or d >= 3) else 0, "treasure": 7,
-			"shrine": 8, "challenge": 6 if fi >= 1 else 0, "vault": 5, "shop": 0 if floor_d["shop_done"] else 2 })
+		var weights := { "combat": 46, "elite": 14 if (fi >= 1 or d >= 3) else 0, "treasure": 7,
+			"shrine": 8, "challenge": 6 if fi >= 1 else 0, "vault": 5, "shop": 0 if floor_d["shop_done"] else 2 }
+		if GameData.rogues():
+			weights["mystery"] = 9   # Rogues layer: a random event room
+		var kind: String = TB.weighted(weights)
 		var c := { "type": kind, "reward": "" }
 		if kind == "combat" or kind == "elite":
 			c["reward"] = roll_reward(p, kind == "elite")
@@ -149,7 +167,10 @@ static func build_room(room: Room) -> void:
 	room.crate_hp = {}
 	room.layout = 0
 	if room.type in ["combat", "elite", "challenge"]:
-		var pat := rng.int_range(0, 8)
+		# Rogues layer: eight more layouts (9-16).
+		var pat := rng.int_range(0, 16 if GameData.rogues() else 8)
+		if room.champion != "":
+			pat = 0   # a champion gets an open arena
 		match pat:
 			1:
 				_put(room, 5, 3, 2); _put(room, 6, 3, 2); _put(room, 5, 4, 2); _put(room, 6, 4, 2)
@@ -178,6 +199,31 @@ static func build_room(room: Room) -> void:
 				for i in range(2, 6):
 					_put(room, i, 3, 4)
 				_put(room, 9, 1, 2); _put(room, 9, 2, 2)
+			9:   # a ring of pillars around the middle
+				_put(room, 8, 3, 2); _put(room, 10, 2, 2); _put(room, 6, 5, 2)
+			10:  # two long walls with gaps: three lanes
+				for i in [2, 3, 4, 6, 7, 8]:
+					_put(room, i, 4, 2)
+			11:  # crate staircases toward the corners
+				for i in 5:
+					_put(room, 2 + i, 1 + i, 4)
+			12:  # corner bunkers
+				_put(room, 3, 2, 2); _put(room, 4, 2, 2); _put(room, 3, 3, 2); _put(room, 5, 4, 4); _put(room, 6, 4, 4)
+			13:  # a block in each quarter with crates beside it
+				_put(room, 6, 3, 2); _put(room, 7, 3, 2); _put(room, 6, 4, 2); _put(room, 7, 4, 2)
+				_put(room, 5, 3, 4); _put(room, 8, 4, 4); _put(room, 2, 6, 4)
+			14:  # a field of single pillars
+				for ab in [Vector2i(2, 1), Vector2i(5, 2), Vector2i(8, 1), Vector2i(3, 4), Vector2i(6, 5), Vector2i(9, 4), Vector2i(11, 2)]:
+					_put(room, ab.x, ab.y, 2)
+			15:  # a warehouse: lots of crates, a few pillars
+				for k in 12:
+					var a := rng.int_range(1, 11)
+					var b := rng.int_range(1, 6)
+					var t := T_CRATE if rng.next_f() < 0.85 else T_PILLAR
+					_put(room, a, b, t)
+			16:  # pillared hall: two rows of columns
+				for i in [2, 5, 8, 11]:
+					_put(room, i, 2, 2); _put(room, i, 5, 2)
 		room.layout = pat
 	for d in room.doors.keys():
 		for cr in door_tiles(d):

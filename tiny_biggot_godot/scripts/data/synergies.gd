@@ -37,6 +37,25 @@ const COMBO_DATA := [
 	{ "id": "dancingflame", "name": "DANCING FLAME", "desc": "ROLLING LEAVES AN EXPLOSION", "needs": ["gear:cinderboots", "relic:afterimage"], "effects": [{ "on": "on_roll", "do": [["explode", 30, 0.8]] }] },
 	{ "id": "toxicwalls", "name": "TOXIC FORTRESS", "desc": "WHEN HIT, POISON THE NEAREST FOE HEAVILY", "needs": ["relic:spikedcollar", "relic:toadstool"], "effects": [{ "on": "on_damage_taken", "do": [["status", "poison", 6]] }] },
 	{ "id": "goldenduel", "name": "GOLDEN DUEL", "desc": "CRITS PAY 2 GOLD", "needs": ["weapon:gildedrapier", "gear:duel_ring"], "effects": [{ "on": "on_crit", "do": [["gold", 2]] }] },
+	# Content batch 4 (chaos) combos.
+	{ "id": "bigbang", "name": "BIG BANG", "desc": "FOES YOU KILL CALL DOWN A METEOR (EVERY 0.5S)", "needs": ["weapon:singularity", "gear:collapsedstar"], "effects": [{ "on": "on_kill", "cd": 0.5, "do": [["meteor", 1.5, 30]] }] },
+	{ "id": "partytime", "name": "PARTY TIME", "desc": "EVERY 3S IN A FIGHT, 12 SPARKS SPIRAL OUT AND YOU FIRE 20% FASTER", "needs": ["gear:partyhat", "weapon:discoball"], "effects": [{ "on": "every_n_seconds", "period": 3.0, "if": "fighting", "do": [["nova", 12, 0.5, "spark", 2.0], ["buff", "rate", 0.2, 3.0]] }] },
+	{ "id": "queenbee", "name": "QUEEN BEE", "desc": "EVERY KILL HATCHES A WISP FOR 5S. WISPS FIRE 30% FASTER", "needs": ["weapon:beehive", "gear:beekeeperhat"], "effects": [{ "on": "on_kill", "do": [["summon", 5.0]] }, ["mul", "fam_rate", 1.3]] },
+	{ "id": "goldrush", "name": "GOLD RUSH", "desc": "KILLS PAY 2 GOLD AND GIVE +10% FIRE RATE FOR 2S", "needs": ["weapon:midascannon", "gear:midasglove"], "effects": [{ "on": "on_kill", "do": [["gold", 2], ["buff", "rate", 0.1, 2.0]] }] },
+	{ "id": "demoderby", "name": "DEMOLITION DERBY", "desc": "EVERY ROLL DROPS A LIT BOMB THAT CANNOT HURT YOU", "needs": ["gear:rocketboots", "gear:bombvest"], "effects": [{ "on": "on_roll", "cd": 1.0, "do": [["bomb", 0.4]] }] },
+	{ "id": "highroller", "name": "HIGH ROLLER", "desc": "CRITS ROLL THE CHAOS DIE (EVERY 4S)", "needs": ["gear:chaosdie", "weapon:slotmachine"], "effects": [{ "on": "on_crit", "cd": 4.0, "do": [["chaos"]] }] },
+	{ "id": "absolutezero", "name": "ABSOLUTE ZERO", "desc": "CHILLED FOES YOU KILL FREEZE EVERY FOE NEAR YOU FOR 1S", "needs": ["weapon:frostfist", "gear:slipperysoles"], "effects": [{ "on": "on_kill", "cd": 1.5, "if": "chilled", "do": [["status_area", "stun", 1, 80], ["status_area", "chill", 2, 80], ["vfx", "ring", "#6fd3e0", 80]] }] },
+	{ "id": "identitycrisis", "name": "IDENTITY CRISIS", "desc": "20% OF ATTACKS FIRE 3 EXTRA SHOTS", "needs": ["gear:bigring", "gear:tinyring"], "effects": [{ "on": "on_shoot", "chance": 0.2, "do": [["shoot", 3, 0.8, "", 0.2]] }] },
+	{ "id": "eruption", "name": "ERUPTION", "desc": "EVERY 3S IN A FIGHT, 2 METEORS FALL", "needs": ["weapon:volcano", "gear:pocketsun"], "effects": [{ "on": "every_n_seconds", "period": 3.0, "if": "fighting", "do": [["meteor", 2.0, 30], ["meteor", 2.0, 30]] }] },
+	{ "id": "thunderdome", "name": "THUNDERDOME", "desc": "EVERY 2S IN A FIGHT, 3 BOLTS STRIKE RANDOM FOES", "needs": ["weapon:teslacoil", "gear:stormcloud"], "effects": [{ "on": "every_n_seconds", "period": 2.0, "if": "fighting", "do": [["bolts", 3, 1.0]] }] },
+	{ "id": "haunted", "name": "HAUNTED HOUSE", "desc": "WHEN HIT, 3 WISPS RISE FOR 10S", "needs": ["gear:ghostsheet", "weapon:necroflute"], "effects": [{ "on": "on_damage_taken", "do": [["summon", 10.0], ["summon", 10.0], ["summon", 10.0]] }] },
+	{ "id": "wishmaster", "name": "WISHMASTER", "desc": "EVERY RANDOM EFFECT HAPPENS TWICE", "needs": ["gear:monkeypaw", "gear:chaosdie"], "effects": [["hook", "chaos_double", 1]] },
+	{ "id": "clowncar", "name": "CLOWN CAR", "desc": "CRITS RELEASE A WISP FOR 5S", "needs": ["weapon:clownhammer", "gear:jester_cap"], "effects": [{ "on": "on_crit", "cd": 0.5, "do": [["summon", 5.0]] }] },
+	{ "id": "ripandtear", "name": "RIP AND TEAR", "desc": "KILLS GIVE +8% DAMAGE FOR 4S AND HEAL 4% OF THE TIME", "needs": ["weapon:chainsaw", "gear:boxinggloves"], "effects": [{ "on": "on_kill", "do": [["buff", "dmg", 0.08, 4.0]] }, { "on": "on_kill", "chance": 0.04, "do": [["heal", 1]] }] },
+	{ "id": "targetlock", "name": "TARGET LOCK", "desc": "EVERY 3S IN A FIGHT A METEOR FALLS FOR 300%", "needs": ["weapon:orbitallaser", "gear:magnethelm"], "effects": [{ "on": "every_n_seconds", "period": 3.0, "if": "fighting", "do": [["meteor", 3.0, 34]] }] },
+	{ "id": "bullethell", "name": "BULLET HELL", "desc": "25% OF ATTACKS ALSO FIRE A SPIRAL OF 12 SPARKS", "needs": ["weapon:crossfirebow", "gear:twinring"], "effects": [{ "on": "on_shoot", "chance": 0.25, "do": [["nova", 12, 0.4, "spark", 2.0]] }] },
+	{ "id": "eventhorizon", "name": "EVENT HORIZON", "desc": "ROLLING DRAGS FOES TO WHERE YOU STOOD", "needs": ["weapon:gravitymaul", "gear:void_amulet"], "effects": [{ "on": "on_roll", "cd": 1.0, "do": [["pull", 110, 260]] }] },
+	{ "id": "bubblebath", "name": "BUBBLE BATH", "desc": "YOUR SHOTS SPLIT IN TWO WHEN THEY HIT", "needs": ["weapon:bubblewand", "gear:partyhat"], "effects": [["hook", "split", 2]] },
 ]
 
 static var TAG_SYNERGIES: Array = TAG_SYNERGY_DATA.duplicate(true)

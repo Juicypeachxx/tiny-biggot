@@ -26,6 +26,14 @@ var hazards: Array = []
 var strike := ""
 var strike_t := 0.0
 var marks: Array = []
+# Rift worlds (scripts/data/themes.gd) and event rooms; empty/zero for ordinary rooms.
+var theme := {}          # the rift world this room belongs to
+var rift_step := 0       # 0, 1: its fights; 2: its champion
+var champion := ""       # the champion still to appear in this room
+var event := ""          # the event of a mystery or hidden room
+var event_fight := false # an event's fight is on: the room unlocks when the foes are dead
+var cars: Array = []     # Heist City traffic (hazards.gd)
+var hits := 0            # times the hero was hurt in this room (a flawless fight can reveal a door)
 
 func tile(c: int, r: int) -> int:
 	if r < 0 or c < 0 or r >= TB.ROWS or c >= TB.COLS:

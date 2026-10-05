@@ -120,6 +120,8 @@ static func spawn_enemy(type: String, x: float, y: float, elite: bool = false, i
 	var hp: float = d["hp"] * floor_scale() * (2.2 if elite else 1.0)
 	if d.get("mini", false):
 		hp = d["hp"] * (1 + 0.15 * dread()) * loop_scale()   # stage-7 mini-bosses: fixed health like guardians
+	if d.get("champion", false):
+		hp = d["hp"] * floor_scale()   # rift champions turn up on any floor, so their health grows with it
 	var e := Enemy.new()
 	e.type = type
 	e.d = d
@@ -141,6 +143,8 @@ static func spawn_enemy(type: String, x: float, y: float, elite: bool = false, i
 		e.x = sp.x
 		e.y = sp.y
 	G.enemies.append(e)
+	if d.get("mini", false):
+		G.champ = e   # mini-bosses and champions show the boss bar
 	if not instant:
 		Snd.play("spawn")
 	return e
@@ -181,11 +185,13 @@ static func ering(x: float, y: float, n: int, speed: float, off: float = 0.0, sp
 		if has_gap and absf(TB.wrap_ang(a - gap_a)) < gap_w:
 			continue
 		eshot(x, y, a, speed, spr, 4.0 if spr.ends_with("Big") else 2.5)
+	Afx.cast(x, y, spr)
 	Snd.play("ebullet")
 
 static func efan(x: float, y: float, a: float, n: int, spread: float, speed: float, spr: String = "red") -> void:
 	for i in n:
 		eshot(x, y, a + ((float(i) / (n - 1) - 0.5) * spread if n > 1 else 0.0), speed, spr)
+	Afx.cast(x, y, spr)
 	Snd.play("ebullet")
 
 # ---------- Damage to foes ----------
@@ -262,6 +268,7 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	if not o.get("silent", false):
 		Snd.play("hit")
 	if crit:
+		Afx.crit(e.x, e.y - e.z - 2.0)
 		if p.crit_heal > 0 and e.type != "dummy" and randf() < p.crit_heal:
 			p.heal(1)
 		if p.bleed > 0:
@@ -283,6 +290,8 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 	var boss := e.is_boss()
 	var cols := ["#f4ecd8", "#f2c94c", "#d8443c", "#a35bd6"] if boss else ["#f4ecd8", "#8b8f9c", GameData.SPRITE_COLOR.get(e.d["sprite"], "#d8443c")]
 	Fx.burst(e.x, e.y, cols, 60 if boss else 14, 140 if boss else 70, 1.0 if boss else 0.45)
+	if boss:
+		Vfx.blast(e.x, e.y, 60.0, "#f2c94c")   # a guardian goes up in a cluster of blasts
 	Snd.play("boom" if boss else "kill")
 	G.add_shake(10 if boss else 2)
 	Juice.kill(e, e.d["sprite"] + ("_elite" if e.elite and not boss else ""))
@@ -326,6 +335,7 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 				o2.burn_t = maxf(o2.burn_t, 3.0 + p.burn_time)
 	if e.shattered:
 		Fx.burst(e.x, e.y, ["#c8f0ff", "#6fd3e0", "#ffffff"], 18, 90)
+		Vfx.shatter(e.x, e.y)
 		for i in 8:
 			var b := _raw_shot(e.x, e.y, i / 8.0 * TAU, 170, Weapons.wdmg(p) * 0.8, 0.45, 2.5, 1, "lance", { e.uid: true })
 			b.chill = true
@@ -356,6 +366,8 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 			sl.kx = 80 if i == 1 else -80
 	if e.type == "drowned":
 		ering(e.x, e.y, 8 + (4 if e.elite else 0), 60, randf(), "water")
+	if e.type == "goblin":
+		G.on_goblin_dead(e)
 	if boss:
 		G.on_boss_dead(e)
 	# 04b additions.
@@ -372,6 +384,11 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 		p.haste_t = maxf(p.haste_t, p.g("kill_haste"))
 	if p.g("bomb_on_kill") > 0 and randf() < p.g("bomb_on_kill"):
 		drop_pickup("bomb", e.x, e.y)
+	# The Gaolbird: kills build tempo and count toward a rally.
+	if p.tempo_max > 0:
+		Tempo.on_kill(p, e)
+	if p.rally_t > 0:
+		Rally.on_blow(p, Rally.KILL_BLOWS)
 	# Effect system (new content only).
 	if e.shock > 0:
 		chain_from(e, Weapons.wdmg(p) * 0.3 * e.shock)
@@ -397,15 +414,24 @@ static func gain_xp(p: Player, n: int) -> void:
 static func hurt_player(amount: int, source: String) -> void:
 	var p := G.player
 	var before := p.invuln
+	var hp0 := p.hp
 	_hurt_player_base(p, amount, source)
 	# 04b: gear reactions, only when a real hit landed.
 	if not (G.state == &"play" and p.invuln > before and p.invuln >= 1.0):
 		return
+	if G.room != null:
+		G.room.hits += 1
+	# The Gaolbird: a hit breaks tempo, and lost health can be won back.
+	if p.tempo_max > 0:
+		Tempo.on_hurt(p)
+	if p.rally_n > 0 and p.hp > 0:
+		Rally.on_hurt(p, hp0 - p.hp)
 	if p.g("frost_skin") > 0:
 		for e in G.enemies:
 			if TB.dist(e, p) < 90:
 				e.chill_t = 2.5
 		Fx.burst(p.x, p.y, ["#c8f0ff", "#6fd3e0"], 14, 80)
+		Vfx.nova(p.x, p.y, 90.0, "frost")
 	if p.g("spark_skin") > 0:
 		for e in _nearest_targets(p, 3):
 			lightning(e, Weapons.wdmg(p))
@@ -449,6 +475,7 @@ static func _hurt_player_base(p: Player, amount: int, source: String) -> void:
 			if TB.dist(e, p) < 90:
 				e.chill_t = 2.5 + p.chill_time
 		Fx.burst(p.x, p.y, ["#c8f0ff", "#6fd3e0"], 16, 90)
+		Vfx.nova(p.x, p.y, 90.0, "frost")
 	p.invuln = 1.1
 	G.hitstop = 0.06
 	G.add_shake(5)
@@ -472,6 +499,7 @@ static func _hurt_player_base(p: Player, amount: int, source: String) -> void:
 		p.invuln = 2.5
 		EBullets.clear_all()
 		Fx.burst(p.x, p.y, ["#e8873a", "#f2c94c", "#d8443c"], 40, 120, 0.8, 2)
+		Vfx.blast(p.x, p.y, 70.0, "#e8873a")
 		G.show_banner("RISEN AGAIN", "YOU CHEAT DEATH ONCE")
 		Snd.play("portal")
 		return
@@ -545,7 +573,9 @@ static func update_enemies(dt: float) -> void:
 		if e.stun_t > 0:
 			e.stun_t -= dt
 			if randf() < 0.5:
+				Fx.hide = Vfx.enabled   # Vfx draws orbiting stars instead
 				Fx.particle(e.x + cos(G.time * 8) * 6, e.y - e.r - 6, 0, 0, 0.05, "#f2c94c")
+				Fx.hide = false
 			continue
 		e.t -= ddt
 		if e.is_boss():
@@ -559,7 +589,7 @@ static func update_enemies(dt: float) -> void:
 			if absf(e.kx) < 2: e.kx = 0.0
 			if absf(e.ky) < 2: e.ky = 0.0
 		if not e.hidden and TB.dist(e, p) < e.r + p.r:
-			hurt_player(1, e.d["name"] if e.is_boss() else "a " + e.type)
+			hurt_player(1, e.d["name"] if e.is_boss() else e.d.get("label", "a " + e.type))
 			if p.thorns > 0 and not e.thorn_cd > 0:
 				damage_enemy(e, p.thorns, { "no_crit": true, "col": "green" })
 				e.thorn_cd = 0.5
@@ -765,6 +795,9 @@ static func player_shoot(p: Player, a: float, echo_ok: bool = true) -> void:
 	if forced:
 		for b in made:
 			b.crit = true
+	if p.tempo_max > 0 or p.rally_n > 0:
+		for b in made:
+			b.own = true   # the Gaolbird: only the weapon's own shots count as blows
 	var nb := (p.heavy_n > 0 and p.shot_n % p.heavy_n == 0) or (p.g("nth_big") > 0 and p.shot_n % int(p.g("nth_big")) == 0)
 	if nb:
 		for b in made:
@@ -838,6 +871,7 @@ static func attack_slash(p: Player, a: float, force_crit: bool) -> void:
 		if absf(TB.wrap_ang(TB.ang_to(p, e) - a)) > arc / 2:
 			continue
 		melee_hit(p, e, dmg, force_crit, 110)
+		Afx.cut(e.x, e.y - e.z, TB.ang_to(p, e), false)
 	var px := p.x
 	var py := p.y
 	parry_bullets(p, func(bx: float, by: float) -> bool:
@@ -866,6 +900,7 @@ static func attack_line(p: Player, a: float, length: float, width: float, tip_cr
 		var along: float = hits[i][1]
 		var dmg := Weapons.wdmg(p) * (1 + p.g("pierce_dmg") * i)
 		melee_hit(p, e, dmg, force_crit or (tip_crit and along > length * 0.7), 80)
+		Afx.cut(e.x, e.y - e.z, a, true)
 	var ox := p.x
 	var oy := p.y
 	parry_bullets(p, func(bx: float, by: float) -> bool:
@@ -941,10 +976,13 @@ static func attack_zap(p: Player, a: float, force_crit: bool) -> void:
 		if tgt == null:
 			break
 		var n := maxi(ceili(cur.distance_to(Vector2(tgt.x, tgt.y)) / 6), 1)
+		Fx.hide = Vfx.enabled   # Vfx draws the arc
 		for i in range(0, n + 1):
 			var kk := float(i) / n
 			Fx.particle(cur.x + (tgt.x - cur.x) * kk + TB.rint(-2, 2), cur.y + (tgt.y - cur.y) * kk + TB.rint(-2, 2),
 				0, 0, 0.12, "#6fd3e0" if randf() < 0.5 else "#ffffff")
+		Fx.hide = false
+		Vfx.arc(cur.x, cur.y, tgt.x, tgt.y, k * 2)
 		hit[tgt.uid] = true
 		melee_hit(p, tgt, Weapons.wdmg(p), force_crit, 20)
 		cur = Vector2(tgt.x, tgt.y)
@@ -956,9 +994,18 @@ static func attack_zap(p: Player, a: float, force_crit: bool) -> void:
 static func on_hit_effects(e: Enemy, dmg: float, crit: bool, p: Player, b: PBullet) -> void:
 	if e.type == "dummy":
 		return   # training dummies: no procs, statuses or loot from hitting them
+	# The Gaolbird: a blow is a hit by the weapon itself (a swing, or one of its own shots)
+	# on a foe that is still standing; the kill is counted on its own in kill_enemy.
+	if (p.tempo_max > 0 or p.rally_t > 0) and e.hp > 0 and (b == null or b.own):
+		if p.tempo_max > 0:
+			Tempo.on_hit(p)
+		if p.rally_t > 0:
+			Rally.on_blow(p, 1)
 	if p.burn > 0 and randf() < p.burn:
 		e.burn_t = 3.0 + p.burn_time
 	if (b != null and b.chill) or (p.chill > 0 and randf() < p.chill):
+		if e.chill_t <= 0:
+			Vfx.puff(e.x, e.y, "frost")
 		e.chill_t = 2.0 + p.chill_time
 		Fx.burst(e.x, e.y, ["#6fd3e0", "#ffffff"], 5, 30)
 	var padd := b.poison_add if b != null else 0
@@ -981,6 +1028,8 @@ static func on_hit_effects(e: Enemy, dmg: float, crit: bool, p: Player, b: PBull
 		chain_from(e, dmg * 0.6)
 	var kind := b.kind if b != null else ""
 	if p.explode > 0 and e.hp > -999:
+		if kind == "flask":
+			Vfx.next_col = "#b8e05a"
 		explode_at(e.x, e.y, dmg * 0.5 * p.explode, e, 18 + ((8 + 26 * p.splash) if kind == "flask" else 0.0))
 	if p.shrapnel > 0 and randf() < p.shrapnel:
 		explode_at(e.x, e.y, dmg * 0.6, e, 16, "#e8873a", true)
@@ -1033,6 +1082,7 @@ static func pbullet_hits(b: PBullet, p: Player) -> void:
 		var crit := damage_enemy(e, dmg, { "kx": b.vx / sp * kb, "ky": b.vy / sp * kb, "force_crit": b.crit })
 		on_hit_effects(e, dmg, crit, p, b)
 		Fx.burst(b.x, b.y, ["#f4ecd8", "#fffbe0"], 3, 50, 0.2)
+		Afx.hit(b.x, b.y, b.tag)
 		if b.split > 0 and b.kind != "spark":
 			var n := int(b.split)
 			var a0 := atan2(b.vy, b.vx)
@@ -1093,13 +1143,58 @@ static func pbullet_hits(b: PBullet, p: Player) -> void:
 			b.life = 0
 			break
 
+## Rogues layer: where a shot could possibly touch a foe this tick.
+## "hit" marks the room's tiles (16 px) that a foe's reach plus the largest
+## shot radius covers; "near" marks 64 px cells with a foe in homing range.
+## A shot on an unmarked tile skips the foe loops outright. The marks are
+## never tighter than the tests in pbullet_hits and nearest_enemy, so the
+## outcome is the same as running those loops.
+const NEAR_CELL := 64.0
+const NCOLS := 7
+const NROWS := 5
+const HOMING_RANGE := 120.0
+const HOMING_EVERY := 4      # Rogues layer: a homing shot looks for the nearest foe every 4th tick
+static var _ghit := PackedByteArray()
+static var _gnear := PackedByteArray()
+
+static func _build_foe_grid(rmax: float, want_near: bool) -> void:
+	if _ghit.size() != TB.COLS * TB.ROWS:
+		_ghit.resize(TB.COLS * TB.ROWS)
+		_gnear.resize(NCOLS * NROWS)
+	_ghit.fill(0)
+	_gnear.fill(0)
+	for i in _cn:
+		var x := _cx[i]
+		var y := _cy[i]
+		var rad := _cr[i] + rmax
+		var c0 := clampi(floori((x - rad) / TB.TS), 0, TB.COLS - 1)
+		var c1 := clampi(floori((x + rad) / TB.TS), 0, TB.COLS - 1)
+		var r0 := clampi(floori((y - rad) / TB.TS), 0, TB.ROWS - 1)
+		var r1 := clampi(floori((y + rad) / TB.TS), 0, TB.ROWS - 1)
+		for r in range(r0, r1 + 1):
+			for c in range(c0, c1 + 1):
+				_ghit[r * TB.COLS + c] = 1
+		if want_near:
+			# nearest_enemy first rejects on these same cached positions at range + margin.
+			rad = HOMING_RANGE + CACHE_MARGIN
+			c0 = clampi(int((x - rad) / NEAR_CELL), 0, NCOLS - 1)
+			c1 = clampi(int((x + rad) / NEAR_CELL), 0, NCOLS - 1)
+			r0 = clampi(int((y - rad) / NEAR_CELL), 0, NROWS - 1)
+			r1 = clampi(int((y + rad) / NEAR_CELL), 0, NROWS - 1)
+			for r in range(r0, r1 + 1):
+				for c in range(c0, c1 + 1):
+					_gnear[r * NCOLS + c] = 1
+
 static func update_pbullets(dt: float) -> void:
 	var p := G.player
 	var room := G.room
+	var list: Array = G.pbullets
 	# 04b pre-pass: grow, accelerate, hover, pulse and mines.
+	var rmax := 0.0
+	var any_homing := false
 	var i := 0
-	while i < G.pbullets.size():
-		var b: PBullet = G.pbullets[i]
+	while i < list.size():
+		var b: PBullet = list[i]
 		i += 1
 		if b.grow > 0:
 			b.r = minf(b.r + dt * 6 * b.grow, 12.0)
@@ -1108,6 +1203,12 @@ static func update_pbullets(dt: float) -> void:
 			var f := pow(b.accel, dt)
 			b.vx *= f
 			b.vy *= f
+		if b.r > rmax:
+			rmax = b.r
+		if b.homing > 0:
+			any_homing = true
+		if not b.nohit:
+			continue   # only pulse orbs and mines (the kinds that never hit by touch) have more to do here
 		if b.kind == "pulse":
 			if b.linger > 0 and b.age > b.max_life * 0.25 and not b.hovering:
 				b.hovering = true
@@ -1156,51 +1257,145 @@ static func update_pbullets(dt: float) -> void:
 						var crit := damage_enemy(e, b.dmg, { "boom": true })
 						on_hit_effects(e, b.dmg, crit, p, b)
 					Fx.burst(b.x, b.y, ["#e8873a", "#f2c94c", "#4e4a5e"], 18, 100, 0.4, 2)
+					Vfx.blast(b.x, b.y, 30.0)
 	# Base update.
+	var lens := p.lens
+	var lens_max := 0.0
+	if lens:
+		lens_max = 2.5 * Weapons.wsize(p) * 2.2
+		rmax = maxf(rmax + dt * 4, 0.0)   # lens shots swell a little before they are tested
+	var use_grid := false
 	if GameData.rogues():
 		_build_foe_cache()
+		_build_foe_grid(rmax, any_homing)
+		use_grid = true
+	var cn := _cn
+	var grid := room.grid
+	var ghit := _ghit
+	var gnear := _gnear
+	var enemies: Array = G.enemies
+	var cx := _cx
+	var cy := _cy
+	var near2 := (HOMING_RANGE + CACHE_MARGIN) * (HOMING_RANGE + CACHE_MARGIN)
+	var hom := -1.0       # homing value the three numbers below were worked out for
+	var hom_cos := 1.0
+	var hom_sin := 0.0
+	var hom_tan := 0.0
 	i = 0
-	while i < G.pbullets.size():
-		var b: PBullet = G.pbullets[i]
+	while i < list.size():
+		var b: PBullet = list[i]
 		i += 1
 		b.life -= dt
 		b.age += dt
 		b.rot += dt * 18
-		if p.lens and b.kind != "spark":
-			b.r = minf(b.r + dt * 4, 2.5 * Weapons.wsize(p) * 2.2)
+		if lens and b.kind != "spark":
+			b.r = minf(b.r + dt * 4, lens_max)
 			b.dmg += b.dmg * dt * 0.9
-		if b.back == PBullet.BACK_OUT and b.life < b.max_life * 0.5:
-			b.back = PBullet.BACK_RETURN
-			b.hit = {}
-		if b.back == PBullet.BACK_RETURN:
-			var a := atan2(p.y - b.y, p.x - b.x)
-			var sp := Vector2(b.vx, b.vy).length()
-			b.vx = cos(a) * sp
-			b.vy = sin(a) * sp
-			b.life = maxf(b.life, 0.02)
-			if TB.dist_xy(p.x, p.y, b.x, b.y) < 8:
-				b.life = 0
-				continue
-			b.x += b.vx * dt
-			b.y += b.vy * dt
-			pbullet_hits(b, p)
-			continue
-		if b.homing > 0:
-			var t := nearest_enemy(b.x, b.y, 120)
-			if t != null:
-				var cur := atan2(b.vy, b.vx)
-				var want := TB.ang_to(b, t)
-				var d := TB.wrap_ang(want - cur)
-				var turn := clampf(d, -b.homing * dt, b.homing * dt)
+		if b.back != PBullet.BACK_NONE:
+			if b.back == PBullet.BACK_OUT and b.life < b.max_life * 0.5:
+				b.back = PBullet.BACK_RETURN
+				b.hit = {}
+			if b.back == PBullet.BACK_RETURN:
+				var a := atan2(p.y - b.y, p.x - b.x)
 				var sp := Vector2(b.vx, b.vy).length()
-				var na := cur + turn
-				b.vx = cos(na) * sp
-				b.vy = sin(na) * sp
+				b.vx = cos(a) * sp
+				b.vy = sin(a) * sp
+				b.life = maxf(b.life, 0.02)
+				if TB.dist_xy(p.x, p.y, b.x, b.y) < 8:
+					b.life = 0
+					continue
+				b.x += b.vx * dt
+				b.y += b.vy * dt
+				pbullet_hits(b, p)
+				if use_grid and enemies.size() != cn:
+					use_grid = false
+				continue
+		if b.homing > 0:
+			if not use_grid or b.homing * dt >= 1.5:
+				# The original steering (classic mode, and whenever the foe grid cannot be used).
+				var t := nearest_enemy(b.x, b.y, HOMING_RANGE)
+				if t != null:
+					var cur := atan2(b.vy, b.vx)
+					var want := TB.ang_to(b, t)
+					var d := TB.wrap_ang(want - cur)
+					var turn := clampf(d, -b.homing * dt, b.homing * dt)
+					var sp := Vector2(b.vx, b.vy).length()
+					var na := cur + turn
+					b.vx = cos(na) * sp
+					b.vy = sin(na) * sp
+			else:
+				# Rogues layer: the same steering without the trigonometry, and the
+				# search for the nearest foe (a loop over every foe, for every homing
+				# shot) is made on every 4th tick of a shot's life. In between the shot
+				# keeps steering at the foe it found, from that foe's live position;
+				# a foe that dies or hides is dropped at once.
+				var bx := b.x
+				var by := b.y
+				var bd := HOMING_RANGE * HOMING_RANGE
+				var tx := 0.0
+				var ty := 0.0
+				var found := false
+				if b.tgt_n > 0:
+					b.tgt_n -= 1
+					var tg := b.tgt
+					if tg != null:
+						if tg.hp > 0 and not tg.hidden and tg.spawn_t <= 0:
+							tx = tg.x - bx
+							ty = tg.y - by
+							var td := tx * tx + ty * ty
+							if td < bd:
+								bd = td
+								found = true
+						else:
+							b.tgt = null
+							b.tgt_n = 0
+				else:
+					b.tgt = null
+					b.tgt_n = HOMING_EVERY - 1
+					if gnear[clampi(int(by / NEAR_CELL), 0, NROWS - 1) * NCOLS + clampi(int(bx / NEAR_CELL), 0, NCOLS - 1)] != 0:
+						for k in cn:
+							var qx := cx[k] - bx
+							var qy := cy[k] - by
+							if qx * qx + qy * qy >= near2:
+								continue
+							var e: Enemy = enemies[k]
+							if e.spawn_t > 0 or e.hidden or e.hp <= 0:
+								continue
+							var ex := e.x - bx
+							var ey := e.y - by
+							var ed := ex * ex + ey * ey
+							if ed < bd:
+								bd = ed
+								tx = ex
+								ty = ey
+								found = true
+								b.tgt = e
+				if found:
+					if b.homing != hom:
+						hom = b.homing
+						hom_cos = cos(hom * dt)
+						hom_sin = sin(hom * dt)
+						hom_tan = tan(hom * dt)
+					var vx := b.vx
+					var vy := b.vy
+					var cross := vx * ty - vy * tx
+					var dot := vx * tx + vy * ty
+					if dot > 0 and absf(cross) <= hom_tan * dot:
+						var k2 := sqrt((vx * vx + vy * vy) / bd)
+						b.vx = tx * k2
+						b.vy = ty * k2
+					elif cross >= 0:
+						b.vx = vx * hom_cos - vy * hom_sin
+						b.vy = vx * hom_sin + vy * hom_cos
+					else:
+						b.vx = vx * hom_cos + vy * hom_sin
+						b.vy = vy * hom_cos - vx * hom_sin
 		var nx := b.x + b.vx * dt
 		var ny := b.y + b.vy * dt
 		var c := floori(nx / TB.TS)
 		var r := floori(ny / TB.TS)
-		if World.solid(room, c, r, World.M_BULLET):
+		# Inlined World.solid(room, c, r, M_BULLET): anything but floor stops a shot.
+		if c < 0 or r < 0 or c >= TB.COLS or r >= TB.ROWS or grid[r * TB.COLS + c] != World.T_FLOOR:
 			hit_crate(room, c, r, b.dmg)
 			if b.back == PBullet.BACK_OUT:
 				b.back = PBullet.BACK_RETURN
@@ -1220,23 +1415,34 @@ static func update_pbullets(dt: float) -> void:
 			else:
 				b.life = 0
 				if p.explode > 0:
+					if b.kind == "flask":
+						Vfx.next_col = "#b8e05a"
 					explode_at(b.x, b.y, b.dmg * 0.6 * p.explode, null, 18 + ((8 + 26 * p.splash) if b.kind == "flask" else 0.0))
 				Fx.burst(b.x, b.y, ["#63b84f", "#b8e05a"] if b.kind == "flask" else ["#f4ecd8", "#8b8f9c"], 4, 40, 0.2)
+			grid = room.grid
 			continue
 		b.x = nx
 		b.y = ny
+		# No foe can reach this tile (c, r are in the room here): skip the foe loop.
+		# Not for a shot larger than the grid allowed for, and never once the foe
+		# list has changed since the grid was built.
+		if use_grid and b.r <= rmax and ghit[r * TB.COLS + c] == 0:
+			continue
 		pbullet_hits(b, p)
+		if use_grid and enemies.size() != cn:
+			use_grid = false
 	# Compact in place and recycle dead shots.
+	list = G.pbullets
 	var w := 0
-	for k in G.pbullets.size():
-		var b: PBullet = G.pbullets[k]
+	for k in list.size():
+		var b: PBullet = list[k]
 		if b.life <= 0:
 			recycle(b)
 			continue
-		G.pbullets[w] = b
+		list[w] = b
 		w += 1
 	_cn = -1
-	G.pbullets.resize(w)
+	list.resize(w)
 	G.pbullets.append_array(G.new_pbullets)
 	G.new_pbullets.clear()
 
@@ -1245,8 +1451,11 @@ static func lightning(e: Enemy, dmg: float) -> void:
 	var p := G.player
 	var x := e.x
 	var y := e.y
+	Fx.hide = Vfx.enabled   # Vfx draws the bolt
 	for i in 12:
 		Fx.particle(x + TB.rint(-2, 2), y - 60 + i * 5, 0, 0, 0.18, "#ffffff" if i % 2 == 0 else "#6fd3e0", 2)
+	Fx.hide = false
+	Vfx.strike(x, y)
 	Fx.burst(x, y, ["#6fd3e0", "#ffffff"], 10, 70, 0.3)
 	if randf() < 0.3:
 		Snd.play("beam")
@@ -1287,10 +1496,13 @@ static func chain_from(src: Enemy, dmg: float) -> void:
 		if best == null:
 			break
 		var n := ceili(bd / 6)
+		Fx.hide = Vfx.enabled   # Vfx draws the arc
 		for i in range(0, n + 1):
 			var kk := float(i) / n
 			Fx.particle(cur.x + (best.x - cur.x) * kk + TB.rint(-2, 2), cur.y + (best.y - cur.y) * kk + TB.rint(-2, 2),
 				0, 0, 0.15, "#6fd3e0" if randf() < 0.5 else "#ffffff")
+		Fx.hide = false
+		Vfx.arc(cur.x, cur.y, best.x, best.y, k * 3)
 		damage_enemy(best, dmg * (1 + p.storm_dmg), { "col": "cyan" })
 		hit[best.uid] = true
 		cur = best
@@ -1299,6 +1511,7 @@ static func explode_at(x: float, y: float, dmg: float, skip: Enemy, radius: floa
 		boom: bool = false, from_bomb: bool = false) -> void:
 	Fx.burst(x, y, [col, "#f2c94c", "#fffbe0"] if col != "" else ["#e8873a", "#f2c94c", "#d8443c"],
 		8 + roundi(radius / 4), 70 + radius, 0.3)
+	Vfx.blast(x, y, radius, col)
 	for e in G.enemies.duplicate():
 		if e == skip or e.hp <= 0:
 			continue
@@ -1569,6 +1782,10 @@ static func update_player(p: Player, dt: float) -> void:
 	for e in G.enemies:
 		if e.mark_t > 0:
 			e.mark_t -= dt
+	if p.tempo_max > 0:
+		Tempo.update(p, dt)
+	if p.rally_n > 0:
+		Rally.update(p, dt)
 
 ## Called by Player.start_roll: the combat side effects of starting a roll.
 static func on_roll_start(p: Player) -> void:
@@ -1586,6 +1803,21 @@ static func while_rolling(p: Player, dt: float) -> void:
 		if p.trail_t <= 0:
 			p.trail_t = 0.05
 			G.zones.append({ "x": p.x, "y": p.y + 2, "r": 9, "t": 1.0 + 0.6 * p.fire_trail, "kind": "fire", "tick": 0.0 })
+	if p.g("roll_expose") > 0:
+		# The Gaolbird: a roll through a foe leaves it exposed (+25% damage taken) and
+		# sets up a crit; in full flight the roll also cuts it for 250%.
+		var cut := p.g("flight") > 0
+		for e in G.enemies.duplicate():
+			if not e.targetable() or p.expose_hit.has(e.uid) or TB.dist(e, p) >= e.r + 10:
+				continue
+			p.expose_hit[e.uid] = true
+			Statuses.apply(e, "vulnerable", 1, Weapons.wdmg(p))
+			p.ambush_left = maxi(p.ambush_left, 1)
+			Juice.exposed(e.x, e.y - e.r)
+			if e.type != "dummy" and p.tempo_max > 0:
+				Tempo.on_hit(p)
+			if cut:
+				damage_enemy(e, Weapons.wdmg(p) * 2.5, { "col": "pink" })
 	if p.shadowstep:
 		for e in G.enemies.duplicate():
 			if not e.targetable() or p.step_hit.has(e.uid):
@@ -1598,6 +1830,7 @@ static func while_rolling(p: Player, dt: float) -> void:
 			if p.cap("nightfall") and e.hp <= 0:
 				p.charges = mini(p.charges + 1, p.dodge_charges)
 			Fx.burst(e.x, e.y, ["#a35bd6", "#5c3483"], 8, 50)
+			Vfx.puff(e.x, e.y, "void")
 
 static func _update_player_base(p: Player, dt: float) -> void:
 	var raging := p.blood_rage and p.hp <= p.max_hp / 2
@@ -1631,7 +1864,10 @@ static func _update_player_base(p: Player, dt: float) -> void:
 		v["t"] -= dt
 		if v["t"] <= 0:
 			if v.get("raw", false):
-				fire_projectiles(p, p.aim_a)
+				var burst := fire_projectiles(p, p.aim_a)
+				if p.tempo_max > 0 or p.rally_n > 0:
+					for b in burst:
+						b.own = true
 			else:
 				player_shoot(p, p.aim_a)
 		i += 1

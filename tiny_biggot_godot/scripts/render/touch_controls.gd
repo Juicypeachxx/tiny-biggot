@@ -39,7 +39,11 @@ var _held := {}             # action -> true while pressed by touch
 
 var _mouse_as_touch := false
 
+var _skill: DrawLayer
+
 func _ready() -> void:
+	_skill = DrawLayer.new(_paint_skill)
+	add_child(_skill)
 	_load_layout()
 	# Shown on touch devices (the iPad), or on a desktop with --touch, where
 	# the left mouse button plays the role of one finger.
@@ -156,8 +160,8 @@ func _process(_delta: float) -> void:
 	if visible and G.state != _last_state:
 		_last_state = G.state
 		queue_redraw()
-	elif visible and Abilities.has_special(G.player):
-		queue_redraw()   # the SKILL cooldown ring animates
+	if visible and Abilities.has_special(G.player):
+		_skill.queue_redraw()   # the SKILL cooldown ring animates: only that button is redrawn
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT or what == NOTIFICATION_APPLICATION_PAUSED:
@@ -274,8 +278,8 @@ func _draw() -> void:
 	draw_circle(stick_center + knob, stick_r * 0.42, Color(kc.r, kc.g, kc.b, 0.55 * a), true, -1.0, false)
 	# Buttons
 	for b in buttons:
-		if b.get("special", false) and not Abilities.has_special(G.player):
-			continue
+		if b.get("special", false):
+			continue   # the SKILL button animates, so it has its own layer (_paint_skill)
 		var held: bool = _held.has(b["action"])
 		var op: float = b["opacity"] * dim
 		var c: Color = hot if held else ring
@@ -283,17 +287,38 @@ func _draw() -> void:
 		var r: float = b["r"]
 		draw_circle(pos, r, Color(fill.r, fill.g, fill.b, (0.75 if held else 0.45) * op), true, -1.0, false)
 		draw_arc(pos, r, 0, TAU, 24, Color(c.r, c.g, c.b, 0.8 * op), 1.0, false)
-		if b.get("special", false):
-			# Cooldown: a ring that fills up; it glows when the skill is ready.
-			var k := Abilities.charge(G.player)
-			var sc := TB.c(G.player.hero["special"].get("col", "#f2c94c"))
-			draw_arc(pos, r - 2, -PI / 2, -PI / 2 + TAU * k, 24, Color(sc.r, sc.g, sc.b, 0.9 * op), 2.0, false)
-			if k >= 1.0:
-				draw_arc(pos, r + 2, 0, TAU, 24, Color(sc.r, sc.g, sc.b, (0.4 + 0.3 * sin(G.time * 6)) * op), 1.0, false)
 		if b["action"] in AIM_ACTIONS:
 			_arrow(pos, b["action"], r * 0.45, Color(c.r, c.g, c.b, 0.9 * op))
 		else:
 			Gfx.text(self, b["label"], pos.x, pos.y - 2, "gold" if held else "white", 1, 0.5, true, op)
+	_skill.queue_redraw()
+
+## The SKILL button with its cooldown ring. Redrawn every frame while a hero
+## with a special is in play; the rest of the controls only when they change.
+func _paint_skill(ci: CanvasItem) -> void:
+	if not Abilities.has_special(G.player):
+		return
+	var ring := TB.c("#f4ecd8")
+	var fill := TB.c("#1a1423")
+	var hot := TB.c("#f2c94c")
+	var dim := 1.0 if G.state == &"play" else 0.35
+	for b in buttons:
+		if not b.get("special", false):
+			continue
+		var held: bool = _held.has(b["action"])
+		var op: float = b["opacity"] * dim
+		var c: Color = hot if held else ring
+		var pos: Vector2 = b["pos"].round()
+		var r: float = b["r"]
+		ci.draw_circle(pos, r, Color(fill.r, fill.g, fill.b, (0.75 if held else 0.45) * op), true, -1.0, false)
+		ci.draw_arc(pos, r, 0, TAU, 24, Color(c.r, c.g, c.b, 0.8 * op), 1.0, false)
+		# Cooldown: a ring that fills up; it glows when the skill is ready.
+		var k := Abilities.charge(G.player)
+		var sc := TB.c(G.player.hero["special"].get("col", "#f2c94c"))
+		ci.draw_arc(pos, r - 2, -PI / 2, -PI / 2 + TAU * k, 24, Color(sc.r, sc.g, sc.b, 0.9 * op), 2.0, false)
+		if k >= 1.0:
+			ci.draw_arc(pos, r + 2, 0, TAU, 24, Color(sc.r, sc.g, sc.b, (0.4 + 0.3 * sin(G.time * 6)) * op), 1.0, false)
+		Gfx.text(ci, b["label"], pos.x, pos.y - 2, "gold" if held else "white", 1, 0.5, true, op)
 
 func _arrow(pos: Vector2, action: StringName, s: float, col: Color) -> void:
 	var dir: Vector2 = { &"aim_up": Vector2.UP, &"aim_down": Vector2.DOWN, &"aim_left": Vector2.LEFT,

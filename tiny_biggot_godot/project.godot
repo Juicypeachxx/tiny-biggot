@@ -35,7 +35,7 @@ window/size/window_height_override=864
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
 window/stretch/scale_mode="integer"
-window/handheld/orientation=0
+window/handheld/orientation=4
 
 [input_devices]
 
@@ -50,6 +50,7 @@ common/max_physics_steps_per_frame=1
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+textures/vram_compression/import_etc2_astc=true
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 2d/snap/snap_2d_transforms_to_pixel=true

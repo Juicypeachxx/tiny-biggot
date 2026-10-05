@@ -38,6 +38,7 @@ var familiars: Array = []
 var temp_fams: Array = []
 var swings: Array = []
 var boss: Enemy = null
+var champ: Enemy = null       # a rift champion or floor mini-boss in the room: it gets the boss bar
 var god := false              # debug: --god
 var menu := 0
 var choice: Dictionary = {}    # relic choice: { relics, idx }
@@ -45,7 +46,7 @@ var tchoice: Dictionary = {}   # trait offer: { opts, idx }
 # Menus (Game.rb).
 const TITLE_ITEMS := ["START RUN", "SKILL TREES", "EMBER SHRINE", "CODEX", "HOW TO PLAY", "OPTIONS"]
 const PAUSE_ITEMS := ["RESUME", "GEAR", "TRAITS", "RELICS", "OPTIONS", "ABANDON RUN"]
-const OPTION_LIST := [["AUTO-AIM FIRE", "autofire"], ["MUSIC", "music"], ["SOUND EFFECTS", "sfx"], ["SCREEN SHAKE", "shake"], ["SHOW FPS", "fps"], ["BACK", ""]]
+const OPTION_LIST := [["AUTO-AIM FIRE", "autofire"], ["MUSIC", "music"], ["SOUND EFFECTS", "sfx"], ["SCREEN SHAKE", "shake"], ["SHOW FPS", "fps"], ["SHOW GEAR ON HERO", "show_gear"], ["FANCY EFFECTS", "vfx"], ["FAST DRAWING", "fast_draw"], ["BACK", ""]]
 const CODEX_COLS := 11
 var quit_armed := false
 var opt_from: StringName = &"title"
@@ -100,7 +101,7 @@ func new_run() -> void:
 	Weapons.equip_weapon(player, Weapons.by_id(Weapons.HERO_WEAPON[hero["id"]]))
 	if DebugArgs.has("weapon"):
 		Weapons.equip_weapon(player, Weapons.by_id(DebugArgs.get_str("weapon")))
-	run_stats = { "kills": 0, "gold": 0, "time": 0.0, "floor": 1, "bosses": 0, "secrets": 0 }
+	run_stats = { "kills": 0, "gold": 0, "time": 0.0, "floor": 1, "bosses": 0, "secrets": 0, "rifts": [] }
 	loop = DebugArgs.get_int("loop", 0) if DebugArgs.has("loop") else 0
 	floor_index = 0
 	familiars = []
@@ -238,12 +239,19 @@ func enter_room(r: Room) -> void:
 	zones = []
 	swings = []
 	boss = null
+	champ = null
 	win_timer = null
 	var p := player
 	p.buckler_used = false
 	p.volleys = []
 	p.trail = []
 	p.dodge_t = 0.0
+	if p.leap_max > 0:
+		# A leap never carries into the next room (a ground charge still does, as before).
+		p.dash_t = 0.0
+		p.leap_max = 0.0
+		p.air = 0.0
+		p.dash_end = []
 	p.room_kills = 0
 	if p.ironskin:
 		p.armor = maxi(p.armor, 1)
@@ -273,6 +281,8 @@ func enter_room(r: Room) -> void:
 		"combat", "elite":
 			locked = true
 			room.waves_left = (2 if room.type == "elite" else 1) + (1 if randf() < 0.25 + 0.08 * floor_index else 0)
+			if room.champion != "":
+				room.waves_left = 1   # a rift champion's room: the champion and its escort
 			_wave_delay = 0.35
 			Snd.play("door")
 		"boss":
@@ -285,6 +295,18 @@ func enter_room(r: Room) -> void:
 			open_exits()
 		_:
 			open_exits()
+	if GameData.rogues():
+		# Rogues layer: a rift world plays its own track and announces itself; event rooms set their scene.
+		if room.type != "boss":
+			Snd.music(room.theme["music"] if not room.theme.is_empty() else GameData.floor_music(floor_index))
+		if not room.theme.is_empty() and room.rift_step == 0:
+			show_banner(room.theme["name"], room.theme["sub"])
+			if room.theme["id"] == "gaol" and player.hero["id"] == "gaolbird":
+				show_banner(room.theme["name"], "BACK SO SOON, LITTLE BIRD?")   # the gaol knows its runaway
+		if room.event == "goblin" and not room.cleared:
+			room.cleared = true
+			Combat.spawn_enemy("goblin", 14.0 * TB.TS, 7.0 * TB.TS, false, true)
+			show_banner("A LOOT GOBLIN!", "CATCH IT BEFORE IT SLIPS AWAY")
 	dyn_dirty = true
 	room_changed.emit()
 	if not p.procs.is_empty():
@@ -296,7 +318,12 @@ func open_exits() -> void:
 	room.exits_open = true
 	if room.type == "boss":
 		return
-	World.assign_exits(room, World.gen_choices(floor_d, player))
+	if not room.theme.is_empty() and room.rift_step < 2:
+		# Inside a rift there is one way on: deeper, and then to its champion.
+		World.assign_exits(room, [{ "type": "rift", "reward": "rare" if room.rift_step == 0 else "", "theme": room.theme["id"],
+			"step": room.rift_step + 1 }])
+	else:
+		World.assign_exits(room, World.gen_choices(floor_d, player))
 	for d in room.exits:
 		var c: Dictionary = room.exits[d]
 		if c["type"] != "vault":
@@ -311,7 +338,9 @@ func leave_room(dir: String) -> void:
 	var c = room.exits.get(dir)
 	if c == null:
 		return
-	if c["type"] != "secret":
+	# The second and third rooms of a rift are a detour, like a hidden room: the floor does not advance.
+	var inner: bool = c["type"] == "rift" and c.get("step", 0) > 0
+	if c["type"] != "secret" and not inner:
 		floor_d["depth"] += 1
 		floor_d["path"].append(c)
 	if c["type"] == "shop":
@@ -319,8 +348,126 @@ func leave_room(dir: String) -> void:
 	if c["type"] == "secret":
 		Meta.meta["secrets"] += 1
 		run_stats["secrets"] += 1
-	var nr := World.make_room(floor_d, c["type"], c.get("reward", ""), World.OPP[dir])
+	var kind: String = c["type"]
+	var reward: String = c.get("reward", "")
+	var opts := {}
+	if kind == "rift":
+		var step: int = c.get("step", 0)
+		if step == 0:
+			floor_d["rift_done"] = true
+			run_stats["rifts"].append(c["theme"])
+			reward = World.roll_reward(player)
+		opts = { "theme": c["theme"], "step": step }
+		kind = "combat" if step == 0 else "elite"
+	elif kind == "mystery":
+		opts = { "event": TB.pick(MYSTERY_EVENTS) }
+	var nr := World.make_room(floor_d, kind, reward, World.OPP[dir], opts)
 	start_fade(func(): enter_room(nr))
+
+## Events of a MYSTERY room, and the ones a hidden room may hold instead of its old three finds.
+const MYSTERY_EVENTS := ["wheel", "market", "mimic", "armory", "well", "goblin", "mirror", "library", "safehouse"]
+const SECRET_EVENTS := ["market", "armory", "goblin", "mirror", "library"]
+
+const EVENT_TITLE := {
+	"wheel": ["A GAMBLER'S DEN", "THE WHEEL OF FATE TURNS FOR GOLD"], "market": ["THE BLOOD MARKET", "RELICS FOR SALE. THE PRICE IS A HEART"],
+	"mimic": ["A QUIET TREASURY", "TWO CHESTS. SOMETHING IS BREATHING"], "armory": ["A FORGOTTEN ARMORY", "TAKE ONE WEAPON. ONLY ONE"],
+	"well": ["A WISHING WELL", "A COIN FOR A WISH"], "mirror": ["A HALL OF MIRRORS", "ONE OF THEM IS LOOKING BACK"],
+	"library": ["A SEALED LIBRARY", "ONE BOOK IS STILL WARM"], "safehouse": ["A SAFEHOUSE", "A BED, AND MUSIC"],
+}
+
+## Furniture of an event room.
+func _setup_event(r: Room, ev: String) -> void:
+	var cx := 14.0 * TB.TS
+	var cy := 9.5 * TB.TS
+	var f := floor_index
+	r.event = ev
+	if EVENT_TITLE.has(ev):
+		show_banner(EVENT_TITLE[ev][0], EVENT_TITLE[ev][1])
+	match ev:
+		"wheel":
+			r.objects.append({ "kind": "wheel", "x": cx, "y": cy, "uses": 3 })
+		"market":
+			# The blood market: three relics, each for a max heart.
+			r.objects.append({ "kind": "bloodstall", "x": cx, "y": cy - 34, "used": true })
+			var rel := roll_relics(3, "iron", r)
+			for i in rel.size():
+				r.objects.append({ "kind": "bloodshop", "relic": rel[i], "x": cx - 44 + i * 44, "y": cy + 6 })
+		"mimic":
+			var left := randf() < 0.5
+			r.objects.append({ "kind": "chest" if left else "mimicchest", "x": cx - 28, "y": cy })
+			r.objects.append({ "kind": "mimicchest" if left else "chest", "x": cx + 28, "y": cy })
+		"armory":
+			# Three weapons on show: take one and the others are locked away.
+			var seen := {}
+			for i in 3:
+				var w := Weapons.random_weapon(Gear.roll_item_rarity(f, "elite"), player.weapon)
+				for tries in 6:
+					if not seen.has(w["id"]):
+						break
+					w = Weapons.random_weapon(Gear.roll_item_rarity(f, "elite"), player.weapon)
+				seen[w["id"]] = true
+				r.objects.append({ "kind": "item", "item": w, "x": cx - 48 + i * 48, "y": cy, "t": 0.0, "group": "armory" })
+		"well":
+			r.objects.append({ "kind": "well", "x": cx, "y": cy, "uses": 5 })
+		"mirror":
+			r.objects.append({ "kind": "mirror", "x": cx, "y": cy })
+		"library":
+			r.objects.append({ "kind": "tome", "x": cx, "y": cy })
+		"safehouse":
+			r.objects.append({ "kind": "bed", "x": cx - 34, "y": cy })
+			r.objects.append({ "kind": "jukebox", "x": cx + 34, "y": cy })
+		"goblin":
+			pass   # the goblin itself appears when the room is entered
+
+## An event's fight (a mimic, your shadow) is over: the room opens and pays out.
+func event_fight_cleared() -> void:
+	locked = false
+	room.event_fight = false
+	dyn_dirty = true
+	Snd.play("door")
+	var cx := 14.0 * TB.TS
+	var cy := 9.5 * TB.TS
+	match room.event:
+		"mimic":
+			room.objects.append({ "kind": "ichest", "x": cx, "y": cy + 26, "free": true })
+			for i in 4:
+				Combat.drop_pickup("gem", cx, cy + 26)
+			show_banner("THE MIMIC IS DEAD", "IT HAD SWALLOWED AN IRON CHEST")
+		"mirror":
+			var rel := roll_relics(1, "iron", room)
+			room.objects.append({ "kind": "pedestal", "relic": rel[0] if not rel.is_empty() else null, "x": cx, "y": cy + 26 })
+			show_banner("YOUR SHADOW YIELDS", "IT LEAVES A GIFT BEHIND")
+	Snd.play("unlock")
+
+## The loot goblin was caught.
+func on_goblin_dead(e: Enemy) -> void:
+	for i in 6:
+		Combat.drop_pickup("gem", e.x, e.y)
+	Combat.drop_pickup("key", e.x, e.y)
+	if randf() < 0.35:
+		room.objects.append({ "kind": "chest", "x": e.x, "y": e.y })
+	else:
+		drop_gear_at(e.x, e.y)
+	show_banner("GOT IT!", "THE GOBLIN DROPS ITS SACK")
+	Snd.play("unlock")
+
+## Opens a hidden door on a free side wall (found by a loose brick or a flawless fight). False when no wall is free.
+func reveal_hidden_door(title: String, sub: String) -> bool:
+	var sides := []
+	for d in ["e", "w"]:
+		if d != room.entrance and not room.exits.has(d) and not room.doors.has(d):
+			sides.append(d)
+	if sides.is_empty():
+		return false
+	var side: String = TB.pick(sides)
+	room.doors[side] = true
+	room.secret_dirs[side] = true
+	World.open_secret(room, side)
+	dyn_dirty = true
+	room_changed.emit()
+	show_banner(title, sub)
+	Snd.play("unlock")
+	return true
 
 ## Room furniture (Game.rb setup_objects). Chests, shops and shrines are
 ## placed now so rooms look right; using them arrives with items (stage 5).
@@ -355,9 +502,14 @@ func setup_objects(r: Room) -> void:
 			r.objects.append({ "kind": "ichest", "x": cx + 26, "y": cy, "free": true })
 			for i in 4:
 				r.pickups.append(_room_pickup("gem", cx + TB.rint(-40, 40), cy + 30))
+		"mystery":
+			_setup_event(r, r.event)
 		"secret":
 			var roll := randf()
-			if roll < 0.45:
+			if GameData.rogues() and randf() < 0.5:
+				# Rogues layer: half the hidden rooms hold an event instead.
+				_setup_event(r, TB.pick(SECRET_EVENTS))
+			elif roll < 0.45:
 				var rel := roll_relics(1, "secret", r)
 				r.objects.append({ "kind": "pedestal", "relic": rel[0] if not rel.is_empty() else null, "x": cx, "y": cy })
 			elif roll < 0.75:
@@ -375,6 +527,9 @@ func setup_objects(r: Room) -> void:
 			r.objects.append({ "kind": "campfire", "x": cx, "y": cy })
 			if GameData.rogues():
 				r.objects.append({ "kind": "anvil", "x": cx + 56, "y": cy })
+	# Rogues layer: a loose brick in the wall of some quiet rooms opens a hidden door.
+	if GameData.rogues() and r.type in ["treasure", "shrine", "rest", "shop"] and randf() < 0.2:
+		r.objects.append({ "kind": "brick", "x": (2.0 if randf() < 0.5 else 26.0) * TB.TS, "y": 5.0 * TB.TS })
 	# 05b_items.rb: weapons and gear in shops and treasure rooms.
 	match r.type:
 		"shop":
@@ -406,13 +561,21 @@ func spawn_wave(hard: bool = false) -> void:
 		ec += 0.45
 	# Stage 7: the elite room before the rest stop holds the floor's mini-boss.
 	ec += 0.06 * loop   # loop playthroughs: more elites
-	if fdef.has("mini") and room.type == "elite" and room.depth == floor_d["total"] - 2 and not floor_d.get("mini_done", false):
+	if fdef.has("mini") and room.type == "elite" and room.theme.is_empty() and room.depth == floor_d["total"] - 2 \
+			and not floor_d.get("mini_done", false):
 		floor_d["mini_done"] = true
 		var mini := Combat.spawn_enemy(fdef["mini"], 14.0 * TB.TS, 8.0 * TB.TS)
 		show_banner(mini.d["name"], "A CHAMPION OF " + fdef["name"])
 		n = maxi(2, n / 2)
+	# Rift worlds: their own foes, and the champion in the last room.
+	var pool: Array = fdef["pool"] if room.theme.is_empty() else room.theme["pool"]
+	if room.champion != "":
+		var ch := Combat.spawn_enemy(room.champion, 14.0 * TB.TS, 7.0 * TB.TS)
+		room.champion = ""
+		show_banner(ch.d["name"], "CHAMPION OF " + room.theme["name"])
+		n = maxi(2, n / 2)
 	for i in n:
-		var type: String = TB.pick(fdef["pool"])
+		var type: String = TB.pick(pool)
 		var s := World.free_spot(room, player, 90, World.M_FLYER if GameData.ENEMIES[type].get("fly", false) else World.M_WALKER)
 		Combat.spawn_enemy(type, s.x, s.y, randf() < ec)
 	room.waves_left -= 1
@@ -460,9 +623,36 @@ func room_cleared() -> void:
 		give_reward("rare")
 		show_banner("CHALLENGE BEATEN", "AN IRON CHEST APPEARS")
 		Snd.play("unlock")
+	elif not room.theme.is_empty() and room.rift_step == 2:
+		# The rift's champion is dead: its hoard, a weapon, embers and gems.
+		var cx := 14.0 * TB.TS
+		var cy := 9.5 * TB.TS
+		room.objects.append({ "kind": "chest", "x": cx, "y": cy, "boss": true })
+		drop_item(Weapons.random_weapon(Gear.roll_item_rarity(floor_index, "boss"), player.weapon), cx - 30, cy + 24)
+		for i in 3:
+			Combat.drop_pickup("ember", cx, cy + 20)
+		for i in 5:
+			Combat.drop_pickup("gem", cx, cy + 20)
+		show_banner("THE RIFT IS BROKEN", "TAKE ITS HOARD. THE DOORS LEAD BACK")
+		Snd.play("unlock")
 	elif room.reward != "":
 		give_reward(room.reward)
+	# Rogues layer: a fight won without being hit can reveal a hidden door.
+	var flawless: bool = GameData.rogues() and room.type in ["combat", "elite"] and room.theme.is_empty() \
+		and room.hits == 0 and room.secret_dirs.is_empty() and randf() < 0.35
+	var hidden := ""
+	if flawless:
+		var sides := ["e", "w"]
+		sides.erase(room.entrance)
+		hidden = TB.pick(sides)
+		room.doors[hidden] = true
+		room.secret_dirs[hidden] = true
 	open_exits()
+	if hidden != "":
+		World.open_secret(room, hidden)
+		dyn_dirty = true
+		room_changed.emit()
+		show_banner("FLAWLESS!", "NOT A SCRATCH: A HIDDEN DOOR OPENS")
 	if p.g("room_armor") > 0:
 		p.armor += int(p.g("room_armor"))
 	if p.g("room_gold") > 0:
@@ -588,6 +778,13 @@ func interact(o: Dictionary) -> void:
 			o["t"] = 0.0
 		else:
 			o["gone"] = true
+		if o.has("group"):
+			# An armory lets you take one: the rest are locked away.
+			for o2 in room.objects:
+				if o2 != o and o2.get("group", "") == o["group"] and not o2.get("gone", false):
+					o2["gone"] = true
+					Fx.burst(o2["x"], o2["y"], ["#8b8f9c", "#4e4a5e"], 10, 50)
+			o.erase("group")
 		return
 	if o["kind"] == "shop" and (o["item"] == "weapon" or o["item"] == "gear"):
 		if p.gold < o["price"]:
@@ -724,6 +921,133 @@ func interact(o: Dictionary) -> void:
 			room.waves_left = 3
 			dyn_dirty = true
 			show_banner("THE BELL TOLLS", "SURVIVE THREE HARD WAVES")
+		"wheel":
+			var wcost := price(12 + floor_index * 4)
+			if p.gold < wcost:
+				return deny(o, "NEED %d GOLD" % wcost)
+			p.gold -= wcost
+			o["uses"] -= 1
+			if o["uses"] <= 0:
+				o["used"] = true
+			Snd.play("coin")
+			o["spin"] = time
+			var wr := randf()
+			if wr < 0.22:
+				for i in 3:
+					Combat.drop_pickup("gem", o["x"], o["y"] + 12)
+				toast("JACKPOT!", "gold")
+			elif wr < 0.40:
+				p.heal(2)
+				toast("THE WHEEL MENDS YOU", "pink")
+			elif wr < 0.52:
+				var r := roll_relics(1, "chest")
+				if not r.is_empty():
+					add_relic(p, r[0])
+					show_banner(r[0]["name"], r[0]["desc"])
+			elif wr < 0.64:
+				Combat.drop_pickup("bomb", o["x"], o["y"] + 12)
+				Combat.drop_pickup("key", o["x"], o["y"] + 12)
+				toast("SUPPLIES!", "white")
+			elif wr < 0.76:
+				drop_gear_at(o["x"], o["y"] + 20)
+				toast("THE WHEEL DROPS A PRIZE", "cyan")
+			elif wr < 0.88:
+				toast("BAD LUCK. NOTHING", "grey")
+				Snd.play("deny")
+			else:
+				Combat.hurt_player(1, "the wheel of fate")
+				toast("THE WHEEL BITES", "red")
+		"bloodshop":
+			if p.max_hp <= 2:
+				return deny(o, "TOO WEAK")
+			p.max_hp -= 2
+			p.hp = mini(p.hp, p.max_hp)
+			o["gone"] = true
+			add_shake(4)
+			Snd.play("hurt")
+			Fx.burst(o["x"], o["y"], ["#d8443c", "#8a2a33"], 20, 70)
+			add_relic(p, o["relic"])
+			show_banner(o["relic"]["name"], o["relic"]["desc"])
+		"mimicchest":
+			o["gone"] = true
+			Combat.spawn_enemy("mimic", o["x"], o["y"], false, true)
+			locked = true
+			room.event_fight = true
+			dyn_dirty = true
+			add_shake(5)
+			Snd.play("roar")
+			show_banner("IT HAS TEETH!", "THE CHEST WAS A MIMIC")
+		"well":
+			var wc := price(8 + floor_index * 2)
+			if p.gold < wc:
+				return deny(o, "NEED %d GOLD" % wc)
+			p.gold -= wc
+			o["uses"] -= 1
+			if o["uses"] <= 0:
+				o["used"] = true
+			Snd.play("coin")
+			Fx.burst(o["x"], o["y"] + 2, ["#6fd3e0", "#4d9be6", "#f4ecd8"], 10, 50)
+			var roll2 := randf()
+			if roll2 < 0.35:
+				Combat.drop_pickup("heart", o["x"], o["y"] + 14)
+				toast("THE WELL GRANTS HEALTH", "pink")
+			elif roll2 < 0.55:
+				for i in 2:
+					Combat.drop_pickup("gem", o["x"], o["y"] + 14)
+				toast("YOUR COIN COMES BACK TENFOLD", "gold")
+			elif roll2 < 0.70:
+				Combat.drop_pickup(TB.pick(["key", "bomb"]), o["x"], o["y"] + 14)
+				toast("SOMETHING FLOATS UP", "white")
+			elif roll2 < 0.80:
+				Combat.drop_pickup("armor", o["x"], o["y"] + 14)
+				toast("THE WELL GRANTS PROTECTION", "cyan")
+			elif roll2 < 0.86:
+				var r := roll_relics(1, "chest")
+				if not r.is_empty():
+					add_relic(p, r[0])
+					show_banner(r[0]["name"], r[0]["desc"])
+			else:
+				toast("PLOP. NOTHING HAPPENS", "grey")
+		"mirror":
+			o["used"] = true
+			Combat.spawn_enemy("shadow", o["x"], o["y"] - 44, false, true)
+			locked = true
+			room.event_fight = true
+			dyn_dirty = true
+			Snd.play("portal")
+			show_banner("YOUR SHADOW STEPS OUT", "BEAT IT FOR ITS GIFT")
+		"tome":
+			if p.hp <= 1:
+				return deny(o, "TOO WEAK")
+			o["used"] = true
+			p.hp -= 1
+			Snd.play("hurt")
+			Fx.burst(o["x"], o["y"], ["#a35bd6", "#5c3483", "#f2c94c"], 18, 70)
+			Combat.gain_xp(p, GameData.xp_needed(p.level) - p.xp)
+			toast("FORBIDDEN KNOWLEDGE: A LEVEL GAINED", "purple")
+		"bed":
+			o["used"] = true
+			p.heal(4)
+			Fx.burst(o["x"], o["y"], ["#4d9be6", "#f4ecd8"], 14, 50)
+			toast("YOU SLEEP SOUNDLY", "cyan")
+		"jukebox":
+			var jc := price(10 + floor_index * 2)
+			if p.gold < jc:
+				return deny(o, "NEED %d GOLD" % jc)
+			p.gold -= jc
+			o["used"] = true
+			Snd.play("bell")
+			Effects.add_buff(p, "dmg", 0.25, 60.0)
+			Effects.add_buff(p, "speed", 0.15, 60.0)
+			Fx.burst(o["x"], o["y"], ["#e86fb4", "#f2c94c", "#6fd3e0"], 18, 70)
+			toast("A GOOD TUNE: +25% DAMAGE FOR 60S", "pink")
+		"brick":
+			o["gone"] = true
+			Snd.play("lock")
+			if not reveal_hidden_door("A HIDDEN ROOM", "THE LOOSE BRICK SLIDES IN"):
+				for i in 4:
+					Combat.drop_pickup("gem", o["x"], o["y"] + 10)
+				toast("A HIDDEN CACHE", "gold")
 		"lockdoor":
 			if p.keys <= 0:
 				return deny(o, "NEEDS A KEY")
@@ -1181,9 +1505,11 @@ func update_title(dt: float) -> void:
 			menu = 0
 
 func update_hero() -> void:
-	menu = hero_index
-	var go := menu_nav(GameData.heroes().size(), true)
-	hero_index = menu
+	# LEFT/RIGHT walk the hero screen's order (free heroes first), not the list order.
+	var order := GameData.hero_order()
+	menu = order.find(hero_index)
+	var go := menu_nav(order.size(), true)
+	hero_index = order[menu]
 	var mx: int = Meta.meta.get("dread_max", 0)
 	if mx > 0:
 		if Keys.up():
@@ -1219,12 +1545,13 @@ func update_hero() -> void:
 
 ## Skill tree: LEFT/RIGHT pick a branch, UP/DOWN a node, USE buys, AIM LEFT/RIGHT change hero.
 func update_tree() -> void:
-	var n := GameData.heroes().size()
+	var order := GameData.hero_order()
+	var n := order.size()
 	if Keys.aim_left_trig():
-		tree_hero = (tree_hero + n - 1) % n
+		tree_hero = order[(order.find(tree_hero) + n - 1) % n]
 		Snd.play("select")
 	if Keys.aim_right_trig():
-		tree_hero = (tree_hero + 1) % n
+		tree_hero = order[(order.find(tree_hero) + 1) % n]
 		Snd.play("select")
 	if Keys.left():
 		tree_b = (tree_b + 2) % 3
@@ -1333,6 +1660,8 @@ func update_options() -> void:
 		Meta.opts[key] = not Meta.opts[key]
 		if key == "music":
 			Snd.refresh()
+		if key == "vfx":
+			Vfx.reset()   # takes effect at once; nothing in play depends on it
 		Snd.play("confirm")
 		Meta.write_save()
 
@@ -1379,6 +1708,8 @@ func update_play(dt: float) -> void:
 				_wave_delay = 0.6
 		elif alive == 0 and room.waves_left <= 0:
 			room_cleared()
+	if room.event_fight and locked and enemies.is_empty():
+		event_fight_cleared()
 	if room.type == "boss" and locked and boss == null and boss_delay != null:
 		boss_delay -= dt
 		if boss_delay <= 0:

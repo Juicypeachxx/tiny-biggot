@@ -594,10 +594,15 @@ func heroes() -> void:
 					lint_proc("hero %s channel" % h["id"], { "on": "on_hit", "do": act[3] })
 				elif act[0] == "dash" and act.size() > 4 and not act[4].is_empty():
 					lint_proc("hero %s dash end" % h["id"], { "on": "on_hit", "do": act[4] })
+				elif act[0] == "leap" and act.size() > 3 and not act[3].is_empty():
+					lint_proc("hero %s leap landing" % h["id"], { "on": "on_hit", "do": act[3] })
 		if not Traits._by_id.has(h["trait"]):
 			fail("hero %s: unknown starting trait %s" % [h["id"], h["trait"]])
-		if not GameData.unlocks().any(func(u): return u["id"] == "hero_" + h["id"]):
-			fail("hero %s: no shrine unlock" % h["id"])
+		# A hero that costs embers is bought at the shrine; a free one is a starter and must not be listed there.
+		if GameData.unlocks().any(func(u): return u["id"] == "hero_" + h["id"]) != (h["cost"] > 0):
+			fail("hero %s: shrine unlock does not match its cost" % h["id"])
+		if h["cost"] == 0 and not G.hero_unlocked(h):
+			fail("hero %s: a starter that is locked" % h["id"])
 	# Live: each new hero with its whole tree learned, 10 s of fighting.
 	var worst := 0.0
 	var n := 0
@@ -639,7 +644,7 @@ func heroes() -> void:
 		Abilities.use(p)
 		if Abilities.ready(p) or Abilities.charge(p) > 0.01:
 			fail("%s: special did not go on cooldown" % h["id"])
-		var has_dash: bool = h["special"]["do"].any(func(a): return a[0] == "dash")
+		var has_dash: bool = h["special"]["do"].any(func(a): return a[0] == "dash" or a[0] == "leap")
 		var has_channel: bool = h["special"]["do"].any(func(a): return a[0] == "channel")
 		if has_dash and p.dash_t <= 0:
 			fail("%s: dash did not start" % h["id"])
@@ -1132,14 +1137,14 @@ func weapon_fx() -> void:
 		Juice.update(TB.DT, p)
 	if randf() != want:
 		fail("weapon fx drew from the game's random numbers")
-	var n := Juice.sparks.size()
+	var n := Juice.spark_n
 	if n < 20:
 		fail("weapon fx made only %d particles from 30 fire shots, a swing and a hit" % n)
 	GameData.force_classic = true
 	Juice.reset()
 	Juice.update(TB.DT, p)
 	GameData.force_classic = false
-	if Juice.sparks.size() > 0:
+	if Juice.spark_n > 0:
 		fail("weapon fx shows under classic")
 	G.pbullets.clear()
 	G.swings.clear()

@@ -50,4 +50,8 @@ static func line(tick: int) -> String:
 	parts.append("pb=%d/%s" % [G.pbullets.size(), _f(px)])
 	parts.append("pk=%d bo=%d zo=%d fam=%d tf=%d obj=%d" % [G.pickups.size(), G.bombs.size(), G.zones.size(),
 		G.familiars.size(), G.temp_fams.size(), G.room.objects.size()])
+	# The Gaolbird's own state, only for a hero that has it, so earlier traces keep their format.
+	if p.tempo_max > 0 or p.rally_n > 0:
+		parts.append("tempo=%d/%s rally=%s/%d/%s sp=%s" % [p.tempo, _f(p.tempo_t), _f(p.rally_t), p.rally_prog, _f(p.rally_cd),
+			_f(p.special_cd)])
 	return " | ".join(parts)

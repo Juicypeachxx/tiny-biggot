@@ -29,7 +29,9 @@ static func sprite(ci: CanvasItem, name: String, x: float, y: float, ox: float, 
 			ci.draw_texture(Img.white(name), pos, Color(tint.r, tint.g, tint.b, tint.a * alpha))
 		return
 	ci.draw_set_transform(Vector2(px, py), rot, Vector2(zx, zy))
-	var r := Rect2(-ox + w, -oy, -w, h) if mirror else Rect2(-ox, -oy, w, h)
+	# A negative width flips the picture in place: Godot keeps the rect where it is
+	# (it does not extend to the left), so the mirrored rect starts at the same corner.
+	var r := Rect2(-ox, -oy, -w, h) if mirror else Rect2(-ox, -oy, w, h)
 	if not solid:
 		ci.draw_texture_rect(tex, r, false, mod)
 	if tint.a > 0.0:
@@ -66,25 +68,64 @@ static func _char_index(ch: String) -> int:
 			_font_index[FONT_CHARS[i]] = i
 	return _font_index.get(ch, _font_index["?"])
 
+## Font sheets by "<colour><scale>" (and the shadow sheets by scale), looked
+## up once instead of building the sheet's name for every text drawn.
+static var _sheets := {}
+static var _shadows: Array = [null, null, null, null, null]
+## Glyph index by character code (0 = space, drawn as a gap; unknown = '?').
+static var _glyph := PackedInt32Array()
+
+static func _sheet(scale: int, color: String) -> Texture2D:
+	var key := color + str(scale)
+	var t = _sheets.get(key)
+	if t == null:
+		t = Img.t("font%d_%s" % [scale, color])
+		_sheets[key] = t
+	return t
+
+static func _shadow(scale: int) -> Texture2D:
+	if scale >= _shadows.size():
+		return Img.t("font%d_shadow" % scale)
+	if _shadows[scale] == null:
+		_shadows[scale] = Img.t("font%d_shadow" % scale)
+	return _shadows[scale]
+
+## Glyph index of a character code (0 = space, drawn as a gap; unknown = '?').
+static func glyph_index(code: int) -> int:
+	if _glyph.is_empty():
+		_glyph.resize(128)
+		_glyph.fill(_char_index("?"))
+		for i in FONT_CHARS.length():
+			_glyph[FONT_CHARS.unicode_at(i)] = i
+	return _glyph[code] if code < 128 else _glyph[0x3f]
+
 ## Draws pixel text. color is a font colour name ("white", "gold", ...). Returns the width.
 static func text(ci: CanvasItem, s: Variant, x: float, y: float, color: String = "white",
 		scale: int = 1, align: float = 0.0, shadow: bool = true, alpha: float = 1.0) -> int:
 	var st := str(s).to_upper()
-	var w := TB.text_w(st, scale)
+	var n := st.length()
+	var w := (n * 4 - 1) * scale if n > 0 else 0   # TB.text_w
 	var cx := roundf(x - w * align)
 	var cy := roundf(y)
-	var sheet := Img.t("font%d_%s" % [scale, color])
-	var sh: Texture2D = Img.t("font%d_shadow" % scale) if shadow else null
+	if _glyph.is_empty():
+		glyph_index(0)
+	var sheet := _sheet(scale, color)
+	var sh: Texture2D = _shadow(scale) if shadow else null
 	var mod := Color(1, 1, 1, alpha)
+	var gw := 3 * scale
+	var gh := 5 * scale
+	var step := 4 * scale
 	var pxx := cx
-	for i in st.length():
-		var idx := _char_index(st[i])
+	var q := _glyph[0x3f]
+	for i in n:
+		var code := st.unicode_at(i)
+		var idx := _glyph[code] if code < 128 else q
 		if idx > 0:
-			var src := Rect2(idx * 4 * scale, 0, 3 * scale, 5 * scale)
+			var src := Rect2(idx * step, 0, gw, gh)
 			if sh != null:
-				ci.draw_texture_rect_region(sh, Rect2(pxx, cy + scale, 3 * scale, 5 * scale), src, mod)
-			ci.draw_texture_rect_region(sheet, Rect2(pxx, cy, 3 * scale, 5 * scale), src, mod)
-		pxx += 4 * scale
+				ci.draw_texture_rect_region(sh, Rect2(pxx, cy + scale, gw, gh), src, mod)
+			ci.draw_texture_rect_region(sheet, Rect2(pxx, cy, gw, gh), src, mod)
+		pxx += step
 	return w
 
 static func wrap_text(s: String, max_w: int) -> PackedStringArray:

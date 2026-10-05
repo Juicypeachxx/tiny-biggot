@@ -33,6 +33,18 @@ const HEROES := [
 ## and "new". Sprites are recoloured copies of
 ## original heroes: placeholders until real art exists.
 const NEW_HEROES := [
+	# A starter (cost 0: free from the first run). An escapee who lives on momentum:
+	# tempo and rally are in scripts/combat/tempo.gd and rally.gd, the leap in abilities.gd.
+	{ "id": "gaolbird", "name": "THE GAOLBIRD", "sprite": "gaolbird", "new": true,
+	  "blurb": "Flew the coop at Blackrock Gaol in a crow mask and has not stood still since.",
+	  "passive": "TEMPO: BLOWS AND KILLS BUILD UP TO 10 TEMPO, +2.5% SPEED AND +4% FIRE RATE EACH. AT 10: +20% CRIT, ROLLS CUT FOES. IT FADES IF YOU STOP HITTING, A HIT HALVES IT. RALLY: AFTER A HIT, LAND 6 BLOWS IN 3S TO WIN THE HEART BACK. ROLL THROUGH A FOE TO EXPOSE IT.",
+	  "weapon": "IRON TALONS", "hp": 6, "speed": 94, "shot": "slash", "sound": "hatchet", "cost": 0, "trait": "sh_blur", "hud": "tempo",
+	  "stats": { "dmg": 3.6, "rate": 3.6, "shot_speed": 0.0, "life": 0.0, "homing": 0.0, "size": 1.0, "pierce": 99 },
+	  "effects": [["set", "tempo_max", 10], ["set", "rally_n", 6], ["hook", "roll_expose", 1]],
+	  "special": { "name": "TALON DIVE", "cd": 7, "col": "#e86fb4",
+		"desc": "LEAP UP AND CRASH DOWN ON THE FOE YOU AIM AT: 300% TO ALL NEARBY, STUN, EXPOSE, ERASE SHOTS, +2 TEMPO. UNTOUCHABLE IN THE AIR.",
+		"do": [["leap", 460, 150, [["explode", 46, 3.0], ["status_area", "stun", 1, 52], ["status_area", "vulnerable", 1, 52],
+			["clear_shots", 52], ["tempo", 2], ["vfx", "slam", "#e86fb4", 50]]]] } },
 	{ "id": "banehunter", "name": "THE BANE HUNTER", "sprite": "banehunter", "new": true,
 	  "blurb": "A scarred hunter of monsters. Lives off bounties and bitter oils.",
 	  "passive": "+25% DAMAGE TO ELITES. A POTION ALSO OILS YOUR BLADE: +40% DAMAGE FOR 10S. EVERY 6S A ROLL CASTS A SIGN: A RING OF SPARKS THAT STUNS THE NEAREST FOE.",
@@ -123,12 +135,29 @@ static func heroes() -> Array:
 			_heroes.append_array(NEW_HEROES)
 	return _heroes
 
+## The order heroes are shown in on the hero and skill-tree screens: the free ones
+## first, then the rest, each group in list order. Only those screens use it;
+## G.hero_index and --hero stay indices into heroes(). (With the six originals
+## alone, as in --classic, it is simply 0..5.)
+static var _order: Array = []
+static func hero_order() -> Array:
+	if _order.is_empty():
+		var all := heroes()
+		for i in all.size():
+			if all[i]["cost"] == 0:
+				_order.append(i)
+		for i in all.size():
+			if all[i]["cost"] != 0:
+				_order.append(i)
+	return _order
+
 static func unlocks() -> Array:
 	if _unlocks.is_empty():
 		_unlocks = UNLOCKS.duplicate()
 		if not DebugArgs.has("classic"):
 			for h in NEW_HEROES:
-				_unlocks.append({ "id": "hero_" + h["id"], "name": h["name"], "desc": "A NEW HERO: " + h["weapon"], "cost": h["cost"] })
+				if h["cost"] > 0:   # a hero that costs nothing is a starter: nothing to buy at the shrine
+					_unlocks.append({ "id": "hero_" + h["id"], "name": h["name"], "desc": "A NEW HERO: " + h["weapon"], "cost": h["cost"] })
 	return _unlocks
 
 const RARITY_COL := { "common": "grey", "rare": "cyan", "epic": "purple", "legend": "gold" }
@@ -186,6 +215,77 @@ const ENEMIES := {
 	"eclipsed": { "sprite": "eclipsed", "hp": 24, "speed": 34, "r": 6, "ai": "cultist", "shot": "dark", "gold": 0.5 },
 	"herald": { "sprite": "herald", "name": "THE HERALD OF DUSK", "hp": 520, "speed": 50, "r": 10, "ai": "book", "fly": true, "shot": "dark",
 		"scale": 1.8, "mini": true, "gold": 3.0 },
+	# ---------- Rift worlds (scripts/data/themes.gd). "label" is how a foe is named when it kills
+	# you; "champion" marks a rift's boss (ChampionAI, health grows with the floor).
+	# Blackrock Gaol.
+	"inmate": { "sprite": "inmate", "hp": 18, "speed": 34, "r": 6, "ai": "drowned", "shot": "bone", "gold": 0.4, "label": "an inmate" },
+	"grenadier": { "sprite": "grenadier", "hp": 14, "speed": 38, "r": 5, "ai": "lobber", "shot": "fire", "gold": 0.45, "label": "a grenadier" },
+	"jailer": { "sprite": "jailer", "hp": 30, "speed": 38, "r": 6, "ai": "knight", "shot": "bone", "gold": 0.55, "label": "a jailer" },
+	"turnkey": { "sprite": "turnkey", "name": "THE TURNKEY", "hp": 170, "speed": 46, "r": 10, "ai": "champion", "shot": "bone",
+		"scale": 2.0, "mini": true, "champion": true, "gold": 4.0, "style": "melee",
+		"moves": [["charge", 2], ["ring", 14, 62, 2], ["lob", 3], ["summon", "inmate", 2], ["fan", 5, 0.7, 3]] },
+	# The Branded Field.
+	"graveborn": { "sprite": "graveborn", "hp": 16, "speed": 70, "r": 6, "ai": "ambush", "shot": "dark", "gold": 0.4, "label": "a graveborn" },
+	"bandsman": { "sprite": "bandsman", "hp": 14, "speed": 40, "r": 5, "ai": "archer", "shot": "bone", "fan": 3, "gold": 0.4, "label": "a bandsman" },
+	"fiendling": { "sprite": "fiendling", "hp": 12, "speed": 62, "r": 5, "ai": "imp", "fly": true, "shot": "dark", "gold": 0.35, "label": "a fiendling" },
+	"blackknight": { "sprite": "blackknight", "hp": 36, "speed": 40, "r": 6, "ai": "knight", "shot": "dark", "gold": 0.6, "label": "a black knight" },
+	"carrionknight": { "sprite": "carrionknight", "name": "THE CARRION KNIGHT", "hp": 190, "speed": 50, "r": 10, "ai": "champion", "shot": "dark",
+		"scale": 2.0, "mini": true, "champion": true, "gold": 4.0, "style": "melee",
+		"moves": [["charge", 3], ["fan", 7, 0.9, 2], ["rain", 4], ["ring", 16, 58, 2], ["summon", "fiendling", 2]] },
+	# Neon Undercity.
+	"drone": { "sprite": "drone", "hp": 10, "speed": 66, "r": 5, "ai": "imp", "fly": true, "shot": "cyan", "gold": 0.35, "label": "a drone" },
+	"glitch": { "sprite": "glitch", "hp": 15, "speed": 56, "r": 5, "ai": "ghost", "fly": true, "shot": "cyan", "gold": 0.4, "label": "a glitch" },
+	"chrome": { "sprite": "chrome", "hp": 44, "speed": 28, "r": 7, "ai": "golem", "shot": "red", "gold": 0.7, "label": "a chrome bruiser" },
+	"turret": { "sprite": "turret", "hp": 20, "speed": 0, "r": 6, "ai": "turret", "shot": "cyan", "gold": 0.4, "label": "a turret" },
+	"broker": { "sprite": "broker", "name": "THE BROKER", "hp": 160, "speed": 44, "r": 10, "ai": "champion", "shot": "cyan",
+		"scale": 2.0, "mini": true, "champion": true, "gold": 4.0, "style": "ranged",
+		"moves": [["blink"], ["spiral", 36], ["burst", 8], ["summon", "drone", 3], ["blink"], ["ring", 18, 66, 3]] },
+	# Riot Alley.
+	"thug": { "sprite": "thug", "hp": 18, "speed": 70, "r": 5, "ai": "monk", "shot": "red", "gold": 0.4, "label": "a thug" },
+	"molotov": { "sprite": "molotov", "hp": 13, "speed": 40, "r": 5, "ai": "lobber", "shot": "fire", "gold": 0.4, "label": "a firebomber" },
+	"copper": { "sprite": "copper", "hp": 16, "speed": 44, "r": 5, "ai": "gunman", "shot": "red", "gold": 0.5, "label": "a copper" },
+	"bomber": { "sprite": "bomber", "hp": 12, "speed": 78, "r": 6, "ai": "bomber", "shot": "fire", "gold": 0.35, "label": "a mad bomber" },
+	"mayor": { "sprite": "mayor", "name": "THE MAYOR", "hp": 165, "speed": 40, "r": 10, "ai": "champion", "shot": "red",
+		"scale": 2.0, "mini": true, "champion": true, "gold": 5.0, "style": "ranged",
+		"moves": [["summon", "thug", 2], ["burst", 6], ["lob", 4], ["summon", "copper", 2], ["ring", 16, 60, 2], ["summon", "bomber", 2]] },
+	# Ashfall Town.
+	"orderly": { "sprite": "orderly", "hp": 18, "speed": 60, "r": 5, "ai": "monk", "shot": "dark", "gold": 0.4, "label": "an orderly" },
+	"crawler": { "sprite": "crawler", "hp": 8, "speed": 80, "r": 5, "ai": "runner", "gold": 0.2, "label": "a crawler" },
+	"static": { "sprite": "static", "hp": 15, "speed": 50, "r": 5, "ai": "ghost", "fly": true, "shot": "dark", "gold": 0.4, "label": "a static shape" },
+	"tollkeeper": { "sprite": "tollkeeper", "hp": 22, "speed": 26, "r": 6, "ai": "caller", "summon": "crawler", "shot": "dark", "gold": 0.5, "label": "a tollkeeper" },
+	"rustbutcher": { "sprite": "rustbutcher", "name": "THE RUST BUTCHER", "hp": 200, "speed": 42, "r": 10, "ai": "champion", "shot": "darkBig",
+		"scale": 2.0, "mini": true, "champion": true, "gold": 4.0, "style": "melee",
+		"moves": [["charge", 2], ["ring", 10, 44, 3], ["rain", 5], ["summon", "crawler", 4], ["charge", 3]] },
+	# Maple Court.
+	"neighbour": { "sprite": "neighbour", "hp": 14, "speed": 46, "r": 5, "ai": "book", "shot": "page", "gold": 0.4, "label": "an angry neighbour" },
+	"robovac": { "sprite": "robovac", "hp": 24, "speed": 44, "r": 6, "ai": "knight", "shot": "red", "gold": 0.45, "label": "a robot vacuum" },
+	"burglar": { "sprite": "burglar", "hp": 14, "speed": 58, "r": 5, "ai": "ghost", "fly": true, "shot": "dark", "gold": 0.6, "label": "a burglar" },
+	"gnome": { "sprite": "gnome", "hp": 16, "speed": 0, "r": 5, "ai": "turret", "shot": "red", "gold": 0.4, "label": "a garden gnome" },
+	"landlord": { "sprite": "landlord", "name": "THE LANDLORD", "hp": 160, "speed": 42, "r": 10, "ai": "champion", "shot": "page",
+		"scale": 2.0, "mini": true, "champion": true, "gold": 6.0, "style": "ranged",
+		"moves": [["fan", 9, 1.2, 3], ["summon", "neighbour", 2], ["lob", 3], ["charge", 1], ["summon", "robovac", 2], ["spiral", 30]] },
+	# Heist City.
+	"gangster": { "sprite": "gangster", "hp": 16, "speed": 44, "r": 5, "ai": "gunman", "shot": "red", "burst": 4, "gold": 0.6, "label": "a gangster" },
+	"biker": { "sprite": "biker", "hp": 24, "speed": 52, "r": 6, "ai": "knight", "shot": "fire", "gold": 0.5, "label": "a biker" },
+	"riotcop": { "sprite": "riotcop", "hp": 40, "speed": 28, "r": 7, "ai": "golem", "shot": "red", "gold": 0.6, "label": "a riot cop" },
+	"kingpin": { "sprite": "kingpin", "name": "THE KINGPIN", "hp": 210, "speed": 34, "r": 11, "ai": "champion", "shot": "red",
+		"scale": 2.0, "mini": true, "champion": true, "gold": 8.0, "style": "ranged",
+		"moves": [["burst", 10], ["lob", 3], ["summon", "gangster", 2], ["spiral", 40], ["summon", "biker", 2], ["ring", 20, 64, 2]] },
+	# Dustwater.
+	"outlaw": { "sprite": "outlaw", "hp": 15, "speed": 46, "r": 5, "ai": "gunman", "shot": "red", "burst": 2, "gold": 0.55, "label": "an outlaw" },
+	"dynamiter": { "sprite": "dynamiter", "hp": 14, "speed": 38, "r": 5, "ai": "lobber", "shot": "fire", "gold": 0.45, "label": "a dynamiter" },
+	"sharpshooter": { "sprite": "sharpshooter", "hp": 12, "speed": 36, "r": 5, "ai": "gunman", "shot": "bone", "burst": 1, "shot_speed": 260,
+		"aim": 0.9, "gold": 0.5, "label": "a sharpshooter" },
+	"coyote": { "sprite": "coyote", "hp": 9, "speed": 90, "r": 5, "ai": "runner", "gold": 0.2, "label": "a coyote" },
+	"marshal": { "sprite": "marshal", "name": "THE MARSHAL", "hp": 175, "speed": 48, "r": 10, "ai": "champion", "shot": "bone",
+		"scale": 2.0, "mini": true, "champion": true, "gold": 5.0, "style": "ranged",
+		"moves": [["duel", 3], ["burst", 6], ["lob", 3], ["charge", 1], ["fan", 6, 0.5, 3], ["summon", "coyote", 3]] },
+	# Event rooms.
+	"goblin": { "sprite": "goblin", "hp": 40, "speed": 96, "r": 5, "ai": "flee", "gold": 0.0, "label": "a loot goblin" },
+	"mimic": { "sprite": "mimic", "hp": 80, "speed": 46, "r": 8, "ai": "golem", "shot": "red", "scale": 1.3, "gold": 2.0, "label": "a mimic" },
+	"shadow": { "sprite": "shadow", "name": "YOUR SHADOW", "hp": 150, "speed": 60, "r": 6, "ai": "champion", "shot": "dark",
+		"mini": true, "champion": true, "gold": 0.0, "style": "ranged",
+		"moves": [["burst", 5], ["blink"], ["fan", 5, 0.6, 2], ["charge", 1], ["ring", 12, 60, 2]] },
 }
 
 const BOSSES := {
@@ -258,6 +358,15 @@ const SPRITE_COLOR := {
 	"crow": "#1a1423", "chimneyimp": "#a35bd6", "enforcer": "#4e4a5e", "voidling": "#d8443c", "shadeknight": "#2a2838",
 	"eclipsed": "#d8443c", "herald": "#8a2a33", "bogmatriarch": "#3f7a5a", "ashwarlord": "#d8443c",
 	"frozenabbot": "#e8f6ff", "crowking": "#5c3483", "umbralsun": "#d8443c",
+	# Rift worlds and event rooms.
+	"inmate": "#63b84f", "grenadier": "#d8443c", "jailer": "#3f7a5a", "turnkey": "#3f7a5a", "graveborn": "#7a3a8c",
+	"bandsman": "#7a5236", "fiendling": "#8a2a33", "blackknight": "#2a2838", "carrionknight": "#2a2838", "drone": "#6fd3e0",
+	"glitch": "#5c3483", "chrome": "#8b8f9c", "turret": "#6fd3e0", "broker": "#e86fb4", "thug": "#e86fb4", "molotov": "#2f6b3a",
+	"copper": "#4d9be6", "bomber": "#d8443c", "mayor": "#f2c94c", "orderly": "#f4ecd8", "crawler": "#a8705a",
+	"static": "#8b8f9c", "tollkeeper": "#2a2838", "rustbutcher": "#7a5236", "neighbour": "#e86fb4", "robovac": "#8b8f9c",
+	"burglar": "#2a2838", "gnome": "#d8443c", "landlord": "#e86fb4", "gangster": "#2a2838", "biker": "#d8443c",
+	"riotcop": "#2b4f8a", "kingpin": "#f4ecd8", "outlaw": "#7a5236", "dynamiter": "#4d9be6", "sharpshooter": "#63b84f",
+	"coyote": "#a8705a", "marshal": "#7a5236", "goblin": "#63b84f", "mimic": "#7a5236", "shadow": "#3c1d47",
 }
 
 ## Ember Shrine: things to unlock between runs.
@@ -288,7 +397,13 @@ const ENEMY_XP := { "bat": 2, "slime": 3, "slimelet": 1, "skeleton": 3, "mushroo
 	"bogling": 4, "gnat": 2, "hexwife": 4, "longbowman": 4, "lancer": 6, "warpriest": 4, "torchimp": 3, "monk": 5,
 	"icearcher": 4, "snowlantern": 4, "gunman": 5, "cutthroat": 4, "crow": 2, "chimneyimp": 3, "voidling": 4,
 	"shadeknight": 7, "eclipsed": 5, "mirehulk": 40, "ironcaptain": 45, "stoneabbot": 50, "enforcer": 55, "herald": 60,
-	"knight": 6, "ghost": 3, "bookwyrm": 3, "drowned": 4, "wisp": 3, "golem": 7 }
+	"knight": 6, "ghost": 3, "bookwyrm": 3, "drowned": 4, "wisp": 3, "golem": 7,
+	# Rift worlds and event rooms.
+	"inmate": 4, "grenadier": 4, "jailer": 6, "graveborn": 4, "bandsman": 4, "fiendling": 3, "blackknight": 7, "drone": 3,
+	"glitch": 4, "chrome": 7, "turret": 4, "thug": 4, "molotov": 4, "copper": 5, "bomber": 3, "orderly": 4, "crawler": 2,
+	"static": 4, "tollkeeper": 5, "neighbour": 4, "robovac": 5, "burglar": 4, "gnome": 4, "gangster": 5, "biker": 5,
+	"riotcop": 7, "outlaw": 5, "dynamiter": 4, "sharpshooter": 4, "coyote": 2, "goblin": 10, "mimic": 15, "shadow": 40,
+	"turnkey": 45, "carrionknight": 45, "broker": 45, "mayor": 45, "rustbutcher": 45, "landlord": 45, "kingpin": 45, "marshal": 45 }
 
 static func xp_needed(level: int) -> int:
 	return roundi(10 + 7 * pow(level, 1.35))
@@ -307,7 +422,26 @@ const ROOM_KINDS := {
 	"shrine": { "name": "SHRINE", "icon": "icon_shrine", "col": "purple" }, "challenge": { "name": "CHALLENGE", "icon": "bell", "col": "cyan" },
 	"vault": { "name": "VAULT", "icon": "lock", "col": "orange" }, "secret": { "name": "HIDDEN ROOM", "icon": "icon_secret", "col": "pink" },
 	"boss": { "name": "GUARDIAN", "icon": "icon_skull", "col": "red" }, "rest": { "name": "CAMPFIRE", "icon": "icon_fire", "col": "orange" },
+	# Rift worlds (a themed side stage) and mystery rooms (a random event).
+	"rift": { "name": "RIFT", "icon": "riftdoor", "col": "pink" }, "mystery": { "name": "MYSTERY", "icon": "icon_secret", "col": "pink" },
 }
+
+## What a door shows: its room kind, with a rift door named after its world
+## (and after how deep into the rift it leads).
+static func door_kind(c: Dictionary) -> Dictionary:
+	var kind: Dictionary = ROOM_KINDS[c["type"]]
+	if c["type"] != "rift":
+		return kind
+	var th := Themes.by_id(c.get("theme", ""))
+	var step: int = c.get("step", 0)
+	var name: String = th.get("name", "RIFT")
+	if step == 1:
+		name = "DEEPER IN"
+	elif step == 2:
+		name = GameData.ENEMIES[th["champion"]]["name"]
+	return { "name": name, "icon": "icon_skull" if step == 2 else kind["icon"], "col": "red" if step == 2 else kind["col"] }
+
 ## Door frame colours per room type (Render.rb ROOM_COL).
 const ROOM_COL := { "boss": "#d8443c", "treasure": "#f2c94c", "shop": "#63b84f", "shrine": "#a35bd6", "combat": "#8b8f9c",
-	"elite": "#d8443c", "rest": "#e8873a", "vault": "#e8873a", "secret": "#e86fb4", "challenge": "#6fd3e0" }
+	"elite": "#d8443c", "rest": "#e8873a", "vault": "#e8873a", "secret": "#e86fb4", "challenge": "#6fd3e0",
+	"rift": "#e86fb4", "mystery": "#a35bd6" }

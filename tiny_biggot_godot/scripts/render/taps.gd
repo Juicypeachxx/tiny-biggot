@@ -30,19 +30,23 @@ static func zones() -> Array:
 			for i in G.TITLE_ITEMS.size():
 				out.append(_z(Rect2(sw / 2 - 85, 142 + i * 17 - 4, 170, 17), func(): G.menu = i, G.menu == i, true))
 		&"options", &"pause":
-			var n: int = G.OPTION_LIST.size() if G.state == &"options" else G.PAUSE_ITEMS.size()
+			var opts := G.state == &"options"
+			var n: int = G.OPTION_LIST.size() if opts else G.PAUSE_ITEMS.size()
+			var y0 := MenuView.OPT_Y0 if opts else 86
+			var dy := MenuView.OPT_DY if opts else 22
 			for i in n:
-				out.append(_z(Rect2(sw / 2 - 130, 86 + i * 22 - 5, 260, 21), func(): G.menu = i, G.menu == i, true))
+				out.append(_z(Rect2(sw / 2 - 130, y0 + i * dy - 5, 260, dy - 1), func(): G.menu = i, G.menu == i, true))
 		&"hero":
-			var n := GameData.heroes().size()
+			var order := GameData.hero_order()   # the hero screen's own order: free heroes first
+			var n := order.size()
 			var win := MenuView.hero_window()
 			for j in win[1]:
-				var i: int = win[0] + j
+				var i: int = order[win[0] + j]
 				out.append(_z(Rect2(win[2] + j * (MenuView.HERO_W + MenuView.HERO_GAP), 30, MenuView.HERO_W, 66),
 					func(): G.hero_index = i, G.hero_index == i))
 			# Scroll arrows at the screen edges.
-			out.append(_act(Rect2(0, 30, win[2], 66), func(): G.hero_index = maxi(0, G.hero_index - 1)))
-			out.append(_act(Rect2(sw - win[2], 30, win[2], 66), func(): G.hero_index = mini(n - 1, G.hero_index + 1)))
+			out.append(_act(Rect2(0, 30, win[2], 66), func(): G.hero_index = order[maxi(0, order.find(G.hero_index) - 1)]))
+			out.append(_act(Rect2(sw - win[2], 30, win[2], 66), func(): G.hero_index = order[mini(n - 1, order.find(G.hero_index) + 1)]))
 		&"shrine":
 			var sel: int = G.shrine_i
 			var ul := GameData.unlocks()
@@ -67,9 +71,10 @@ static func zones() -> Array:
 				for ni in tree[bi]["nodes"].size():
 					out.append(_z(Rect2(34 + bi * 132, 56 + ni * 38, 120, 32), _tree_sel.bind(bi, ni),
 						G.tree_b == bi and G.tree_n == ni))
-			var hn := GameData.heroes().size()
-			out.append(_act(Rect2(sw / 2 - 110, 20, 80, 16), func(): G.tree_hero = (G.tree_hero + hn - 1) % hn))
-			out.append(_act(Rect2(sw / 2 + 30, 20, 80, 16), func(): G.tree_hero = (G.tree_hero + 1) % hn))
+			var ho := GameData.hero_order()
+			var hn := ho.size()
+			out.append(_act(Rect2(sw / 2 - 110, 20, 80, 16), func(): G.tree_hero = ho[(ho.find(G.tree_hero) + hn - 1) % hn]))
+			out.append(_act(Rect2(sw / 2 + 30, 20, 80, 16), func(): G.tree_hero = ho[(ho.find(G.tree_hero) + 1) % hn]))
 		&"inventory":
 			for i in 10:
 				out.append(_z(MenuView.inv_slot_rect(i), func(): G.inv_i = i, G.inv_i == i))

@@ -1,5 +1,7 @@
 # Step 6: new heroes and skill trees
 
+(A later addition, the Gaolbird, is a free starter hero with its own notes: see GAOLBIRD.md.)
+
 Seven new heroes join the six originals. The originals keep their place
 (indices 0-5), stats, weapons and trees exactly as before. All names, text
 and lore are original; the design spec's inspirations are only playstyle
