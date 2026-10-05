@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Rebuilds the sprite atlas that comes with the project (assets/atlas/sprites.res) from
+# Rebuilds the sprite atlas that comes with the project (assets/atlas/sprites.tbatlas) from
 # assets/graphics/*.png, then checks it. The game does not need this (it notices at start-up
 # that the file no longer fits and packs the atlas itself); it keeps the project's own file up
 # to date, and tools/check.sh fails until it is.

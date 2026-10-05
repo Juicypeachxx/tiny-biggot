@@ -1,5 +1,5 @@
 extends Node
-## The ready-made sprite atlas (assets/atlas/sprites.res; see scripts/core/img.gd).
+## The ready-made sprite atlas (assets/atlas/sprites.tbatlas; see scripts/core/img.gd).
 ## Run: godot --headless --path . res://tests/atlas_test.tscn -- --no-save
 ##   1. The game loads the atlas that comes with the project rather than packing one at start-up.
 ##   2. That file holds exactly what packing the graphics folder gives now: the same names, places
@@ -18,10 +18,14 @@ extends Node
 ##      file there is no fingerprint, and no ready-made file is used at all.
 ##   7. The file the game writes for itself when none fits: written, read back, the same atlas;
 ##      refused, like the other, when the graphics are not the ones it was made from, or when
-##      its pixels are no longer the ones that were written (a damaged file).
+##      the file is not whole (a bit flipped, cut short); then it is written again. Where it
+##      cannot be written the game simply goes on.
 ##   8. A graphic with smaller copies of itself (mipmaps) still gets its silhouette.
 ##   9. The fingerprint is taken from the files the engine would load: all of a graphic's
 ##      imported files and no one else's, whatever is left lying beside them.
+##  10. A file that is damaged in any way (bits flipped anywhere, cut short at any length, a
+##      block of zeroes, a block written twice, not this kind of file at all) is turned down
+##      before anything in it is unpacked, and without an error from the engine.
 ## With --bake (and --no-bake, so the stale file is not loaded first) it writes the file
 ## instead: that is what tools/bake_atlas.sh runs.
 ## Prints "atlas test: PASSED" or a FAIL line per problem.
@@ -52,11 +56,12 @@ func _file_image(name: String) -> Image:
 
 func _check() -> void:
 	var names := Img.folder_names()
-	var baked = load(Img.BAKED) if ResourceLoader.exists(Img.BAKED) else null
-	if not (baked is Image) or not baked.has_meta("atlas"):
-		fail("there is no ready-made atlas at %s: run tools/bake_atlas.sh" % Img.BAKED)
+	var m: Dictionary = Img.read_file(Img.BAKED)
+	var px = m.get("pixels")
+	if not (px is PackedByteArray) or not (m.get("width") is int) or not (m.get("height") is int) or px.size() != m["width"] * m["height"] * 4:
+		fail("there is no ready-made atlas at %s, or it is not whole: run tools/bake_atlas.sh" % Img.BAKED)
 		return
-	var m: Dictionary = baked.get_meta("atlas")
+	var baked := Image.create_from_data(m["width"], m["height"], false, Image.FORMAT_RGBA8, px)
 	var stamp := Img.graphics_stamp(names)
 	# 1
 	if Img.atlas_source != "baked":
@@ -144,6 +149,7 @@ func _check() -> void:
 	_check_own_file(script, names, packed, stamp)
 	_check_mipmaps()
 	_check_imported_folder()
+	_check_file_damage()
 	print("[atlas] %d graphics in the folder, %d in the atlas (%dx%d), %d silhouettes ready-made; %d bytes on disk" % [
 		names.size(), pn.size(), w, h, whites, FileAccess.get_file_as_bytes(Img.BAKED).size()])
 
@@ -229,47 +235,45 @@ func _check_fingerprint(names: PackedStringArray, m: Dictionary, stamp: String) 
 		"notes with the places missing": Img.bake_fits(changed.call("rects", null), names, stamp),
 		"fewer places than sprites": Img.bake_fits(changed.call("rects", short_rects), names, stamp),
 		"silhouettes somewhere else": Img.bake_fits(changed.call("white_dx", 0), names, stamp),
-		"no sum of its pixels": Img.bake_fits(changed.call("sum", null), names, stamp),
+		"a picture of another width": Img.bake_fits(changed.call("width", Img.ATLAS_W), names, stamp),
+		"a height that is not a number": Img.bake_fits(changed.call("height", str(m["height"])), names, stamp),
+		"a height of nothing": Img.bake_fits(changed.call("height", 0), names, stamp),
+		"no pixels": Img.bake_fits(changed.call("pixels", null), names, stamp),
+		"one pixel fewer than the picture needs": Img.bake_fits(changed.call("pixels", m["pixels"].slice(0, m["pixels"].size() - 4)), names, stamp),
+		"pixels that are not bytes": Img.bake_fits(changed.call("pixels", [1, 2, 3]), names, stamp),
 		"no notes": Img.bake_fits({}, names, stamp),
 		"notes that are not notes": Img.bake_fits("atlas", names, stamp),
 	}
 	for what in refused:
 		if refused[what]:
 			fail("a ready-made atlas would be used despite: %s" % what)
-	# The picture against its notes.
-	var baked: Image = load(Img.BAKED)
-	if not Img.picture_fits(baked, m):
-		fail("the ready-made atlas's picture is refused though it is the one that was written")
-	var dented: Image = baked.duplicate()
-	dented.set_pixel(3, 3, Color(0.5, 0.25, 0.125, 1.0))
-	var narrow := baked.get_region(Rect2i(0, 0, Img.ATLAS_W, baked.get_height()))
-	var low := baked.get_region(Rect2i(0, 0, Img.ATLAS_W * 2, 64))
-	var outside: PackedInt32Array = m["rects"].duplicate()
-	outside[2] = Img.ATLAS_W + 1
-	var with_mips: Image = baked.duplicate()
-	with_mips.generate_mipmaps()
-	var bad_pictures := {
-		"one pixel that is not the one written": Img.picture_fits(dented, m),
-		"a picture half as wide": Img.picture_fits(narrow, m),
-		"a picture half as wide, the sum noted being its own": Img.picture_fits(narrow, changed.call("sum", hash(narrow.get_data()))),
-		"a picture too low for its sprites": Img.picture_fits(low, m),
-		"a picture too low for its sprites, the sum noted being its own": Img.picture_fits(low, changed.call("sum", hash(low.get_data()))),
-		"a picture with smaller copies of itself added": Img.picture_fits(with_mips, changed.call("sum", hash(with_mips.get_data()))),
-		"a sprite's place reaching outside the picture": Img.picture_fits(baked, changed.call("rects", outside)),
+	# Every sprite's place against the picture.
+	if not Img.picture_fits(m):
+		fail("the ready-made atlas's places are refused though they are the ones that were written")
+	var with_rect := func(at: int, value: int) -> Dictionary:
+		var r: PackedInt32Array = m["rects"].duplicate()
+		r[at] = value
+		return changed.call("rects", r)
+	var bad_places := {
+		"a sprite's place reaching into the silhouettes' half": Img.picture_fits(with_rect.call(2, Img.ATLAS_W + 1)),
+		"a sprite's place reaching below the picture": Img.picture_fits(with_rect.call(1, m["height"] - 1)),
+		"a sprite's place with no height": Img.picture_fits(with_rect.call(3, 0)),
+		"a sprite's place left of the picture": Img.picture_fits(with_rect.call(0, -1)),
+		"a picture too low for its sprites": Img.picture_fits(changed.call("height", 64)),
 	}
-	for what in bad_pictures:
-		if bad_pictures[what]:
+	for what in bad_places:
+		if bad_places[what]:
 			fail("a ready-made atlas would be used despite: %s" % what)
 
 ## 7: the file the game writes for itself, and which file a start takes.
 func _check_own_file(script: GDScript, names: PackedStringArray, packed: Dictionary, stamp: String) -> void:
-	var path := "user://atlas_test_%d.res" % OS.get_process_id()
-	var none := "user://atlas_test_none_%d.res" % OS.get_process_id()
+	var path := "user://atlas_test_%d.tbatlas" % OS.get_process_id()
+	var none := "user://atlas_test_none_%d.tbatlas" % OS.get_process_id()
 	DirAccess.remove_absolute(path)
 	# No file fits: the atlas is packed now and written for next time.
 	var first = script.new()
 	first._start(names, none, path, true)
-	if first.atlas_source != "built" or not FileAccess.file_exists(path) or FileAccess.file_exists(path.get_basename() + ".tmp.res"):
+	if first.atlas_source != "built" or not FileAccess.file_exists(path) or FileAccess.file_exists(path + ".tmp"):
 		fail("with no ready-made file the game did not pack the atlas and write its own file (it has: '%s')" % first.atlas_source)
 		first.free()
 		return
@@ -288,10 +292,8 @@ func _check_own_file(script: GDScript, names: PackedStringArray, packed: Diction
 				differ += 1
 		if differ > 0:
 			fail("%d sprites differ between the game's own atlas file and the one that comes with the project" % differ)
-		var theirs = load(Img.BAKED)
-		var ours = ResourceLoader.load(path, "Image", ResourceLoader.CACHE_MODE_IGNORE)
-		if not (ours is Image) or ours.get_data() != theirs.get_data() or ours.get_meta("atlas") != theirs.get_meta("atlas"):
-			fail("the game's own atlas file does not hold what the one that comes with the project holds")
+		if FileAccess.get_file_as_bytes(path) != FileAccess.get_file_as_bytes(Img.BAKED):
+			fail("the game's own atlas file is not, byte for byte, the one that comes with the project")
 	own.free()
 	# Where both fit, the game's own is the one taken (the other is not even read).
 	var both = script.new()
@@ -322,21 +324,54 @@ func _check_own_file(script: GDScript, names: PackedStringArray, packed: Diction
 		fail("a stale file of the game's own was not replaced (first '%s', then '%s')" % [rw.atlas_source, after.atlas_source])
 	rw.free()
 	after.free()
-	# A damaged file of the game's own (a pixel is not the one that was written, the notes say
-	# nothing of it): not used, and replaced.
-	var hurt: Image = ResourceLoader.load(path, "Image", ResourceLoader.CACHE_MODE_IGNORE)
-	hurt.set_pixel(5, 5, Color(0.5, 0.25, 0.125, 1.0))
-	ResourceSaver.save(hurt, path, ResourceSaver.FLAG_COMPRESS)
-	var dmg = script.new()
-	dmg._start(names, none, path, true)
-	var healed = script.new()
-	healed._start(names, none, path, false)
-	if dmg.atlas_source != "built" or healed.atlas_source != "cached":
-		fail("a damaged file of the game's own was not passed over and replaced (first '%s', then '%s')" % [dmg.atlas_source, healed.atlas_source])
-	elif healed.image(packed["names"][0]).get_data() != Img.image(packed["names"][0]).get_data():
-		fail("the file written in place of a damaged one is not right either")
-	dmg.free()
-	healed.free()
+	# A damaged file of the game's own: not used, and written again.
+	var put := func(bytes: PackedByteArray) -> void:
+		var f := FileAccess.open(path, FileAccess.WRITE)
+		f.store_buffer(bytes)
+		f.close()
+	var whole := FileAccess.get_file_as_bytes(path)
+	var flipped := whole.duplicate()
+	flipped[whole.size() / 2] = flipped[whole.size() / 2] ^ 0x10
+	var hurts := { "one bit flipped": flipped, "cut in half": whole.slice(0, whole.size() / 2), "only its first 4096 bytes": whole.slice(0, 4096) }
+	for how in hurts:
+		put.call(hurts[how])
+		var dmg = script.new()
+		dmg._start(names, none, path, true)
+		var healed = script.new()
+		healed._start(names, none, path, false)
+		if dmg.atlas_source != "built" or healed.atlas_source != "cached":
+			fail("a file of the game's own with %s was not passed over and written again (first '%s', then '%s')" % [how, dmg.atlas_source, healed.atlas_source])
+		elif FileAccess.get_file_as_bytes(path) != whole:
+			fail("the file written in place of one with %s is not the whole one" % how)
+		dmg.free()
+		healed.free()
+	# ... or, where the project's file fits, passed over for that one and removed.
+	put.call(flipped)
+	var other = script.new()
+	other._start(names, Img.BAKED, path, true)
+	if other.atlas_source != "baked" or FileAccess.file_exists(path):
+		fail("a damaged file of the game's own was not passed over for the project's and removed (it has: '%s')" % other.atlas_source)
+	other.free()
+	# A whole file whose notes are wrong (a sprite's place reaching outside the picture): not used.
+	var wrong: Dictionary = Img.read_file(Img.BAKED)
+	var places: PackedInt32Array = wrong["rects"].duplicate()
+	places[2] = Img.ATLAS_W + 1
+	wrong["rects"] = places
+	Img.write_whole(path, Img.file_bytes(wrong))
+	var crafted = script.new()
+	crafted._start(names, none, path, false)
+	if Img.read_file(path).is_empty() or crafted.atlas_source != "built":
+		fail("a whole file with a sprite's place outside the picture was used (it has: '%s')" % crafted.atlas_source)
+	crafted.free()
+	DirAccess.remove_absolute(path)
+	# Where no file can be written (here: a folder in the way), the game packs and goes on.
+	DirAccess.make_dir_absolute(path + ".tmp")
+	var blocked = script.new()
+	blocked._start(names, none, path, true)
+	if blocked.atlas_source != "built" or FileAccess.file_exists(path):
+		fail("a start that could not write its own file did not simply go on (it has: '%s')" % blocked.atlas_source)
+	blocked.free()
+	DirAccess.remove_absolute(path + ".tmp")
 	# Neither file to be used (--no-bake): packed, nothing written.
 	DirAccess.remove_absolute(path)
 	var plain = script.new()
@@ -415,3 +450,91 @@ func _check_imported_folder() -> void:
 	for f in DirAccess.get_files_at(dir):
 		DirAccess.remove_absolute(dir + f)
 	DirAccess.remove_absolute(dir.trim_suffix("/"))
+
+## 10: a file that is not whole is turned down before anything in it is used.
+func _check_file_damage() -> void:
+	var good := FileAccess.get_file_as_bytes(Img.BAKED)
+	var n := good.size()
+	var notes := Img.notes_in(good)
+	if notes.is_empty():
+		fail("the ready-made atlas's own bytes are refused")
+		return
+	if Img.file_bytes(notes) != good:
+		fail("the ready-made atlas, read and written again, is not the same file")
+	# One bit flipped: every bit of the first 32 bytes, one bit in each of 256 places spread
+	# over the rest, and the last byte.
+	var spots := []
+	for i in 32:
+		for bit in 8:
+			spots.append([i, bit])
+	for k in 256:
+		spots.append([32 + (n - 33) * k / 256, k % 8])
+	spots.append([n - 1, 7])
+	var taken := 0
+	for sp in spots:
+		var b := good.duplicate()
+		b[sp[0]] = b[sp[0]] ^ (1 << sp[1])
+		if not Img.notes_in(b).is_empty():
+			taken += 1
+	if taken > 0:
+		fail("%d of %d files with one bit flipped would be used" % [taken, spots.size()])
+	# Cut short: at every length up to 40, at 300 lengths spread over the file, and one byte short.
+	var cuts := []
+	for i in 41:
+		cuts.append(i)
+	for k in 300:
+		cuts.append(41 + (n - 42) * k / 300)
+	cuts.append(n - 1)
+	taken = 0
+	for c in cuts:
+		if not Img.notes_in(good.slice(0, c)).is_empty():
+			taken += 1
+	if taken > 0:
+		fail("%d of %d files cut short would be used" % [taken, cuts.size()])
+	# Other damage, and files that are not this kind of file.
+	var zeroed := good.duplicate()             # what a disk that filled up can leave
+	for i in range(n / 2, mini(n, n / 2 + 4096)):
+		zeroed[i] = 0
+	var longer := good.duplicate()
+	longer.append(0)
+	var twice := good.slice(0, n / 2)
+	twice.append_array(good.slice(n / 2 - 4096))
+	var other_magic := good.duplicate()
+	other_magic[0] = 82
+	var zero_file := PackedByteArray()
+	zero_file.resize(n)
+	var res_head := "RSCC".to_ascii_buffer()   # how an engine resource begins
+	res_head.append_array(good.slice(4))
+	# A right checksum around something that is not packed notes: turned down as well, quietly.
+	var wrap := func(rest: PackedByteArray) -> PackedByteArray:
+		var out := Img.FILE_MAGIC.to_ascii_buffer()
+		out.append_array(Img._md5(rest))
+		out.append_array(rest)
+		return out
+	var sized := func(size: int, body: PackedByteArray) -> PackedByteArray:
+		var rest := PackedByteArray()
+		rest.resize(4)
+		rest.encode_u32(0, size)
+		rest.append_array(body)
+		return rest
+	var junk := PackedByteArray()
+	for i in 600:
+		junk.append((i * 37 + 11) % 256)
+	var number := var_to_bytes(42)
+	var body := good.slice(Img.FILE_HEAD)
+	var others := {
+		"a block of zeroes in the middle": zeroed,
+		"one byte too many": longer,
+		"a block written twice": twice,
+		"another kind of file's first letters": other_magic,
+		"an engine resource's first letters": res_head,
+		"nothing but zeroes": zero_file,
+		"an empty file": PackedByteArray(),
+		"a right checksum around bytes that are not packed notes": wrap.call(sized.call(1000, junk)),
+		"a right checksum and an impossible size": wrap.call(sized.call(0xFFFFFFF0, body)),
+		"a right checksum and a size one too small": wrap.call(sized.call(good.decode_u32(20) - 1, body)),
+		"a right checksum around notes that are a number": wrap.call(sized.call(number.size(), number.compress(FileAccess.COMPRESSION_ZSTD))),
+	}
+	for what in others:
+		if not Img.notes_in(others[what]).is_empty():
+			fail("a file would be used despite: %s" % what)
