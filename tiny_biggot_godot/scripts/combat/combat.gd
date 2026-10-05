@@ -297,6 +297,7 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 	RiftExtras.on_kill(e)
 	RiftBosses.on_kill(e)
 	Pets.on_kill(e)
+	Charged.on_kill(e)   # the deadeye reloads
 	var boss := e.is_boss()
 	var cols := ["#f4ecd8", "#f2c94c", "#d8443c", "#a35bd6"] if boss else ["#f4ecd8", "#8b8f9c", GameData.SPRITE_COLOR.get(e.d["sprite"], "#d8443c")]
 	if boss and e.boss == "rex":
@@ -801,6 +802,8 @@ static func player_shoot(p: Player, a: float, echo_ok: bool = true) -> void:
 				Snd.play("shoot")
 		"zap":
 			attack_zap(p, a, forced)
+		_ when Charged.handles(w["kind"]):
+			made = Charged.fire(p, a, forced)   # charged and two-stage kinds (charged.gd)
 		_ when Arsenal.handles(w["kind"]):
 			Arsenal.fire(p, a, forced)   # the new kinds: thrown, launched and called-down things
 		_ when p.g("piggy") > 0 and Arsenal.piggy_shot(p, a):
@@ -847,7 +850,7 @@ static func player_shoot(p: Player, a: float, echo_ok: bool = true) -> void:
 		dt_.split = 0
 	if echo_ok and p.echo > 0 and randf() < p.echo:
 		p.volleys.append({ "t": 0.15 })
-	if not w["kind"] in ["slash", "thrust", "whip", "beam", "zap", "wave"]:
+	if not w["kind"] in ["slash", "thrust", "whip", "beam", "zap", "wave", "slam", "dash", "combo", "hook", "javelin", "recall", "orbit"]:
 		Fx.particle(p.x + cos(a) * 8, p.y - 2 + sin(a) * 8, 0, 0, 0.06, "#fffbe0", 3)
 	if not p.procs.is_empty():
 		Effects.fire("on_shoot", { "x": p.x, "y": p.y })
@@ -1817,6 +1820,7 @@ static func on_roll_start(p: Player) -> void:
 	if p.bomb_dodge or p.g("roll_bomb") > 0:
 		G.bombs.append({ "x": p.x, "y": p.y, "t": 0.7, "safe": true })
 	Arsenal.on_roll(p)
+	Charged.on_roll(p)
 	if not p.procs.is_empty():
 		Effects.fire("on_roll", { "x": p.x, "y": p.y })
 
@@ -1876,7 +1880,9 @@ static func _update_player_base(p: Player, dt: float) -> void:
 			p.face = 1 if cos(aim) > 0 else -1
 	p.fire_cd -= dt
 	var rate := Weapons.wrate(p) * (1.45 if p.frenzy_t > 0 else 1.0) * (1.4 if raging else 1.0)
-	if aim != null and p.fire_cd <= 0 and p.dodge_t <= 0 and (G.enemies_active() or G.dummies_present()):
+	if Charged.holds(p):
+		Charged.hold(p, aim, rate, dt)   # held to charge (charged.gd): it fires when let go
+	elif aim != null and p.fire_cd <= 0 and p.dodge_t <= 0 and (G.enemies_active() or G.dummies_present()):
 		p.fire_cd = maxf(1.0 / rate, Effects.MIN_SHOT_INTERVAL)
 		player_shoot(p, aim)
 		if p.triple > 0 and randf() < p.triple:

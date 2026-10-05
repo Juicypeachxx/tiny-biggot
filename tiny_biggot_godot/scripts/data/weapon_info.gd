@@ -18,7 +18,9 @@ const KIND_TYPE := { "slash": "SLASHING", "whip": "SLASHING", "disc": "SLASHING"
 	"flask": "BLAST", "mine": "BLAST", "flame": "FIRE", "orb": "ARCANE", "nova": "ARCANE", "pulse": "ARCANE",
 	"beam": "ARCANE", "zap": "LIGHTNING", "summon": "ARCANE",
 	"grenade": "BLAST", "rocket": "BLAST", "missile": "BLAST", "sticky": "BLAST", "mortar": "BLAST", "walker": "BLAST", "strike": "BLAST",
-	"dynamite": "BLAST", "wave": "PHYSICAL" }
+	"dynamite": "BLAST", "wave": "PHYSICAL",
+	"charge": "ARCANE", "slam": "PHYSICAL", "dash": "SLASHING", "javelin": "PIERCING", "hook": "PHYSICAL", "combo": "SLASHING",
+	"heat": "FIRE", "reload": "PIERCING", "orbit": "ARCANE", "recall": "SLASHING" }
 const TYPE_COL := { "SLASHING": "bone", "PIERCING": "bone", "BLAST": "orange", "FIRE": "orange", "FROST": "cyan",
 	"POISON": "lime", "LIGHTNING": "cyan", "ARCANE": "pink", "SHADOW": "purple" }
 

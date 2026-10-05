@@ -242,6 +242,7 @@ func enter_room(r: Room) -> void:
 	EBullets.clear()
 	RiftBosses.clear()
 	Arsenal.clear()
+	Charged.clear()
 	pickups = room.pickups
 	enemies = []
 	for b in pbullets:

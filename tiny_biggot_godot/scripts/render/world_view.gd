@@ -356,6 +356,7 @@ func _paint_lower(ci: CanvasItem) -> void:
 	EnemyAI2.draw_goo(ci, t)
 	RiftBosses.draw_ground(ci, t)
 	Arsenal.draw_floor(ci, t)
+	Charged.draw_floor(ci, t)
 	var fancy := Vfx.enabled
 	if fancy:
 		Vfx.draw_floor(ci, t)
@@ -715,6 +716,7 @@ func _paint_fx(ci: CanvasItem) -> void:
 	RiftBosses.draw_over(ci, G.time)
 	Pets.draw_over(ci, G.player, G.time)
 	Arsenal.draw_over(ci, G.time)
+	Charged.draw_over(ci, G.time)
 
 # ---------- z 1900: additive glows ----------
 ## Small markers: a pink chevron over exposed foes (they take +25% damage), and

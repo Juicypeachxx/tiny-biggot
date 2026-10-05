@@ -71,6 +71,7 @@ static func update(dt: float) -> void:
 	EnemyAI2.tick(room, dt)
 	RiftBosses.tick(room, dt)
 	Arsenal.tick(room, dt)
+	Charged.tick(room, dt)
 	if room.hazards.is_empty() and room.strike == "" and room.marks.is_empty():
 		return
 	var active := G.enemies_active()

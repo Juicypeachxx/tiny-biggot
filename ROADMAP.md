@@ -263,7 +263,10 @@ look (stage 5 redraws everything together later).
       - [x] Part 1, MAYHEM (5 Oct): 25 explosives and mischief, nine new
         attack kinds (grenade, rocket, missile, sticky, mortar, walker,
         strike, dynamite, wave). See `ARSENAL.md`. IPA built after it.
-      - [ ] Part 2: charged and two-stage weapons.
+      - [x] Part 2, CHARGE AND COMBO (5 Oct): 25 charged and two-stage
+        weapons, ten new attack kinds (charge, slam, dash, javelin, hook,
+        combo, heat, reload, orbit, recall). See `ARSENAL.md`. IPA built
+        after it.
       - [ ] Part 3: cards, summons and companions.
       - [ ] Part 4: gunplay and oddities.
 - [ ] 4.7 **New equipment and relics.** Proposal: 40 gear pieces over the 8

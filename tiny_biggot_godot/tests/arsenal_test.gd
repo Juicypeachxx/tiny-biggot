@@ -12,6 +12,10 @@ extends Node
 ##      objects, player shots), its logic time stays low (desktop numbers, printed), and it hurts
 ##      more than with none.
 ##   4. Rolling sets off the sticky jar's bombs; limpets wait for every 4th throw.
+##   5. Part 2 (charged.gd): with an aim button held a charge waits at full and goes where the aim
+##      was when you let go; a roll draws the swiftdraw bow fully at once; the chain glaive's chain
+##      breaks on a miss; the javelin dash takes the javelin back; the anchor chain drags its foe
+##      through another.
 ## Prints "arsenal test: PASSED" or a FAIL line per problem.
 
 ## Part 1 (MAYHEM): weapon id -> the trick (Arsenal.stats key) that shows it works.
@@ -21,6 +25,19 @@ const PART1 := { "pineapple": "shrapnel", "skipcharge": "skip", "pomegranate": "
 	"snowglobe": "snow", "clockmice": "mouse", "keg": "blast", "signalflare": "bomb", "skyhammer": "pillar",
 	"dynamite": "chain", "repulsor": "slam", "shrapnelgun": "shard", "blastknuckles": "plant", "parasite": "puppet",
 	"piggybank": "pig" }
+## Part 2 (CHARGE AND COMBO): weapon id -> the trick (Charged.stats key).
+const PART2 := { "plasmaslug": "full_hit", "shatterball": "shard", "gravityglobe": "pull", "swiftdraw": "draw_crit",
+	"chokeshotgun": "choke_full", "coldstar": "freeze", "quakemaul": "ring_hit", "emberquake": "fire_ring",
+	"aftershock": "aftershock", "dashblade": "dash_cut", "cometlance": "dash_blast", "phantomedge": "phantom_cut",
+	"warjavelin": "follow", "thunderpike": "rod_zap", "grapple": "punch", "anchorchain": "pull_foe",
+	"cutlass": "finisher_crit", "chainglaive": "step_spin", "flarefist": "step_upper", "steamrepeater": "vent",
+	"reactorrifle": "hot_shot", "deadeye": "kill_reload", "magdump": "mag_throw", "starcaller": "launch",
+	"snapback": "recall_hit" }
+## Where the foes stand for a kind: close (fists, blades, combos), near (a slam's ring), else farther.
+const CLOSE := ["slash", "thrust", "whip", "combo"]
+const NEAR := ["slam"]
+## Kinds that move the hero (dashes): the test does not hold him in place.
+const FREE := ["dash", "javelin", "hook"]
 
 var fails := 0
 var notes := []
@@ -35,10 +52,11 @@ func _ready() -> void:
 	Meta.opts["autofire"] = true
 	_data()
 	var only := DebugArgs.get_str("ids")   # --ids=a,b: only these weapons (any weapon, to compare with)
-	for id in (Array(only.split(",")) if only != "" else PART1.keys()):
-		_fight(id, PART1.get(id, ""))
+	for id in (Array(only.split(",")) if only != "" else PART1.keys() + PART2.keys()):
+		_fight(id, PART1.get(id, PART2.get(id, "")))
 	if only == "":
 		_rolling()
+		_charging()
 	for n in notes:
 		print("[arsenal] ", n)
 	print("arsenal test: PASSED" if fails == 0 else "arsenal test: %d FAILED" % fails)
@@ -50,11 +68,16 @@ func _data() -> void:
 		for it in t:
 			names[String(it["name"])] = "item"
 	var seen := {}
+	var ids := {}
+	for row in Weapons.ROWS:
+		if ids.has(row[0]):
+			fail("two weapons with the id %s" % row[0])
+		ids[row[0]] = true
 	for w in Weapons.all():
 		if seen.has(w["name"]):
 			fail("two weapons named %s" % w["name"])
 		seen[w["name"]] = true
-	for id in PART1:
+	for id in PART1.keys() + PART2.keys():
 		if not Weapons._by_id.has(id):
 			fail("no weapon " + id)
 			continue
@@ -89,8 +112,9 @@ func _arena() -> void:
 			G.room.set_tile(c, r, World.T_FLOOR)
 	G.locked = true
 
-## Four sturdy foes: in front of the hero (close for a fist or a blade), or by the left wall.
-func _foes(p: Player, near_wall: bool, close := false) -> Array:
+## Four sturdy foes: in front of the hero (close for a fist or a blade, near for a slam), or by the
+## left wall.
+func _foes(p: Player, near_wall: bool, close := false, near := false) -> Array:
 	var out := []
 	for i in 4:
 		var x := (2.4 + i * 0.25) * TB.TS if near_wall else p.x - 60.0 + i * 40.0
@@ -98,6 +122,9 @@ func _foes(p: Player, near_wall: bool, close := false) -> Array:
 		if close:
 			x = p.x - 12.0 + i * 8.0
 			y = p.y - 16.0
+		elif near:
+			x = p.x - 40.0 + i * 27.0
+			y = p.y - 40.0
 		var e := Combat.spawn_enemy("skeleton", x, y, false, true)
 		e.speed = 0.0
 		e.max_hp = 1e7
@@ -105,12 +132,14 @@ func _foes(p: Player, near_wall: bool, close := false) -> Array:
 		out.append(e)
 	return out
 
-func _tick(n: int, hold: Vector2, every: Callable = Callable()) -> void:
+## n ticks of play; the hero is kept at `hold` (null: he moves by himself, for dashes).
+func _tick(n: int, hold: Variant = null, every: Callable = Callable()) -> void:
 	for i in n:
 		var p := G.player
 		p.hp = p.max_hp
-		p.x = hold.x
-		p.y = hold.y
+		if hold != null:
+			p.x = hold.x
+			p.y = hold.y
 		if every.is_valid():
 			every.call(i)
 		Keys.tick()
@@ -130,7 +159,9 @@ func _run(id: String, extra: int, secs: float) -> Dictionary:
 	var hold := Vector2(5.0 * TB.TS, 12.0 * TB.TS) if near_wall else Vector2(14.0 * TB.TS, 13.0 * TB.TS)
 	p.x = hold.x
 	p.y = hold.y
-	var foes := _foes(p, near_wall, p.weapon["kind"] in ["slash", "thrust", "whip"])
+	var kind: String = p.weapon["kind"]
+	var foes := _foes(p, near_wall, kind in CLOSE, kind in NEAR)
+	var keep: Variant = null if kind in FREE else hold
 	var hp0 := 0.0
 	for e in foes:
 		hp0 += e.hp
@@ -145,13 +176,18 @@ func _run(id: String, extra: int, secs: float) -> Dictionary:
 		if id == "parasite" or id == "dynamite":
 			for e in foes:
 				e.hp = maxf(e.hp, 1e6)   # keep the targets standing
+		if id == "deadeye" and i % 90 == 45:
+			# A weak foe now and then: its death reloads the revolver.
+			var w := Combat.spawn_enemy("skeleton", G.player.x + 30.0, G.player.y - 50.0, false, true)
+			w.speed = 0.0
+			w.hp = 1.0
 	for i in n:
 		var t0 := Time.get_ticks_usec()
-		_tick(1, hold, func(_k): feed.call(i))
+		_tick(1, keep, func(_k): feed.call(i))
 		var ms := (Time.get_ticks_usec() - t0) / 1000.0
 		total += ms
 		worst = maxf(worst, ms)
-		most_live = maxi(most_live, Arsenal.live.size())
+		most_live = maxi(most_live, maxi(Arsenal.live.size(), maxi(Charged.balls.size(), maxi(Charged.rings.size(), Charged.stars.size()))))
 		most_shots = maxi(most_shots, G.pbullets.size())
 	var dealt := 0.0
 	for e in foes:
@@ -162,14 +198,17 @@ func _fight(id: String, trick: String) -> void:
 	if not Weapons._by_id.has(id):
 		return
 	Arsenal.stats.clear()
+	Charged.stats.clear()
 	var a := _run(id, 0, 8.0)
+	var seen: Dictionary = Charged.stats if PART2.has(id) else Arsenal.stats
 	if a["dealt"] <= 0:
 		fail("%s did no damage in 8 s" % id)
-	if trick != "" and Arsenal.stats.get(trick, 0) <= 0:
-		fail("%s: its trick (%s) never happened; seen %s" % [id, trick, Arsenal.stats])
+	if trick != "" and seen.get(trick, 0) <= 0:
+		fail("%s: its trick (%s) never happened; seen %s" % [id, trick, seen])
 	var b := _run(id, 999, 8.0)
-	if b["live"] > Arsenal.MAX_LIVE:
-		fail("%s with 999 more projectiles: %d things alive (cap %d)" % [id, b["live"], Arsenal.MAX_LIVE])
+	var cap := Charged.MAX_BALLS if PART2.has(id) else Arsenal.MAX_LIVE
+	if b["live"] > cap:
+		fail("%s with 999 more projectiles: %d things alive (cap %d)" % [id, b["live"], cap])
 	if b["shots"] > Effects.pbullet_cap() + 64:
 		fail("%s with 999 more projectiles: %d shots alive" % [id, b["shots"]])
 	if b["avg"] > 4.0:
@@ -228,4 +267,97 @@ func _rolling() -> void:
 	_tick(30, hold)
 	if stuck != 3 or Arsenal.stats.get("blast", 0) != 3:
 		fail("the 4th throw set off %d of %d limpets" % [Arsenal.stats.get("blast", 0), stuck])
+	Meta.opts["autofire"] = true
+
+## Part 2: holding a charge, the bow and a roll, the glaive's chain, the javelin, the anchor chain.
+func _charging() -> void:
+	Meta.opts["autofire"] = false   # aimed by hand here
+	var p := _start()
+	_arena()
+	var hold := Vector2(14.0 * TB.TS, 13.0 * TB.TS)
+	p.x = hold.x
+	p.y = hold.y
+	var foes := _foes(p, false)
+	Weapons.equip_weapon(p, Weapons.by_id("plasmaslug"))
+	_tick(1, hold)
+	Charged.stats.clear()
+	Input.action_press(&"aim_up")
+	_tick(120, hold)   # full after 1 s; then it waits for you
+	if Charged.level < 1.0 or Charged.stats.get("full_shot", 0) > 0:
+		fail("with the aim held, the charge did not wait at full (level %.2f, %s)" % [Charged.level, Charged.stats])
+	Input.action_release(&"aim_up")
+	_tick(2, hold)
+	if Charged.stats.get("full_shot", 0) != 1 or Charged.balls.is_empty():
+		fail("letting go of the aim did not fire the full charge (%s)" % Charged.stats)
+	elif absf(TB.wrap_ang(Charged.balls[0]["a"] + PI / 2)) > 0.01:
+		fail("the charged shot did not go the way the aim was held")
+	# The swiftdraw bow: a roll draws it fully at once.
+	Weapons.equip_weapon(p, Weapons.by_id("swiftdraw"))
+	_tick(2, hold)
+	Input.action_press(&"aim_up")
+	_tick(10, hold)
+	var drawn := Charged.level
+	Combat.on_roll_start(p)
+	if drawn > 0.3 or Charged.level < 1.0:
+		fail("a roll did not draw the swiftdraw bow fully (%.2f before, %.2f after)" % [drawn, Charged.level])
+	Input.action_release(&"aim_up")
+	_tick(30, hold)
+	# The chain glaive: a sweep that misses starts the chain over.
+	Weapons.equip_weapon(p, Weapons.by_id("chainglaive"))
+	_tick(2, hold)
+	Charged.step = 0
+	Charged.fire(p, PI / 2, false)   # down, where no foe stands
+	if Charged.step != 0:
+		fail("the chain glaive's chain went on after a miss")
+	Charged.step_t = 0.0
+	Charged.fire(p, -PI / 2, false)   # up: the foes stand too far for a sweep, so it misses too
+	# The javelin: thrown, it pins; the next attack dashes the hero to it and takes it back.
+	p = _start()
+	_arena()
+	p.x = hold.x
+	p.y = hold.y
+	foes = _foes(p, false)
+	Weapons.equip_weapon(p, Weapons.by_id("warjavelin"))
+	_tick(2, hold)
+	Charged.fire(p, TB.ang_to(p, foes[1]), false)
+	_tick(40, hold)
+	if Charged.jav.is_empty() or Charged.jav["state"] == "fly":
+		fail("the javelin did not land (%s)" % Charged.jav.get("state", "gone"))
+	Charged.fire(p, -PI / 2, false)
+	_tick(40)
+	if not Charged.jav.is_empty():
+		fail("the javelin dash did not take the javelin back (%s)" % Charged.jav.get("state", ""))
+	if TB.dist_xy(p.x, p.y, hold.x, hold.y) < 40.0:
+		fail("the javelin's second stage did not dash the hero")
+	# Training dummies only (the start room): no weapon moves the hero there.
+	for id in ["dashblade", "warjavelin"]:
+		p = _start()
+		_arena()
+		p.x = hold.x
+		p.y = hold.y
+		Combat.spawn_enemy("dummy", p.x, p.y - 60.0, false, true)
+		Weapons.equip_weapon(p, Weapons.by_id(id))
+		Meta.opts["autofire"] = true
+		_tick(240)
+		Meta.opts["autofire"] = false
+		if TB.dist_xy(p.x, p.y, hold.x, hold.y) > 2.0:
+			fail("%s moved the hero in a room of training dummies (%.0f px)" % [id, TB.dist_xy(p.x, p.y, hold.x, hold.y)])
+	# The anchor chain: the hooked foe is dragged through one standing by the line.
+	p = _start()
+	_arena()
+	p.x = hold.x
+	p.y = hold.y
+	Weapons.equip_weapon(p, Weapons.by_id("anchorchain"))
+	var far := Combat.spawn_enemy("skeleton", p.x, p.y - 100.0, false, true)
+	var by := Combat.spawn_enemy("skeleton", p.x + 12.0, p.y - 50.0, false, true)
+	for e in [far, by]:
+		e.speed = 0.0
+		e.max_hp = 1e6
+		e.hp = 1e6
+	_tick(2, hold)
+	Charged.stats.clear()
+	Charged.fire(p, -PI / 2, false)
+	_tick(60, hold)
+	if Charged.stats.get("drag_hit", 0) < 1 or by.hp >= 1e6:
+		fail("the anchor chain did not drag its foe through the other (%s)" % Charged.stats)
 	Meta.opts["autofire"] = true

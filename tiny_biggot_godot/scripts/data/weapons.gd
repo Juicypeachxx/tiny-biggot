@@ -51,6 +51,18 @@ const ARCH := {
 	"strike": { "name": "AIRSTRIKE", "dmg": 9.0, "rate": 0.5, "speed": 0, "life": 1.0, "size": 1.0, "pierce": 0, "count": 1, "spread": 0, "homing": 0.0, "radius": 26, "bombs": 5, "range": 300 },
 	"dynamite": { "name": "DYNAMITE", "dmg": 6.0, "rate": 0.9, "speed": 150, "life": 1.3, "size": 1.0, "pierce": 0, "count": 1, "spread": 0.3, "homing": 0.0, "radius": 32 },
 	"wave": { "name": "REPULSOR", "dmg": 4.0, "rate": 1.2, "speed": 0, "life": 0, "size": 1.0, "pierce": 99, "count": 1, "spread": 0, "homing": 0.0, "range": 96, "arc": 70, "push": 280 },
+	# ROADMAP 4.6 part 2, CHARGE AND COMBO (scripts/combat/charged.gd). For the held kinds (charge, slam, dash)
+	# "rate" is how fast a charge fills (full in 1/rate s); "range" is a slam's ring or a dash's length.
+	"charge": { "name": "CHARGE CANNON", "dmg": 8.0, "rate": 1.0, "speed": 230, "life": 1.2, "size": 1.0, "pierce": 0, "count": 1, "spread": 0, "homing": 0.0 },
+	"slam": { "name": "MAUL", "dmg": 10.0, "rate": 0.9, "speed": 170, "life": 0, "size": 1.0, "pierce": 99, "count": 1, "spread": 0, "homing": 0.0, "range": 70 },
+	"dash": { "name": "DASH BLADE", "dmg": 12.0, "rate": 1.1, "speed": 0, "life": 0, "size": 1.0, "pierce": 99, "count": 1, "spread": 0, "homing": 0.0, "range": 90 },
+	"javelin": { "name": "JAVELIN", "dmg": 8.0, "rate": 1.3, "speed": 300, "life": 0.7, "size": 1.0, "pierce": 0, "count": 1, "spread": 0, "homing": 0.0 },
+	"hook": { "name": "HOOK", "dmg": 8.0, "rate": 1.4, "speed": 340, "life": 0.45, "size": 1.0, "pierce": 0, "count": 1, "spread": 0, "homing": 0.0, "range": 26 },
+	"combo": { "name": "COMBO", "dmg": 5.0, "rate": 2.6, "speed": 0, "life": 0, "size": 1.0, "pierce": 99, "count": 1, "spread": 0, "homing": 0.0, "range": 30, "arc": 100 },
+	"heat": { "name": "HEAT GUN", "dmg": 2.0, "rate": 7.0, "speed": 260, "life": 0.7, "size": 0.9, "pierce": 0, "count": 1, "spread": 0.08, "homing": 0.0, "heat": 30 },
+	"reload": { "name": "MAGAZINE GUN", "dmg": 4.0, "rate": 6.0, "speed": 300, "life": 0.8, "size": 1.0, "pierce": 0, "count": 1, "spread": 0.04, "homing": 0.0, "mag": 6, "reload": 1.0 },
+	"orbit": { "name": "STAR GATHERER", "dmg": 5.0, "rate": 2.2, "speed": 230, "life": 1.6, "size": 1.0, "pierce": 0, "count": 1, "spread": 0, "homing": 4.0, "stars": 6 },
+	"recall": { "name": "SNAPBACK", "dmg": 7.0, "rate": 1.6, "speed": 480, "life": 0.45, "size": 1.0, "pierce": 99, "count": 1, "spread": 0, "homing": 0.0 },
 }
 const ARCH_DESC := {
 	"bolt": "FIRES FAST BOLTS", "orb": "HOMING BOLTS", "spin": "SPINNING THROWS THAT PIERCE", "shot": "A SPREAD OF SHOT",
@@ -63,6 +75,10 @@ const ARCH_DESC := {
 	"grenade": "BOUNCES ALONG, THEN BLOWS", "rocket": "SPEEDS UP, BLOWS ON IMPACT", "missile": "SMALL MISSILES THAT HUNT FOES",
 	"sticky": "STICKS TO FOES AND WALLS, THEN BLOWS", "mortar": "LOBBED OVER WALLS ONTO A FOE", "walker": "A LITTLE BOMB THAT GOES BY ITSELF",
 	"strike": "CALLS DOWN A STRIKE", "dynamite": "A BUNDLE OF STICKS THAT SET EACH OTHER OFF", "wave": "A CONE OF FORCE",
+	"charge": "HOLD TO CHARGE A SHOT THAT GROWS", "slam": "HOLD TO CHARGE A SLAM: A SHOCKWAVE", "dash": "HOLD TO CHARGE A DASH THROUGH FOES",
+	"javelin": "THROW IT, THEN DASH TO IT", "hook": "PULLS A FOE IN, THEN PUNCHES", "combo": "THREE DIFFERENT ATTACKS IN TURN",
+	"heat": "FIRES FAST, OVERHEATS AND VENTS", "reload": "A MAGAZINE OF SHOTS, THEN A RELOAD", "orbit": "GATHERS STARS, THEN SENDS THEM",
+	"recall": "FLIES OUT AND WAITS TO BE CALLED BACK",
 }
 const BULLET_KIND := { "bolt": "bolt", "orb": "hex", "spin": "spin", "shot": "clod", "flask": "flask", "boomer": "boomer",
 	"flame": "fire", "disc": "disc", "pulse": "pulse", "nova": "spark", "mine": "mine", "rail": "rail", "burst": "bolt",
@@ -381,6 +397,32 @@ const ROWS := [
 	["blastknuckles", "BLASTING KNUCKLES", "slash", "epic", ["fury", "demolition"], "fists", { "dmg": 5.0, "rate": 3.2, "range": 24, "arc": 90 }, [], [], "FAST PUNCHES THAT PLANT A CHARGE ON THE FOE. IT BLOWS 0.6S LATER.", [{ "on": "on_hit", "cd": 0.15, "do": [["plant", 0.6, 0.8, 26]] }]],
 	["parasite", "PARASITE LAUNCHER", "flask", "epic", ["malice", "swarm"], "flaskw", { "dmg": 4.4, "rate": 1.8 }, [["poison", 1]], [], "GLOBS THAT POISON. 35% OF HITS MAKE THE FOE A PUPPET: IT WALKS INTO ANOTHER FOE AND BURSTS.", [{ "on": "on_hit", "chance": 0.35, "cd": 0.5, "do": [["puppet", 5.0]] }]],
 	["piggybank", "PIGGY BANK", "shot", "legend", ["fortune"], "blunderbuss", { "dmg": 2.6, "count": 6, "spread": 0.22 }, [], [["piggy", 30], ["gold_hit", 0.02]], "FIRES A SPRAY OF COINS. EVERY 30 GOLD YOU PICK UP FILLS THE PIG: YOUR NEXT SHOT LAUNCHES IT."],
+	# ---------- ROADMAP 4.6 part 2: CHARGE AND COMBO (held to charge, two stages, in turns; scripts/combat/charged.gd) ----------
+	["plasmaslug", "PLASMA SLUGGER", "charge", "common", ["arcane"], "cannon", {}, [], [], "HOLD TO CHARGE. THE BALL GROWS BIGGER AND HARDER, AND A FULL CHARGE PIERCES EVERYTHING."],
+	["shatterball", "SHATTERBALL", "charge", "rare", ["arcane", "demolition"], "cannon", { "shatter": 8 }, [], [], "A CHARGED BALL THAT BURSTS INTO 8 SHARDS WHERE IT STOPS."],
+	["gravityglobe", "GRAVITY GLOBE", "charge", "epic", ["shadow", "arcane"], "orb", { "pull": 1.0, "dmg": 7.0, "speed": 150, "life": 1.6 }, [], [], "A SLOW GLOBE THAT DRAGS FOES TO IT AS IT FLIES, THEN COLLAPSES WITH A BANG."],
+	["swiftdraw", "SWIFTDRAW BOW", "charge", "rare", ["edge"], "bow", { "roll_draw": true, "dmg": 9.0, "speed": 380, "life": 0.9, "rate": 0.7 }, [], [], "DRAWS SLOWLY, BUT A ROLL DRAWS IT FULLY AT ONCE. A FULL DRAW ALWAYS CRITS AND PIERCES."],
+	["chokeshotgun", "CHOKE SHOTGUN", "charge", "common", ["demolition"], "shotgun", { "tighten": 7, "dmg": 3.0, "speed": 260, "life": 0.55, "rate": 1.4 }, [], [], "HOLD TO CHOKE THE SPREAD: 7 PELLETS GO FROM A WIDE FAN TO ONE TIGHT SLUG."],
+	["coldstar", "COLD STAR", "charge", "legend", ["frost", "arcane"], "orb", { "aura": 70.0, "dmg": 11.0 }, [["vs_chill", 0.25]], [], "WHILE YOU CHARGE, FOES NEAR YOU ARE CHILLED. A FULL CHARGE FREEZES WHAT IT HITS."],
+	["quakemaul", "QUAKE MAUL", "slam", "rare", ["bulwark", "demolition"], "maul", {}, [], [], "HOLD TO CHARGE, THEN SLAM: A SHOCKWAVE ROLLS OUT ALONG THE FLOOR. A FULL CHARGE STUNS."],
+	["emberquake", "EMBERQUAKE MAUL", "slam", "epic", ["pyre"], "maul", { "fire_ring": true }, [["burn", 0.2]], [], "THE SHOCKWAVE LEAVES A RING OF FIRE WHERE IT ENDS. 20% BURN."],
+	["aftershock", "AFTERSHOCK HAMMER", "slam", "legend", ["storm", "bulwark"], "hammer", { "aftershocks": 2, "dmg": 12.0 }, [], [], "EVERY SLAM IS FOLLOWED BY TWO SMALLER AFTERSHOCKS."],
+	["dashblade", "DASHBLADE", "dash", "rare", ["edge"], "sword", {}, [], [], "HOLD TO CHARGE, THEN DASH THROUGH FOES, CUTTING EACH ONE. NOTHING TOUCHES YOU MID-DASH."],
+	["cometlance", "COMET LANCE", "dash", "epic", ["pyre", "demolition"], "lance", { "dash_blast": 1.2, "range": 110 }, [], [], "A LONGER DASH THAT ENDS IN A BLAST."],
+	["phantomedge", "PHANTOM EDGE", "dash", "legend", ["shadow", "edge"], "sword", { "phantom": 0.8 }, [], [], "0.5S AFTER EACH DASH, A PHANTOM DASHES THE SAME WAY AND CUTS AGAIN."],
+	["warjavelin", "WAR JAVELIN", "javelin", "rare", ["fury"], "spear", {}, [], [], "THROW IT: IT PINS A FOE. YOUR NEXT ATTACK DASHES YOU TO IT, CUTTING ALL ON THE WAY, AND TEARS IT OUT. A MISS COMES BACK."],
+	["thunderpike", "THUNDER PIKE", "javelin", "epic", ["storm"], "spear", { "rod": 0.5 }, [], [], "PINNED IN A FOE, IT CALLS LIGHTNING ON FOES NEAR IT UNTIL YOU DASH TO IT."],
+	["grapple", "GRAPPLE GAUNTLET", "hook", "rare", ["bulwark", "fury"], "gauntlet", {}, [], [], "A HOOK PULLS A FOE TO YOU, AND THE NEXT ATTACK IS A PUNCH THAT STUNS. BIG FOES PULL YOU TO THEM."],
+	["anchorchain", "ANCHOR CHAIN", "hook", "epic", ["bulwark", "demolition"], "chain", { "drag": 1.0, "dmg": 10.0 }, [], [], "THE HOOKED FOE IS DRAGGED THROUGH THE OTHERS, HITTING EACH ONE. THEN THE PUNCH."],
+	["cutlass", "CUTLASS AND FLINTLOCK", "combo", "rare", ["fortune", "edge"], "sword", { "steps": ["slash", "slash", "shot"] }, [], [], "TWO CUTS, THEN A PISTOL SHOT THAT ALWAYS CRITS A FOE THE CUTS HIT."],
+	["chainglaive", "CHAIN GLAIVE", "combo", "epic", ["arcane", "edge"], "glaive", { "steps": ["sweep", "thrust", "spin"], "linked": true, "dmg": 7.0 }, [], [], "A SWEEP, A THRUST, A SPIN. EACH COMES ONLY IF THE ONE BEFORE IT HIT."],
+	["flarefist", "FLAREFIST", "combo", "rare", ["pyre", "fury"], "fists", { "steps": ["jab", "jab", "upper"], "range": 22, "rate": 3.0 }, [], [], "JAB, JAB, THEN A BURNING UPPERCUT THAT STUNS AND SLAMS THE FOE DOWN."],
+	["steamrepeater", "STEAM REPEATER", "heat", "rare", ["bulwark"], "repeater", {}, [], [], "FIRES FAST AND HEATS UP. AT FULL HEAT IT VENTS A SCALDING BLAST AROUND YOU, THEN COOLS."],
+	["reactorrifle", "REACTOR RIFLE", "heat", "legend", ["pyre", "arcane"], "rifle", { "heat_dmg": 1.0, "dmg": 2.4 }, [], [], "THE HOTTER IT RUNS, THE HARDER IT HITS: UP TO +100%. ITS VENT IS A HUGE BLAST."],
+	["deadeye", "DEADEYE REVOLVER", "reload", "rare", ["edge", "fortune"], "pistol", { "mag": 6, "dmg": 7.0, "rate": 4.0, "reload": 1.2, "last_crit": true, "kill_reload": true }, [], [], "SIX SHOTS, THE SIXTH ALWAYS CRITS, THEN A RELOAD. A KILL RELOADS AT ONCE."],
+	["magdump", "MAGDUMP CARBINE", "reload", "common", ["demolition"], "rifle", { "mag": 12, "rate": 9.0, "dmg": 2.6, "reload": 1.4, "throw_mag": 5.0 }, [], [], "TWELVE QUICK SHOTS. THE EMPTY MAGAZINE IS THROWN AT THE FOE AND BLOWS UP."],
+	["starcaller", "STARCALLER", "orbit", "epic", ["arcane", "swarm"], "rod", {}, [], [], "EACH ATTACK ADDS A STAR CIRCLING YOU THAT HURTS FOES IT TOUCHES. AT SIX THEY ALL FLY OUT AND HUNT."],
+	["snapback", "SNAPBACK DISC", "recall", "rare", ["edge", "storm"], "disc", {}, [], [], "FLIES OUT AND SPINS IN PLACE. YOUR NEXT ATTACK CALLS IT BACK THROUGH FOES FOR DOUBLE DAMAGE."],
 ]
 
 static var _by_id := {}

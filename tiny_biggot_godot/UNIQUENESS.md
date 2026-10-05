@@ -14,7 +14,7 @@ and the look of an attack. A gear piece's set counts for "same", not for "near".
 
 | | Items | Original | New | In a "same" group | In a "near" group | New items in a "near" group | Numbers only (new) |
 |---|---|---|---|---|---|---|---|
-| Weapons | 277 | 113 | 164 | 4 | 33 | 4 | 42 (8) |
+| Weapons | 302 | 113 | 189 | 4 | 33 | 4 | 50 (16) |
 | Relics | 173 | 66 | 107 | 6 | 6 | 0 | 48 (0) |
 | Gear | 231 | 96 | 135 | 0 | 10 | 0 | 46 (0) |
 
@@ -56,9 +56,9 @@ and the look of an attack. A gear piece's set counts for "same", not for "near".
 - 2: `thrust |  |  | `  
   pike (ORIGINAL), warlance
 
-### Numbers only (42, 8 of them new)
+### Numbers only (50, 16 of them new)
 
-hexwand (ORIGINAL), emberwand (ORIGINAL), rimerod (ORIGINAL), pithatchet (ORIGINAL), graveshovel (ORIGINAL), flasksling (ORIGINAL), firebottle (ORIGINAL), frostvial (ORIGINAL), lantern (ORIGINAL), rustblade (ORIGINAL), pike (ORIGINAL), prismrod (ORIGINAL), firespitter (ORIGINAL), bilesprayer (ORIGINAL), frostbellows (ORIGINAL), sawblade (ORIGINAL), thunderring (ORIGINAL), emberorb (ORIGINAL), frozenheart (ORIGINAL), plaguebell (ORIGINAL), sparkrune (ORIGINAL), bonechime (ORIGINAL), snaremine (ORIGINAL), frosttrap (ORIGINAL), arbalest (ORIGINAL), burstpistol (ORIGINAL), crankgun (ORIGINAL), sunspitter (ORIGINAL), drovewhip (ORIGINAL), bramblewhip (ORIGINAL), lightninglash (ORIGINAL), gravebell (ORIGINAL), hivestaff (ORIGINAL), warbanner (ORIGINAL), banesabre, shackleflail, warlance, swarmpod, pocketmortar, signalflare, dynamite, repulsor
+hexwand (ORIGINAL), emberwand (ORIGINAL), rimerod (ORIGINAL), pithatchet (ORIGINAL), graveshovel (ORIGINAL), flasksling (ORIGINAL), firebottle (ORIGINAL), frostvial (ORIGINAL), lantern (ORIGINAL), rustblade (ORIGINAL), pike (ORIGINAL), prismrod (ORIGINAL), firespitter (ORIGINAL), bilesprayer (ORIGINAL), frostbellows (ORIGINAL), sawblade (ORIGINAL), thunderring (ORIGINAL), emberorb (ORIGINAL), frozenheart (ORIGINAL), plaguebell (ORIGINAL), sparkrune (ORIGINAL), bonechime (ORIGINAL), snaremine (ORIGINAL), frosttrap (ORIGINAL), arbalest (ORIGINAL), burstpistol (ORIGINAL), crankgun (ORIGINAL), sunspitter (ORIGINAL), drovewhip (ORIGINAL), bramblewhip (ORIGINAL), lightninglash (ORIGINAL), gravebell (ORIGINAL), hivestaff (ORIGINAL), warbanner (ORIGINAL), banesabre, shackleflail, warlance, swarmpod, pocketmortar, signalflare, dynamite, repulsor, plasmaslug, quakemaul, dashblade, warjavelin, grapple, steamrepeater, starcaller, snapback
 
 ### Every weapon
 
@@ -330,7 +330,7 @@ hexwand (ORIGINAL), emberwand (ORIGINAL), rimerod (ORIGINAL), pithatchet (ORIGIN
 | stickyjar | STICKY JAR | new | `sticky | rolldet |  |  | ` |
 | limpets | LIMPET CHARGES | new | `sticky | remote |  |  | ` |
 | pocketmortar | POCKET MORTAR | new | `mortar |  |  |  | ` |
-| snowglobe | SNOWGLOBE MORTAR | new | `mortar | zone | vs_chill |  | ` |
+| snowglobe | SNOWGLOBE MORTAR | new | `mortar | zone=frost | vs_chill |  | ` |
 | clockmice | CLOCKWORK MICE | new | `walker | count+ |  |  | ` |
 | keg | ROLLING KEG | new | `walker | roll |  |  | ` |
 | signalflare | SIGNAL FLARE | new | `strike |  | burn |  | ` |
@@ -341,6 +341,31 @@ hexwand (ORIGINAL), emberwand (ORIGINAL), rimerod (ORIGINAL), pithatchet (ORIGIN
 | blastknuckles | BLASTING KNUCKLES | new | `slash |  |  |  | on_hit>plant` |
 | parasite | PARASITE LAUNCHER | new | `flask |  | poison |  | on_hit>puppet` |
 | piggybank | PIGGY BANK | new | `shot | count+ |  | gold_hit,piggy | ` |
+| plasmaslug | PLASMA SLUGGER | new | `charge |  |  |  | ` |
+| shatterball | SHATTERBALL | new | `charge | shatter |  |  | ` |
+| gravityglobe | GRAVITY GLOBE | new | `charge | pull |  |  | ` |
+| swiftdraw | SWIFTDRAW BOW | new | `charge | roll_draw |  |  | ` |
+| chokeshotgun | CHOKE SHOTGUN | new | `charge | tighten |  |  | ` |
+| coldstar | COLD STAR | new | `charge | aura | vs_chill |  | ` |
+| quakemaul | QUAKE MAUL | new | `slam |  |  |  | ` |
+| emberquake | EMBERQUAKE MAUL | new | `slam | fire_ring | burn |  | ` |
+| aftershock | AFTERSHOCK HAMMER | new | `slam | aftershocks |  |  | ` |
+| dashblade | DASHBLADE | new | `dash |  |  |  | ` |
+| cometlance | COMET LANCE | new | `dash | dash_blast |  |  | ` |
+| phantomedge | PHANTOM EDGE | new | `dash | phantom |  |  | ` |
+| warjavelin | WAR JAVELIN | new | `javelin |  |  |  | ` |
+| thunderpike | THUNDER PIKE | new | `javelin | rod |  |  | ` |
+| grapple | GRAPPLE GAUNTLET | new | `hook |  |  |  | ` |
+| anchorchain | ANCHOR CHAIN | new | `hook | drag |  |  | ` |
+| cutlass | CUTLASS AND FLINTLOCK | new | `combo | steps=slash/slash/shot |  |  | ` |
+| chainglaive | CHAIN GLAIVE | new | `combo | steps=sweep/thrust/spin,linked |  |  | ` |
+| flarefist | FLAREFIST | new | `combo | steps=jab/jab/upper |  |  | ` |
+| steamrepeater | STEAM REPEATER | new | `heat |  |  |  | ` |
+| reactorrifle | REACTOR RIFLE | new | `heat | heat_dmg |  |  | ` |
+| deadeye | DEADEYE REVOLVER | new | `reload | last_crit,kill_reload |  |  | ` |
+| magdump | MAGDUMP CARBINE | new | `reload | throw_mag |  |  | ` |
+| starcaller | STARCALLER | new | `orbit |  |  |  | ` |
+| snapback | SNAPBACK DISC | new | `recall |  |  |  | ` |
 
 ## Relics
 

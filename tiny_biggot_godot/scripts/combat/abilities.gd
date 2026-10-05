@@ -150,6 +150,8 @@ static func land(p: Player) -> void:
 static func while_dashing(p: Player, dt: float) -> void:
 	if p.leap_max <= 0:
 		for e in G.enemies.duplicate():
+			if p.dash_dmg <= 0:
+				break   # a weapon's dash (charged.gd) makes its own cuts
 			if not e.targetable() or p.dash_hit.has(e.uid) or TB.dist(e, p) >= e.r + 12:
 				continue
 			p.dash_hit[e.uid] = true

@@ -201,6 +201,15 @@ static func fire(p: Player, a: float, forced: bool) -> void:
 			_cone(p, a, Weapons.wrange(p), arc, Weapons.wdmg(p) * power, w.get("push", 280), _col(w), forced)
 			Snd.play("beam")
 
+## Something thrown like a grenade by a weapon of another kind (the magdump's empty magazine):
+## aimed the same way, with its own picture, damage and blast.
+static func toss(p: Player, a: float, w: Dictionary, dmg: float, rad: float, fuse: float, spr: String) -> void:
+	var v := clampf(_aim_dist(p, a) / _reach_k(fuse, false, 0), 25.0, 170.0)
+	_add({ "k": "grenade", "w": w["id"], "spr": spr, "x": p.x + cos(a) * 6, "y": p.y - 2 + sin(a) * 6, "vx": cos(a) * v,
+		"vy": sin(a) * v, "z": 4.0, "vz": 70.0, "fuse": fuse, "bounces": 0, "skips": 0, "dmg": dmg, "rad": rad,
+		"col": _col(w), "t": 0.0, "crit": false })
+	Snd.play("hatchet")
+
 ## Rolling sets off sticky bombs that wait for it (Combat.on_roll_start).
 static func on_roll(p: Player) -> void:
 	if p.weapon == null or not p.weapon.get("rolldet", false):
@@ -813,8 +822,8 @@ static func draw_floor(ci: CanvasItem, t: float) -> void:
 					if blink:
 						ci.draw_rect(Rect2(roundf(x) - 1, roundf(y) - 1, 2, 2), TB.c("#d8443c"))
 				else:
-					Gfx.sp(ci, Weapons.by_id(o["w"])["sprite"] if Weapons._by_id.has(o["w"]) else "w_pineapple", x, y - zz + 6, 1.0, 1.0,
-						o["t"] * 8.0 if zz > 0 else 0.0)
+					var spr: String = o.get("spr", Weapons.by_id(o["w"])["sprite"] if Weapons._by_id.has(o["w"]) else "w_pineapple")
+					Gfx.sp(ci, spr, x, y - zz + 6, 1.0, 1.0, o["t"] * 8.0 if zz > 0 else 0.0)
 				if o["k"] != "seed" and o["k"] != "sticky":
 					# The fuse: a spark, and the seconds left.
 					if blink:

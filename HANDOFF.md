@@ -426,6 +426,34 @@ plain weapon of a new kind. 25 soaks of 10 minutes, one per weapon (half with
 identical. `tools/check.sh`: CHECK PASSED. The IPA with part 1 was pushed with
 `[ipa]` after that (release `ipa-latest`). Not tested on the iPad.
 
+**4.6 part 2, CHARGE AND COMBO (done).** 25 weapons, ten new attack kinds;
+details in `tiny_biggot_godot/ARSENAL.md`. `scripts/combat/charged.gd` (class
+`Charged`). Charge, slam and dash are held to charge (`Charged.hold` replaces
+the cooldown in `Combat._update_player_base`): with AUTO-AIM FIRE they let go
+at full; with an aim button held they wait and fire where you aimed. Dashes
+use the hero's own dash (`Player.dash_t`; `Abilities.while_dashing` skips its
+trample when `dash_dmg` is 0). New hooks: `player_shoot`, `kill_enemy`
+(`Charged.on_kill`), `on_roll_start` (`Charged.on_roll`), `Hazards.update`,
+`G.enter_room`, `world_view`; `Arsenal.toss` throws the magdump's magazine.
+Found and fixed on the way: two ids already taken (`magmamaul`, `stillwater`:
+the new ones are EMBERQUAKE MAUL and SWIFTDRAW BOW; the bow got a new trick,
+a roll draws it fully, because the old Blade of Still Water already uses
+standing still; the test now checks ids); and a soak caught the javelin
+dashing the bot back to a training dummy forever, so in a room with only
+dummies no weapon moves the hero, and a javelin that misses comes back by
+itself. Tests: `tests/arsenal_test` covers all 50 weapons (trick in a fight,
+999 more projectiles) plus holding a charge, the roll draw, the glaive's
+chain breaking on a miss, the javelin dash, the anchor drag, and no moving in
+a dummy room. Desktop logic 0.15-0.31 ms a tick for the new kinds with 999
+more projectiles; the heat and magazine guns use the old shot path (1.5-2.3
+ms, worst ticks 16-22 ms at that count, like the old guns). Planted faults
+caught (a charge firing while the aim is held, no javelin dash, a dash in a
+dummy room). Uniqueness report: a twist's words count (a combo's steps); no
+part-2 weapon in a "same" or "near" group; eight are the plain weapon of a
+new kind. 25 soaks of 10 minutes plus three from the first floor, 0 errors.
+Full-content replays re-recorded; the 6 classic ones identical. Not tested
+on the iPad.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress (so iOS closing the app does not end it). Needs
