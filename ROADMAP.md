@@ -1,30 +1,38 @@
 # Roadmap
 
 What is left to do, in the order the owner set on 5 Oct 2026:
-**a working IPA first, then the performance patch, then new things and new
-sprites.** `CLAUDE.md` has the rules. `HANDOFF.md` has the details of what was
-done so far.
+**the performance and stability patch, then new content, then new sprites.**
+`CLAUDE.md` has the rules. `HANDOFF.md` has the details of what was done so
+far.
 
 How to use this file: find the first step that is not ticked, do that one
 step, tick it here, add a line under "Log" at the bottom, update `HANDOFF.md`,
 push, tell the owner what to try, and stop. One step is one session.
 
+**Every stage ends with a working IPA that he tests on the iPad.** The next
+stage does not start until that IPA is built and he has been told what to try
+in it.
+
+**He steers while the work is going on.** If he asks for something else in the
+middle of a step, do that first, write it into this file (a new step, or a
+changed one), and carry on from there. What he says last outranks this file.
+
 | Stage | What | State |
 |---|---|---|
-| 1 | The IPA installs and runs on the iPad | Built; waiting for his word |
-| 2 | Performance patch | Not started; needs his numbers from the iPad |
-| 3 | Stability check | Not started |
-| 4 | New content: rooms, characters, weapons; everything unique | Not started |
-| 5 | Sprite revamp | Not started |
+| 1 | The IPA installs and runs on the iPad | **Done** (he confirmed, 5 Oct) |
+| 2 | Performance patch | Next |
+| 3 | Stability patch | Not started |
+| 4 | New content: environments, mobs, bosses, weapons, equipment, characters; everything unique | Not started |
+| 5 | Sprite revamp: every sprite redrawn, "cool and pixelated" | Not started |
 
 ---
 
 ## Stage 1: the IPA on the iPad
 
 - [x] 1.1 The game builds as `TinyBiggot.ipa` on GitHub (release `ipa-latest`).
-- [ ] 1.2 The owner installs it with SideStore and says whether it starts.
+- [x] 1.2 The owner installed it with SideStore: it installs and works.
 
-If it does not install or start, that comes before everything else. Ask him
+If a later IPA does not install or start, that comes before everything else. Ask him
 for the exact message SideStore shows, or what he sees (black screen, closes
 at once, no touch controls). Things to check, cheapest first:
 
@@ -37,6 +45,8 @@ at once, no touch controls). Things to check, cheapest first:
 - It runs but looks wrong: a screenshot from him is worth more than guessing.
 
 ## Stage 2: performance patch
+
+He has said the game needs this patch. He has not yet said what he saw.
 
 **Ask first.** He turns on OPTIONS > SHOW FPS in the app and sends the line
 (`FPS  LOGIC  DRAW  CALLS  WORST`) from four moments: the title screen, an
@@ -67,7 +77,7 @@ last second: 17 is steady, 33 is one missed frame.
 Not allowed as a "fix": fewer particles, shots, effects or enemies, a lower
 shot cap, a lower frame rate.
 
-## Stage 3: stability check
+## Stage 3: stability patch
 
 Each step ends with `tools/check.sh` green.
 
@@ -97,21 +107,27 @@ Each step ends with `tools/check.sh` green.
 
 ## Stage 4: new content
 
-He asked for **10+ rooms, 100+ weapons, 10+ characters with their own
+He asked for new **weapons, environments, bosses, mobs and equipment**, and
+before that for **10+ rooms, 100+ weapons and 10+ characters with their own
 playstyles**, and that **every weapon, relic and piece of equipment feels
-unique**. The game has 252 weapons, 14 heroes, 26 named combos, 11 floors, 8
-rift worlds and 9 event rooms already.
+unique**. The game has 252 weapons, 14 heroes, 34 kinds of foe, 11 guardians,
+26 named combos, 11 floors, 8 rift worlds and 9 event rooms already.
+
+Where he gave no number, the numbers below are a proposal. Tell him the
+proposal in one line at the start of the step; he can change it.
 
 What "unique" means here: an item differs from every other in what it does,
 not only in its numbers. For a weapon that is at least one of: how it attacks
 (shape, rhythm, range), what a hit sets off, a condition or resource of its
 own, or what it scales with. Two swords that differ by 10% damage are one
-sword.
+sword. The same goes for a mob (how it moves and attacks) and a boss (its
+attacks and phases).
 
 New content must not change the original game: original items keep their
 numbers, and `tests/replays/classic/` stay identical. Re-record the
 full-content replays (`tools/replay.sh record`) at the end of each step that
-adds content.
+adds content. Every new thing needs its sprite; draw it in the game's present
+look (stage 5 redraws everything together later).
 
 - [ ] 4.1 **Take stock.** Write `UNIQUENESS.md`: every weapon, relic and gear
       piece with a short "signature" worked out from its data (kind, attack
@@ -122,33 +138,40 @@ adds content.
       but one a mechanic of its own. Nothing is deleted, and original items
       are left alone (they are the classic game). Largest groups first; stop
       at about 40 items a session.
-- [ ] 4.3 **Ten new rooms.** Ask him first what he means by a room (a layout
-      to fight in, a special room like the shop or shrine, or an event). Until
-      he says, plan for a mix: 4 fight layouts with a feature of their own
-      (moving walls, a pit, a turret, light and dark), 3 special rooms, 3
-      events. Each needs its tiles or objects, a place in the room choice, and
-      a line in `tests/rift_test.gd` or `tests/content_test.gd`.
-- [ ] 4.4 **Ten new characters.** Send him one line per character first
-      (name, weapon, the one thing that makes it play differently) and wait
-      for his yes. No two may share a mechanic with each other or with the 14
-      there are (`HEROES.md`, `GAOLBIRD.md`). Build two or three a session:
-      sprite, weapon, passive, special, skill branch, unlock price, tests. The
-      Gaolbird is the model for depth.
-- [ ] 4.5 **A hundred new weapons.** In batches of 20 to 25, each batch a
+- [ ] 4.3 **New environments.** Proposal: 3 new floors or rift worlds, each
+      with its own tiles, a hazard of its own, and at least 4 room layouts
+      that use it (that gives the 10+ rooms). `BIOMES.md` and `RIFTS.md` show
+      how the present ones are built. One environment a session.
+- [ ] 4.4 **New mobs.** Proposal: 5 for each new environment and 5 more spread
+      over the old floors, 20 in all. Each moves or attacks in a way no
+      present foe does. Each needs a sprite, a place in a floor's pool, and a
+      line in the content test.
+- [ ] 4.5 **New bosses.** Proposal: a guardian and a mini-boss for each new
+      environment. A guardian has at least three attacks, each with a warning
+      the player can read (the lanes, rings and bands in
+      `ATTACK_EFFECTS.md`), and a second phase. One a session.
+- [ ] 4.6 **A hundred new weapons.** In batches of 20 to 25, each batch a
       theme (for example: thrown, summoning, charged, two-stage, cursed).
       Every weapon passes the "unique" test above against all weapons, old and
       new; put its signature in `UNIQUENESS.md`. Each needs an icon, and a
       shot or swing picture if no existing one fits. `tests/content_test.tscn`
       must pass and all shown text must fit the font.
-- [ ] 4.6 **Relics and gear** to go with them, if stock-taking showed thin
-      spots (a build type with few relics, a gear slot with look-alikes).
-- [ ] 4.7 After each of 4.3 to 4.6: a new IPA, and three things for him to
-      try.
+- [ ] 4.7 **New equipment and relics.** Proposal: 40 gear pieces over the 8
+      slots, with at least 3 new sets, and 20 relics, aimed at the thin spots
+      stock-taking showed. Same "unique" test.
+- [ ] 4.8 **Ten new characters.** Send him one line per character first
+      (name, weapon, the one thing that makes it play differently) and wait
+      for his yes. No two may share a mechanic with each other or with the 14
+      there are (`HEROES.md`, `GAOLBIRD.md`). Build two or three a session:
+      sprite, weapon, passive, special, skill branch, unlock price, tests. The
+      Gaolbird is the model for depth.
+- [ ] 4.9 After each of 4.3 to 4.8: `tools/check.sh` green, a new IPA, and
+      three things for him to try in it.
 
 ## Stage 5: sprite revamp
 
-He wants every sprite redrawn in a stronger pixel style. The influences are
-in `CLAUDE.md`; they are for mood (bold shapes and outlines, readable
+He wants every sprite redrawn, "cool and pixelated". The influences are in
+`CLAUDE.md`; they are for mood (bold shapes and outlines, readable
 silhouettes, lively shading, glow on magic). Every sprite is drawn new.
 
 Rules for the art:
@@ -167,7 +190,7 @@ Rules for the art:
       guardian, five weapon icons, one floor's tiles and the hearts. Send him
       one picture: old on the left, new on the right, at 5x, and a screenshot
       of a fight using them. Do not go on without his answer.
-- [ ] 5.2 Heroes (14, plus any from stage 4) and their gear overlay
+- [ ] 5.2 Heroes (14, plus those from stage 4) and their gear overlay
       (`scripts/render/hero_gear.gd`).
 - [ ] 5.3 Foes, champions and guardians.
 - [ ] 5.4 Weapon, gear and relic icons.
@@ -184,3 +207,7 @@ before-and-after picture for him, a new IPA.
 
 - 5 Oct 2026: 1.1 done. First IPA built on GitHub (28 MB, arm64, release
   engine, not signed). Its game files run in a desktop player.
+- 5 Oct 2026: 1.2 done. He installed it with SideStore: it installs and
+  works. He widened stage 4 (environments, mobs, bosses, equipment), wants a
+  working IPA at the end of every stage, and will steer during the work.
+  Work now goes on the branch `claude/dev`.

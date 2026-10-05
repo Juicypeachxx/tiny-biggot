@@ -23,7 +23,8 @@ The Godot project is in `tiny_biggot_godot/` (Godot 4.6.1, GL Compatibility).
 ## What he asked for on 5 Oct, in his order
 
 1. **A working IPA** he can sideload on the iPad Air M1, built through GitHub.
-   Done: see "The IPA build". Waiting for his word that it installs and runs.
+   Done: see "The IPA build". He installed it with SideStore on 5 Oct: it
+   installs and works.
 2. **A performance patch**, then a stability check. Best done from what he
    reports from the iPad (OPTIONS > SHOW FPS: FPS, LOGIC, DRAW, WORST).
 3. **New things, last**: 10+ rooms, 100+ weapons, 10+ characters with their
@@ -37,7 +38,8 @@ works. Keep each step small, commit and push after each.
 
 ## Branch and commits
 
-Branch `claude/xcode-pass-handoff`, on top of the port branch
+Branch `claude/dev` (work goes on here). It continues
+`claude/xcode-pass-handoff`, which sits on top of the port branch
 `claude/compassionate-ramanujan-vjr3qr` (4dbec24).
 
 | Commit | What it is |
@@ -122,7 +124,8 @@ as `Payload/`. The IPA is kept with the run and published as the release
   Run logs and run artifacts cannot be downloaded (blocked by the session's
   network rules); the release asset can:
   `gh api -H "Accept: application/octet-stream" repos/Juicypeachxx/tiny-biggot/releases/assets/<id> > TinyBiggot.ipa`.
-- **Not known yet:** that it installs with SideStore and runs on the iPad.
+- He installed it with SideStore on the iPad Air M1 on 5 Oct: it installs and
+  works.
 
 ## Noted, not yet acted on
 

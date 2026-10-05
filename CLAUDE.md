@@ -28,6 +28,11 @@ cloud container).
    recordings of the original game's rules. They are never re-recorded. If
    they change, something original was broken.
 5. **Godot 4.6.1 only.** No 4.7 features: the project must still open in Xogot.
+6. **Every stage ends with a working IPA** that he tests on the iPad. The next
+   stage waits for it.
+7. **He steers.** He will ask for changes and additions while the work is
+   going on. What he says last outranks `ROADMAP.md`: do it, and write it
+   into the roadmap.
 
 ## His usage is limited
 
@@ -92,5 +97,11 @@ Follow it with `gh run list` and `gh run watch <id>`.
 
 ## Git
 
-Work on a `claude/...` branch and push it. Do not push to `main` unless the
-owner asks. End commit messages with the session's attribution lines.
+**The work lives on the branch `claude/dev`.** Start from it. When a step is
+done, its commits must be on `claude/dev` on GitHub: push there directly if
+the session may, otherwise open a pull request into `claude/dev` and tell him
+to press Merge. A step that is only on a session's own branch is lost to the
+next session.
+
+Do not push to `main` unless he asks. End commit messages with the session's
+attribution lines.
