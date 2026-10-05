@@ -198,7 +198,7 @@ look (stage 5 redraws everything together later).
         never in a fight's way, never blocking a door.
       - Sprites for every NPC, the bar and its props; the content test
         visits every room and talks to every NPC.
-- [ ] 4.4 **New mobs.** Proposal: 5 for each new environment and 5 more spread
+- [x] 4.4 **New mobs.** Proposal: 5 for each new environment and 5 more spread
       over the old floors, 20 in all. Each moves or attacks in a way no
       present foe does. Each needs a sprite, a place in a floor's pool, and a
       line in the content test.
@@ -343,3 +343,8 @@ before-and-after picture for him, a new IPA.
   levers, a joking skull, a fisher) and THE CALIBER CATHEDRAL (flippable
   tables as cover, wall turrets, a bullet saint, a thieving rat). Rift
   test section 10. Next: 4.4 (new mobs, 5 per new world and 5 more).
+- 5 Oct 2026: 4.4 done. 20 new foes (5 per new world, 5 on the original
+  floors in the expanded game only), each with its own trick, all warned.
+  New tests/foes_test.tscn; a belt-feeder memory leak found by it and
+  fixed. 11 soaks clean; classic replays identical; full re-recorded.
+  Next: 4.5 (a guardian and a mini-boss for each new environment).

@@ -21,9 +21,9 @@ homages: setting and mood only, own names, own art.
 | burb | MAPLE COURT | neighbour, robovac, burglar, gnome | kitchen fires | THE LANDLORD |
 | heist | HEIST CITY | gangster, biker, riotcop | traffic lanes | THE KINGPIN |
 | dust | DUSTWATER | outlaw, dynamiter, sharpshooter, coyote | dynamite | THE MARSHAL |
-| bastion | THE DROWNED BASTION | drowned, skeleton, bogling, ghost, golem (own foes: 4.4) | toxic tide | THE ROTTING KING |
-| cathedral | THE CALIBER CATHEDRAL | gunman, sharpshooter, cultist, outlaw (own foes: 4.4) | wall turrets | THE HIGH CALIBER |
-| skyreach | SKYREACH ISLES | crow, wisp, torchimp (own foes come in ROADMAP 4.4) | gusts, open sky | THE GALE WARDEN |
+| bastion | THE DROWNED BASTION | rampartguard, sludgecrawler, chainwarden, tidecaller, longpike, drowned | toxic tide | THE ROTTING KING |
+| cathedral | THE CALIBER CATHEDRAL | shellpriest, dervish, deacon, beltfeeder, ammomimic, gunman | wall turrets | THE HIGH CALIBER |
+| skyreach | SKYREACH ISLES | skykite, gustling, stormharpy, thunderhead, mirrorwing, crow | gusts, open sky | THE GALE WARDEN |
 
 A run prefers worlds it has not shown yet (`Themes.pick`).
 
@@ -44,6 +44,24 @@ Original names and art.
   double; 12%).
 - Layouts 201-204 (ramparts, cells, broken bridge, chapel) and 301-304 (pews, altar, crossfire,
   nave). Champions: THE ROTTING KING, THE HIGH CALIBER.
+
+### Twenty new foes (October 2026, `scripts/entities/enemy_ai2.gd`, ROADMAP 4.4)
+
+Each fights in a way no older foe does, and every attack is warned first. Skyreach: sky kite
+(circles you, floating mines), gustling (swells, blasts you away), storm harpy (marks a spot,
+dives onto it), thunderhead (calls marked lightning), mirrorwing (mirrors you through the middle
+of the room, fires when lined up). Bastion: rampart guard (front shield takes 80%, turns slowly),
+sludge crawler (a trail that hurts), chain warden (hook along a shown line drags you in),
+tidecaller (calls a sludge wave along its row), longpike (reach thrust along a red lane).
+Cathedral: shell priest (wide blast with recoil), bullet dervish (spiral, then dizzy and +50%
+damage taken), deacon (shields foes near it: half damage, 3 s), belt feeder (a four-link snake;
+links fire sideways in turn), ammo mimic (a crate until you come near). Original floors, expanded
+game only (`EnemyAI2.OLD_FLOOR_EXTRA`, added to copies of the floor data): tomb spider (webs that
+slow), candlewight (can only be hurt while its candle is lit), gargoyle (moves only while you do),
+war drummer (every foe 50% faster for 2 s), blood leech (latches on: roll, or lose a heart).
+New enemy fields: `guard_t`, `haste_t`, `aux`, `aux2`, `links`, `trail`, `lead` (a WeakRef: the
+head holds its links strongly, so the two never keep each other alive). Webs and sludge live in
+`Room.goo`. Tested by `tests/foes_test.tscn` (in `tools/check.sh`).
 
 ### Skyreach Isles (October 2026)
 

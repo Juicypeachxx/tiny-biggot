@@ -295,6 +295,17 @@ wall off a pocket of floor, so it is fixed spots now. Tests: rift test
 section 10 (layouts reachable, table cover, turrets, every easter egg, the
 tide), planted fault (table not cover) caught; six 10-minute soaks, 0 errors.
 
+**4.4, twenty new foes (done).** `scripts/entities/enemy_ai2.gd`; details in
+`tiny_biggot_godot/RIFTS.md`. Hooks: `EnemyAI.run` (one match line for all of
+them), `Combat.damage_enemy` (`adjust_damage` when `guard_t > 0` or the data
+has a `rule`), touch damage skips data with `no_touch`, `update_player` slows
+in webs, `Hazards.update` calls `EnemyAI2.tick`, `world_view` draws goo and
+the warnings, `GameData.floors()` adds `OLD_FLOOR_EXTRA` to copies of the
+original floors unless `--classic`. Tests: foes test (planted fault: shield
+off, caught), rift and content tests, 11 ten-minute soaks with 0 errors.
+Desktop logic time in the busiest new room about 0.3 ms a frame (old floor
+about 0.2). Not measured on the iPad.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress (so iOS closing the app does not end it). Needs
