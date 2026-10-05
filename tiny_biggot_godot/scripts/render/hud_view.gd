@@ -165,6 +165,10 @@ func _draw() -> void:
 	Gfx.text(self, "%d/%d" % [G.floor_index + 1, GameData.floors().size()] + ("  LOOP %d" % (G.loop + 1) if G.loop > 0 else ""),
 		TB.SW / 2, 12, "gold" if G.loop > 0 else "grey", 1, 0.5)
 	_minimap()
+	# The saloon's bounty, while one is on (under the floor name).
+	var bounty := Saloon.hud_line()
+	if bounty != "":
+		Gfx.text(self, "BOUNTY: " + bounty, TB.SW / 2, 20, "gold", 1, 0.5)
 	# Rogues layer: the quick belt, under the floor name (keys 1-4, or tap).
 	if GameData.rogues():
 		for i in Consumables.BELT_SIZE:

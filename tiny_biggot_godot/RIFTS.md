@@ -61,6 +61,16 @@ A `?` door leads to one of nine events (`MYSTERY_EVENTS` in `scripts/game/game.g
 - mirror: your shadow steps out, beat it and it leaves a relic
 - library: a tome that costs half a heart and grants a level
 - safehouse: a bed that heals and a jukebox that takes gold
+- saloon (October 2026, `scripts/game/saloon.gd`): THE LAST DROP SALOON. A bar with a
+  bartender (three of five drinks on the counter, each a 45 s boost with a catch: DRAGON'S
+  BREATH +40% damage / -15% fire rate, QUICKSILVER GIN +25% fire rate +20% speed / rolls 50%
+  slower, BOG MOONSHINE heals 2 hearts / -15% speed, LIQUID COURAGE +2 armor / -15% damage, THE
+  HOUSE SPECIAL +30% crit / spill a tenth of your gold; the fifth chat earns a free round), a
+  merchant with a weapon or gear piece and a potion, and the bounty broker: one quest for the
+  floor (kill 3 elites: a relic; clear 3 fights unhit: gear; kill 60 foes: 40 gold and a
+  potion), shown on the HUD under the floor name and dropped at the next floor. Easter eggs:
+  the piano (play it four times), the WANTED poster (it is you), the sleeping drunk (sometimes
+  a key in his boot). Furniture stands on `World.T_PROP` tiles (blocks all but flyers).
 
 ## Hidden doors
 

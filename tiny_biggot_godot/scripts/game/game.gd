@@ -210,6 +210,7 @@ func start_floor() -> void:
 	if player != null:
 		player.floor_kills = 0
 	floor_d = World.new_floor(floor_index)
+	Saloon.on_floor_start()
 	run_stats["floor"] = floor_index + 1
 	Meta.meta["best"] = maxi(Meta.meta["best"], floor_index + 1)
 	Meta.write_save()
@@ -365,7 +366,7 @@ func leave_room(dir: String) -> void:
 	start_fade(func(): enter_room(nr))
 
 ## Events of a MYSTERY room, and the ones a hidden room may hold instead of its old three finds.
-const MYSTERY_EVENTS := ["wheel", "market", "mimic", "armory", "well", "goblin", "mirror", "library", "safehouse"]
+const MYSTERY_EVENTS := ["wheel", "market", "mimic", "armory", "well", "goblin", "mirror", "library", "safehouse", "saloon"]
 const SECRET_EVENTS := ["market", "armory", "goblin", "mirror", "library"]
 
 const EVENT_TITLE := {
@@ -373,6 +374,7 @@ const EVENT_TITLE := {
 	"mimic": ["A QUIET TREASURY", "TWO CHESTS. SOMETHING IS BREATHING"], "armory": ["A FORGOTTEN ARMORY", "TAKE ONE WEAPON. ONLY ONE"],
 	"well": ["A WISHING WELL", "A COIN FOR A WISH"], "mirror": ["A HALL OF MIRRORS", "ONE OF THEM IS LOOKING BACK"],
 	"library": ["A SEALED LIBRARY", "ONE BOOK IS STILL WARM"], "safehouse": ["A SAFEHOUSE", "A BED, AND MUSIC"],
+	"saloon": ["THE LAST DROP SALOON", "DRINKS, DEALS AND BOUNTIES"],
 }
 
 ## Furniture of an event room.
@@ -418,6 +420,8 @@ func _setup_event(r: Room, ev: String) -> void:
 			r.objects.append({ "kind": "jukebox", "x": cx + 34, "y": cy })
 		"goblin":
 			pass   # the goblin itself appears when the room is entered
+		"saloon":
+			Saloon.setup(r)
 
 ## An event's fight (a mimic, your shadow) is over: the room opens and pays out.
 func event_fight_cleared() -> void:
@@ -608,6 +612,7 @@ func give_reward(kind: String) -> void:
 func room_cleared() -> void:
 	locked = false
 	room.cleared = true
+	Saloon.on_room_clear(room)
 	dyn_dirty = true
 	Snd.play("door")
 	var p := player
@@ -769,6 +774,8 @@ func deny(o: Dictionary, text: String) -> void:
 ## Room object interaction (Game.rb interact). Stage 4 handles the portal so
 ## floors can be completed; chests, shops and shrines arrive with items.
 func interact(o: Dictionary) -> void:
+	if Saloon.handles(o["kind"]):
+		return Saloon.interact(o)
 	var p := player
 	# 05b_items.rb: weapons and gear on the floor or for sale.
 	if o["kind"] == "item":

@@ -632,6 +632,13 @@ func heroes() -> void:
 		if not h.has("special"):
 			continue
 		var p := arena(i)
+		# An open floor: a pillar or crate of a random layout right in front of the hero would stop a
+		# dash short, and this checks the special, not the layout.
+		for rr in range(TB.IY0, TB.IY0 + TB.IH):
+			for cc in range(TB.IX0, TB.IX0 + TB.IW):
+				if G.room.tile(cc, rr) != World.T_FLOOR:
+					G.room.set_tile(cc, rr, World.T_FLOOR)
+		G.room.crate_hp = {}
 		for e in G.enemies:
 			e.max_hp = 1e9
 			e.hp = 1e9

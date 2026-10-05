@@ -258,6 +258,19 @@ two planted faults caught), content test, atlas test, three 10-minute
 soaks in the world (0 errors), screenshots of layouts and a gust. Not
 checked: how it plays on the iPad.
 
+**4.3b part 1: the saloon (done).** `scripts/game/saloon.gd` holds all of it
+(setup, NPCs, drinks, quests, prompts, drawing); hooks: `G._setup_event`,
+`G.interact` (first line), `G.room_cleared`, `G.start_floor`,
+`Combat.kill_enemy`, `overlay_view` (prompt), `world_view` (draw, shadows),
+`hud_view` (bounty line at y 20). The quest lives in `G.run_stats["quest"]`.
+New tile `World.T_PROP` (6). 15 new sprites (npc_*, saloon_*, wanted_poster,
+drink_*). Tests: rift test section 8 (reachability, every drink, free round,
+each bounty paid and shown, expiry, easter eggs, font), with a planted
+payout fault caught; two 10-minute soaks starting in the saloon, 0 errors.
+Content test: once (of 8 runs) "gaolbird: dash did not move the hero";
+not reproduced; likely a random layout's pillar in front of the dash, so
+the specials check now clears the arena floor first.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress (so iOS closing the app does not end it). Needs

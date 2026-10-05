@@ -287,6 +287,7 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 	p.kills += 1
 	p.room_kills += 1
 	G.run_stats["kills"] += 1
+	Saloon.on_kill(e)
 	var boss := e.is_boss()
 	var cols := ["#f4ecd8", "#f2c94c", "#d8443c", "#a35bd6"] if boss else ["#f4ecd8", "#8b8f9c", GameData.SPRITE_COLOR.get(e.d["sprite"], "#d8443c")]
 	Fx.burst(e.x, e.y, cols, 60 if boss else 14, 140 if boss else 70, 1.0 if boss else 0.45)

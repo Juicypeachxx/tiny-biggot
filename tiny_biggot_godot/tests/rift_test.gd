@@ -10,6 +10,10 @@ extends Node
 ##   7. Skyreach Isles: every island layout leaves all floor reachable from every door; open sky
 ##      stops the hero and walkers but not flyers or shots; a gust shoves the hero along its band;
 ##      a hero left on open sky steps back onto an island.
+##   8. The saloon: every object can be reached past the furniture; drinks cost gold and give their
+##      boost and their catch; the fifth chat earns a free round; each bounty is paid when done, shows
+##      on the HUD while on, and runs out on a new floor; the piano, poster and drunk pay out; all
+##      its text fits the font.
 ## Prints "rift test: PASSED" or a FAIL line per problem.
 
 var fails := 0
@@ -62,6 +66,7 @@ func _ready() -> void:
 	events()
 	hidden()
 	isles()
+	saloon()
 	print("rift test: PASSED" if fails == 0 else "rift test: %d FAILED" % fails)
 	get_tree().quit()
 
@@ -385,3 +390,179 @@ func isles() -> void:
 	Hazards.update(TB.DT)
 	if G.room.tile(floori(pl.x / TB.TS), floori(pl.y / TB.TS)) != World.T_FLOOR:
 		fail("isles: a hero on open sky was not put back on an island")
+
+func _saloon_room() -> void:
+	_start(2)
+	G.enter_room(World.make_room(G.floor_d, "mystery", "", "s", { "event": "saloon" }))
+	_tick(5)
+
+func _obj(kind: String) -> Dictionary:
+	for o in G.room.objects:
+		if o["kind"] == kind and not o.get("gone", false):
+			return o
+	return {}
+
+func saloon() -> void:
+	_saloon_room()
+	var p: Player = G.player
+	# Every object can be reached: some floor spot within use range is joined to the doors.
+	var start := Vector2i(13, 16)
+	var reach := { start: true }
+	var q := [start]
+	while not q.is_empty():
+		var c: Vector2i = q.pop_back()
+		for dv in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
+			var n2: Vector2i = c + dv
+			if reach.has(n2) or World.solid(G.room, n2.x, n2.y, World.M_PLAYER):
+				continue
+			reach[n2] = true
+			q.append(n2)
+	for o in G.room.objects:
+		if o.get("used", false):
+			continue
+		var ok := false
+		for cell in reach:
+			if TB.dist_xy(cell.x * TB.TS + 8.0, cell.y * TB.TS + 8.0, o["x"], o["y"]) < 20.0:
+				ok = true
+				break
+		if not ok:
+			fail("saloon: %s at %d,%d cannot be reached" % [o["kind"], o["x"], o["y"]])
+	for kind in ["s_bartender", "s_drink", "s_merchant", "s_broker", "s_drunk", "s_piano", "s_poster", "shop"]:
+		if _obj(kind).is_empty():
+			fail("saloon: no %s" % kind)
+	# Text.
+	var texts := []
+	for k in Saloon.DRINKS:
+		texts.append_array(Saloon.DRINKS[k])
+	texts.append_array(Saloon.BARTENDER_LINES)
+	texts.append_array(Saloon.DRUNK_LINES)
+	texts.append(Saloon.MERCHANT_LINE)
+	for k in Saloon.QUESTS:
+		var d: Array = Saloon.QUESTS[k]
+		texts.append_array([d[0], d[1] % d[2], d[3], "BOUNTY: " + d[0].trim_prefix("BOUNTY: ") + " 99/99"])
+	for o in G.room.objects:
+		if Saloon.handles(o["kind"]):
+			texts.append_array(Saloon.prompt(o))
+	_font("saloon", texts)
+	# A drink costs gold and gives its boost and its catch.
+	p.gold = 100
+	var drink := _obj("s_drink")
+	var dmg0 := p.dmg
+	var rate0 := p.rate
+	var crit0 := p.crit
+	var armor0 := p.armor
+	var gold_before := p.gold
+	G.interact(drink)
+	if p.gold != gold_before - Saloon.drink_price():
+		fail("saloon: a drink cost %d, not %d" % [gold_before - p.gold, Saloon.drink_price()])
+	if not drink.get("gone", false):
+		fail("saloon: a drink was not drunk")
+	match drink["drink"]:
+		"firewater":
+			if not (p.dmg > dmg0 and p.rate < rate0): fail("saloon: dragon's breath did not boost damage and slow fire")
+		"quickgin":
+			if not p.rate > rate0: fail("saloon: gin did not speed up fire")
+		"courage":
+			if not (p.armor == armor0 + 2 and p.dmg < dmg0): fail("saloon: courage did not give armor and cut damage")
+		"special":
+			if not p.crit > crit0: fail("saloon: the special did not raise crit")
+	# Every drink works on a fresh hero.
+	for id in Saloon.DRINKS:
+		_saloon_room()
+		var h: Player = G.player
+		h.gold = 100
+		h.hp = 2
+		var b0 := h.buffs.size()
+		var a0 := h.armor
+		Saloon.drink(h, id)
+		match id:
+			"moonshine":
+				if h.hp != mini(6, h.max_hp) or h.buffs.size() != b0 + 1: fail("saloon: moonshine did not heal and slow")
+			"courage":
+				if h.armor != a0 + 2: fail("saloon: courage gave no armor")
+			"special":
+				if h.gold != 90: fail("saloon: the special did not spill gold (%d)" % h.gold)
+		if id != "moonshine" and h.buffs.size() <= b0:
+			fail("saloon: %s gave no timed boost" % id)
+	# Five chats: the next drink is free, once.
+	_saloon_room()
+	p = G.player
+	p.gold = 0
+	var bar := _obj("s_bartender")
+	for i in 5:
+		G.interact(bar)
+	var d2 := _obj("s_drink")
+	G.interact(d2)
+	if not d2.get("gone", false) or p.gold != 0:
+		fail("saloon: the free round was not free")
+	var d3 := _obj("s_drink")
+	G.interact(d3)
+	if d3.get("gone", false):
+		fail("saloon: a second free drink with no gold")
+	# Bounties.
+	for id in Saloon.QUESTS:
+		_saloon_room()
+		p = G.player
+		var broker := _obj("s_broker")
+		seed(0)
+		for tries in 50:
+			G.run_stats.erase("quest")
+			broker.erase("used")
+			G.interact(broker)
+			if Saloon.quest().get("id", "") == id:
+				break
+		if Saloon.quest().get("id", "") != id:
+			fail("saloon: the broker never offered %s" % id)
+			continue
+		if Saloon.hud_line() == "":
+			fail("saloon: bounty %s not on the HUD" % id)
+		var relics0 := p.relics.size()
+		var gold0 := p.gold
+		var items0 := G.room.objects.size()
+		match id:
+			"elites":
+				for i in 3:
+					var e := Combat.spawn_enemy("skeleton", 200, 150, true, true)
+					Combat.damage_enemy(e, e.hp * 3 + 1, { "no_crit": true, "no_mult": true, "silent": true })
+				if p.relics.size() != relics0 + 1: fail("saloon: elite bounty paid no relic")
+			"cull":
+				for i in 60:
+					var e := Combat.spawn_enemy("skeleton", 200, 150, false, true)
+					Combat.damage_enemy(e, e.hp * 3 + 1, { "no_crit": true, "no_mult": true, "silent": true })
+				if p.gold < gold0 + 40: fail("saloon: cull bounty paid no gold")
+			"clean":
+				for i in 3:
+					var r := World.make_room(G.floor_d, "combat", "", "s")
+					r.hits = 0
+					Saloon.on_room_clear(r)
+				if G.room.objects.size() <= items0: fail("saloon: clean bounty dropped no gear")
+		if not Saloon.quest().get("done", false) or Saloon.hud_line() != "":
+			fail("saloon: bounty %s not done after its goal" % id)
+	# An unfinished bounty runs out on a new floor.
+	_saloon_room()
+	G.interact(_obj("s_broker"))
+	if Saloon.quest().is_empty():
+		fail("saloon: no bounty taken")
+	G.floor_index += 1
+	G.start_floor()
+	if not Saloon.quest().is_empty():
+		fail("saloon: a bounty outlived its floor")
+	# Easter eggs.
+	_saloon_room()
+	var n0 := G.pickups.size()
+	var piano := _obj("s_piano")
+	for i in 4:
+		G.interact(piano)
+	if not piano.get("used", false) or G.pickups.size() < n0 + 4:
+		fail("saloon: the piano paid nothing")
+	n0 = G.pickups.size()
+	G.interact(_obj("s_poster"))
+	if G.pickups.size() != n0 + 1:
+		fail("saloon: the poster paid nothing")
+	var drunk := _obj("s_drunk")
+	drunk["key"] = true
+	n0 = G.pickups.size()
+	G.interact(drunk)
+	G.interact(drunk)
+	if G.pickups.size() != n0 + 1:
+		fail("saloon: the drunk kept his key")

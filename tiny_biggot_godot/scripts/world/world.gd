@@ -12,6 +12,9 @@ const T_CRATE := 4
 ## Open sky between islands (Skyreach Isles only): heroes and walking foes cannot cross it;
 ## flying foes and every shot pass over it.
 const T_VOID := 5
+## Furniture of an event room (the saloon's bar, piano, tables): nothing but flyers passes; drawn
+## by its room object, not by the tile kit.
+const T_PROP := 6
 
 const DIRS := { "n": Vector2i(0, -1), "s": Vector2i(0, 1), "e": Vector2i(1, 0), "w": Vector2i(-1, 0) }
 const OPP := { "n": "s", "s": "n", "e": "w", "w": "e" }

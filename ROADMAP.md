@@ -178,6 +178,8 @@ look (stage 5 redraws everything together later).
       how the present ones are built. One environment a session.
       (1 of 3 done, 5 Oct: SKYREACH ISLES, a rift world. See RIFTS.md.)
 - [ ] 4.3b **Event rooms, special rooms, NPCs, easter eggs** (his ask, 5 Oct).
+      (Saloon done 5 Oct. Left: 5 more event rooms, 3 special rooms, more
+      easter eggs, wandering NPCs; send him the list first.)
       - A **saloon** event room: a whole bar with NPCs. A bartender sells
         booze (drinks are timed buffs, each with a catch of its own); a
         merchant NPC sells things; a quest giver hands out quests (a goal
@@ -326,3 +328,7 @@ before-and-after picture for him, a new IPA.
   (layouts reachable, sky rules, gusts); classic replays identical; 7 full
   replays re-recorded (a 9th world changes which rift a run is offered).
   Next: 4.3b (saloon and event rooms) or the second environment.
+- 5 Oct 2026: 4.3b part 1: the saloon (bartender and 5 drinks, merchant,
+  bounty broker with 3 floor quests on the HUD, piano / poster / drunk
+  easter eggs). Rift test section 8; content test's specials check now
+  clears the arena floor (one unreproduced dash failure, likely a pillar).

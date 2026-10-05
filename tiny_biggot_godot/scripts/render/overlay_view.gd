@@ -177,6 +177,11 @@ func draw_prompt(ci: CanvasItem, o: Dictionary) -> void:
 	var title := ""
 	var desc := ""
 	var extra := ""
+	if Saloon.handles(o["kind"]):
+		var sl := Saloon.prompt(o)
+		title = sl[0]
+		desc = sl[1]
+		extra = sl[2]
 	match o["kind"]:
 		"chest":
 			title = "GUARDIAN'S HOARD" if o.get("boss", false) else "OLD CHEST"
