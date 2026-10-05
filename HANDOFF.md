@@ -131,13 +131,37 @@ as `Payload/`. The IPA is kept with the run and published as the release
 
 Closed 5 Oct with no change: he reports a good 60 fps on the iPad Air M1
 ("for now"). He did not send the SHOW FPS lines; if a drop shows up later,
-ask for them and reopen 2.2-2.4. Next is stage 3, step 3.1 (the save file).
+ask for them and reopen 2.2-2.4.
+
+## Stage 3 (stability)
+
+**3.1, the save file (done).** `scripts/core/meta.gd`:
+
+- Format: "TBSV", an MD5 of the rest, then `var_to_bytes` of
+  `{opts, meta}`. The old format (`store_var`: a u32 length, then the same
+  bytes) still loads if its length is right, and becomes the new format at
+  the next save. His save on the iPad is the old format.
+- `write_save_to`: writes `NAME.tmp`, reads it back and compares, then moves
+  the save in place to `tiny_biggot.save.bak` (only if it is whole) and the
+  new one into place. Any failure leaves both files as they were.
+- `load_from`: the save if whole, else the backup, else defaults. It writes
+  nothing. `save_source` says which ("save", "backup", "fresh", "").
+  Saved values of another kind than the default are left out (int and float
+  count as one kind: `embers` can become a float through item costs).
+- `tests/save_test.tscn` (in `tools/check.sh`): 5,439 damaged saves (every
+  cut, every single bit, zeroes, a doubled block, garbage) turned down with no
+  engine error; backup kept; a failed write changes nothing; old format; wrong
+  kinds. Planted faults: no checksum (engine errors, caught by check.sh) and
+  rotating a damaged save into the backup (caught). The read-back and the
+  re-encode check are not caught by it: no fault reaches them on Linux.
+- Checked by hand: a really full disk (8 KB tmpfs): "Can't write file", the
+  save unchanged, no spare file. A game started on an old-format save (runs
+  41) loaded it and wrote it back as TBSV with runs 42 and a backup.
+- Not checked: the iPad. On iOS `rename` replaces the target the same way, and
+  the atlas file already relies on that.
 
 ## Noted, not yet acted on
 
-- `Meta.write_save` writes the save file in place. On a full disk it is left
-  empty and the player's progress is gone. Belongs in the stability check:
-  write to a temporary file, read it back, then rename.
 - Hit points can stay above the maximum after a synergy is lost (older note).
 
 ## Tools

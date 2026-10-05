@@ -21,7 +21,7 @@ changed one), and carry on from there. What he says last outranks this file.
 |---|---|---|
 | 1 | The IPA installs and runs on the iPad | **Done** (he confirmed, 5 Oct) |
 | 2 | Performance patch | **Done**: nothing to patch (he reports a good 60 fps, 5 Oct) |
-| 3 | Stability patch | Next |
+| 3 | Stability patch | In progress (3.1 done) |
 | 4 | New content: environments, mobs, bosses, weapons, equipment, characters; everything unique | Not started |
 | 5 | Sprite revamp: every sprite redrawn, "cool and pixelated" | Not started |
 
@@ -86,12 +86,13 @@ shot cap, a lower frame rate.
 
 Each step ends with `tools/check.sh` green.
 
-- [ ] 3.1 **The save file.** `Meta.write_save` writes in place; on a full disk
+- [x] 3.1 **The save file.** `Meta.write_save` writes in place; on a full disk
       the file is left empty and his progress is gone. Write to a temporary
       file, read it back, then rename (the pattern is `Img.write_whole` in
       `scripts/core/img.gd`). A damaged save must load as a fresh one without
       an error, and must not be overwritten until the next real save. Add a
-      test.
+      test. (Done: also keeps the save before as a backup, loaded when the
+      save is damaged. `tests/save_test.tscn`.)
 - [ ] 3.2 **Known small fault:** hit points can stay above the maximum after
       a synergy is lost. Find it, fix it, add a test.
 - [ ] 3.3 **Long soaks, no screen.** Every hero, floors 0-10, all 8 rift
@@ -222,3 +223,7 @@ before-and-after picture for him, a new IPA.
   (stability, needs no iPad numbers) in the meantime if he prefers.
 - 5 Oct 2026: 2.1 done, stage 2 closed. He says it runs a good 60 fps "for
   now". Nothing to patch; no new IPA needed. Next: 3.1 (the save file).
+- 5 Oct 2026: 3.1 done. The save is written whole or not at all, with a
+  checksum, and the one before is kept as a backup. Damaged saves load the
+  backup, or start fresh, without an engine error. Old saves still load.
+  New test `tests/save_test.tscn` in `tools/check.sh`. No IPA yet (3.6).

@@ -30,6 +30,11 @@ timeout 900 "$GODOT" --headless --path . --quit-after 3000 res://tests/unit_test
 tail -n 1 "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== the save file: whole or not at all, damaged ones turned down, the backup"
+timeout 900 "$GODOT" --headless --path . --quit-after 6000 res://tests/save_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[save\]|save test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:|WARNING" "$LOG"; then status=1; fi
+
 echo "== sprite atlas: the ready-made file is what packing the graphics gives now"
 timeout 900 "$GODOT" --headless --path . --quit-after 400000 res://tests/atlas_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "^\[atlas\]|atlas test" "$LOG"
