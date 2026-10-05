@@ -486,7 +486,9 @@ sheep follows its foe in the air and waddles at the nearest foe before it
 blows, and part 1's mortar shells follow their foe for the first 70% of the
 flight (the ring moves with it). 25 soaks of 10 minutes after the fixes, plus
 the crook and both mortars again: 0 errors, no stalls. Full-content replays
-re-recorded; the 6 classic ones identical.
+re-recorded; the 6 classic ones identical. `tools/check.sh`: CHECK PASSED.
+The IPA with part 3 was pushed with `[ipa]` after that (release
+`ipa-latest`). Not tested on the iPad.
 
 ## Noted, not yet acted on
 
