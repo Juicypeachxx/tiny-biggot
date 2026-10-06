@@ -259,14 +259,18 @@ static func efan(x: float, y: float, a: float, n: int, spread: float, speed: flo
 # ---------- Damage to foes ----------
 static func player_damage_mult(p: Player) -> float:
 	var m := 1.0
-	if p.miser: m *= 1 + p.gold / 1000.0
-	if p.cap("midas"): m *= 1 + p.gold / 500.0
+	if p.miser: m *= 1 + held_gold(p) / 1000.0
+	if p.cap("midas"): m *= 1 + held_gold(p) / 500.0
 	if p.desperate > 0: m *= 1 + p.desperate * ((p.max_hp - p.hp) / 2)
 	if p.fortress > 0: m *= 1 + p.fortress * mini(p.armor, 5)
 	if p.cap("sanguine"): m *= 1 + 0.04 * p.room_kills
 	if p.post_roll and p.post_roll_t > 0: m *= 1.5
 	if p.full_hp_dmg > 0 and p.hp >= p.max_hp: m *= 1 + p.full_hp_dmg
 	return m
+
+## Gold as the things that grow with it see it: BOTTOMLESS PURSE (8.4) counts as 1000 at least.
+static func held_gold(p: Player) -> int:
+	return maxi(p.gold, 1000) if p.g("purse") > 0 else p.gold
 
 static func afflicted(e: Enemy) -> bool:
 	return e.burn_t > 0 or e.chill_t > 0 or e.poison > 0 or e.bleed_t > 0 or e.stun_t > 0 or e.curse_t > 0
@@ -283,8 +287,24 @@ static func hook_mult(p: Player, e: Enemy) -> float:
 	if e.elite: m += p.g("elite_dmg")
 	if e.is_boss(): m += p.g("boss_dmg")
 	m += p.g("armor_dmg") * mini(p.armor, 6)
-	m += p.g("gold_dmg") * p.gold / 100.0
+	m += p.g("gold_dmg") * held_gold(p) / 100.0
 	m += p.g("relic_dmg") * p.relics.size()
+	# 8.4 traits that grow with the run (traits.gd, the 8.4 rows).
+	if p.g("idle_dmg") > 0:
+		var empty := 0
+		for sl in Gear.slots():
+			if p.gear.get(sl) == null:
+				empty += 1
+		m += p.g("idle_dmg") * empty
+	if p.g("collect_dmg") > 0: m += p.g("collect_dmg") * p.stat_picks
+	if p.g("zealot_dmg") > 0:
+		var top := 0
+		for k in Alignments.KEYS:
+			top = maxi(top, Alignments.value(p, k))
+		m += p.g("zealot_dmg") * top
+	if p.g("prism_dmg") > 0:
+		m += p.g("prism_dmg") * ((1 if e.burn_t > 0 else 0) + (1 if e.chill_t > 0 else 0) + (1 if e.poison > 0 else 0)
+			+ (1 if e.bleed_t > 0 else 0) + (1 if e.curse_t > 0 else 0) + (1 if e.shock > 0 else 0))
 	if p.g("trait_dmg") > 0:
 		var ranks := 0
 		for v in p.traits.values():

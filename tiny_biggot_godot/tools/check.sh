@@ -117,6 +117,11 @@ timeout 600 "$GODOT" --headless --path . res://tests/stats_test.tscn -- --no-sav
 grep -E "stats test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== fun and synergy traits (8.4): SUPER offers, family ranks, momentum's cap, the purse, the damage hooks"
+timeout 600 "$GODOT" --headless --path . res://tests/supertraits_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "supertraits test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== the ten heroes of 4.8: data, each passive and special in a fight, every branch node"
 timeout 600 "$GODOT" --headless --path . res://tests/heroes_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "heroes test" "$LOG"

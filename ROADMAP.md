@@ -567,13 +567,18 @@ understand the build, also add stat stacking as shown to buff weapons and builds
       +1 DEX, +1 INT, +1% crit, +0.5% move speed ...), and the attributes do more than weapon
       damage (STR: +1 max heart per 5; DEX: +1% crit each; INT: +2% burn, poison and lightning
       damage each).
-- [ ] 8.4 Fun traits and synergy traits (his ask, 6 Oct, with pictures of a trait pick: ideas
+- [x] 8.4 Fun traits and synergy traits (his ask, 6 Oct, with pictures of a trait pick: ideas
       only). Big, odd, run-shaping picks on the level-up screen: "super" versions of a family
       (a big pile of one attribute, counted as extra ranks of that family), rule-benders (lazy:
       damage per empty gear slot; rich: count as holding lots of gold; elemental: every few
       seconds burn / chill / shock / poison every foe), and synergy traits that grow with what you
       already do (per skill use, per roll, per alignment...). The pick screen shows the odds of
       each family and explains each keyword in a side box.
+      Done: 9 SUPER traits (new pink rarity, from level 4: TITAN'S FRAME, QUICKSILVER, GENIUS,
+      ALL FAITHS, FOUR-LEAF CROWN, BOTTOMLESS HEART, ELEMENTAL STORM, OVERCHARGED, TAILWIND), 2
+      rule-benders (IDLE HANDS, BOTTOMLESS PURSE), 5 synergy traits (MOMENTUM, VETERAN, COLLECTOR,
+      ZEALOT, PRISM). The keyword side box was already there and now covers the new words; the
+      family odds box is not done yet (left for his word).
 - [ ] Full check, replays, IPA 8.4.
 
 ---

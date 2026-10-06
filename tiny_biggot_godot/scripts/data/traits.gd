@@ -70,7 +70,10 @@ const RARITY := {
 	"rare": { "name": "RARE", "col": "cyan", "hex": "#4d9be6", "w": 2 },
 	"legend": { "name": "LEGENDARY", "col": "gold", "hex": "#f2c94c", "w": 1 },
 	"cursed": { "name": "CURSED", "col": "purple", "hex": "#a35bd6", "w": 1 },
+	"super": { "name": "SUPER", "col": "pink", "hex": "#e86fb4", "w": 1 },   # 8.4: big, run-shaping picks
 }
+## 8.4: a SUPER trait that counts as more ranks of a family (its bonuses come with them).
+const PLUS := { "x_titan": ["bulwark", 3], "x_quick": ["shadow", 3], "x_genius": ["arcane", 3] }
 
 const ORIGINAL_COUNT := 72
 const ROWS := [
@@ -207,6 +210,26 @@ const ROWS := [
 	["g_skim", "fortune", 3, "SKIMMING", "KILLS HAVE 10% CHANCE TO PAY 1 GOLD", false, [{ "on": "on_kill", "chance": 0.1, "do": [["gold", 1]] }], "common", ["fortune"], {  }],
 	["g_bounty", "fortune", 2, "BOUNTY HUNTER", "KILLING AN ELITE PAYS 10 GOLD", false, [{ "on": "on_kill", "if": "elite", "do": [["gold", 10]] }], "uncommon", ["fortune"], {  }],
 	["g_invest", "fortune", 2, "INVESTMENT", "CLEARING A ROOM PAYS 4 GOLD", false, [{ "on": "on_room_clear", "do": [["gold", 4]] }], "uncommon", ["fortune"], {  }],
+	# 8.4 (his ask, 6 Oct, from pictures of another game's trait picks: ideas only, names and numbers
+	# are this game's own). SUPER traits: big run-shaping picks, offered from level 4.
+	["x_titan", "bulwark", 1, "TITAN'S FRAME", "+12 STR. COUNTS AS 3 MORE BULWARK RANKS", false, [["attr", "str", 12]], "super", ["bulwark"], {  }],
+	["x_quick", "shadow", 1, "QUICKSILVER", "+12 DEX. COUNTS AS 3 MORE SHADOW RANKS", false, [["attr", "dex", 12]], "super", ["shadow"], {  }],
+	["x_genius", "arcane", 1, "GENIUS", "+12 INT. COUNTS AS 3 MORE ARCANE RANKS", false, [["attr", "int", 12]], "super", ["arcane"], {  }],
+	["x_faiths", "core", 1, "ALL FAITHS", "+2 GOOD, EVIL, LAWFUL AND CHAOTIC. YOU RISE ONCE MORE FROM DEATH", false, [["add", "al_good", 2], ["add", "al_evil", 2], ["add", "al_law", 2], ["add", "al_chaos", 2], ["add", "revive", 1]], "super", ["fortune"], {  }],
+	["x_crown", "fortune", 1, "FOUR-LEAF CROWN", "+4 LUCK. +40% GOLD", false, [["add", "luck", 4], ["mul", "gold_mult", 1.4]], "super", ["fortune"], {  }],
+	["x_heart", "bulwark", 1, "BOTTOMLESS HEART", "+3 MAX HEARTS. CLEARING A ROOM HEALS A HEART", false, [["add", "max_hp", 6], ["add_cap", "hp", 6, "max_hp"], { "on": "on_room_clear", "do": [["heal", 2]] }], "super", ["bulwark"], {  }],
+	["x_elements", "arcane", 1, "ELEMENTAL STORM", "EVERY 8S BURN, EVERY 4S CHILL, EVERY 2S SHOCK AND EVERY 1S POISON EVERY FOE", false, [{ "on": "every_n_seconds", "period": 8.0, "do": [["status_area", "burn", 1, 999]] }, { "on": "every_n_seconds", "period": 4.0, "do": [["status_area", "chill", 1, 999]] }, { "on": "every_n_seconds", "period": 2.0, "do": [["status_area", "shock", 1, 999]] }, { "on": "every_n_seconds", "period": 1.0, "do": [["status_area", "poison", 1, 999]] }], "super", ["arcane", "storm"], {  }],
+	["x_overcharged", "storm", 1, "OVERCHARGED", "ROLLING CALLS 3 LIGHTNING STRIKES (EVERY 2S). EVERY 3S, LIGHTNING STRIKES", false, [{ "on": "on_roll", "cd": 2.0, "do": [["lightning", 1.0], ["lightning", 1.0], ["lightning", 1.0]] }, { "on": "every_n_seconds", "period": 3.0, "do": [["lightning", 1.0]] }], "super", ["storm"], {  }],
+	["x_tailwind", "shadow", 1, "TAILWIND", "+40% MOVE SPEED. +15% FIRE RATE", false, [["mul", "speed", 1.4], ["mul", "rate", 1.15]], "super", ["shadow"], {  }],
+	# 8.4 rule-benders.
+	["f_idle", "core", 1, "IDLE HANDS", "+20% DAMAGE FOR EACH EMPTY GEAR SLOT", false, [["hook", "idle_dmg", 0.2]], "rare", ["fury"], {  }],
+	["f_purse", "fortune", 1, "BOTTOMLESS PURSE", "ANYTHING THAT GROWS WITH GOLD COUNTS YOU AS HOLDING 1000 GOLD OR MORE", false, [["hook", "purse", 1]], "rare", ["fortune"], {  }],
+	# 8.4 synergy traits: they grow with what you already do.
+	["y_momentum", "shadow", 1, "MOMENTUM", "EVERY ROLL: +1% DAMAGE FOR THE REST OF THE RUN (UP TO +60%)", false, [{ "on": "on_roll", "do": [["stack", "dmg", 0.01, 0.6, "momentum"]] }], "uncommon", ["shadow"], {  }],
+	["y_veteran", "core", 1, "VETERAN", "EVERY CLEARED ROOM: +1% DAMAGE FOR THE REST OF THE RUN (UP TO +50%)", false, [{ "on": "on_room_clear", "do": [["stack", "dmg", 0.01, 0.5, "veteran"]] }], "uncommon", ["fury"], {  }],
+	["y_collector", "fortune", 1, "COLLECTOR", "+2% DAMAGE FOR EVERY STAT PICKUP TAKEN THIS RUN", false, [["hook", "collect_dmg", 0.02]], "rare", ["fortune"], {  }],
+	["y_zealot", "core", 1, "ZEALOT", "+5% DAMAGE FOR EACH POINT OF YOUR HIGHEST ALIGNMENT", false, [["hook", "zealot_dmg", 0.05]], "rare", ["fury"], {  }],
+	["y_prism", "arcane", 1, "PRISM", "+10% DAMAGE FOR EACH DIFFERENT AILMENT ON THE FOE YOU HIT", false, [["hook", "prism_dmg", 0.1]], "rare", ["arcane"], {  }],
 	["g_goldblood", "fortune", 1, "GOLDEN BLOOD", "+1% DAMAGE FOR EVERY 10 GOLD HELD. CRITS PAY 1 GOLD", false, [["set", "miser", true], { "on": "on_crit", "do": [["gold", 1]] }], "legend", ["fortune", "edge"], {  }],
 ]
 

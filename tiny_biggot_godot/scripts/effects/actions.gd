@@ -175,6 +175,12 @@ static func run(a: Array, stacks: int, ctx: Dictionary) -> void:
 			Combat.gain_xp(p, int(a[1]) * stacks)
 		"refund_roll":
 			p.charges = mini(p.charges + stacks, p.dodge_charges)
+		"stack":   # 8.4 ["stack", stat, v, cap, key]: +v (a percent of the stat) for good, up to cap
+			var have: float = p.gf.get(a[4], 0.0)
+			var add := minf(a[2] * stacks, a[3] - have)
+			if add > 0:
+				Effects._add_pct(p, a[1], add)
+				p.gf[a[4]] = have + add
 		"drop":
 			var at := _pos(ctx)
 			Combat.drop_pickup(a[1], at.x, at.y)

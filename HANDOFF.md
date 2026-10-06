@@ -770,6 +770,12 @@ the equipment page and the inventory (whose stat sidebar has icons and the align
 elite kills and `on_boss_dead`. `Attributes._side()` from `add()` (and `start()` goes through `add`).
 `tests/stats_test.tscn`; content_test's crit count includes the DEX side stat.
 
+8.4: rows at the end of traits.gd ROWS before GOLDEN BLOOD (`x_*` SUPER, `f_*`, `y_*`); rarity
+`super` (weight 1, from level 4 in `_new_trait_weight`); `Traits.PLUS` (extra family ranks in
+`take_trait`); action `stack` (actions.gd, capped in `p.gf[key]`); hooks `idle_dmg`, `collect_dmg`,
+`zealot_dmg`, `prism_dmg` in `Combat.hook_mult`, `purse` through `Combat.held_gold()`.
+`tests/supertraits_test.tscn`.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

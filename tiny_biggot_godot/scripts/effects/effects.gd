@@ -50,6 +50,7 @@ const ACTIONS := ["nova", "shoot", "explode", "status", "heal", "buff", "chain",
 	"tempo", "leap",   # the Gaolbird
 	"plant", "puppet", "charm", "warm",   # ROADMAP 4.6 weapons (arsenal.gd, summons.gd)
 	"turret", "raise", "reflect", "spread", "consume", "give", "slow_shots", "overkill",   # ROADMAP 4.7
+	"stack",   # 8.4: a lasting bonus that grows up to a cap
 	"charm_area", "consume_area", "execute_weakest"]   # ROADMAP 4.8 heroes
 const STATUSES := ["burn", "poison", "chill", "bleed", "stun", "curse", "mark", "shock", "vulnerable", "weakened"]
 const CONDITIONS := ["elite", "boss", "burning", "poisoned", "chilled", "bleeding", "shocked", "cursed",
@@ -210,7 +211,7 @@ static func _cond(c: String, ctx: Dictionary) -> bool:
 		"danger": return EBullets.any_near(p.x, p.y, 30.0)   # a shot is close: perfect dodge
 		"fighting": return G.enemies_active()
 		"hot": return p.heat >= 3
-		"rich": return p.gold >= 100
+		"rich": return Combat.held_gold(p) >= 100
 		"armored": return p.armor > 0
 		"flight": return Tempo.full(p)   # the Gaolbird at full tempo
 		# ROADMAP 4.7

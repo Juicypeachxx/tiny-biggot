@@ -1496,6 +1496,8 @@ func _new_trait_weight(p: Player, t: Dictionary) -> int:
 		return 0
 	if t["rarity"] == "cursed" and p.level < 3:
 		return 0
+	if t["rarity"] == "super":
+		return 0 if p.level < 4 else 1   # 8.4: rare, and never on the first few levels
 	var tagpts := 0
 	for tag in t["tags"]:
 		tagpts += p.tag_counts.get(tag, 0)
@@ -1545,7 +1547,7 @@ func take_trait(t: Dictionary) -> void:
 	Attributes.on_trait(p, t["fam"])
 	p.charges = mini(p.charges, p.dodge_charges)
 	var fam: String = t["fam"]
-	p.fam[fam] = p.fam.get(fam, 0) + 1
+	p.fam[fam] = p.fam.get(fam, 0) + 1 + (Traits.PLUS[t["id"]][1] if Traits.PLUS.has(t["id"]) else 0)   # 8.4 SUPER
 	if Traits.FAMILY_BONUS.has(fam):
 		var tier := mini(p.fam[fam] / 2, 3)
 		var have: int = p.fam_bonus.get(fam, 0)
