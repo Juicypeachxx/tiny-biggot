@@ -738,6 +738,11 @@ check (mending, `Enemy.mend_t` reset in `damage_enemy`), `on_kill()` from `kill_
 (splitting, volatile). PLATED goes through `Armor.has/plate`. Labels drawn in
 `world_view._paint_bars`. `tests/traits_test.tscn`.
 
+7.1: `Armor.weakness(e)` (a fixed pick from the key's letters among fire, poison, storm, crits,
+blasts; guardians, minis and champions only), `Armor.weak_hit(e, o, crit)` from damage_enemy's
+options (`col` orange / lime / cyan, the crit, `boom`/`bomb`), `soak(..., weak)` wears the plate
+×2.5. "WEAK: X" right-aligned above the boss bar. `bosses_test._armor` checks the wear.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

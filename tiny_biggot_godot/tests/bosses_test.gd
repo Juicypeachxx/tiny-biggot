@@ -173,6 +173,19 @@ func _armor(key: String) -> void:
 	if plate <= 0 or e.armor <= 0:
 		fail("%s: no armor plate (%.0f)" % [key, plate])
 		return
+	# 7.1: a hit of its weakness wears the plate WEAR times as fast; the health takes the same.
+	var wk := Armor.weakness(e)
+	var wo := { "no_mult": true, "no_crit": wk != "crits", "force_crit": wk == "crits" }
+	match wk:
+		"fire": wo["col"] = "orange"
+		"poison": wo["col"] = "lime"
+		"storm": wo["col"] = "cyan"
+		"blasts": wo["boom"] = true
+	var hw := e.hp
+	var aw := e.armor
+	Combat.damage_enemy(e, 20.0, wo)
+	if wk == "" or absf((aw - e.armor) / maxf(0.01, hw - e.hp) - Armor.WEAR / Armor.THROUGH) > 0.3:
+		fail("%s: its weakness (%s) wore %.1f plate for %.1f health" % [key, wk, aw - e.armor, hw - e.hp])
 	var hp0 := e.hp
 	var a0 := e.armor
 	Combat.damage_enemy(e, 40.0, { "no_crit": true, "no_mult": true })

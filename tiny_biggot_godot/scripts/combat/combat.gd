@@ -328,7 +328,7 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	var gate := Stages.gate(e)   # read before the blow: a dead boss has no stage left
 	if GameData.rogues() and e.type != "dummy":
 		G.run_stats["dealt"] = G.run_stats.get("dealt", 0.0) + minf(dmg, e.max_hp * 2.0)   # Combat.power: what you really deal
-	e.hp -= Armor.soak(e, dmg, gate)
+	e.hp -= Armor.soak(e, dmg, gate, Armor.weak_hit(e, o, crit))
 	e.mend_t = 0.0   # a mending elite waits again (elite_traits.gd)   # boss armor: most of a blow wears the plate down (armor.gd)
 	if gate > 0 and e.hp < gate:
 		e.hp = gate   # a boss never skips a stage (Stages.gate); other foes keep their overkill

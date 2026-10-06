@@ -220,6 +220,9 @@ func _draw() -> void:
 			draw_rect(Rect2(bx, by + 1, aw, 3), TB.c("#a8b4c8"))
 			draw_rect(Rect2(bx, by + 1, aw, 1), TB.c("#e8eef8"))
 		Gfx.text(self, bo.d["name"], TB.SW / 2, by - 9, "white", 1, 0.5)
+		var wk := Armor.weakness(bo)   # 7.1: its weakness wears the plate faster (armor.gd)
+		if wk != "":
+			Gfx.text(self, "WEAK: " + wk.to_upper(), bx + w, by - 18, Armor.WEAK_COL[wk], 1, 1)
 
 ## The foe the boss bar shows: the floor's guardian, else a champion or mini-boss.
 func _bar_foe() -> Enemy:

@@ -10,6 +10,35 @@ extends RefCounted
 
 const THROUGH := 0.25
 
+## 7.1 Weaknesses (his word "All", 6 Oct): every guardian, mini-boss and champion has one, shown on
+## its bar. A hit of that kind wears the plate 2.5 times as fast; nothing else changes.
+##   FIRE: burning and fire hits (orange numbers); POISON: poison ticks (lime); STORM: lightning
+##   (cyan); CRITS: any critical hit; BLASTS: explosions and bombs.
+const WEAK := ["fire", "poison", "storm", "crits", "blasts"]
+const WEAK_COL := { "fire": "orange", "poison": "lime", "storm": "cyan", "crits": "gold", "blasts": "red" }
+const WEAR := 2.5
+
+static func weakness(e: Enemy) -> String:
+	if not GameData.rogues() or e.type == "dummy":
+		return ""
+	if not (e.is_boss() or e.d.get("mini", false) or e.d.get("champion", false)):
+		return ""
+	var key: String = e.boss if e.is_boss() else e.type
+	var sum := 0
+	for i in key.length():
+		sum += key.unicode_at(i)
+	return WEAK[sum % WEAK.size()]
+
+## Does this blow (Combat.damage_enemy's options and its crit) hit the foe's weakness?
+static func weak_hit(e: Enemy, o: Dictionary, crit: bool) -> bool:
+	match weakness(e):
+		"fire": return o.get("col", "") == "orange"
+		"poison": return o.get("col", "") == "lime"
+		"storm": return o.get("col", "") == "cyan"
+		"crits": return crit
+		"blasts": return o.get("boom", false) or o.get("bomb", false)
+	return false
+
 static func has(e: Enemy) -> bool:
 	if not GameData.rogues() or e.type == "dummy":
 		return false
@@ -38,16 +67,18 @@ static func shown(e: Enemy) -> float:
 	return e.armor if e.armor_stage == _key(e) else plate(e)
 
 ## The part of a blow that reaches the health. `gate`: the foe's stage line (Stages.gate).
-static func soak(e: Enemy, dmg: float, gate: float = 0.0) -> float:
+## `weak`: the blow hits the foe's weakness (wears the plate WEAR times as fast).
+static func soak(e: Enemy, dmg: float, gate: float = 0.0, weak: bool = false) -> float:
 	if not has(e):
 		return dmg
 	refresh(e)
 	if e.armor <= 0:
 		return dmg
-	if dmg < e.armor:
-		e.armor -= dmg
+	var wear := WEAR if weak else 1.0
+	if dmg * wear < e.armor:
+		e.armor -= dmg * wear
 		return dmg * THROUGH
-	var rest := dmg - e.armor
+	var rest := dmg - e.armor / wear
 	e.armor = 0.0
 	_break(e, gate <= 0.0 or e.hp - rest > gate)
 	return rest   # what is left after breaking the plate lands whole

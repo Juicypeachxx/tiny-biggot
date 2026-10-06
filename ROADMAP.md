@@ -529,6 +529,19 @@ Chosen for his asks of 6 Oct (more variety, foes that stand up to a build), no b
       `tests/traits_test.tscn` (in check.sh). Expanded game only.
 - [x] Full replays re-recorded, classic identical, full check passed, IPA 6.6.
 
+
+## Stage 7 (his word, 6 Oct: "All", to the three ideas after 6.6; one IPA at the end)
+
+- [x] 7.1 Boss weaknesses: each guardian, mini-boss and champion has one (FIRE, POISON, STORM,
+      CRITS or BLASTS), shown on its bar. Hits of that kind wear its armor plate 2.5 times as
+      fast. Other hits are exactly as before: no build loses anything.
+- [ ] 7.2 Trophies: the first time a hero fells a guardian it is a trophy (+embers, a banner). The
+      hero screen shows the count; 5 / 10 / 20 trophies give that hero a starting potion / a
+      relic / a rare relic.
+- [ ] 7.3 A new rift world, in the way of the Clockwork Spire: its foes, champion, guardian, art,
+      drops.
+- [ ] Full check, replays, IPA 7.3.
+
 ---
 
 ## Log
