@@ -70,6 +70,7 @@ static func _col(w: Dictionary) -> String:
 ## The room changed: summons and things in flight are gone; the deck is shuffled anew (upgrades
 ## lost); a hatched dragon goes back into its egg, half warm.
 static func clear() -> void:
+	_room = weakref(G.room) if G.room != null else null   # what an item calls up on entering stays
 	cards.clear()
 	bombs.clear()
 	turrets.clear()
@@ -447,6 +448,33 @@ static func warm(n: int) -> void:
 		Fx.float_text(p.x, p.y - 26, "HATCHED!", "orange", true)
 		Fx.burst(p.x, p.y - 10, ["#f4ecd8", "#e8873a", "#f2c94c"], 14, 70, 0.4)
 		Snd.play("unlock")
+
+## ROADMAP 4.7 ("turret" action, gear and relics): a turret by the hero for a while, apart from
+## the weapon's own; items keep two at a time. "random" picks a kind.
+static func item_turret(k: String, secs: float, dmg: float) -> void:
+	var p := G.player
+	if k == "random":
+		k = TB.pick(["gun", "flame", "tesla", "frost", "saw", "mend"])
+	var mine := turrets.filter(func(o): return o.get("item", false))
+	if mine.size() >= 2:
+		turrets.erase(mine[0])
+	var at := RiftBosses._inside(Vector2(p.x + randf_range(-12.0, 12.0), p.y + 8.0))
+	turrets.append({ "x": at.x, "y": at.y, "k": k, "t": secs, "cd": 0.3, "a": p.aim_a, "dmg": dmg, "hit": {},
+		"col": "#f4ecd8", "mend": 0.0, "item": true })
+	_stat("item_turret")
+	Snd.play("place")
+	Afx.dust(at.x, at.y)
+
+## ROADMAP 4.7 ("raise" action): a skeleton climbs out at (x, y) and fights for secs; items keep four.
+static func item_raise(x: float, y: float, secs: float, dmg: float) -> void:
+	var mine := thralls.filter(func(o): return o.get("item", false))
+	if mine.size() >= 4:
+		thralls.erase(mine[0])
+	var at := RiftBosses._inside(Vector2(x, y))
+	thralls.append({ "k": "bones", "x": at.x, "y": at.y, "t": secs, "cd": 0.6, "dmg": dmg, "size": 1, "face": 1, "rise": 0.4,
+		"item": true })
+	_stat("item_raise")
+	Vfx.puff(at.x, at.y, "void")
 
 ## ["charm", seconds] (the tamer's whip): an ordinary foe fights for you for a while.
 static func charm(e: Enemy, secs: float) -> void:

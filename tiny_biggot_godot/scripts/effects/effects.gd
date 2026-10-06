@@ -41,16 +41,19 @@ const BUFF_CAP := 64
 
 const TRIGGERS := ["on_hit", "on_crit", "on_kill", "on_roll", "on_damage_taken", "on_heal", "on_room_enter",
 	"on_room_clear", "on_level_up", "on_shoot", "every_n_shots", "every_n_seconds", "while_low_hp", "on_pickup",
-	"on_potion", "on_weapon_swap", "on_floor_start"]   # last three: new for the step-6 heroes
+	"on_potion", "on_weapon_swap", "on_floor_start",   # last three: new for the step-6 heroes
+	"on_bomb", "on_armor_lost", "on_dodge", "on_overheal", "on_chest", "on_buy"]   # ROADMAP 4.7 gear and relics
 const ACTIONS := ["nova", "shoot", "explode", "status", "heal", "buff", "chain", "lightning", "summon", "gold",
 	"refund_roll", "armor", "drop", "damage", "hurt_self", "xp", "clear_shots", "card", "heat", "scroll",
 	"dash", "channel", "invuln", "status_area", "vfx", "area",
 	"meteor", "bolts", "pull", "push", "bomb", "zone", "transmute", "rand_status", "shoot_at", "chaos",   # content batch 4
 	"tempo", "leap",   # the Gaolbird
-	"plant", "puppet", "charm", "warm"]   # ROADMAP 4.6 weapons (arsenal.gd, summons.gd)
+	"plant", "puppet", "charm", "warm",   # ROADMAP 4.6 weapons (arsenal.gd, summons.gd)
+	"turret", "raise", "reflect", "spread", "consume", "give", "slow_shots", "overkill"]   # ROADMAP 4.7
 const STATUSES := ["burn", "poison", "chill", "bleed", "stun", "curse", "mark", "shock", "vulnerable", "weakened"]
 const CONDITIONS := ["elite", "boss", "burning", "poisoned", "chilled", "bleeding", "shocked", "cursed",
-	"low_hp", "full_hp", "moving", "still", "crit", "danger", "fighting", "hot", "rich", "armored", "flight"]
+	"low_hp", "full_hp", "moving", "still", "crit", "danger", "fighting", "hot", "rich", "armored", "flight",
+	"close", "far", "fresh", "last_foe", "crowd", "unhurt", "coin"]   # ROADMAP 4.7
 
 static var depth := 0
 static var budget := BUDGET
@@ -208,7 +211,23 @@ static func _cond(c: String, ctx: Dictionary) -> bool:
 		"rich": return p.gold >= 100
 		"armored": return p.armor > 0
 		"flight": return Tempo.full(p)   # the Gaolbird at full tempo
+		# ROADMAP 4.7
+		"close": return e != null and TB.dist(e, p) < 50.0 + e.r
+		"far": return e != null and TB.dist(e, p) > 120.0
+		"fresh": return e != null and e.struck <= 1   # this hit is the first one it took
+		"last_foe": return e != null and foes_left() <= 1
+		"crowd": return foes_left() >= 6
+		"unhurt": return G.room != null and G.room.hits == 0
+		"coin": return ctx.get("kind", "") == "coin"
 	return false
+
+## Foes in the room that can still be fought (dummies and tamed foes left out).
+static func foes_left() -> int:
+	var n := 0
+	for e in G.enemies:
+		if e.targetable() and e.hp > 0 and e.charm_t <= 0 and e.type != "dummy":
+			n += 1
+	return n
 
 ## Fires a trigger. ctx may carry: enemy, dmg, crit, x, y.
 ## Live player shot cap (classic keeps the original 1000).

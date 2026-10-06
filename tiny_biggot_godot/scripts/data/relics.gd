@@ -187,6 +187,27 @@ const ROWS := [
 	["balancestone", "epic", "STONE OF BALANCE", "+1 STR, +1 DEX, +1 INT", [["attr", "str", 1], ["attr", "dex", 1], ["attr", "int", 1]], ["arcane"], "relic_lodestone"],
 	# ---------- Rogues layer: upgrade relic ----------
 	["smithhammer", "epic", "SMITH'S HAMMER", "YOUR WEAPON GAINS +2 LEVELS NOW", [["upgrade", "weapon", 2]], ["bulwark"], "relic_heavy"],
+	# ---------- ROADMAP 4.7: twenty relics (aimed at the thin spots: frost, demolition, swarm, pyre; rare triggers) ----------
+	["frostlantern", "rare", "FROST LANTERN", "KILLING A CHILLED FOE SLOWS EVERY SHOT NEAR YOU TO A CRAWL", [{ "on": "on_kill", "if": "chilled", "do": [["slow_shots", 90, 0.3]] }], ["frost"]],
+	["permafrost", "epic", "PERMAFROST", "+10% CHILL. YOUR FIRST HIT ON EACH FOE CHILLS IT", [["add", "chill", 0.1], { "on": "on_hit", "if": "fresh", "do": [["status", "chill", 1]] }], ["frost"]],
+	["snowangel", "rare", "SNOW ANGEL", "+5% DODGE CHANCE. DODGING A HIT CHILLS EVERY FOE NEAR YOU", [["add", "evade", 0.05], { "on": "on_dodge", "do": [["status_area", "chill", 2, 90], ["vfx", "ring", "#c8f0ff", 90]] }], ["frost", "shadow"]],
+	["fusebox", "rare", "FUSE BOX", "A QUARTER OF THE BOMBS YOU SET COME BACK TO YOU", [{ "on": "on_bomb", "chance": 0.25, "do": [["give", "bombs", 1]] }], ["demolition"]],
+	["powderhorn", "epic", "POWDER HORN", "+1 BOMB. SETTING A BOMB SPRAYS 12 EMBERS AROUND YOU", [["add", "bombs", 1], { "on": "on_bomb", "do": [["nova", 12, 0.8, "fire"]] }], ["demolition", "pyre"]],
+	["blastshield", "rare", "BLAST SHIELD", "SETTING A BOMB GIVES 1 ARMOR (ONCE EVERY 10S)", [{ "on": "on_bomb", "cd": 10.0, "do": [["armor", 1]] }], ["demolition", "bulwark"]],
+	["gravewhistle", "rare", "GRAVE WHISTLE", "10% OF THE FOES YOU KILL RISE AS YOUR SKELETONS FOR 8S", [{ "on": "on_kill", "chance": 0.1, "do": [["raise", 8.0, 0.8]] }], ["swarm", "malice"]],
+	["toolbox", "epic", "TINKER'S TOOLBOX", "ENTERING A ROOM SETS UP A GUN TURRET BESIDE YOU FOR 15S", [{ "on": "on_room_enter", "do": [["turret", "gun", 15.0, 1.0]] }], ["swarm", "demolition"]],
+	["honeycomb", "rare", "HONEYCOMB", "HEALING CALLS A WISP TO YOUR SIDE FOR 8S", [{ "on": "on_heal", "do": [["summon", 8.0]] }], ["swarm"]],
+	["littlekiln", "rare", "LITTLE KILN", "HEALING WHILE AT FULL HEALTH SETS EVERY FOE NEAR YOU ALIGHT", [{ "on": "on_overheal", "do": [["status_area", "burn", 2, 110], ["vfx", "ring", "#e8873a", 110]] }], ["pyre"]],
+	["furnaceheart", "legend", "FURNACE HEART", "+20% BURN. A BURNING FOE YOU KILL PASSES ALL ITS AILMENTS TO THE FOES NEAR IT", [["add", "burn", 0.2], { "on": "on_kill", "if": "burning", "do": [["spread", 80]] }], ["pyre"]],
+	["wyrmscale", "epic", "WYRM SCALE", "+1 ARMOR. WHEN ARMOR TAKES A HIT, 12 FIREBALLS BURST FROM YOU", [["add", "armor", 1], { "on": "on_armor_lost", "do": [["nova", 12, 1.0, "fire"]] }], ["bulwark", "pyre"]],
+	["drawholster", "rare", "QUICKDRAW HOLSTER", "SWAPPING WEAPONS GIVES +100% CRIT FOR 2S", [{ "on": "on_weapon_swap", "do": [["buff", "crit", 1.0, 2.0]] }], ["edge"]],
+	["wishingcoin", "rare", "WISHING COIN", "ONE IN 20 COINS YOU PICK UP MAKES A WISH: SOMETHING RANDOM HAPPENS", [{ "on": "on_pickup", "if": "coin", "chance": 0.05, "do": [["chaos"]] }], ["fortune"]],
+	["philosophersdrop", "epic", "PHILOSOPHER'S DROP", "A QUARTER OF THE POTIONS YOU DRINK FILL BACK UP", [{ "on": "on_potion", "chance": 0.25, "do": [["give", "potions", 1]] }], ["arcane"]],
+	["surveyorschart", "rare", "SURVEYOR'S CHART", "EVERY FLOOR STARTS WITH A KEY AND A BOMB", [{ "on": "on_floor_start", "do": [["give", "keys", 1], ["give", "bombs", 1]] }], ["fortune"]],
+	["ripostecharm", "epic", "RIPOSTE CHARM", "ROLLING PAST A CLOSE SHOT SENDS THE SHOTS NEAR YOU BACK THE WAY THEY CAME, AS YOURS", [{ "on": "on_roll", "if": "danger", "do": [["reflect", 50, 1.2]] }], ["edge", "shadow"]],
+	["dominotile", "rare", "DOMINO TILE", "DAMAGE PAST AN ELITE'S DEATH CARRIES ON, DOUBLED, TO THE NEAREST FOE", [{ "on": "on_kill", "if": "elite", "do": [["overkill", 2.0]] }], ["fury"]],
+	["stampededrum", "epic", "STAMPEDE DRUM", "IN A CROWD (6+ FOES), EVERY 5S YOU BLAST THE FOES NEAR YOU AWAY FOR 80%", [{ "on": "every_n_seconds", "period": 5.0, "if": "crowd", "do": [["area", 90, 0.8], ["push", 90, 300], ["vfx", "ring", "#f4ecd8", 90]] }], ["fury", "bulwark"]],
+	["spyglass", "rare", "SPYGLASS", "+15% RANGE. 15% OF HITS ON FAR FOES STRIKE AGAIN FOR 100%", [["mul", "life", 1.15], { "on": "on_hit", "if": "far", "chance": 0.15, "do": [["damage", 1.0]] }], ["edge"]],
 ]
 const BASE_COUNT := 34
 const CACHE_1 := ["tallow", "skeletonkey", "quiver", "filings", "gravedust", "mothwing", "bitterroot", "tinwhistle", "chalk", "rustynail"]

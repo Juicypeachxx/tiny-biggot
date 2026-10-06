@@ -98,6 +98,8 @@ var phase := 1                 # 2 below half health
 var shrink_t := 0.0            # shrunk by the shrink ray: small, no touch damage, squashed underfoot (oddities.gd)
 var charm_t := 0.0             # tamed by the tamer's whip: fights other foes (summons.gd)
 var puppet_t := 0.0            # a parasite's puppet: walks into other foes, then bursts (arsenal.gd)
+var struck := 0                # hits taken while you carry triggered effects (the "fresh" condition, ROADMAP 4.7)
+var over := 0.0                # damage past its death (the "overkill" action, ROADMAP 4.7)
 var parts: Array = []          # what it carries: an anchor, a bell, the hydra's heads
 
 func _init() -> void:

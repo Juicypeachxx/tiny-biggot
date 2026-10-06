@@ -278,6 +278,21 @@ look (stage 5 redraws everything together later).
 - [ ] 4.7 **New equipment and relics.** Proposal: 40 gear pieces over the 8
       slots, with at least 3 new sets, and 20 relics, aimed at the thin spots
       stock-taking showed. Same "unique" test.
+      **His ask, 5 Oct ("go"), with three more things. Done in three parts,
+      each ending in an IPA:**
+      - [x] Part A (5 Oct): 40 gear pieces (four new sets: RIMEWARDEN,
+        BLASTWRIGHT, BONECALLER, CLOCKWORK) and 20 relics, aimed at the thin
+        slots, tags and moments; six new moments, seven conditions, eight
+        actions. **A harder game**, expanded only: foes +10% health on floor
+        1 rising to +40% on floor 11, one more foe a wave from floor 3, a few
+        more elites, foes' shots 6% faster, and from floor 7 a foe's hit costs
+        a whole heart. See `GEAR_AND_RELICS.md`. IPA built after it.
+      - [ ] Part B: **revamp the environments** ("make them less boring").
+      - [ ] Part C: **Heaven and Hell** ("a story part, final two bosses
+        based on your perks like in Tiny Rogues, that unlocks the final final
+        final boss"): after the Umbral Sun, what your perks lean to (light or
+        dark) opens Heaven or Hell, each with its own final boss; beating it
+        opens the way to the last boss of all. Names and art are our own.
 - [ ] 4.8 **Ten new characters.** Send him one line per character first
       (name, weapon, the one thing that makes it play differently) and wait
       for his yes. No two may share a mechanic with each other or with the 14

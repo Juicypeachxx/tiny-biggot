@@ -532,6 +532,48 @@ replays re-recorded; the 6 classic ones identical. `tools/check.sh`: CHECK
 PASSED. The IPA with all 100 new weapons was pushed with `[ipa]` after that
 (release `ipa-latest`). Not tested on the iPad.
 
+**4.7 part A, GEAR AND RELICS and a harder game (done).** His ask (5 Oct):
+the 4.7 items, and "make the game a little bit harder, it is too easy at
+this stage"; then part B (environments) and part C (Heaven and Hell), each
+with an IPA. Details in `tiny_biggot_godot/GEAR_AND_RELICS.md`. 40 gear
+pieces (four sets: RIMEWARDEN frost, BLASTWRIGHT demolition, BONECALLER
+malice, CLOCKWORK swarm) and 20 relics, aimed at the thin spots counted from
+the data (neck, hands and ring slots; frost, demolition, swarm, pyre;
+moments nothing listened for). Data only, plus the effect system:
+`scripts/effects/effects.gd` has six new triggers (`on_bomb`,
+`on_armor_lost`, `on_dodge`, `on_overheal`, `on_chest`, `on_buy`; fired in
+combat.gd, player.gd, game.gd only for a hero with procs) and seven
+conditions (`close`, `far`, `fresh`, `last_foe`, `crowd`, `unhurt`, `coin`;
+`Effects.foes_left`); `scripts/effects/actions.gd` eight actions (`turret`,
+`raise` via `Summons.item_turret`/`item_raise`; `reflect` and `slow_shots`
+via `EBullets.take_near`/`slow_near`; `spread`, `consume`
+(`Actions.ailments`), `give`, `overkill` (`Enemy.over`, kept in
+`damage_enemy`)), and the `gold_guard` hook (`_hurt_player_base`). `Enemy`
+gained `struck` (hits taken, for `fresh`) and `over`. `Summons.clear` now
+remembers the room it was called for, so a turret an item raises on entering
+a room is not cleared a tick later (this also stops a second, needless deck
+shuffle on entering a room). `Actions.ran`/`did` count what ran (the test
+reads them). 60 new icons (12-wide gear, 10x10 relics; atlas 1157). Ten
+names or ids were already taken and were changed before building (the old
+MIRROR PLATE, VAMPIRE FANG, CINDER RING, PIGGY BANK, HEADSMAN'S HOOD,
+PILGRIM SANDALS, WARHORN, DRAGON SCALE, QUICKDRAW, BONE FLUTE). The harder
+game, expanded only (`Combat.hard_hp`, `foe_hit`, `shot_mult`,
+`spawn_wave`): foes, mini-bosses and guardians +10% health on floor 1, +3% a
+floor; one more foe a wave from floor 3; +3% elites; foes' shots 6% faster;
+from floor 7 a foe's blow or shot costs a whole heart (a toast on arriving;
+traps, hazards and your own bombs pass `env` to `hurt_player` and stay at
+half). Measured with the bot (no god mode, all unlocks, the same 16 seeds,
+10 minutes, the same build with the change off and on): deaths 22 -> 31,
+average furthest floor 3.6 -> 3.1; before any of this, with all unlocks,
+half the heroes reached floor 7-8 in 15 minutes without dying. Tests:
+`tests/items_test.tscn` (new, in `tools/check.sh`; 19 s) checks every item
+in its moment, the four sets on and off, and the new actions closely; six
+planted faults were caught (16 failures). Content test passed; uniqueness
+report: no new item in a "same" or "near" group, none numbers-only. Soaks:
+14 runs of 10 minutes carrying all 60 items (7 loadouts, with and without
+god mode), 0 errors. The six classic replays identical; the full-content
+replays re-recorded. Not tested on the iPad.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress (so iOS closing the app does not end it). Needs

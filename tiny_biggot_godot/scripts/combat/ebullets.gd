@@ -68,6 +68,39 @@ static func add(x: float, y: float, vx: float, vy: float, spr: String, r: float,
 static func alive(i: int) -> bool:
 	return blife[i] > KILLED * 0.5
 
+## ROADMAP 4.7 ("reflect"): removes up to max_n live shots within rad of (x, y) and returns each
+## as [x, y, vx, vy].
+static func take_near(x: float, y: float, rad: float, max_n: int) -> Array:
+	var out := []
+	var r2 := rad * rad
+	for i in n:
+		if out.size() >= max_n:
+			break
+		if blife[i] <= 0:
+			continue
+		var dx := bx[i] - x
+		var dy := by[i] - y
+		if dx * dx + dy * dy <= r2:
+			out.append([bx[i], by[i], bvx[i], bvy[i]])
+			blife[i] = KILLED
+	return out
+
+## ROADMAP 4.7 ("slow_shots"): live shots within rad of (x, y) keep only k of their speed.
+## Returns how many were slowed.
+static func slow_near(x: float, y: float, rad: float, k: float) -> int:
+	var r2 := rad * rad
+	var c := 0
+	for i in n:
+		if blife[i] <= 0:
+			continue
+		var dx := bx[i] - x
+		var dy := by[i] - y
+		if dx * dx + dy * dy <= r2:
+			bvx[i] *= k
+			bvy[i] *= k
+			c += 1
+	return c
+
 ## Removes bullets within rad of (x, y) (Ruby reject! by distance).
 ## True when a live enemy shot is within rad (perfect-dodge check).
 static func any_near(x: float, y: float, rad: float) -> bool:

@@ -230,6 +230,8 @@ func start_floor() -> void:
 	state = &"play"
 	show_banner(GameData.floors()[floor_index]["name"], "FLOOR %d OF %d" % [floor_index + 1, GameData.floors().size()]
 		+ ("   DREAD %d" % dread if dread > 0 else "") + ("   LOOP %d" % (loop + 1) if loop > 0 else ""))
+	if GameData.rogues() and floor_index == 6:
+		toast("HITS NOW COST A WHOLE HEART", "red")   # past the Pale Regent (Combat.foe_hit)
 
 const ENTRY_SPOTS := { "s": Vector2(14.0 * 16, 16.0 * 16), "n": Vector2(14.0 * 16, 2.6 * 16),
 	"e": Vector2(26.0 * 16 - 2, 9.5 * 16), "w": Vector2(2.0 * 16 + 2, 9.5 * 16) }
@@ -640,6 +642,11 @@ func spawn_wave(hard: bool = false) -> void:
 	var fdef: Dictionary = GameData.floors()[floor_index]
 	var n := TB.rint(3, 4) + mini(floor_index, 4) + (1 if room.depth > 3 else 0)
 	var ec := (0.05 if floor_index == 0 else 0.08 + floor_index * 0.035) + (0.08 if dread >= 3 else 0.0) + (0.35 if hard else 0.0)
+	if GameData.rogues():
+		# The expanded game is a little harder (ROADMAP 4.7): from the third floor one more foe a
+		# wave, and 3% more elites. --classic keeps the original numbers.
+		n += 1 if floor_index >= 2 else 0
+		ec += 0.03
 	if room.type == "elite":
 		ec += 0.45
 	# Stage 7: the elite room before the rest stop holds the floor's mini-boss.
@@ -914,6 +921,7 @@ func interact(o: Dictionary) -> void:
 		p.gold -= o["price"]
 		o["gone"] = true
 		Snd.play("coin")
+		Effects.fire("on_buy", { "x": o["x"], "y": o["y"] })
 		var old = swap_item(o, o["thing"])
 		if old != null and not to_backpack(old):
 			drop_item(old, o["x"], o["y"] - 22)
@@ -924,6 +932,7 @@ func interact(o: Dictionary) -> void:
 			Snd.play("open")
 			Fx.burst(o["x"], o["y"], ["#f2c94c", "#fffbe0"], 16, 60)
 			open_choice("boss" if o.get("boss", false) else "chest", o)
+			Effects.fire("on_chest", { "x": o["x"], "y": o["y"] })
 		"ichest":
 			if not o.get("free", false):
 				if p.keys <= 0:
@@ -934,6 +943,7 @@ func interact(o: Dictionary) -> void:
 			Snd.play("open")
 			Fx.burst(o["x"], o["y"], ["#8b8f9c", "#f4ecd8", "#f2c94c"], 18, 60)
 			open_choice("iron", o)
+			Effects.fire("on_chest", { "x": o["x"], "y": o["y"] })
 		"cchest":
 			if p.max_hp <= 2:
 				return deny(o, "TOO WEAK")
@@ -944,6 +954,7 @@ func interact(o: Dictionary) -> void:
 			Snd.play("hurt")
 			Fx.burst(o["x"], o["y"], ["#a35bd6", "#5c3483", "#d8443c"], 20, 70)
 			open_choice("cursed", o)
+			Effects.fire("on_chest", { "x": o["x"], "y": o["y"] })
 		"pedestal":
 			o["opened"] = true
 			if o["relic"] != null:
@@ -959,6 +970,7 @@ func interact(o: Dictionary) -> void:
 			p.gold -= o["price"]
 			o["gone"] = true
 			Snd.play("coin")
+			Effects.fire("on_buy", { "x": o["x"], "y": o["y"] })
 			match o["item"]:
 				"relic":
 					add_relic(p, o["relic"])
@@ -1032,7 +1044,7 @@ func interact(o: Dictionary) -> void:
 				toast("THE IDOL KEEPS YOUR GOLD", "grey")
 				Snd.play("deny")
 			else:
-				Combat.hurt_player(1, "a greedy idol")
+				Combat.hurt_player(1, "a greedy idol", true)
 				toast("THE IDOL BITES", "red")
 		"bell":
 			o["used"] = true
@@ -1077,7 +1089,7 @@ func interact(o: Dictionary) -> void:
 				toast("BAD LUCK. NOTHING", "grey")
 				Snd.play("deny")
 			else:
-				Combat.hurt_player(1, "the wheel of fate")
+				Combat.hurt_player(1, "the wheel of fate", true)
 				toast("THE WHEEL BITES", "red")
 		"bloodshop":
 			if p.max_hp <= 2:

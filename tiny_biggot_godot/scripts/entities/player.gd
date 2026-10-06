@@ -348,6 +348,8 @@ func try_heal() -> void:
 func heal(n: int) -> void:
 	var before := hp
 	hp = mini(max_hp, hp + n)
+	if n > 0 and before >= max_hp and not procs.is_empty():
+		Effects.fire("on_overheal", { "x": x, "y": y })   # healing with nothing to heal (ROADMAP 4.7)
 	if hp > before:
 		if not procs.is_empty():
 			Effects.fire("on_heal", { "x": x, "y": y })

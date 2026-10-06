@@ -15,8 +15,8 @@ and the look of an attack. A gear piece's set counts for "same", not for "near".
 | | Items | Original | New | In a "same" group | In a "near" group | New items in a "near" group | Numbers only (new) |
 |---|---|---|---|---|---|---|---|
 | Weapons | 352 | 113 | 239 | 4 | 33 | 4 | 65 (31) |
-| Relics | 173 | 66 | 107 | 6 | 6 | 0 | 48 (0) |
-| Gear | 231 | 96 | 135 | 0 | 10 | 0 | 46 (0) |
+| Relics | 193 | 66 | 127 | 6 | 6 | 0 | 48 (0) |
+| Gear | 271 | 96 | 175 | 0 | 10 | 0 | 46 (0) |
 
 ## Weapons
 
@@ -618,6 +618,26 @@ whetstone (ORIGINAL), twitch (ORIGINAL), splitfang (ORIGINAL), owl (ORIGINAL), s
 | heavennectar | HEAVENLY NECTAR | new | `add:hp; add:max_hp; attr:highest` |
 | balancestone | STONE OF BALANCE | new | `attr:dex; attr:int; attr:str` |
 | smithhammer | SMITH'S HAMMER | new | `upgrade:weapon` |
+| frostlantern | FROST LANTERN | new | `on_kill[if chilled]>slow_shots` |
+| permafrost | PERMAFROST | new | `add:chill; on_hit[if fresh]>status:chill` |
+| snowangel | SNOW ANGEL | new | `add:evade; on_dodge>status_area:chill+vfx:ring` |
+| fusebox | FUSE BOX | new | `on_bomb>give` |
+| powderhorn | POWDER HORN | new | `add:bombs; on_bomb>nova` |
+| blastshield | BLAST SHIELD | new | `on_bomb>armor` |
+| gravewhistle | GRAVE WHISTLE | new | `on_kill>raise` |
+| toolbox | TINKER'S TOOLBOX | new | `on_room_enter>turret` |
+| honeycomb | HONEYCOMB | new | `on_heal>summon` |
+| littlekiln | LITTLE KILN | new | `on_overheal>status_area:burn+vfx:ring` |
+| furnaceheart | FURNACE HEART | new | `add:burn; on_kill[if burning]>spread` |
+| wyrmscale | WYRM SCALE | new | `add:armor; on_armor_lost>nova` |
+| drawholster | QUICKDRAW HOLSTER | new | `on_weapon_swap>buff:crit` |
+| wishingcoin | WISHING COIN | new | `on_pickup[if coin]>chaos` |
+| philosophersdrop | PHILOSOPHER'S DROP | new | `on_potion>give` |
+| surveyorschart | SURVEYOR'S CHART | new | `on_floor_start>give+give` |
+| ripostecharm | RIPOSTE CHARM | new | `on_roll[if danger]>reflect` |
+| dominotile | DOMINO TILE | new | `on_kill[if elite]>overkill` |
+| stampededrum | STAMPEDE DRUM | new | `every_n_seconds[if crowd]>area+push+vfx:ring` |
+| spyglass | SPYGLASS | new | `mul:life; on_hit[if far]>damage` |
 
 ## Gear
 
@@ -877,4 +897,44 @@ ember_hood (ORIGINAL), frost_helm (ORIGINAL), frost_boots (ORIGINAL), plague_mas
 | tinyring | RING OF SMALLNESS | new | `ring | rate,size |  | on_roll>clear_shots` |
 | twinring | TWIN-SOUL RING | new | `ring | count,echo |  | every_n_shots>shoot_at` |
 | toadring | TOAD RING | new | `ring | poison |  | on_kill[if poisoned]>zone` |
+| rime_hood | RIMEWARDEN HOOD | new | `head set:rimewarden | chill |  | on_hit[if far]>status:chill` |
+| rime_mantle | RIMEWARDEN MANTLE | new | `body set:rimewarden | armor |  | on_armor_lost>status_area:chill+status_area:stun+vfx:ring` |
+| rime_grip | RIMEWARDEN GRIP | new | `hands set:rimewarden | crit |  | on_kill[if chilled]>spread` |
+| rime_bell | RIMEWARDEN BELL | new | `neck set:rimewarden | dmg |  | every_n_seconds[if fighting]>turret` |
+| blast_goggles | BLASTWRIGHT GOGGLES | new | `head set:blastwright | bomb_mult |  | on_bomb>invuln` |
+| blast_apron | BLASTWRIGHT APRON | new | `body set:blastwright | max_hp |  | on_kill>give` |
+| blast_mitts | BLASTWRIGHT MITTS | new | `hands set:blastwright | bombs |  | on_bomb>turret` |
+| blast_ring | BLASTWRIGHT BAND | new | `ring set:blastwright | bomb_r |  | on_room_clear>give` |
+| bone_crown | BONECALLER CROWN | new | `head set:bonecaller | fam_dmg |  | on_kill[if elite]>raise` |
+| bone_ribs | BONECALLER RIBCAGE | new | `body set:bonecaller | max_hp |  | on_damage_taken>raise` |
+| bone_rattle | BONECALLER RATTLE | new | `neck set:bonecaller | familiars |  | on_level_up>raise+raise` |
+| bone_ring | BONECALLER SIGNET | new | `ring set:bonecaller | curse |  | on_hit[if cursed]>consume` |
+| clock_monocle | CLOCKWORK MONOCLE | new | `head set:clockwork | crit |  | on_hit[if fresh]>damage` |
+| clock_coat | CLOCKWORK COAT | new | `body set:clockwork | armor |  | on_armor_lost>turret` |
+| clock_boots | CLOCKWORK BOOTS | new | `feet set:clockwork | speed |  | on_roll>turret` |
+| clock_key | CLOCKWORK KEY | new | `trinket set:clockwork | rate |  | every_n_seconds[if fighting]>turret` |
+| lastriteshood | HOOD OF LAST RITES | new | `head | crit_mult |  | on_hit[if last_foe]>damage` |
+| polishedcuirass | POLISHED CUIRASS | new | `body | armor |  | on_armor_lost>reflect` |
+| ghoststeps | GHOST STEPS | new | `feet | evade |  | on_dodge>buff:dmg` |
+| abbotsandals | ABBOT'S SANDALS | new | `feet | speed |  | on_overheal>armor` |
+| iceskates | ICE SKATES | new | `feet | speed |  | on_roll[if crowd]>status_area:chill+status_area:stun` |
+| magpieboots | MAGPIE BOOTS | new | `feet | speed |  | on_pickup[if coin]>buff:rate` |
+| unscathedmedal | UNSCATHED MEDAL | new | `trinket | crit |  | on_room_clear[if unhurt]>gold+buff:dmg+vfx:label` |
+| bribepurse | BRIBE PURSE | new | `trinket | gold_mult | gold_guard | ` |
+| treasuremap | TREASURE MAP | new | `trinket | luck |  | on_chest>give` |
+| voodoodoll | VOODOO DOLL | new | `trinket | curse |  | on_damage_taken>damage+status:curse` |
+| leechgloves | LEECH GLOVES | new | `hands | dmg |  | on_kill[if close]>heal` |
+| catalystgloves | CATALYST GLOVES | new | `hands | burn |  | on_crit>consume` |
+| plaguehand | PLAGUE HAND | new | `hands | poison |  | on_hit[if poisoned]>spread` |
+| pickpocketgloves | PICKPOCKET GLOVES | new | `hands | rate |  | on_hit[if fresh]>gold` |
+| bouncerknuckles | BOUNCER'S KNUCKLES | new | `hands | dmg |  | on_hit[if close]>status:stun+push` |
+| saintsmedallion | SAINT'S MEDALLION | new | `neck | max_hp |  | on_overheal>nova` |
+| mirrorpendant | MIRROR PENDANT | new | `neck | evade |  | on_dodge>reflect` |
+| howlertooth | HOWLER'S TOOTH | new | `neck | dmg |  | every_n_seconds[if crowd]>buff:dmg+vfx:label` |
+| houndcollar | BLOODHOUND COLLAR | new | `neck | crit |  | on_hit[if bleeding]>heal` |
+| merchantscharm | MERCHANT'S CHARM | new | `neck | shop_disc |  | on_buy>give` |
+| excessring | RING OF EXCESS | new | `ring | dmg |  | on_kill>overkill` |
+| frostbitering | FROSTBITE RING | new | `ring | chill |  | on_crit[if chilled]>status:stun` |
+| returnring | RING OF RETURNING | new | `ring | rate |  | on_weapon_swap>nova+clear_shots` |
+| kindlingring | KINDLING RING | new | `ring | burn |  | on_potion>status_area:burn+vfx:ring` |
 

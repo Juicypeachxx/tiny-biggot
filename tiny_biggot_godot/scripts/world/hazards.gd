@@ -106,7 +106,7 @@ static func update(dt: float) -> void:
 		var p := G.player
 		var st: Array = STRIKES.get(room.strike, ["A CHAMPION'S STRIKE", "dark", 1])
 		if TB.dist_xy(p.x, p.y, m["x"], m["y"]) < m["r"]:
-			Combat.hurt_player(1, st[0])
+			Combat.hurt_player(1, st[0], true)
 		Combat.ering(m["x"], m["y"], 8, 55, randf() * TAU, st[1])
 		G.add_shake(2)
 		Snd.play("boom")
@@ -142,7 +142,7 @@ static func _update_traffic(room: Room, dt: float) -> void:
 			continue
 		keep.append(car)
 		if absf(p.y - car["y"]) < 10 and absf(p.x - car["x"]) < 14:
-			Combat.hurt_player(1, "a getaway car")
+			Combat.hurt_player(1, "a getaway car", true)
 		for e in G.enemies.duplicate():
 			if not e.targetable() or car["hit"].has(e.uid):
 				continue

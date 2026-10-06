@@ -10,7 +10,18 @@ static func dread() -> int:
 	return G.dread
 
 static func floor_scale() -> float:
-	return (1 + 0.42 * G.floor_index) * (1 + 0.15 * dread()) * loop_scale()
+	return (1 + 0.42 * G.floor_index) * (1 + 0.15 * dread()) * loop_scale() * hard_hp()
+
+## The expanded game is a little harder than the original (his ask, 5 Oct, ROADMAP 4.7): foes,
+## mini-bosses and guardians have 10% more health on the first floor, 3% more each floor after
+## (40% more on the eleventh). --classic: exactly 1.0, the original game.
+static func hard_hp() -> float:
+	return 1.10 + 0.03 * G.floor_index if GameData.rogues() else 1.0
+
+## From the seventh floor on (the lands past the Pale Regent) a foe's blow or shot costs a whole
+## heart in the expanded game; traps, your own bombs and the like stay at half. --classic: 1.
+static func foe_hit() -> int:
+	return 2 if GameData.rogues() and G.floor_index >= 6 else 1
 
 ## Loop playthroughs: foes, mini-bosses and guardians gain 80% health per loop
 ## (exactly 1.0 on the first time through).
@@ -18,7 +29,7 @@ static func loop_scale() -> float:
 	return 1.0 + 0.8 * G.loop
 
 static func shot_mult() -> float:
-	return (1 + (0.08 * (dread() - 1) if dread() >= 2 else 0.0)) * (1.0 + 0.06 * G.loop)
+	return (1 + (0.08 * (dread() - 1) if dread() >= 2 else 0.0)) * (1.0 + 0.06 * G.loop) * (1.06 if GameData.rogues() else 1.0)
 
 static func has_los(a: Object, b: Object) -> bool:
 	var d := TB.dist_xy(a.x, a.y, b.x, b.y)
@@ -119,7 +130,7 @@ static func spawn_enemy(type: String, x: float, y: float, elite: bool = false, i
 	var d: Dictionary = GameData.ENEMIES[type]
 	var hp: float = d["hp"] * floor_scale() * (2.2 if elite else 1.0)
 	if d.get("mini", false):
-		hp = d["hp"] * (1 + 0.15 * dread()) * loop_scale()   # stage-7 mini-bosses: fixed health like guardians
+		hp = d["hp"] * (1 + 0.15 * dread()) * loop_scale() * hard_hp()   # stage-7 mini-bosses: fixed health like guardians
 	if d.get("champion", false):
 		hp = d["hp"] * floor_scale()   # rift champions turn up on any floor, so their health grows with it
 	var e := Enemy.new()
@@ -151,7 +162,7 @@ static func spawn_enemy(type: String, x: float, y: float, elite: bool = false, i
 
 static func spawn_boss(key: String, quiet: bool = false) -> Enemy:
 	var d: Dictionary = GameData.BOSSES[key]
-	var hp: float = d["hp"] * (1 + 0.15 * dread()) * loop_scale()
+	var hp: float = d["hp"] * (1 + 0.15 * dread()) * loop_scale() * hard_hp()
 	if d.get("rift", false):
 		hp *= 1 + 0.42 * G.floor_index   # a rift guardian turns up on any floor
 	var e := Enemy.new()
@@ -283,6 +294,7 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 		e.shattered = true
 		e.hp = 0
 	if e.hp <= 0:
+		e.over = -e.hp
 		kill_enemy(e, o)
 	return crit
 
@@ -426,7 +438,10 @@ static func gain_xp(p: Player, n: int) -> void:
 			Effects.fire("on_level_up")
 
 # ---------- Damage to the player ----------
-static func hurt_player(amount: int, source: String) -> void:
+## `env`: a trap, a hazard or your own bomb rather than a foe (foe_hit does not apply).
+static func hurt_player(amount: int, source: String, env := false) -> void:
+	if not env:
+		amount = maxi(amount, foe_hit())
 	var p := G.player
 	var before := p.invuln
 	var hp0 := p.hp
@@ -468,6 +483,8 @@ static func _hurt_player_base(p: Player, amount: int, source: String) -> void:
 		p.invuln = 0.4
 		Fx.float_text(p.x, p.y - 12, "DODGED", "purple")
 		Fx.burst(p.x, p.y, ["#a35bd6", "#e8c8ff"], 8, 50)
+		if not p.procs.is_empty():
+			Effects.fire("on_dodge", { "x": p.x, "y": p.y })
 		return
 	if p.buckler and not p.buckler_used:
 		p.buckler_used = true
@@ -485,6 +502,13 @@ static func _hurt_player_base(p: Player, amount: int, source: String) -> void:
 				spawn_pbullet(p, i / 16.0 * TAU, Weapons.wdmg(p) * 1.5, "spark")
 			EBullets.kill_radius(p.x, p.y, 70)
 			G.add_shake(4)
+		if not p.procs.is_empty():
+			Effects.fire("on_armor_lost", { "x": p.x, "y": p.y })
+	elif p.g("gold_guard") > 0 and p.gold >= int(p.g("gold_guard")):
+		# ROADMAP 4.7, the piggy bank: the hit is paid for in gold.
+		p.gold -= int(p.g("gold_guard"))
+		Fx.float_text(p.x, p.y - 12, "-%d GOLD" % int(p.g("gold_guard")), "gold")
+		Fx.burst(p.x, p.y, ["#f2c94c", "#fffbe0"], 12, 70)
 	else:
 		p.hp -= amount
 	if p.ice_armor:
@@ -1074,6 +1098,7 @@ static func on_hit_effects(e: Enemy, dmg: float, crit: bool, p: Player, b: PBull
 		e.hp = 0
 		kill_enemy(e, {})
 	if not p.procs.is_empty():
+		e.struck += 1
 		Effects.fire("on_hit", { "enemy": e, "dmg": dmg, "crit": crit })
 		if crit:
 			Effects.fire("on_crit", { "enemy": e, "dmg": dmg, "crit": true })
@@ -1695,7 +1720,7 @@ static func update_bombs(dt: float) -> void:
 		explode_at(b["x"], b["y"], maxf(10.0, Weapons.wdmg(p) * 3) * p.bomb_mult * (0.5 if mini else 1.0), null, rad, "", true, true)
 		Fx.burst(b["x"], b["y"], ["#e8873a", "#f2c94c", "#4e4a5e"], 10 if mini else 24, 110, 0.5, 2)
 		if not b["safe"] and TB.dist_xy(p.x, p.y, b["x"], b["y"]) < 22:
-			hurt_player(1, "your own bomb")
+			hurt_player(1, "your own bomb", true)
 		var c0 := floori((b["x"] - rad) / TB.TS)
 		var c1 := floori((b["x"] + rad) / TB.TS)
 		var r0 := floori((b["y"] - rad) / TB.TS)
@@ -1926,6 +1951,8 @@ static func _update_player_base(p: Player, dt: float) -> void:
 			p.bombs -= 1
 			G.bombs.append({ "x": p.x, "y": p.y + 2, "t": 0.7 if p.fuse else 1.1, "safe": p.fuse or p.g("bomb_immune") > 0 })
 			Snd.play("place")
+			if not p.procs.is_empty():
+				Effects.fire("on_bomb", { "x": p.x, "y": p.y + 2 })
 		else:
 			Snd.play("deny")
 	p.orbit_a += dt * 3.2

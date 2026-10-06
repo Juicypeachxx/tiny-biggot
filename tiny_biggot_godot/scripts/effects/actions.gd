@@ -93,6 +93,19 @@ static func _random_foe() -> Enemy:
 static func heat_effects(h: int) -> Array:
 	return [["pct", "dmg", 0.08 * h], ["mul", "gold_mult", 1.0 + 0.1 * h]]
 
+## The ailments on a foe, by status name (the "spread" and "consume" actions).
+static func ailments(e: Enemy) -> Array:
+	var out := []
+	if e.burn_t > 0: out.append("burn")
+	if e.poison > 0: out.append("poison")
+	if e.chill_t > 0: out.append("chill")
+	if e.bleed_t > 0: out.append("bleed")
+	if e.curse_t > 0: out.append("curse")
+	if e.shock > 0: out.append("shock")
+	if e.vuln_t > 0: out.append("vulnerable")
+	if e.weak_t > 0: out.append("weakened")
+	return out
+
 static func _target(ctx: Dictionary) -> Enemy:
 	var e: Enemy = ctx.get("enemy")
 	if e != null and e.hp > 0:
@@ -108,9 +121,18 @@ static func _pos(ctx: Dictionary) -> Vector2:
 		return Vector2(ctx["x"], ctx["y"])
 	return Vector2(G.player.x, G.player.y)
 
+## How often each action ran, and (the ROADMAP 4.7 ones) how often it found something to do:
+## tests/items_test reads them.
+static var ran := {}
+static var did := {}
+
+static func _did(k: String) -> void:
+	did[k] = did.get(k, 0) + 1
+
 static func run(a: Array, stacks: int, ctx: Dictionary) -> void:
 	var p := G.player
 	var w := Weapons.wdmg(p)
+	ran[a[0]] = ran.get(a[0], 0) + 1
 	match a[0]:
 		"nova":
 			var n := mini(int(a[1]) * stacks, 64)
@@ -292,5 +314,83 @@ static func run(a: Array, stacks: int, ctx: Dictionary) -> void:
 				Juice.label(c[0], c[1], p.x, p.y - 22 - 12 * up, true)
 				for b in c[2]:
 					run(b, stacks, ctx)
+		# ---------- ROADMAP 4.7 gear and relics ----------
+		"turret":
+			# ["turret", kind, seconds, dmg_mult]: a 4.6 turret by you for a while (summons.gd).
+			Summons.item_turret(String(a[1]), float(a[2]), w * float(a[3]) * stacks)
+		"raise":
+			# ["raise", seconds, dmg_mult]: a skeleton climbs out where the foe fell (or beside you).
+			var at := _pos(ctx)
+			Summons.item_raise(at.x, at.y, float(a[1]), w * float(a[2]) * stacks)
+		"reflect":
+			# ["reflect", radius, dmg_mult]: foes' shots near you fly back the way they came, as yours.
+			var shots := EBullets.take_near(p.x, p.y, float(a[1]), 24)
+			for o in shots:
+				var spd := maxf(200.0, Vector2(o[2], o[3]).length() * 1.4)
+				Combat._raw_shot(o[0], o[1], atan2(-o[3], -o[2]), spd, w * float(a[2]) * stacks, 1.2, 3.0, 0, "spark", {})
+			if not shots.is_empty():
+				_did("reflect")
+				Juice.ring(p.x, p.y, 4, a[1], 0.25, "#f4ecd8")
+				Juice.label("REFLECT!", "#f4ecd8", p.x, p.y - 22)
+		"spread":
+			# ["spread", radius]: the foe's ailments jump to every foe near it.
+			var src: Enemy = ctx.get("enemy")
+			if src != null:
+				var names := ailments(src)
+				if not names.is_empty():
+					var hit := 0
+					for f in G.enemies:
+						if f != src and f.targetable() and f.charm_t <= 0 and f.type != "dummy" and TB.dist(f, src) <= float(a[1]) + f.r:
+							for nm in names:
+								Statuses.apply(f, nm, maxf(1.0, ceilf(src.poison * 0.5)) if nm == "poison" else 1.0, w)
+							hit += 1
+					if hit > 0:
+						_did("spread")
+						Juice.ring(src.x, src.y, 4, a[1], 0.3, "#63b84f")
+		"consume":
+			# ["consume", dmg_mult]: every ailment on the foe is used up, each for a hit of dmg_mult.
+			var e := _target(ctx)
+			if e != null and e.type != "dummy":
+				var names := ailments(e)
+				if not names.is_empty():
+					e.burn_t = 0.0
+					e.poison = 0.0
+					e.chill_t = 0.0
+					e.bleed_t = 0.0
+					e.curse_t = 0.0
+					e.shock = 0
+					e.vuln_t = 0.0
+					e.weak_t = 0.0
+					_did("consume")
+					Juice.label("CONSUMED %d" % names.size(), "#a35bd6", e.x, e.y - 18)
+					Juice.burst(e.x, e.y, "#a35bd6", 10, 70)
+					Combat.damage_enemy(e, w * float(a[1]) * names.size() * stacks, { "col": "purple" })
+		"give":
+			# ["give", what, n]: bombs, keys or potions (up to your potion slots).
+			var n := int(a[2]) * stacks
+			match String(a[1]):
+				"bombs": p.bombs += n
+				"keys": p.keys += n
+				"potions": n = mini(n, p.max_potions - p.potions); p.potions += n
+			if n > 0:
+				_did("give")
+				Fx.float_text(p.x, p.y - 18, "+%d %s" % [n, { "bombs": "BOMB", "keys": "KEY", "potions": "POTION" }[a[1]]], "white")
+		"slow_shots":
+			# ["slow_shots", radius, k]: foes' shots near you keep only k of their speed.
+			if EBullets.slow_near(p.x, p.y, float(a[1]), float(a[2])) > 0:
+				_did("slow_shots")
+				Juice.ring(p.x, p.y, a[1], 4, 0.35, "#6fd3e0")
+		"overkill":
+			# ["overkill", share]: damage past a foe's death carries on to the nearest other foe.
+			var e: Enemy = ctx.get("enemy")
+			if e != null and e.over > 0:
+				var t := Combat.nearest_enemy(e.x, e.y, 140)
+				if t != null and t != e:
+					var dm := e.over * float(a[1]) * stacks
+					e.over = 0.0
+					_did("overkill")
+					Fx.burst(t.x, t.y, ["#d8443c", "#f4ecd8"], 6, 50)
+					Summons.flashes.append({ "k": "zap", "x0": e.x, "y0": e.y - 4, "x1": t.x, "y1": t.y - 4, "t": 0.15, "max": 0.15, "col": "#d8443c" })
+					Combat.damage_enemy(t, dm, { "col": "red", "no_crit": true, "no_mult": true })
 		_:
 			push_error("Actions: unknown action " + str(a[0]))

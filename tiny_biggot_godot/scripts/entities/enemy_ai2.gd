@@ -518,7 +518,7 @@ static func tick(room: Room, dt: float) -> void:
 		_sludge_t = _sludge_t + dt if in_sludge else 0.0
 		if _sludge_t >= 0.5:
 			_sludge_t = 0.0
-			Combat.hurt_player(1, "a trail of sludge")
+			Combat.hurt_player(1, "a trail of sludge", true)
 	if _any_guard or _any_haste:
 		var guard := false
 		var haste := false
