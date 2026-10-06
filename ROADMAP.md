@@ -582,6 +582,17 @@ understand the build, also add stat stacking as shown to buff weapons and builds
       the next roll, the SUPER chance and luck's 4th row (TraitView.odds).
 - [x] Full check passed, replays re-recorded on purpose, classic identical, IPA 8.4.
 
+## Step 8.5: the trait pick revamped, more SUPER traits (his ask, 6 Oct)
+
+"Revamp traits as [his pictures], also add more super traits and make some common super traits to
+refresh runs."
+- [ ] The pick screen in the way of his pictures: wide rows, a big icon box in the family's
+      colour, the name, each effect on its own bullet line; on the right a column with the odds
+      box and the keyword boxes under it.
+- [ ] More SUPER traits, and a set of COMMON SUPER traits: smaller, offered often from level 2,
+      so most runs meet a few.
+- [ ] Full check, replays, IPA 8.5.
+
 ---
 
 ## Log
