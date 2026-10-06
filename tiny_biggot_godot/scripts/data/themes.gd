@@ -54,6 +54,11 @@ const LIST := [
 	{ "id": "cathedral", "name": "THE CALIBER CATHEDRAL", "sub": "FLIP A TABLE. SAY A PRAYER", "kit": "kit_cathedral", "accent_hex": "#f2c94c",
 	  "pool": ["shellpriest", "dervish", "deacon", "beltfeeder", "ammomimic", "gunman"], "champion": "highcaliber", "mini": "bellringer", "guardian": "brassorgan", "hazard": "turrets",
 	  "decor": "", "layouts": "cathedral", "music": 3 },
+	# 6.4 (his ask, 6 Oct): a tower of brass and steam. Its guardian fights on the guardians' rules
+	# (BossAI: three stages, evolving), like the Holy Cow.
+	{ "id": "spire", "name": "THE CLOCKWORK SPIRE", "sub": "EVERYTHING HERE IS WOUND TOO TIGHT", "kit": "kit_spire", "accent_hex": "#e8b84a",
+	  "pool": ["cogling", "steamjack", "boltslinger", "gearhound", "rivetlobber", "brasswasp"], "champion": "foreman", "guardian": "greatengine", "hazard": "vent",
+	  "decor": "", "music": 2 },
 ]
 
 ## Heaven and Hell (ROADMAP 4.7 part C, soul.gd): reached only through the SOUL GATE past the Umbral

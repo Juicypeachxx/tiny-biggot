@@ -369,6 +369,7 @@ const ROWS := [
 	["landlordsignet", "LANDLORD'S SIGNET", "ring", "legend", ["fortune", "bulwark"], null, "ring", [["shop_disc", 0.2]], [], "SHOP PRICES -20%. EVERY PURCHASE GIVES 1 ARMOR.", [{ "on": "on_buy", "do": [["armor", 1]] }], "g_whetring"],
 	["galeboots", "GALE WARDEN'S BOOTS", "feet", "legend", ["storm", "shadow"], null, "greaves", [["speed", 1.12], ["roll_speed", 1.2]], [], "+12% MOVE SPEED, FASTER ROLLS. ROLLING IS A GUST: FOES NEAR YOU ARE BLOWN AWAY.", [{ "on": "on_roll", "cd": 1.0, "do": [["push", 60, 280]] }], "g_sevenleague"],
 	["rottingcrown", "THE ROTTING CROWN", "head", "legend", ["venom", "malice"], null, "crown", [["poison", 2]], [], "+2 POISON ON HIT. A POISONED FOE YOU KILL PASSES ALL ITS AILMENTS TO THE FOES NEAR IT.", [{ "on": "on_kill", "if": "poisoned", "do": [["spread", 60]] }], "g_crownofthorns"],
+	["foremanhat", "FOREMAN'S HARD HAT", "head", "legend", ["bulwark", "demolition"], null, "helm", [["armor", 2]], [], "+2 ARMOR. ENTERING A ROOM SETS UP A GUN TURRET FOR 10S.", [{ "on": "on_room_enter", "do": [["turret", "gun", 10.0, 1.0]] }], "g_foremanhat"],
 ]
 
 ## Readable lines for stat tuples.

@@ -21,6 +21,7 @@ const BOSS_PLANS := {
 	"unwritten": ["ink", "halo", "brimstone", "rewrite", "eclipse", "verdict", "summon", "ink", "hellgate"],
 	# The Holy Cow (brazil.gd): two halves, then it rises again (THIRD_PLANS).
 	"holycow": ["moo", "milkrain", "charge", "udder", "moo", "summon"],
+	"greatengine": ["slam", "spiral", "volley", "ring", "summon", "charge"],   # the Clockwork Spire (6.4)
 }
 ## Souls-like stages (his ask, 6 Oct; expanded game only, the original game's guardians are as
 ## they were). Stage 1 is the plan above; at two thirds of its health a guardian breaks into stage
@@ -43,6 +44,7 @@ const STAGE_PLANS := {
 	"cinderking": [["brimstone", "hellgate", "wall", "sweep", "charge"], ["hellgate", "barrage", "brimstone", "flower", "charge"]],
 	"unwritten": [["ink", "rewrite", "wall", "halo", "brimstone", "verdict"], ["rewrite", "barrage", "flower", "ink", "hellgate", "eclipse"]],
 	"holycow": [["moo", "milkrain", "wall", "udder", "charge"], ["moo", "barrage", "milkrain", "flower", "udder"]],
+	"greatengine": [["slam", "wall", "cross", "spiral", "summon", "charge"], ["barrage", "flower", "slam", "wall", "cross", "charge"]],
 }
 const STAGE_LINE := {
 	"colossus": ["ITS RIBS CRACK OPEN", "THE BONES ARE ALL THAT IS LEFT"], "sporemother": ["SHE BURSTS INTO BLOOM", "THE WHOLE GROTTO BREATHES SPORES"],
@@ -53,6 +55,7 @@ const STAGE_LINE := {
 	"umbralsun": ["THE SUN SPLITS", "TOTAL ECLIPSE"], "judge": ["THE SCALES TIP", "THE FINAL VERDICT"],
 	"cinderking": ["THE THRONE OF ASH IGNITES", "HELL ITSELF ANSWERS"], "unwritten": ["THE PAGE TEARS", "THE INK SPILLS EVERYWHERE"],
 	"holycow": ["THE UDDERS SWELL", "UNHOLY MOO"],
+	"greatengine": ["THE PISTONS SCREAM", "FULL STEAM. NO BRAKES"],
 }
 ## A guardian's third stage (it rose again: e.phase == 3; brazil.gd).
 const THIRD_PLANS := { "holycow": ["ascend", "holyfire", "milkrain", "stampede", "udder", "halo", "summon"] }
@@ -65,13 +68,15 @@ const BOSS_SUMMONS := {
 	"crowking": ["crow", "crow", "gunman"], "umbralsun": ["voidling", "shadeknight"],
 	"judge": ["wisp", "knight"], "cinderking": ["torchimp", "imp"], "unwritten": ["voidling", "wisp"],
 	"holycow": ["scrounger", "scrounger"],
+	"greatengine": ["cogling", "cogling", "brasswasp"],
 }
 const RING_SPR := { "colossus": "bone", "librarian": "water", "rimewarden": "ice",
 	"bogmatriarch": "spore", "ashwarlord": "fire", "frozenabbot": "ice", "crowking": "dark", "umbralsun": "darkBig",
-	"judge": "bone", "cinderking": "fireBig", "unwritten": "dark" }
+	"judge": "bone", "cinderking": "fireBig", "unwritten": "dark", "greatengine": "fire" }
 ## Stage 7: per-guardian bullet sprites for shared attacks (originals keep theirs).
 const SHOT_SPR := {
 	"bogmatriarch": { "spiral": "spore", "burst": "spore", "cloud": "spore" },
+	"greatengine": { "spiral": "fire", "volley": "fire", "burst": "fire" },   # 6.4
 	"ashwarlord": { "charge": "fire", "sweep": "fire", "embers": "fire" },
 	"frozenabbot": { "freeze": "ice", "hail": "ice", "shards": "ice" },
 	"crowking": { "spiral": "dark", "beams": "dark" },

@@ -899,3 +899,71 @@ S["raider"] = ("main:#8a7a5a second:#a04a2a glow:#ffa040 skin:#d89a70", OV(M([
 "...ooo", "..ovvv", ".ovvvv", ".ov8y8", "..obbb", ".o98ob", "o3o322", "o3ouuq", "o5o322", ".oo322",
 "..o32o", "..ooo."]), {8: "..........9."}))
 ELITE["raider"] = dict(_HUM)
+
+# ---- 6.4 (his ask, 6 Oct): THE CLOCKWORK SPIRE, its champion and guardian, THE CLOCKMAKER, and the
+# clockwork weapons.
+S["cogling"] = ("main:#8a6a3a glow:#ff4a3a", M([
+"...o.o", "..oqqq", ".oqrqq", "oqro00", "oqq0yx", "oqq0yy", "oqro00", ".oqqqq", "..oqqq", "...o.o",
+"......", "......"]))
+S["steamjack"] = ("main:#8a6a4a glow:#ffa040", M([
+"....oo", "....o8", "..o988", ".o98y8", ".o9888", "o9o988", "o9o8yx", "o8o8yy", "o8o988", ".oo988",
+"..o98o", "..ooo."]))
+S["boltslinger"] = ("main:#3a6a7a glow:#7ff0ff", OV(M([
+"...ooo", "..o999", "..o9yy", "..o888", "...o88", ".o98o3", "o9o322", "o9o3q2", "o8o322", ".oo322",
+"..o98o", "..ooo."]), {8: "..........99"}))
+S["gearhound"] = ("main:#8a6a3a glow:#ff4a3a", [
+"............", "............", "............", ".o.o........", "oqoqo.......", "oqqqqo......",
+"o0qyqqoooooo", ".oqq9q9q9qpo", "..oqqqqqqqpo", "..o8o..o8o..", "..o8o..o8o..", ".oo....oo..."])
+S["rivetlobber"] = ("main:#7a5a3a glow:#ffa040 skin:#d89a70", OV(M([
+"...ooo", "..o888", "..o800", "..o80y", "..o888", ".o33o5", "o3ouvv", "o3ovvv", "o5ovvv", ".oovvv",
+"..o32o", "..ooo."]), {4: ".........qq."}))
+S["brasswasp"] = ("main:#2a2a35 glow:#ff4a3a", M([
+"oo....", "llo.oo", ".lloqq", "..oqy0", "..o0q0", "..oq0q", "...o0q", "....oq", ".....9", "......"]))
+S["foreman"] = ("main:#3a5a9a second:#e8873a skin:#d89a70", OV(M([
+"....oooo", "...oqrrq", "..oqqqqq", ".opppppp", "...o5555", "...o5055", "...o5jjj", "...oo555",
+".o33bblb", "o333bbbb", "o5o3bbbb", "o3o3bblb", ".oo32222", "..o322oo", "..ouuo..", "..ooo..."]),
+{9: "..............o9", 10: "...............9", 11: "...............8"}))
+S["greatengine"] = ("main:#6a4a2a glow:#ffa040", M([
+"..oo..oo", "..o9..o9", "..o8oo88", ".oqqqqqq", "oq9yy9q8", "oq9999q8", "oqqqqqqq", "o88o0xxx",
+"o88o0xyy", "o88o0000", "oqqqqqqq", "o9o98888", "o9o98888", "o8o98888", ".o9888o.", ".ooooo.."]))
+S["clockmaker"] = ("main:#6a4a3a second:#2a2433 bone:#c8c8d0 glow:#fff07a skin:#e0a47a", OV(M([
+"...ooo", "...obb", ".o0000", "..oj55", "..o505", "..o5jj", "...ojj", "o5o3q2", "o3o322", "o5o322",
+".oo322", "..o32o", "..o00o", "..ooo."]), {4: "......9y9..."}))
+S["w_gearwound"] = ("main:#6b4a2a", [
+"............", "....ooo.....", "...oqrqo....", ".ooooqoooooo", "o9999999999o", ".oooouvoooo.",
+"....ouvo....", "....ouuo....", ".....oo.....", "............", "............", "............"])
+S["w_pendulum"] = ("main:#6b4a2a", [
+"o...........", ".8..........", "..8.........", "...8........", "....8.......", ".....8......",
+"......ooo...", ".....o999o..", ".....o9889o.", "......o98o..", ".......oo...", "............"])
+S["w_springlance"] = ("main:#6b4a2a", [
+"..........o9", ".........o9o", "........o9o.", ".......oqo..", "......oqqo..", ".....oqo....",
+"....ouo.....", "...ouo......", "..ouo.......", ".ouo........", "ouo.........", "oo.........."])
+S["w_cogthrower"] = ("main:#6b4a2a", [
+"....oooo....", "..oo.qq.oo..", "..oqqqqqqo..", ".oqqo99oqqo.", "oqqo9..9oqqo", "oqqo9..9oqqo",
+".oqqo99oqqo.", "..oqqqqqqo..", "..oo.qq.oo..", "....oooo....", "............", "............"])
+S["w_steamcannon"] = ("main:#6b4a2a", [
+"..........ll", ".........lkl", "........ooo.", "ooooooooo9o.", "o999999999o.", "o888888888o.",
+"ooouuoooooo.", "..ouuo......", "..ouuo......", "..oooo......", "............", "............"])
+S["w_chronoblade"] = ("main:#6b4a2a glow:#fff07a", [
+"...........o", "..........o9", ".........o9o", "........o9o.", ".......o9o..", "......o9o...",
+".oo..o9o....", "oqrqo9o.....", "oqyqo.......", "oqqqo.......", "..ouo.......", ".ouo........"])
+S["w_tickbomb"] = ("main:#c0403a glow:#ffe060", [
+".....oo.....", ".....o9o....", "....oyxo....", "...oo99oo...", "..o333332o..", ".o33lll22o..",
+".o3llol22o..", ".o33lll22o..", "..o33222o...", "...o1111o...", "....oooo....", "............"])
+S["w_escapement"] = ("main:#6b4a2a", [
+"............", "............", "............", "oooooooooooo", "o9999999999o", "ouuuuuqoooo.",
+"ouuuuoqo....", ".oooo.o.....", "............", "............", "............", "............"])
+S["w_enginecore"] = ("main:#6b4a2a glow:#ffa040 halo:1", [
+"........ooo.", ".......oyxyo", "......oyxxyo", ".......oyyo.", "......ouo...", ".....ouo....",
+"....ouo.....", "...ouo......", "..ouo.......", ".ouo........", "ouo.........", "oo.........."])
+S["g_foremanhat"] = ("main:#e8873a", [
+"............", "....oooo....", "...oqrrqo...", "..oqrrqqqo..", "..oqqqqqpo..", ".oqqqqqqqpo.",
+"oppppppppppo", "oooooooooooo", "............", "............", "............", "............"])
+for _n in ["steamjack", "boltslinger", "rivetlobber"]:
+	ELITE[_n] = dict(_HUM)
+ELITE.update({
+	"cogling": {0: "..q......q.."},
+	"gearhound": {3: ".q.q........"},
+	"brasswasp": {0: "qq........qq"},
+	"foreman": {1: "..q..........q..", 6: "q..............q"},
+})

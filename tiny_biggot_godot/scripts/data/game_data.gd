@@ -207,6 +207,16 @@ const NEW_HEROES := [
 	  "special": { "name": "CALL OF THE WILD", "cd": 12, "col": "#7a5236",
 		"desc": "EVERY ORDINARY FOE NEAR YOU IS TAMED FOR 10S AND FIGHTS FOR YOU.",
 		"do": [["charm_area", 100, 10.0], ["vfx", "ring", "#e8873a", 100]] } },
+	# 6.4 (his ask, 6 Oct): a hero who keeps time.
+	{ "id": "clockmaker", "name": "THE CLOCKMAKER", "sprite": "clockmaker", "new": true,
+	  "blurb": "Keeps every clock in the Spire wound. Lately, they keep him.",
+	  "passive": "TICK-TOCK: EVERY 12TH SHOT SLOWS EVERY FOE SHOT NEAR YOU FOR A MOMENT.",
+	  "weapon": "GEARWOUND REPEATER", "hp": 6, "speed": 90, "shot": "bolt", "sound": "shoot", "cost": 200, "trait": "sh_blur",
+	  "stats": { "dmg": 2.6, "rate": 5.5, "shot_speed": 260.0, "life": 0.9, "homing": 0.0, "size": 1.0, "pierce": 0 },
+	  "effects": [{ "on": "every_n_shots", "every": 12, "do": [["slow_shots", 120, 0.5]] }],
+	  "special": { "name": "REWIND", "cd": 14, "col": "#e8b84a",
+		"desc": "HEALS A HEART, 2S UNTOUCHABLE, AND +40% FIRE RATE FOR 5S.",
+		"do": [["heal", 2], ["invuln", 2.0], ["buff", "rate", 0.4, 5.0], ["vfx", "ring", "#e8b84a", 90]] } },
 ]
 
 static var _heroes: Array = []
@@ -424,6 +434,16 @@ const ENEMIES := {
 	"haggler": { "sprite": "haggler", "name": "THE HAGGLER", "hp": 900, "speed": 52, "r": 7, "ai": "runner", "gold": 0.0, "label": "the haggler" },
 	"scrounger": { "sprite": "scrounger", "hp": 24, "speed": 76, "r": 5, "ai": "runner", "gold": 0.6, "label": "a scrounger" },
 	# His ask (6 Oct): a human robber for Brazil, a wasteland raider (a scavenger, no real people).
+	# 6.4 (his ask, 6 Oct): THE CLOCKWORK SPIRE, a rift world of brass and steam.
+	"cogling": { "sprite": "cogling", "hp": 10, "speed": 64, "r": 5, "ai": "bat", "fly": true, "gold": 0.3, "label": "a cogling" },
+	"steamjack": { "sprite": "steamjack", "hp": 46, "speed": 28, "r": 7, "ai": "golem", "gold": 0.7, "label": "a steamjack" },
+	"boltslinger": { "sprite": "boltslinger", "hp": 16, "speed": 42, "r": 5, "ai": "gunman", "shot": "cyan", "gold": 0.5, "label": "a boltslinger" },
+	"gearhound": { "sprite": "gearhound", "hp": 18, "speed": 84, "r": 5, "ai": "runner", "gold": 0.4, "label": "a gearhound" },
+	"rivetlobber": { "sprite": "rivetlobber", "hp": 15, "speed": 38, "r": 5, "ai": "lobber", "shot": "fire", "gold": 0.45, "label": "a rivet lobber" },
+	"brasswasp": { "sprite": "brasswasp", "hp": 9, "speed": 66, "r": 4, "ai": "imp", "fly": true, "gold": 0.3, "label": "a brass wasp" },
+	"foreman": { "sprite": "foreman", "name": "THE FOREMAN", "hp": 185, "speed": 44, "r": 10, "ai": "champion",
+		"shot": "fire", "scale": 2.0, "mini": true, "champion": true, "gold": 5.0, "style": "melee",
+		"moves": [["charge", 2], ["ring", 16, 60, 3], ["lob", 3], ["summon", "cogling", 3], ["spiral", 30], ["fan", 7, 0.45, 3]] },
 	"raider": { "sprite": "raider", "hp": 34, "speed": 84, "r": 5, "ai": "runner", "gold": 0.8, "label": "a raider" },
 	"goblin": { "sprite": "goblin", "hp": 40, "speed": 96, "r": 5, "ai": "flee", "gold": 0.0, "label": "a loot goblin" },
 	"mimic": { "sprite": "mimic", "hp": 80, "speed": 46, "r": 8, "ai": "golem", "shot": "red", "scale": 1.3, "gold": 2.0, "label": "a mimic" },
@@ -456,6 +476,7 @@ const BOSSES := {
 	"bilgehydra": { "name": "THE BILGE HYDRA", "sprite": "bilgehydra", "hp": 440, "r": 18, "scale": 2, "rift": true, "rule": "phase" },
 	"brassorgan": { "name": "THE BRASS ORGAN", "sprite": "brassorgan", "hp": 420, "r": 20, "scale": 2, "rift": true, "rule": "phase" },
 	# A hidden boss after the owner's dog (scripts/entities/rex.gd). "rift": his health grows with the floor too.
+	"greatengine": { "name": "THE GREAT ENGINE", "sprite": "greatengine", "hp": 470, "r": 14, "scale": 2, "rift": true },
 	"rex": { "name": "REX THE FAT GOLDEN RETRIEVER", "sprite": "rex", "hp": 380, "r": 18, "scale": 2, "rift": true, "rule": "phase" },
 }
 
@@ -520,7 +541,7 @@ const SPRITE_COLOR := {
 	"eclipsed": "#d8443c", "herald": "#8a2a33", "bogmatriarch": "#3f7a5a", "ashwarlord": "#d8443c",
 	"frozenabbot": "#e8f6ff", "crowking": "#5c3483", "umbralsun": "#d8443c",
 	"judge": "#f2c94c", "cinderking": "#e8873a", "unwritten": "#f4ecd8",
-	"haggler": "#5c3483", "scrounger": "#8b8f9c", "raider": "#8a7a5a", "holycow": "#f4ecd8",
+	"haggler": "#5c3483", "scrounger": "#8b8f9c", "raider": "#8a7a5a", "cogling": "#c9a35a", "steamjack": "#8a6a4a", "boltslinger": "#6fd3e0", "gearhound": "#a8705a", "rivetlobber": "#e8873a", "brasswasp": "#f2c94c", "foreman": "#e8873a", "greatengine": "#e8b84a", "holycow": "#f4ecd8",
 	# Rift worlds and event rooms.
 	"inmate": "#63b84f", "grenadier": "#d8443c", "jailer": "#3f7a5a", "turnkey": "#3f7a5a", "graveborn": "#7a3a8c",
 	"bandsman": "#7a5236", "fiendling": "#8a2a33", "blackknight": "#2a2838", "carrionknight": "#2a2838", "drone": "#6fd3e0",
@@ -565,7 +586,7 @@ const ENEMY_XP := { "bat": 2, "slime": 3, "slimelet": 1, "skeleton": 3, "mushroo
 	"inmate": 4, "grenadier": 4, "jailer": 6, "graveborn": 4, "bandsman": 4, "fiendling": 3, "blackknight": 7, "drone": 3,
 	"glitch": 4, "chrome": 7, "turret": 4, "thug": 4, "molotov": 4, "copper": 5, "bomber": 3, "orderly": 4, "crawler": 2,
 	"static": 4, "tollkeeper": 5, "neighbour": 4, "robovac": 5, "burglar": 4, "gnome": 4, "gangster": 5, "biker": 5,
-	"riotcop": 7, "outlaw": 5, "dynamiter": 4, "sharpshooter": 4, "coyote": 2, "goblin": 10, "haggler": 60, "scrounger": 4, "raider": 5, "mimic": 15, "shadow": 40,
+	"riotcop": 7, "outlaw": 5, "dynamiter": 4, "sharpshooter": 4, "coyote": 2, "goblin": 10, "haggler": 60, "scrounger": 4, "raider": 5, "cogling": 2, "steamjack": 7, "boltslinger": 4, "gearhound": 3, "rivetlobber": 4, "brasswasp": 2, "foreman": 45, "mimic": 15, "shadow": 40,
 	"turnkey": 45, "carrionknight": 45, "broker": 45, "mayor": 45, "rustbutcher": 45, "landlord": 45, "kingpin": 45, "marshal": 45, "galewarden": 45, "target": 0, "rotking": 45, "highcaliber": 45, "squallheron": 40, "tidecaptain": 40, "bellringer": 40, "casingrat": 6, "skykite": 3, "gustling": 3, "stormharpy": 4, "thunderhead": 4, "mirrorwing": 4, "rampartguard": 6, "sludgecrawler": 4, "chainwarden": 5, "tidecaller": 5, "longpike": 4, "shellpriest": 5, "dervish": 5, "deacon": 5, "beltfeeder": 6, "beltlink": 2, "ammomimic": 6, "tombspider": 3, "candlewight": 4, "gargoyle": 6, "wardrummer": 4, "bloodleech": 3 }
 
 static func xp_needed(level: int) -> int:

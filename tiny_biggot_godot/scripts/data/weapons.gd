@@ -122,7 +122,7 @@ const HERO_WEAPON := { "hexer": "hexwand", "poacher": "repeater", "brute": "pith
 	# Step 6 heroes (signature weapons are rows after content batch 1).
 	"banehunter": "banesabre", "oathbreaker": "ironslab", "wayfarer": "wayfareredge", "racketeer": "snubguns",
 	"condemned": "shackleflail", "cartomancer": "giltdeck", "sellsword": "warlance", "gaolbird": "irontalons",
-	"beekeeper": "hivesmoker", "tinkerer": "rivetgun", "boneweaver": "bonestaff", "mirrorknight": "brightblade",
+	"beekeeper": "hivesmoker", "tinkerer": "rivetgun", "clockmaker": "gearwound", "boneweaver": "bonestaff", "mirrorknight": "brightblade",
 	"plaguesaint": "censerflail", "frostwitch": "iciclewand", "demolitionist": "blastmortar", "executioner": "headsmansaxe",
 	"pilgrim": "pilgrimstaff", "beastmaster": "beastspear" }
 
@@ -542,6 +542,16 @@ const ROWS := [
 	["rustcleaver", "RUST BUTCHER'S CLEAVER", "slash", "legend", ["blood"], "greatsword", { "dmg": 11.0, "rate": 1.6, "range": 40, "arc": 140 }, [["crit", 0.05]], [], "A THIRD OF HITS MAKE FOES BLEED. KILLING A BLEEDING FOE GIVES +20% DAMAGE FOR 4S.", [{ "on": "on_hit", "chance": 0.33, "do": [["status", "bleed", 1]] }, { "on": "on_kill", "if": "bleeding", "do": [["buff", "dmg", 0.2, 4.0]] }], "w_gallows"],
 	["kingpingun", "KINGPIN'S DRUM GUN", "gatling", "legend", ["fortune", "edge"], "minigun", { "dmg": 2.4, "rate": 8.0 }, [["crit", 0.1]], [], "+10% CRIT. EVERY 30TH SHOT EMPTIES THE DRUM: 8 SHOTS IN A SPRAY. KILLS PAY 1 GOLD.", [{ "on": "every_n_shots", "every": 30, "do": [["shoot", 8, 0.8, "", 0.15]] }, { "on": "on_kill", "do": [["gold", 1]] }], "w_crankgun"],
 	["marshalsiron", "MARSHAL'S SIX-SHOOTER", "bolt", "legend", ["edge"], "pistol", { "dmg": 7.0, "rate": 3.0 }, [["crit", 0.1]], [], "+10% CRIT. THE SIXTH SHOT IS A FAN OF THREE HEAVY ROUNDS.", [{ "on": "every_n_shots", "every": 6, "do": [["shoot", 3, 1.5, "", 0.2]] }], "w_repeater"],
+	# 6.4 (his ask, 6 Oct): clockwork weapons. The Clockmaker's own, then seven to find, then the Great Engine's.
+	["gearwound", "GEARWOUND REPEATER", "bolt", "rare", ["storm"], "repeater", { "dmg": 2.6, "rate": 5.5 }, [], [], "SPRING-WOUND BOLTS. EVERY 12TH SHOT SLOWS THE FOES' SHOTS NEAR YOU.", [{ "on": "every_n_shots", "every": 12, "do": [["slow_shots", 120, 0.5]] }], "w_gearwound"],
+	["pendulum", "THE PENDULUM", "boomer", "epic", ["edge"], "chakram", { "dmg": 7.0, "rate": 1.6 }, [], [], "A HEAVY BLADE ON A CHAIN: OUT AND BACK, HITTING TWICE.", [], "w_pendulum"],
+	["springlance", "SPRING LANCE", "slash", "rare", ["edge"], "spear", { "dmg": 8.0, "rate": 2.0 }, [["crit", 0.08]], [], "+8% CRIT. A COILED THRUST.", [], "w_springlance"],
+	["cogthrower", "COG THROWER", "spin", "rare", ["demolition"], "disc", { "dmg": 4.0, "rate": 2.6, "pierce": 2 }, [], [], "SPINNING COGS THAT CUT THROUGH TWO FOES.", [], "w_cogthrower"],
+	["steamcannon", "STEAM CANNON", "shot", "epic", ["storm"], "handcannon", { "dmg": 3.2, "rate": 1.6, "count": 6, "spread": 0.6 }, [], [], "A BURST OF SCALDING STEAM PELLETS.", [], "w_steamcannon"],
+	["chronoblade", "CHRONO BLADE", "slash", "legend", ["arcane"], "sword", { "dmg": 9.0, "rate": 2.4 }, [["crit", 0.1]], [], "+10% CRIT. EVERY 8TH SWING SLOWS EVERY FOE SHOT NEAR YOU.", [{ "on": "every_n_shots", "every": 8, "do": [["slow_shots", 160, 0.3]] }], "w_chronoblade"],
+	["tickbomb", "TICKING FLASK", "flask", "rare", ["demolition"], "grenade", { "dmg": 6.0, "rate": 1.4 }, [], [], "BURSTING THROWS. EVERY 6TH CALLS A METEOR DOWN ON A FOE.", [{ "on": "every_n_shots", "every": 6, "do": [["meteor", 1.2, 24]] }], "w_tickbomb"],
+	["escapement", "ESCAPEMENT RIFLE", "bolt", "epic", ["edge"], "rifle", { "dmg": 7.0, "rate": 1.8, "speed": 340, "pierce": 3 }, [["crit", 0.12]], [], "+12% CRIT. SHOTS THAT TICK THROUGH THREE FOES.", [], "w_escapement"],
+	["enginecore", "ENGINE CORE", "orb", "legend", ["pyre", "storm"], "orbstaff", { "dmg": 6.0, "rate": 2.6 }, [["burn", 0.2]], [["nth_nova", 5]], "THE GREAT ENGINE'S HEART. BURNING BOLTS, AND EVERY 5TH ERUPTS IN A RING OF FIRE.", [], "w_enginecore"],
 	["highcaliber", "THE HIGH CALIBER", "rail", "legend", ["edge", "demolition"], "cannon", { "dmg": 30.0, "rate": 0.8 }, [["pierce", 2]], [], "ONE ENORMOUS ROUND THAT PIERCES. EVERY HIT ON THE LAST FOE IN A ROOM STRIKES AGAIN FOR 150%.", [{ "on": "on_hit", "if": "last_foe", "do": [["damage", 1.5]] }], "w_longrifle"],
 ]
 

@@ -240,6 +240,7 @@ const HERO_BRANCH := {
 	"demolitionist": { "name": "BLASTING CREW", "nodes": [["BIG BANG", "BOMBS 25% WIDER"], ["SPARE CHARGES", "+3 BOMBS AT THE START OF EVERY FLOOR"], ["SHELL SHOCK", "SETTING A BOMB MAKES YOU UNTOUCHABLE FOR 0.5S"], ["CHAIN REACTION", "BOMBS BURST INTO 4 MORE"]] },
 	"executioner": { "name": "THE BLOCK", "nodes": [["HEAVY HAND", "+15% DAMAGE"], ["GRIM TALLY", "KILLS GIVE +4% DAMAGE FOR 8S"], ["LAST SENTENCE", "EVERY HIT ON THE LAST FOE IN A ROOM STRIKES AGAIN"], ["NO APPEAL", "FOES BELOW 20% HEALTH DIE AT ONCE"]] },
 	"pilgrim": { "name": "THE LONG ROAD", "nodes": [["WAYBREAD", "+1 MAX HEART"], ["BLESSED WATER", "POTIONS HEAL HALF A HEART MORE"], ["HALO", "EVERY 5S IN A FIGHT, 6 STARS FLY OUT"], ["SAINTHOOD", "RISE ONCE MORE THIS RUN"]] },
+	"clockmaker": { "name": "CLOCKWORK", "nodes": [["MAINSPRING", "ENTERING A ROOM: +30% FIRE RATE FOR 6S"], ["ESCAPEMENT", "EVERY 20TH SHOT CHILLS THE FOES NEAR YOU"], ["BALANCE WHEEL", "+1 MAX HEART"], ["GRAND COMPLICATION", "ROLLING SLOWS EVERY FOE SHOT NEAR YOU (EVERY 6S)"]] },
 	"beastmaster": { "name": "THE WILD", "nodes": [["SOFT WORDS", "4% MORE OF YOUR HITS TAME A FOE"], ["PACK LEADER", "+1 WISP"], ["FERAL BOND", "KILLS GIVE +20% DAMAGE FOR 3S"], ["ALPHA", "EVERY 10S IN A FIGHT, THE FOES CLOSE TO YOU ARE TAMED FOR 8S"]] },
 	"sellsword": { "name": "FREE COMPANY", "nodes": [["SPURS", "ROLLS RECHARGE 20% FASTER"], ["SHIELD WALL", "WHEN HIT, ERASE NEARBY SHOTS (EVERY 6S)"], ["WAR PAY", "KILLING AN ELITE PAYS 12 GOLD"], ["THUNDERING CHARGE", "CHARGES HIT TWICE AS HARD AND KILLS REFUND THE ROLL"]] },
 }
@@ -250,6 +251,10 @@ const NODE_EFFECTS := {
 	"WAX COAT": [{"on": "on_floor_start", "do": [["armor", 2]]}],
 	"STINGERS": [{"on": "on_kill", "if": "poisoned", "do": [["spread", 60]]}],
 	"QUEEN'S CALL": [{"on": "on_kill", "every": 6, "do": [["summon", 20.0]]}],
+	"MAINSPRING": [{"on": "on_room_enter", "do": [["buff", "rate", 0.3, 6.0]]}],
+	"ESCAPEMENT": [{"on": "every_n_shots", "every": 20, "do": [["status_area", "chill", 2, 110]]}],
+	"BALANCE WHEEL": [["add", "max_hp", 2], ["add", "hp", 2]],
+	"GRAND COMPLICATION": [{"on": "on_roll", "cd": 6.0, "do": [["slow_shots", 140, 0.4]]}],
 	"SPARE PARTS": [{"on": "on_room_enter", "do": [["turret", "gun", 10.0, 1.0]]}],
 	"ARC WELDER": [{"on": "every_n_shots", "every": 15, "do": [["bolts", 2, 0.8]]}],
 	"REINFORCED": [["add", "max_hp", 2], ["add", "hp", 2]],

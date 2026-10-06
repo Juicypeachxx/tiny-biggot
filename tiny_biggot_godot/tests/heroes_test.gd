@@ -17,6 +17,7 @@ const NEW := {
 	"plaguesaint": ["did:spread", "did:consume"], "frostwitch": ["did:slow_shots", "ran:status_area"],
 	"demolitionist": ["did:give", "ran:meteor"], "executioner": ["did:overkill", "did:execute_weakest"],
 	"pilgrim": ["ran:heal", "ran:invuln"], "beastmaster": ["ran:charm", "did:charm_area"],
+	"clockmaker": ["did:slow_shots", "ran:invuln"],
 }
 
 var fails := 0

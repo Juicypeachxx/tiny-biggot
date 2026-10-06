@@ -488,7 +488,13 @@ He said yes to all four; he will say when he has played 5.9 enough to judge the 
       numbers; written whole or not at all with a backup), and gone when the run ends. Continuing
       puts him on a fresh floor of the same depth. Test: `save_test` (220 values back exactly).
   **His ask (6 Oct): make all of stage 6, then build one IPA.**
-- [ ] 6.4 New content: a new world, heroes, weapons and a boss (to agree with him). IPA.
+- [x] 6.4 New content: THE CLOCKWORK SPIRE, a rift world of brass and steam (steam vents; foes
+      cogling, steamjack, boltslinger, gearhound, rivet lobber, brass wasp; champion THE FOREMAN;
+      guardian THE GREAT ENGINE, on the guardians' rules: three stages, evolving forms, own drop
+      ENGINE CORE; the Foreman drops his HARD HAT). A new hero, THE CLOCKMAKER (every 12th shot slows
+      the foes' shots; REWIND; the CLOCKWORK branch). Eight clockwork weapons: gearwound repeater
+      (his), the pendulum, spring lance, cog thrower, steam cannon, chrono blade, ticking flask,
+      escapement rifle. Stage 6 built as one IPA, 6.4 (his ask).
 
 ---
 

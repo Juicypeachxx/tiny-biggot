@@ -92,13 +92,14 @@ def sprite(name, vb, rng=None, elite=False):
                             px[X,Y] = gc+(vb["halo2"],)
     return im
 
-def kit(vb, seed=7):
+def kit(vb, seed=7, cols=None):
     """256x64: row 0 sixteen 16px floor tiles (pairs for the checker), row 1 walls (top, face,
     bottom, left, right, void), rows 2-3 the pillar (17x32)."""
     rnd = random.Random(seed)
     T = 16
     im = Image.new("RGBA",(256,64),(0,0,0,0)); px = im.load()
-    fl = tones("#4a4060", vb); fl2 = tones("#443a58", vb)
+    cols = cols or {}
+    fl = tones(cols.get("floor", "#4a4060"), vb); fl2 = tones(cols.get("floor2", "#443a58"), vb)
     bone = tones(BONE, vb); moss = tones("#5a7a3a", vb)
     dark = toh(vb["outline"])+(255,)
     def put(x,y,c):
@@ -140,7 +141,7 @@ def kit(vb, seed=7):
             for k in range(3):
                 x,y = ox+rnd.randint(2,12), rnd.randint(2,12)
                 put(x,y,base[2]); put(x+1,y,base[1]); put(x,y+1,base[0]); put(x+1,y+1,base[0])
-    wall = tones("#3a3050", vb); cap = tones("#6a5f85", vb); void = toh(rgb(*hsv(hx("#140f1c")))) if False else (20,15,28,255)
+    wall = tones(cols.get("wall", "#3a3050"), vb); cap = tones(cols.get("cap", "#6a5f85"), vb); void = toh(rgb(*hsv(hx("#140f1c")))) if False else (20,15,28,255)
     def bricks(ox, oy, w, h, t):
         for y in range(h):
             for x in range(w):
@@ -316,6 +317,7 @@ def all_for(v):
             out[n] = remaster(os.path.join(src, "icons", f), vb, shade=True)
     out.pop("hexer_old", None)
     out["kit0"] = kit(vb)
+    out["kit_spire"] = kit(vb, 11, { "floor": "#5a4630", "floor2": "#54412c", "wall": "#3a2c22", "cap": "#8a6a3a" })   # 6.4
     return out
 
 # ---- His ask (6 Oct): a guardian evolves with its stages, more menacing each time. Made from its
@@ -326,7 +328,7 @@ EVOLVE = {   # guardian -> the colour it burns with when it evolves
 	"rimewarden": "#8ae8ff", "regent": "#c05aff", "bogmatriarch": "#9aff3a", "ashwarlord": "#ff5a1a",
 	"frozenabbot": "#bff4ff", "crowking": "#ff2a2a", "umbralsun": "#e08aff", "holycow": "#ffd84a",
 	"judge": "#fff07a", "cinderking": "#ff6a1a", "unwritten": "#e0e0ff", "stormcrown": "#7ff0ff",
-	"bilgehydra": "#5affa0", "brassorgan": "#ff4a3a",
+	"bilgehydra": "#5affa0", "brassorgan": "#ff4a3a", "greatengine": "#ff8a1a",
 }
 
 def evolve(im, stage, burn):
@@ -448,6 +450,8 @@ FORMS = {
 	                3: [("horn_b", 2, -2, 22, 1), ("tent", 7, 21, None, 1), ("eyes", 9, 7, None, 0), ("spike", -1, 8, 25, 0)]},
 	"bilgehydra":  {2: [("horn_s", 1, -3, 7, 1), ("horn_s", 9, -3, 15, 1), ("eyes", 9, 12, None, 0)],
 	                3: [("horn_b", -1, -5, 9, 1), ("horn_b", 7, -5, 17, 1), ("maw", 8, 14, None, 0), ("tent", 7, 22, None, 1)]},
+	"greatengine": {2: [("horn_d", 0, -4, 16, 1), ("spike", -1, 10, 17, 0)],
+	                3: [("flames", 3, -3, None, 0), ("horn_b", -2, -5, 18, 1), ("spike", -2, 10, 18, 0), ("spike", -2, 5, 18, 0)]},
 	"brassorgan":  {2: [("spike", -2, 12, 43, 0), ("eye3", 18, 13, None, 0)],
 	                3: [("horn_b", 1, -5, 40, 1), ("spike", -2, 12, 43, 0), ("spike", -2, 18, 43, 0), ("maw", 16, 18, None, 0), ("eyes", 17, 12, None, 0)]},
 }
@@ -510,7 +514,7 @@ MINIS = {   # mini-boss or champion -> (kind of form, the colour it burns with)
 	"rustbutcher": ("brute", "#ff3020"), "landlord": ("maw", "#ff6ad0"), "kingpin": ("fire", "#ffd84a"),
 	"marshal": ("brute", "#ffa040"), "galewarden": ("wing", "#7ff0ff"), "rotking": ("maw", "#9aff3a"),
 	"highcaliber": ("fire", "#ff5a1a"), "squallheron": ("wing", "#8ae8ff"), "tidecaptain": ("brute", "#5affa0"),
-	"bellringer": ("maw", "#c05aff"), "shadow": ("maw", "#d08aff"),
+	"bellringer": ("maw", "#c05aff"), "shadow": ("maw", "#d08aff"), "foreman": ("brute", "#ffa040"),
 }
 
 def _dominant_meta(im):

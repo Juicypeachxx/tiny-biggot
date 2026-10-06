@@ -121,6 +121,14 @@ guardian's arena the world's own hazard does not fire by itself: the guardian ca
 Debug: `--rift=ID --step=3` starts in the arena; `--spawn=TYPE` puts one foe in the room.
 Tested by `tests/bosses_test.tscn`.
 
+### The Clockwork Spire (6 Oct 2026, ROADMAP 6.4)
+
+A tower of brass and steam ("EVERYTHING HERE IS WOUND TOO TIGHT"), with steam vents. Foes: cogling
+(a flying gear), steamjack (a boiler brute), boltslinger (an automaton gunner), gearhound, rivet
+lobber, brass wasp. Champion: THE FOREMAN (drops his hard hat). Guardian: THE GREAT ENGINE, which
+fights on the guardians' rules (BossAI: three stages with their own plans, evolving looks) like the
+Holy Cow, and drops the ENGINE CORE. Debug: `--rift=spire --step=0..3`.
+
 ### REX THE FAT GOLDEN RETRIEVER (October 2026, `scripts/entities/rex.gd`, ROADMAP 4.5c)
 
 A hidden boss made from photos of the owner's dog. **REX'S BARN** has its own tiles (`kit_barn`:
