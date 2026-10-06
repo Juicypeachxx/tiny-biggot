@@ -676,6 +676,10 @@ now tinted by the piece's colour (`HeroGear.palette`, 4th entry). 5.2b (his pick
 nine heroes went back to their old design, remastered (marked in `sprites.py`);
 warm colours' highlights now lean to yellow (`render.tones`). Next: 5.3 (foes).
 
+**5.3a (6 Oct).** First three floors' foes and guardians redrawn (all new, his pick).
+Elites: `sprite(name, vb, elite=True)` with the `ELITE` marks; every elite file is
+made by the tool, so a foe redrawn later gets its elite in the same run. Next: 5.3b.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress (so iOS closing the app does not end it). Needs
