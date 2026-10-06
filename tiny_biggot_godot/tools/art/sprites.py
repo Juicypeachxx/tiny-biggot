@@ -1099,3 +1099,11 @@ _FLAIL = [
 for _n, _c in [("w_flail", "#8b8f9c"), ("w_flail_rare", "#6fa0d0"), ("w_flail_frost", "#9ad8f0"),
 		("w_flail_ember", "#e8873a"), ("w_flail_storm", "#4d9be6"), ("w_flail_skull", "#e8dcc8")]:
 	S[_n] = ("main:#6b4a2a metal:%s glow:#ffffff" % _c, _FLAIL)
+
+# ---- 11.2 (his ask, 6 Oct): the aura relics: one halo, six colours.
+_HALO = [
+"............", "....oooo....", "..oo9999oo..", ".o99oooo99o.", ".o9o....o9o.", "o9o..yy..o9o",
+"o9o..yy..o9o", ".o9o....o9o.", ".o99oooo99o.", "..oo9999oo..", "....oooo....", "............"]
+for _n, _c in [("relic_halo_ember", "#e8873a"), ("relic_halo_frost", "#6fd3e0"), ("relic_halo_venom", "#b8e05a"),
+		("relic_halo_storm", "#4d9be6"), ("relic_halo_gravity", "#a35bd6"), ("relic_halo_sun", "#f2c94c")]:
+	S[_n] = ("metal:%s glow:#ffffff" % _c, _HALO)
