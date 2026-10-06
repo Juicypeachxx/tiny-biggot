@@ -817,6 +817,7 @@ func on_boss_dead(b: Enemy) -> void:
 	room.cleared = true
 	dyn_dirty = true
 	run_stats["bosses"] += 1
+	if DebugArgs.has("power-log"): print("TMP boss down t=%d" % run_stats["time"])
 	Meta.meta["bosses"] += 1
 	var p := player
 	if p.oath:

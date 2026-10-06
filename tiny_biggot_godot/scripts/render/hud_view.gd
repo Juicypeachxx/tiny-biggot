@@ -215,6 +215,10 @@ func _draw() -> void:
 		if fw > 0:
 			draw_rect(Rect2(bx, by, fw, 4), TB.c("#d8443c"))
 			draw_rect(Rect2(bx, by, fw, 1), TB.c("#ff8a70"))
+		var aw := ceilf(w * Armor.shown(bo) / bo.max_hp)   # the plate of the stage, over the health (armor.gd)
+		if aw > 0:
+			draw_rect(Rect2(bx, by + 1, aw, 3), TB.c("#a8b4c8"))
+			draw_rect(Rect2(bx, by + 1, aw, 1), TB.c("#e8eef8"))
 		Gfx.text(self, bo.d["name"], TB.SW / 2, by - 9, "white", 1, 0.5)
 
 ## The foe the boss bar shows: the floor's guardian, else a champion or mini-boss.

@@ -505,8 +505,17 @@ level 19, THE HIGH CALIBER +11, hits of about 230.) Builds stay exactly as they 
       sheet (damage, rate, shots, crits) or what you really dealt in fights lately (combos, wisps,
       meteors), whichever is more. When it runs ahead of what the floor expects, their health
       grows with the lead to the power 0.6 (`Combat.power_scale`). Expanded game only.
-- [ ] Measured with bot runs (plain, Hall of Mirrors, High Caliber); full replays re-recorded;
-      classic identical; IPA 6.5.
+      The yardstick is what a plain build (no combo) has on each floor, measured in bot runs.
+- [ ] His words after the first measurements: "I want the core build mechanic to still feel the
+      same, to explore different build paths and make broken builds, and I want enemies to
+      withstand those builds and scaling, not just instantly die, and bosses with a bigger health
+      pool and armor, to make fights last longer and feel rewarding, not boring."
+- [ ] Boss armor (`scripts/combat/armor.gd`): guardians, rift guardians, minis and rift champions
+      start every stage behind a plate (35% / 25% of their health, a pale bar over the health
+      bar). While it holds only a quarter of a blow reaches the health; breaking it: ARMOR
+      BROKEN, the foe reels and takes +25% for 3 s. Guardians' health ×2.0 (was ×1.6).
+- [ ] Measured with bot runs (plain, Hall of Mirrors, High Caliber) against 6.4; full replays
+      re-recorded; classic identical; IPA 6.5.
 
 ---
 

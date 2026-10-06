@@ -30,16 +30,17 @@ static func run_scale() -> float:
 
 ## Foes answer your real strength (his ask, 6 Oct: "still instantly clears everything and melts the
 ## bosses after a few pickups"). Nothing about the build is touched: your damage, rate, shots and
-## crits are measured, and when they run ahead of what the floor expects (your power at the start
-## of the run, grown 42% a floor like the foes) every foe spawned from then on gets more health:
-## the lead to the power of 0.6, so a build ten times ahead still kills four times faster than
-## a plain one. --classic: 1.0.
+## crits are measured, and when they run ahead of what a plain build has on that floor (your power
+## at the start of the run times 1 + 1.3 f + 0.25 f², from bot runs with no combo, 6 Oct) every
+## foe spawned from then on gets more health: the lead to the power of 0.65, so a build ten times
+## ahead still kills more than three times faster than a plain one. --classic: 1.0.
 static func power_scale() -> float:
 	var base: float = G.run_stats.get("power0", 0.0)
 	if not GameData.rogues() or G.player == null or base <= 0.0:
 		return 1.0
-	var lead := power(G.player) / (base * (1 + 0.42 * G.floor_index) * (1 + 0.4 * G.loop))
-	return pow(lead, 0.6) if lead > 1.0 else 1.0
+	var f := float(G.floor_index)
+	var lead := power(G.player) / (base * (1 + 1.3 * f + 0.25 * f * f) * (1 + 0.4 * G.loop))
+	return pow(lead, 0.65) if lead > 1.0 else 1.0
 
 ## Damage a second: the weapon's blow, shots and steady rate (no short haste) with crits, or what
 ## you really dealt in fights lately if that is more (combos, wisps, meteors, blasts; a blow counts
@@ -59,9 +60,10 @@ static func track_power(dt: float) -> void:
 		var dps: float = G.run_stats.get("dps", 0.0)
 		G.run_stats["dps"] = dps + (dealt / dt - dps) * minf(1.0, dt / 20.0)
 
-## Guardians and rift guardians: 60% more health in the expanded game (his ask, 6 Oct).
+## Guardians and rift guardians: twice the health in the expanded game (his asks, 6 Oct: 60% more,
+## then "bosses with a bigger health pool and armor"; the armor is scripts/combat/armor.gd).
 static func boss_hp() -> float:
-	return 1.6 if GameData.rogues() else 1.0
+	return 2.0 if GameData.rogues() else 1.0
 
 ## From the seventh floor on (the lands past the Pale Regent) a foe's blow or shot costs a whole
 ## heart in the expanded game; traps, your own bombs and the like stay at half. --classic: 1.
@@ -229,6 +231,7 @@ static func spawn_boss(key: String, quiet: bool = false) -> Enemy:
 	if not quiet:
 		Snd.play("roar")
 		G.add_shake(6)
+	if DebugArgs.has("power-log"): print("TMP boss %s in t=%d hp %d scale %.2f" % [key, G.run_stats["time"], hp, power_scale()])
 	return e
 
 # ---------- Enemy shots ----------
@@ -325,7 +328,7 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	var gate := Stages.gate(e)   # read before the blow: a dead boss has no stage left
 	if GameData.rogues() and e.type != "dummy":
 		G.run_stats["dealt"] = G.run_stats.get("dealt", 0.0) + minf(dmg, e.max_hp * 2.0)   # Combat.power: what you really deal
-	e.hp -= dmg
+	e.hp -= Armor.soak(e, dmg)   # boss armor: most of a blow wears the plate down (armor.gd)
 	if gate > 0 and e.hp < gate:
 		e.hp = gate   # a boss never skips a stage (Stages.gate); other foes keep their overkill
 	e.flash = 0.08
