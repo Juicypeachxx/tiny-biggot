@@ -295,6 +295,10 @@ def all_for(v):
         if f[:-4] not in S:
             out[f[:-4]] = remaster(os.path.join(src, "hud", f), vb, shade=True)
     # 5.5: every floor's tiles but kit0 (drawn new): recoloured, each floor tile bevelled like kit0.
+    for n, burn in EVOLVE.items():   # the guardians' evolved stages (his ask, 6 Oct)
+        if n in out:
+            out[n + "_s2"] = evolve(out[n], 2, burn)
+            out[n + "_s3"] = evolve(out[n], 3, burn)
     for f in sorted(os.listdir(os.path.join(src, "kits"))):
         out[f[:-4]] = kit_remaster(os.path.join(src, "kits", f), vb)
     for f in sorted(os.listdir(os.path.join(src, "icons"))):
@@ -303,4 +307,80 @@ def all_for(v):
             out[n] = remaster(os.path.join(src, "icons", f), vb, shade=True)
     out.pop("hexer_old", None)
     out["kit0"] = kit(vb)
+    return out
+
+# ---- His ask (6 Oct): a guardian evolves with its stages, more menacing each time. Made from its
+# finished sprite, so every guardian keeps its own look: <name>_s2 and <name>_s3, a little bigger
+# (spikes and an aura need room), drawn bottom-centred like the original.
+EVOLVE = {   # guardian -> the colour it burns with when it evolves
+	"colossus": "#ff3b30", "sporemother": "#b8ff3a", "librarian": "#3ad8ff", "tyrant": "#ff8a1a",
+	"rimewarden": "#8ae8ff", "regent": "#c05aff", "bogmatriarch": "#9aff3a", "ashwarlord": "#ff5a1a",
+	"frozenabbot": "#bff4ff", "crowking": "#ff2a2a", "umbralsun": "#e08aff", "holycow": "#ffd84a",
+	"judge": "#fff07a", "cinderking": "#ff6a1a", "unwritten": "#e0e0ff", "stormcrown": "#7ff0ff",
+	"bilgehydra": "#5affa0", "brassorgan": "#ff4a3a",
+}
+
+def evolve(im, stage, burn):
+    import random as _r
+    rnd = _r.Random(stage * 7919 + im.width * 31 + im.height)
+    pad = stage - 1                       # 1 px each side at stage 2, 2 at stage 3; and on top
+    W, H = im.width + 2 * pad, im.height + pad
+    out = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    out.alpha_composite(im, (pad, pad))
+    px = out.load(); base = out.copy().load()
+    bc = hx(burn); bh, bs, bv = hsv(bc)
+    hot = toh(rgb(bh, bs * (0.5 if stage == 3 else 0.9), 1.0))
+    core = (255, 250, 230) if stage == 3 else hot
+    def solid(x, y): return 0 <= x < W and 0 <= y < H and base[x, y][3] >= 128
+    def dark(c): return hsv(tuple(v / 255 for v in c[:3]))[2] < 0.17
+    # the body: angrier, then corrupted; bright glowing pixels (eyes, gems) burn hotter
+    for y in range(H):
+        for x in range(W):
+            c = base[x, y]
+            if c[3] < 128 or dark(c):
+                continue
+            h, s, v = hsv(tuple(k / 255 for k in c[:3]))
+            if v > 0.86 and s > 0.45:
+                px[x, y] = core + (255,)
+                continue
+            k = 0.32 if stage == 2 else 0.38
+            nh = h + (((bh - h + 0.5) % 1.0) - 0.5) * k
+            px[x, y] = toh(rgb(nh, min(1, s * (1.15 if stage == 2 else 1.3)), v * (0.8 if stage == 2 else 0.62))) + (255,)
+    # cracks of light through the body
+    body = [(x, y) for y in range(H) for x in range(W) if solid(x, y) and not dark(base[x, y])
+            and all(solid(x + dx, y + dy) for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)))]
+    for n in range(3 if stage == 2 else 4 + W // 12):
+        if not body:
+            break
+        x, y = rnd.choice(body)
+        for i in range(3 + stage * 2 + W // 10):
+            if not solid(x, y) or dark(base[x, y]):
+                break
+            px[x, y] = (hot if i % 3 else core) + (255,)
+            x += rnd.choice((-1, 0, 1)); y += rnd.choice((0, 1, 1))
+    # spikes along the top of the silhouette
+    tops = {}
+    for x in range(W):
+        for y in range(H):
+            if solid(x, y):
+                tops[x] = y
+                break
+    oc = None
+    for x in sorted(tops):
+        if x % 3 == 1 and tops[x] - stage >= 0:
+            for i in range(1, stage + 1):
+                yy = tops[x] - i
+                if yy >= 0:
+                    px[x, yy] = (hot + (255,)) if (stage == 3 and i == stage) else base[x, tops[x]]
+    # stage 3: an aura of its burning colour
+    if stage == 3:
+        cur = out.copy().load()
+        for y in range(H):
+            for x in range(W):
+                if cur[x, y][3] >= 128:
+                    continue
+                near = any(0 <= x + dx < W and 0 <= y + dy < H and cur[x + dx, y + dy][3] >= 128
+                           for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)))
+                if near:
+                    px[x, y] = toh(bc) + (120,)
     return out

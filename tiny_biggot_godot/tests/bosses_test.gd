@@ -31,6 +31,7 @@ func _ready() -> void:
 	for key in BossAI.STAGE_PLANS:
 		_gate(key)
 	_gate("squallheron")
+	_looks()
 	print("bosses test: PASSED" if fails == 0 else "bosses test: %d FAILED" % fails)
 	get_tree().quit()
 
@@ -155,6 +156,22 @@ func _gate(key: String) -> void:
 	Combat.damage_enemy(e, 1e12, { "no_crit": true })
 	if e.hp <= 0 or absf(e.hp - line) > 1.0:
 		fail("%s: a huge blow left %.0f health, not its stage line %.0f" % [key, e.hp, line])
+
+## His ask (6 Oct): each guardian evolves with its stages: two more looks, drawn from stage 2 and 3.
+func _looks() -> void:
+	for key in GameData.BOSSES:
+		if key == "rex":
+			continue   # his own dog keeps his look
+		var sp: String = GameData.BOSSES[key]["sprite"]
+		for st in [2, 3]:
+			if not Img.has(sp + "_s%d" % st):
+				fail("%s has no stage-%d look" % [key, st])
+	_room()
+	var b := Combat.spawn_boss("colossus")
+	for st in [1, 2, 3]:
+		b.stage = st
+		if Stages.look(b) != st:
+			fail("the Colossus in stage %d shows look %d" % [st, Stages.look(b)])
 
 func _pools() -> void:
 	for r in ["common", "rare", "epic", "legend"]:

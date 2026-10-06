@@ -34,6 +34,18 @@ static func gate(e: Enemy) -> float:
 		return e.max_hp * 0.24 if e.stage <= 1 else 0.0
 	return e.max_hp * (0.66 if e.stage <= 1 else (0.33 if e.stage == 2 else 0.0))
 
+## Which of a guardian's looks to draw (his ask, 6 Oct: it evolves with its stages, <sprite>_s2 and
+## _s3, tools/art/render.py EVOLVE): 1, 2 or 3. Rift guardians show their second look from their
+## second phase. The Holy Cow risen stays at its worst.
+static func look(e: Enemy) -> int:
+	if not GameData.rogues() or not e.is_boss():
+		return 1
+	if e.phase == 3 or e.stage >= 3:
+		return 3
+	if e.stage == 2 or (RiftBosses.handles(e) and e.phase >= 2):
+		return 2
+	return 1
+
 static func _want(e: Enemy) -> int:
 	if e.is_boss():
 		return 3 if e.hp < e.max_hp * 0.25 else 1

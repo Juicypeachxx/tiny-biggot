@@ -579,6 +579,9 @@ func _enemy_sprite(e: Enemy) -> String:
 	if e.boss == "rex":
 		return Rex.sprite(e)   # lying down to sleep, nap and run
 	var key: String = e.d["sprite"]
+	var look := Stages.look(e)
+	if look > 1 and Img.has(key + "_s%d" % look):
+		return key + "_s%d" % look   # the guardian has evolved (his ask, 6 Oct)
 	if key == "bat" and floori(e.anim * 8) % 2 == 1:
 		key = "bat2"
 	return key + "_elite" if e.elite and not e.is_boss() else key

@@ -709,6 +709,8 @@ bosses and minis; other foes keep overkill). `Combat.run_scale/boss_hp`, `hard_h
 raised; `game._roll_twist()` and `Room.twist`. Tests fell bosses through their stages (`_fell`), and
 `bosses_test._gate` checks the stage lines. Broken builds (bot, --combo): the first guardian lasts
 about twice as long.
+Evolved guardian looks: `render.evolve()` from each finished sprite; `world_view._enemy_sprite`
+picks `_s2`/`_s3` by `Stages.look(e)`; `bosses_test._looks` checks them.
 
 ## Noted, not yet acted on
 
