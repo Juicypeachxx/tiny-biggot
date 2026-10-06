@@ -472,6 +472,18 @@ the 3 boss stages." Nothing about any build was touched.
 After each of 5.2 to 5.6: `tools/bake_atlas.sh`, `tools/check.sh`, a
 before-and-after picture for him, a new IPA.
 
+
+## Stage 6: additions (his ask, 6 Oct)
+
+He said yes to all four; he will say when he has played 5.9 enough to judge the difficulty.
+
+- [ ] 6.1 Mini-bosses, rift minis and champions evolve with their stages, as the guardians do
+      (stage-2 and stage-3 forms). IPA.
+- [ ] 6.2 Rex evolves too, **cute, not scary** (his word): his second and third stage looks. IPA.
+- [ ] 6.3 Save and continue a run: CONTINUE on the title, the run saved between rooms, so iOS
+      closing the app or a call does not end it. IPA.
+- [ ] 6.4 New content: a new world, heroes, weapons and a boss (to agree with him). IPA.
+
 ---
 
 ## Log
