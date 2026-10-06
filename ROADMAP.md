@@ -527,7 +527,7 @@ Chosen for his asks of 6 Oct (more variety, foes that stand up to a build), no b
       SPLITTING (two copies of a third of its health), VOLATILE (a slow ring of shots when it
       dies), MENDING (heals 5% a second when left alone 2 s). `scripts/combat/elite_traits.gd`,
       `tests/traits_test.tscn` (in check.sh). Expanded game only.
-- [ ] Full replays re-recorded, classic identical, full check, IPA 6.6.
+- [x] Full replays re-recorded, classic identical, full check passed, IPA 6.6.
 
 ---
 
