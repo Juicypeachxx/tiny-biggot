@@ -577,11 +577,15 @@ func _paint_shadows(ci: CanvasItem, room: Room) -> void:
 # ---------- Entities (sorted by y) ----------
 func _enemy_sprite(e: Enemy) -> String:
 	if e.boss == "rex":
-		return Rex.sprite(e)   # lying down to sleep, nap and run
+		var rs := Rex.sprite(e)   # lying down to sleep, nap and run
+		var rl := Stages.look(e)   # 6.2: party Rex, then super Rex (his ask: cute, not scary)
+		return rs + "_s%d" % rl if rl > 1 and Img.has(rs + "_s%d" % rl) else rs
 	var key: String = e.d["sprite"]
 	var look := Stages.look(e)
-	if look > 1 and Img.has(key + "_s%d" % look):
-		return key + "_s%d" % look   # the guardian has evolved (his ask, 6 Oct)
+	if look > 1:
+		var full := key + ("_elite" if e.elite and not e.is_boss() else "")
+		if Img.has(full + "_s%d" % look):
+			return full + "_s%d" % look   # it has evolved (his ask, 6 Oct; minis and champions: 6.1)
 	if key == "bat" and floori(e.anim * 8) % 2 == 1:
 		key = "bat2"
 	return key + "_elite" if e.elite and not e.is_boss() else key

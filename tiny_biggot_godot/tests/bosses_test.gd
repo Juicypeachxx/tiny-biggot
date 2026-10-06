@@ -161,12 +161,27 @@ func _gate(key: String) -> void:
 func _looks() -> void:
 	for key in GameData.BOSSES:
 		if key == "rex":
-			continue   # his own dog keeps his look
+			for st in [2, 3]:   # 6.2: Rex evolves too, cute (sitting and lying)
+				for v in ["rex", "rex_lie"]:
+					if not Img.has(v + "_s%d" % st):
+						fail("Rex has no stage-%d look (%s)" % [st, v])
+			continue
 		var sp: String = GameData.BOSSES[key]["sprite"]
 		for st in [2, 3]:
 			if not Img.has(sp + "_s%d" % st):
 				fail("%s has no stage-%d look" % [key, st])
+	for key in GameData.ENEMIES:   # 6.1: every mini-boss and champion, and its elite
+		if GameData.ENEMIES[key].get("mini", false):
+			var sp: String = GameData.ENEMIES[key]["sprite"]
+			for st in [2, 3]:
+				for v in [sp, sp + "_elite"]:
+					if Img.has(v) and not Img.has(v + "_s%d" % st):
+						fail("%s has no stage-%d look" % [v, st])
 	_room()
+	var m := Combat.spawn_enemy("mirehulk", 100, 100, false, true)
+	m.stage = 3
+	if Stages.look(m) != 3:
+		fail("a mini-boss in stage 3 shows look %d" % Stages.look(m))
 	var b := Combat.spawn_boss("colossus")
 	for st in [1, 2, 3]:
 		b.stage = st

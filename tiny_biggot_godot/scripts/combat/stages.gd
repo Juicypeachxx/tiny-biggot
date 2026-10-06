@@ -38,8 +38,10 @@ static func gate(e: Enemy) -> float:
 ## _s3, tools/art/render.py EVOLVE): 1, 2 or 3. Rift guardians show their second look from their
 ## second phase. The Holy Cow risen stays at its worst.
 static func look(e: Enemy) -> int:
-	if not GameData.rogues() or not e.is_boss():
+	if not GameData.rogues():
 		return 1
+	if not e.is_boss():   # 6.1: minis, rift minis and champions evolve too
+		return clampi(e.stage, 1, 3) if applies(e) else 1
 	if e.phase == 3 or e.stage >= 3:
 		return 3
 	if e.stage == 2 or (RiftBosses.handles(e) and e.phase >= 2):

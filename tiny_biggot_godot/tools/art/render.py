@@ -295,6 +295,15 @@ def all_for(v):
         if f[:-4] not in S:
             out[f[:-4]] = remaster(os.path.join(src, "hud", f), vb, shade=True)
     # 5.5: every floor's tiles but kit0 (drawn new): recoloured, each floor tile bevelled like kit0.
+    for n in ("rex", "rex_lie"):   # 6.2: Rex's cute evolutions
+        if n in out:
+            out[n + "_s2"] = cute(form(out[n], n, 2, vb), 2)
+            out[n + "_s3"] = cute(form(out[n], n, 3, vb), 3)
+    for n, (kind, burn) in MINIS.items():   # 6.1: minis and champions, and their elites
+        for k in (n, n + "_elite"):
+            if k in out:
+                out[k + "_s2"] = evolve(form(out[k], k, 2, vb), 2, burn)
+                out[k + "_s3"] = evolve(form(out[k], k, 3, vb), 3, burn)
     for n, burn in EVOLVE.items():   # the guardians' evolved stages (his ask, 6 Oct)
         if n in out:
             out[n + "_s2"] = evolve(form(out[n], n, 2, vb), 2, burn)
@@ -446,15 +455,16 @@ FORMS = {
 def _part_img(name, vb, meta):
     rows = PART[name]
     W = max(len(r) for r in rows)
-    S["_part"] = (meta, [r.ljust(W, ".") for r in rows])
+    S["_part"] = (PART_META.get(name, meta) if "PART_META" in globals() else meta, [r.ljust(W, ".") for r in rows])
     im = sprite("_part", vb)
     S.pop("_part")
     return im
 
 def form(im, name, stage, vb):
     """The guardian with its stage's parts; the canvas grows to hold them (bottom stays the bottom)."""
-    spec = FORMS.get(name, {}).get(stage, [])
-    meta = S[name][0] if name in S else "main:#5a4a6a"
+    base = name.replace("_elite", "") if name not in FORMS else name
+    spec = FORMS.get(base, {}).get(stage, []) or _mini_form(MINIS[base][0], im.width).get(stage, []) if base in MINIS else FORMS.get(base, {}).get(stage, [])
+    meta = S[base][0] if base in S else _dominant_meta(im)
     placed = []
     for (pn, x, y, xr, behind) in spec:
         pim = _part_img(pn, vb, meta)
@@ -474,4 +484,93 @@ def form(im, name, stage, vb):
     out.alpha_composite(im, (ox, oy))
     for p, x, y, b in placed:
         if not b: out.alpha_composite(p, (ox + x, oy + y))
+    return out
+
+# ---- 6.1 (his ask, 6 Oct): mini-bosses, rift minis and champions evolve too: four kinds of form,
+# placed for each one's size (12 or 16 wide), each burning in its own colour. Their elites too.
+def _mini_form(kind, W):
+    c = W // 2   # the middle column pair is c-1, c
+    R = lambda x: W - 1 - x   # where the mirrored copy of a part starting at x ends
+    if kind == "brute":
+        return {2: [("horn_s", 1, -3, R(1), 1)],
+		        3: [("horn_b", -2, -5, R(-2), 1), ("spike", -2, 5, R(-2), 0)]}
+    if kind == "wing":
+        return {2: [("wingf", -4, 1, R(-4), 1)],
+		        3: [("wing", -6, 0, R(-6), 1), ("eye3", c - 2, 0, None, 0)]}
+    if kind == "maw":
+        return {2: [("eyes", c - 3, 0, None, 0)],
+		        3: [("maw", c - 4 - (W % 2), W // 2 - 1, None, 0), ("eyes", c - 3, -1, None, 0), ("horn_d", 0, -3, R(0), 1)]}
+    return {2: [("spike", -1, 3, R(-1), 0)],
+	        3: [("flames", c - 5, -3, None, 0), ("spike", -2, 3, R(-2), 0), ("spike", -2, 7, R(-2), 0)]}
+
+MINIS = {   # mini-boss or champion -> (kind of form, the colour it burns with)
+	"mirehulk": ("brute", "#b8ff3a"), "ironcaptain": ("fire", "#ff8a1a"), "stoneabbot": ("maw", "#7ff0ff"),
+	"enforcer": ("fire", "#ff3b30"), "herald": ("wing", "#ffe060"), "turnkey": ("brute", "#ff4a3a"),
+	"carrionknight": ("wing", "#ff2a2a"), "broker": ("maw", "#ff6ad0"), "mayor": ("fire", "#ffb040"),
+	"rustbutcher": ("brute", "#ff3020"), "landlord": ("maw", "#ff6ad0"), "kingpin": ("fire", "#ffd84a"),
+	"marshal": ("brute", "#ffa040"), "galewarden": ("wing", "#7ff0ff"), "rotking": ("maw", "#9aff3a"),
+	"highcaliber": ("fire", "#ff5a1a"), "squallheron": ("wing", "#8ae8ff"), "tidecaptain": ("brute", "#5affa0"),
+	"bellringer": ("maw", "#c05aff"), "shadow": ("maw", "#d08aff"),
+}
+
+def _dominant_meta(im):
+    from collections import Counter
+    px = im.load()
+    cnt = Counter(px[x, y][:3] for y in range(im.height) for x in range(im.width)
+                  if px[x, y][3] > 128 and sum(px[x, y][:3]) > 150)
+    c = cnt.most_common(1)[0][0] if cnt else (90, 74, 106)
+    return "main:#%02x%02x%02x" % c
+
+# ---- 6.2 (his ask, 6 Oct): Rex evolves too, cute and not scary: party Rex (stage 2: a party hat,
+# a red bandana, sparkles), super Rex (stage 3: a golden crown, a red hero cape, hearts, a soft glow).
+def _bandana(w):
+    rows = ["o" * w]
+    i = 1
+    while w - 2 * i > 1:
+        mid = "".join("l" if (k + i) % 4 == 0 else "2" for k in range(w - 2 * i))
+        rows.append("." * (i - 1) + "o" + mid + "o" + "." * (i - 1))
+        i += 1
+    rows.append("." * (i - 1) + "o" * max(1, w - 2 * (i - 1)) + "." * (i - 1))
+    return [r[:w].ljust(w, ".") for r in rows]
+
+def _cape(w, h):
+    rows = []
+    for y in range(h):
+        inset = max(0, 3 - y)
+        mid = "".join("3" if x < 2 else ("1" if x >= w - 2 * inset - 4 else "2") for x in range(w - 2 * inset - 2))
+        rows.append("." * inset + "o" + mid + "o" + "." * inset)
+    rows.append("o" * w)
+    return rows
+
+PART.update({
+	"partyhat": ["...y...", "..oxo..", "..o3o..", ".o3b1o.", ".o3b1o.", "o33b11o", "ooooooo"],
+	"crown": ["q.q.q.q.q", "qqqqqqqqq", "qryqyqyrq", "ppppppppp"],
+	"heart": [".o.o.", "obobo", "obbbo", ".obo.", "..o.."],
+	"sparkle": [".y.", "yxy", ".y."],
+	"bandana": _bandana(18),
+	"cape": _cape(40, 14),
+})
+PART_META = {
+	"partyhat": "main:#ff6ad0 second:#ffe060 glow:#ffffff", "crown": "main:#e8b84a glow:#ff6ad0",
+	"heart": "main:#ff4a6a second:#ff4a6a", "sparkle": "main:#fff4b0 glow:#fff4b0",
+	"bandana": "main:#d8443c bone:#f4ecd8", "cape": "main:#c0303a",
+}
+FORMS.update({
+	"rex": {2: [("partyhat", 14, -7, None, 0), ("bandana", 8, 15, None, 0), ("sparkle", 1, 4, 32, 0)],
+	        3: [("cape", -3, 15, None, 1), ("crown", 12, -4, None, 0), ("heart", -4, 2, 37, 0), ("sparkle", 0, 10, 33, 0),
+	            ("sparkle", 4, -3, 29, 0)]},
+	"rex_lie": {2: [("partyhat", 4, -6, None, 0), ("sparkle", 18, 0, None, 0)],
+	            3: [("crown", 3, -4, None, 0), ("heart", 16, -2, None, 0), ("heart", 24, 0, None, 0), ("sparkle", 32, 2, None, 0)]},
+})
+
+def cute(im, stage):
+    """Rex's evolved look: his parts on, then (stage 3) a soft pink-gold glow; never darker."""
+    out = im.copy()
+    if stage == 3:
+        px = out.load(); cur = im.copy().load(); W, H = im.width, im.height
+        for y in range(H):
+            for x in range(W):
+                if cur[x, y][3] < 128 and any(0 <= x + dx < W and 0 <= y + dy < H and cur[x + dx, y + dy][3] >= 128
+                                              for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))):
+                    px[x, y] = (255, 214, 140, 110)
     return out

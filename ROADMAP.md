@@ -477,9 +477,12 @@ before-and-after picture for him, a new IPA.
 
 He said yes to all four; he will say when he has played 5.9 enough to judge the difficulty.
 
-- [ ] 6.1 Mini-bosses, rift minis and champions evolve with their stages, as the guardians do
-      (stage-2 and stage-3 forms). IPA.
-- [ ] 6.2 Rex evolves too, **cute, not scary** (his word): his second and third stage looks. IPA.
+- [x] 6.1 Mini-bosses, rift minis and champions evolve with their stages, as the guardians do
+      (stage-2 and stage-3 forms). 20 of them and their elites: four kinds of form (brute, wing,
+      maw, fire), each in its own colour (`MINIS` in `tools/art/render.py`).
+- [x] 6.2 Rex evolves too, **cute, not scary** (his word): party Rex (party hat, red bandana,
+      sparkles) and super Rex (golden crown, red hero cape, hearts, a soft golden glow), sitting
+      and lying (`cute()`). 6.1 and 6.2 built together as IPA 6.2.
 - [ ] 6.3 Save and continue a run: CONTINUE on the title, the run saved between rooms, so iOS
       closing the app or a call does not end it. IPA.
 - [ ] 6.4 New content: a new world, heroes, weapons and a boss (to agree with him). IPA.
