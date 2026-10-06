@@ -78,8 +78,24 @@ static func tick(dt: float) -> void:
 		var o: Enemy = them[randi() % them.size()]
 		Fx.float_text(o.x, o.y - 14, NAGS[randi() % NAGS.size()], "bone")
 
+## 9.3 THE PHOENIX: it falls into its ashes and rises at half its health, burning (THIRD_PLANS).
+static func _phoenix_rises(e: Enemy) -> bool:
+	e.phase = 3
+	e.hp = e.max_hp * 0.5
+	e.state = &"pick"
+	e.cycle = 0
+	EBullets.clear_all()
+	Chaos.clear()
+	G.show_banner("THE PHOENIX RISES FROM ITS ASHES", "IT BURNS BRIGHTER THAN BEFORE")
+	G.add_shake(9)
+	Snd.play("roar")
+	Fx.burst(e.x, e.y, ["#e8873a", "#f2c94c", "#ffffff"], 36, 140)
+	return true
+
 ## THE HOLY COW: when it falls the first time it rises again, harder (Combat.damage_enemy).
 static func cow_rises(e: Enemy) -> bool:
+	if e.boss == "phoenix" and e.phase < 3 and GameData.rogues():
+		return _phoenix_rises(e)   # 9.3: the second guardian of the seventh floor
 	if e.boss != "holycow" or e.phase >= 3:
 		return false
 	e.phase = 3

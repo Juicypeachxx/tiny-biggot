@@ -462,6 +462,9 @@ const ENEMIES := {
 		"moves": [["burst", 5], ["blink"], ["fan", 5, 0.6, 2], ["charge", 1], ["ring", 12, 60, 2]] },
 }
 
+## 9.3 (his ask, 6 Oct): seven floors have a second guardian, met half the time (game.start_floor).
+const ALT_GUARDIANS := { 1: "admiral", 3: "golemking", 5: "archmage", 6: "phoenix", 8: "wyrm", 9: "chainfiend", 10: "seraph" }
+
 const BOSSES := {
 	"colossus": { "name": "THE BONE COLOSSUS", "sprite": "colossus", "hp": 420, "r": 13, "scale": 2 },
 	"sporemother": { "name": "THE SPORE MOTHER", "sprite": "sporemother", "hp": 540, "r": 13, "scale": 2 },
@@ -488,6 +491,15 @@ const BOSSES := {
 	# A hidden boss after the owner's dog (scripts/entities/rex.gd). "rift": his health grows with the floor too.
 	"greatengine": { "name": "THE GREAT ENGINE", "sprite": "greatengine", "hp": 470, "r": 14, "scale": 2, "rift": true },
 	"glacialmaw": { "name": "THE GLACIAL MAW", "sprite": "glacialmaw", "hp": 480, "r": 14, "scale": 2, "rift": true },   # 7.3
+	# 9.3 (his ask, 6 Oct, from another game's boss roster: ideas only, original designs): a second
+	# guardian for seven floors (GameData.ALT_GUARDIANS).
+	"admiral": { "name": "THE WALRUS ADMIRAL", "sprite": "admiral", "hp": 560, "r": 13, "scale": 2 },
+	"golemking": { "name": "THE GOLEM KING", "sprite": "golemking", "hp": 780, "r": 13, "scale": 2 },
+	"archmage": { "name": "THE ARCHMAGE", "sprite": "archmage", "hp": 1000, "r": 13, "scale": 2 },
+	"phoenix": { "name": "THE PHOENIX", "sprite": "phoenix", "hp": 1150, "r": 13, "scale": 2 },
+	"wyrm": { "name": "THE WHITE WYRM", "sprite": "wyrm", "hp": 1500, "r": 13, "scale": 2.2 },
+	"chainfiend": { "name": "THE CHAIN FIEND", "sprite": "chainfiend", "hp": 1700, "r": 13, "scale": 2.2 },
+	"seraph": { "name": "THE SERAPH", "sprite": "seraph", "hp": 2150, "r": 13, "scale": 2.4 },
 	"rex": { "name": "REX THE FAT GOLDEN RETRIEVER", "sprite": "rex", "hp": 380, "r": 18, "scale": 2, "rift": true, "rule": "phase" },
 }
 
@@ -552,7 +564,7 @@ const SPRITE_COLOR := {
 	"eclipsed": "#d8443c", "herald": "#8a2a33", "bogmatriarch": "#3f7a5a", "ashwarlord": "#d8443c",
 	"frozenabbot": "#e8f6ff", "crowking": "#5c3483", "umbralsun": "#d8443c",
 	"judge": "#f2c94c", "cinderking": "#e8873a", "unwritten": "#f4ecd8",
-	"haggler": "#5c3483", "scrounger": "#8b8f9c", "raider": "#8a7a5a", "cogling": "#c9a35a", "steamjack": "#8a6a4a", "boltslinger": "#6fd3e0", "gearhound": "#a8705a", "rivetlobber": "#e8873a", "brasswasp": "#f2c94c", "foreman": "#e8873a", "greatengine": "#e8b84a", "frostmite": "#a8e0ff", "rimebrute": "#6a8aa8", "shardcaster": "#7ff0ff", "frostfang": "#c8d8e8", "snowlobber": "#e8f4ff", "glimmerwisp": "#c8f0ff", "hoarknight": "#8fd8ff", "glacialmaw": "#8fd8ff", "holycow": "#f4ecd8",
+	"haggler": "#5c3483", "scrounger": "#8b8f9c", "raider": "#8a7a5a", "cogling": "#c9a35a", "steamjack": "#8a6a4a", "boltslinger": "#6fd3e0", "gearhound": "#a8705a", "rivetlobber": "#e8873a", "brasswasp": "#f2c94c", "foreman": "#e8873a", "greatengine": "#e8b84a", "frostmite": "#a8e0ff", "rimebrute": "#6a8aa8", "shardcaster": "#7ff0ff", "frostfang": "#c8d8e8", "snowlobber": "#e8f4ff", "glimmerwisp": "#c8f0ff", "hoarknight": "#8fd8ff", "glacialmaw": "#8fd8ff", "admiral": "#8a6a4a", "golemking": "#8a8f9c", "archmage": "#4d9be6", "phoenix": "#e8873a", "wyrm": "#c8f0ff", "chainfiend": "#d8443c", "seraph": "#f2c94c", "holycow": "#f4ecd8",
 	# Rift worlds and event rooms.
 	"inmate": "#63b84f", "grenadier": "#d8443c", "jailer": "#3f7a5a", "turnkey": "#3f7a5a", "graveborn": "#7a3a8c",
 	"bandsman": "#7a5236", "fiendling": "#8a2a33", "blackknight": "#2a2838", "carrionknight": "#2a2838", "drone": "#6fd3e0",

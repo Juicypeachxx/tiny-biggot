@@ -67,6 +67,26 @@ func _ready() -> void:
 		var all := str(BossAI.BOSS_PLANS[key]) + str(BossAI.STAGE_PLANS[key])
 		if not ("lasers" in all or "laserx" in all) or not ("hooks" in all or "zone" in all):
 			fail("%s has too few chaos moves" % key)
+	# 5. 9.3: the second guardians. Each floor shows both over a few runs; the phoenix rises once.
+	for f in GameData.ALT_GUARDIANS:
+		var key: String = GameData.ALT_GUARDIANS[f]
+		if not GameData.BOSSES.has(key) or not BossAI.BOSS_PLANS.has(key) or not BossAI.STAGE_PLANS.has(key) or not BossLoot.DROPS.has(key):
+			fail("second guardian %s is missing a part" % key)
+			continue
+		var seen := {}
+		for k in 30:
+			G.floor_index = f
+			G.start_floor()
+			seen[G.floor_d.get("guardian", "base")] = true
+		if not seen.has(key) or not seen.has("base"):
+			fail("floor %d never met both its guardians: %s" % [f + 1, seen.keys()])
+	var ph := Combat.spawn_boss("phoenix")
+	G.god = true
+	ph.phase = 2
+	ph.stage = 3
+	Combat.damage_enemy(ph, ph.hp * 3.0 + Armor.shown(ph) * 3.0 + 10.0, { "no_crit": true, "no_mult": true })
+	if ph.hp <= 0 or ph.phase != 3:
+		fail("the phoenix did not rise (hp %.0f, phase %d)" % [ph.hp, ph.phase])
 	print("chaos test: PASSED" if fails == 0 else "chaos test: %d FAILED" % fails)
 	get_tree().quit()
 

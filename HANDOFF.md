@@ -786,6 +786,12 @@ break); drawn in world_view next to RiftBosses. BossAI states "lasers", "laserx"
 ("beams" was already an older move). Plans of the floor 8+ and realm guardians use them.
 `tests/chaos_test.tscn`.
 
+9.3: `GameData.ALT_GUARDIANS` (floor index -> key), rolled in `start_floor` into
+`floor_d["guardian"]` and spawned at game.gd's boss room; the seven in BOSSES, BossAI tables,
+afx colours, render.py EVOLVE/FORMS, sprites.py (9.3 block), drops in boss_loot.gd with their
+gear/weapon rows. The phoenix's rise: `Brazil._phoenix_rises` (via `cow_rises`), THIRD_PLANS.
+chaos_test section 5.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

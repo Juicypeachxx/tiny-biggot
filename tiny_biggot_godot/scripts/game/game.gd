@@ -215,6 +215,8 @@ func start_floor() -> void:
 	if player != null:
 		player.floor_kills = 0
 	floor_d = World.new_floor(floor_index)
+	if GameData.rogues() and GameData.ALT_GUARDIANS.has(floor_index) and randf() < 0.5:
+		floor_d["guardian"] = GameData.ALT_GUARDIANS[floor_index]   # 9.3: half the time, the floor's second guardian
 	Saloon.on_floor_start()
 	EventRooms.on_floor_start()
 	run_stats["floor"] = floor_index + 1
@@ -2030,7 +2032,7 @@ func update_play(dt: float) -> void:
 				else:
 					show_banner(boss.d["name"], "GUARDIAN OF " + room.theme["name"])
 			else:
-				Combat.spawn_boss(GameData.floors()[floor_index]["boss"])
+				Combat.spawn_boss(floor_d.get("guardian", GameData.floors()[floor_index]["boss"]))   # 9.3: maybe the second guardian
 				show_banner(boss.d["name"], "")
 	if win_timer != null:
 		win_timer -= dt

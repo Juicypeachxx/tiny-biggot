@@ -1016,3 +1016,48 @@ S["al_law"] = ("main:#4ab8c8 glow:#c8f8ff", M([
 S["al_chaos"] = ("main:#7a3ab0 glow:#e0a8ff", [
 "............", "...oooooo...", "..o333333o..", ".o3oooooo3o.", ".o3o3333o3o.", ".o3o3oyo3o..",
 ".o3o3o.o3o..", ".o3o33oo3o..", ".o3oooo33o..", "..o33333oo..", "...ooooo....", "............"])
+
+# ---- 9.3 (his ask, 6 Oct, from another game's boss roster: ideas only, original designs): the
+# second guardians and their drops.
+S["admiral"] = ("main:#8a6a4a second:#2a3a7a skin:#c8a080 bone:#f4ecd8 glow:#ffffff", M([
+"....oooo", "...obbbb", "..obbbqb", ".ooooooo", "..o33333", ".o3y0333", ".o333322", "o3335555",
+"o33o5o55", "o3ojo355", ".oojbbbb", ".obbbqbb", "o3bbbbbb", "o3obbbqb", ".oobbbbb", "..oooooo"]))
+S["golemking"] = ("main:#7a7f8c glow:#ffb040", M([
+"..q.q.q.", "..qqqqqq", "..oooooo", ".o333333", ".o30x333", ".o333333", "oo222222", "o33o2222",
+"o33o2y22", "o22o2222", "o22o2222", ".oo22222", "..o222oo", "..o22o..", ".o222o..", ".ooooo.."]))
+S["archmage"] = ("main:#3a4a9a glow:#7ff0ff bone:#e8e8f0", M([
+".......o", "......o3", ".....o33", "....o333", "...o3333", "..oooooo", "...o0y00", "...ollll",
+"..olllll", ".o33olll", "o333olll", "o3o32222", "o3o32xx2", ".oo32222", "..o32222", "..oooooo"]))
+S["phoenix"] = ("main:#e8873a second:#d8443c glow:#fff07a", M([
+"......oo", ".....oyx", "o...o3yy", "oo..o333", "o3o.o303", "o33oo333", ".o33o333", ".o333333",
+"..o33333", "...oaaa3", "..oaa3aa", ".oaa.oa3", "oaa..oa.", "oa...o..", "o.......", "........"]))
+S["wyrm"] = ("main:#c8d8e8 glow:#7ff0ff bone:#ffffff", M([
+"o.......", "o3o.....", ".o3o..oo", ".o33oo33", "..o33333", "o.o3y033", "o3o33333", "o33o3333",
+"o333o222", ".o33o2ll", "..o3o2l2", "...o3222", "...o3333", "..o33oo3", "..o3o..o", "..oo...."]))
+S["chainfiend"] = ("main:#a8282a glow:#ffb040 bone:#e8dcc8", M([
+"o.......", "jo......", "jjo..ooo", ".jjoo333", "..o33333", "..o3x033", "..o33333", "..oo3l3l",
+"oo9o3333", "o9o33333", "o8o32222", "o9o32222", ".oo32222", "..o322oo", "..o32o..", "..ooo..."]))
+S["seraph"] = ("main:#f4ecd8 skin:#f0c8a0 glow:#fff07a halo:1", M([
+"....qqqq", "...q....", "o...qqqq", "3o...ooo", "33o.o555", "o33o5y55", ".o33o555", "o333o333",
+"33333o33", ".o333o33", "o333o333", "33o.o3q3", "o...o333", "....o333", "....o3oo", "....oo.."]))
+S["w_archstaff"] = ("main:#6b4a2a glow:#7ff0ff halo:1", [
+"........ooo.", ".......oyxyo", "......oyxxyo", ".......oyyo.", "......ouo...", ".....ouo....",
+"....ouo.....", "...ouo......", "..ouo.......", ".ouo........", "ouo.........", "oo.........."])
+S["w_wyrmfang"] = ("main:#c8e0f0 glow:#7ff0ff", [
+"...........o", "..........o3", ".........o3o", "........o3o.", ".......o3o..", "......o3o...",
+".oo..o3o....", "o99oo3o.....", "o9yo3o......", "o99oo.......", "..ouo.......", ".ouo........"])
+S["w_seraphlance"] = ("main:#f4ecd8 glow:#fff07a halo:1", [
+"..........yo", ".........y3o", "........o3o.", ".......o3o..", "......oqo...", ".....oqo....",
+"....o3o.....", "...o3o......", "..o3o.......", ".oqo........", "oqo.........", "oo.........."])
+S["g_admiralhat"] = ("second:#2a3a7a", [
+"............", "............", "...oooooo...", "..obbbbbbo..", ".obbbqqbbbo.", "obbbbqqbbbbo",
+"oooooooooooo", "............", "............", "............", "............", "............"])
+S["g_golemplate"] = ("main:#7a7f8c glow:#ffb040", [
+"............", "..oo....oo..", ".o33oooo33o.", ".o33333333o.", "..o333333o..", "..o33y333o..",
+"..o333333o..", "..o333333o..", "..o222222o..", "...oooooo...", "............", "............"])
+S["g_phoenixplume"] = ("main:#e8873a glow:#fff07a", [
+"........oo..", ".......o3yo.", "......o33yo.", ".....o333o..", "....o333o...", "...o333o....",
+"..o333o.....", "..o33o......", ".o3oo.......", ".oo.........", "o...........", "............"])
+S["g_fiendchains"] = ("main:#a8282a", [
+"............", ".o99.o99.o9.", "o9oo9oo9oo9o", ".o99.o99.o9.", "............", "..oooooooo..",
+".o33333333o.", ".o32222223o.", ".o33333333o.", "..oooooooo..", "............", "............"])

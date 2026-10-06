@@ -330,6 +330,7 @@ EVOLVE = {   # guardian -> the colour it burns with when it evolves
 	"frozenabbot": "#bff4ff", "crowking": "#ff2a2a", "umbralsun": "#e08aff", "holycow": "#ffd84a",
 	"judge": "#fff07a", "cinderking": "#ff6a1a", "unwritten": "#e0e0ff", "stormcrown": "#7ff0ff",
 	"bilgehydra": "#5affa0", "brassorgan": "#ff4a3a", "greatengine": "#ff8a1a", "glacialmaw": "#5ad8ff",
+	"admiral": "#5ad8ff", "golemking": "#ffb040", "archmage": "#7ff0ff", "phoenix": "#fff07a", "wyrm": "#7ff0ff", "chainfiend": "#ff3020", "seraph": "#fff07a",
 }
 
 def evolve(im, stage, burn):
@@ -455,6 +456,13 @@ FORMS = {
 	                3: [("flames", 3, -3, None, 0), ("horn_b", -2, -5, 18, 1), ("spike", -2, 10, 18, 0), ("spike", -2, 5, 18, 0)]},
 	"glacialmaw":  {2: [("horn_d", 0, -4, 16, 1), ("spike", -1, 10, 17, 0)],
 	                3: [("horn_b", -2, -5, 18, 1), ("spike", -2, 10, 18, 0), ("spike", -2, 5, 18, 0), ("eyes", 5, 2, None, 0)]},
+	"admiral":     {2: [("horn_s", 2, -2, 13, 1)], 3: [("horn_b", 0, -4, 15, 1), ("eyes", 5, 4, None, 0)]},
+	"golemking":   {2: [("spike", -1, 8, 17, 0)], 3: [("horn_b", 0, -4, 15, 1), ("spike", -2, 8, 18, 0), ("spike", -2, 4, 18, 0)]},
+	"archmage":    {2: [("eye3", 6, 1, None, 0)], 3: [("eyes", 4, 9, None, 0), ("tent", 4, 15, None, 1), ("horn_d", 1, -3, 15, 1)]},
+	"phoenix":     {2: [("flames", 3, -3, None, 0)], 3: [("flames", 3, -4, None, 0), ("wing", -6, 3, 22, 1), ("eyes", 5, 4, None, 0)]},
+	"wyrm":        {2: [("spike", -1, 9, 17, 0), ("horn_d", 0, -4, 16, 1)], 3: [("horn_b", -2, -5, 18, 1), ("wing", -6, 5, 22, 1), ("maw", 5, 10, None, 0)]},
+	"chainfiend":  {2: [("horn_d", 0, -4, 16, 1)], 3: [("horn_b", -2, -5, 18, 1), ("flames", 3, -4, None, 0), ("maw", 5, 8, None, 0)]},
+	"seraph":      {2: [("eye3", 6, 4, None, 0), ("wing", -6, 6, 22, 1)], 3: [("eyes", 4, 2, None, 0), ("eyes", 6, 9, None, 0), ("wing", -6, 3, 22, 1), ("wing", -6, 9, 22, 1)]},
 	"brassorgan":  {2: [("spike", -2, 12, 43, 0), ("eye3", 18, 13, None, 0)],
 	                3: [("horn_b", 1, -5, 40, 1), ("spike", -2, 12, 43, 0), ("spike", -2, 18, 43, 0), ("maw", 16, 18, None, 0), ("eyes", 17, 12, None, 0)]},
 }

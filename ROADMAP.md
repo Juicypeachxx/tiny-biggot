@@ -611,9 +611,14 @@ fun and hard and chaotic, make me this."
       last phase stacking beams, hooks and shot storms at once. Done for the Ash Warlord, the
       Frozen Abbot, the Crow King, the Umbral Sun, the Judge, the Cinder King and the Unwritten
       (all expanded-game only); in stage 3 a chaos move no longer waits for its lasers to end.
-- [ ] 9.3 New bosses in the spirit of his roster (original designs): a radiant seraph, a dragon,
+- [x] 9.3 New bosses in the spirit of his roster (original designs): a radiant seraph, a dragon,
       a chain demon (picture 3), a walrus admiral, a phoenix that rises again, a golem king, an
       archmage. Each floor's guardian can now be one of several, so runs differ.
+      Done: THE WALRUS ADMIRAL (floor 2), THE GOLEM KING (4), THE ARCHMAGE (6), THE PHOENIX (7,
+      rises once from its ashes), THE WHITE WYRM (9), THE CHAIN FIEND (10), THE SERAPH (11), each
+      met half the time instead of the floor's guardian; three looks each, stages, a drop of its
+      own (bicorne, mantle, staff, plume, wyrmfang, chains, lance). First-draft art: he may want
+      a picking round on it.
 - [ ] Full check, replays, IPA 9.3.
 
 ---

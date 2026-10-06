@@ -23,6 +23,14 @@ const BOSS_PLANS := {
 	"holycow": ["moo", "milkrain", "charge", "udder", "moo", "summon"],
 	"greatengine": ["slam", "spiral", "volley", "ring", "summon", "charge"],   # the Clockwork Spire (6.4)
 	"glacialmaw": ["ring", "volley", "slam", "spiral", "summon", "charge"],   # the Rimefrost Hollows (7.3)
+	# 9.3 the second guardians (GameData.ALT_GUARDIANS).
+	"admiral": ["volley", "charge", "ring", "summon", "cross", "charge", "spiral"],
+	"golemking": ["slam", "ring", "slam", "wall", "summon", "charge", "zone"],
+	"archmage": ["teleport", "spiral", "beams", "summon", "curtain", "teleport", "laserx"],
+	"phoenix": ["embers", "sweep", "spiral", "charge", "summon", "zone"],
+	"wyrm": ["sweep", "volley", "charge", "hail", "summon", "lasers"],
+	"chainfiend": ["hooks", "zone", "spiral", "hooks", "summon", "charge", "laserx"],
+	"seraph": ["halo", "lasers", "laserx", "verdict", "summon", "zone", "spiral"],
 }
 ## Souls-like stages (his ask, 6 Oct; expanded game only, the original game's guardians are as
 ## they were). Stage 1 is the plan above; at two thirds of its health a guardian breaks into stage
@@ -47,6 +55,13 @@ const STAGE_PLANS := {
 	"holycow": [["moo", "milkrain", "wall", "udder", "charge"], ["moo", "barrage", "milkrain", "flower", "udder"]],
 	"greatengine": [["slam", "wall", "cross", "spiral", "summon", "charge"], ["barrage", "flower", "slam", "wall", "cross", "charge"]],
 	"glacialmaw": [["ring", "cross", "wall", "spiral", "summon", "slam"], ["flower", "barrage", "cross", "wall", "slam", "charge"]],
+	"admiral": [["volley", "charge", "wall", "ring", "summon", "cross"], ["charge", "barrage", "volley", "flower", "charge", "wall"]],
+	"golemking": [["slam", "zone", "wall", "ring", "slam", "summon"], ["slam", "zone", "barrage", "slam", "flower", "charge"]],
+	"archmage": [["teleport", "laserx", "curtain", "spiral", "summon", "beams"], ["teleport", "lasers", "barrage", "laserx", "flower", "curtain"]],
+	"phoenix": [["embers", "zone", "spiral", "sweep", "charge", "summon"], ["embers", "barrage", "zone", "flower", "sweep", "lasers"]],
+	"wyrm": [["sweep", "lasers", "charge", "wall", "hail", "summon"], ["sweep", "laserx", "barrage", "charge", "flower", "hooks"]],
+	"chainfiend": [["hooks", "zone", "wall", "hooks", "brimstone", "summon"], ["hooks", "zone", "lasers", "hooks", "flower", "barrage", "zone"]],
+	"seraph": [["lasers", "halo", "laserx", "curtain", "zone", "verdict"], ["laserx", "lasers", "halo", "hooks", "barrage", "zone", "flower", "verdict"]],
 }
 const STAGE_LINE := {
 	"colossus": ["ITS RIBS CRACK OPEN", "THE BONES ARE ALL THAT IS LEFT"], "sporemother": ["SHE BURSTS INTO BLOOM", "THE WHOLE GROTTO BREATHES SPORES"],
@@ -59,9 +74,17 @@ const STAGE_LINE := {
 	"holycow": ["THE UDDERS SWELL", "UNHOLY MOO"],
 	"greatengine": ["THE PISTONS SCREAM", "FULL STEAM. NO BRAKES"],
 	"glacialmaw": ["THE ICE SPLITS OPEN", "THE COLD ITSELF IS HUNGRY"],
+	"admiral": ["ALL HANDS ON DECK", "ABANDON SHIP? NEVER"],
+	"golemking": ["THE MOUNTAIN WAKES", "THE CROWN OF STONE CRACKS"],
+	"archmage": ["THE TOWER'S LIBRARY OPENS", "EVERY SPELL AT ONCE"],
+	"phoenix": ["ITS FEATHERS CATCH FIRE", "A STAR BEING BORN"],
+	"wyrm": ["THE BLIZZARD IN ITS LUNGS", "THE OLDEST COLD"],
+	"chainfiend": ["THE CHAINS GO TAUT", "NOTHING IS LEFT TO HOLD IT"],
+	"seraph": ["ALL SIX WINGS OPEN", "IT SINGS THE LAST NOTE"],
 }
 ## A guardian's third stage (it rose again: e.phase == 3; brazil.gd).
-const THIRD_PLANS := { "holycow": ["ascend", "holyfire", "milkrain", "stampede", "udder", "halo", "summon"] }
+const THIRD_PLANS := { "holycow": ["ascend", "holyfire", "milkrain", "stampede", "udder", "halo", "summon"],
+	"phoenix": ["lasers", "embers", "zone", "barrage", "flower", "sweep", "hooks"] }   # 9.3: the phoenix rises from its ashes
 const THIRD_SUMMONS := { "holycow": ["scrounger", "scrounger", "crawler"] }
 const BOSS_SUMMONS := {
 	"colossus": ["bat", "bat", "skeleton"], "sporemother": ["slime", "mushroom", "slime"],
@@ -73,15 +96,30 @@ const BOSS_SUMMONS := {
 	"holycow": ["scrounger", "scrounger"],
 	"greatengine": ["cogling", "cogling", "brasswasp"],
 	"glacialmaw": ["frostmite", "frostmite", "glimmerwisp"],
+	"admiral": ["drowned", "drowned", "slime"],
+	"golemking": ["gargoyle", "skeleton", "skeleton"],
+	"archmage": ["cultist", "wisp", "wisp"],
+	"phoenix": ["imp", "imp", "candlewight"],
+	"wyrm": ["frostmite", "frostmite", "glimmerwisp"],
+	"chainfiend": ["imp", "ghost", "imp"],
+	"seraph": ["wisp", "wisp", "knight"],
 }
 const RING_SPR := { "colossus": "bone", "librarian": "water", "rimewarden": "ice",
 	"bogmatriarch": "spore", "ashwarlord": "fire", "frozenabbot": "ice", "crowking": "dark", "umbralsun": "darkBig",
-	"judge": "bone", "cinderking": "fireBig", "unwritten": "dark", "greatengine": "fire", "glacialmaw": "cyan" }
+	"judge": "bone", "cinderking": "fireBig", "unwritten": "dark", "greatengine": "fire", "glacialmaw": "cyan",
+	"admiral": "water", "golemking": "bone", "archmage": "cyan", "phoenix": "fire", "wyrm": "ice", "chainfiend": "fireBig", "seraph": "bone" }
 ## Stage 7: per-guardian bullet sprites for shared attacks (originals keep theirs).
 const SHOT_SPR := {
 	"bogmatriarch": { "spiral": "spore", "burst": "spore", "cloud": "spore" },
 	"greatengine": { "spiral": "fire", "volley": "fire", "burst": "fire" },   # 6.4
 	"glacialmaw": { "spiral": "cyan", "volley": "water", "burst": "cyan" },   # 7.3
+	"admiral": {"volley": "water", "spiral": "water"},
+	"golemking": {"spiral": "bone", "volley": "bone"},
+	"archmage": {"spiral": "cyan", "beams": "cyan", "curtain": "cyan"},
+	"phoenix": {"embers": "fire", "sweep": "fire", "spiral": "fire", "charge": "fire"},
+	"wyrm": {"sweep": "ice", "volley": "ice", "spiral": "ice", "hail": "ice"},
+	"chainfiend": {"spiral": "fire", "embers": "fire", "brimstone": "fire"},
+	"seraph": {"spiral": "bone", "beams": "bone", "curtain": "bone"},
 	"ashwarlord": { "charge": "fire", "sweep": "fire", "embers": "fire" },
 	"frozenabbot": { "freeze": "ice", "hail": "ice", "shards": "ice" },
 	"crowking": { "spiral": "dark", "beams": "dark" },
