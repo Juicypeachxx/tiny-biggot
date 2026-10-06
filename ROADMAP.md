@@ -408,7 +408,9 @@ Rules for the art:
   - [x] 5.3e (6 Oct): the special ones: dummy, target, tomb spider, candlewight, gargoyle, war
         drummer, blood leech, casing rat, scrounger, goblin, mimic, shadow, the Haggler, the Holy Cow,
         the Judge, the Cinder King, the Unwritten. Rex (his dog) is only recoloured, pixel for
-        pixel (`REMASTER`, originals in `tools/art/src/`). Waiting for his picks.
+        pixel (`REMASTER`, originals in `tools/art/src/`). His picks: dummy and goblin keep the old
+        design for both; the Holy Cow and the Cinder King keep theirs (recoloured).
+  Stage 5.3 done: every foe, elite, champion, mini and guardian is in the look.
   **His ask (6 Oct): no tests and no IPA between the art steps.** Redraw everything first (5.3 to
   5.6), committing as it goes; then one full check and one IPA at the end of stage 5.
 - [ ] 5.4 Weapon, gear and relic icons.

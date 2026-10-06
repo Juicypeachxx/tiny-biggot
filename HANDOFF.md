@@ -687,7 +687,9 @@ one IPA.
 
 **5.3c-e (6 Oct).** Every foe, champion, mini and guardian is now drawn in `sprites.py`
 (`OV()` adds one-handed things to a mirrored sprite; `compare.py` makes his pick sheets).
-Rex and Rex lying down are recoloured only (`REMASTER`). Waiting on his picks for 5.3c-e.
+Rex and Rex lying down are recoloured only (`REMASTER`). His picks are in: the old designs he
+kept are recoloured pixel for pixel from `tools/art/src/` (`REMASTER`, `REMASTER_ELITE`: the
+elite's outer outline turns gold, the body darker).
 Next: 5.4 (weapon, gear and relic icons).
 
 ## Noted, not yet acted on

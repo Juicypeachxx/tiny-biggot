@@ -839,3 +839,9 @@ for _n in ["sludgecrawler", "kingpin", "marshal", "galewarden", "tidecaptain"]:
 	S.pop(_n); ELITE.pop(_n, None)
 	REMASTER.append(_n); REMASTER_ELITE.append(_n)
 ELITE["squallheron"] = {0: "........qrq....."}
+
+# ---- 5.3e, his picks (6 Oct): old design kept (recoloured); dummy and goblin for their elites too.
+for _n in ["dummy", "goblin", "holycow", "cinderking"]:
+	S.pop(_n); ELITE.pop(_n, None)
+	REMASTER.append(_n)
+REMASTER_ELITE += ["dummy", "goblin"]
