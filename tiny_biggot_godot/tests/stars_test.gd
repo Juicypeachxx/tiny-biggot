@@ -47,7 +47,7 @@ func _web() -> void:
 			fail("star %s card has %d lines" % [n["id"], lines.size()])
 		if TB.text_w(n["name"]) > 156:
 			fail("star %s name too wide" % n["id"])
-	if notables != 21:   # the heart and five on each side
+	if notables != 29:   # the heart, five on each side, and two on each alignment spoke (8.1)
 		fail("%d notable stars" % notables)
 	var seen := { 0: true }
 	var q := [0]

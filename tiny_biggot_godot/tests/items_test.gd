@@ -430,6 +430,8 @@ func _actions() -> void:
 	var b := _sturdy(Vector2(p.x + 30.0, p.y - 80.0))
 	var c := _sturdy(Vector2(p.x - 30.0, p.y - 80.0))
 	var far := _sturdy(Vector2(p.x, p.y + 120.0))
+	far.x = p.x   # held there: a spawn inside a pillar is moved to any free spot, maybe near the others
+	far.y = p.y + 120.0
 	a.burn_t = 3.0
 	a.poison = 6.0
 	a.curse_t = 3.0
@@ -438,7 +440,7 @@ func _actions() -> void:
 		if e.burn_t <= 0 or e.poison <= 0 or e.curse_t <= 0:
 			fail("spread: a foe beside did not take every ailment (burn %.1f poison %.1f curse %.1f)" % [e.burn_t, e.poison, e.curse_t])
 	if far.burn_t > 0 or far.poison > 0:
-		fail("spread: a far foe took the ailments")
+		fail("spread: a far foe took the ailments (burn %.1f poison %.1f)" % [far.burn_t, far.poison])
 	# consume: three ailments used up for three hits' worth.
 	var hp0 := a.hp
 	Actions.run(["consume", 1.0], 1, { "enemy": a })
