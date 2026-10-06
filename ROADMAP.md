@@ -579,7 +579,7 @@ understand the build, also add stat stacking as shown to buff weapons and builds
       rule-benders (IDLE HANDS, BOTTOMLESS PURSE), 5 synergy traits (MOMENTUM, VETERAN, COLLECTOR,
       ZEALOT, PRISM). The keyword side box was already there and now covers the new words; the
       family odds box is not done yet (left for his word).
-- [ ] Full check, replays, IPA 8.4.
+- [x] Full check passed, replays re-recorded on purpose, classic identical, IPA 8.4.
 
 ---
 
