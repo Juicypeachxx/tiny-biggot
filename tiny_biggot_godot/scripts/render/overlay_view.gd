@@ -139,7 +139,7 @@ static func item_lines(it: Dictionary) -> Array:
 			var have: int = p.sets.get(it["set"], 0)
 			lines.append(["%s SET (%d/4): 2: %s" % [st["name"], have, st["d2"]], "gold"])
 			lines.append(["4: " + st["d4"], "gold"])
-	for l in Gfx.wrap_text(it["desc"], 220):
+	for l in (TraitView.wrap_rich(it["desc"], 220) if ItemShow.active() else Gfx.wrap_text(it["desc"], 220)):
 		lines.append([l, "white"])
 	return lines
 
@@ -154,7 +154,7 @@ func draw_item_prompt(ci: CanvasItem, o: Dictionary, it: Dictionary, price: int 
 	lines.append(["BUY FOR %d GOLD" % price if price >= 0 else "PRESS USE TO EQUIP", "gold" if price >= 0 else "grey"])
 	var w := 0
 	for l in lines:
-		w = maxi(w, TB.text_w(l[0]))
+		w = maxi(w, ItemShow.line_w(l[0], l[1]) if ItemShow.active() else TB.text_w(l[0]))   # 8.2: icons count
 	w = mini(w + 10, TB.SW - 8)
 	var h := lines.size() * 8 + 6
 	var px := clampf(roundf(o["x"] - w / 2), 4, TB.SW - w - 4)
@@ -343,9 +343,7 @@ func draw_choice(ci: CanvasItem) -> void:
 		for j in nl.size():
 			Gfx.text(ci, nl[j], x + w / 2, y + 72 + j * 8 + oy, "gold", 1, 0.5)
 		Gfx.text(ci, GameData.RARITY_NAME[r["rarity"]], x + w / 2, y + h - 12 + oy, GameData.RARITY_COL[r["rarity"]], 1, 0.5)
-		var dl := Gfx.wrap_text(r["desc"], w - 14)
-		for j in dl.size():
-			Gfx.text(ci, dl[j], x + w / 2, y + 94 + j * 8 + oy, "white", 1, 0.5)
+		TraitView.draw_rich(ci, r["desc"], x + w / 2, y + 94 + oy, w - 14, 0.5)   # 8.2: keywords in colour
 	Gfx.text(ci, "< >  CHOOSE     USE  TAKE", TB.SW / 2, 236, "grey", 1, 0.5)
 
 # ---------- Trait pick ----------
@@ -384,9 +382,9 @@ func draw_traits(ci: CanvasItem) -> void:
 		for k in t["max"]:
 			pips.append("*" if k < rank else ("+" if k == rank else "-"))
 		Gfx.text(ci, "RANK " + " ".join(pips), x + w / 2, y + 58 + oy, "tan", 1, 0.5)
-		var dl := Gfx.wrap_text(t["desc"], w - 14)
+		var dl := TraitView.rich_lines(t["desc"], w - 14)   # 8.2: keywords in colour
 		for j in dl.size():
-			Gfx.text(ci, dl[j], x + w / 2, y + 74 + j * 9 + oy, "white", 1, 0.5)
+			TraitView.draw_line(ci, dl[j], x + w / 2 - TraitView.line_w(dl[j]) / 2.0, y + 74 + j * 9 + oy)
 		var have: int = p.fam.get(t["fam"], 0)
 		if t["fam"] != "core":
 			var nxt := 0

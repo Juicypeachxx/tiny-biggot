@@ -759,6 +759,12 @@ drops in boss_loot.gd, `hoarhelm` (gear.gd), `glacierheart` (weapons.gd, after e
 `_realm_won`. Stars: `DIRS`, `ALIGN` and the diagonal chains at the end of `nodes()` (rogues only).
 Icons `al_good/evil/law/chaos` (tools/art 8.1 block). `tests/align_test.tscn`.
 
+8.2: `TraitView.KEYWORDS` (more words) and `ICONS` (7x7 `mi_*` from `tools/art/mini_icons.py`);
+`rich_lines` gives [word, colour, icon]; `draw_line`, `draw_rich`, `line_w`, `wrap_rich` draw and
+measure it. Used by trait cards, relic choice, star cards, item cards (ItemShow.rich_line/line_w),
+the equipment page and the inventory (whose stat sidebar has icons and the alignments).
+`hud_view._stat_column` (option STAT COLUMN, `Meta.opts["statcol"]`); options rows 74 + 18 px.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

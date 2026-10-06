@@ -54,7 +54,8 @@ const ACTIONS := ["nova", "shoot", "explode", "status", "heal", "buff", "chain",
 const STATUSES := ["burn", "poison", "chill", "bleed", "stun", "curse", "mark", "shock", "vulnerable", "weakened"]
 const CONDITIONS := ["elite", "boss", "burning", "poisoned", "chilled", "bleeding", "shocked", "cursed",
 	"low_hp", "full_hp", "moving", "still", "crit", "danger", "fighting", "hot", "rich", "armored", "flight",
-	"close", "far", "fresh", "last_foe", "crowd", "unhurt", "coin"]   # ROADMAP 4.7
+	"close", "far", "fresh", "last_foe", "crowd", "unhurt", "coin",   # ROADMAP 4.7
+	"lead_good", "lead_evil", "lead_law", "lead_chaos", "devout"]   # 8.1 alignments
 
 static var depth := 0
 static var budget := BUDGET
@@ -326,7 +327,7 @@ static func tick(dt: float) -> void:
 				if on != pr["active"]:
 					_while_toggle(p, pr, on)
 			"while_align":   # 8.1: holds while an alignment leads, or while devout
-				var on2 := Alignments.holds(p, d["need"])
+				var on2 := Alignments.holds(p, d.get("need", ""))
 				if on2 != pr["active"]:
 					_while_toggle(p, pr, on2)
 

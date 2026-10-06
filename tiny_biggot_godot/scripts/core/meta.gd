@@ -10,7 +10,7 @@ const SAVE_BACKUP := "user://tiny_biggot.save.bak"
 const SAVE_MAGIC := "TBSV"
 const SAVE_HEAD := 20
 
-var opts := { "autofire": true, "music": true, "sfx": true, "shake": true, "fps": false, "show_gear": true, "fast_draw": true, "vfx": true, "haggler": false }
+var opts := { "autofire": true, "music": true, "sfx": true, "shake": true, "fps": false, "show_gear": true, "fast_draw": true, "vfx": true, "haggler": false, "statcol": true }
 var meta := {
 	"runs": 0, "wins": 0, "best": 0, "embers": 0, "unlocked": {}, "found": {}, "secrets": 0,
 	"bosses": 0, "kills": 0, "dread_max": 0, "dread": 0, "tree": {}, "found_w": {}, "found_g": {},

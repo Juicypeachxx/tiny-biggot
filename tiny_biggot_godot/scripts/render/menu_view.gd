@@ -328,10 +328,10 @@ func draw_howto(ci: CanvasItem) -> void:
 
 # ---------- Options and pause ----------
 ## Where the option rows sit (the tap zones in taps.gd use the same numbers).
-const OPT_Y0 := 80
-const OPT_DY := 20
+const OPT_Y0 := 74   # 8.2: eleven rows (STAT COLUMN) fit
+const OPT_DY := 18
 func draw_options(ci: CanvasItem) -> void:
-	Gfx.text(ci, "OPTIONS", TB.SW / 2, 50, "gold", 2, 0.5)
+	Gfx.text(ci, "OPTIONS", TB.SW / 2, 46, "gold", 2, 0.5)
 	for i in G.OPTION_LIST.size():
 		var label: String = G.OPTION_LIST[i][0]
 		var key: String = G.OPTION_LIST[i][1]
@@ -441,9 +441,9 @@ func draw_gearpage(ci: CanvasItem) -> void:
 		Gfx.text(ci, "+%d%% DAMAGE" % roundi((Attributes.mult(p) - 1) * 100), x, 70, "gold")
 	else:
 		Gfx.text(ci, "TAGS: " + tags + "  (EACH MATCHING TRAIT RANK +8%, GEAR PIECE +12%)", 56, 70, "tan")
-	var dl := Gfx.wrap_text(w["desc"], TB.SW - 90)
+	var dl := TraitView.rich_lines(w["desc"], TB.SW - 90)   # 8.2: keywords in colour
 	if not dl.is_empty():
-		Gfx.text(ci, dl[0], 56, 80, "white")
+		TraitView.draw_line(ci, dl[0], 56, 80)
 	var gs := Gear.slots()
 	var compact := gs.size() > 4   # step 8: eight slots in shorter panels
 	for i in gs.size():
@@ -458,9 +458,9 @@ func draw_gearpage(ci: CanvasItem) -> void:
 			if g != null:
 				ci.draw_texture_rect(Img.t(g["sprite"]), Rect2(x + 4, y + 11, 14, 14), false)
 				Gfx.text(ci, g["name"], x + 40, y + 3, GameData.RARITY_COL[g["rarity"]])
-				var gl := Gfx.wrap_text(g["desc"], 178)
+				var gl := TraitView.rich_lines(g["desc"], 178)
 				for j in mini(2, gl.size()):
-					Gfx.text(ci, gl[j], x + 22, y + 12 + j * 8, "white")
+					TraitView.draw_line(ci, gl[j], x + 22, y + 12 + j * 8)
 			else:
 				Gfx.text(ci, "EMPTY", x + 40, y + 3, "dim")
 			continue
@@ -475,9 +475,9 @@ func draw_gearpage(ci: CanvasItem) -> void:
 					lines.append(sline)
 			if not lines.is_empty():
 				Gfx.text(ci, "  ".join(lines), x + 32, y + 24, "lime")
-			var gl := Gfx.wrap_text(g["desc"], 166)
+			var gl := TraitView.rich_lines(g["desc"], 166)
 			for j in mini(2, gl.size()):
-				Gfx.text(ci, gl[j], x + 32, y + 33 + j * 8, "white")
+				TraitView.draw_line(ci, gl[j], x + 32, y + 33 + j * 8)
 		else:
 			Gfx.text(ci, "EMPTY", x + 32, y + 22, "dim")
 	var y := 222 if compact else 220
@@ -563,7 +563,12 @@ static func inv_slot_rect(i: int) -> Rect2:
 	return Rect2(INV_X + (i - 6) * (INV_SLOT + 4), INV_BELT_Y, INV_SLOT, INV_SLOT)
 
 func _stat_row(ci: CanvasItem, y: int, label: String, value: String, col: String) -> void:
-	Gfx.text(ci, label, 10, y, "grey")
+	# 8.2: the label in its keyword colour with its little icon (TraitView.KEYWORDS / ICONS).
+	var key := label.split(" ")[0]
+	var ic: String = TraitView.ICONS.get(key, "") if GameData.rogues() else ""
+	Gfx.text(ci, label, 10, y, TraitView.KEYWORDS[key][0] if ic != "" else "grey")
+	if ic != "":
+		Gfx.at(ci, ic, 10 + TB.text_w(label) + 2, y - 1)
 	Gfx.text(ci, value, 92, y, col, 1, 1.0)
 
 func draw_inventory(ci: CanvasItem) -> void:
@@ -593,6 +598,11 @@ func draw_inventory(ci: CanvasItem) -> void:
 	for r in rows:
 		_stat_row(ci, y, r[0], r[1], r[2])
 		y += 9
+	if GameData.rogues():   # 8.1: the alignments
+		y += 3
+		for k in Alignments.KEYS:
+			_stat_row(ci, y, Alignments.NAMES[k], str(Alignments.value(p, k)) + (" LEADS" if Alignments.leads(p, k) else ""), Alignments.COLS[k])
+			y += 9
 	if G.loop > 0:
 		_stat_row(ci, y + 4, "LOOP", str(G.loop + 1), "gold")
 	# Right top: weapon and equipment.
@@ -642,9 +652,9 @@ func draw_inventory(ci: CanvasItem) -> void:
 	var sel_c: String = p.belt[G.inv_i - 6] if G.inv_i >= 6 and G.inv_i - 6 < p.belt.size() else ""
 	if sel_it != null:
 		Gfx.text(ci, (WeaponInfo.display_name(sel_it) if sel_it["item"] == "weapon" else sel_it["name"]), INV_X - 4, dy, GameData.RARITY_COL[sel_it["rarity"]])
-		var dl := Gfx.wrap_text(sel_it["desc"], TB.SW - INV_X - 4)
+		var dl := TraitView.rich_lines(sel_it["desc"], TB.SW - INV_X - 4)
 		for j in mini(2, dl.size()):
-			Gfx.text(ci, dl[j], INV_X - 4, dy + 9 + j * 8, "white")
+			TraitView.draw_line(ci, dl[j], INV_X - 4, dy + 9 + j * 8)
 	elif sel_c != "":
 		Gfx.text(ci, Consumables.KINDS[sel_c]["name"], INV_X - 4, dy, "gold")
 		Gfx.text(ci, Consumables.KINDS[sel_c]["desc"], INV_X - 4, dy + 9, "white")

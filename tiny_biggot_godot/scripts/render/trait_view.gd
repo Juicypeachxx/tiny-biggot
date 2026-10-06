@@ -49,7 +49,28 @@ const KEYWORDS := {
 	"ECHO": ["pink", "AN ECHO CASTS A SHOT A SECOND TIME, FOR FREE."],
 	"LUCK": ["lime", "LUCK MAKES RARE THINGS LESS RARE, AND CAN ADD A FOURTH TRAIT TO CHOOSE FROM."],
 	"FAMILIAR": ["cyan", "A COMPANION THAT FIGHTS AT YOUR SIDE."],
+	# 8.2 (his ask, 6 Oct: "make info of perks and stats and all info of the game ... easier to understand
+	# the build"): the stats and the alignments in their colour, each with its little icon (ICONS).
+	"DAMAGE": ["red", "HOW HARD EACH OF YOUR HITS LANDS."],
+	"RATE": ["gold", "FIRE RATE: HOW MANY ATTACKS YOU MAKE EACH SECOND."],
+	"SPEED": ["cyan", "HOW FAST YOU OR YOUR SHOTS MOVE."],
+	"GOLD": ["gold", "SPENT IN SHOPS, AT THE ANVIL AND ON IDOLS."],
+	"HEART": ["red", "YOUR HEALTH. EACH HEART TAKES TWO HITS."],
+	"HEARTS": ["red", "YOUR HEALTH. EACH HEART TAKES TWO HITS."],
+	"POTION": ["pink", "DRINK IT TO HEAL. REFILLS AT SOME SHRINES AND SHOPS."],
+	"STR": ["red", "STRENGTH: RAISES THE DAMAGE OF WEAPONS THAT SCALE WITH IT."],
+	"DEX": ["lime", "DEXTERITY: RAISES THE DAMAGE OF WEAPONS THAT SCALE WITH IT."],
+	"INT": ["cyan", "INTELLIGENCE: RAISES THE DAMAGE OF WEAPONS THAT SCALE WITH IT."],
+	"GOOD": ["gold", "AN ALIGNMENT. SOME STARS AND PERKS HOLD WHILE IT LEADS (2 OR MORE, NONE HIGHER)."],
+	"EVIL": ["red", "AN ALIGNMENT. SOME STARS AND PERKS HOLD WHILE IT LEADS (2 OR MORE, NONE HIGHER)."],
+	"LAWFUL": ["cyan", "AN ALIGNMENT. SOME STARS AND PERKS HOLD WHILE IT LEADS (2 OR MORE, NONE HIGHER)."],
+	"CHAOTIC": ["purple", "AN ALIGNMENT. SOME STARS AND PERKS HOLD WHILE IT LEADS (2 OR MORE, NONE HIGHER)."],
+	"DEVOUT": ["gold", "ONE ALIGNMENT 2 OR MORE AND THE OTHER THREE 1 OR LESS."],
 }
+## The little icon drawn after a keyword (tools/art/mini_icons.py).
+const ICONS := { "DAMAGE": "mi_dmg", "RATE": "mi_rate", "SPEED": "mi_speed", "GOLD": "mi_gold", "HEART": "mi_heart",
+	"HEARTS": "mi_heart", "ARMOR": "mi_armor", "CRIT": "mi_crit", "CRITS": "mi_crit", "LUCK": "mi_luck", "POTION": "mi_potion",
+	"STR": "mi_str", "DEX": "mi_dex", "INT": "mi_int", "GOOD": "mi_good", "EVIL": "mi_evil", "LAWFUL": "mi_law", "CHAOTIC": "mi_chaos" }
 const FAM_ICON := { "core": "fam_core", "pyre": "fam_pyre", "frost": "fam_frost", "venom": "fam_venom", "storm": "fam_storm",
 	"blood": "fam_blood", "bulwark": "fam_bulwark", "shadow": "fam_shadow", "arcane": "fam_arcane", "fortune": "fam_fortune",
 	"demolition": "fam_demolition", "swarm": "fam_swarm", "edge": "fam_edge", "fury": "fam_fury", "malice": "fam_malice" }
@@ -124,10 +145,7 @@ static func _row(ci: CanvasItem, r: Rect2, tr: Dictionary, sel: bool, a: float) 
 		Gfx.text(ci, rar["name"], r.end.x - 5, r.end.y - 9, rar["col"], 1, 1.0, true, a)
 	var lines := rich_lines(tr["desc"], int(r.size.x) - 42)
 	for j in mini(3, lines.size()):
-		var x := tx
-		for seg in lines[j]:
-			Gfx.text(ci, seg[0], x, r.position.y + 14 + j * 8, seg[1], 1, 0.0, true, a)
-			x += TB.text_w(seg[0] + " ")
+		draw_line(ci, lines[j], tx, r.position.y + 14 + j * 8, a)
 
 ## A bright band that sweeps across a row as it comes in.
 static func _shine(ci: CanvasItem, r: Rect2, k: float) -> void:
@@ -192,25 +210,59 @@ static func _bare(word: String) -> String:
 			out += ch
 	return out
 
-## A text broken into lines of [word, colour]: keywords in their colour, numbers in lime.
-static func rich_lines(s: String, max_w: int) -> Array:
+## A text broken into lines of [word, colour, icon]: keywords in their colour with their icon,
+## numbers in lime.
+static func rich_lines(s: String, max_w: int, base: String = "white") -> Array:
 	var lines := []
 	var cur := []
 	var cur_w := 0
 	for word in s.split(" ", false):
-		var col := "white"
+		var col := base
 		var key := _bare(word)
 		if KEYWORDS.has(key):
 			col = KEYWORDS[key][0]
 		elif word.length() > 0 and (word[0] == "+" or word[0] == "-" or (word[0] >= "0" and word[0] <= "9")):
 			col = "lime"
-		var ww := TB.text_w(word)
+		var seg := [word, col, ICONS.get(key, "")]
+		var ww := seg_w(seg)
 		if cur_w > 0 and cur_w + 4 + ww > max_w:
 			lines.append(cur)
 			cur = []
 			cur_w = 0
-		cur.append([word, col])
+		cur.append(seg)
 		cur_w += (4 if cur_w > 0 else 0) + ww
 	if not cur.is_empty():
 		lines.append(cur)
 	return lines
+
+## Like Gfx.wrap_text, but counting the keyword icons (for lines drawn with ItemShow.rich_line).
+static func wrap_rich(s: String, max_w: int) -> PackedStringArray:
+	var out := PackedStringArray()
+	for line in rich_lines(s, max_w):
+		out.append(" ".join(line.map(func(sg): return sg[0])))
+	return out
+
+static func seg_w(seg: Array) -> int:
+	return TB.text_w(seg[0]) + (8 if seg.size() > 2 and seg[2] != "" else 0)
+
+static func line_w(line: Array) -> int:
+	var w := 0
+	for seg in line:
+		w += seg_w(seg) + 4
+	return maxi(0, w - 4)
+
+## One line of rich_lines at x (its left edge), y.
+static func draw_line(ci: CanvasItem, line: Array, x: float, y: float, alpha: float = 1.0) -> void:
+	for seg in line:
+		Gfx.text(ci, seg[0], x, y, seg[1], 1, 0.0, true, alpha)
+		if seg.size() > 2 and seg[2] != "":
+			Gfx.at(ci, seg[2], x + TB.text_w(seg[0]) + 1, y - 1, alpha)
+		x += seg_w(seg) + 4
+
+## A whole text, wrapped to max_w and coloured; align 0 = left edge at x, 0.5 = centred on x.
+## Returns how many lines it took (8 px each).
+static func draw_rich(ci: CanvasItem, s: String, x: float, y: float, max_w: int, align: float = 0.0, base: String = "white", alpha: float = 1.0) -> int:
+	var lines := rich_lines(s, max_w, base)
+	for j in lines.size():
+		draw_line(ci, lines[j], x - line_w(lines[j]) * align, y + j * 8, alpha)
+	return lines.size()

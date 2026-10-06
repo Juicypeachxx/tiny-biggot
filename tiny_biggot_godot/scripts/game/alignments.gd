@@ -47,7 +47,7 @@ static func holds(p: Player, need: String) -> bool:
 		return false
 	if need == "devout":
 		return devout(p)
-	return leads(p, need)
+	return need in KEYS and leads(p, need)
 
 ## A rest stop's four shrines (game.gd room setup), in a row under the campfire.
 static func shrines(r: Room, cx: float, cy: float) -> void:

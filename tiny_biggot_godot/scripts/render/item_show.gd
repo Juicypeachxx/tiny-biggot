@@ -92,6 +92,13 @@ static func keyword_panels(ci: CanvasItem, text: String, x: float, y: float, w: 
 			Gfx.text(ci, lines[j], px + 4, y + 12 + j * 8, "white")
 		y += h + 3
 
+## The width rich_line draws (keyword icons included).
+static func line_w(s: String, base: String) -> int:
+	if base != "white":
+		return TB.text_w(s)
+	var segs: Array = TraitView.rich_lines(s, 9999)
+	return TraitView.line_w(segs[0]) if not segs.is_empty() else 0
+
 ## A card line with its keywords and numbers in colour (lines that are all one colour stay so).
 static func rich_line(ci: CanvasItem, s: String, x: float, y: float, base: String) -> void:
 	if base != "white":
@@ -100,7 +107,4 @@ static func rich_line(ci: CanvasItem, s: String, x: float, y: float, base: Strin
 	var segs: Array = TraitView.rich_lines(s, 9999)
 	if segs.is_empty():
 		return
-	var cx := x
-	for seg in segs[0]:
-		Gfx.text(ci, seg[0], cx, y, seg[1])
-		cx += TB.text_w(seg[0] + " ")
+	TraitView.draw_line(ci, segs[0], x, y)

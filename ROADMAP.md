@@ -559,7 +559,7 @@ understand the build, also add stat stacking as shown to buff weapons and builds
       spokes, one per alignment, with stars that give points and stars whose perks depend on them
       (e.g. "while one alignment is 2 or more and the other three 1 or less: ..."; "while GOOD is
       your highest: ...").
-- [ ] 8.2 Clear info: every description (items, stars, traits, shop, stats) colours its keywords
+- [x] 8.2 Clear info: every description (items, stars, traits, shop, stats) colours its keywords
       (damage, crit, armor, gold, STR/DEX/INT, alignments, numbers) with a small icon, in boxes like
       his pictures. A stat column on the left of the HUD: gold, keys, bombs, STR / DEX / INT,
       luck, the four alignments (an option can hide it).

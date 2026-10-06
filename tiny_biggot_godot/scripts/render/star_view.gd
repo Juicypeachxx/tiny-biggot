@@ -271,10 +271,7 @@ func _draw() -> void:
 	Gfx.panel(self, cp.x, cp.y, cw, ch, "#f2c94c" if Stars.is_taken(sel) else "#f4ecd8", "#0c0b12")
 	Gfx.text(self, title, cp.x + cw / 2, cp.y + 4, "gold", 1, 0.5)
 	for j in lines.size():
-		var x: float = cp.x + cw / 2 - TB.text_w(" ".join(lines[j].map(func(sg): return sg[0]))) / 2.0
-		for sg in lines[j]:
-			Gfx.text(self, sg[0], x, cp.y + 14 + j * 8, sg[1])
-			x += TB.text_w(sg[0] + " ")
+		TraitView.draw_line(self, lines[j], cp.x + cw / 2 - TraitView.line_w(lines[j]) / 2.0, cp.y + 14 + j * 8)
 	Gfx.text(self, state, cp.x + cw / 2, cp.y + ch - 10, "lime" if Stars.can_take(sel) else "grey", 1, 0.5)
 	# The points box, the buttons and the controls.
 	Gfx.panel(self, TB.SW / 2 - 44, 6, 88, 16, "#f4ecd8", "#0c0b12")

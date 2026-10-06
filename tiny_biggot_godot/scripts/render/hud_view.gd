@@ -150,6 +150,8 @@ func _draw() -> void:
 		# The pet: its picture, name and level.
 		Gfx.sp(self, "pet_" + p.pet, 12, 47)
 		Gfx.text(self, "%s %s" % [Pets.pet_name(p.pet), "*".repeat(p.pet_lv)], 20, 38, "gold")
+	if GameData.rogues() and Meta.opts.get("statcol", true):
+		_stat_column(p, 52 if Pets.active(p) else 38)
 	# (The special ability meter is drawn by _paint_anim: it animates every tick.)
 	# Racketeer heat meter (step 6): one pip per level.
 	if p.hero.get("hud", "") == "heat":
@@ -223,6 +225,23 @@ func _draw() -> void:
 		var wk := Armor.weakness(bo)   # 7.1: its weakness wears the plate faster (armor.gd)
 		if wk != "":
 			Gfx.text(self, "WEAK: " + wk.to_upper(), bx + w, by - 18, Armor.WEAK_COL[wk], 1, 1)
+
+## 8.2 (his ask, 6 Oct: the build at a glance, like his picture): a column on the left: STR, DEX,
+## INT, luck and crit, then the four alignments two by two (a leading one in its colour).
+func _stat_column(p: Player, y: int) -> void:
+	var rows := [["mi_str", str(p.a_str), "red"], ["mi_dex", str(p.a_dex), "lime"], ["mi_int", str(p.a_int), "cyan"],
+		["mi_luck", str(p.luck), "lime"], ["mi_crit", "%d%%" % roundi(p.crit * 100), "gold"]]
+	for r in rows:
+		Gfx.at(self, r[0], 5, y)
+		Gfx.text(self, r[1], 14, y + 1, r[2])
+		y += 9
+	y += 2
+	for i in Alignments.KEYS.size():
+		var k: String = Alignments.KEYS[i]
+		var x := 5 + (i % 2) * 22
+		var v := Alignments.value(p, k)
+		Gfx.at(self, TraitView.ICONS[Alignments.NAMES[k]], x, y + (i / 2) * 9, 1.0 if v > 0 else 0.45)
+		Gfx.text(self, str(v), x + 9, y + 1 + (i / 2) * 9, Alignments.COLS[k] if Alignments.leads(p, k) else ("white" if v > 0 else "dim"))
 
 ## The foe the boss bar shows: the floor's guardian, else a champion or mini-boss.
 func _bar_foe() -> Enemy:
