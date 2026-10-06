@@ -672,7 +672,9 @@ copy `out/D/*.png` into `assets/graphics/`, bake the atlas.
 **5.2, the heroes (6 Oct).** All 24 hero sprites redrawn in `tools/art/sprites.py`
 (same 12x14 rows as `hero_gear.gd`: head 0-6, body 7-10, hands row 9, legs 11, feet 12).
 Skin tones vary by hero (`skin:` in each sprite's line). The gear overlay's outline is
-now tinted by the piece's colour (`HeroGear.palette`, 4th entry). Next: 5.3 (foes).
+now tinted by the piece's colour (`HeroGear.palette`, 4th entry). 5.2b (his picks):
+nine heroes went back to their old design, remastered (marked in `sprites.py`);
+warm colours' highlights now lean to yellow (`render.tones`). Next: 5.3 (foes).
 
 ## Noted, not yet acted on
 

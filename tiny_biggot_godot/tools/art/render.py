@@ -25,7 +25,8 @@ VIBES = {
 def tones(base, vb):
     h,s,v = hsv(hx(base))
     s*=vb["sat"]; v*=vb["val"]
-    return [toh(rgb(h+dh, s*ds, v*dv)) for dh,ds,dv in vb["tones"]]
+    warm = h < 0.2 or h > 0.92   # gold, skin, wood, red: highlights lean to yellow, never to pink
+    return [toh(rgb(h + (abs(dh) if warm and i == 2 else dh), s*ds, v*dv)) for i,(dh,ds,dv) in enumerate(vb["tones"])]
 
 def sprite(name, vb, rng=None):
     meta, grid = S[name]

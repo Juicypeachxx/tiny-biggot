@@ -384,6 +384,9 @@ Rules for the art:
 - [x] 5.2 Heroes (14, plus those from stage 4) and their gear overlay
       (`scripts/render/hero_gear.gd`). All 24 redrawn in the A+C look (6 Oct); the
       Gaolbird now wears its crow mask; worn gear gets an outline tinted by its colour.
+      His picks (6 Oct, 5.2b): he kept 15 new designs and asked for 9 old designs
+      remastered in the new look (bane hunter, wayfarer, condemned, cartomancer,
+      sellsword, tinkerer, mirror knight, demolitionist, pilgrim).
 - [ ] 5.3 Foes, champions and guardians.
 - [ ] 5.4 Weapon, gear and relic icons.
 - [ ] 5.5 Tiles and room objects, floor by floor.
