@@ -715,6 +715,7 @@ picks `_s2`/`_s3` by `Stages.look(e)`; `bosses_test._looks` checks them.
 grows sideways and up only (bottom-centred drawing).
 6.1: `MINIS` + `_mini_form()` (also `<name>_elite_s2/_s3`); `Stages.look` covers minis. 6.2: Rex
 `rex(_lie)_s2/_s3` from `FORMS["rex"]` and `cute()`; `PART_META` colours a part on its own.
+6.3: `RunSave` (save at `start_floor`, clear in `award_embers`, CONTINUE in `title_items`).
 
 ## Noted, not yet acted on
 

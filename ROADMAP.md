@@ -483,8 +483,11 @@ He said yes to all four; he will say when he has played 5.9 enough to judge the 
 - [x] 6.2 Rex evolves too, **cute, not scary** (his word): party Rex (party hat, red bandana,
       sparkles) and super Rex (golden crown, red hero cape, hearts, a soft golden glow), sitting
       and lying (`cute()`). 6.1 and 6.2 built together as IPA 6.2.
-- [ ] 6.3 Save and continue a run: CONTINUE on the title, the run saved between rooms, so iOS
-      closing the app or a call does not end it. IPA.
+- [x] 6.3 Save and continue a run: CONTINUE on the title. The run is saved at the start of every
+      floor (`scripts/game/run_save.gd`: every value the hero holds, the floor, loop, dread and run
+      numbers; written whole or not at all with a backup), and gone when the run ends. Continuing
+      puts him on a fresh floor of the same depth. Test: `save_test` (220 values back exactly).
+  **His ask (6 Oct): make all of stage 6, then build one IPA.**
 - [ ] 6.4 New content: a new world, heroes, weapons and a boss (to agree with him). IPA.
 
 ---

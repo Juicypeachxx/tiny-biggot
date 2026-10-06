@@ -228,6 +228,7 @@ func start_floor() -> void:
 		enter_room(World.make_room(floor_d, "start", "", ""))
 	Effects.fire("on_floor_start")
 	state = &"play"
+	RunSave.save()   # 6.3: the run can be continued from here
 	show_banner(GameData.floors()[floor_index]["name"], "FLOOR %d OF %d" % [floor_index + 1, GameData.floors().size()]
 		+ ("   DREAD %d" % dread if dread > 0 else "") + ("   LOOP %d" % (loop + 1) if loop > 0 else ""))
 	if GameData.rogues() and floor_index == 6:
@@ -923,6 +924,7 @@ func _enter_realm(id: String, step: int) -> void:
 		enter_room(nr))
 
 func award_embers(win: bool) -> void:
+	RunSave.clear()   # the run is over (6.3)
 	var r := run_stats
 	var p := player
 	var parts := [["FLOORS", (floor_index + (1 if win else 0)) * 6], ["GUARDIANS", r["bosses"] * 12], ["FOES", r["kills"] / 8],
@@ -1734,6 +1736,8 @@ func title_items() -> Array:
 	var out: Array = TITLE_ITEMS.duplicate()
 	if GameData.rogues():
 		out.insert(2, "CONSTELLATION")
+	if RunSave.exists():
+		out.insert(0, "CONTINUE")   # 6.3: a saved run
 	return out
 
 func title_index(item: String) -> int:
@@ -1748,6 +1752,10 @@ func update_title(dt: float) -> void:
 		return
 	Snd.play("confirm")
 	match items[menu]:
+		"CONTINUE":
+			if not RunSave.load_run():
+				RunSave.clear()
+				toast("THE SAVED RUN COULD NOT BE READ", "red")
 		"START RUN":
 			state = &"hero"
 			menu = hero_index

@@ -27,6 +27,7 @@ func _ready() -> void:
 	_clean()
 	_check()
 	_clean()
+	_run()
 	print("save test: PASSED" if fails == 0 else "save test: FAILED (%d)" % fails)
 	get_tree().quit(0 if fails == 0 else 1)
 
@@ -181,3 +182,49 @@ func _check() -> void:
 		fail("no save at all does not start fresh")
 	m.free()
 	fresh.free()
+
+
+## 6.3: a run saved at a floor's start comes back whole: the floor, loop and every value the hero
+## holds (weapon, gear, relics, traits, gold, health...), through the same bytes the file would hold.
+func _run() -> void:
+	seed(5)
+	G.hero_index = 2
+	G.new_run()
+	G.god = true
+	var p := G.player
+	Relics.all()
+	Gear.all()
+	G.add_relic(p, Relics.all()[3])
+	Gear.equip_gear(p, Gear.by_id("tinhelm"))
+	Weapons.equip_weapon(p, Weapons.by_id("sunpiercer"))
+	p.gold = 321
+	p.max_hp += 2
+	p.hp = 3
+	G.floor_index = 3
+	G.loop = 1
+	G.run_stats["kills"] = 77
+	var d := RunSave.capture()
+	var back := Meta.save_in(Meta.save_bytes(d))
+	if back.is_empty():
+		fail("the run did not survive its own bytes")
+		return
+	var before: Dictionary = d["player"]
+	G.player = null
+	if not RunSave.restore(back):
+		fail("a saved run would not load")
+		return
+	var q := G.player
+	if G.floor_index != 3 or G.loop != 1 or G.run_stats.get("kills", 0) != 77:
+		fail("run: floor %d loop %d kills %s after loading" % [G.floor_index, G.loop, G.run_stats.get("kills")])
+	var diff := []
+	for k in before:
+		if k in ["floor_kills", "invuln", "x", "y", "anim", "room_kills"]:
+			continue   # a fresh floor resets these
+		if str(q.get(k)) != str(before[k]):
+			diff.append(k)
+	print("[save] run: %d of the hero's values saved and compared" % before.size())
+	if not diff.is_empty():
+		fail("run: %d values differ after loading: %s" % [diff.size(), diff.slice(0, 12)])
+	if q.weapon == null or q.weapon["id"] != "sunpiercer" or q.gold != 321 or q.relics.size() != p.relics.size():
+		fail("run: weapon, gold or relics not back")
+	G.state = &"title"
