@@ -374,7 +374,8 @@ Rules for the art:
 - The ability and attack effects were redrawn in October (`EFFECTS.md`,
   `ATTACK_EFFECTS.md`). Leave them unless they clash with the new look.
 
-- [ ] 5.1 **A sample, for his yes.** Redraw one hero, three foes, one
+- [ ] 5.1 **A sample, for his yes.** (6 Oct: sample drawn in three looks, A crisp, B
+      grim, C glow, `tiny_biggot_godot/tools/art/`; waiting for his pick. Same sizes.) Redraw one hero, three foes, one
       guardian, five weapon icons, one floor's tiles and the hearts. Send him
       one picture: old on the left, new on the right, at 5x, and a screenshot
       of a fight using them. Do not go on without his answer.

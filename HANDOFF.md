@@ -662,6 +662,13 @@ the end of `weapons.gd` / `gear.gd`), dropped by `game.on_boss_dead` and
 `Combat.kill_enemy`; `random_weapon` / `random_gear` never roll them. Test:
 `tests/bosses_test.tscn` (in check.sh). Full replays re-recorded.
 
+**5.1, art sample (6 Oct), waiting for his pick.** `tiny_biggot_godot/tools/art/`
+draws the sample (hexer, bat, skeleton, slime, Colossus, hearts, five weapon icons,
+Ossuary tiles `kit0`) in three looks: A CRISP (Tiny Rogues-like), B GRIM (moody,
+cold rim light), C GLOW (rich colour, coloured outlines, glow on magic). Same sizes
+as before. Nothing is in the game yet: when he picks, copy `out/<look>/*.png` into
+`assets/graphics/`, bake the atlas, run the tests, and build 5.1.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress (so iOS closing the app does not end it). Needs
