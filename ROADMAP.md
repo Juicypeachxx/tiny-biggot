@@ -495,27 +495,29 @@ He said yes to all four; he will say when he has played 5.9 enough to judge the 
       the foes' shots; REWIND; the CLOCKWORK branch). Eight clockwork weapons: gearwound repeater
       (his), the pendulum, spring lance, cog thrower, steam cannon, chrono blade, ticking flask,
       escapement rifle. Stage 6 built as one IPA, 6.4 (his ask).
-  Stage 6 closed (6 Oct): full check passed, IPA 6.4 built. Waiting for his word on the difficulty.
+  Stage 6 closed (6 Oct): full check passed, IPA 6.4 built.
 
 ## Step 6.5: foes answer the build (his ask, 6 Oct, with a video)
 
 "The game still instantly clears everything and melts the bosses after a few pickups." (Floor 3,
 level 19, THE HIGH CALIBER +11, hits of about 230.) Builds stay exactly as they are (rule 1).
-- [ ] Foes, mini-bosses and guardians spawned from now on read your real strength: the weapon
+- [x] Foes, mini-bosses and guardians spawned from now on read your real strength: the weapon
       sheet (damage, rate, shots, crits) or what you really dealt in fights lately (combos, wisps,
       meteors), whichever is more. When it runs ahead of what the floor expects, their health
       grows with the lead to the power 0.6 (`Combat.power_scale`). Expanded game only.
       The yardstick is what a plain build (no combo) has on each floor, measured in bot runs.
-- [ ] His words after the first measurements: "I want the core build mechanic to still feel the
+- [x] His words after the first measurements: "I want the core build mechanic to still feel the
       same, to explore different build paths and make broken builds, and I want enemies to
       withstand those builds and scaling, not just instantly die, and bosses with a bigger health
       pool and armor, to make fights last longer and feel rewarding, not boring."
-- [ ] Boss armor (`scripts/combat/armor.gd`): guardians, rift guardians, minis and rift champions
+- [x] Boss armor (`scripts/combat/armor.gd`): guardians, rift guardians, minis and rift champions
       start every stage behind a plate (35% / 25% of their health, a pale bar over the health
       bar). While it holds only a quarter of a blow reaches the health; breaking it: ARMOR
       BROKEN, the foe reels and takes +25% for 3 s. Guardians' health ×2.0 (was ×1.6).
-- [ ] Measured with bot runs (plain, Hall of Mirrors, High Caliber) against 6.4; full replays
+- [x] Measured with bot runs (plain, Hall of Mirrors, High Caliber) against 6.4; full replays
       re-recorded; classic identical; IPA 6.5.
+
+  Step 6.5 closed (6 Oct): full check passed, IPA 6.5 built. Waiting for his word on how it feels.
 
 ---
 
