@@ -619,7 +619,7 @@ fun and hard and chaotic, make me this."
       met half the time instead of the floor's guardian; three looks each, stages, a drop of its
       own (bicorne, mantle, staff, plume, wyrmfang, chains, lance). First-draft art: he may want
       a picking round on it.
-- [ ] Full check, replays, IPA 9.3.
+- [x] Full check passed, replays re-recorded on purpose, classic identical, IPA 9.3.
 
 ## Stage 10: from his trailer clips (his ask, 6 Oct: four screen recordings of another game's
 ## update trailer, "learn the mechanics, core gameplay, visuals and vibe, and add". Ideas only:
@@ -637,6 +637,29 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
 - [ ] 10.4 Flails: weapons on a chain that swing round you.
 - [ ] 10.5 (ask him) An optional NEON look: black floors, thin bright walls, a colour per floor.
 - [ ] Full check, replays, IPA 10.x.
+
+## His plan from here (6 Oct, his words: "after you finish go stage 10 and then check videos for
+## anything new then continue to analyze the game to add new things, after analysis continue to add
+## fresh new fun and cool stuff, also you can make the game a little bit harder, then after all we
+## will make some story, add new npc and final bosses and hidden final bosses that fit into the story
+## and game progress with new stages and environments, like a new dlc ... go step by step per stage
+## ipa"). One IPA at the end of every stage.
+
+## Stage 11: a second look, and fresh fun
+- [ ] 11.1 Go through his clips again for anything not taken yet; look over our own game for
+      gaps (thin floors, items nobody picks, dull rooms) and write what is found here.
+- [ ] 11.2 Fresh, fun, cool additions from that list (new weapons with new kinds, rooms, relics,
+      events), in the game's own style.
+- [ ] 11.3 A little harder, measured with bot runs (nothing removed or toned down, rule 1).
+- [ ] IPA 11.x.
+
+## Stage 12: the story (a DLC of our own)
+- [ ] 12.1 A story that ties the floors, the realms and the Unwritten together; told by new NPCs
+      met along the run (and in a hub between runs if it fits), a little at a time.
+- [ ] 12.2 New stages and environments after the current end, in a new chapter.
+- [ ] 12.3 New final bosses for the chapter, and hidden final bosses reached only by secret
+      routes or conditions that the story hints at.
+- [ ] 12.4 Endings and unlocks that follow the story; IPA per part as it grows.
 
 ---
 
