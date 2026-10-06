@@ -146,7 +146,7 @@ const NEW_HEROES := [
 	{ "id": "mirrorknight", "name": "THE MIRROR KNIGHT", "sprite": "mirrorknight", "new": true,
 	  "blurb": "Polished her armour until it learned to answer back.",
 	  "passive": "ROLLING TURNS THE SHOTS NEAR YOU AROUND: THEY FLY BACK THE WAY THEY CAME, AS YOURS (EVERY 1S). STARTS WITH 1 ARMOR.",
-	  "weapon": "MIRROR BLADE", "hp": 8, "speed": 86, "shot": "slash", "sound": "hatchet", "cost": 180, "trait": "plating",
+	  "weapon": "BRIGHT BLADE", "hp": 8, "speed": 86, "shot": "slash", "sound": "hatchet", "cost": 180, "trait": "plating",
 	  "stats": { "dmg": 7.0, "rate": 2.4, "shot_speed": 0.0, "life": 0.0, "homing": 0.0, "size": 1.0, "pierce": 99 },
 	  "effects": [["add", "armor", 1], { "on": "on_roll", "cd": 1.0, "do": [["reflect", 55, 1.0]] }],
 	  "special": { "name": "MIRROR WALL", "cd": 10, "col": "#c8d0e0",

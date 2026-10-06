@@ -149,7 +149,7 @@ effect actions. Sprites 12x14 on the originals' template; weapon icons reuse exi
 | THE BEEKEEPER | 140 | Hive Smoker (flame) | every 4th kill calls a bee (wisp) for 20 s; bees +50%; +1 poison | SWARM CALL: 5 bees, poison all near | THE HIVE |
 | THE TINKERER | 160 | Rivet Gun (bolt) | rolling sets down a random turret for 8 s (every 5 s) | OVERCLOCK: two tesla coils, +40% rate | WORKSHOP |
 | THE BONEWEAVER | 200 | Bone Staff (orb) | a fifth of kills (all cursed ones) rise as skeletons; 10% curse | DANSE MACABRE: four skeletons, curse all near | OSSUARY ARTS |
-| THE MIRROR KNIGHT | 180 | Mirror Blade (sword) | rolling turns nearby shots back as yours; 1 armor | MIRROR WALL: reflect every near shot at 150%, 1 s untouchable | THE POLISHED OATH |
+| THE MIRROR KNIGHT | 180 | Bright Blade (sword) | rolling turns nearby shots back as yours; 1 armor | MIRROR WALL: reflect every near shot at 150%, 1 s untouchable | THE POLISHED OATH |
 | THE PLAGUE SAINT | 200 | Censer Flail (whip) | +1 poison, 10% curse; poisoned kills pass every ailment on | LAST RITES: every ailment near you used up, 80% each | THE BLACK LITANY |
 | THE FROST WITCH | 180 | Icicle Wand (orb) | +20% chill; every 3 s shots near her slow to half | BLIZZARD: freeze all near, every shot slows to a crawl | HOARFROST CRAFT |
 | THE DEMOLITIONIST | 160 | Blast Mortar (grenade) | a free bomb every 6 s in a fight; bombs +40%, pull foes in, can't hurt him | CARPET BOMB: five shells fall on foes | BLASTING CREW |

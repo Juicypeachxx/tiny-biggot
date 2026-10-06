@@ -627,6 +627,19 @@ went from 8% to 12% after the test showed two tames in 30 s (too rare to
 feel). Soaks 10 x 10 minutes, 0 errors (a fresh Frost Witch started on floor
 9 is slow against golems, not stuck).
 
+**4.10, the monkey (done).** `--monkey` presses random buttons from its own
+generator (seeded by --seed) in every state; `tools/dev/monkey.sh` runs an
+hour from the title with `--objects`, then ten 6-minute runs started in new
+heroes, late floors, Heaven, Hell, Brazil, Rex, a loop and --classic. Result:
+11 runs, 0 errors; objects 3026 -> 3132 in the hour (nodes 64, resources 115
+throughout). `BiomeDeco._rng` is now seeded by --seed too (picture tests).
+
+**4.11, stage 4 delivered (6 Oct).** `tools/check.sh` CHECK PASSED, the IPA
+built with `[ipa]`. The check found two slips fixed before it: the atlas had
+not been baked after the hero sprites, and the Mirror Knight's sword id
+clashed with the old MIRRORBLADE (now `brightblade`, BRIGHT BLADE). Next:
+stage 5 (sprite revamp), which starts with a sample for his yes (5.1).
+
 ## Noted, not yet acted on
 
 - Saving a run in progress (so iOS closing the app does not end it). Needs

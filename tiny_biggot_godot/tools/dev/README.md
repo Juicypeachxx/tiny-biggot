@@ -18,3 +18,5 @@ copies and `G` at the Godot 4.6.1 Linux binary before running one. They need
 | `cprobe.sh projdir home [args]` | One rendered start with a chosen user-data folder; prints how the atlas came to be and whether every sprite equals its file. Copy `cache_probe.gd.txt` and `cache_probe.tscn.txt` into the project's `tests/` (without `.txt`) first |
 | `pck.py file.pck` | Lists a Godot 4 pack |
 | `glshim/shim.c`, `glshim/shim2.c` | LD_PRELOAD shims: `gcc -shared -fPIC -O2 -o glshim.so shim.c -ldl` (same for shim2). shim counts shader programs linked per frame; shim2 times every draw call and logs the slow ones |
+
+| `monkey.sh [minutes] [short]` | ROADMAP 4.10: `--monkey` random buttons for an hour from the title, then ten short runs in the new content |

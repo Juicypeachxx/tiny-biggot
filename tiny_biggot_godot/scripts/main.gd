@@ -12,6 +12,7 @@ var menus: MenuView
 var overlay: OverlayView
 
 var bot: DebugBot = null
+var monkey: DebugMonkey = null
 var _trace: FileAccess = null
 var _bench_us := 0
 var _bench_n := 0
@@ -28,10 +29,13 @@ func _ready() -> void:
 		WeaponFx._rng.seed = DebugArgs.get_int("seed")
 		Vfx._rng.seed = DebugArgs.get_int("seed")
 		Afx._rng.seed = DebugArgs.get_int("seed")
+		BiomeDeco._rng.seed = DebugArgs.get_int("seed")
 	_shot_path = DebugArgs.get_str("shot")
 	_shot_frame = DebugArgs.get_int("shot-frame", 60)
 	if DebugArgs.has("bot"):
 		bot = DebugBot.new()
+	if DebugArgs.has("monkey"):
+		monkey = DebugMonkey.new()   # random buttons everywhere (ROADMAP 4.10)
 	if DebugArgs.has("trace"):
 		_trace = FileAccess.open(DebugArgs.get_str("trace"), FileAccess.WRITE)
 	if not DebugArgs.has("no-warmup"):
@@ -174,6 +178,8 @@ func _process(_delta: float) -> void:
 func _physics_process(_delta: float) -> void:
 	if bot != null:
 		bot.tick()
+	if monkey != null:
+		monkey.tick()
 	Keys.tick()
 	var t0 := Time.get_ticks_usec()
 	if DebugArgs.has("bench"):

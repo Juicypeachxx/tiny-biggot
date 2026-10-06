@@ -122,7 +122,7 @@ const HERO_WEAPON := { "hexer": "hexwand", "poacher": "repeater", "brute": "pith
 	# Step 6 heroes (signature weapons are rows after content batch 1).
 	"banehunter": "banesabre", "oathbreaker": "ironslab", "wayfarer": "wayfareredge", "racketeer": "snubguns",
 	"condemned": "shackleflail", "cartomancer": "giltdeck", "sellsword": "warlance", "gaolbird": "irontalons",
-	"beekeeper": "hivesmoker", "tinkerer": "rivetgun", "boneweaver": "bonestaff", "mirrorknight": "mirrorblade",
+	"beekeeper": "hivesmoker", "tinkerer": "rivetgun", "boneweaver": "bonestaff", "mirrorknight": "brightblade",
 	"plaguesaint": "censerflail", "frostwitch": "iciclewand", "demolitionist": "blastmortar", "executioner": "headsmansaxe",
 	"pilgrim": "pilgrimstaff", "beastmaster": "beastspear" }
 
@@ -519,10 +519,10 @@ const ROWS := [
 	["hivesmoker", "HIVE SMOKER", "flame", "rare", ["swarm", "venom"], "handcannon", { "dmg": 1.4, "rate": 9.0 }, [["poison", 1]], [], "PUFFS SMOKE THAT SOOTHES BEES AND CHOKES EVERYTHING ELSE.", [], "w_firespitter"],
 	["rivetgun", "RIVET GUN", "bolt", "rare", ["swarm"], "pistol", { "dmg": 3.0, "rate": 4.5 }, [], [], "FIRES HOT RIVETS FAST.", [], "w_repeater"],
 	["bonestaff", "BONE STAFF", "orb", "rare", ["malice"], "staff", { "dmg": 4.0, "rate": 2.6, "homing": 1.0 }, [["curse", 0.05]], [], "HEX BOLTS THAT SEEK THE LIVING.", [], "w_hexwand"],
-	["mirrorblade", "MIRROR BLADE", "slash", "rare", ["bulwark", "arcane"], "sword", { "dmg": 7.0, "rate": 2.4 }, [], [], "A BLADE POLISHED TO A MIRROR.", [], "w_sabre"],
+	["brightblade", "BRIGHT BLADE", "slash", "rare", ["bulwark", "arcane"], "sword", { "dmg": 7.0, "rate": 2.4 }, [], [], "A BLADE POLISHED UNTIL IT SHINES LIKE A MIRROR.", [], "w_sabre"],
 	["censerflail", "CENSER FLAIL", "whip", "rare", ["venom", "malice"], "whip", { "dmg": 5.0, "rate": 2.2 }, [["poison", 1]], [], "A SWINGING CENSER OF SICKLY SMOKE.", [], "w_bramblewhip"],
 	["iciclewand", "ICICLE WAND", "orb", "rare", ["frost"], "staff", { "dmg": 3.6, "rate": 3.0 }, [["chill", 0.15]], [], "SHARDS OF ICE THAT PIERCE ONE FOE.", [], "w_rimerod"],
-	["blastmortar", "BLAST MORTAR", "grenade", "rare", ["demolition"], "grenade", { "dmg": 9.0, "rate": 1.1, "shrapnel": 4 }, [], [], "LOBS SHELLS THAT LAND BY THE FOE YOU AIM AT; THE BLAST THROWS 4 SHARDS.", [], "w_pineapple"],
+	["blastmortar", "BLAST MORTAR", "grenade", "rare", ["demolition"], "grenade", { "dmg": 9.0, "rate": 1.1, "shrapnel": 4 }, [], [], "LOBS SHELLS THAT LAND BY THE FOE YOU AIM AT. THE BLAST THROWS 4 SHARDS.", [], "w_pineapple"],
 	["headsmansaxe", "HEADSMAN'S AXE", "slash", "rare", ["blood", "edge"], "greatsword", { "dmg": 12.0, "rate": 1.4, "range": 44, "arc": 140 }, [], [], "HEAVY, SLOW AND FINAL.", [], "w_gallows"],
 	["pilgrimstaff", "PILGRIM'S STAFF", "pulse", "rare", ["bulwark"], "staff", { "dmg": 4.0, "rate": 1.8 }, [], [], "EACH TAP OF THE STAFF SENDS OUT A PULSE OF LIGHT.", [], "w_sparkrune"],
 	["beastspear", "BEAST SPEAR", "thrust", "rare", ["swarm", "edge"], "halberd", { "dmg": 7.0, "rate": 2.2, "range": 56 }, [], [], "A HUNTING SPEAR WITH A BONE TIP.", [], "w_halberd"],

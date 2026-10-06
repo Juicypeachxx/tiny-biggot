@@ -21,9 +21,9 @@ changed one), and carry on from there. What he says last outranks this file.
 |---|---|---|
 | 1 | The IPA installs and runs on the iPad | **Done** (he confirmed, 5 Oct) |
 | 2 | Performance patch | **Done**: nothing to patch (he reports a good 60 fps, 5 Oct) |
-| 3 | Stability patch | Done except the IPA: 3.4 and 3.6 moved to the end of stage 4 (his call) |
-| 4 | New content: environments, mobs, bosses, weapons, equipment, relics, abilities, characters; everything unique | **Next** |
-| 5 | Sprite revamp: every sprite redrawn, "cool and pixelated" | Not started |
+| 3 | Stability patch | Done (3.4 and 3.6 delivered with the end of stage 4, 6 Oct) |
+| 4 | New content: environments, mobs, bosses, weapons, equipment, relics, abilities, characters; everything unique | Done (6 Oct) |
+| 5 | Sprite revamp: every sprite redrawn, "cool and pixelated" | **Next**: 5.1, a sample for his yes |
 
 ---
 
@@ -324,14 +324,18 @@ look (stage 5 redraws everything together later).
       there are (`HEROES.md`, `GAOLBIRD.md`). Build two or three a session:
       sprite, weapon, passive, special, skill branch, unlock price, tests. The
       Gaolbird is the model for depth.
-- [ ] 4.9 After each of 4.3 to 4.8: `tools/check.sh` green, a new IPA, and
+- [x] 4.9 After each of 4.3 to 4.8: `tools/check.sh` green, a new IPA, and
       three things for him to try in it.
 
-- [ ] 4.10 **Menus under random input** (was 3.4). Add a debug option that presses
+- [x] 4.10 **Menus under random input** (was 3.4). Done 6 Oct: `--monkey`
+      (`scripts/debug_monkey.gd`) and `tools/dev/monkey.sh`: an hour from the
+      title (every screen visited) and ten 6-minute runs started in the new
+      content, 0 errors; objects 3026 -> 3132 over the hour, nodes and
+      resources flat. Add a debug option that presses
       random buttons in every menu and during play (the "monkey"), seeded, and
       run it for an hour of game time. Same pass condition. Run it over all the new content.
 
-- [ ] 4.11 `tools/check.sh` green, the IPA (`[ipa]` commit), and a list for
+- [x] 4.11 (6 Oct) `tools/check.sh` green, the IPA (`[ipa]` commit), and a list for
       him of what is new and what to try. This also delivers stage 3.
 
 ## Stage 5: sprite revamp
