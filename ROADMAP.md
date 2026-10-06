@@ -395,6 +395,9 @@ Rules for the art:
   - [x] 5.3a (6 Oct): bat, bat2, slime, skeleton, mushroom, imp, ghost, bookwyrm, drowned (+ elites),
         Colossus, Spore Mother, Librarian. He took every new design.
   - [x] 5.3b (6 Oct): Cinderforge to the Umbral Sun: 26 foes and minis (+ elites) and 8 guardians.
+        His picks: old designs remastered for gnat, longbowman, torch imp, crow, stone abbot,
+        Pale Regent, Frozen Abbot (their elites keep the new drawing); wisp and bogling elites
+        are the old design.
   **His ask (6 Oct): no tests and no IPA between the art steps.** Redraw everything first (5.3 to
   5.6), committing as it goes; then one full check and one IPA at the end of stage 5.
 - [ ] 5.4 Weapon, gear and relic icons.

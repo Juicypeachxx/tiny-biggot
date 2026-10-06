@@ -183,7 +183,13 @@ def kit(vb, seed=7):
 def all_for(v):
     vb = VIBES[v]
     out = {n: sprite(n, vb) for n in S}
-    for n in ELITE: out[n + "_elite"] = sprite(n, vb, elite=True)
+    for n in [k for k in out if k.endswith("_new") or k.endswith("_old")]:
+        out.pop(n)   # drawings kept only to make an elite from (ELITE_SRC)
+    for n in ELITE:
+        if not (n.endswith("_new") or n.endswith("_old")):
+            out[n + "_elite"] = sprite(n, vb, elite=True)
+    for n, src in ELITE_SRC.items():
+        out[n + "_elite"] = sprite(src, vb, elite=True)
     out.pop("hexer_old", None)
     out["kit0"] = kit(vb)
     return out

@@ -409,3 +409,40 @@ ELITE.update({
 	"voidling": {0: "...qoooq....", 9: "q..q..q..q.."},
 	"herald": {5: "...oqrrqo..."},
 })
+
+# ---- 5.3b, his picks (6 Oct). These went back to their old design, remastered; the new drawing
+# is kept as "<name>_new" when he chose it for the elite. Wisp and bogling: the other way round,
+# the new design stays and the elite is the old one ("<name>_old").
+for _n in ["gnat", "longbowman", "torchimp", "crow", "stoneabbot"]:
+	S[_n + "_new"] = S[_n]
+	ELITE[_n + "_new"] = ELITE.pop(_n)
+S["gnat"] = ("main:#6d4140 second:#b97069 glow:#7eb552", M([
+".o....", "o3o..o", "o32ooc", "o322cc", ".o32cy", "..o3cc", "...oco", "....o."]))
+S["crow"] = ("main:#2e2a32 second:#4e4355 glow:#ff4a3a", M([
+".o....", "o3o..o", "o32ooc", "o322cc", ".o32cy", "..o3cc", "...oco", "....o."]))
+S["longbowman"] = ("main:#bdb8a9 glow:#ff5a3a", M([
+"....oo", "...oll", "..olll", "..olyl", "..olll", "...ol0", "..oool", ".ollll", "olooll", ".o.olo",
+"..ollo", "...oo."]))
+S["torchimp"] = ("main:#df8c5f glow:#eff578", M([
+".o....", "oro.oo", "orqo32", ".oq322", "..o3y2", "..o322", "...o30", "..o322", "..o3oo", "...o.."]))
+S["stoneabbot"] = ("main:#9fa9b3 glow:#7ff0ff", M([
+"...ooo", "..o322", ".o3lll", ".o3l0l", ".o3lll", "o32222", "o3l222", "o3l22y", "o32222", ".o322o",
+".o988o", "..ooo."]))
+S["regent"] = ("main:#5c3483", M([
+"....o..o", "...oqooq", "...oqqqq", "...ollll", "...ol00l", "...ollll", "...olll0", "..o222ll",
+".o223222", "o223322q", "o5233222", ".o233222", ".o222222", "o2222222", "o22o22o2", ".oo.oo.o"]))
+S["frozenabbot"] = ("main:#a3b9ce bone:#dfeaf0 glow:#dff8ff", M([
+".o......", "olo..ooo", "olloolll", ".olll222", "..ol2002", "..ol20y2", "..ol2222", ".oll2220",
+"ol2ll222", "ol2l2lll", "ol2l2lqq", "ol2l2lll", ".ooo2222", "...o222o", "..o8888o", "...oooo."]))
+S["wisp_old"] = ("main:#6fd3e0 second:#4d9be6", [
+".....o......", "....o3o.....", "...o3l1o....", "..o3llk1o...", ".o3l0l0k1o..", ".o3lllkk1o..",
+"..o3llk1o...", "...o3b1o....", "....obo.....", ".....o......"])
+S["bogling_old"] = ("main:#3d7b60 second:#254744", [
+"....oooo....", "...o3322o...", "..o333222o..", ".o33l22l21o.", ".o33022021o.", "o3322222221o",
+"oa22222222ao", ".oaaaaaaaao.", "..oooooooo.."])
+ELITE["wisp_old"] = {}
+ELITE["bogling_old"] = {0: "...qrqqrq..."}
+ELITE.pop("wisp"); ELITE.pop("bogling")
+# foe -> the drawing its elite is made from
+ELITE_SRC = {"gnat": "gnat_new", "longbowman": "longbowman_new", "torchimp": "torchimp_new",
+	"crow": "crow_new", "stoneabbot": "stoneabbot_new", "wisp": "wisp_old", "bogling": "bogling_old"}
