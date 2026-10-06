@@ -142,6 +142,7 @@ func new_run() -> void:
 	if p.start_rare:
 		var r := roll_relics(1, "iron")
 		if not r.is_empty(): add_relic(p, r[0])
+	Trophies.apply(p, hero["id"])   # 7.2: a potion, a relic, a rare relic for 5 / 10 / 20 trophies
 	run_stats["power0"] = Combat.power(p)   # the yardstick of Combat.power_scale
 	_debug_give(p)
 	Meta.meta["runs"] += 1
@@ -820,6 +821,8 @@ func on_boss_dead(b: Enemy) -> void:
 		p.hp += 2
 	Snd.music(GameData.floor_music(floor_index))
 	show_banner(b.d["name"] + " FALLS", "")
+	if Trophies.take(GameData.heroes()[hero_index]["id"], b.boss):   # 7.2
+		toast("NEW TROPHY: " + b.d["name"], "gold")
 	for i in 12:
 		Combat.drop_pickup("coin", b.x, b.y)
 	Combat.drop_pickup("heart", b.x, b.y)
@@ -940,6 +943,8 @@ func award_embers(win: bool) -> void:
 		parts.append(["HEAVEN" if run_stats["realm"] == "heaven" else "HELL", 100])
 	if run_stats.get("unwritten", false):
 		parts.append(["THE UNWRITTEN", 200])
+	if run_stats.get("trophies", 0) > 0:
+		parts.append(["NEW TROPHIES", run_stats["trophies"] * Trophies.EMBERS])
 	var base := 0
 	for x in parts:
 		base += x[1]

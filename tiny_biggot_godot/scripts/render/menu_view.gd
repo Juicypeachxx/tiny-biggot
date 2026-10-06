@@ -214,6 +214,8 @@ func draw_hero(ci: CanvasItem) -> void:
 		sy += 10
 	Gfx.text(ci, "STARTS WITH %s   DAMAGE %s   RATE %.1f/S   SPEED %d" % [hw["name"], _fmt_num(hw["dmg"]), hw["rate"], h["speed"]],
 		TB.SW / 2, sy, "tan", 1, 0.5)
+	if open and GameData.rogues():
+		Gfx.text(ci, Trophies.line(h["id"]), TB.SW / 2, sy + 10, "gold", 1, 0.5)   # 7.2
 	if not open:
 		Gfx.text(ci, "UNLOCK AT THE EMBER SHRINE FOR %d EMBERS" % h["cost"], TB.SW / 2, maxi(196, sy + 11), "orange", 1, 0.5)
 	var mx: int = Meta.meta.get("dread_max", 0)

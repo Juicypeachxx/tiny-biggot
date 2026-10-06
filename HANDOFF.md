@@ -743,6 +743,11 @@ blasts; guardians, minis and champions only), `Armor.weak_hit(e, o, crit)` from 
 options (`col` orange / lime / cyan, the crit, `boom`/`bomb`), `soak(..., weak)` wears the plate
 ×2.5. "WEAK: X" right-aligned above the boss bar. `bosses_test._armor` checks the wear.
 
+7.2: `Trophies` (`scripts/game/trophies.gd`, Meta.meta["trophies"] = { hero id: [boss keys] }):
+`take()` in `G.on_boss_dead` (toast, `run_stats["trophies"]` → NEW TROPHIES embers in
+`award_embers`), `apply()` in `new_run` after `start_rare`, `line()` on the hero screen in place of
+the unlock line. 19 guardians (not Rex): rewards at 5 / 10 / 15. `tests/trophies_test.tscn`.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

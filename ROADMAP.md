@@ -535,8 +535,8 @@ Chosen for his asks of 6 Oct (more variety, foes that stand up to a build), no b
 - [x] 7.1 Boss weaknesses: each guardian, mini-boss and champion has one (FIRE, POISON, STORM,
       CRITS or BLASTS), shown on its bar. Hits of that kind wear its armor plate 2.5 times as
       fast. Other hits are exactly as before: no build loses anything.
-- [ ] 7.2 Trophies: the first time a hero fells a guardian it is a trophy (+embers, a banner). The
-      hero screen shows the count; 5 / 10 / 20 trophies give that hero a starting potion / a
+- [x] 7.2 Trophies: the first time a hero fells a guardian it is a trophy (+embers, a banner). The
+      hero screen shows the count; 5 / 10 / 15 trophies (of 19) give that hero a starting potion / a
       relic / a rare relic.
 - [ ] 7.3 A new rift world, in the way of the Clockwork Spire: its foes, champion, guardian, art,
       drops.
