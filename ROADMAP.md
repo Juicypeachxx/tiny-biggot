@@ -398,6 +398,8 @@ Rules for the art:
         His picks: old designs remastered for gnat, longbowman, torch imp, crow, stone abbot,
         Pale Regent, Frozen Abbot (their elites keep the new drawing); wisp and bogling elites
         are the old design.
+  - [x] 5.3c (6 Oct): six rift worlds (Gaol, Brand, Neon, Streets, Fog, Burb): 23 foes (+ elites)
+        and 6 champions. Waiting for his picks.
   **His ask (6 Oct): no tests and no IPA between the art steps.** Redraw everything first (5.3 to
   5.6), committing as it goes; then one full check and one IPA at the end of stage 5.
 - [ ] 5.4 Weapon, gear and relic icons.

@@ -446,3 +446,121 @@ ELITE.pop("wisp"); ELITE.pop("bogling")
 # foe -> the drawing its elite is made from
 ELITE_SRC = {"gnat": "gnat_new", "longbowman": "longbowman_new", "torchimp": "torchimp_new",
 	"crow": "crow_new", "stoneabbot": "stoneabbot_new", "wisp": "wisp_old", "bogling": "bogling_old"}
+
+# ---- 5.3c: six rift worlds (Gaol, Brand, Neon, Streets, Fog, Burb). OV(): marks over a sprite
+# ('.' keeps the pixel), for things a mirrored sprite holds in one hand.
+def OV(rows, over):
+    rows = list(rows)
+    for r, o in over.items():
+        rows[r] = "".join(c if c != '.' else g for g, c in zip(rows[r], o))
+    return rows
+
+S["inmate"] = ("main:#e07a2a skin:#7ab04a", M([
+"....oo", "...o66", "..o565", "..o505", "..o5l5", ".o33o5", "o3o3l2", "o3o322", "o8o322", ".oo322",
+"..o32o", "..ooo."]))
+S["grenadier"] = ("main:#7a5236 second:#c0403a skin:#d89a70", OV(M([
+"....oo", "...obb", "..obbb", "..o505", "..o455", ".o33o5", "o3o302", "o3o322", "o5o322", ".oo322",
+"..o32o", "..ooo."]), {8: "..........0o"}))
+S["jailer"] = ("main:#3f6a4a second:#2a3a2a skin:#e0a47a", OV(M([
+"...ooo", "..obbb", ".o0000", "..o505", "..o455", ".o33o5", "o3o3q2", "o3ouuq", "o5o322",
+".oo322", "..o32o", "..ooo."]), {9: "..........q."}))
+S["turnkey"] = ("main:#3f6a4a glow:#ff4a3a", OV(M([
+"....oooo", "...o3222", "..o32222", "..o32y22", "..o32222", "..o320l0", ".oo33222", "o3o33222",
+"o3o32q22", "o5o32222", "o3o3uuuu", ".oo32222", "..o32222", "..o322oo", "..o88o..", "..ooo..."]),
+{9: "..............q.", 10: "..............qq"}))
+S["graveborn"] = ("main:#5a3a7a glow:#ff4a3a", M([
+"...ooo", "..olll", "..olll", "..olyl", "..ol0l", ".o33ol", "o3o322", "o3o3q2", "olo322", ".o3222",
+".o3222", ".ooooo"]))
+S["bandsman"] = ("main:#6a4a32 second:#c0403a skin:#d89a70", OV(M([
+"...ooo", "..o988", "..o988", "..o505", "..obbb", ".o33ob", "o3o322", "o3ouuq", "o5o322", ".oo322",
+"..o32o", "..ooo."]), {8: "..........9."}))
+S["fiendling"] = ("main:#c03a3a second:#e8873a glow:#ffe060", M([
+".c....", ".co.oo", "..oo32", "o.o3y2", "o3oo32", "o3o322", ".o3322", "..o322", "..o322", "..o32o",
+"..o3o.", "..ooo."]))
+S["blackknight"] = ("main:#2a2a35 metal:#4a4a58 glow:#ff4a3a", M([
+"..9.oo", "..9o88", "..o988", "..o8yy", "..o888", ".o98o8", "o9o322", "o9o3q2", "o8o322", ".oo322",
+"..o98o", "..ooo."]))
+S["carrionknight"] = ("main:#2a2a35 metal:#4a4a58 glow:#ff4a3a", OV(M([
+"......oo", ".....o98", "....o988", "....o8yy", "....o888", "...o98o8", "..o9o322", "..o9o3q2",
+"..o8o322", "...oo322", "...o3222", "...o3222", "...o3222", "...o98oo", "...o88o.", "...ooo.."]),
+{0: ".o..............", 1: "o9o.............", 2: "o9o.............", 3: "o9o.............", 4: "o9o.............",
+ 5: "o8o.............", 6: "qqqo............", 7: ".uo.............", 8: ".5o............."}))
+S["drone"] = ("main:#6a7a9a second:#4a7ad0 glow:#7ff0ff", M([
+"oo....", ".oo.oo", "...o99", "..o988", ".o98oy", ".o98yx", ".o9888", "..o988", "...o88", "....ob",
+"....oy", "......"]))
+S["glitch"] = ("main:#4a2a7a second:#ff4ad0 glow:#7ff0ff", OV(M([
+"...ooo", "..o332", ".o3322", ".o3yyy", ".o3o00", ".o33o2", "o3o322", "o3ob22", "o3o322", ".oo322",
+"..o32o", "..ooo."]), {3: "...........b", 7: "b..........."}))
+S["chrome"] = ("main:#8a9ab0 glow:#ff6ad0", M([
+"...ooo", "..o999", ".o9988", ".o98y8", ".o9888", ".oo98o", "o9o988", "o9o88y", "o8o988", ".oo988",
+"..o98o", "..ooo."]))
+S["turret"] = ("main:#6a7a9a glow:#7ff0ff", M([
+"...ooo", "..o988", ".o98yx", ".o98yy", "..o988", "...o88", "....o8", "...o8o", "..o8o.", ".o8o..",
+"o8o...", "oo...."]))
+S["broker"] = ("main:#2a2a3a second:#ff6ad0 glow:#7ff0ff skin:#e0b090", M([
+"....oooo", "...o3222", "..o32222", "..o3yyyy", "..o55555", "..o55550", ".o33ollb", "o33222lb",
+"o3322222", "o5o32222", "o3o32222", ".oo32222", "..o32222", "..o322oo", "..o00o..", "..ooo..."]))
+S["thug"] = ("main:#2a2a32 second:#ff5aa0 skin:#d89a70", M([
+".....b", "....ob", "..o55b", "..o505", "..o455", ".o33o5", "o3o32l", "o3o322", "o5o322", ".oo322",
+"..o88o", "..ooo."]))
+S["molotov"] = ("main:#3f6a3a second:#7ac0a0 glow:#ffa040 skin:#d89a70", OV(M([
+"...ooo", "..o332", ".o3322", ".o3505", ".o3455", ".o33o5", "o3o322", "o3o3uq", "o5o322", ".oo322",
+"..o32o", "..ooo."]), {6: "...........y", 7: "...........b", 8: "...........b"}))
+S["copper"] = ("main:#3a6ab0 second:#2a3a6a skin:#e0a47a", M([
+"...ooo", "..obbq", ".o0000", "..o505", "..o455", ".o33o5", "o3o3q2", "o3o322", "o5o322", ".oo322",
+"..o32o", "..ooo."]))
+S["bomber"] = ("main:#d04a3a glow:#ffe060 skin:#e0a47a", M([
+".....y", "....ou", "...ooo", "..o322", ".o3505", ".o3455", "o33q22", "o32222", "o32q22", ".o3222",
+"..o32o", "..ooo."]))
+S["mayor"] = ("main:#a03040 second:#2a2433 skin:#e0b090", OV(M([
+"....oooo", "....obbb", "....obbb", "....oqqq", "..obbbbb", "...o5055", "...o4555", "...o55jj",
+"..o3olll", ".o332q22", "o5o32222", "o3o32222", ".oo32222", "..o322oo", "..obbo..", "..ooo..."]),
+{5: "..........q.....", 9: "...............q", 10: "...............u", 11: "...............u", 12: "...............u",
+ 13: "...............u", 14: "...............u"}))
+S["orderly"] = ("main:#a0c8b0 second:#c0d8e8 glow:#ff4040", M([
+"...ooo", "..olll", "..olll", "..ol0l", "..obbb", ".o33ob", "o3o32y", "o3o3yy", "o5o32y", ".oo322",
+"..o32o", "..ooo."]))
+S["crawler"] = ("main:#8a5a4a glow:#ffe060", M([
+"......", "......", "......", "...ooo", "..o332", ".o3y22", "o33222", "o32222", "oo0000", "o2o2o.",
+"o.o.o.", "......"]))
+S["static"] = ("main:#2a2a35", M([
+"..oooo", "..ol9l", "..o9l9", "..ol9l", "..oooo", "...o32", "..o322", ".o3o22", ".o.o22", "...o22",
+"...o2o", "...oo."]))
+S["tollkeeper"] = ("main:#3a3045 glow:#ffd060", OV(M([
+"...ooo", "..o322", ".o3222", ".o30y0", ".o3000", ".o332o", "o33222", "o32222", "o32222", "o32222",
+".o3222", ".ooooo"]), {8: "...........y", 9: "...........x"}))
+S["rustbutcher"] = ("main:#3a3a45 second:#b03030", OV(M([
+"...ooooo", "...ovvvv", "...ovv0v", "...ovvvv", "...ouvvv", "...oo555", ".o3ollll", "o33lllll",
+"o3llllbl", "o5llllll", "o3lbllll", ".ollllll", "..o32222", "..o322oo", "..o000o.", "..ooooo."]),
+{7: "...............9", 8: "...............9", 9: "...............9", 10: "...............u"}))
+S["neighbour"] = ("main:#e07ab0 second:#c8a0d8 skin:#f0c8a0", M([
+"..oqoq", "..obbb", ".obb55", ".ob909", "..o455", ".o33o5", "o3o322", "o3o322", "o5o322", ".o3222",
+".o3222", ".ooooo"]))
+S["robovac"] = ("main:#6a6a7a glow:#ff4a3a", M([
+"......", "......", "......", "......", "......", "......", "..oooo", ".o9999", "o988y8", "o88888",
+".o8888", "..oooo"]))
+S["burglar"] = ("main:#2a2a35 second:#1a1a22 skin:#e0a47a", M([
+"...ooo", "..obbb", "..obbb", "..o050", "..o455", ".o33o5", "o3olll", "o3o222", "o5olll", ".oo222",
+"..o22o", "..ooo."]))
+S["gnome"] = ("main:#3a6ab0 second:#d04040 skin:#f0c8a0", M([
+".....b", "....ob", "...ocb", "..ocbb", "..o505", "..oll5", ".ollll", "o5olll", ".o3lll", ".oo322",
+"..ouuo", "..ooo."]))
+S["landlord"] = ("main:#d86aa8 second:#2a2433 skin:#e0b090", OV(M([
+"....oooo", "...obbbb", "..obbbbb", "..o55555", "..o50555", "..o55500", "..oo5555", ".o33ollq",
+"o3332222", "o5o32222", "o3o32q22", ".o332222", ".o322222", "..o322oo", "..obbo..", "..ooo..."]),
+{11: "..............oq", 12: "..............qq"}))
+for _n in ["inmate", "grenadier", "jailer", "graveborn", "bandsman", "blackknight", "glitch", "chrome", "thug",
+		"molotov", "copper", "orderly", "tollkeeper", "neighbour", "burglar"]:
+	ELITE[_n] = dict(_HUM)
+for _n in ["turnkey", "carrionknight", "broker", "mayor", "rustbutcher", "landlord"]:   # 16x16 champions
+	ELITE[_n] = {1: "..q..........q..", 6: "q..............q"}
+ELITE.update({
+	"fiendling": {0: "qc........aq"},
+	"drone": {0: "qq........qq"},
+	"turret": {0: "..q......q.."},
+	"bomber": {2: "..qooooooq.."},
+	"crawler": {3: "..qoooooq..."},
+	"static": {0: ".qoooooooq.."},
+	"robovac": {6: ".qoooooooqq."},
+	"gnome": {3: ".qocbbbbaoq."},
+})
