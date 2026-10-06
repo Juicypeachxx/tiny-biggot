@@ -563,9 +563,10 @@ understand the build, also add stat stacking as shown to buff weapons and builds
       (damage, crit, armor, gold, STR/DEX/INT, alignments, numbers) with a small icon, in boxes like
       his pictures. A stat column on the left of the HUD: gold, keys, bombs, STR / DEX / INT,
       luck, the four alignments (an option can hide it).
-- [ ] 8.3 Stat stacking: rooms, chests and shops give stat pickups with a label over them (+1 STR,
+- [x] 8.3 Stat stacking: fights (25%), elites (15%), chests (35%) and guardians (2) give stat pickups with a label over them (+1 STR,
       +1 DEX, +1 INT, +1% crit, +0.5% move speed ...), and the attributes do more than weapon
-      damage (STR, DEX and INT each also add a small stat of their own).
+      damage (STR: +1 max heart per 5; DEX: +1% crit each; INT: +2% burn, poison and lightning
+      damage each).
 - [ ] 8.4 Fun traits and synergy traits (his ask, 6 Oct, with pictures of a trait pick: ideas
       only). Big, odd, run-shaping picks on the level-up screen: "super" versions of a family
       (a big pile of one attribute, counted as extra ranks of that family), rule-benders (lazy:

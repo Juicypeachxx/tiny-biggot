@@ -765,6 +765,11 @@ measure it. Used by trait cards, relic choice, star cards, item cards (ItemShow.
 the equipment page and the inventory (whose stat sidebar has icons and the alignments).
 `hud_view._stat_column` (option STAT COLUMN, `Meta.opts["statcol"]`); options rows 74 + 18 px.
 
+8.3: `StatDrops` (`scripts/game/stat_drops.gd`): pickup kinds `s_*` (taken in
+`Combat.update_pickups`, drawn with a label in world_view), `maybe()` from `room_cleared`, chests,
+elite kills and `on_boss_dead`. `Attributes._side()` from `add()` (and `start()` goes through `add`).
+`tests/stats_test.tscn`; content_test's crit count includes the DEX side stat.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

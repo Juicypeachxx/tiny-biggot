@@ -484,6 +484,8 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 		chain_from(e, Weapons.wdmg(p) * 0.3 * e.shock)
 	if not p.procs.is_empty():
 		Effects.fire("on_kill", { "enemy": e, "x": e.x, "y": e.y, "elite": e.elite })
+	if e.elite and not e.is_boss():
+		StatDrops.maybe(0.15, e.x, e.y)   # 8.3
 	if e.elite and not e.is_boss() and randf() < 0.05:
 		G.drop_gear_at(e.x, e.y)
 
@@ -1721,6 +1723,10 @@ static func update_pickups(dt: float) -> void:
 		else:
 			World.move_body(room, k, k.vx * dt, k.vy * dt, World.M_WALKER)
 		if not (d < 9 and k.t > 0.25):
+			continue
+		if StatDrops.is_kind(k.kind):   # 8.3: stat stacking
+			k.dead = true
+			StatDrops.take(p, k.kind)
 			continue
 		if Consumables.is_kind(k.kind):
 			# Rogues layer: belt consumables wait on the floor while the belt is full.

@@ -198,6 +198,7 @@ var tag_counts := {}            # synergy tag -> points from new-content items
 var synergies := {}             # active synergy tiers and combos
 var overcrit := 0.0             # new stat: crit chance past 100% can crit again
 var paid_rerolls := 0           # trait rerolls bought with gold after the free ones
+var stat_picks := 0             # 8.3 stat pickups taken this run (stat_drops.gd)
 var al_good := 0                # 8.1 alignments (scripts/game/alignments.gd)
 var al_evil := 0
 var al_law := 0

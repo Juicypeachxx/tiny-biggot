@@ -112,6 +112,11 @@ timeout 600 "$GODOT" --headless --path . res://tests/align_test.tscn -- --no-sav
 grep -E "align test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== stat stacking (8.3): every stat pickup, the attributes' side stats, a guardian's two"
+timeout 600 "$GODOT" --headless --path . res://tests/stats_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "stats test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== the ten heroes of 4.8: data, each passive and special in a fight, every branch node"
 timeout 600 "$GODOT" --headless --path . res://tests/heroes_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "heroes test" "$LOG"

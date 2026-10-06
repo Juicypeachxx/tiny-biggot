@@ -443,12 +443,14 @@ func leveling() -> void:
 	# Stacking: three ranks, the third unlocks its tier effect; affinity grows.
 	var crit0 := p.crit
 	var cm0 := p.crit_mult
+	var dex0 := p.a_dex
 	for k in 3:
 		p.pending += 1
 		G.take_trait(common)
 	# 3 ranks x 0.05 crit, plus the EDGE 2-rank family bonus (+0.08) and the
 	# EDGE tag synergy at 3 (KEEN, +0.10); the third rank's tier adds +1.0 crit damage.
 	var keen := 0.1 if Synergies.TAG_SYNERGIES.any(func(s): return s["tag"] == "edge" and s["tiers"][0]["need"] <= 3) else 0.0
+	keen += 0.01 * (p.a_dex - dex0)   # 8.3: each DEX point an EDGE rank trains adds +1% crit
 	if absf(p.crit - crit0 - 0.23 - keen) > 1e-9 or absf(p.crit_mult - cm0 - 1.0) > 1e-9:
 		fail("trait ranks/tier: crit %.3f crit_mult %.3f" % [p.crit - crit0, p.crit_mult - cm0])
 	if p.fam_bonus.get("edge", 0) != 1:

@@ -533,6 +533,10 @@ func _paint_lower(ci: CanvasItem) -> void:
 	# Pickups and bombs (z 9).
 	for k: Pickup in G.pickups:
 		var wob := 0.0 if k.kind == "coin" else roundf(sin(t * 4))
+		if StatDrops.is_kind(k.kind):   # 8.3: its icon, a glint and its label over it
+			Gfx.sp(ci, StatDrops.KINDS[k.kind][1], k.x, k.y + 3 - k.z - wob)
+			StatDrops.draw_label(ci, k, wob)
+			continue
 		Gfx.sp(ci, PICKUP_SPRITE[k.kind], k.x, k.y + 3 - k.z - wob)
 		if k.kind in ["coin", "gem"]:
 			Juice.glint(ci, k.x + _vr.randi_range(-2, 2), k.y - k.z - wob)

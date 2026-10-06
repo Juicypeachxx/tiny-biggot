@@ -739,6 +739,8 @@ func give_reward(kind: String) -> void:
 func room_cleared() -> void:
 	locked = false
 	room.cleared = true
+	if room.type in ["combat", "elite"]:
+		StatDrops.maybe(0.25, 14.0 * TB.TS, 9.0 * TB.TS)   # 8.3: the middle of the room
 	Saloon.on_room_clear(room)
 	EventRooms.on_room_clear(room)
 	Pets.on_room_clear()
@@ -828,6 +830,8 @@ func on_boss_dead(b: Enemy) -> void:
 		Combat.drop_pickup("coin", b.x, b.y)
 	Combat.drop_pickup("heart", b.x, b.y)
 	Combat.drop_pickup("ember", b.x, b.y)
+	for i in 2:
+		StatDrops.maybe(1.0, b.x, b.y)   # 8.3: a guardian leaves two stat pickups
 	RiftBosses.clear()
 	if GameData.rogues() and room.type != "barn":
 		_boss_reward(b)
@@ -1042,6 +1046,7 @@ func interact(o: Dictionary) -> void:
 			Snd.play("open")
 			Fx.burst(o["x"], o["y"], ["#f2c94c", "#fffbe0"], 16, 60)
 			open_choice("boss" if o.get("boss", false) else "chest", o)
+			StatDrops.maybe(0.35, o["x"], o["y"] + 10)   # 8.3
 			Effects.fire("on_chest", { "x": o["x"], "y": o["y"] })
 		"ichest":
 			if not o.get("free", false):

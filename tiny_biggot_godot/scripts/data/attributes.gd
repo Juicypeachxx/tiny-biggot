@@ -93,10 +93,33 @@ static func mult_for(p: Player, w: Dictionary) -> float:
 	return 1.0 + PER_POINT * m
 
 static func add(p: Player, a: String, n: int) -> void:
+	var before := value(p, a if a in ATTRS else "int")
 	match a:
 		"str": p.a_str += n
 		"dex": p.a_dex += n
 		_: p.a_int += n
+	_side(p, a if a in ATTRS else "int", before, value(p, a if a in ATTRS else "int"))
+
+## 8.3 (his ask, 6 Oct: "stat stacking ... to buff weapons and builds"): besides weapon damage, each
+## attribute adds a stat of its own. STR: +1 max heart for every 5 points. DEX: +1% crit a point.
+## INT: +2% burn, poison and lightning damage a point. Kept exact when points come and go.
+const SIDE := "STR: +1 MAX HEART PER 5.  DEX: +1% CRIT EACH.  INT: +2% BURN, POISON AND LIGHTNING DAMAGE EACH."
+static func _side(p: Player, a: String, before: int, after: int) -> void:
+	if not enabled() or before == after:
+		return
+	match a:
+		"str":
+			var d := (floori(after / 5.0) - floori(before / 5.0)) * 2
+			if d != 0:
+				p.max_hp = maxi(2, p.max_hp + d)
+				p.hp = clampi(p.hp + maxi(0, d), 1, p.max_hp)
+		"dex":
+			p.crit += 0.01 * (after - before)
+		"int":
+			var k := 0.02 * (after - before)
+			p.burn_dmg += k
+			p.poison_dmg += k
+			p.storm_dmg += k
 
 static func highest(p: Player) -> String:
 	var best := "str"
@@ -109,9 +132,8 @@ static func start(p: Player) -> void:
 	if not enabled():
 		return
 	var s: Array = HERO.get(p.hero["id"], [2, 2, 2])
-	p.a_str = s[0]
-	p.a_dex = s[1]
-	p.a_int = s[2]
+	for i in ATTRS.size():
+		add(p, ATTRS[i], s[i] - value(p, ATTRS[i]))   # through add(): the side stats come with them
 
 ## One trait rank trains its family's attribute (core traits train your best one).
 static func on_trait(p: Player, fam: String) -> void:
