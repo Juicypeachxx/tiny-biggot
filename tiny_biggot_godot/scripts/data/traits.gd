@@ -72,6 +72,9 @@ const RARITY := {
 	"cursed": { "name": "CURSED", "col": "purple", "hex": "#a35bd6", "w": 1 },
 	"super": { "name": "SUPER", "col": "pink", "hex": "#e86fb4", "w": 1 },   # 8.4: big, run-shaping picks
 }
+## 8.5 (his ask, 6 Oct: "make some common super traits to refresh runs"): these SUPER traits are
+## offered often (weight 4) from level 2; the rest stay rare (weight 1) from level 4.
+const COMMON_SUPER := ["x_twin", "x_reflex", "x_surge", "x_hoarder", "x_heart", "x_crown", "x_tailwind", "x_legion"]
 ## 8.4: a SUPER trait that counts as more ranks of a family (its bonuses come with them).
 const PLUS := { "x_titan": ["bulwark", 3], "x_quick": ["shadow", 3], "x_genius": ["arcane", 3] }
 
@@ -221,6 +224,19 @@ const ROWS := [
 	["x_elements", "arcane", 1, "ELEMENTAL STORM", "EVERY 8S BURN, EVERY 4S CHILL, EVERY 2S SHOCK AND EVERY 1S POISON EVERY FOE", false, [{ "on": "every_n_seconds", "period": 8.0, "do": [["status_area", "burn", 1, 999]] }, { "on": "every_n_seconds", "period": 4.0, "do": [["status_area", "chill", 1, 999]] }, { "on": "every_n_seconds", "period": 2.0, "do": [["status_area", "shock", 1, 999]] }, { "on": "every_n_seconds", "period": 1.0, "do": [["status_area", "poison", 1, 999]] }], "super", ["arcane", "storm"], {  }],
 	["x_overcharged", "storm", 1, "OVERCHARGED", "ROLLING CALLS 3 LIGHTNING STRIKES (EVERY 2S). EVERY 3S, LIGHTNING STRIKES", false, [{ "on": "on_roll", "cd": 2.0, "do": [["lightning", 1.0], ["lightning", 1.0], ["lightning", 1.0]] }, { "on": "every_n_seconds", "period": 3.0, "do": [["lightning", 1.0]] }], "super", ["storm"], {  }],
 	["x_tailwind", "shadow", 1, "TAILWIND", "+40% MOVE SPEED. +15% FIRE RATE", false, [["mul", "speed", 1.4], ["mul", "rate", 1.15]], "super", ["shadow"], {  }],
+	# 8.5 (his ask, 6 Oct): more SUPER traits; COMMON_SUPER ones turn up often.
+	["x_twin", "arcane", 1, "TWIN SOUL", "+1 PROJECTILE. +20% FIRE RATE", false, [["add", "count", 1], ["mul", "rate", 1.2]], "super", ["arcane"], {  }],
+	["x_reflex", "shadow", 1, "LIGHTNING REFLEXES", "+2 ROLL CHARGES. ROLLS RECHARGE 30% FASTER", false, [["add", "dodge_charges", 2], ["add", "charges", 2], ["mul", "dodge_cd", 0.7]], "super", ["shadow"], {  }],
+	["x_surge", "core", 1, "STAT SURGE", "+3 STR, +3 DEX AND +3 INT", false, [["attr", "str", 3], ["attr", "dex", 3], ["attr", "int", 3]], "super", ["fury"], {  }],
+	["x_hoarder", "fortune", 1, "HOARDER", "EVERY CLEARED ROOM DROPS A STAT PICKUP", false, [{ "on": "on_room_clear", "do": [["drop", "stat"]] }], "super", ["fortune"], {  }],
+	["x_legion", "swarm", 1, "LEGION", "EACH ROOM BEGINS WITH 5 WISPS FOR 12S. WISPS DEAL +30% DAMAGE", false, [{ "on": "on_room_enter", "do": [["summon", 12.0], ["summon", 12.0], ["summon", 12.0], ["summon", 12.0], ["summon", 12.0]] }, ["add", "fam_dmg", 0.3]], "super", ["swarm"], {  }],
+	["x_glass", "fury", 1, "GLASS CANNON", "+60% DAMAGE. -1 MAX HEART", false, [["mul", "dmg", 1.6], ["add", "max_hp", -2], ["clamp_max", "hp", "max_hp"]], "super", ["fury"], {  }],
+	["x_assassin", "edge", 1, "ASSASSIN", "+25% CRIT. CRITS DEAL +0.5X", false, [["add", "crit", 0.25], ["add", "crit_mult", 0.5]], "super", ["edge"], {  }],
+	["x_bloodmoon", "blood", 1, "BLOOD MOON", "+15% DAMAGE. KILLS HEAL HALF A HEART 5% OF THE TIME", false, [["mul", "dmg", 1.15], { "on": "on_kill", "chance": 0.05, "do": [["heal", 1]] }], "super", ["blood"], {  }],
+	["x_winter", "frost", 1, "WINTER'S HEART", "EVERY 3S CHILL EVERY FOE. CHILLED FOES TAKE +30% DAMAGE", false, [{ "on": "every_n_seconds", "period": 3.0, "do": [["status_area", "chill", 1, 999]] }, ["add", "vs_chill", 0.3]], "super", ["frost"], {  }],
+	["x_inferno", "pyre", 1, "INFERNO", "EVERY 4S BURN EVERY FOE. BURNING FOES TAKE +30% DAMAGE", false, [{ "on": "every_n_seconds", "period": 4.0, "do": [["status_area", "burn", 1, 999]] }, ["add", "vs_burn", 0.3]], "super", ["pyre"], {  }],
+	["x_plague", "venom", 1, "PLAGUE LORD", "EVERY 2S POISON EVERY FOE. +50% POISON DAMAGE", false, [{ "on": "every_n_seconds", "period": 2.0, "do": [["status_area", "poison", 1, 999]] }, ["add", "poison_dmg", 0.5]], "super", ["venom"], {  }],
+	["x_juggernaut", "bulwark", 1, "JUGGERNAUT", "+2 MAX HEARTS. EVERY NEW FLOOR GIVES 3 ARMOR. +15 THORNS", false, [["add", "max_hp", 4], ["add_cap", "hp", 4, "max_hp"], { "on": "on_floor_start", "do": [["armor", 3]] }, ["add", "thorns", 15]], "super", ["bulwark"], {  }],
 	# 8.4 rule-benders.
 	["f_idle", "core", 1, "IDLE HANDS", "+20% DAMAGE FOR EACH EMPTY GEAR SLOT", false, [["hook", "idle_dmg", 0.2]], "rare", ["fury"], {  }],
 	["f_purse", "fortune", 1, "BOTTOMLESS PURSE", "ANYTHING THAT GROWS WITH GOLD COUNTS YOU AS HOLDING 1000 GOLD OR MORE", false, [["hook", "purse", 1]], "rare", ["fortune"], {  }],

@@ -1496,8 +1496,10 @@ func _new_trait_weight(p: Player, t: Dictionary) -> int:
 		return 0
 	if t["rarity"] == "cursed" and p.level < 3:
 		return 0
-	if t["rarity"] == "super":
-		return 0 if p.level < 4 else 1   # 8.4: rare, and never on the first few levels
+	if t["rarity"] == "super":   # 8.4 / 8.5: common ones often from level 2, the rest rarely from level 4
+		if t["id"] in Traits.COMMON_SUPER:
+			return 0 if p.level < 2 else 4
+		return 0 if p.level < 4 else 1
 	var tagpts := 0
 	for tag in t["tags"]:
 		tagpts += p.tag_counts.get(tag, 0)

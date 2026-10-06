@@ -586,11 +586,13 @@ understand the build, also add stat stacking as shown to buff weapons and builds
 
 "Revamp traits as [his pictures], also add more super traits and make some common super traits to
 refresh runs."
-- [ ] The pick screen in the way of his pictures: wide rows, a big icon box in the family's
+- [x] The pick screen in the way of his pictures: wide rows, a big icon box in the family's
       colour, the name, each effect on its own bullet line; on the right a column with the odds
       box and the keyword boxes under it.
-- [ ] More SUPER traits, and a set of COMMON SUPER traits: smaller, offered often from level 2,
-      so most runs meet a few.
+- [x] More SUPER traits, and a set of COMMON SUPER traits: smaller, offered often from level 2,
+      so most runs meet a few. 12 new (TWIN SOUL, LIGHTNING REFLEXES, STAT SURGE, HOARDER, LEGION,
+      GLASS CANNON, ASSASSIN, BLOOD MOON, WINTER'S HEART, INFERNO, PLAGUE LORD, JUGGERNAUT): 21 in
+      all; 8 are common (Traits.COMMON_SUPER: weight 4 from level 2), the rest rare from level 4.
 - [ ] Full check, replays, IPA 8.5.
 
 ---

@@ -25,6 +25,12 @@ func _ready() -> void:
 	p.level = 2
 	if G.trait_weight(p, titan) != 0:
 		fail("a SUPER trait is offered at level 2")
+	var twin := Traits.by_id("x_twin")
+	if G.trait_weight(p, twin) != 4:
+		fail("a COMMON SUPER trait has weight %d at level 2, want 4 (8.5)" % G.trait_weight(p, twin))
+	p.level = 1
+	if G.trait_weight(p, twin) != 0:
+		fail("a COMMON SUPER trait is offered at level 1")
 	p.level = 5
 	if G.trait_weight(p, titan) <= 0:
 		fail("a SUPER trait is never offered at level 5")

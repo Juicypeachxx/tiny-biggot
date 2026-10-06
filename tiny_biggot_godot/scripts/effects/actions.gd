@@ -183,7 +183,7 @@ static func run(a: Array, stacks: int, ctx: Dictionary) -> void:
 				p.gf[a[4]] = have + add
 		"drop":
 			var at := _pos(ctx)
-			Combat.drop_pickup(a[1], at.x, at.y)
+			Combat.drop_pickup(StatDrops.roll() if a[1] == "stat" else a[1], at.x, at.y)   # "stat": a random stat pickup (8.5)
 		"damage":
 			var e := _target(ctx)
 			if e != null:

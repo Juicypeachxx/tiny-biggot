@@ -13,11 +13,16 @@ extends RefCounted
 const BURST := 0.9      # seconds of starburst before the panel
 const ROW_GAP := 0.14   # seconds between rows coming in
 const SHINE := 0.45     # seconds a shine takes to cross a row
-const PX := 104         # the panel
-const PW := 240
+# 8.5 (his ask, 6 Oct: "revamp traits as" his pictures): wide rows on the left, a column on the right
+# with the odds of the next roll and the keyword boxes under it.
+const PX := 8           # the panel of rows
+const PW := 296
+const COL_X := 310      # the right column
+const COL_W := 132
 const ROW_Y := 30
-const ROW_H := 44
-const ROW_STEP := 48
+const ROW_H := 50
+const ROW_STEP := 54
+const FOOT_Y := 256
 
 ## Keywords: word -> [colour, what it means]. Matched on whole words of a trait's text.
 const KEYWORDS := {
@@ -85,7 +90,11 @@ static func ready() -> bool:
 	return age() >= BURST + 0.15
 
 static func row_rect(i: int) -> Rect2:
-	return Rect2(PX + 8, ROW_Y + i * ROW_STEP, PW - 16, ROW_H)
+	return Rect2(PX + 6, ROW_Y + i * ROW_STEP, PW - 12, ROW_H)
+
+## The reroll's tap zone on the footer line (taps.gd).
+static func reroll_rect() -> Rect2:
+	return Rect2(TB.SW / 2 + 40, FOOT_Y - 4, 140, 14)
 
 # ---------- Drawing ----------
 static func draw(ci: CanvasItem) -> void:
@@ -95,16 +104,17 @@ static func draw(ci: CanvasItem) -> void:
 	if t < BURST:
 		_burst(ci, t / BURST, p)
 		return
-	ci.draw_rect(Rect2(0, 0, TB.SW, TB.SH), Color(0.02, 0.02, 0.04, minf(0.85, (t - BURST) * 4.0 + 0.5)))
-	Gfx.text(ci, "LEVEL %d" % p.level, 52, 34, "lime", 2, 0.5)
-	if p.pending > 1:
-		Gfx.text(ci, "+%d MORE" % (p.pending - 1), 52, 52, "lime", 1, 0.5)
-	# The frame and its title plate.
+	ci.draw_rect(Rect2(0, 0, TB.SW, TB.SH), Color(0.02, 0.02, 0.04, minf(0.92, (t - BURST) * 4.0 + 0.5)))
+	# The frame: rows on the left, the column on the right with faint diagonal hatching.
 	var fh := 4 * ROW_STEP + 8
-	Gfx.panel(ci, PX, ROW_Y - 6, PW, fh, "#4d9be6", "#0c0b12")
-	ci.draw_rect(Rect2(PX + 3, ROW_Y - 3, PW - 6, fh - 6), TB.c("#2b4f8a"), false, 1.0)
-	Gfx.panel(ci, TB.SW / 2 - 60, ROW_Y - 20, 120, 14, "#f4ecd8", "#0c0b12")
-	Gfx.text(ci, "CHOOSE A TRAIT", TB.SW / 2, ROW_Y - 16, "white", 1, 0.5)
+	Gfx.panel(ci, PX, ROW_Y - 6, COL_X + COL_W + 4 - PX, fh, "#f4ecd8", "#0c0b12")
+	ci.draw_rect(Rect2(PX + 3, ROW_Y - 3, COL_X + COL_W - 2 - PX, fh - 6), TB.c("#3a3650"), false, 1.0)
+	for k in 14:
+		var hx := COL_X + k * 12.0
+		ci.draw_line(Vector2(hx, ROW_Y + fh - 12), Vector2(minf(hx + fh - 16, COL_X + COL_W), ROW_Y + fh - 12 - minf(fh - 16, COL_X + COL_W - hx)), Color(0.5, 0.5, 0.6, 0.12), 1.0)
+	Gfx.panel(ci, TB.SW / 2 - 62, ROW_Y - 22, 124, 15, "#f4ecd8", "#0c0b12")
+	Gfx.text(ci, "CHOOSE A TRAIT", TB.SW / 2, ROW_Y - 18, "white", 1, 0.5)
+	Gfx.text(ci, "LEVEL %d" % p.level + ("  (+%d MORE)" % (p.pending - 1) if p.pending > 1 else ""), PX + 2, ROW_Y - 18, "lime")
 	var opts: Array = c["opts"]
 	for i in 4:
 		var r := row_rect(i)
@@ -116,27 +126,30 @@ static func draw(ci: CanvasItem) -> void:
 			_row(ci, r, opts[i], c["idx"] == i, minf(1.0, k * 2.5))
 		else:
 			Gfx.panel(ci, r.position.x, r.position.y, r.size.x, r.size.y, "#2a2838", "#0c0b12")
-			Gfx.text(ci, "INCREASE YOUR LUCK", r.get_center().x, r.position.y + 14, "dim", 1, 0.5)
-			Gfx.text(ci, "FOR A CHANCE OF 4 CHOICES", r.get_center().x, r.position.y + 24, "dim", 1, 0.5)
+			Gfx.text(ci, "INCREASE YOUR LUCK", r.get_center().x, r.position.y + 17, "dim", 1, 0.5)
+			Gfx.text(ci, "FOR A CHANCE OF 4 CHOICES", r.get_center().x, r.position.y + 27, "dim", 1, 0.5)
 		if k < 1.0:
 			_shine(ci, r, k)
-	if t >= BURST + 4 * ROW_GAP and c["idx"] < opts.size():
-		_keywords(ci, opts[c["idx"]], row_rect(c["idx"]).position.y)
+	var oy := ROW_Y
 	if t >= BURST:
-		_odds(ci, p)
+		oy = _odds(ci, p)
+	if t >= BURST + 4 * ROW_GAP and c["idx"] < opts.size():
+		_keywords(ci, opts[c["idx"]], oy + 4)
 	var reroll := "REROLL (%d LEFT)" % p.rerolls if p.rerolls > 0 else "REROLL (%d GOLD)" % G.reroll_cost()
-	Gfx.text(ci, "UP/DOWN  CHOOSE    USE  TAKE    MENU  " + reroll, TB.SW / 2, ROW_Y + fh, "grey", 1, 0.5)
+	Gfx.text(ci, "UP/DOWN  CHOOSE    USE  TAKE    MENU  " + reroll, TB.SW / 2, FOOT_Y, "grey", 1, 0.5)
 
 static func _row(ci: CanvasItem, r: Rect2, tr: Dictionary, sel: bool, a: float) -> void:
 	var fam: Dictionary = Traits.FAMILIES[tr["fam"]]
 	var border: String = "#f2c94c" if sel else "#8b8f9c"
 	Gfx.panel(ci, r.position.x, r.position.y, r.size.x, r.size.y, border, "#14121c" if sel else "#0c0b12")
-	# The icon box.
-	var ib := Rect2(r.position.x + 5, r.position.y + 8, 26, 26)
-	Gfx.panel(ci, ib.position.x, ib.position.y, ib.size.x, ib.size.y, fam["hex"], "#0c0b12")
-	Gfx.sp(ci, FAM_ICON.get(tr["fam"], "fam_core"), ib.get_center().x, ib.end.y - 3, 2, 2, 0.0, false, a)
-	var tx := r.position.x + 36
-	Gfx.text(ci, tr["name"], tx, r.position.y + 4, fam["col"], 1, 0.0, true, a)
+	# The icon box (8.5: bigger, in the family's colour; pink for a SUPER trait).
+	var sup: bool = tr["rarity"] == "super"
+	var ib := Rect2(r.position.x + 6, r.position.y + 7, 36, 36)
+	Gfx.panel(ci, ib.position.x, ib.position.y, ib.size.x, ib.size.y, "#e86fb4" if sup else fam["hex"], "#0c0b12")
+	ci.draw_rect(Rect2(ib.position.x + 2, ib.position.y + 2, ib.size.x - 4, ib.size.y - 4), TB.c("#e86fb4" if sup else fam["hex"]), false, 1.0)
+	Gfx.sp(ci, FAM_ICON.get(tr["fam"], "fam_core"), ib.get_center().x, ib.end.y - 5, 2, 2, 0.0, false, a)
+	var tx := r.position.x + 48
+	Gfx.text(ci, ("SUPER " if sup and not tr["name"].begins_with("SUPER") else "") + tr["name"], tx, r.position.y + 5, "pink" if sup else fam["col"], 1, 0.0, true, a)
 	var rank: int = G.player.traits.get(tr["id"], 0)
 	var pips := ""
 	for k in tr["max"]:
@@ -145,9 +158,24 @@ static func _row(ci: CanvasItem, r: Rect2, tr: Dictionary, sel: bool, a: float) 
 	if tr["new"]:
 		var rar: Dictionary = Traits.RARITY[tr["rarity"]]
 		Gfx.text(ci, rar["name"], r.end.x - 5, r.end.y - 9, rar["col"], 1, 1.0, true, a)
-	var lines := rich_lines(tr["desc"], int(r.size.x) - 42)
-	for j in mini(3, lines.size()):
-		draw_line(ci, lines[j], tx, r.position.y + 14 + j * 8, a)
+	# Each sentence on its own bullet line (8.5), keywords in colour.
+	var y := r.position.y + 16
+	for part in bullets(tr["desc"]):
+		var lines := rich_lines(part, int(r.size.x) - 66)
+		for j in lines.size():
+			if y > r.end.y - 9:
+				return
+			if j == 0:
+				ci.draw_rect(Rect2(tx, y + 2, 2, 2), TB.c("#f4ecd8"))
+			draw_line(ci, lines[j], tx + 5, y, a)
+			y += 8
+
+## A trait's text split into its sentences (the bullet lines of a row).
+static func bullets(desc: String) -> PackedStringArray:
+	var out := PackedStringArray()
+	for s in desc.split(". ", false):
+		out.append(s.strip_edges().trim_suffix("."))
+	return out
 
 ## A bright band that sweeps across a row as it comes in.
 static func _shine(ci: CanvasItem, r: Rect2, k: float) -> void:
@@ -206,29 +234,32 @@ static func odds(p: Player) -> Dictionary:
 	out["fourth"] = minf(0.9, p.luck * 0.15) if p.luck > 0 else 0.0
 	return out
 
-static func _odds(ci: CanvasItem, p: Player) -> void:
+static func _odds(ci: CanvasItem, p: Player) -> float:
 	if not G.tchoice.has("odds"):
 		G.tchoice["odds"] = odds(p)   # worked out once per pick screen
 	var o: Dictionary = G.tchoice["odds"]
 	var rows := [["mi_str", "STR", "red", o["str"]], ["mi_dex", "DEX", "lime", o["dex"]], ["mi_int", "INT", "cyan", o["int"]],
 		["", "ANY", "tan", o["any"]], ["mi_crit", "SUPER", "pink", o["super"]], ["mi_luck", "4TH ROW", "lime", o["fourth"]]]
-	var x := 4.0
-	var y := 72.0
-	Gfx.panel(ci, x, y, 96, 14 + rows.size() * 9, "#4d9be6", "#0c0b12")
-	Gfx.text(ci, "NEXT ROLL ODDS", x + 48, y + 4, "white", 1, 0.5)
+	var x := float(COL_X)
+	var y := float(ROW_Y)
+	var h := 16 + rows.size() * 9
+	Gfx.panel(ci, x, y, COL_W, h, "#f4ecd8", "#0c0b12")
+	Gfx.text(ci, "NEXT ROLL ODDS:", x + 5, y + 4, "white")
 	for i in rows.size():
 		var r: Array = rows[i]
-		var ry := y + 14 + i * 9
+		var ry := y + 15 + i * 9
 		if r[0] != "":
-			Gfx.at(ci, r[0], x + 4, ry - 1)
-		Gfx.text(ci, r[1], x + 13, ry, r[2])
-		Gfx.text(ci, "%d%%" % roundi(r[3] * 100.0), x + 92, ry, "lime" if r[3] > 0 else "dim", 1, 1.0)
+			Gfx.at(ci, r[0], x + 5, ry - 1)
+		Gfx.text(ci, r[1], x + 15, ry, r[2])
+		Gfx.text(ci, ">", x + COL_W - 34, ry, "white")
+		Gfx.text(ci, "%d%%" % roundi(r[3] * 100.0), x + COL_W - 6, ry, "lime" if r[3] > 0 else "dim", 1, 1.0)
+	return y + h
 
 ## Keyword panels beside the panel, level with the chosen row.
 static func _keywords(ci: CanvasItem, tr: Dictionary, y: float) -> void:
 	var seen := {}
-	var x := PX + PW + 6
-	var w := TB.SW - x - 4
+	var x := COL_X
+	var w := COL_W
 	for word in (tr["name"] + " " + tr["desc"]).split(" ", false):
 		var key := _bare(word)
 		if not KEYWORDS.has(key) or seen.has(KEYWORDS[key][1]):
@@ -236,7 +267,7 @@ static func _keywords(ci: CanvasItem, tr: Dictionary, y: float) -> void:
 		seen[KEYWORDS[key][1]] = true
 		var lines := Gfx.wrap_text(KEYWORDS[key][1], w - 8)
 		var h := 14 + lines.size() * 8
-		if y + h > TB.SH - 30:
+		if y + h > FOOT_Y - 8:
 			break
 		Gfx.panel(ci, x, y, w, h, "#8b8f9c", "#0c0b12")
 		Gfx.text(ci, key, x + 4, y + 3, KEYWORDS[key][0])

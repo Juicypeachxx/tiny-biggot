@@ -776,6 +776,10 @@ elite kills and `on_boss_dead`. `Attributes._side()` from `add()` (and `start()`
 `zealot_dmg`, `prism_dmg` in `Combat.hook_mult`, `purse` through `Combat.held_gold()`.
 `tests/supertraits_test.tscn`. The odds box: `TraitView.odds()` and `_odds()` (cached in `G.tchoice["odds"]`).
 
+8.5: trait pick layout in trait_view.gd (PX/PW rows, COL_X/COL_W column, FOOT_Y, `reroll_rect()`
+for taps.gd, `bullets()` splits a text into its sentences; SUPER rows pink). `Traits.COMMON_SUPER`
+weights in `_new_trait_weight`; the "drop" action takes "stat" (a random stat pickup).
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

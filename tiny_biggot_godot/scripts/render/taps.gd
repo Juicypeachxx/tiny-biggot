@@ -90,7 +90,7 @@ static func zones() -> Array:
 		&"traits" when TraitView.active():
 			for i in G.tchoice["opts"].size():
 				out.append(_z(TraitView.row_rect(i), func(): G.tchoice["idx"] = i, G.tchoice["idx"] == i))
-			out.append(_act(Rect2(sw / 2 + 40, TraitView.ROW_Y + 4 * TraitView.ROW_STEP + 4, 140, 14), func(): send(&"pause")))
+			out.append(_act(TraitView.reroll_rect(), func(): send(&"pause")))
 		&"traits":
 			var n: int = G.tchoice["opts"].size()
 			var x0 := (sw - (n * 128 + (n - 1) * 10)) / 2
