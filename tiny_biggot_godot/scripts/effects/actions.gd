@@ -392,5 +392,33 @@ static func run(a: Array, stacks: int, ctx: Dictionary) -> void:
 					Fx.burst(t.x, t.y, ["#d8443c", "#f4ecd8"], 6, 50)
 					Summons.flashes.append({ "k": "zap", "x0": e.x, "y0": e.y - 4, "x1": t.x, "y1": t.y - 4, "t": 0.15, "max": 0.15, "col": "#d8443c" })
 					Combat.damage_enemy(t, dm, { "col": "red", "no_crit": true, "no_mult": true })
+		# ---------- ROADMAP 4.8 heroes ----------
+		"charm_area":
+			# ["charm_area", radius, seconds]: every ordinary foe near you fights for you (summons.gd).
+			for e in G.enemies.duplicate():
+				if e.targetable() and TB.dist(e, p) <= float(a[1]) + e.r:
+					Summons.charm(e, float(a[2]))
+					_did("charm_area")
+		"consume_area":
+			# ["consume_area", radius, dmg_mult]: every ailment on every foe near you is used up.
+			for e in G.enemies.duplicate():
+				if e.targetable() and e.hp > 0 and TB.dist(e, p) <= float(a[1]) + e.r:
+					run(["consume", a[2]], stacks, { "enemy": e })
+		"execute_weakest":
+			# ["execute_weakest", dmg_mult, below]: the most wounded foe in the room takes dmg_mult; below
+			# that share of its health (not a guardian), it dies.
+			var best: Enemy = null
+			for e in G.enemies:
+				if e.targetable() and e.hp > 0 and e.type != "dummy" and (best == null or e.hp / e.max_hp < best.hp / best.max_hp):
+					best = e
+			if best != null:
+				_did("execute_weakest")
+				Fx.burst(best.x, best.y - 6, ["#d8443c", "#f4ecd8"], 16, 90)
+				Juice.label("GUILLOTINE!", "#d8443c", best.x, best.y - 20)
+				G.add_shake(4)
+				if best.hp < best.max_hp * float(a[2]) and not best.is_boss():
+					Combat.damage_enemy(best, best.hp * 2.0 + 10.0, { "no_crit": true, "no_mult": true, "col": "red" })
+				else:
+					Combat.damage_enemy(best, w * float(a[1]) * stacks, { "col": "red" })
 		_:
 			push_error("Actions: unknown action " + str(a[0]))

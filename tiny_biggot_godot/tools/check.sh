@@ -92,6 +92,11 @@ timeout 600 "$GODOT" --headless --path . res://tests/realms_test.tscn -- --no-sa
 grep -E "realms test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== the ten heroes of 4.8: data, each passive and special in a fight, every branch node"
+timeout 600 "$GODOT" --headless --path . res://tests/heroes_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "heroes test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== the constellation: the web, taking and giving back stars, a run with them"
 timeout 300 "$GODOT" --headless --path . res://tests/stars_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "stars test" "$LOG"

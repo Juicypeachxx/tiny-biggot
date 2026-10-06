@@ -36,6 +36,8 @@ const HERO := {
 	"warden": [2, 2, 2], "banehunter": [3, 3, 0], "oathbreaker": [5, 0, 1], "wayfarer": [2, 4, 0],
 	"racketeer": [1, 4, 1], "condemned": [3, 2, 1], "cartomancer": [0, 2, 4], "sellsword": [4, 2, 0],
 	"gaolbird": [2, 4, 0],
+	"beekeeper": [1, 2, 3], "tinkerer": [1, 3, 2], "boneweaver": [0, 2, 4], "mirrorknight": [4, 1, 1], "plaguesaint": [1, 2, 3],
+	"frostwitch": [0, 2, 4], "demolitionist": [4, 1, 1], "executioner": [5, 1, 0], "pilgrim": [3, 1, 2], "beastmaster": [3, 3, 0],
 }
 
 static var _cache := {}

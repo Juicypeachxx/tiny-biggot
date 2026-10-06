@@ -136,3 +136,27 @@ them, so they still take the same code paths:
 **Balance note:** the first soak showed the Racketeer with a fully learned tree
 reaching ~2,900 gold by floor 5. Its gold was lowered (+10% base and +10% per
 heat level, from +20% and +15%). Hero balance is a playtest call.
+
+## ROADMAP 4.8: ten more heroes (6 Oct)
+
+His go on 6 Oct ("do complete stage 4") stood in for the one-line approvals. Each is data (a
+`NEW_HEROES` entry, a signature weapon in `Weapons.HERO_WEAPON`, attributes, a branch in
+`Traits.HERO_BRANCH` with `NODE_EFFECTS`), built on a mechanic no other hero has, mostly the 4.7
+effect actions. Sprites 12x14 on the originals' template; weapon icons reuse existing pictures.
+
+| Hero | Price | Weapon | Passive | Special | Branch |
+|---|---|---|---|---|---|
+| THE BEEKEEPER | 140 | Hive Smoker (flame) | every 4th kill calls a bee (wisp) for 20 s; bees +50%; +1 poison | SWARM CALL: 5 bees, poison all near | THE HIVE |
+| THE TINKERER | 160 | Rivet Gun (bolt) | rolling sets down a random turret for 8 s (every 5 s) | OVERCLOCK: two tesla coils, +40% rate | WORKSHOP |
+| THE BONEWEAVER | 200 | Bone Staff (orb) | a fifth of kills (all cursed ones) rise as skeletons; 10% curse | DANSE MACABRE: four skeletons, curse all near | OSSUARY ARTS |
+| THE MIRROR KNIGHT | 180 | Mirror Blade (sword) | rolling turns nearby shots back as yours; 1 armor | MIRROR WALL: reflect every near shot at 150%, 1 s untouchable | THE POLISHED OATH |
+| THE PLAGUE SAINT | 200 | Censer Flail (whip) | +1 poison, 10% curse; poisoned kills pass every ailment on | LAST RITES: every ailment near you used up, 80% each | THE BLACK LITANY |
+| THE FROST WITCH | 180 | Icicle Wand (orb) | +20% chill; every 3 s shots near her slow to half | BLIZZARD: freeze all near, every shot slows to a crawl | HOARFROST CRAFT |
+| THE DEMOLITIONIST | 160 | Blast Mortar (grenade) | a free bomb every 6 s in a fight; bombs +40%, pull foes in, can't hurt him | CARPET BOMB: five shells fall on foes | BLASTING CREW |
+| THE EXECUTIONER | 220 | Headsman's Axe (sword) | overkill carries to the nearest foe; foes below 10% die | GUILLOTINE: the most wounded foe takes 600%, dies below a third | THE BLOCK |
+| THE PILGRIM | 140 | Pilgrim's Staff (pulse) | heals on entering a room; healing at full health gives armor and 10 stars | SANCTUARY: heal a heart, 2 s untouchable, push, erase shots | THE LONG ROAD |
+| THE BEASTMASTER | 200 | Beast Spear (thrust) | 12% of hits tame an ordinary foe for 8 s | CALL OF THE WILD: tame every ordinary foe near you for 10 s | THE WILD |
+
+New actions: `charm_area`, `consume_area`, `execute_weakest`. Test: `tests/heroes_test.tscn` (in
+`tools/check.sh`): data, each passive and special in a fight, every branch node. Planted fault
+caught (the Tinkerer's turret removed). Soaks: 10 x 10 minutes, 0 errors.

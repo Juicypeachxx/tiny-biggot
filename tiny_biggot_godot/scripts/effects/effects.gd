@@ -49,7 +49,8 @@ const ACTIONS := ["nova", "shoot", "explode", "status", "heal", "buff", "chain",
 	"meteor", "bolts", "pull", "push", "bomb", "zone", "transmute", "rand_status", "shoot_at", "chaos",   # content batch 4
 	"tempo", "leap",   # the Gaolbird
 	"plant", "puppet", "charm", "warm",   # ROADMAP 4.6 weapons (arsenal.gd, summons.gd)
-	"turret", "raise", "reflect", "spread", "consume", "give", "slow_shots", "overkill"]   # ROADMAP 4.7
+	"turret", "raise", "reflect", "spread", "consume", "give", "slow_shots", "overkill",   # ROADMAP 4.7
+	"charm_area", "consume_area", "execute_weakest"]   # ROADMAP 4.8 heroes
 const STATUSES := ["burn", "poison", "chill", "bleed", "stun", "curse", "mark", "shock", "vulnerable", "weakened"]
 const CONDITIONS := ["elite", "boss", "burning", "poisoned", "chilled", "bleeding", "shocked", "cursed",
 	"low_hp", "full_hp", "moving", "still", "crit", "danger", "fighting", "hot", "rich", "armored", "flight",

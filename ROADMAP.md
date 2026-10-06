@@ -317,7 +317,8 @@ look (stage 5 redraws everything together later).
       again with new moves) that drops the COW MILKER. The robbers are scrap
       rats, not gypsies (no real people as the joke). See
       `tiny_biggot_godot/BRAZIL.md`.
-- [ ] 4.8 **Ten new characters.** Send him one line per character first
+- [x] 4.8 **Ten new characters.** (Done 6 Oct on his go, "do complete stage 4", in
+      place of the one-line approvals; see `tiny_biggot_godot/HEROES.md`.) Send him one line per character first
       (name, weapon, the one thing that makes it play differently) and wait
       for his yes. No two may share a mechanic with each other or with the 14
       there are (`HEROES.md`, `GAOLBIRD.md`). Build two or three a session:

@@ -121,7 +121,10 @@ const HERO_WEAPON := { "hexer": "hexwand", "poacher": "repeater", "brute": "pith
 	"alchemist": "flasksling", "warden": "lantern",
 	# Step 6 heroes (signature weapons are rows after content batch 1).
 	"banehunter": "banesabre", "oathbreaker": "ironslab", "wayfarer": "wayfareredge", "racketeer": "snubguns",
-	"condemned": "shackleflail", "cartomancer": "giltdeck", "sellsword": "warlance", "gaolbird": "irontalons" }
+	"condemned": "shackleflail", "cartomancer": "giltdeck", "sellsword": "warlance", "gaolbird": "irontalons",
+	"beekeeper": "hivesmoker", "tinkerer": "rivetgun", "boneweaver": "bonestaff", "mirrorknight": "mirrorblade",
+	"plaguesaint": "censerflail", "frostwitch": "iciclewand", "demolitionist": "blastmortar", "executioner": "headsmansaxe",
+	"pilgrim": "pilgrimstaff", "beastmaster": "beastspear" }
 
 ## [id, name, kind, rarity, tags, shape, overrides, stats, hooks, desc, effects] (Ruby wpn()).
 ## The first ORIGINAL_COUNT rows are the original weapons; later rows are new
@@ -512,6 +515,17 @@ const ROWS := [
 	# "You're going to Brazil" (his ask, 6 Oct; brazil.gd): found only from the Haggler and the Holy Cow.
 	["cowmilker", "COW MILKER", "gatling", "legend", ["bulwark", "frost"], "minigun", { "dmg": 2.2, "rate": 9.0, "bullet": "spark" }, [["chill", 0.2]], [], "SPRAYS FRESH MILK THAT CHILLS. EVERY 30TH SQUIRT: MOO! A RING OF 16 MILK SHOTS. 5% OF KILLS HEAL HALF A HEART.", [{ "on": "every_n_shots", "every": 30, "do": [["nova", 16, 1.0, "spark"], ["vfx", "label", "MOO!", "#f4ecd8"]] }, { "on": "on_kill", "chance": 0.05, "do": [["heal", 1]] }]],
 	["hagglerbargain", "HAGGLER'S BARGAIN", "bolt", "legend", ["fortune"], "pistol", { "dmg": 9.0, "rate": 3.0 }, [["luck", 1]], [["gold_dmg", 0.1]], "+10% DAMAGE PER 100 GOLD. A FIFTH OF HITS HAGGLE 1 GOLD OUT OF THE FOE. EVERY 12TH SHOT THROWS 5 COINS THAT HIT.", [{ "on": "on_hit", "chance": 0.2, "do": [["gold", 1]] }, { "on": "every_n_shots", "every": 12, "do": [["shoot", 5, 0.8, "", 0.2]] }]],
+	# ROADMAP 4.8 hero weapons (signature: never in loot pools).
+	["hivesmoker", "HIVE SMOKER", "flame", "rare", ["swarm", "venom"], "handcannon", { "dmg": 1.4, "rate": 9.0 }, [["poison", 1]], [], "PUFFS SMOKE THAT SOOTHES BEES AND CHOKES EVERYTHING ELSE.", [], "w_firespitter"],
+	["rivetgun", "RIVET GUN", "bolt", "rare", ["swarm"], "pistol", { "dmg": 3.0, "rate": 4.5 }, [], [], "FIRES HOT RIVETS FAST.", [], "w_repeater"],
+	["bonestaff", "BONE STAFF", "orb", "rare", ["malice"], "staff", { "dmg": 4.0, "rate": 2.6, "homing": 1.0 }, [["curse", 0.05]], [], "HEX BOLTS THAT SEEK THE LIVING.", [], "w_hexwand"],
+	["mirrorblade", "MIRROR BLADE", "slash", "rare", ["bulwark", "arcane"], "sword", { "dmg": 7.0, "rate": 2.4 }, [], [], "A BLADE POLISHED TO A MIRROR.", [], "w_sabre"],
+	["censerflail", "CENSER FLAIL", "whip", "rare", ["venom", "malice"], "whip", { "dmg": 5.0, "rate": 2.2 }, [["poison", 1]], [], "A SWINGING CENSER OF SICKLY SMOKE.", [], "w_bramblewhip"],
+	["iciclewand", "ICICLE WAND", "orb", "rare", ["frost"], "staff", { "dmg": 3.6, "rate": 3.0 }, [["chill", 0.15]], [], "SHARDS OF ICE THAT PIERCE ONE FOE.", [], "w_rimerod"],
+	["blastmortar", "BLAST MORTAR", "grenade", "rare", ["demolition"], "grenade", { "dmg": 9.0, "rate": 1.1, "shrapnel": 4 }, [], [], "LOBS SHELLS THAT LAND BY THE FOE YOU AIM AT; THE BLAST THROWS 4 SHARDS.", [], "w_pineapple"],
+	["headsmansaxe", "HEADSMAN'S AXE", "slash", "rare", ["blood", "edge"], "greatsword", { "dmg": 12.0, "rate": 1.4, "range": 44, "arc": 140 }, [], [], "HEAVY, SLOW AND FINAL.", [], "w_gallows"],
+	["pilgrimstaff", "PILGRIM'S STAFF", "pulse", "rare", ["bulwark"], "staff", { "dmg": 4.0, "rate": 1.8 }, [], [], "EACH TAP OF THE STAFF SENDS OUT A PULSE OF LIGHT.", [], "w_sparkrune"],
+	["beastspear", "BEAST SPEAR", "thrust", "rare", ["swarm", "edge"], "halberd", { "dmg": 7.0, "rate": 2.2, "range": 56 }, [], [], "A HUNTING SPEAR WITH A BONE TIP.", [], "w_halberd"],
 ]
 
 static var _by_id := {}

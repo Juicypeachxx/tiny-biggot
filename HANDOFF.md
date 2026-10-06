@@ -619,6 +619,14 @@ code in `Combat.update_enemies` (haggler catches, scrounger robs),
 milkrain, udder, ascend, holyfire, stampede. Weapons may set "bullet" in
 their stats (the milker shoots sparks). Full replays re-recorded.
 
+**4.8, ten more heroes (done, his go on 6 Oct).** See the 4.8 section of
+`tiny_biggot_godot/HEROES.md`. Hero indices 14-23. New actions
+`charm_area`, `consume_area`, `execute_weakest` (`actions.gd`).
+`tests/heroes_test.tscn` in `tools/check.sh`. The Beastmaster's tame chance
+went from 8% to 12% after the test showed two tames in 30 s (too rare to
+feel). Soaks 10 x 10 minutes, 0 errors (a fresh Frost Witch started on floor
+9 is slow against golems, not stuck).
+
 ## Noted, not yet acted on
 
 - Saving a run in progress (so iOS closing the app does not end it). Needs
