@@ -71,6 +71,13 @@ func _ready() -> void:
 	var want := m0 + 0.2 * empty + 0.06 + 0.2 + 0.2
 	if absf(Combat.hook_mult(p, e) - want) > 1e-4:
 		fail("the hooks: x%.3f, want x%.3f" % [Combat.hook_mult(p, e), want])
+	# 6. The odds box: the four shares add up to 100%; SUPER shows from level 4 only.
+	var od := TraitView.odds(p)
+	if absf(od["str"] + od["dex"] + od["int"] + od["any"] - 1.0) > 1e-6 or od["super"] <= 0.0:
+		fail("odds at level %d: %s" % [p.level, od])
+	p.level = 1
+	if TraitView.odds(p)["super"] != 0.0:
+		fail("SUPER odds at level 1 are not 0")
 	for t in Traits.all():
 		if t["id"].substr(0, 2) in ["x_", "f_", "y_"]:
 			for ch in t["name"] + t["desc"]:

@@ -122,6 +122,8 @@ static func draw(ci: CanvasItem) -> void:
 			_shine(ci, r, k)
 	if t >= BURST + 4 * ROW_GAP and c["idx"] < opts.size():
 		_keywords(ci, opts[c["idx"]], row_rect(c["idx"]).position.y)
+	if t >= BURST:
+		_odds(ci, p)
 	var reroll := "REROLL (%d LEFT)" % p.rerolls if p.rerolls > 0 else "REROLL (%d GOLD)" % G.reroll_cost()
 	Gfx.text(ci, "UP/DOWN  CHOOSE    USE  TAKE    MENU  " + reroll, TB.SW / 2, ROW_Y + fh, "grey", 1, 0.5)
 
@@ -182,6 +184,45 @@ static func _burst(ci: CanvasItem, k: float, p: Player) -> void:
 		ci.draw_rect(Rect2(roundf(s.x), roundf(s.y - tw), 1, tw * 2 + 1), col)
 	ci.draw_circle(c, 6.0 + 10.0 * sin(PI * k), Color(1, 1, 1, 0.9 * fade))
 	Gfx.text(ci, "LEVEL UP!", c.x, c.y - 30 - k * 10, "white", 2, 0.5, true, fade)
+
+## 8.4 (his ask, 6 Oct): the odds of the next roll, left of the panel: how much of the weight of
+## every trait that can be offered (G.trait_weight, the very numbers offer_traits draws with) trains
+## each attribute, the chance a SUPER trait is among the first pick, and luck's chance of a 4th row.
+static func odds(p: Player) -> Dictionary:
+	var w := { "str": 0, "dex": 0, "int": 0, "any": 0, "super": 0 }
+	var tot := 0
+	for tr in Traits.all():
+		var tw: int = G.trait_weight(p, tr)
+		if tw <= 0:
+			continue
+		tot += tw
+		var a: String = Attributes.FAMILY_ATTR.get(tr["fam"], "any")
+		w[a] += tw
+		if tr["rarity"] == "super":
+			w["super"] += tw
+	var out := {}
+	for k in w:
+		out[k] = 0.0 if tot == 0 else float(w[k]) / tot
+	out["fourth"] = minf(0.9, p.luck * 0.15) if p.luck > 0 else 0.0
+	return out
+
+static func _odds(ci: CanvasItem, p: Player) -> void:
+	if not G.tchoice.has("odds"):
+		G.tchoice["odds"] = odds(p)   # worked out once per pick screen
+	var o: Dictionary = G.tchoice["odds"]
+	var rows := [["mi_str", "STR", "red", o["str"]], ["mi_dex", "DEX", "lime", o["dex"]], ["mi_int", "INT", "cyan", o["int"]],
+		["", "ANY", "tan", o["any"]], ["mi_crit", "SUPER", "pink", o["super"]], ["mi_luck", "4TH ROW", "lime", o["fourth"]]]
+	var x := 4.0
+	var y := 72.0
+	Gfx.panel(ci, x, y, 96, 14 + rows.size() * 9, "#4d9be6", "#0c0b12")
+	Gfx.text(ci, "NEXT ROLL ODDS", x + 48, y + 4, "white", 1, 0.5)
+	for i in rows.size():
+		var r: Array = rows[i]
+		var ry := y + 14 + i * 9
+		if r[0] != "":
+			Gfx.at(ci, r[0], x + 4, ry - 1)
+		Gfx.text(ci, r[1], x + 13, ry, r[2])
+		Gfx.text(ci, "%d%%" % roundi(r[3] * 100.0), x + 92, ry, "lime" if r[3] > 0 else "dim", 1, 1.0)
 
 ## Keyword panels beside the panel, level with the chosen row.
 static func _keywords(ci: CanvasItem, tr: Dictionary, y: float) -> void:

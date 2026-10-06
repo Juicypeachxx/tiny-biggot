@@ -774,7 +774,7 @@ elite kills and `on_boss_dead`. `Attributes._side()` from `add()` (and `start()`
 `super` (weight 1, from level 4 in `_new_trait_weight`); `Traits.PLUS` (extra family ranks in
 `take_trait`); action `stack` (actions.gd, capped in `p.gf[key]`); hooks `idle_dmg`, `collect_dmg`,
 `zealot_dmg`, `prism_dmg` in `Combat.hook_mult`, `purse` through `Combat.held_gold()`.
-`tests/supertraits_test.tscn`.
+`tests/supertraits_test.tscn`. The odds box: `TraitView.odds()` and `_odds()` (cached in `G.tchoice["odds"]`).
 
 ## Noted, not yet acted on
 

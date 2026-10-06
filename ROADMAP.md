@@ -578,7 +578,8 @@ understand the build, also add stat stacking as shown to buff weapons and builds
       ALL FAITHS, FOUR-LEAF CROWN, BOTTOMLESS HEART, ELEMENTAL STORM, OVERCHARGED, TAILWIND), 2
       rule-benders (IDLE HANDS, BOTTOMLESS PURSE), 5 synergy traits (MOMENTUM, VETERAN, COLLECTOR,
       ZEALOT, PRISM). The keyword side box was already there and now covers the new words; the
-      family odds box is not done yet (left for his word).
+      odds box (his "ok do that", 6 Oct) sits left of the panel: STR / DEX / INT / ANY shares of
+      the next roll, the SUPER chance and luck's 4th row (TraitView.odds).
 - [x] Full check passed, replays re-recorded on purpose, classic identical, IPA 8.4.
 
 ---
