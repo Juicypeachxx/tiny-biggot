@@ -416,7 +416,7 @@ Rules for the art:
 - [x] 5.4 Weapon, gear and relic icons. (6 Oct) All 518 weapon, gear, relic and pet icons kept as
       drawn and recoloured into the look with its volume (`remaster(shade=True)`: light on the
       top-left edges, shadow on the bottom-right, outlines tinted by their colour). Originals in
-      `tools/art/src/icons/`. He marks any he wants redrawn new (a grid in `sprites.py` wins).
+      `tools/art/src/icons/`. He kept them all as they are (6 Oct).
 - [x] 5.5 Tiles and room objects, floor by floor. (6 Oct) Every tile sheet but kit0 (drawn new)
       kept as drawn, recoloured, each floor tile bevelled like kit0 (`kit_remaster`); 128 room
       objects, shop people, summons, the hydra's extra heads and Rex's barn props recoloured with

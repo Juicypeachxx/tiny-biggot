@@ -699,7 +699,7 @@ elite's outer outline turns gold, the body darker).
 **5.6 (6 Oct).** HUD and menu icons from `tools/art/src/hud/`. Logos, font and effects untouched.
 Stage 5 done: town people remodelled (his ask; the broker kept, recoloured; the drunk is a
 standing sprite turned flat, `_lying()`). Full check passed, IPA 5.6 built (release ipa-5.6).
-Open: his optional marks on the 5.4 icon sheets.
+He kept all 5.4 icons as they are.
 
 ## Noted, not yet acted on
 
