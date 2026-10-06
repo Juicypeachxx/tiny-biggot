@@ -238,3 +238,48 @@ S["beastmaster"] = ("main:#4a7a3a skin:#a8704a", [
 HEROES = ["hexer", "poacher", "brute", "gravedigger", "alchemist", "warden", "gaolbird", "banehunter", "oathbreaker",
 	"wayfarer", "racketeer", "condemned", "cartomancer", "sellsword", "beekeeper", "tinkerer", "boneweaver",
 	"mirrorknight", "plaguesaint", "frostwitch", "demolitionist", "executioner", "pilgrim", "beastmaster"]
+
+# ---- 5.3a: the first three floors' foes and guardians.
+S["mushroom"] = ("main:#d8443c", [
+"...oooooo...", "..o33l3221o.", ".o3l3322l21o", "o33322222l1o", "o3222l22221o", "oo11111111oo",
+"..olyllyko..", "..oll00lko..", "..ollllkko..", ".ojlllkkkjo.", "..oooooooo.."])
+S["imp"] = ("main:#d8443c second:#e8873a glow:#ffe060", [
+".c........c.", ".bo.oooo.ob.", "..ob3332bo..", "o.o3y33y2o.o", "oao3l2l21oao", "oaao3221oaao",
+".oo332221oo.", "...o3221o...", "..o21oo12o..", "..ooo..ooo.."])
+S["ghost"] = ("main:#a0b0d0 bone:#e8eef8 glow:#7ff0ff", [
+"...oooooo...", "..olllllko..", ".ollllllkko.", ".ol00ll00ko.", ".ollllllkko.", ".olll00lkko.",
+"olllllllkkko", "olkkolkkolko", ".o..o..o..o."])
+S["bookwyrm"] = ("main:#7a5236 second:#d8443c glow:#ffe060", [
+".oooooooooo.", "o3322222221o", "o32y2222y21o", "o3222qq2221o", "olklklklklko", "o000bbbb000o",
+"olklklklklko", "o2111111111o", ".oooooooooo."])
+S["drowned"] = ("main:#5a9a5a second:#3a6aa0 glow:#e0ffd0", [
+"...oooooo...", "..ouvvvuuo..", "..o33322uo..", "..o3y22y1o..", "..o322221o..", "..o3o00o1o..",
+".obo3221obo.", "o3ocbbbbao1o", "o3ocbbbbao1o", "o2obabbbao2o", "..oa3oo3ao..", "..ooo..ooo.."])
+S["bat2"] = ("main:#8a3a3a glow:#ffb040", [
+"o...o..o...o", "oo.o3oo3o.oo", "o3oo3333oo3o", "o32oy33yo23o", "o3222ll2223o", "o21o2222o12o",
+".oo.o22o.oo.", ".....oo....."])
+S["sporemother"] = ("main:#8a4ab0 second:#5a9a3a glow:#e8ff8a", [
+"....oooooooo....", "..oo33y33322oo..", ".o333332y22221o.", "o33y33322222y21o", "o33332222222221o",
+"o22222222222111o", ".oo1111111111oo.", "...ollllllllo...", "...olyllllyko...", "...ollllllkko...",
+"...oll0000lko...", "...olllllkkko...", "..ojllllllkkjo..", ".ocjllllllkkjco.", "occbbcbbcbbcbbco",
+".oooooooooooooo."])
+S["librarian"] = ("main:#3a6ab0 second:#6fd3e0 glow:#bff4ff", [
+".....oooooo.....", "....o333322o....", "...o33333222o...", "..o3330000221o..", "..o33xx00xx21o..",
+"..o3300000021o..", "..o3300ll0021o..", ".o333o0ll0o221o.", "o33332222222221o", "o3qlllllkllllq1o",
+"o5qljjlkljjlq51o", "o33qqqqqqqqq221o", "o33222222222221o", "o3222b222222b21o", "occbbccbbccbbcco",
+".oooooooooooooo."])
+
+# Elites (his ask, 6 Oct): a little different from the normal foe, not only gold-edged. Each gets a
+# richer, darker body, hot gold eyes, an extra mark drawn over it (row -> overlay, '.' keeps the
+# pixel), and the gold outline.
+ELITE = {
+	"bat": {0: "...q....q..."},
+	"bat2": {0: "...q....q..."},
+	"slime": {0: "...qrqqrq...", 1: "...oqrrqo..."},
+	"skeleton": {0: "...o8998o...", 1: "..o877778o.."},
+	"mushroom": {1: ".....q......", 2: "...q....q...", 3: ".........q..", 4: ".....q......"},
+	"imp": {0: ".q........q.", 1: ".q........q."},
+	"ghost": {0: "...qrqqrq..."},
+	"bookwyrm": {1: ".q........q.", 3: ".....rr.....", 7: ".q........q."},
+	"drowned": {0: "...qoqqoq...", 6: "..q......q.."},
+}

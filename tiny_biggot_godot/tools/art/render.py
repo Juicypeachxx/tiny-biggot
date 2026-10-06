@@ -28,9 +28,16 @@ def tones(base, vb):
     warm = h < 0.2 or h > 0.92   # gold, skin, wood, red: highlights lean to yellow, never to pink
     return [toh(rgb(h + (abs(dh) if warm and i == 2 else dh), s*ds, v*dv)) for i,(dh,ds,dv) in enumerate(vb["tones"])]
 
-def sprite(name, vb, rng=None):
+def sprite(name, vb, rng=None, elite=False):
     meta, grid = S[name]
     m = dict(kv.split(':') for kv in meta.split())
+    if elite:   # richer, darker body, hot gold eyes, its own mark (ELITE), gold outline
+        h,s_,v = hsv(hx(m.get("main","#888888")))
+        m["main"] = "#%02x%02x%02x" % toh(rgb(h, min(1, s_*1.2), v*0.82))
+        m["glow"] = "#ffd84a"
+        grid = list(grid)
+        for row, over in ELITE.get(name, {}).items():
+            grid[row] = "".join(c if c != '.' else g for g, c in zip(grid[row], over))
     mats = {"123": m.get("main","#888888"), "abc": m.get("second","#3f7fbf"), "jkl": m.get("bone", BONE), "456": m.get("skin", SKIN),
             "789": METAL, "pqr": GOLD, "uvw": WOOD}
     pal = {}
@@ -51,6 +58,10 @@ def sprite(name, vb, rng=None):
     for y,row in enumerate(grid):
         for x,ch in enumerate(row):
             if ch != '.': px[x,y] = pal[ch]
+    if elite:
+        for y,row in enumerate(grid):
+            for x,ch in enumerate(row):
+                if ch == 'o': px[x,y] = (242,201,76,255)
     if vb["rim"]:   # cold rim light on the right/top edge of every shape (Dead Cells-like)
         rc = toh(vb["rim"])
         orig = im.copy().load()
@@ -167,19 +178,11 @@ def kit(vb, seed=7):
     for y in range(28): put(0,32+y,dark); put(16,32+y,dark)
     return im
 
-ELITES = ["bat", "skeleton", "slime"]   # foes with an elite look: the outline turns gold
-
-def elite(name, im):
-    im = im.copy(); px = im.load()
-    for y,row in enumerate(S[name][1]):
-        for x,ch in enumerate(row):
-            if ch == 'o': px[x,y] = (242,201,76,255)
-    return im
 
 def all_for(v):
     vb = VIBES[v]
     out = {n: sprite(n, vb) for n in S}
-    for n in ELITES: out[n + "_elite"] = elite(n, out[n])
+    for n in ELITE: out[n + "_elite"] = sprite(n, vb, elite=True)
     out.pop("hexer_old", None)
     out["kit0"] = kit(vb)
     return out
