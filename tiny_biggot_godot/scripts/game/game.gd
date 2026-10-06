@@ -144,8 +144,6 @@ func new_run() -> void:
 		if not r.is_empty(): add_relic(p, r[0])
 	run_stats["power0"] = Combat.power(p)   # the yardstick of Combat.power_scale
 	_debug_give(p)
-	if DebugArgs.has("power-log"):
-		print("power0 ", run_stats["power0"])
 	Meta.meta["runs"] += 1
 	Meta.write_save()
 	start_floor()
@@ -213,8 +211,6 @@ func _debug_heavy(p: Player) -> void:
 	state = &"play"
 
 func start_floor() -> void:
-	if DebugArgs.has("power-log") and player != null:
-		print("TMP floor %d t=%d lv%d relics %d power %.0f scale %.2f run %.2f" % [floor_index, run_stats["time"], player.level, player.relics.size(), Combat.power(player), Combat.power_scale(), Combat.run_scale()])
 	if player != null:
 		player.floor_kills = 0
 	floor_d = World.new_floor(floor_index)
@@ -817,7 +813,6 @@ func on_boss_dead(b: Enemy) -> void:
 	room.cleared = true
 	dyn_dirty = true
 	run_stats["bosses"] += 1
-	if DebugArgs.has("power-log"): print("TMP boss down t=%d" % run_stats["time"])
 	Meta.meta["bosses"] += 1
 	var p := player
 	if p.oath:

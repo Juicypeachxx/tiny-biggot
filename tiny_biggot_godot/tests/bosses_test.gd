@@ -5,6 +5,8 @@ extends Node
 ##      and stage 3 at one third, cannot be hurt while it breaks, and fights on in each stage.
 ##   2. Every rift guardian (and Rex; rift minis are checked as minis) breaks into a third stage below a quarter of its health.
 ##   4. A blow of any size stops at the next stage's line (his ask, 6 Oct).
+##   5. Boss armor (6.5, armor.gd): a small blow wears the plate and a quarter reaches the health;
+##      breaking the plate stuns and leaves the foe vulnerable; a new stage brings a new plate.
 ##   3. Every owner in BossLoot.DROPS leaves its own item when it falls, and those items never
 ##      turn up in a random weapon or gear roll.
 ## Prints "bosses test: PASSED" or a FAIL line per problem.
@@ -31,6 +33,8 @@ func _ready() -> void:
 	for key in BossAI.STAGE_PLANS:
 		_gate(key)
 	_gate("squallheron")
+	for key in ["holycow", "mirehulk"]:
+		_armor(key)
 	_looks()
 	print("bosses test: PASSED" if fails == 0 else "bosses test: %d FAILED" % fails)
 	get_tree().quit()
@@ -62,7 +66,7 @@ func _break_down(e: Enemy) -> bool:
 	for k in 8:
 		if e.hp <= 0 or Stages.gate(e) <= 0:
 			return staged
-		Combat.damage_enemy(e, e.hp * 2.0 + 10.0, { "no_crit": true, "no_mult": true })
+		Combat.damage_enemy(e, (e.hp + Armor.shown(e)) * 2.0 + 10.0, { "no_crit": true, "no_mult": true })   # through the plate too
 		play(150)
 		staged = true
 	return staged
@@ -70,7 +74,7 @@ func _break_down(e: Enemy) -> bool:
 func _fell(e: Enemy) -> void:
 	if _break_down(e):
 		play(120)   # the last stage's break and a rift foe's grace between phases run out
-	Combat.damage_enemy(e, e.hp * 2.0 + 10.0, { "no_crit": true, "no_mult": true })
+	Combat.damage_enemy(e, (e.hp + Armor.shown(e)) * 2.0 + 10.0, { "no_crit": true, "no_mult": true })   # through the plate too
 
 func _cull(b: Enemy) -> void:
 	for e in G.enemies.duplicate():
@@ -156,6 +160,37 @@ func _gate(key: String) -> void:
 	Combat.damage_enemy(e, 1e12, { "no_crit": true })
 	if e.hp <= 0 or absf(e.hp - line) > 1.0:
 		fail("%s: a huge blow left %.0f health, not its stage line %.0f" % [key, e.hp, line])
+
+func _armor(key: String) -> void:
+	seed(key.hash())
+	_room()
+	var p := G.player
+	var e: Enemy = Combat.spawn_boss(key) if GameData.BOSSES.has(key) else Combat.spawn_enemy(key, p.x, p.y - 70.0, false, true)
+	play(30)
+	_cull(e)
+	var plate := Armor.plate(e)
+	Armor.refresh(e)
+	if plate <= 0 or e.armor <= 0:
+		fail("%s: no armor plate (%.0f)" % [key, plate])
+		return
+	var hp0 := e.hp
+	var a0 := e.armor
+	Combat.damage_enemy(e, 40.0, { "no_crit": true, "no_mult": true })
+	var worn := a0 - e.armor
+	if worn < 30.0 or worn > 50.0 or absf(hp0 - e.hp - worn * Armor.THROUGH) > 0.5:
+		fail("%s: a blow of 40 wore %.1f armor and took %.1f health" % [key, worn, hp0 - e.hp])
+	Combat.damage_enemy(e, e.armor * 1.3 + 1.0, { "no_crit": true, "no_mult": true })
+	if e.armor > 0 or e.stun_t <= 0 or e.vuln_t <= 0:
+		fail("%s: the plate did not break into a stun (armor %.1f, stun %.1f)" % [key, e.armor, e.stun_t])
+	var st := e.stage * 4 + e.phase
+	Combat.damage_enemy(e, e.hp * 2.0 + 10.0, { "no_crit": true, "no_mult": true })
+	Meta.opts["autofire"] = false   # the player's own shots would wear the new plate
+	play(400)
+	Meta.opts["autofire"] = true
+	if e.hp <= 0 or e.stage * 4 + e.phase == st:
+		fail("%s: did not reach its next stage (stage %d, state %s, hp %.0f of %.0f)" % [key, e.stage, e.state, e.hp, e.max_hp])
+	elif Armor.shown(e) < plate - 0.5:
+		fail("%s: no fresh plate in its next stage (%.0f of %.0f)" % [key, Armor.shown(e), plate])
 
 ## His ask (6 Oct): each guardian evolves with its stages: two more looks, drawn from stage 2 and 3.
 func _looks() -> void:

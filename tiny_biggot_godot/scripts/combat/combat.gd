@@ -231,7 +231,6 @@ static func spawn_boss(key: String, quiet: bool = false) -> Enemy:
 	if not quiet:
 		Snd.play("roar")
 		G.add_shake(6)
-	if DebugArgs.has("power-log"): print("TMP boss %s in t=%d hp %d scale %.2f" % [key, G.run_stats["time"], hp, power_scale()])
 	return e
 
 # ---------- Enemy shots ----------

@@ -362,7 +362,7 @@ func _break_down(e: Enemy) -> bool:
 	for k in 8:
 		if e.hp <= 0 or Stages.gate(e) <= 0:
 			return staged
-		Combat.damage_enemy(e, e.hp * 2.0 + 10.0, { "no_crit": true, "no_mult": true })
+		Combat.damage_enemy(e, (e.hp + Armor.shown(e)) * 2.0 + 10.0, { "no_crit": true, "no_mult": true })   # through the plate too
 		play(150)
 		staged = true
 	return staged
@@ -370,7 +370,7 @@ func _break_down(e: Enemy) -> bool:
 func _fell(e: Enemy) -> void:
 	if _break_down(e):
 		play(120)   # the last stage's break and a rift foe's grace between phases run out
-	Combat.damage_enemy(e, e.hp * 2.0 + 10.0, { "no_crit": true, "no_mult": true })
+	Combat.damage_enemy(e, (e.hp + Armor.shown(e)) * 2.0 + 10.0, { "no_crit": true, "no_mult": true })
 
 func _cull(b: Enemy) -> void:
 	for e in G.enemies.duplicate():

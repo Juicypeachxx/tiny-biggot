@@ -720,6 +720,17 @@ grows sideways and up only (bottom-centred drawing).
 `rift: true`, BossAI plans like the Holy Cow), hero `clockmaker` (last of NEW_HEROES), weapons at the
 end of weapons.gd ROWS, `foremanhat` in gear.gd, drops in boss_loot.gd; art in `tools/art/sprites.py`
 (`kit_spire` from `kit()` with its own colours).
+6.5 (his video: "still instantly clears everything"): `Combat.power()` = the weapon sheet
+(dmg × rate × shots × crits) or `run_stats["dps"]` (what he really dealt in locked fights, a 20 s
+running average fed by `damage_enemy` → `run_stats["dealt"]`, `Combat.track_power` in
+`update_play`), whichever is more. `power_scale()` = (power / yardstick)^0.65 when ahead, the
+yardstick `run_stats["power0"]` (set in `new_run` before `--give`) × (1 + 1.3f + 0.25f²) × loops;
+it rides in `run_scale()`, so foes, minis, guardians and hazards all read it at spawn.
+`scripts/combat/armor.gd`: a plate per stage (35% guardians, 25% minis/champions), 25% of a blow
+through while it holds, break = stun + vulnerable 3 s; `Armor.shown()` for the boss bar (drawing
+never touches the foe). `boss_hp()` 2.0. Tests that fell a boss strike `hp + Armor.shown(e)`;
+`bosses_test._armor`. Bot runs, seed 3, --god, against 6.4: High Caliber guardians 8-41 s → 36-110 s,
+Hall of Mirrors 10-46 s → 30-163 s; floors take about 50% longer.
 
 ## Noted, not yet acted on
 
