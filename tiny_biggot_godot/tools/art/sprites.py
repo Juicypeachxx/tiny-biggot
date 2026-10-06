@@ -879,3 +879,16 @@ S["npc_pitboss"] = ("main:#2a2a35 skin:#e0b090", M([
 S["npc_teller"] = ("main:#7a3a4a second:#3f8a5a skin:#f0c8a0", M([
 "...ooo", "..ovvv", ".obbbb", "..o555", "..o909", "..o455", "...o55", "o5o3ll", "obo32l", "o5o322",
 ".oo322", "..o32o", "..o00o", "..ooo."]))
+# His picks (6 Oct): the broker keeps its old design (recoloured from src/rooms); a better drunk:
+# flat on his back, belly up, red nose, stubble, closed eyes, bottle on the floor by his hand.
+S.pop("npc_broker")
+S["npc_drunk"] = ("main:#c8b890 second:#4a9a5a glow:#e04040 skin:#e0a47a", [
+"..........y...", "..oooo....yx..", ".ouvvuo..ooo..", ".ov555ooo333o.", ".o5005o333322o", ".o5yy5o322222o",
+".ojjj5o322221o", "..o5ooooo22uuo", ".ocbbco...ouuo", "..oooo....ooo."])
+def _lying(stand):   # a standing sprite turned a quarter left: head on the left, flat on the floor
+    W = len(stand[0])
+    return ["".join(row[x] for row in stand) for x in reversed(range(W))]
+S["npc_drunk"] = ("main:#c8b890 second:#4a9a5a glow:#e04040 skin:#e0a47a", OV(_lying([
+"...oooo...", "..ouvvuo..", ".ov5555vo.", ".o505505o.", ".o55yy55o.", ".ojjjjjjo.", "..ojjjjo..",
+"o5o3222o5o", "o5o3222o5o", ".oo3222oo.", ".o322221o.", "..o2oo1o..", "..ouoouo..", "..oo..oo.."]),
+{0: ".......ocbbo..", 1: "........oo...."}))
