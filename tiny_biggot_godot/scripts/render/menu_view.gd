@@ -458,7 +458,7 @@ func draw_gearpage(ci: CanvasItem) -> void:
 			if g != null:
 				ci.draw_texture_rect(Img.t(g["sprite"]), Rect2(x + 4, y + 11, 14, 14), false)
 				Gfx.text(ci, g["name"], x + 40, y + 3, GameData.RARITY_COL[g["rarity"]])
-				var gl := TraitView.rich_lines(g["desc"], 178)
+				var gl := TraitView.rich_lines(Live.desc(g), 178)
 				for j in mini(2, gl.size()):
 					TraitView.draw_line(ci, gl[j], x + 22, y + 12 + j * 8)
 			else:
@@ -475,7 +475,7 @@ func draw_gearpage(ci: CanvasItem) -> void:
 					lines.append(sline)
 			if not lines.is_empty():
 				Gfx.text(ci, "  ".join(lines), x + 32, y + 24, "lime")
-			var gl := TraitView.rich_lines(g["desc"], 166)
+			var gl := TraitView.rich_lines(Live.desc(g), 166)
 			for j in mini(2, gl.size()):
 				TraitView.draw_line(ci, gl[j], x + 32, y + 33 + j * 8)
 		else:
@@ -652,7 +652,7 @@ func draw_inventory(ci: CanvasItem) -> void:
 	var sel_c: String = p.belt[G.inv_i - 6] if G.inv_i >= 6 and G.inv_i - 6 < p.belt.size() else ""
 	if sel_it != null:
 		Gfx.text(ci, (WeaponInfo.display_name(sel_it) if sel_it["item"] == "weapon" else sel_it["name"]), INV_X - 4, dy, GameData.RARITY_COL[sel_it["rarity"]])
-		var dl := TraitView.rich_lines(sel_it["desc"], TB.SW - INV_X - 4)
+		var dl := TraitView.rich_lines(Live.desc(sel_it), TB.SW - INV_X - 4)
 		for j in mini(2, dl.size()):
 			TraitView.draw_line(ci, dl[j], INV_X - 4, dy + 9 + j * 8)
 	elif sel_c != "":

@@ -792,6 +792,10 @@ afx colours, render.py EVOLVE/FORMS, sprites.py (9.3 block), drops in boss_loot.
 gear/weapon rows. The phoenix's rise: `Brazil._phoenix_rises` (via `cow_rises`), THIRD_PLANS.
 chaos_test section 5.
 
+10.1: `Live` (`scripts/game/live.gd`): `now(effects, p)` reads hooks (gold/relic/armor/collect/
+idle/zealot/trait _dmg), "stack" bonuses (`p.gf[key]`) and miser; `Live.desc(t)` used by trait
+rows, item cards, relic choice and prompts, the equipment page and the inventory. `tests/live_test`.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

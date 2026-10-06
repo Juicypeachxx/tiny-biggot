@@ -139,7 +139,7 @@ static func item_lines(it: Dictionary) -> Array:
 			var have: int = p.sets.get(it["set"], 0)
 			lines.append(["%s SET (%d/4): 2: %s" % [st["name"], have, st["d2"]], "gold"])
 			lines.append(["4: " + st["d4"], "gold"])
-	for l in (TraitView.wrap_rich(it["desc"], 220) if ItemShow.active() else Gfx.wrap_text(it["desc"], 220)):
+	for l in (TraitView.wrap_rich(Live.desc(it), 220) if ItemShow.active() else Gfx.wrap_text(it["desc"], 220)):   # 10.1
 		lines.append([l, "white"])
 	return lines
 
@@ -230,7 +230,7 @@ func draw_prompt(ci: CanvasItem, o: Dictionary) -> void:
 		"shop":
 			if o["item"] == "relic":
 				title = o["relic"]["name"]
-				desc = o["relic"]["desc"]
+				desc = Live.desc(o["relic"])   # 10.1
 			else:
 				title = SHOP_TEXT[o["item"]][0]
 				desc = SHOP_TEXT[o["item"]][1]
@@ -259,7 +259,7 @@ func draw_prompt(ci: CanvasItem, o: Dictionary) -> void:
 			extra = "PAY %d GOLD (%d SPINS LEFT)" % [G.price(12 + G.floor_index * 4), o.get("uses", 0)]
 		"bloodshop":
 			title = o["relic"]["name"]
-			desc = o["relic"]["desc"]
+			desc = Live.desc(o["relic"])   # 10.1
 			extra = "PAY 1 MAX HEART"
 		"well":
 			title = "WISHING WELL"
@@ -343,7 +343,7 @@ func draw_choice(ci: CanvasItem) -> void:
 		for j in nl.size():
 			Gfx.text(ci, nl[j], x + w / 2, y + 72 + j * 8 + oy, "gold", 1, 0.5)
 		Gfx.text(ci, GameData.RARITY_NAME[r["rarity"]], x + w / 2, y + h - 12 + oy, GameData.RARITY_COL[r["rarity"]], 1, 0.5)
-		TraitView.draw_rich(ci, r["desc"], x + w / 2, y + 94 + oy, w - 14, 0.5)   # 8.2: keywords in colour
+		TraitView.draw_rich(ci, Live.desc(r), x + w / 2, y + 94 + oy, w - 14, 0.5)   # 8.2: keywords in colour
 	Gfx.text(ci, "< >  CHOOSE     USE  TAKE", TB.SW / 2, 236, "grey", 1, 0.5)
 
 # ---------- Trait pick ----------

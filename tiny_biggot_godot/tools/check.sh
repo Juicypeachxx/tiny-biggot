@@ -127,6 +127,11 @@ timeout 600 "$GODOT" --headless --path . res://tests/chaos_test.tscn -- --no-sav
 grep -E "chaos test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== live descriptions (10.1): growing texts show their value now"
+timeout 600 "$GODOT" --headless --path . res://tests/live_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "live test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== the ten heroes of 4.8: data, each passive and special in a fight, every branch node"
 timeout 600 "$GODOT" --headless --path . res://tests/heroes_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "heroes test" "$LOG"

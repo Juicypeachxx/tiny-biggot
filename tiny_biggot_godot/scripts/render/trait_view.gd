@@ -160,7 +160,7 @@ static func _row(ci: CanvasItem, r: Rect2, tr: Dictionary, sel: bool, a: float) 
 		Gfx.text(ci, rar["name"], r.end.x - 5, r.end.y - 9, rar["col"], 1, 1.0, true, a)
 	# Each sentence on its own bullet line (8.5), keywords in colour.
 	var y := r.position.y + 16
-	for part in bullets(tr["desc"]):
+	for part in bullets(Live.desc(tr)):   # 10.1: with its value now
 		var lines := rich_lines(part, int(r.size.x) - 66)
 		for j in lines.size():
 			if y > r.end.y - 9:
