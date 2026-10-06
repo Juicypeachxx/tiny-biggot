@@ -297,8 +297,8 @@ def all_for(v):
     # 5.5: every floor's tiles but kit0 (drawn new): recoloured, each floor tile bevelled like kit0.
     for n, burn in EVOLVE.items():   # the guardians' evolved stages (his ask, 6 Oct)
         if n in out:
-            out[n + "_s2"] = evolve(out[n], 2, burn)
-            out[n + "_s3"] = evolve(out[n], 3, burn)
+            out[n + "_s2"] = evolve(form(out[n], n, 2, vb), 2, burn)
+            out[n + "_s3"] = evolve(form(out[n], n, 3, vb), 3, burn)
     for f in sorted(os.listdir(os.path.join(src, "kits"))):
         out[f[:-4]] = kit_remaster(os.path.join(src, "kits", f), vb)
     for f in sorted(os.listdir(os.path.join(src, "icons"))):
@@ -383,4 +383,94 @@ def evolve(im, stage, burn):
                            for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)))
                 if near:
                     px[x, y] = toh(bc) + (120,)
+    return out
+
+# ---- His ask (6 Oct): an evolution you can see in the shape, not only the colour. Hand-drawn parts
+# (left-hand versions; the right-hand ones are mirrored) put on each guardian, its own mix per stage,
+# before evolve() burns it.
+PART = {
+	"horn_s": ["o..", "lo.", "lo.", "llo"],
+	"horn_b": ["o.....", "lo....", ".lo...", ".llo..", "..llo.", "..lllo"],
+	"horn_d": ["o....", "1o...", "11o..", ".11o.", "..11o"],
+	"wing": ["o......", "2o.....", "22o....", "222oo..", "2222o..", "22222oo", "2o2o22o", "o.o.o.o"],
+	"wingf": ["o.....", "lo....", "llo...", "lllo..", "kllloo", "kkllko", "okkoko", ".o.o.o"],
+	"eye3": [".oo.", "oyyo", "oxxo", ".oo."],
+	"eyes": ["oyo.oyo", ".o.oyo.", "...o..."],
+	"maw": ["ooooooooo", "ol0l0l0lo", "o0yyyyy0o", "o0k0k0k0o", "ooooooooo"],
+	"flames": ["y..y..y..y", "yx.yx.yx.y", "oyyoyyoyyo"],
+	"spike": ["o..", "9o.", "99o"],
+	"tent": ["o.o.o.o.o.", "2o2o2o2o2o", "o2o.o2o.o2", ".o...o...o"],
+	"halo": ["q.qq.q", "..q..q"],
+}
+# guardian -> {stage: [(part, x, y, mirrored pair: right edge x or None, behind)]}, x and y from the
+# sprite's top-left; a pair's right copy is placed so it ends at that column.
+FORMS = {
+	"colossus":    {2: [("horn_s", 2, -3, 14, 0), ("eye3", 6, 1, None, 0)],
+	                3: [("horn_b", -2, -5, 18, 1), ("eye3", 6, 1, None, 0), ("spike", -2, 11, 18, 0)]},
+	"sporemother": {2: [("tent", 3, 15, None, 1), ("eyes", 5, 2, None, 0)],
+	                3: [("tent", 0, 15, None, 1), ("tent", 6, 15, None, 1), ("maw", 4, 9, None, 0), ("eyes", 5, 1, None, 0)]},
+	"librarian":   {2: [("eyes", 5, 1, None, 0), ("horn_s", 2, -2, 14, 1)],
+	                3: [("wingf", -5, 3, 21, 1), ("eyes", 5, 1, None, 0), ("tent", 3, 14, None, 1), ("horn_d", 1, -4, 15, 1)]},
+	"tyrant":      {2: [("horn_d", 0, -4, 16, 1), ("spike", -1, 6, 17, 0)],
+	                3: [("flames", 3, -3, None, 0), ("horn_d", -1, -4, 17, 1), ("spike", -2, 6, 18, 0), ("maw", 4, 9, None, 0)]},
+	"rimewarden":  {2: [("spike", -1, 5, 17, 0), ("eye3", 6, 0, None, 0)],
+	                3: [("horn_b", -3, -4, 19, 1), ("spike", -2, 5, 18, 0), ("spike", -2, 9, 18, 0), ("eye3", 6, 0, None, 0)]},
+	"regent":      {2: [("horn_s", 3, -3, 13, 1), ("eye3", 6, 3, None, 0)],
+	                3: [("wing", -6, 5, 22, 1), ("horn_b", 0, -5, 16, 1), ("eye3", 6, 3, None, 0)]},
+	"bogmatriarch": {2: [("maw", 4, 9, None, 0), ("eyes", 5, 4, None, 0)],
+	                3: [("maw", 4, 9, None, 0), ("tent", 3, 15, None, 1), ("horn_d", 0, -3, 16, 1), ("eyes", 5, 4, None, 0)]},
+	"ashwarlord":  {2: [("horn_b", -2, -5, 18, 1)],
+	                3: [("wing", -6, 4, 22, 1), ("horn_b", -3, -6, 19, 1), ("flames", 3, -4, None, 0)]},
+	"frozenabbot": {2: [("spike", -1, 7, 17, 0), ("eye3", 6, 1, None, 0)],
+	                3: [("horn_b", -2, -4, 18, 1), ("spike", -2, 7, 18, 0), ("spike", -2, 11, 18, 0), ("eyes", 5, 4, None, 0)]},
+	"crowking":    {2: [("wing", -5, 6, 21, 1)],
+	                3: [("wing", -6, 3, 22, 1), ("wing", -4, 8, 20, 1), ("eye3", 6, 1, None, 0), ("flames", 3, -3, None, 0)]},
+	"umbralsun":   {2: [("eye3", 6, 3, None, 0)],
+	                3: [("maw", 4, 8, None, 0), ("eyes", 5, 3, None, 0), ("spike", -3, 6, 19, 1)]},
+	"holycow":     {2: [("horn_b", -1, -2, 17, 1), ("halo", 5, -2, None, 1)],
+	                3: [("horn_d", -2, -3, 18, 1), ("wing", -6, 6, 22, 1), ("eyes", 5, 3, None, 0), ("flames", 3, -4, None, 0)]},
+	"judge":       {2: [("eye3", 6, 2, None, 0), ("wingf", -4, 3, 20, 1)],
+	                3: [("wingf", -6, 1, 22, 1), ("wingf", -4, 7, 20, 1), ("eyes", 5, 2, None, 0), ("halo", 5, -3, None, 1)]},
+	"cinderking":  {2: [("horn_d", 0, -3, 16, 1), ("flames", 3, -4, None, 0)],
+	                3: [("wing", -6, 4, 22, 1), ("horn_b", -2, -5, 18, 1), ("flames", 3, -5, None, 0), ("maw", 4, 9, None, 0)]},
+	"unwritten":   {2: [("eyes", 5, 3, None, 0), ("tent", 3, 15, None, 1)],
+	                3: [("tent", 0, 15, None, 1), ("tent", 6, 15, None, 1), ("eyes", 4, 2, None, 0), ("eyes", 6, 6, None, 0), ("horn_d", 1, -4, 15, 1)]},
+	"stormcrown":  {2: [("spike", 0, 8, 24, 0), ("eye3", 10, 6, None, 0)],
+	                3: [("horn_b", 2, -2, 22, 1), ("tent", 7, 21, None, 1), ("eyes", 9, 7, None, 0), ("spike", -1, 8, 25, 0)]},
+	"bilgehydra":  {2: [("horn_s", 1, -3, 7, 1), ("horn_s", 9, -3, 15, 1), ("eyes", 9, 12, None, 0)],
+	                3: [("horn_b", -1, -5, 9, 1), ("horn_b", 7, -5, 17, 1), ("maw", 8, 14, None, 0), ("tent", 7, 22, None, 1)]},
+	"brassorgan":  {2: [("spike", -2, 12, 43, 0), ("eye3", 18, 13, None, 0)],
+	                3: [("horn_b", 1, -5, 40, 1), ("spike", -2, 12, 43, 0), ("spike", -2, 18, 43, 0), ("maw", 16, 18, None, 0), ("eyes", 17, 12, None, 0)]},
+}
+
+def _part_img(name, vb, meta):
+    rows = PART[name]
+    W = max(len(r) for r in rows)
+    S["_part"] = (meta, [r.ljust(W, ".") for r in rows])
+    im = sprite("_part", vb)
+    S.pop("_part")
+    return im
+
+def form(im, name, stage, vb):
+    """The guardian with its stage's parts; the canvas grows to hold them (bottom stays the bottom)."""
+    spec = FORMS.get(name, {}).get(stage, [])
+    meta = S[name][0] if name in S else "main:#5a4a6a"
+    placed = []
+    for (pn, x, y, xr, behind) in spec:
+        pim = _part_img(pn, vb, meta)
+        placed.append((pim, x, y, behind))
+        if xr is not None:
+            placed.append((pim.transpose(Image.FLIP_LEFT_RIGHT), xr - pim.width + 1, y, behind))
+    x0 = min([0] + [x for _, x, _, _ in placed]); y0 = min([0] + [y for _, _, y, _ in placed])
+    x1 = max([im.width] + [x + p.width for p, x, _, _ in placed]); y1 = max([im.height] + [y + p.height for p, _, y, _ in placed])
+    # keep the sprite centred: grow the same amount on both sides
+    side = max(-x0, x1 - im.width)
+    W, H = im.width + 2 * side, im.height - y0 + max(0, y1 - im.height)
+    out = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    ox, oy = side, -y0
+    for p, x, y, b in placed:
+        if b: out.alpha_composite(p, (ox + x, oy + y))
+    out.alpha_composite(im, (ox, oy))
+    for p, x, y, b in placed:
+        if not b: out.alpha_composite(p, (ox + x, oy + y))
     return out
