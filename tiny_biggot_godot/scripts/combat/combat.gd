@@ -647,7 +647,7 @@ static func update_enemies(dt: float) -> void:
 			if e.type == "haggler":
 				Brazil.caught(e)
 				break
-			if e.type == "scrounger" and p.invuln <= 0 and p.dodge_t <= 0:
+			if (e.type == "scrounger" or e.type == "raider") and p.invuln <= 0 and p.dodge_t <= 0:
 				Brazil.rob(e)
 			hurt_player(1, e.d["name"] if e.is_boss() else e.d.get("label", "a " + e.type))
 			if p.thorns > 0 and not e.thorn_cd > 0:

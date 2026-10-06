@@ -11,7 +11,8 @@ extends RefCounted
 
 const SPAWN_CHANCE := 0.03     # per wave, floors 1-10, once a run
 const NAGS := ["SPARE A COIN?", "NICE BOOTS. MINE NOW", "GIVE GIVE GIVE", "JUST A LITTLE GOLD", "WHAT'S IN THE POCKETS?",
-	"YOU LOOK RICH", "SHINY! SHINY!", "FINDERS KEEPERS", "NO REFUNDS", "PSST. HEY. HEY."]
+	"YOU LOOK RICH", "SHINY! SHINY!", "FINDERS KEEPERS", "NO REFUNDS", "PSST. HEY. HEY.",
+	"TOLL ROAD. PAY UP", "NICE CART. SHAME", "EMPTY THEM POCKETS"]
 
 static var _nag_t := 0.0
 
@@ -21,7 +22,8 @@ static func maybe_spawn(room: Room, floor_index: int) -> void:
 		return
 	if room.type != "combat" and room.type != "elite":
 		return
-	if randf() >= SPAWN_CHANCE:
+	# OPTIONS > MEET THE HAGGLER (his ask, 6 Oct, to try Brazil on the iPad): he is in the first fight.
+	if not Meta.opts.get("haggler", false) and randf() >= SPAWN_CHANCE:
 		return
 	G.run_stats["haggler"] = true
 	var s := World.free_spot(room, G.player, 120)
@@ -39,13 +41,13 @@ static func caught(e: Enemy) -> void:
 	var nr := World.make_room(G.floor_d, "combat", "", "s", { "theme": "brazil", "step": 0 })
 	G.start_fade(func(): G.enter_room(nr))
 
-## A scrounger's touch: it robs you (the Haggler's hat keeps your pockets shut).
+## A scrounger's or a raider's touch: it robs you (the Haggler's hat keeps your pockets shut).
 static func rob(e: Enemy) -> void:
 	var p := G.player
 	var hat = p.gear.get("head")
 	if hat != null and hat["id"] == "hagglerhat":
 		return
-	var n := mini(p.gold, 3 + G.floor_index)
+	var n := mini(p.gold, (3 + G.floor_index) * (2 if e.type == "raider" else 1))   # a raider takes twice as much
 	if n <= 0:
 		return
 	p.gold -= n
@@ -71,7 +73,7 @@ static func tick(dt: float) -> void:
 	if _nag_t > 0:
 		return
 	_nag_t = 2.2
-	var them := G.enemies.filter(func(o): return o.type == "scrounger" and o.hp > 0)
+	var them := G.enemies.filter(func(o): return (o.type == "scrounger" or o.type == "raider") and o.hp > 0)
 	if not them.is_empty():
 		var o: Enemy = them[randi() % them.size()]
 		Fx.float_text(o.x, o.y - 14, NAGS[randi() % NAGS.size()], "bone")

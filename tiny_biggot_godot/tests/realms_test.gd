@@ -30,6 +30,7 @@ func _ready() -> void:
 	for b in ["judge", "cinderking", "unwritten", "holycow"]:
 		_fight(b)
 	_brazil()
+	_meet_haggler()
 	for b in BossAI.STAGE_PLANS:
 		_stages(b)
 	_reward()
@@ -221,6 +222,21 @@ func _brazil() -> void:
 	G.god = true
 	if p.gold >= 50:
 		fail("a scrounger's touch did not rob the hero")
+	# The raider (his ask, 6 Oct): a human robber who takes twice what a scrounger does.
+	G.enemies.erase(s)
+	play(90)   # the last hit's grace time runs out
+	var rd := Combat.spawn_enemy("raider", p.x, p.y, false, true)
+	_cull(rd)   # alone with the hero: no one else's touch first
+	p.gold = 50
+	p.invuln = 0.0
+	p.dodge_t = 0.0
+	G.god = false
+	play(1, func(_i): _stick(rd))
+	G.god = true
+	if p.gold != 50 - 2 * (3 + G.floor_index):
+		fail("a raider's touch took %d gold, not %d" % [50 - p.gold, 2 * (3 + G.floor_index)])
+	G.enemies.erase(rd)
+	G.enemies.append(s)
 	Gear.equip_gear(p, Gear.by_id("hagglerhat"))
 	p.gold = 50
 	p.invuln = 0.0
@@ -323,6 +339,19 @@ func _reward() -> void:
 		fail("a flawless guardian left %d chests (want 2), flawless %d" % [now - chests, G.run_stats.get("flawless", 0)])
 	if p.hp <= 2:
 		fail("felling a guardian did not heal")
+
+## OPTIONS > MEET THE HAGGLER: he is in the first fight of the run, every time.
+func _meet_haggler() -> void:
+	_run()
+	G.floor_index = 1
+	G.start_floor()
+	G.enter_room(World.make_room(G.floor_d, "combat", "", "s", { "no_secret": true }))
+	Meta.opts["haggler"] = true
+	G.run_stats.erase("haggler")
+	Brazil.maybe_spawn(G.room, G.floor_index)
+	Meta.opts["haggler"] = false
+	if not G.enemies.any(func(e): return e.type == "haggler"):
+		fail("MEET THE HAGGLER is on and he did not come to the first fight")
 
 func _cull(b: Enemy) -> void:
 	for e in G.enemies.duplicate():

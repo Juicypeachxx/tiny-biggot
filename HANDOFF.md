@@ -701,6 +701,9 @@ Stage 5 done: town people remodelled (his ask; the broker kept, recoloured; the 
 standing sprite turned flat, `_lying()`). Full check passed, IPA 5.6 built (release ipa-5.6).
 He kept all 5.4 icons as they are.
 
+**5.7 extras (6 Oct).** `raider` foe (Brazil pool, `Brazil.rob` takes double), `Meta.opts.haggler`
+(OPTIONS > MEET THE HAGGLER, `Brazil.maybe_spawn`). Tests in `realms_test` (`_meet_haggler`).
+
 ## Noted, not yet acted on
 
 - Saving a run in progress (so iOS closing the app does not end it). Needs

@@ -429,6 +429,15 @@ Rules for the art:
       `npc_*` in `sprites.py`).
   Stage 5 closed (6 Oct): full check passed (all replays identical), IPA 5.6 built.
 
+## Stage 5.7: small extras (his ask, 6 Oct)
+
+- [x] A human robber for Brazil: THE RAIDER, a wasteland scavenger (goggles, rust scarf, shoulder
+      spikes, a pipe). Faster and tougher than a scrounger, robs twice as much; added to Brazil's
+      foes (nothing taken out). No real people: the robbers are scavengers and rats.
+- [x] OPTIONS > MEET THE HAGGLER: when on, the Haggler is in the first fight of every run, so he can
+      try Brazil on the iPad.
+- Noted for the next additions: saving a run in progress (there is no such option yet).
+
 After each of 5.2 to 5.6: `tools/bake_atlas.sh`, `tools/check.sh`, a
 before-and-after picture for him, a new IPA.
 

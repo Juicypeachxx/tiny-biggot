@@ -892,3 +892,10 @@ S["npc_drunk"] = ("main:#c8b890 second:#4a9a5a glow:#e04040 skin:#e0a47a", OV(_l
 "...oooo...", "..ouvvuo..", ".ov5555vo.", ".o505505o.", ".o55yy55o.", ".ojjjjjjo.", "..ojjjjo..",
 "o5o3222o5o", "o5o3222o5o", ".oo3222oo.", ".o322221o.", "..o2oo1o..", "..ouoouo..", "..oo..oo.."]),
 {0: ".......ocbbo..", 1: "........oo...."}))
+
+# His ask (6 Oct): Brazil's human robber, a wasteland raider: scavenged hood, glowing goggles, a rust
+# scarf over the mouth, spiked shoulder pads, a pipe.
+S["raider"] = ("main:#8a7a5a second:#a04a2a glow:#ffa040 skin:#d89a70", OV(M([
+"...ooo", "..ovvv", ".ovvvv", ".ov8y8", "..obbb", ".o98ob", "o3o322", "o3ouuq", "o5o322", ".oo322",
+"..o32o", "..ooo."]), {8: "..........9."}))
+ELITE["raider"] = dict(_HUM)
