@@ -566,7 +566,14 @@ understand the build, also add stat stacking as shown to buff weapons and builds
 - [ ] 8.3 Stat stacking: rooms, chests and shops give stat pickups with a label over them (+1 STR,
       +1 DEX, +1 INT, +1% crit, +0.5% move speed ...), and the attributes do more than weapon
       damage (STR, DEX and INT each also add a small stat of their own).
-- [ ] Full check, replays, IPA 8.3.
+- [ ] 8.4 Fun traits and synergy traits (his ask, 6 Oct, with pictures of a trait pick: ideas
+      only). Big, odd, run-shaping picks on the level-up screen: "super" versions of a family
+      (a big pile of one attribute, counted as extra ranks of that family), rule-benders (lazy:
+      damage per empty gear slot; rich: count as holding lots of gold; elemental: every few
+      seconds burn / chill / shock / poison every foe), and synergy traits that grow with what you
+      already do (per skill use, per roll, per alignment...). The pick screen shows the odds of
+      each family and explains each keyword in a side box.
+- [ ] Full check, replays, IPA 8.4.
 
 ---
 
