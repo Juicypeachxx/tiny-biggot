@@ -794,6 +794,8 @@ func on_boss_dead(b: Enemy) -> void:
 	Combat.drop_pickup("heart", b.x, b.y)
 	Combat.drop_pickup("ember", b.x, b.y)
 	RiftBosses.clear()
+	if GameData.rogues() and room.type != "barn":
+		_boss_reward(b)
 	if room.type == "barn":
 		Rex.on_beaten(b)   # a good boy rolls over: his hoard, and he offers to come along
 		return
@@ -838,6 +840,31 @@ func on_boss_dead(b: Enemy) -> void:
 	drop_item(Weapons.random_weapon(Gear.roll_item_rarity(floor_index, "boss"), player.weapon), b.x - 20, b.y + 20)
 	if randf() < 0.5:
 		drop_item(Gear.random_gear(Gear.roll_item_rarity(floor_index, "boss")), b.x + 20, b.y + 20)
+
+## A guardian falls (his ask, 6 Oct: "a rewarding feeling"; expanded game): a slow-motion finish
+## and a flash, a fountain of loot, half your health back, and if it never touched you, FLAWLESS:
+## a second chest.
+func _boss_reward(b: Enemy) -> void:
+	hitstop = 0.5
+	Juice.flash(0.35)
+	add_shake(12)
+	Snd.play("unlock")
+	Juice.label("GUARDIAN FELLED!", "#f2c94c", b.x, b.y - 34, true)
+	Fx.burst(b.x, b.y, ["#f2c94c", "#fffbe0", "#e8873a", "#f4ecd8"], 60, 170, 0.9, 3)
+	for i in 15:
+		Combat.drop_pickup("coin", b.x, b.y)
+	for i in 4:
+		Combat.drop_pickup("gem", b.x, b.y)
+	for i in 2:
+		Combat.drop_pickup("ember", b.x, b.y)
+	player.heal(maxi(2, player.max_hp / 2))
+	run_stats["felled"] = run_stats.get("felled", 0) + 1
+	if room.hits == 0:
+		run_stats["flawless"] = run_stats.get("flawless", 0) + 1
+		Juice.label("FLAWLESS!", "#6fd3e0", b.x, b.y - 48, true)
+		room.objects.append({ "kind": "chest", "x": 14.0 * TB.TS + 56, "y": 12.0 * TB.TS, "boss": true })
+		for i in 3:
+			Combat.drop_pickup("gem", b.x, b.y)
 
 ## Heaven and Hell (ROADMAP 4.7 part C): a realm's ruler falls and the way to the Unwritten Page
 ## opens; the Unwritten falls and the run is won, the last ending of all.

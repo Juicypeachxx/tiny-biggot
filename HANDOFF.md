@@ -640,6 +640,14 @@ not been baked after the hero sprites, and the Mirror Knight's sword id
 clashed with the old MIRRORBLADE (now `brightblade`, BRIGHT BLADE). Next:
 stage 5 (sprite revamp), which starts with a sample for his yes (5.1).
 
+**4.12, souls-like guardians (his ask, 6 Oct).** See
+`tiny_biggot_godot/BOSS_STAGES.md`. `BossAI`: `STAGE_PLANS`, `STAGE_LINE`,
+`_want_stage`, `_stage_break` (state `stagebreak`, which `damage_enemy`
+refuses), `done()` rests less by stage and chains in stage 3, the pulse
+(`Enemy.pulse_t`); `Enemy.stage`. New attacks wall, flower, cross, barrage.
+`game.gd._boss_reward` (expanded game, not Rex's barn). The Colossus keeps
+its rule of summoning only below half health. Full replays re-recorded.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress (so iOS closing the app does not end it). Needs

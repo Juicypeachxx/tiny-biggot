@@ -22,6 +22,38 @@ const BOSS_PLANS := {
 	# The Holy Cow (brazil.gd): two halves, then it rises again (THIRD_PLANS).
 	"holycow": ["moo", "milkrain", "charge", "udder", "moo", "summon"],
 }
+## Souls-like stages (his ask, 6 Oct; expanded game only, the original game's guardians are as
+## they were). Stage 1 is the plan above; at two thirds of its health a guardian breaks into stage
+## 2, at one third into stage 3, each with its own plan. A break: it cannot be hurt for a moment,
+## every shot vanishes, it roars, the banner speaks, a shockwave. Stage 2 rests less; stage 3 is
+## chaos: almost no rest, attacks chain, and a desperation pulse every 3.5 s.
+const STAGE_PLANS := {
+	"colossus": [["slam", "wall", "volley", "ring", "cross"], ["slam", "flower", "wall", "barrage", "slam", "cross"]],
+	"sporemother": [["spiral", "cloud", "flower", "burst", "summon"], ["flower", "barrage", "cloud", "wall", "spiral"]],
+	"librarian": [["pages", "tide", "wall", "ink", "summon"], ["ink", "barrage", "pages", "wall", "tide"]],
+	"tyrant": [["charge", "embers", "hellgate", "sweep", "cross"], ["charge", "hellgate", "barrage", "brimstone", "charge"]],
+	"rimewarden": [["freeze", "hail", "wall", "shards", "charge"], ["freeze", "flower", "hail", "barrage", "shards"]],
+	"regent": [["teleport", "beams", "curtain", "wall", "summon", "halo"], ["teleport", "barrage", "curtain", "flower", "beams", "halo"]],
+	"bogmatriarch": [["bogspit", "flower", "cloud", "summon", "brimstone"], ["bogspit", "barrage", "flower", "brimstone", "wall"]],
+	"ashwarlord": [["charge", "arrowrain", "cross", "embers", "summon"], ["charge", "arrowrain", "barrage", "hellgate", "cross"]],
+	"frozenabbot": [["palms", "freeze", "wall", "hail", "shards"], ["palms", "flower", "barrage", "freeze", "wall"]],
+	"crowking": [["teleport", "gunline", "wall", "spiral", "summon", "cross"], ["teleport", "gunline", "barrage", "flower", "cross"]],
+	"umbralsun": [["eclipse", "beams", "wall", "curtain", "teleport", "halo"], ["eclipse", "barrage", "flower", "curtain", "verdict", "ink"]],
+	"judge": [["halo", "verdict", "wall", "beams", "summon"], ["halo", "barrage", "verdict", "flower", "cross"]],
+	"cinderking": [["brimstone", "hellgate", "wall", "sweep", "charge"], ["hellgate", "barrage", "brimstone", "flower", "charge"]],
+	"unwritten": [["ink", "rewrite", "wall", "halo", "brimstone", "verdict"], ["rewrite", "barrage", "flower", "ink", "hellgate", "eclipse"]],
+	"holycow": [["moo", "milkrain", "wall", "udder", "charge"], ["moo", "barrage", "milkrain", "flower", "udder"]],
+}
+const STAGE_LINE := {
+	"colossus": ["ITS RIBS CRACK OPEN", "THE BONES ARE ALL THAT IS LEFT"], "sporemother": ["SHE BURSTS INTO BLOOM", "THE WHOLE GROTTO BREATHES SPORES"],
+	"librarian": ["THE TIDE RISES IN THE STACKS", "EVERY BOOK SCREAMS AT ONCE"], "tyrant": ["THE FORGE ROARS", "MOLTEN AND FURIOUS"],
+	"rimewarden": ["THE ICE THICKENS", "A WHITEOUT FALLS"], "regent": ["THE CROWN BURNS PALE", "THE REGENT ABANDONS ALL COURTESY"],
+	"bogmatriarch": ["THE MIRE STIRS", "THE MARSH ITSELF RISES"], "ashwarlord": ["THE WARHORNS SOUND", "NO RETREAT. NO SURRENDER"],
+	"frozenabbot": ["THE PRAYER TURNS COLD", "THE MONASTERY BELL SHATTERS"], "crowking": ["THE MURDER GATHERS", "THE ROOFTOPS GO DARK"],
+	"umbralsun": ["THE SUN SPLITS", "TOTAL ECLIPSE"], "judge": ["THE SCALES TIP", "THE FINAL VERDICT"],
+	"cinderking": ["THE THRONE OF ASH IGNITES", "HELL ITSELF ANSWERS"], "unwritten": ["THE PAGE TEARS", "THE INK SPILLS EVERYWHERE"],
+	"holycow": ["THE UDDERS SWELL", "UNHOLY MOO"],
+}
 ## A guardian's third stage (it rose again: e.phase == 3; brazil.gd).
 const THIRD_PLANS := { "holycow": ["ascend", "holyfire", "milkrain", "stampede", "udder", "halo", "summon"] }
 const THIRD_SUMMONS := { "holycow": ["scrounger", "scrounger", "crawler"] }
@@ -59,6 +91,27 @@ static func done(e: Enemy, wait: float = 0.8) -> void:
 	e.state = &"rest"
 	e.st = 0.0
 	e.t = wait * (0.7 if h else 1.0)
+	if e.stage == 2:
+		e.t *= 0.75
+	elif e.stage == 3:
+		e.t = 0.05 if randf() < 0.4 else e.t * 0.4   # chaos: half the time the next attack follows at once
+
+## Expanded game: the stage this guardian should be in now (STAGE_PLANS).
+static func _want_stage(e: Enemy) -> int:
+	if not GameData.rogues() or not STAGE_PLANS.has(e.boss) or e.phase == 3:
+		return e.stage
+	return 3 if e.hp < e.max_hp * 0.34 else (2 if e.hp < e.max_hp * 0.67 else 1)
+
+static func _stage_break(e: Enemy, to: int) -> void:
+	e.state = &"stagebreak"
+	e.st = 0.0
+	e.sub = to
+	EBullets.clear_all()
+	RiftBosses.clear()
+	G.show_banner(e.d["name"], STAGE_LINE[e.boss][to - 2])
+	G.add_shake(7)
+	Snd.play("roar")
+	Fx.burst(e.x, e.y, ["#f4ecd8", Afx.BOSS_COL.get(e.boss, "#d8443c")], 26, 120)
 
 static func update_boss(e: Enemy, dt: float) -> void:
 	if RiftBosses.handles(e):
@@ -71,8 +124,31 @@ static func update_boss(e: Enemy, dt: float) -> void:
 		if e.t <= 0:
 			e.state = &"pick"
 		return
+	# Souls-like stages (expanded game only).
+	if e.state == &"stagebreak":
+		e.z = sin(e.st * 20.0) * 2.0
+		if e.st >= 1.6:
+			e.z = 0.0
+			e.stage = e.sub
+			e.cycle = 0
+			Combat.ering(e.x, e.y - 4, 28, 80, randf(), RING_SPR.get(e.boss, "red"))
+			Combat.ering(e.x, e.y - 4, 20, 55, randf(), RING_SPR.get(e.boss, "red"))
+			G.add_shake(9)
+			Snd.play("boom")
+			e.state = &"pick"
+		return
+	var want := _want_stage(e)
+	if want > e.stage:
+		_stage_break(e, want)
+		return
+	if e.stage == 3:
+		e.pulse_t -= dt
+		if e.pulse_t <= 0:
+			e.pulse_t = 3.5
+			Combat.ering(e.x, e.y - 4, 12, 62, randf(), RING_SPR.get(e.boss, "red"))
 	if e.state == &"pick":
-		var plan: Array = THIRD_PLANS[e.boss] if e.phase == 3 and THIRD_PLANS.has(e.boss) else BOSS_PLANS[e.boss]
+		var plan: Array = THIRD_PLANS[e.boss] if e.phase == 3 and THIRD_PLANS.has(e.boss) \
+			else (STAGE_PLANS[e.boss][e.stage - 2] if e.stage > 1 and STAGE_PLANS.has(e.boss) else BOSS_PLANS[e.boss])
 		var nxt: String = plan[TB.rmod(e.cycle, plan.size())]
 		e.cycle += 1
 		if nxt == "summon" and (G.enemies.size() > 5 or (not h and e.boss == "colossus")):
@@ -483,6 +559,58 @@ static func update_boss(e: Enemy, dt: float) -> void:
 				Combat.ering(cx, cy, 26 if h else 20, 70, e.sub * 0.12, "bone" if e.sub % 2 == 1 else "dark")
 				e.sub += 1
 				if e.sub >= 4: done(e, 1)
+		# ---------- Stage attacks (expanded game) ----------
+		&"wall":
+			# A wall of shots all round with one gap that turns: find the gap, wave after wave.
+			if e.t <= 0:
+				e.t = 0.6
+				if e.sub == 0:
+					e.angle = TB.ang_to(e, p)
+				var n := 30
+				for i in n:
+					var a := e.angle + float(i) / n * TAU
+					if absf(TB.wrap_ang(a - e.angle)) < 0.42:
+						continue
+					Combat.eshot(cx, cy, a, 64, RING_SPR.get(e.boss, "red"))
+				e.angle += 0.55 if e.sub % 2 == 0 else -0.35
+				Snd.play("ebullet")
+				e.sub += 1
+				if e.sub >= (4 if e.stage < 3 else 6): done(e)
+		&"flower":
+			# Petals: two sets of arms turning opposite ways.
+			if e.t <= 0:
+				e.t = 0.09
+				e.angle += 0.13
+				for i in 4:
+					Combat.eshot(cx, cy, e.angle + i * TAU / 4, 58, RING_SPR.get(e.boss, "red"))
+					Combat.eshot(cx, cy, -e.angle * 1.3 + i * TAU / 4 + 0.4, 72, "page" if i % 2 == 0 else "bone")
+			if e.st > 3.0:
+				done(e, 1)
+		&"cross":
+			# Lanes light up across you, along and across, then strike.
+			if e.t <= 0 and e.sub < 3:
+				e.t = 0.55
+				RiftBosses.bands.append({ "horiz": false, "pos": clampf(p.x, 2.0 * TB.TS, 26.0 * TB.TS), "half": 10.0, "warn": 0.75,
+					"fire": 0.14, "by": e.d["name"], "hit": false })
+				RiftBosses.bands.append({ "horiz": true, "pos": clampf(p.y, 4.0 * TB.TS, 16.0 * TB.TS), "half": 10.0, "warn": 0.75,
+					"fire": 0.14, "by": e.d["name"], "hit": false })
+				Snd.play("charge")
+				e.sub += 1
+			if e.sub >= 3 and e.st > 2.4:
+				done(e, 0.8)
+		&"barrage":
+			# Chaos: a fan, a ring or a burst of arms, over and over, in no order.
+			if e.t <= 0:
+				e.t = 0.28
+				match randi() % 3:
+					0: Combat.efan(cx, cy, TB.ang_to(e, p), 7, 0.9, 120, "bone")
+					1: Combat.ering(cx, cy, 16, 70, randf(), RING_SPR.get(e.boss, "red"))
+					_:
+						for i in 6:
+							Combat.eshot(cx, cy, randf() * TAU, 90 + randf() * 40, "fire")
+				Snd.play("ebullet")
+			if e.st > 2.6:
+				done(e, 1)
 		# ---------- The Holy Cow (brazil.gd) ----------
 		&"moo":
 			# MOO: three rings of milk spread out, each wider than the last.

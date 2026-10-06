@@ -253,6 +253,8 @@ static func hook_mult(p: Player, e: Enemy) -> float:
 static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	if e.hp <= 0 or e.spawn_t > 0 or e.hidden:
 		return false
+	if e.state == &"stagebreak":
+		return false   # a guardian between stages cannot be hurt (BossAI)
 	var p := G.player
 	var crit := false
 	if GameData.rogues():

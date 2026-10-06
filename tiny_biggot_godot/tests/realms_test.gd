@@ -30,6 +30,9 @@ func _ready() -> void:
 	for b in ["judge", "cinderking", "unwritten", "holycow"]:
 		_fight(b)
 	_brazil()
+	for b in BossAI.STAGE_PLANS:
+		_stages(b)
+	_reward()
 	print("realms test: PASSED" if fails == 0 else "realms test: %d FAILED" % fails)
 	get_tree().quit()
 
@@ -39,9 +42,11 @@ func _run() -> Player:
 	G.god = true
 	return G.player
 
-func play(ticks: int) -> void:
+func play(ticks: int, every: Callable = Callable()) -> void:
 	for i in ticks:
 		G.player.hp = G.player.max_hp
+		if every.is_valid():
+			every.call(i)
 		Keys.tick()
 		G.update(TB.DT)
 		match G.state:
@@ -181,8 +186,8 @@ func _fight(key: String) -> void:
 		play(1)
 		seen[String(b.state)] = true
 		most = maxi(most, EBullets.n + RiftBosses.bands.size() + RiftBosses.rings.size())
-		if i == 20 * 60:
-			b.hp = b.max_hp * 0.4   # the second half: harder versions
+		if i % 300 == 0:
+			_cull(b)   # (summons pile up otherwise, and a guardian with company does not summon)
 		if third and i == 40 * 60:
 			Brazil.cow_rises(b)   # the third stage
 			b.max_hp = 1e9
@@ -210,18 +215,18 @@ func _brazil() -> void:
 	var s := Combat.spawn_enemy("scrounger", p.x, p.y, false, true)
 	p.gold = 50
 	p.invuln = 0.0
+	p.dodge_t = 0.0
 	G.god = false
-	play(3)
+	play(1, func(_i): _stick(s))
 	G.god = true
 	if p.gold >= 50:
 		fail("a scrounger's touch did not rob the hero")
 	Gear.equip_gear(p, Gear.by_id("hagglerhat"))
 	p.gold = 50
 	p.invuln = 0.0
-	s.x = p.x
-	s.y = p.y
+	p.dodge_t = 0.0
 	G.god = false
-	play(3)
+	play(1, func(_i): _stick(s))
 	G.god = true
 	if p.gold < 50:
 		fail("the Haggler's hat did not keep the scrounger out of the pockets")
@@ -258,3 +263,72 @@ func _brazil() -> void:
 		if Weapons.random_weapon("legend")["id"] in Weapons.UNIQUE or Gear.random_gear("legend")["id"] == "hagglerhat":
 			fail("a Brazil prize turned up in a random drop")
 			break
+
+## 5. Souls-like stages (expanded game): breaks at two thirds and one third, no damage during a
+## break, every attack of each stage used, stage 3's desperation pulse.
+func _stages(key: String) -> void:
+	seed(key.hash())
+	var p := _run()
+	G.floor_index = 4
+	G.enter_room(World.make_room(G.floor_d, "combat", "", "s", { "no_secret": true }))
+	G.room.waves_left = 0
+	G.locked = true
+	var b := Combat.spawn_boss(key)
+	b.max_hp = 1e7
+	b.hp = 1e7
+	b.t = 0.3
+	play(120)
+	for st in [2, 3]:
+		b.hp = b.max_hp * (0.6 if st == 2 else 0.3)
+		play(2)
+		if b.state != &"stagebreak":
+			fail("%s did not break into stage %d (state %s)" % [key, st, b.state])
+			return
+		var hp0 := b.hp
+		Combat.damage_enemy(b, 1000.0, { "no_crit": true })
+		if b.hp != hp0:
+			fail("%s was hurt during its stage break" % key)
+		play(120)
+		if b.stage != st:
+			fail("%s is in stage %d, not %d" % [key, b.stage, st])
+			return
+		var seen := {}
+		for i in 50 * 60:
+			play(1)
+			seen[String(b.state)] = true
+			if i % 300 == 0:
+				_cull(b)
+			if b.hp < b.max_hp * 0.1:
+				b.hp = b.max_hp * (0.6 if st == 2 else 0.3)
+		for a in BossAI.STAGE_PLANS[key][st - 2]:
+			if a != "curtain" and not seen.has(a):
+				fail("%s never used %s in stage %d (seen %s)" % [key, a, st, seen.keys()])
+
+## 6. The reward: a guardian felled without a hit pays a second chest, heals, and is counted.
+func _reward() -> void:
+	var p := _run()
+	G.floor_index = 2
+	G.start_floor()
+	G.enter_room(World.make_room(G.floor_d, "boss", "", "s"))
+	play(240)
+	if G.boss == null:
+		fail("no guardian to fell")
+		return
+	p.hp = 2
+	G.room.hits = 0
+	var chests := G.room.objects.filter(func(o): return o["kind"] == "chest").size()
+	Combat.damage_enemy(G.boss, G.boss.hp * 2.0 + 10.0, { "no_crit": true, "no_mult": true })
+	var now := G.room.objects.filter(func(o): return o["kind"] == "chest").size()
+	if now - chests != 2 or G.run_stats.get("flawless", 0) != 1:
+		fail("a flawless guardian left %d chests (want 2), flawless %d" % [now - chests, G.run_stats.get("flawless", 0)])
+	if p.hp <= 2:
+		fail("felling a guardian did not heal")
+
+func _cull(b: Enemy) -> void:
+	for e in G.enemies.duplicate():
+		if e != b:
+			G.enemies.erase(e)
+
+func _stick(s: Enemy) -> void:
+	s.x = G.player.x
+	s.y = G.player.y

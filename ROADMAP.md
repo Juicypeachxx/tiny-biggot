@@ -338,6 +338,12 @@ look (stage 5 redraws everything together later).
 - [x] 4.11 (6 Oct) `tools/check.sh` green, the IPA (`[ipa]` commit), and a list for
       him of what is new and what to try. This also delivers stage 3.
 
+- [x] 4.12 **His ask, 6 Oct (before stage 5): souls-like guardians.** Three stages per
+      guardian with their own plans, stage breaks, new chaotic patterns (wall,
+      flower, cross, barrage), stage-3 chaos, and a reward for felling one (slow
+      motion, loot, half health back, FLAWLESS second chest). Expanded game only.
+      See `tiny_biggot_godot/BOSS_STAGES.md`.
+
 ## Stage 5: sprite revamp
 
 He wants every sprite redrawn, "cool and pixelated". The influences are in

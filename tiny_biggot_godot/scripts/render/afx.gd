@@ -36,7 +36,8 @@ const BOSS_COL := { "colossus": "#d9d0b4", "sporemother": "#b8e05a", "librarian"
 const CASTING := [&"ring", &"volley", &"spiral", &"burst", &"cloud", &"pages", &"tide", &"freeze", &"hail", &"shards",
 	&"sweep", &"embers", &"curtain", &"bogspit", &"arrowrain", &"gunline", &"eclipse", &"summon",
 	&"halo", &"verdict", &"brimstone", &"hellgate", &"ink", &"rewrite",
-	&"moo", &"milkrain", &"udder", &"holyfire", &"stampede"]   # ROADMAP 4.7 part C (verdict and brimstone also show their lanes and rings)
+	&"moo", &"milkrain", &"udder", &"holyfire", &"stampede",
+	&"wall", &"flower", &"cross", &"barrage"]   # ROADMAP 4.7 part C (verdict and brimstone also show their lanes and rings)
 
 static var _rng := RandomNumberGenerator.new()
 static var _head := 0
