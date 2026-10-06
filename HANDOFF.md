@@ -817,6 +817,11 @@ NEON[floor] or the rift world's accent; pillars outlined). Toggling emits room_c
 11.2 (part): world_view `_paint_warnings`: a red circle and "!" under a foe in a wind-up state
 (`WINDUPS`: slam, tele, swell, wind, spin, thrust, palm); drawing only, expanded game.
 
+11.2: aura relics (relics.gd after furnaceheart; icons from one halo grid); status `gloom`
+(Enemy.gloom/gloom_t, Statuses apply/tick/dmg_mult, condition "gloomy", keyword GLOOM); beams fan
+one ray per projectile in the expanded game (`attack_beam(..., more)` keeps the fan's pictures);
+weapons duskblade, prismfan, spectrum; relics gloomlantern, nightfall. `tests/gloom_test`.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

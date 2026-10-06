@@ -546,6 +546,10 @@ const ROWS := [
 	# 6.4 (his ask, 6 Oct): clockwork weapons. The Clockmaker's own, then seven to find, then the Great Engine's.
 	["gearwound", "GEARWOUND REPEATER", "bolt", "rare", ["storm"], "repeater", { "dmg": 2.6, "rate": 5.5 }, [], [], "SPRING-WOUND BOLTS. EVERY 12TH SHOT SLOWS THE FOES' SHOTS NEAR YOU.", [{ "on": "every_n_shots", "every": 12, "do": [["slow_shots", 120, 0.5]] }], "w_gearwound"],
 	# 10.3 the new heroes' own weapons (never in a loot pool: HERO_WEAPON).
+	# 11.2 (his ask, 6 Oct, from his trailer clips): GLOOM and prism fans.
+	["duskblade", "DUSKBLADE", "slash", "epic", ["malice", "edge"], "sword", { "dmg": 8.0, "rate": 2.2 }, [], [], "HALF ITS HITS ADD GLOOM.", [{ "on": "on_hit", "chance": 0.5, "do": [["status", "gloom", 1]] }], "w_duskblade"],
+	["prismfan", "PRISM FAN", "beam", "epic", ["arcane"], "wand", { "count": 3 }, [], [], "A FAN OF THREE RAYS.", [], "w_prismfan"],
+	["spectrum", "THE SPECTRUM", "beam", "legend", ["arcane", "storm"], "wand", { "count": 5, "dmg": 1.6 }, [], [], "FIVE RAYS. 10% OF HITS SHOCK, 10% ADD GLOOM.", [{ "on": "on_hit", "chance": 0.1, "do": [["status", "shock", 1]] }, { "on": "on_hit", "chance": 0.1, "do": [["status", "gloom", 1]] }], "w_spectrum"],
 	# 10.4 (his ask, 6 Oct): flails, a new kind (flail.gd).
 	["morningstar", "MORNING STAR", "flail", "common", ["fury"], "flail", {}, [], [], "A SPIKED BALL ON A CHAIN.", [], "w_flail"],
 	["chainflail", "TWIN CHAIN", "flail", "rare", ["edge"], "flail", { "count": 2 }, [], [], "TWO BALLS CIRCLE YOU.", [], "w_flail_rare"],

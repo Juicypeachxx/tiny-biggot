@@ -1107,3 +1107,20 @@ _HALO = [
 for _n, _c in [("relic_halo_ember", "#e8873a"), ("relic_halo_frost", "#6fd3e0"), ("relic_halo_venom", "#b8e05a"),
 		("relic_halo_storm", "#4d9be6"), ("relic_halo_gravity", "#a35bd6"), ("relic_halo_sun", "#f2c94c")]:
 	S[_n] = ("metal:%s glow:#ffffff" % _c, _HALO)
+
+# ---- 11.2: GLOOM and prism items.
+S["w_duskblade"] = ("main:#3a2a5a glow:#c08aff", [
+"...........o", "..........ob", ".........obo", "........obo.", ".......obo..", "......obo...",
+".oo..obo....", "oaaooyo.....", "oayao.......", "oaaao.......", "..ouo.......", ".ouo........"])
+S["w_prismfan"] = ("main:#8a6aa8 glow:#ffffff", [
+"........y..y", ".......y..y.", "..oooo.yyy..", ".o3333oyy...", ".o3y33oo....", ".o3333o.....",
+"..oooo......", "...ouo......", "...ouo......", "..ouo.......", ".ouo........", "oo.........."])
+S["w_spectrum"] = ("main:#c8a8f0 glow:#fff07a halo:1", [
+"..y...y...y.", "...y..y..y..", "....y.y.y...", "..oooooooo..", ".o3333333yo.", ".o3y33y33yo.",
+"..oooooooo..", "....ouo.....", "....ouo.....", "...ouo......", "..ouo.......", ".oo........."])
+S["relic_gloomlantern"] = ("main:#3a2a5a glow:#c08aff", [
+"....oooo....", "....o..o....", "...oooooo...", "..o3yyyy3o..", "..o3yxxy3o..", "..o3yxxy3o..",
+"..o3yyyy3o..", "...oooooo...", "....o33o....", "....oooo....", "............", "............"])
+S["relic_nightfall"] = ("main:#2a2040 glow:#c08aff", [
+"............", "....oooo....", "..oo3333oo..", ".o3333333yo.", ".o33333yyo..", "o3333yyo....",
+"o3333yo.....", ".o3333yyo...", ".o333333yyo.", "..oo3333oo..", "....oooo....", "............"])

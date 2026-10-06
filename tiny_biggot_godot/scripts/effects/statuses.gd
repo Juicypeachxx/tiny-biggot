@@ -8,8 +8,10 @@ extends RefCounted
 ##               foe that dies arcs to nearby foes
 ##   vulnerable  (3 s): +25% damage taken
 ##   weakened    (3 s): moves, shoots and acts 30% slower
+##   gloom       (11.2, his trailer clips) stacks up to 10 (4 s): +8% damage taken per stack
 
 const SHOCK_MAX := 5
+const GLOOM_MAX := 10
 
 static func apply(e: Enemy, name: String, amount: float, hit_dmg: float) -> void:
 	var p := G.player
@@ -38,6 +40,9 @@ static func apply(e: Enemy, name: String, amount: float, hit_dmg: float) -> void
 		"shock":
 			e.shock = mini(SHOCK_MAX, e.shock + maxi(1, int(amount)))
 			e.shock_t = 3.0
+		"gloom":
+			e.gloom = mini(GLOOM_MAX, e.gloom + maxi(1, int(amount)))
+			e.gloom_t = 4.0
 		"vulnerable": e.vuln_t = maxf(e.vuln_t, 3.0 * amount)
 		"weakened": e.weak_t = maxf(e.weak_t, 3.0 * amount)
 		_:
@@ -50,6 +55,8 @@ static func dmg_mult(e: Enemy) -> float:
 		m *= 1.25
 	if e.shock > 0:
 		m *= 1 + 0.06 * e.shock
+	if e.gloom > 0:
+		m *= 1 + 0.08 * e.gloom
 	return m
 
 ## Ticks the new statuses. Called only while one is active.
@@ -62,3 +69,7 @@ static func tick(e: Enemy, dt: float) -> void:
 		e.shock_t -= dt
 		if e.shock_t <= 0:
 			e.shock = 0
+	if e.gloom_t > 0:
+		e.gloom_t -= dt
+		if e.gloom_t <= 0:
+			e.gloom = 0

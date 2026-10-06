@@ -71,6 +71,8 @@ const KEYWORDS := {
 	"LAWFUL": ["cyan", "AN ALIGNMENT. SOME STARS AND PERKS HOLD WHILE IT LEADS (2 OR MORE, NONE HIGHER)."],
 	"CHAOTIC": ["purple", "AN ALIGNMENT. SOME STARS AND PERKS HOLD WHILE IT LEADS (2 OR MORE, NONE HIGHER)."],
 	"DEVOUT": ["gold", "ONE ALIGNMENT 2 OR MORE AND THE OTHER THREE 1 OR LESS."],
+	"GLOOM": ["purple", "GLOOM STACKS UP TO 10. EACH STACK: +8% DAMAGE TAKEN. LASTS 4 SECONDS."],
+	"GLOOMED": ["purple", "GLOOM STACKS UP TO 10. EACH STACK: +8% DAMAGE TAKEN. LASTS 4 SECONDS."],
 }
 ## The little icon drawn after a keyword (tools/art/mini_icons.py).
 const ICONS := { "DAMAGE": "mi_dmg", "RATE": "mi_rate", "SPEED": "mi_speed", "GOLD": "mi_gold", "HEART": "mi_heart",

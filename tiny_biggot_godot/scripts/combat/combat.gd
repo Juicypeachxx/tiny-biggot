@@ -341,7 +341,7 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	if e.curse_t > 0: dmg *= 1.25
 	if o.get("boom", false) and p.boom_elite and e.elite: dmg *= 2
 	if not o.get("no_mult", false): dmg *= player_damage_mult(p) * hook_mult(p, e)
-	if e.vuln_t > 0 or e.shock > 0:
+	if e.vuln_t > 0 or e.shock > 0 or e.gloom > 0:
 		dmg *= Statuses.dmg_mult(e)
 	if e.guard_t > 0 or e.d.has("rule"):
 		dmg = EnemyAI2.adjust_damage(e, dmg)   # shields, a deacon's guard, a dizzy dervish
@@ -692,7 +692,7 @@ static func update_enemies(dt: float) -> void:
 		if e.hp <= 0:
 			continue
 		var ddt := dt * slow
-		if e.vuln_t > 0 or e.weak_t > 0 or e.shock_t > 0:
+		if e.vuln_t > 0 or e.weak_t > 0 or e.shock_t > 0 or e.gloom_t > 0:
 			if e.weak_t > 0:
 				ddt *= 0.7
 			Statuses.tick(e, dt)
@@ -919,7 +919,9 @@ static func player_shoot(p: Player, a: float, echo_ok: bool = true) -> void:
 			attack_line(p, a, Weapons.wrange(p), w.get("width", 6) * Weapons.wsize(p), true, forced)
 			Snd.play("dodge")
 		"beam":
-			attack_beam(p, a, forced)
+			var nb := Weapons.wcount(p) if GameData.rogues() else 1   # 11.2: each projectile past the first adds a ray to the fan
+			for i in mini(nb, 7):
+				attack_beam(p, a + (i - (mini(nb, 7) - 1) / 2.0) * 0.2, forced, i > 0)
 			if p.shot_n % 3 == 0:
 				Snd.play("shoot")
 		"zap":
@@ -1064,7 +1066,7 @@ static func attack_line(p: Player, a: float, length: float, width: float, tip_cr
 	G.swings.append({ "kind": "whip" if tip_crit else "thrust", "x": p.x, "y": p.y - 2, "a": a, "len": length,
 		"width": width, "t": 0.12, "max": 0.12, "tag": w["tags"][0] if w["tags"].size() > 0 else "" })
 
-static func attack_beam(p: Player, a: float, force_crit: bool) -> void:
+static func attack_beam(p: Player, a: float, force_crit: bool, more: bool = false) -> void:
 	var w: Dictionary = p.weapon
 	var rng := Weapons.wrange(p)
 	var dx := cos(a)
@@ -1095,11 +1097,12 @@ static func attack_beam(p: Player, a: float, force_crit: bool) -> void:
 	for h in hits:
 		melee_hit(p, h[0], Weapons.wdmg(p), force_crit, 10)
 	var bt := maxf(0.07, 1.15 / Weapons.wrate(p))
-	var keep := []
-	for s in G.swings:
-		if s["kind"] != "beam":
-			keep.append(s)
-	G.swings = keep
+	if not more:   # the first ray of a fan clears the last fan's pictures; the others join it
+		var keep := []
+		for s in G.swings:
+			if s["kind"] != "beam":
+				keep.append(s)
+		G.swings = keep
 	G.swings.append({ "kind": "beam", "x": p.x, "y": p.y - 2, "a": a, "len": length, "t": bt, "max": bt,
 		"tag": w["tags"][0] if w["tags"].size() > 0 else "" })
 

@@ -52,11 +52,12 @@ const ACTIONS := ["nova", "shoot", "explode", "status", "heal", "buff", "chain",
 	"turret", "raise", "reflect", "spread", "consume", "give", "slow_shots", "overkill",   # ROADMAP 4.7
 	"stack",   # 8.4: a lasting bonus that grows up to a cap
 	"charm_area", "consume_area", "execute_weakest"]   # ROADMAP 4.8 heroes
-const STATUSES := ["burn", "poison", "chill", "bleed", "stun", "curse", "mark", "shock", "vulnerable", "weakened"]
+const STATUSES := ["burn", "poison", "chill", "bleed", "stun", "curse", "mark", "shock", "vulnerable", "weakened", "gloom"]
 const CONDITIONS := ["elite", "boss", "burning", "poisoned", "chilled", "bleeding", "shocked", "cursed",
 	"low_hp", "full_hp", "moving", "still", "crit", "danger", "fighting", "hot", "rich", "armored", "flight",
 	"close", "far", "fresh", "last_foe", "crowd", "unhurt", "coin",   # ROADMAP 4.7
-	"lead_good", "lead_evil", "lead_law", "lead_chaos", "devout"]   # 8.1 alignments
+	"lead_good", "lead_evil", "lead_law", "lead_chaos", "devout",   # 8.1 alignments
+	"gloomy"]   # 11.2
 
 static var depth := 0
 static var budget := BUDGET
@@ -228,6 +229,7 @@ static func _cond(c: String, ctx: Dictionary) -> bool:
 		"lead_law": return Alignments.leads(p, "law")
 		"lead_chaos": return Alignments.leads(p, "chaos")
 		"devout": return Alignments.devout(p)
+		"gloomy": return e != null and e.gloom > 0   # 11.2
 	return false
 
 ## Foes in the room that can still be fought (dummies and tamed foes left out).

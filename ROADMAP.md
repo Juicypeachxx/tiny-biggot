@@ -655,10 +655,12 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       slots (ours: relics do this already); equip load, attunement and mana costs (left out: they
       add bookkeeping, not fun). Our side: the floors' own foes rarely warn before a big hit, and
       relic choice is wide but has few "aura" or "ailment" builds.
-- [ ] 11.2 Fresh, fun, cool additions from that list (new weapons with new kinds, rooms, relics,
+- [x] 11.2 Fresh, fun, cool additions from that list (new weapons with new kinds, rooms, relics,
       events), in the game's own style: "!" warnings before foes' big hits; aura relics and gear
       (rings round you that burn, chill, poison or pull); the GLOOM ailment and items that use it;
-      prism weapons (fans of lasers).
+      prism weapons (fans of lasers). Done: "!" warnings; six aura relics; GLOOM with DUSKBLADE,
+      GLOOM LANTERN and NIGHTFALL; a beam's extra projectiles now fan out as rays (PRISM FAN,
+      THE SPECTRUM).
 - [ ] 11.3 A little harder, measured with bot runs (nothing removed or toned down, rule 1).
 - [ ] IPA 11.x.
 

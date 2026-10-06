@@ -200,6 +200,8 @@ const ROWS := [
 	["littlekiln", "rare", "LITTLE KILN", "HEALING WHILE AT FULL HEALTH SETS EVERY FOE NEAR YOU ALIGHT", [{ "on": "on_overheal", "do": [["status_area", "burn", 2, 110], ["vfx", "ring", "#e8873a", 110]] }], ["pyre"]],
 	["furnaceheart", "legend", "FURNACE HEART", "+20% BURN. A BURNING FOE YOU KILL PASSES ALL ITS AILMENTS TO THE FOES NEAR IT", [["add", "burn", 0.2], { "on": "on_kill", "if": "burning", "do": [["spread", 80]] }], ["pyre"]],
 	# 11.2 (his ask, 6 Oct, from his trailer clips: aura rings; ideas only): auras pulse round you.
+	["gloomlantern", "rare", "GLOOM LANTERN", "CRITS ADD 2 GLOOM", [{ "on": "on_crit", "do": [["status", "gloom", 2]] }], ["malice"], "relic_gloomlantern"],
+	["nightfall", "legend", "NIGHTFALL", "HITS ON CURSED FOES ADD GLOOM. A GLOOMED FOE THAT DIES BURSTS INTO 6 DARK SHOTS", [{ "on": "on_hit", "if": "cursed", "do": [["status", "gloom", 1]] }, { "on": "on_kill", "if": "gloomy", "do": [["nova", 6, 0.6, "spark"]] }], ["malice"], "relic_nightfall"],
 	["emberhalo", "rare", "EMBER HALO", "EVERY SECOND IN A FIGHT, FOES WITHIN 56 BURN", [{ "on": "every_n_seconds", "period": 1.0, "if": "fighting", "do": [["status_area", "burn", 1, 56], ["vfx", "ring", "#e8873a", 56]] }], ["pyre"], "relic_halo_ember"],
 	["frosthalo", "rare", "FROST HALO", "EVERY SECOND IN A FIGHT, FOES WITHIN 56 ARE CHILLED", [{ "on": "every_n_seconds", "period": 1.0, "if": "fighting", "do": [["status_area", "chill", 1, 56], ["vfx", "ring", "#6fd3e0", 56]] }], ["frost"], "relic_halo_frost"],
 	["venomhalo", "rare", "MIASMA", "EVERY SECOND IN A FIGHT, FOES WITHIN 56 TAKE 1 POISON", [{ "on": "every_n_seconds", "period": 1.0, "if": "fighting", "do": [["status_area", "poison", 1, 56], ["vfx", "ring", "#b8e05a", 56]] }], ["venom"], "relic_halo_venom"],
