@@ -413,7 +413,10 @@ Rules for the art:
   Stage 5.3 done: every foe, elite, champion, mini and guardian is in the look.
   **His ask (6 Oct): no tests and no IPA between the art steps.** Redraw everything first (5.3 to
   5.6), committing as it goes; then one full check and one IPA at the end of stage 5.
-- [ ] 5.4 Weapon, gear and relic icons.
+- [x] 5.4 Weapon, gear and relic icons. (6 Oct) All 518 weapon, gear, relic and pet icons kept as
+      drawn and recoloured into the look with its volume (`remaster(shade=True)`: light on the
+      top-left edges, shadow on the bottom-right, outlines tinted by their colour). Originals in
+      `tools/art/src/icons/`. He marks any he wants redrawn new (a grid in `sprites.py` wins).
 - [ ] 5.5 Tiles and room objects, floor by floor.
 - [ ] 5.6 Menus, HUD and the pixel font (the font last and only if he asks:
       every string in the game is measured against it).

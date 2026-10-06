@@ -690,7 +690,10 @@ one IPA.
 Rex and Rex lying down are recoloured only (`REMASTER`). His picks are in: the old designs he
 kept are recoloured pixel for pixel from `tools/art/src/` (`REMASTER`, `REMASTER_ELITE`: the
 elite's outer outline turns gold, the body darker).
-Next: 5.4 (weapon, gear and relic icons).
+
+**5.4 (6 Oct).** The 518 icons are recoloured from `tools/art/src/icons/` with `_shade()` in
+`render.py`. To redraw one: add its grid to `sprites.py` (it then wins over the recolour).
+Next: 5.5 (tiles and room objects).
 
 ## Noted, not yet acted on
 

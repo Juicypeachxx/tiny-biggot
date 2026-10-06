@@ -180,7 +180,7 @@ def kit(vb, seed=7):
     return im
 
 
-def remaster(path, vb, elite=False, gentle=False):
+def remaster(path, vb, elite=False, gentle=False, shade=False):
     """An old graphic kept pixel for pixel, recoloured into the look: the outline tinted by the
     sprite's main colour, colours a little richer, shadows cooler-red, lights toward yellow."""
     im = Image.open(path).convert("RGBA"); px = im.load()
@@ -211,7 +211,35 @@ def remaster(path, vb, elite=False, gentle=False):
             if elite:   # darker, richer, like every elite
                 s, v = min(1, s * 1.2), v * 0.82
             px[x, y] = toh(rgb(h, s, v)) + (a,)
+    if shade:
+        _shade(im, src0)
     return im
+
+def _shade(im, src0):
+    """The look's volume on an old icon: light on the edges facing the top-left, shadow on the ones
+    facing the bottom-right, and every outline pixel tinted by the colour it borders."""
+    W, H = im.width, im.height; px = im.load(); base = im.copy().load()
+    def solid(x, y):
+        return 0 <= x < W and 0 <= y < H and src0[x, y][3] >= 128
+    def dark(x, y):
+        return solid(x, y) and hsv(tuple(c / 255 for c in src0[x, y][:3]))[2] < 0.16
+    for y in range(H):
+        for x in range(W):
+            if not solid(x, y):
+                continue
+            h, s, v = hsv(tuple(c / 255 for c in base[x, y][:3]))
+            if dark(x, y):
+                near = [base[x + dx, y + dy] for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))
+                        if solid(x + dx, y + dy) and not dark(x + dx, y + dy)]
+                if near:
+                    nh, ns, nv = hsv(tuple(c / 255 for c in near[0][:3]))
+                    px[x, y] = toh(rgb(nh + 0.03, min(1, ns * 0.9 + 0.2), 0.13)) + (255,)
+                continue
+            warm = h < 0.2 or h > 0.92
+            if dark(x - 1, y) or dark(x, y - 1) or not solid(x - 1, y) or not solid(x, y - 1):
+                px[x, y] = toh(rgb(h + (0.03 if warm else -0.03), s * 0.85, min(1, v * 1.22 + 0.04))) + (255,)
+            elif dark(x + 1, y) or dark(x, y + 1) or not solid(x + 1, y) or not solid(x, y + 1):
+                px[x, y] = toh(rgb(h + 0.05, min(1, s * 1.1), v * 0.72)) + (255,)
 
 def all_for(v):
     vb = VIBES[v]
@@ -228,6 +256,12 @@ def all_for(v):
         out[n] = remaster(os.path.join(src, n + ".png"), vb, gentle=n in GENTLE)
     for n in REMASTER_ELITE:
         out[n + "_elite"] = remaster(os.path.join(src, n + ".png"), vb, elite=True)
+    # 5.4: every weapon, gear, relic and pet icon, kept as drawn and recoloured into the look
+    # (the ones he wants redrawn get a grid in sprites.py, which wins).
+    for f in sorted(os.listdir(os.path.join(src, "icons"))):
+        n = f[:-4]
+        if n not in S:
+            out[n] = remaster(os.path.join(src, "icons", f), vb, shade=True)
     out.pop("hexer_old", None)
     out["kit0"] = kit(vb)
     return out
