@@ -253,8 +253,8 @@ static func hook_mult(p: Player, e: Enemy) -> float:
 static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	if e.hp <= 0 or e.spawn_t > 0 or e.hidden:
 		return false
-	if e.state == &"stagebreak":
-		return false   # a guardian between stages cannot be hurt (BossAI)
+	if e.state == &"stagebreak" or e.break_t > 0:
+		return false   # a guardian between stages cannot be hurt (BossAI, stages.gd)
 	var p := G.player
 	var crit := false
 	if GameData.rogues():
@@ -401,6 +401,8 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 		G.on_goblin_dead(e)
 	if e.type == "haggler":
 		Brazil.on_kill(e)
+	if not boss and e.d.get("mini", false):
+		BossLoot.drop(e)   # a mini-boss's own item (expanded game)
 	if boss:
 		G.on_boss_dead(e)
 	# 04b additions.
@@ -624,6 +626,8 @@ static func update_enemies(dt: float) -> void:
 				Fx.particle(e.x + cos(G.time * 8) * 6, e.y - e.r - 6, 0, 0, 0.05, "#f2c94c")
 				Fx.hide = false
 			continue
+		if Stages.tick(e, ddt):
+			continue   # a stage break (stages.gd): it shakes in place
 		e.t -= ddt
 		if e.puppet_t > 0:
 			Arsenal.puppet_tick(e, ddt)   # a puppet walks into other foes (arsenal.gd)

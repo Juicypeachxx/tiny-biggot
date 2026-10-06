@@ -347,6 +347,28 @@ const ROWS := [
 	["returnring", "RING OF RETURNING", "ring", "rare", ["arcane"], null, "ring", [["rate", 1.06]], [], "+6% FIRE RATE. SWAPPING WEAPONS FIRES A RING OF 12 SHOTS AND ERASES THE SHOTS NEAR YOU.", [{ "on": "on_weapon_swap", "cd": 1.0, "do": [["nova", 12, 0.8, ""], ["clear_shots", 60]] }]],
 	["kindlingring", "KINDLING RING", "ring", "rare", ["pyre"], null, "ring", [["burn", 0.1]], [], "+10% BURN CHANCE. DRINKING A POTION SETS EVERY FOE NEAR YOU ALIGHT.", [{ "on": "on_potion", "do": [["status_area", "burn", 2, 120], ["vfx", "ring", "#e8873a", 120]] }]],
 	["hagglerhat", "HAGGLER'S HAT", "head", "legend", ["fortune"], null, "hat", [["luck", 2], ["shop_disc", 0.15]], [], "+2 LUCK, SHOP PRICES -15%. EVERY PURCHASE PAYS 10 GOLD BACK. SCROUNGERS CAN'T PICK YOUR POCKETS.", [{ "on": "on_buy", "do": [["gold", 10]] }]],
+	# Boss and mini-boss drops (his ask, 6 Oct; boss_loot.gd).
+	["colossusribs", "COLOSSUS RIBCAGE", "body", "legend", ["bulwark"], null, "plate", [["armor", 2], ["max_hp", 2]], [], "+2 ARMOR, +1 MAX HEART. WHEN HIT, 10 BONE SHARDS FLY OUT AROUND YOU.", [{ "on": "on_damage_taken", "do": [["nova", 10, 1.0, "spark"]] }], "g_bone_ribs"],
+	["rimewardencrown", "RIME WARDEN'S CROWN", "head", "legend", ["frost"], null, "crown", [["chill", 0.2]], [], "+20% CHILL. ROLLING SLOWS EVERY SHOT NEAR YOU TO A CRAWL (EVERY 3S).", [{ "on": "on_roll", "cd": 3.0, "do": [["slow_shots", 80, 0.35]] }], "g_frost_helm"],
+	["regentsignet", "PALE REGENT'S SIGNET", "trinket", "legend", ["malice", "arcane"], null, "ring", [["dmg", 1.15], ["curse", 0.08]], [], "+15% DAMAGE, 8% OF HITS CURSE. AN ELITE YOU KILL GIVES +50% CRIT FOR 5S.", [{ "on": "on_kill", "if": "elite", "do": [["buff", "crit", 0.5, 5.0]] }], "g_gild_ring"],
+	["matriarchrobe", "MATRIARCH'S MIRE ROBE", "body", "legend", ["venom", "swarm"], null, "robe", [["poison", 1], ["max_hp", 2]], [], "+1 POISON, +1 MAX HEART. WHEN HIT, YOU SPILL A POISON POOL AND A BOG GNAT (A WISP) JOINS YOU FOR 6S.", [{ "on": "on_damage_taken", "do": [["zone", "poison", 40, 3.0], ["summon", 6.0]] }], "g_plague_coat"],
+	["abbotpalms", "FROZEN ABBOT'S PALMS", "hands", "legend", ["frost", "fury"], null, "gloves", [["crit", 0.05], ["chill", 0.1]], [], "+5% CRIT, +10% CHILL. 15% OF HITS ARE A FROZEN PALM: THE FOE IS STUNNED AND CHILLED.", [{ "on": "on_hit", "chance": 0.15, "cd": 0.3, "do": [["status", "stun", 1], ["status", "chill", 2]] }], "g_frostglove"],
+	["umbralheart", "HEART OF THE UMBRAL SUN", "neck", "legend", ["malice", "pyre"], null, "amulet", [["dmg", 1.2]], [], "+20% DAMAGE. EVERY 5S IN A FIGHT, AN ECLIPSE: 14 SHOTS RING OUT AND THE FOES NEAR YOU ARE CURSED.", [{ "on": "every_n_seconds", "period": 5.0, "if": "fighting", "do": [["nova", 14, 1.0, "spark"], ["status_area", "curse", 1, 90]] }], "g_collapsedstar"],
+	["cindercrown", "CROWN OF CINDERS", "head", "legend", ["pyre"], null, "crown", [["burn", 0.3]], [], "+30% BURN. A BURNING FOE YOU KILL BLOWS UP FOR 120%.", [{ "on": "on_kill", "if": "burning", "do": [["explode", 40, 1.2]] }], "g_star_helm"],
+	["stormcrownitem", "THE STORMCROWN", "head", "legend", ["storm"], null, "crown", [["chain", 0.3]], [], "+30% ARC CHANCE. EVERY 4S IN A FIGHT, LIGHTNING STRIKES 3 FOES.", [{ "on": "every_n_seconds", "period": 4.0, "if": "fighting", "do": [["bolts", 3, 1.0]] }], "g_stormcrownhelm"],
+	["organpipe", "BRASS ORGAN PIPE", "trinket", "legend", ["arcane"], null, "charm", [["rate", 1.15]], [], "+15% FIRE RATE. EVERY 8TH ATTACK PLAYS A CHORD: 8 SHOTS ALL AROUND YOU.", [{ "on": "every_n_shots", "every": 8, "do": [["nova", 8, 0.8, "spark"]] }], "g_stormbottle"],
+	["heronboots", "HERON'S QUILL BOOTS", "feet", "legend", ["storm", "shadow"], null, "boots", [["speed", 1.15]], [], "+15% MOVE SPEED. ROLLING THROWS 6 QUILLS BEHIND YOU.", [{ "on": "on_roll", "cd": 0.5, "do": [["shoot_at", 6, 0.7, "", 0.25, 3.14159]] }], "g_wingedboots"],
+	["crackedbell", "THE CRACKED BELL", "neck", "legend", ["bulwark"], null, "amulet", [["max_hp", 2]], [], "+1 MAX HEART. WHEN HIT, IT TOLLS: EVERY FOE NEAR YOU IS STUNNED AND 12 NOTES RING OUT.", [{ "on": "on_damage_taken", "do": [["status_area", "stun", 1, 90], ["nova", 12, 0.6, "spark"]] }], "g_cowbell"],
+	["mirehide", "MIRE HULK'S HIDE", "body", "legend", ["bulwark", "venom"], null, "leather", [["max_hp", 4], ["thorns", 20]], [], "+2 MAX HEARTS, +20 THORNS. WHEN ARMOR OR HEALTH TAKES A HIT, THE MIRE SPLASHES: A POISON POOL.", [{ "on": "on_damage_taken", "do": [["zone", "poison", 30, 2.5]] }], "g_berserkerhide"],
+	["captainhelm", "IRON CAPTAIN'S HELM", "head", "legend", ["bulwark"], null, "helm", [["armor", 2]], [], "+2 ARMOR. WHEN ARMOR TAKES A HIT, YOU FIRE A VOLLEY OF 6 SHOTS.", [{ "on": "on_armor_lost", "do": [["shoot", 6, 1.0, "", 0.3]] }], "g_bastion_helm"],
+	["abbotfists", "STONE ABBOT'S FISTS", "hands", "legend", ["bulwark", "fury"], null, "gloves", [["dmg", 1.12]], [], "+12% DAMAGE. A FIFTH OF HITS UP CLOSE ARE A STONE PALM: THE FOE IS STUNNED, THE OTHERS PUSHED AWAY.", [{ "on": "on_hit", "if": "close", "chance": 0.2, "do": [["status", "stun", 1], ["push", 50, 260]] }], "g_ironglove"],
+	["heraldhorn", "HERALD'S HORN", "neck", "legend", ["fury", "malice"], null, "amulet", [["dmg", 1.08]], [], "+8% DAMAGE. ENTERING A ROOM SOUNDS THE HORN: +30% DAMAGE FOR 8S AND THE FOES NEAR YOU ARE WEAKENED.", [{ "on": "on_room_enter", "do": [["buff", "dmg", 0.3, 8.0], ["status_area", "weakened", 1, 120]] }], "g_howlertooth"],
+	["keyring", "TURNKEY'S RING OF KEYS", "ring", "legend", ["fortune"], null, "ring", [["keys", 2], ["luck", 1]], [], "+2 KEYS, +1 LUCK. EVERY CHEST YOU OPEN PAYS 15 GOLD.", [{ "on": "on_chest", "do": [["gold", 15]] }], "g_gild_ring"],
+	["brokerledger", "BROKER'S LEDGER", "trinket", "legend", ["fortune"], null, "charm", [["gold_mult", 1.3]], [["gold_dmg", 0.1]], "+30% GOLD, +10% DAMAGE PER 100 GOLD HELD. EVERY PURCHASE IS INVESTED: +5% DAMAGE FOR 60S", [{ "on": "on_buy", "do": [["buff", "dmg", 0.05, 60.0]] }], "g_ledger"],
+	["mayorhat", "MAYOR'S TOP HAT", "head", "legend", ["fortune"], null, "hat", [["luck", 2]], [], "+2 LUCK. EVERY ROOM YOU CLEAR PAYS ITS TAXES: 6 GOLD.", [{ "on": "on_room_clear", "do": [["gold", 6]] }], "g_partyhat"],
+	["landlordsignet", "LANDLORD'S SIGNET", "ring", "legend", ["fortune", "bulwark"], null, "ring", [["shop_disc", 0.2]], [], "SHOP PRICES -20%. EVERY PURCHASE GIVES 1 ARMOR.", [{ "on": "on_buy", "do": [["armor", 1]] }], "g_whetring"],
+	["galeboots", "GALE WARDEN'S BOOTS", "feet", "legend", ["storm", "shadow"], null, "greaves", [["speed", 1.12], ["roll_speed", 1.2]], [], "+12% MOVE SPEED, FASTER ROLLS. ROLLING IS A GUST: FOES NEAR YOU ARE BLOWN AWAY.", [{ "on": "on_roll", "cd": 1.0, "do": [["push", 60, 280]] }], "g_sevenleague"],
+	["rottingcrown", "THE ROTTING CROWN", "head", "legend", ["venom", "malice"], null, "crown", [["poison", 2]], [], "+2 POISON ON HIT. A POISONED FOE YOU KILL PASSES ALL ITS AILMENTS TO THE FOES NEAR IT.", [{ "on": "on_kill", "if": "poisoned", "do": [["spread", 60]] }], "g_crownofthorns"],
 ]
 
 ## Readable lines for stat tuples.
@@ -386,7 +408,7 @@ static func by_id(id: String) -> Dictionary:
 static func random_gear(rarity: String) -> Dictionary:
 	var pool := []
 	for g in all():
-		if g["rarity"] == rarity and g["id"] != "hagglerhat":   # only from the Haggler (brazil.gd)
+		if g["rarity"] == rarity and g["id"] != "hagglerhat" and not BossLoot.is_unique(g["id"]):   # (brazil.gd, boss_loot.gd)
 			pool.append(g)
 	return TB.pick(pool)
 

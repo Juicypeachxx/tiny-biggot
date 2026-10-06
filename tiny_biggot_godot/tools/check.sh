@@ -92,6 +92,11 @@ timeout 600 "$GODOT" --headless --path . res://tests/realms_test.tscn -- --no-sa
 grep -E "realms test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== every boss and mini-boss: its stages, unhurt while it breaks, its own drop (never in a random roll)"
+timeout 600 "$GODOT" --headless --path . res://tests/bosses_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "bosses test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== the ten heroes of 4.8: data, each passive and special in a fight, every branch node"
 timeout 600 "$GODOT" --headless --path . res://tests/heroes_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "heroes test" "$LOG"

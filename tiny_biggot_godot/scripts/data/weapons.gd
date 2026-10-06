@@ -526,6 +526,23 @@ const ROWS := [
 	["headsmansaxe", "HEADSMAN'S AXE", "slash", "rare", ["blood", "edge"], "greatsword", { "dmg": 12.0, "rate": 1.4, "range": 44, "arc": 140 }, [], [], "HEAVY, SLOW AND FINAL.", [], "w_gallows"],
 	["pilgrimstaff", "PILGRIM'S STAFF", "pulse", "rare", ["bulwark"], "staff", { "dmg": 4.0, "rate": 1.8 }, [], [], "EACH TAP OF THE STAFF SENDS OUT A PULSE OF LIGHT.", [], "w_sparkrune"],
 	["beastspear", "BEAST SPEAR", "thrust", "rare", ["swarm", "edge"], "halberd", { "dmg": 7.0, "rate": 2.2, "range": 56 }, [], [], "A HUNTING SPEAR WITH A BONE TIP.", [], "w_halberd"],
+	# Boss and mini-boss drops (his ask, 6 Oct; boss_loot.gd): found only from their owner.
+	["bloomspitter", "SPORE MOTHER'S BLOOM", "flame", "legend", ["venom"], "handcannon", { "dmg": 1.6, "rate": 8.0 }, [["poison", 2]], [], "SPRAYS LIVING SPORES: +2 POISON. A POISONED FOE YOU KILL BURSTS INTO A SPORE CLOUD.", [{ "on": "on_kill", "if": "poisoned", "do": [["zone", "poison", 26, 3.0]] }], "w_firespitter"],
+	["drownedtome", "THE DROWNED TOME", "orb", "legend", ["arcane", "frost"], "staff", { "dmg": 4.5, "rate": 2.4 }, [["chill", 0.15]], [], "WET PAGES THAT CHILL. EVERY 8TH CAST, THE BOOK FLINGS 10 PAGES ALL AROUND YOU.", [{ "on": "every_n_shots", "every": 8, "do": [["nova", 10, 0.8, "spark"]] }], "w_witchstaff"],
+	["tyranthammer", "FORGE TYRANT'S HAMMER", "slash", "legend", ["pyre", "fury"], "greatsword", { "dmg": 16.0, "rate": 1.1, "range": 46, "arc": 160 }, [["burn", 0.4]], [], "A FORGE HAMMER STILL GLOWING. +40% BURN. EVERY 4TH SWING STRIKES THE ANVIL: A BLAST FOR 150%.", [{ "on": "every_n_shots", "every": 4, "do": [["explode", 44, 1.5], ["vfx", "ring", "#e8873a", 44]] }], "w_gallows"],
+	["warlordsbow", "ASH WARLORD'S WARBOW", "bolt", "legend", ["fury", "pyre"], "bow", { "dmg": 5.0, "rate": 2.8, "count": 2 }, [["burn", 0.15]], [], "TWO BURNING ARROWS A SHOT. EVERY 10TH VOLLEY CALLS AN ARROW RAIN: A METEOR ON A FOE.", [{ "on": "every_n_shots", "every": 10, "do": [["meteor", 1.8, 30]] }], "w_arbalest"],
+	["crowrepeater", "CROW KING'S REPEATER", "gatling", "legend", ["shadow"], "minigun", { "dmg": 2.0, "rate": 9.0 }, [["crit", 0.05]], [], "A RATTLING REPEATER. EVERY 20TH SHOT A CROW (A WISP) FLIES OUT TO FIGHT FOR 8S.", [{ "on": "every_n_shots", "every": 20, "do": [["summon", 8.0]] }], "w_crankgun"],
+	["judgescales", "SCALES OF THE AUREATE JUDGE", "pulse", "legend", ["arcane", "storm"], "staff", { "dmg": 5.0, "rate": 1.8 }, [["crit", 0.1]], [], "+10% CRIT. A FIFTH OF HITS PASS JUDGEMENT: LIGHTNING STRIKES THE FOE FOR 100%.", [{ "on": "on_hit", "chance": 0.2, "cd": 0.2, "do": [["lightning", 1.0]] }], "w_sparkrune"],
+	["blankquill", "THE BLANK QUILL", "orb", "legend", ["arcane", "malice"], "staff", { "dmg": 6.0, "rate": 2.2, "homing": 1.0 }, [["echo", 0.2]], [], "20% OF SHOTS ARE WRITTEN TWICE. EVERY 10TH SHOT REWRITES THE FIGHT: SOMETHING RANDOM HAPPENS.", [{ "on": "every_n_shots", "every": 10, "do": [["chaos"]] }], "w_hexwand"],
+	["hydraheads", "HYDRA'S THREE HEADS", "bolt", "legend", ["venom"], "pistol", { "dmg": 3.4, "rate": 3.0, "count": 3, "spread": 0.3 }, [["poison", 1]], [], "THREE HEADS, THREE BITES: +1 POISON. CUT ONE OFF (A KILL), AND 10% OF THE TIME TWO MORE BITE AT ONCE.", [{ "on": "on_kill", "chance": 0.1, "do": [["shoot", 2, 1.0, "", 0.3]] }], "w_burstpistol"],
+	["moldyloaf", "THE MOLDY LOAF", "slash", "legend", ["venom", "bulwark"], "sword", { "dmg": 8.0, "rate": 2.4 }, [["max_hp", 2]], [], "REX'S OWN. +1 MAX HEART. 15% OF HITS SPREAD MOLD (POISON). GOOD BOY: 10% OF KILLS HEAL HALF A HEART.", [{ "on": "on_hit", "chance": 0.15, "do": [["status", "poison", 2]] }, { "on": "on_kill", "chance": 0.1, "do": [["heal", 1]] }], "rex_sword"],
+	["captainsanchor", "DROWNED CAPTAIN'S ANCHOR", "thrust", "legend", ["bulwark"], "halberd", { "dmg": 9.0, "rate": 1.6, "range": 58 }, [["armor", 1]], [], "+1 ARMOR. A FIFTH OF HITS HAUL THE FOES NEAR YOUR TARGET IN TOWARD IT.", [{ "on": "on_hit", "chance": 0.2, "do": [["pull", 60, 220]] }], "w_pike"],
+	["enforcergun", "ENFORCER'S SCATTERGUN", "shot", "legend", ["fury"], "blunderbuss", { "dmg": 3.0, "count": 7, "spread": 0.3, "rate": 1.4 }, [], [], "SEVEN PELLETS A SHOT. HITS UP CLOSE KNOCK FOES BACK AND STUN THEM 10% OF THE TIME.", [{ "on": "on_hit", "if": "close", "chance": 0.1, "do": [["status", "stun", 1], ["push", 40, 240]] }], "w_burstpistol"],
+	["carrionlance", "CARRION LANCE", "thrust", "legend", ["malice"], "halberd", { "dmg": 8.0, "rate": 2.0, "range": 60 }, [["curse", 0.1]], [], "10% OF HITS CURSE. A FIFTH OF THE FOES IT KILLS RISE AS YOUR SKELETONS FOR 8S.", [{ "on": "on_kill", "chance": 0.2, "do": [["raise", 8.0, 0.9]] }], "w_halberd"],
+	["rustcleaver", "RUST BUTCHER'S CLEAVER", "slash", "legend", ["blood"], "greatsword", { "dmg": 11.0, "rate": 1.6, "range": 40, "arc": 140 }, [["crit", 0.05]], [], "A THIRD OF HITS MAKE FOES BLEED. KILLING A BLEEDING FOE GIVES +20% DAMAGE FOR 4S.", [{ "on": "on_hit", "chance": 0.33, "do": [["status", "bleed", 1]] }, { "on": "on_kill", "if": "bleeding", "do": [["buff", "dmg", 0.2, 4.0]] }], "w_gallows"],
+	["kingpingun", "KINGPIN'S DRUM GUN", "gatling", "legend", ["fortune", "edge"], "minigun", { "dmg": 2.4, "rate": 8.0 }, [["crit", 0.1]], [], "+10% CRIT. EVERY 30TH SHOT EMPTIES THE DRUM: 8 SHOTS IN A SPRAY. KILLS PAY 1 GOLD.", [{ "on": "every_n_shots", "every": 30, "do": [["shoot", 8, 0.8, "", 0.15]] }, { "on": "on_kill", "do": [["gold", 1]] }], "w_crankgun"],
+	["marshalsiron", "MARSHAL'S SIX-SHOOTER", "bolt", "legend", ["edge"], "pistol", { "dmg": 7.0, "rate": 3.0 }, [["crit", 0.1]], [], "+10% CRIT. THE SIXTH SHOT IS A FAN OF THREE HEAVY ROUNDS.", [{ "on": "every_n_shots", "every": 6, "do": [["shoot", 3, 1.5, "", 0.2]] }], "w_repeater"],
+	["highcaliber", "THE HIGH CALIBER", "rail", "legend", ["edge", "demolition"], "cannon", { "dmg": 30.0, "rate": 0.8 }, [["pierce", 2]], [], "ONE ENORMOUS ROUND THAT PIERCES. EVERY HIT ON THE LAST FOE IN A ROOM STRIKES AGAIN FOR 150%.", [{ "on": "on_hit", "if": "last_foe", "do": [["damage", 1.5]] }], "w_longrifle"],
 ]
 
 static var _by_id := {}
@@ -559,7 +576,7 @@ static func random_weapon(rarity: String, exclude: Variant = null) -> Dictionary
 	var pool := []
 	for w in all():
 		if w["rarity"] == rarity and not (exclude != null and w["id"] == exclude["id"]) and not HERO_WEAPON.values().has(w["id"]) \
-				and not w["id"] in UNIQUE:
+				and not w["id"] in UNIQUE and not BossLoot.is_unique(w["id"]):
 			pool.append(w)
 	if pool.is_empty():
 		for w in all():

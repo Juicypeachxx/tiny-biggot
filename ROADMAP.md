@@ -343,6 +343,11 @@ look (stage 5 redraws everything together later).
       flower, cross, barrage), stage-3 chaos, and a reward for felling one (slow
       motion, loot, half health back, FLAWLESS second chest). Expanded game only.
       See `tiny_biggot_godot/BOSS_STAGES.md`.
+- [x] 4.13 **His ask, 6 Oct: the same for every boss and mini-boss, and each
+      drops its own item.** Mini-bosses, rift minis and champions get three
+      stages (breaks at 67% and 34%); rift guardians and Rex a third stage
+      below 25%. 37 bosses and mini-bosses each drop a unique legend weapon
+      or gear piece, found nowhere else. See `BOSS_STAGES.md`.
 
 ## Stage 5: sprite revamp
 

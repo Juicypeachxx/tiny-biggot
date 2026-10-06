@@ -796,6 +796,7 @@ func on_boss_dead(b: Enemy) -> void:
 	RiftBosses.clear()
 	if GameData.rogues() and room.type != "barn":
 		_boss_reward(b)
+	BossLoot.drop(b)   # its own item (expanded game)
 	if room.type == "barn":
 		Rex.on_beaten(b)   # a good boy rolls over: his hoard, and he offers to come along
 		return

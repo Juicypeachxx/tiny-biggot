@@ -40,3 +40,24 @@ Not touched once in the fight: **FLAWLESS!**, a second boss chest and 3 more gem
 the right health, takes no damage during a break, and uses every attack of each stage; a guardian
 felled without a hit leaves two chests, heals and counts the flawless. Soaks: boss rooms on six
 floors, 0 errors.
+
+## Every other boss and mini-boss (`scripts/combat/stages.gd`)
+
+His second ask the same day: "apply to all bosses and mini bosses". Expanded game only.
+
+- **Floor mini-bosses, rift minis and rift champions**: stage 2 at two thirds of their health
+  (IT GROWS FURIOUS), stage 3 at one third (IT FIGHTS FOR ITS LIFE). Each break: 1.2 s shaking
+  and unhurt, every shot vanishes, it comes back 15% faster with a double shockwave. Stage 2: a
+  wall of shots with a gap toward you every 6 s, attacks a third sooner. Stage 3: a ring and a fan
+  every 3.5 s, attacks much sooner. Rift minis keep their own second move set at half on top.
+- **Rift guardians and Rex** already have a second phase at half: below a quarter they break into
+  a third stage, the same chaos.
+
+## Their own drops (`scripts/data/boss_loot.gd`)
+
+Every guardian, rift guardian, mini-boss and champion leaves its own legend item when it falls,
+named for it and found nowhere else (never in a chest, shop or random drop): 16 weapons (THE
+MOLDY LOAF from Rex, the Ash Warlord's warbow, the Marshal's iron, ...) and 21 gear pieces (the
+Colossus's ribs, the Cinder King's crown, the cracked bell, ...). The Holy Cow and the Haggler
+already had theirs (BRAZIL.md). `tests/bosses_test.tscn` checks the stages, that no break can be
+hurt, that each owner drops its item, and that none turn up in 1600 random rolls.

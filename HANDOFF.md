@@ -648,6 +648,19 @@ refuses), `done()` rests less by stage and chains in stage 3, the pulse
 `game.gd._boss_reward` (expanded game, not Rex's barn). The Colossus keeps
 its rule of summoning only below half health. Full replays re-recorded.
 
+**4.13, every boss and mini-boss (his ask, 6 Oct: "apply to all bosses and
+mini bosses, also they drop unique equipment or weapon fitted to them").**
+`scripts/combat/stages.gd` (`Stages`, hooked in `Combat.update_enemies`
+before the AI; `Enemy.break_t`, which `damage_enemy` refuses): every floor
+mini-boss, rift mini and rift champion breaks into stage 2 at 67% and stage 3
+at 34% (wall of shots with a gap every 6 s; then ring + fan every 3.5 s and
+quicker attacks); rift guardians and Rex (which have a second phase at half)
+break into stage 3 at 25%. `scripts/data/boss_loot.gd` (`BossLoot.DROPS`):
+37 owners, each with its own legend item (16 weapons, 21 gear pieces, rows at
+the end of `weapons.gd` / `gear.gd`), dropped by `game.on_boss_dead` and
+`Combat.kill_enemy`; `random_weapon` / `random_gear` never roll them. Test:
+`tests/bosses_test.tscn` (in check.sh). Full replays re-recorded.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress (so iOS closing the app does not end it). Needs
