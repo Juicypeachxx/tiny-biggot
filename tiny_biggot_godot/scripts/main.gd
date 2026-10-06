@@ -121,6 +121,9 @@ func _ready() -> void:
 	if DebugArgs.has("tempo") and G.player.tempo_max > 0:
 		Tempo.set_to(G.player, DebugArgs.get_int("tempo"))
 		G.player.tempo_t = 600.0
+	if DebugArgs.has("neon"):
+		Meta.opts["neon"] = true   # 10.5: pictures of the NEON LOOK
+		G.room_changed.emit()
 	if DebugArgs.has("event"):
 		G.enter_room(World.make_room(G.floor_d, "mystery", "", "s", { "event": DebugArgs.get_str("event") }))
 	match DebugArgs.get_str("ui"):

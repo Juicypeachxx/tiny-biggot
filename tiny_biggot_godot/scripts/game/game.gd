@@ -47,7 +47,7 @@ var tchoice: Dictionary = {}   # trait offer: { opts, idx }
 # Menus (Game.rb).
 const TITLE_ITEMS := ["START RUN", "SKILL TREES", "EMBER SHRINE", "CODEX", "HOW TO PLAY", "OPTIONS"]
 const PAUSE_ITEMS := ["RESUME", "GEAR", "TRAITS", "RELICS", "OPTIONS", "ABANDON RUN"]
-const OPTION_LIST := [["AUTO-AIM FIRE", "autofire"], ["MUSIC", "music"], ["SOUND EFFECTS", "sfx"], ["SCREEN SHAKE", "shake"], ["SHOW FPS", "fps"], ["SHOW GEAR ON HERO", "show_gear"], ["FANCY EFFECTS", "vfx"], ["FAST DRAWING", "fast_draw"], ["MEET THE HAGGLER", "haggler"], ["STAT COLUMN", "statcol"], ["BACK", ""]]
+const OPTION_LIST := [["AUTO-AIM FIRE", "autofire"], ["MUSIC", "music"], ["SOUND EFFECTS", "sfx"], ["SCREEN SHAKE", "shake"], ["SHOW FPS", "fps"], ["SHOW GEAR ON HERO", "show_gear"], ["FANCY EFFECTS", "vfx"], ["FAST DRAWING", "fast_draw"], ["MEET THE HAGGLER", "haggler"], ["STAT COLUMN", "statcol"], ["NEON LOOK", "neon"], ["BACK", ""]]
 const CODEX_COLS := 11
 var quit_armed := false
 var opt_from: StringName = &"title"
@@ -1964,6 +1964,8 @@ func update_options() -> void:
 			Snd.refresh()
 		if key == "vfx":
 			Vfx.reset()   # takes effect at once; nothing in play depends on it
+		if key == "neon":
+			room_changed.emit()   # 10.5: the room is drawn again in the chosen look
 		Snd.play("confirm")
 		Meta.write_save()
 

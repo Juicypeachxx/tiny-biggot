@@ -810,6 +810,10 @@ Combat.player_shoot's match, `draw_over` in world_view, `clear` with Arsenal.cle
 weapons.gd KINDS, ARCH_DESC, WeaponInfo type PHYSICAL, attribute grades A/B/-. Six weapons before
 the 10.3 hero weapons; icons from one grid in sprites.py (10.4). `tests/flail_test`.
 
+10.5: option `neon` (Meta.opts; OPTION_LIST "NEON LOOK", rows now 17 px apart): world_view
+`_paint_neon` replaces the tiled background (black, a bright double outline and a dotted band in
+NEON[floor] or the rift world's accent; pillars outlined). Toggling emits room_changed. `--neon`.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

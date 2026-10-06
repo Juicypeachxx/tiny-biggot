@@ -25,6 +25,7 @@ extends RefCounted
 ##   --rex                        start a run in Rex's barn (the hidden boss, scripts/entities/rex.gd)
 ##   --pet=ID[:LEVEL]             start with a pet (scripts/entities/pets.gd), level 1 to 3
 ##   --spawn=TYPE                 put one foe of that type (GameData.ENEMIES) in the middle of the room
+##   --neon                       turn the NEON LOOK option on (10.5)
 ##   --give=relic:ID,gear:ID,...  start with these items (relic, gear, trait at max rank, weapon)
 ##   --combo=ID                   start with everything a named combo needs (data/synergies.gd)
 ##   --loop=N                     start on loop playthrough N (0 = first time through)

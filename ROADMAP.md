@@ -636,7 +636,7 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       berserker, and a hero who starts with nothing (hard mode).
 - [x] 10.4 Flails: weapons on a chain that swing round you. Six: MORNING STAR, TWIN CHAIN,
       RIMEBALL, EMBER MACE, THUNDERBALL, THE GRAVE BELL.
-- [ ] 10.5 (ask him) An optional NEON look: black floors, thin bright walls, a colour per floor.
+- [x] 10.5 An optional NEON look (Options > NEON LOOK, off by default): black floors, thin bright walls, a colour per floor.
 - [ ] Full check, replays, IPA 10.x.
 
 ## His plan from here (6 Oct, his words: "after you finish go stage 10 and then check videos for

@@ -185,6 +185,9 @@ func _paint_bg(ci: CanvasItem) -> void:
 	var room := G.room
 	if room == null:
 		return
+	if GameData.rogues() and Meta.opts.get("neon", false):
+		_paint_neon(ci, room)   # 10.5: the NEON LOOK option
+		return
 	var ts := TB.TS
 	# A rift world has its own tiles.
 	var kit := Img.t(room.kit if room.kit != "" else (room.theme["kit"] if not room.theme.is_empty() else "kit%d" % G.floor_index))
@@ -219,6 +222,36 @@ func _paint_bg(ci: CanvasItem) -> void:
 					BiomeDeco.paint_prop(ci, room, c, r)
 				else:
 					ci.draw_texture_rect_region(kit, Rect2(c * ts, r * ts - 4, ts + 1, 2 * ts), Rect2(0, 2 * ts, ts + 1, 2 * ts))
+
+## 10.5 (his ask, 6 Oct, from his trailer clips: an option, the usual look stays the default): black
+## floors and thin bright walls in the floor's own colour (a rift world's accent in its rooms).
+const NEON := ["#9aa0b0", "#63b84f", "#4d9be6", "#e8873a", "#6fd3e0", "#a35bd6", "#8fbf4a", "#d8443c", "#c8f0ff", "#7a3ab0", "#f2c94c"]
+func _paint_neon(ci: CanvasItem, room: Room) -> void:
+	var ts := TB.TS
+	var hexc: String = room.theme.get("accent_hex", NEON[G.floor_index % NEON.size()]) if not room.theme.is_empty() else NEON[G.floor_index % NEON.size()]
+	var col := TB.c(hexc)
+	var dim := Color(col.r, col.g, col.b, 0.35)
+	ci.draw_rect(Rect2(0, 0, TB.SW, TB.SH), TB.c("#05050a"))
+	var r0 := Rect2(TB.IX0 * ts - 3, TB.IY0 * ts - 3, TB.IW * ts + 6, TB.IH * ts + 6)
+	# A dotted band on the wall, then a bright line and a faint glow line inside it.
+	var x := r0.position.x - 6
+	while x < r0.end.x + 6:
+		ci.draw_rect(Rect2(x, r0.position.y - 6, 2, 2), dim)
+		ci.draw_rect(Rect2(x + 2, r0.end.y + 4, 2, 2), dim)
+		x += 6
+	var y := r0.position.y - 6
+	while y < r0.end.y + 6:
+		ci.draw_rect(Rect2(r0.position.x - 6, y, 2, 2), dim)
+		ci.draw_rect(Rect2(r0.end.x + 4, y + 2, 2, 2), dim)
+		y += 6
+	ci.draw_rect(r0, col, false, 2.0)
+	ci.draw_rect(r0.grow(-3), dim, false, 1.0)
+	# Pillars and props: black blocks in the colour's outline; open sky stays black.
+	for r in range(TB.IY0, TB.IY0 + TB.IH):
+		for c in range(TB.IX0, TB.IX0 + TB.IW):
+			if room.tile(c, r) == World.T_PILLAR:
+				ci.draw_rect(Rect2(c * ts + 1, r * ts + 1, ts - 2, ts - 2), col, false, 1.0)
+				ci.draw_rect(Rect2(c * ts + 3, r * ts + 3, ts - 6, ts - 6), dim, false, 1.0)
 
 ## Open sky between islands (Skyreach Isles): the sky tile, with a cliff lip under any floor above it.
 func _paint_void(ci: CanvasItem, room: Room, kit: Texture2D) -> void:
