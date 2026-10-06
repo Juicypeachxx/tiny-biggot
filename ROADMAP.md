@@ -400,6 +400,8 @@ Rules for the art:
         are the old design.
   - [x] 5.3c (6 Oct): six rift worlds (Gaol, Brand, Neon, Streets, Fog, Burb): 23 foes (+ elites)
         and 6 champions. Waiting for his picks.
+  - [x] 5.3d (6 Oct): Heist, Dust, Skyreach, Bastion, Cathedral: 23 foes (+ elites), 5 champions,
+        3 rift minis, 3 rift guardians (the organ is drawn by `_organ()`). Waiting for his picks.
   **His ask (6 Oct): no tests and no IPA between the art steps.** Redraw everything first (5.3 to
   5.6), committing as it goes; then one full check and one IPA at the end of stage 5.
 - [ ] 5.4 Weapon, gear and relic icons.
