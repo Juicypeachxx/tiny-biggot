@@ -603,6 +603,11 @@ three planted faults caught. Soaks: 8 x 10 minutes in the realms, 0 errors.
 Not tested on the iPad. Next: 4.8 (characters) needs his one-line yes per
 character first.
 
+**Rex's moldy bread (his ask, 6 Oct).** `rex_sword.png` redrawn as a moldy
+bread loaf (same 36x9 size and grip, so every move, reach and hit is
+unchanged); his phase-two line is now "SUNGLASSES ON. HE FOUND A MOLDY LOAF
+IN THE HAY". Code names (`rex_sword`, SWORD SPIN...) kept. RIFTS.md updated.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress (so iOS closing the app does not end it). Needs

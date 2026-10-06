@@ -306,6 +306,10 @@ look (stage 5 redraws everything together later).
         final boss"): after the Umbral Sun, what your perks lean to (light or
         dark) opens Heaven or Hell, each with its own final boss; beating it
         opens the way to the last boss of all. Names and art are our own.
+- [x] 4.7b **His ask, 6 Oct: "add moldy bread instead of sword" to Rex.** In
+      his second phase Rex pulls a moldy bread loaf out of the hay; every move
+      (spin, leap, fetch, wave) is the same, only the picture and his line
+      changed.
 - [ ] 4.8 **Ten new characters.** Send him one line per character first
       (name, weapon, the one thing that makes it play differently) and wait
       for his yes. No two may share a mechanic with each other or with the 14

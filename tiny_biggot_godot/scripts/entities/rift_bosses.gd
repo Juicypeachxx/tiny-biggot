@@ -53,7 +53,7 @@ const PHASE_LINE := {
 	"squallheron": "THE SQUALL BREAKS", "stormcrown": "THE EYE OF THE STORM OPENS",
 	"tidecaptain": "THE DEEP WILL NOT KEEP HIM", "bilgehydra": "CUT ONE, TWO MORE RISE",
 	"bellringer": "THE BELL CRACKS. IT RINGS LOUDER", "brassorgan": "THE ORGAN PLAYS ITSELF",
-	"rex": "SUNGLASSES ON. HE FOUND A SWORD IN THE HAY",
+	"rex": "SUNGLASSES ON. HE FOUND A MOLDY LOAF IN THE HAY",
 }
 const COL := { "squallheron": "#9fc3ee", "stormcrown": "#6fd3e0", "tidecaptain": "#63b84f", "bilgehydra": "#b8e05a",
 	"bellringer": "#f2c94c", "brassorgan": "#e8873a", "rex": "#f2c94c" }

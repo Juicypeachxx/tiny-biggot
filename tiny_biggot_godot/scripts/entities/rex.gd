@@ -15,7 +15,7 @@ extends RefCounted
 ## ZOOMIES (laps of the barn on a track shown first, shedding fur), POTATO DIG (potatoes lobbed
 ## from his patch), WOOF (he breathes in, then a bark that spreads as a ring and shoves you), NAP
 ## (on his mat: snores, and takes double damage).
-## Second phase: he puts on his sunglasses and pulls a sword out of the hay. SWORD SPIN (a ring
+## Second phase: he puts on his sunglasses and pulls a moldy bread loaf out of the hay (his ask, 6 Oct: bread instead of a sword; it fights the same). SWORD SPIN (a ring
 ## shows its reach), LEAP SLASH (a landing ring, then a lane), THE FETCH (he throws the sword down a
 ## lane, then runs after it to bring it back), SWORD WAVE (a crescent of shots), and his flops and
 ## woofs, harder.

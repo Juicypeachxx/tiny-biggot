@@ -125,7 +125,7 @@ Tested by `tests/bosses_test.tscn`.
 
 A hidden boss made from photos of the owner's dog. **REX'S BARN** has its own tiles (`kit_barn`:
 old stone, dark beams, a straw floor, hay bales for pillars), a potato patch, the hay pile (a
-sword's grip pokes out of it), his blue striped mat and his bowl. Two ways in: a hidden room on
+moldy loaf pokes out of it), his blue striped mat and his bowl. Two ways in: a hidden room on
 the second floor or later is his barn 12% of the time (once a run), and the title screen has
 him asleep in the bottom-left corner: tap him (or press SPECIAL) three times and the next run's
 first room has a door to his barn.
@@ -135,7 +135,7 @@ his bowl first (5 gold): he wakes up for dinner with 15% less health. The barn l
 wakes. First phase: BELLY FLOP (a landing ring, a shock wave and a ring of bones), ZOOMIES (two
 laps of an oval shown first, shedding bones), POTATO DIG (lobbed potatoes with landing rings),
 WOOF (he breathes in, then a ring of sound that shoves you and a ring of bones), NAP (on his mat,
-snoring: double damage). Second phase (the banner: SUNGLASSES ON. HE FOUND A SWORD IN THE HAY):
+snoring: double damage). Second phase (the banner: SUNGLASSES ON. HE FOUND A MOLDY LOAF IN THE HAY; a sword until 6 Oct, when he asked for moldy bread):
 SWORD SPIN (a ring shows the blade's reach, one and a half turns), LEAP SLASH (a landing ring,
 then a lane), THE FETCH (a lane, the sword flies to the wall, he runs after it), SWORD WAVE (a
 crescent of shots), harder flops and woofs. Beaten, he rolls over (no explosions: hearts), leaves
