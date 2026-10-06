@@ -246,6 +246,7 @@ func enter_room(r: Room) -> void:
 	Juice.reset()
 	EBullets.clear()
 	RiftBosses.clear()
+	Chaos.clear()
 	Arsenal.clear()
 	Charged.clear()
 	Summons.clear()
@@ -833,6 +834,7 @@ func on_boss_dead(b: Enemy) -> void:
 	for i in 2:
 		StatDrops.maybe(1.0, b.x, b.y)   # 8.3: a guardian leaves two stat pickups
 	RiftBosses.clear()
+	Chaos.clear()
 	if GameData.rogues() and room.type != "barn":
 		_boss_reward(b)
 	BossLoot.drop(b)   # its own item (expanded game)

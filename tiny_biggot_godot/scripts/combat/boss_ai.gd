@@ -11,14 +11,14 @@ const BOSS_PLANS := {
 	"regent": ["teleport", "beams", "spiral", "teleport", "summon", "beams", "curtain"],
 	# Stage 7 guardians (new attacks: bogspit, arrowrain, palms, gunline, eclipse).
 	"bogmatriarch": ["bogspit", "spiral", "summon", "cloud", "bogspit", "burst"],
-	"ashwarlord": ["charge", "arrowrain", "sweep", "summon", "embers", "charge", "arrowrain"],
+	"ashwarlord": ["charge", "arrowrain", "sweep", "summon", "hooks", "embers", "charge", "arrowrain"],
 	"frozenabbot": ["palms", "freeze", "hail", "palms", "shards", "summon"],
-	"crowking": ["teleport", "gunline", "spiral", "summon", "gunline", "beams"],
-	"umbralsun": ["eclipse", "beams", "curtain", "teleport", "summon", "eclipse", "sweep", "hail"],
+	"crowking": ["teleport", "gunline", "lasers", "spiral", "summon", "gunline", "beams"],
+	"umbralsun": ["eclipse", "lasers", "beams", "curtain", "teleport", "summon", "eclipse", "zone", "sweep", "hail"],
 	# ROADMAP 4.7 part C (new attacks: halo, verdict, brimstone, hellgate, ink, rewrite).
-	"judge": ["halo", "verdict", "beams", "summon", "halo", "spiral", "verdict", "teleport"],
-	"cinderking": ["brimstone", "sweep", "hellgate", "summon", "embers", "brimstone", "charge"],
-	"unwritten": ["ink", "halo", "brimstone", "rewrite", "eclipse", "verdict", "summon", "ink", "hellgate"],
+	"judge": ["halo", "verdict", "laserx", "beams", "summon", "halo", "zone", "spiral", "verdict", "teleport"],
+	"cinderking": ["brimstone", "hooks", "sweep", "hellgate", "zone", "summon", "embers", "brimstone", "charge"],
+	"unwritten": ["ink", "lasers", "halo", "brimstone", "hooks", "rewrite", "eclipse", "zone", "verdict", "summon", "ink", "laserx", "hellgate"],
 	# The Holy Cow (brazil.gd): two halves, then it rises again (THIRD_PLANS).
 	"holycow": ["moo", "milkrain", "charge", "udder", "moo", "summon"],
 	"greatengine": ["slam", "spiral", "volley", "ring", "summon", "charge"],   # the Clockwork Spire (6.4)
@@ -37,13 +37,13 @@ const STAGE_PLANS := {
 	"rimewarden": [["freeze", "hail", "wall", "shards", "charge"], ["freeze", "flower", "hail", "barrage", "shards"]],
 	"regent": [["teleport", "beams", "curtain", "wall", "summon", "halo"], ["teleport", "barrage", "curtain", "flower", "beams", "halo"]],
 	"bogmatriarch": [["bogspit", "flower", "cloud", "summon", "brimstone"], ["bogspit", "barrage", "flower", "brimstone", "wall"]],
-	"ashwarlord": [["charge", "arrowrain", "cross", "embers", "summon"], ["charge", "arrowrain", "barrage", "hellgate", "cross"]],
-	"frozenabbot": [["palms", "freeze", "wall", "hail", "shards"], ["palms", "flower", "barrage", "freeze", "wall"]],
-	"crowking": [["teleport", "gunline", "wall", "spiral", "summon", "cross"], ["teleport", "gunline", "barrage", "flower", "cross"]],
-	"umbralsun": [["eclipse", "beams", "wall", "curtain", "teleport", "halo"], ["eclipse", "barrage", "flower", "curtain", "verdict", "ink"]],
-	"judge": [["halo", "verdict", "wall", "beams", "summon"], ["halo", "barrage", "verdict", "flower", "cross"]],
-	"cinderking": [["brimstone", "hellgate", "wall", "sweep", "charge"], ["hellgate", "barrage", "brimstone", "flower", "charge"]],
-	"unwritten": [["ink", "rewrite", "wall", "halo", "brimstone", "verdict"], ["rewrite", "barrage", "flower", "ink", "hellgate", "eclipse"]],
+	"ashwarlord": [["charge", "arrowrain", "hooks", "cross", "embers", "summon"], ["charge", "hooks", "arrowrain", "barrage", "zone", "hellgate", "cross"]],
+	"frozenabbot": [["palms", "freeze", "wall", "zone", "hail", "shards"], ["palms", "laserx", "flower", "barrage", "zone", "freeze", "wall"]],
+	"crowking": [["teleport", "gunline", "lasers", "wall", "spiral", "summon", "cross"], ["teleport", "hooks", "gunline", "laserx", "barrage", "flower", "cross"]],
+	"umbralsun": [["eclipse", "laserx", "beams", "wall", "curtain", "zone", "teleport", "halo"], ["lasers", "eclipse", "hooks", "barrage", "laserx", "flower", "zone", "curtain", "verdict", "ink"]],
+	"judge": [["halo", "laserx", "verdict", "wall", "zone", "beams", "summon"], ["lasers", "halo", "barrage", "laserx", "verdict", "zone", "flower", "cross"]],
+	"cinderking": [["hooks", "brimstone", "hellgate", "zone", "wall", "sweep", "charge"], ["hooks", "hellgate", "zone", "barrage", "lasers", "brimstone", "flower", "charge"]],
+	"unwritten": [["lasers", "ink", "rewrite", "hooks", "wall", "halo", "zone", "brimstone", "verdict"], ["laserx", "rewrite", "hooks", "barrage", "lasers", "flower", "zone", "ink", "hellgate", "eclipse"]],
 	"holycow": [["moo", "milkrain", "wall", "udder", "charge"], ["moo", "barrage", "milkrain", "flower", "udder"]],
 	"greatengine": [["slam", "wall", "cross", "spiral", "summon", "charge"], ["barrage", "flower", "slam", "wall", "cross", "charge"]],
 	"glacialmaw": [["ring", "cross", "wall", "spiral", "summon", "slam"], ["flower", "barrage", "cross", "wall", "slam", "charge"]],
@@ -118,6 +118,7 @@ static func _stage_break(e: Enemy, to: int) -> void:
 	e.sub = to
 	EBullets.clear_all()
 	RiftBosses.clear()
+	Chaos.clear()
 	G.show_banner(e.d["name"], STAGE_LINE[e.boss][to - 2])
 	G.add_shake(7)
 	Snd.play("roar")
@@ -181,6 +182,20 @@ static func update_boss(e: Enemy, dt: float) -> void:
 	var cx := e.x
 	var cy := e.y - 4
 	match e.state:
+		# 9.1 chaos moves (chaos.gd): cast once, then wait while they play out.
+		&"lasers", &"laserx", &"hooks", &"zone":
+			if e.sub == 0:
+				e.sub = 1
+				var hard := e.stage >= 2 or h
+				match e.state:
+					&"lasers": e.t = Chaos.cast_beams(e, 4 if hard else 3, 0.9, 2.6 if hard else 2.2, 0.8 if hard else 0.6)
+					&"laserx": e.t = Chaos.cast_cross(e, 0.8, 2.4, -0.7 if e.cycle % 2 == 0 else 0.7, RING_SPR.get(e.boss, "red"))
+					&"hooks": e.t = Chaos.cast_hooks(e, 4 if hard else 3, 1.6 if hard else 1.3)
+					&"zone": e.t = Chaos.cast_zone(e, 80.0 if hard else 64.0, 1.2, 2 if hard else 1, RING_SPR.get(e.boss, "red"))
+				if e.stage >= 3:
+					e.t = minf(e.t, 0.7)   # 9.2: in the last stage it does not wait: the next attack comes while these still sweep
+			elif e.t <= 0:
+				done(e, 0.4)
 		&"ring":
 			if e.t <= 0:
 				e.t = 0.5

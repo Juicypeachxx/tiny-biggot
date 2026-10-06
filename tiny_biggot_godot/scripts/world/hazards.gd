@@ -71,6 +71,7 @@ static func update(dt: float) -> void:
 	EnemyAI2.tick(room, dt)
 	Brazil.tick(dt)
 	RiftBosses.tick(room, dt)
+	Chaos.tick(dt)   # 9.1 lasers, hooks, circles
 	Arsenal.tick(room, dt)
 	Charged.tick(room, dt)
 	Summons.tick(room, dt)

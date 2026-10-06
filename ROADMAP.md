@@ -603,12 +603,14 @@ refresh runs."
 roster of bosses look at them and add similar, also 3 picture shows you boss abilities it looks
 fun and hard and chaotic, make me this."
 
-- [ ] 9.1 Chaos attacks for bosses, each shown before it hits: laser beams that sweep round the boss
+- [x] 9.1 Chaos attacks for bosses, each shown before it hits: laser beams that sweep round the boss
       (a thin warning line, then the beam), laser crosses and fans, chain hooks flung from the
       boss across the room that then swing, and big danger circles (a red ring that fills, then
       blasts). Kept within the 60 fps budget.
-- [ ] 9.2 The final fights become chaos: the last guardians and the Unwritten use them, the very
-      last phase stacking beams, hooks and shot storms at once.
+- [x] 9.2 The final fights become chaos: the last guardians and the Unwritten use them, the very
+      last phase stacking beams, hooks and shot storms at once. Done for the Ash Warlord, the
+      Frozen Abbot, the Crow King, the Umbral Sun, the Judge, the Cinder King and the Unwritten
+      (all expanded-game only); in stage 3 a chaos move no longer waits for its lasers to end.
 - [ ] 9.3 New bosses in the spirit of his roster (original designs): a radiant seraph, a dragon,
       a chain demon (picture 3), a walrus admiral, a phoenix that rises again, a golem king, an
       archmage. Each floor's guardian can now be one of several, so runs differ.

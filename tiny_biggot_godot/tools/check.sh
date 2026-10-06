@@ -122,6 +122,11 @@ timeout 600 "$GODOT" --headless --path . res://tests/supertraits_test.tscn -- --
 grep -E "supertraits test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== chaos attacks (9.1): lasers, chains, circles only hurt after their warning; caps; the final bosses use them"
+timeout 600 "$GODOT" --headless --path . res://tests/chaos_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "chaos test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== the ten heroes of 4.8: data, each passive and special in a fight, every branch node"
 timeout 600 "$GODOT" --headless --path . res://tests/heroes_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "heroes test" "$LOG"

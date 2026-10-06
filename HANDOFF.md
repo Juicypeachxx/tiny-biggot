@@ -780,6 +780,12 @@ elite kills and `on_boss_dead`. `Attributes._side()` from `add()` (and `start()`
 for taps.gd, `bullets()` splits a text into its sentences; SUPER rows pink). `Traits.COMMON_SUPER`
 weights in `_new_trait_weight`; the "drop" action takes "stat" (a random stat pickup).
 
+9.1/9.2: `Chaos` (`scripts/combat/chaos.gd`): `beams`, `hooks`, `zones`; `cast_beams/cross/hooks/
+zone`; `tick` from Hazards.update; `clear` with RiftBosses.clear (room change, boss death, stage
+break); drawn in world_view next to RiftBosses. BossAI states "lasers", "laserx", "hooks", "zone"
+("beams" was already an older move). Plans of the floor 8+ and realm guardians use them.
+`tests/chaos_test.tscn`.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).
