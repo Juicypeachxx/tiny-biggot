@@ -915,9 +915,12 @@ func loops() -> void:
 	if G.player != p or p.level < level:
 		fail("loop portal: the build was not kept")
 	var e := Combat.spawn_enemy("skeleton", 200, 150, false, true)
-	# (x Combat.hard_hp: the expanded game's foes are a little tougher, ROADMAP 4.7)
-	if absf(e.max_hp - GameData.ENEMIES["skeleton"]["hp"] * (1 + 0.15 * G.dread) * 1.8 * Combat.hard_hp()) > 1e-3:
-		fail("loop 2 foe health %.1f (want x1.8)" % e.max_hp)
+	# (x Combat.hard_hp and run_scale: the expanded game's foes are tougher, ROADMAP 4.7 and 5.8;
+	# a loop is x2.5 there, x1.8 in the original rules)
+	var lm := 2.5 if GameData.rogues() else 1.8
+	var want: float = GameData.ENEMIES["skeleton"]["hp"] * (1 + 0.15 * G.dread) * lm * Combat.hard_hp() * Combat.run_scale()
+	if absf(e.max_hp - want) > 1e-3:
+		fail("loop 2 foe health %.1f (want %.1f, x%.1f)" % [e.max_hp, want, lm])
 	G.floor_index = GameData.THRONE_FLOOR
 	G.on_boss_dead(Combat.spawn_boss("regent"))
 	if Meta.meta["wins"] != wins0 + 1:
