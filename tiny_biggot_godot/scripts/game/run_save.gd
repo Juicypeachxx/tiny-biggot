@@ -52,6 +52,8 @@ static func restore(d: Dictionary) -> bool:
 	for k in saved:
 		var cur = p.get(k)
 		var v = saved[k]
+		if (cur is Array or cur is Dictionary) and cur.is_read_only():
+			continue   # the game's own data (the hero's sheet): it never changes in a run
 		if cur is Array and v is Array:
 			cur.clear()
 			cur.assign(v)
