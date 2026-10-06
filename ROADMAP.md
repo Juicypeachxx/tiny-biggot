@@ -495,6 +495,7 @@ He said yes to all four; he will say when he has played 5.9 enough to judge the 
       the foes' shots; REWIND; the CLOCKWORK branch). Eight clockwork weapons: gearwound repeater
       (his), the pendulum, spring lance, cog thrower, steam cannon, chrono blade, ticking flask,
       escapement rifle. Stage 6 built as one IPA, 6.4 (his ask).
+  Stage 6 closed (6 Oct): full check passed, IPA 6.4 built. Waiting for his word on the difficulty.
 
 ---
 
