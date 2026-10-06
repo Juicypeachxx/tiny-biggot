@@ -387,7 +387,7 @@ Rules for the art:
       His picks (6 Oct, 5.2b): he kept 15 new designs and asked for 9 old designs
       remastered in the new look (bane hunter, wayfarer, condemned, cartomancer,
       sellsword, tinkerer, mirror knight, demolitionist, pilgrim).
-- [ ] 5.3 Foes, champions and guardians. In chunks, each a picture for his picks (new or the old
+- [x] 5.3 Foes, champions and guardians. In chunks, each a picture for his picks (new or the old
       design remastered), then an IPA: 5.3a the first three floors, 5.3b Cinderforge and the floors
       after, 5.3c the rift worlds, 5.3d Heaven, Hell, Brazil and the special ones.
       **His ask (6 Oct): elites look a little different from the normal foe, plus the gold

@@ -734,8 +734,7 @@ Hall of Mirrors 10-46 s → 30-163 s; floors take about 50% longer.
 
 ## Noted, not yet acted on
 
-- Saving a run in progress (so iOS closing the app does not end it). Needs
-  his say: it is a large change (the whole run state).
+- Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).
 
 ## Tools
 
