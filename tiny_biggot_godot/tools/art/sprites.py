@@ -833,3 +833,9 @@ for _n in REMASTER_ELITE:
 	S.pop(_n); ELITE.pop(_n, None)
 REMASTER += ["drone", "chrome"] + REMASTER_ELITE
 GENTLE = ["rex", "rex_lie"]   # his dog: the lightest touch
+
+# ---- 5.3d, his picks (6 Oct): old design kept for both the foe and its elite.
+for _n in ["sludgecrawler", "kingpin", "marshal", "galewarden", "tidecaptain"]:
+	S.pop(_n); ELITE.pop(_n, None)
+	REMASTER.append(_n); REMASTER_ELITE.append(_n)
+ELITE["squallheron"] = {0: "........qrq....."}

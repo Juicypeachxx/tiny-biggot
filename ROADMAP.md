@@ -403,7 +403,8 @@ Rules for the art:
         robovac, burglar, gnome, turnkey, carrion knight keep the old design for both (recoloured,
         `REMASTER`/`REMASTER_ELITE`, originals in `tools/art/src/`).
   - [x] 5.3d (6 Oct): Heist, Dust, Skyreach, Bastion, Cathedral: 23 foes (+ elites), 5 champions,
-        3 rift minis, 3 rift guardians (the organ is drawn by `_organ()`). Waiting for his picks.
+        3 rift minis, 3 rift guardians (the organ is drawn by `_organ()`). His picks: sludge crawler,
+        kingpin, marshal, gale warden, tide captain keep the old design for both (recoloured).
   - [x] 5.3e (6 Oct): the special ones: dummy, target, tomb spider, candlewight, gargoyle, war
         drummer, blood leech, casing rat, scrounger, goblin, mimic, shadow, the Haggler, the Holy Cow,
         the Judge, the Cinder King, the Unwritten. Rex (his dog) is only recoloured, pixel for
