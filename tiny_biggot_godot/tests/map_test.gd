@@ -43,7 +43,7 @@ func _tick(n: int) -> void:
 func _kill_all() -> void:
 	for e in G.enemies.duplicate():
 		if e.hp > 0 and e.spawn_t <= 0:
-			Combat.damage_enemy(e, e.hp * 2.0 + 1.0, { "no_crit": true, "no_mult": true, "silent": true })
+			Combat.damage_enemy(e, (e.hp + Armor.shown(e)) * 2.0 + 1.0, { "no_crit": true, "no_mult": true, "silent": true })
 
 func _clear() -> void:
 	for i in 1200:   # more waves since 5.8, and a mini-boss breaks through its stages (Stages.gate)

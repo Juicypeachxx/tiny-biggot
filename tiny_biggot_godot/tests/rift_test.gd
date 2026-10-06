@@ -47,7 +47,7 @@ func _tick(n: int) -> void:
 func _kill_all() -> void:
 	for e in G.enemies.duplicate():
 		if e.hp > 0 and e.spawn_t <= 0:
-			Combat.damage_enemy(e, e.hp * 2.0 + 1.0, { "no_crit": true, "no_mult": true, "silent": true })
+			Combat.damage_enemy(e, (e.hp + Armor.shown(e)) * 2.0 + 1.0, { "no_crit": true, "no_mult": true, "silent": true })
 
 func _clear_room(max_ticks: int = 1500) -> bool:
 	for i in max_ticks / 10:
@@ -149,14 +149,14 @@ func worlds() -> void:
 					_tick(10)
 					for e in G.enemies.duplicate():
 						if e != ch and e.hp > 0 and e.spawn_t <= 0:
-							Combat.damage_enemy(e, e.hp * 2.0 + 1.0, { "no_crit": true, "no_mult": true, "silent": true })
+							Combat.damage_enemy(e, (e.hp + Armor.shown(e)) * 2.0 + 1.0, { "no_crit": true, "no_mult": true, "silent": true })
 					ch.hp = ch.max_hp * (0.4 if i > 200 else 1.0)   # the second half enraged
 					if ch.cycle >= moves * 2:
 						break
 				if ch.cycle < moves:
 					fail("champion %s: only %d of %d moves in 66 s" % [ch.type, ch.cycle, moves])
 			if not _clear_room():
-				fail("world %s step %d: the room never cleared" % [th["id"], step])
+				fail("world %s step %d: the room never cleared (%s, waves left %d)" % [th["id"], step, G.enemies.map(func(e): return "%s %.0f/%.0f a%.0f st%d sp%.1f" % [e.type, e.hp, e.max_hp, e.armor, e.stage, e.spawn_t]), G.room.waves_left])
 				continue
 			var rifts := 0
 			for d in G.room.exits:

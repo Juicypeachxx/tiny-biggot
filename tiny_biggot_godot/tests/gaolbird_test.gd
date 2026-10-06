@@ -62,7 +62,7 @@ func _blow(p: Player, e: Enemy) -> void:
 	Combat.on_hit_effects(e, 1.0, false, p, null)
 
 func _kill(e: Enemy) -> void:
-	Combat.damage_enemy(e, e.hp * 2.0 + 1.0, { "no_crit": true, "no_mult": true, "silent": true })
+	Combat.damage_enemy(e, (e.hp + Armor.shown(e)) * 2.0 + 1.0, { "no_crit": true, "no_mult": true, "silent": true })
 
 func _near(a: float, b: float, eps: float = 1e-6) -> bool:
 	return absf(a - b) <= eps * maxf(1.0, absf(b))

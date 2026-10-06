@@ -727,7 +727,7 @@ running average fed by `damage_enemy` → `run_stats["dealt"]`, `Combat.track_po
 yardstick `run_stats["power0"]` (set in `new_run` before `--give`) × (1 + 1.3f + 0.25f²) × loops;
 it rides in `run_scale()`, so foes, minis, guardians and hazards all read it at spawn.
 `scripts/combat/armor.gd`: a plate per stage (35% guardians, 25% minis/champions), 25% of a blow
-through while it holds, break = stun + vulnerable 3 s; `Armor.shown()` for the boss bar (drawing
+through while it holds, break = stun (not when the same blow starts the next stage: the stun would hold the stage back) + vulnerable 3 s; `Armor.shown()` for the boss bar (drawing
 never touches the foe). `boss_hp()` 2.0. Tests that fell a boss strike `hp + Armor.shown(e)`;
 `bosses_test._armor`. Bot runs, seed 3, --god, against 6.4: High Caliber guardians 8-41 s → 36-110 s,
 Hall of Mirrors 10-46 s → 30-163 s; floors take about 50% longer.
