@@ -241,6 +241,33 @@ def _shade(im, src0):
             elif dark(x + 1, y) or dark(x, y + 1) or not solid(x + 1, y) or not solid(x, y + 1):
                 px[x, y] = toh(rgb(h + 0.05, min(1, s * 1.1), v * 0.72)) + (255,)
 
+def kit_remaster(path, vb):
+    """A floor's tile sheet (kit layout, see kit()) kept as drawn, recoloured into the look; every
+    floor tile (row 0) gets kit0's soft bevel: light on its top and left edge, grout below and right."""
+    im = Image.open(path).convert("RGBA"); px = im.load()
+    for y in range(im.height):
+        for x in range(im.width):
+            r_, g, b, a = px[x, y]
+            if a == 0:
+                continue
+            h, s, v = hsv((r_ / 255, g / 255, b / 255))
+            if v > 0.6:
+                h += 0.01 if (h < 0.2 or h > 0.92) else -0.01
+            elif v < 0.35:
+                h += 0.02
+            px[x, y] = toh(rgb(h, min(1, s * vb["sat"]), v * vb["val"])) + (a,)
+    base = im.copy().load()
+    def mix(c, k, to):
+        return tuple(int(c[i] * (1 - k) + to[i] * k) for i in range(3)) + (c[3],)
+    for t in range(16):
+        ox = t * 16
+        for i in range(16):
+            for (x, y, k, to) in ((ox + i, 0, 0.22, (255, 240, 220)), (ox, i, 0.18, (255, 240, 220)),
+                                  (ox + i, 15, 0.25, (10, 6, 20)), (ox + 15, i, 0.2, (10, 6, 20))):
+                if base[x, y][3]:
+                    px[x, y] = mix(base[x, y], k, to)
+    return im
+
 def all_for(v):
     vb = VIBES[v]
     out = {n: sprite(n, vb) for n in S}
@@ -258,6 +285,14 @@ def all_for(v):
         out[n + "_elite"] = remaster(os.path.join(src, n + ".png"), vb, elite=True)
     # 5.4: every weapon, gear, relic and pet icon, kept as drawn and recoloured into the look
     # (the ones he wants redrawn get a grid in sprites.py, which wins).
+    # 5.5: room objects, shop people, summons, Rex's barn props: as the icons.
+    for f in sorted(os.listdir(os.path.join(src, "rooms"))):
+        n = f[:-4]
+        if n not in S:
+            out[n] = remaster(os.path.join(src, "rooms", f), vb, shade=True)
+    # 5.5: every floor's tiles but kit0 (drawn new): recoloured, each floor tile bevelled like kit0.
+    for f in sorted(os.listdir(os.path.join(src, "kits"))):
+        out[f[:-4]] = kit_remaster(os.path.join(src, "kits", f), vb)
     for f in sorted(os.listdir(os.path.join(src, "icons"))):
         n = f[:-4]
         if n not in S:

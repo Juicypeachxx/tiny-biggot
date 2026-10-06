@@ -693,7 +693,10 @@ elite's outer outline turns gold, the body darker).
 
 **5.4 (6 Oct).** The 518 icons are recoloured from `tools/art/src/icons/` with `_shade()` in
 `render.py`. To redraw one: add its grid to `sprites.py` (it then wins over the recolour).
-Next: 5.5 (tiles and room objects).
+
+**5.5 (6 Oct).** Tiles: `kit_remaster()`; objects, npcs, summons, hydra parts, Rex props:
+`remaster(shade=True)` from `tools/art/src/rooms/`. Next: 5.6 (HUD and menus), then the one
+full check and IPA of stage 5.
 
 ## Noted, not yet acted on
 
