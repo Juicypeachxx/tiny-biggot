@@ -1065,3 +1065,29 @@ S["g_fiendchains"] = ("main:#a8282a", [
 # ---- 10.2 (his ask, 6 Oct): the frog of THE FROG POND (with a tiny crown, of course).
 S["frog"] = ("main:#4fae46 glow:#ffffff bone:#f4ecd8", M([
 "....q.", "....qq", ".ooo..", "o3y0oo", "o3333o", "o3222o", ".o222o", "o3o22o", "oo.ooo", "......"]))
+
+# ---- 10.3 (his ask, 6 Oct, from his trailer clips: ideas only): four new heroes and their weapons.
+S["minstrel"] = ("main:#3a8a5a second:#a33a3a skin:#e0a47a bone:#f4ecd8", OV(M([
+"...ooo", "..obbb", ".obbbb", "..o555", "..o505", "..o555", "...o55", "o3o333", "o3o3uv", "o5o3uv",
+".oo333", "..o32o", "..o00o", "..ooo."]), {1: "........ll.."}))
+S["jester"] = ("main:#7a3ab0 second:#f2c94c skin:#f0d0b0 bone:#ffffff", M([
+"q....o", "oao.oa", ".oaaaa", "..o555", "..o505", "..o555", "...ojj", "o3oaa3", "o3o3a3", "o5oa3a",
+".oo3a3", "..oa3o", "..o00o", "..ooo."]))
+S["berserker"] = ("main:#8a3a2a skin:#d89a70 bone:#e8dcc8", M([
+"o.....", "jo.ooo", "ojo999", "..o999", "..o505", "..o555", ".ollll", "o3olll", "o3o322", "o5o322",
+"o5o322", ".oo322", "..o32o", "..ooo."]))
+S["forsaken"] = ("main:#5a5560 glow:#c8c8d0", M([
+"...ooo", "..o888", ".o8888", ".o8o00", ".o8o0y", ".o8o00", ".o8888", "o8o877", "o5o877", "o5o878",
+".oo877", "..o87o", "..o00o", "..ooo."]))
+S["w_lute"] = ("main:#8a5a2a", [
+"..........oo", ".........o9o", "........o9o.", ".......ouo..", "......ouo...", "..ooooouo...",
+".ouuuuuuo...", "ouvvo0vuo...", "ouv000vuo...", "ouvvo0vuo...", ".ouuuuuo....", "..ooooo....."])
+S["w_jugglepins"] = ("main:#f4ecd8 second:#d8443c", [
+"....o.......", "...obo......", "...o3o..o...", "..o333o.obo.", "..o333o.o3o.", "...o3o.o333o",
+"...o3o.o333o", "...obo..o3o.", "....o...o3o.", "........obo.", ".........o..", "............"])
+S["w_greataxe"] = ("main:#8a8f9c", [
+"....ooo.....", "..oo999oo...", ".o9999999o..", "o99998ooo...", "o9998uo.....", ".o98uo......",
+"..ouo.......", ".ouo........", "ouo.........", "uo..........", "o...........", "............"])
+S["w_rustyshiv"] = ("main:#8a6a4a", [
+"............", "..........o.", ".........o7o", "........o7o.", ".......o7o..", "......o7o...",
+".....o7o....", "..o.o7o.....", "...ouo......", "..ouo.o.....", ".ouo........", ".oo........."])

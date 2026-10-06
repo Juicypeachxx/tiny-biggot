@@ -801,6 +801,10 @@ e_pawn, e_hustler, e_cup, e_gong): setup / interact / update (`_update_cups`, `c
 `_update_gong`) / prompt / draw. `G.mystery_events()` adds them in the expanded game only (the
 classic list is untouched). world_view's event-object match lists them. `tests/events10_test`.
 
+10.3: heroes `minstrel`, `jester`, `berserker`, `forsaken` (end of NEW_HEROES; weapons lute,
+jugglepins, greataxe, rustyshiv in HERO_WEAPON; branches SONGCRAFT, TOMFOOLERY, BLOODLUST,
+SURVIVAL; attributes; art in sprites.py 10.3 block); heroes_test NEW covers them.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

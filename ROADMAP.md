@@ -632,7 +632,7 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
 - [x] 10.2 New events: a frog to kiss or leave; a ritual circle where you draw a symbol for a
       blessing; a pawn shop that buys your gear; a cup-and-ball game; a lightning round of quick
       fights before a rest.
-- [ ] 10.3 New heroes: a minstrel who plays songs (picked buffs), a jester (random tricks), a
+- [x] 10.3 New heroes: a minstrel who plays songs (picked buffs), a jester (random tricks), a
       berserker, and a hero who starts with nothing (hard mode).
 - [ ] 10.4 Flails: weapons on a chain that swing round you.
 - [ ] 10.5 (ask him) An optional NEON look: black floors, thin bright walls, a colour per floor.

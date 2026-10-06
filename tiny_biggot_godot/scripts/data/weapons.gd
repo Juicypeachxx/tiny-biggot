@@ -122,7 +122,7 @@ const HERO_WEAPON := { "hexer": "hexwand", "poacher": "repeater", "brute": "pith
 	# Step 6 heroes (signature weapons are rows after content batch 1).
 	"banehunter": "banesabre", "oathbreaker": "ironslab", "wayfarer": "wayfareredge", "racketeer": "snubguns",
 	"condemned": "shackleflail", "cartomancer": "giltdeck", "sellsword": "warlance", "gaolbird": "irontalons",
-	"beekeeper": "hivesmoker", "tinkerer": "rivetgun", "clockmaker": "gearwound", "boneweaver": "bonestaff", "mirrorknight": "brightblade",
+	"beekeeper": "hivesmoker", "tinkerer": "rivetgun", "clockmaker": "gearwound", "minstrel": "lute", "jester": "jugglepins", "berserker": "greataxe", "forsaken": "rustyshiv", "boneweaver": "bonestaff", "mirrorknight": "brightblade",
 	"plaguesaint": "censerflail", "frostwitch": "iciclewand", "demolitionist": "blastmortar", "executioner": "headsmansaxe",
 	"pilgrim": "pilgrimstaff", "beastmaster": "beastspear" }
 
@@ -544,6 +544,11 @@ const ROWS := [
 	["marshalsiron", "MARSHAL'S SIX-SHOOTER", "bolt", "legend", ["edge"], "pistol", { "dmg": 7.0, "rate": 3.0 }, [["crit", 0.1]], [], "+10% CRIT. THE SIXTH SHOT IS A FAN OF THREE HEAVY ROUNDS.", [{ "on": "every_n_shots", "every": 6, "do": [["shoot", 3, 1.5, "", 0.2]] }], "w_repeater"],
 	# 6.4 (his ask, 6 Oct): clockwork weapons. The Clockmaker's own, then seven to find, then the Great Engine's.
 	["gearwound", "GEARWOUND REPEATER", "bolt", "rare", ["storm"], "repeater", { "dmg": 2.6, "rate": 5.5 }, [], [], "SPRING-WOUND BOLTS. EVERY 12TH SHOT SLOWS THE FOES' SHOTS NEAR YOU.", [{ "on": "every_n_shots", "every": 12, "do": [["slow_shots", 120, 0.5]] }], "w_gearwound"],
+	# 10.3 the new heroes' own weapons (never in a loot pool: HERO_WEAPON).
+	["lute", "SINGING LUTE", "orb", "rare", ["arcane"], "orbstaff", { "dmg": 3.4, "rate": 3.2 }, [], [], "NOTES THAT CURVE TOWARD FOES.", [], "w_lute"],
+	["jugglepins", "JUGGLING PINS", "boomer", "rare", ["fortune"], "chakram", { "dmg": 5.0, "rate": 2.4 }, [], [], "PINS THAT FLY OUT AND SPIN BACK.", [], "w_jugglepins"],
+	["greataxe", "GREAT AXE", "slash", "rare", ["fury"], "sword", { "dmg": 12.0, "rate": 1.6 }, [], [], "A WIDE, HEAVY SWING.", [], "w_greataxe"],
+	["rustyshiv", "RUSTY SHIV", "thrust", "common", ["edge"], "spear", { "dmg": 4.0, "rate": 2.6 }, [], [], "IT IS ALL YOU HAVE.", [], "w_rustyshiv"],
 	["pendulum", "THE PENDULUM", "boomer", "epic", ["edge"], "chakram", { "dmg": 7.0, "rate": 1.6 }, [], [], "A HEAVY BLADE ON A CHAIN: OUT AND BACK, HITTING TWICE.", [], "w_pendulum"],
 	["springlance", "SPRING LANCE", "slash", "rare", ["edge"], "spear", { "dmg": 8.0, "rate": 2.0 }, [["crit", 0.08]], [], "+8% CRIT. A COILED THRUST.", [], "w_springlance"],
 	["cogthrower", "COG THROWER", "spin", "rare", ["demolition"], "disc", { "dmg": 4.0, "rate": 2.6, "pierce": 2 }, [], [], "SPINNING COGS THAT CUT THROUGH TWO FOES.", [], "w_cogthrower"],

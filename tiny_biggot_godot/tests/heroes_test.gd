@@ -18,6 +18,8 @@ const NEW := {
 	"demolitionist": ["did:give", "ran:meteor"], "executioner": ["did:overkill", "did:execute_weakest"],
 	"pilgrim": ["ran:heal", "ran:invuln"], "beastmaster": ["ran:charm", "did:charm_area"],
 	"clockmaker": ["did:slow_shots", "ran:invuln"],
+	"minstrel": ["ran:nova", "ran:buff"], "jester": ["ran:rand_status", "ran:chaos"], "berserker": ["ran:buff", "ran:status_area"],
+	"forsaken": ["ran:drop", "ran:invuln"],
 }
 
 var fails := 0
