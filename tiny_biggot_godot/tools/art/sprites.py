@@ -821,3 +821,15 @@ ELITE.update({
 	"dummy": {0: "..qoooooq..."},
 	"target": {0: "..qoooooq..."},
 })
+
+# ---- 5.3c, his picks (6 Oct). Old design kept, pixel for pixel, recoloured (REMASTER); for drone
+# and chrome the elite is the new drawing, for the rest the elite is the old design too.
+for _n in ["drone", "chrome"]:
+	S[_n + "_new"] = S.pop(_n)
+	ELITE[_n + "_new"] = ELITE.pop(_n)
+	ELITE_SRC[_n] = _n + "_new"
+REMASTER_ELITE = ["turret", "copper", "robovac", "burglar", "gnome", "turnkey", "carrionknight"]
+for _n in REMASTER_ELITE:
+	S.pop(_n); ELITE.pop(_n, None)
+REMASTER += ["drone", "chrome"] + REMASTER_ELITE
+GENTLE = ["rex", "rex_lie"]   # his dog: the lightest touch

@@ -399,7 +399,9 @@ Rules for the art:
         Pale Regent, Frozen Abbot (their elites keep the new drawing); wisp and bogling elites
         are the old design.
   - [x] 5.3c (6 Oct): six rift worlds (Gaol, Brand, Neon, Streets, Fog, Burb): 23 foes (+ elites)
-        and 6 champions. Waiting for his picks.
+        and 6 champions. His picks: drone and chrome keep the old design (elite new); turret, copper,
+        robovac, burglar, gnome, turnkey, carrion knight keep the old design for both (recoloured,
+        `REMASTER`/`REMASTER_ELITE`, originals in `tools/art/src/`).
   - [x] 5.3d (6 Oct): Heist, Dust, Skyreach, Bastion, Cathedral: 23 foes (+ elites), 5 champions,
         3 rift minis, 3 rift guardians (the organ is drawn by `_organ()`). Waiting for his picks.
   - [x] 5.3e (6 Oct): the special ones: dummy, target, tomb spider, candlewight, gargoyle, war
