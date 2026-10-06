@@ -253,6 +253,22 @@ func _paint_neon(ci: CanvasItem, room: Room) -> void:
 				ci.draw_rect(Rect2(c * ts + 1, r * ts + 1, ts - 2, ts - 2), col, false, 1.0)
 				ci.draw_rect(Rect2(c * ts + 3, r * ts + 3, ts - 6, ts - 6), dim, false, 1.0)
 
+## 11.2 (his ask, 6 Oct, from his trailer clips): a foe winding up a big hit shows a red circle with
+## a "!" under it, in the expanded game. Drawing only: what the foe does and when is unchanged.
+const WINDUPS := [&"slam", &"tele", &"swell", &"wind", &"spin", &"thrust", &"palm"]
+func _paint_warnings(ci: CanvasItem, t: float) -> void:
+	if not GameData.rogues():
+		return
+	for e: Enemy in G.enemies:
+		if e.hp <= 0 or e.hidden or e.is_boss() or not e.state in WINDUPS:
+			continue
+		var c := Vector2(roundf(e.x), roundf(e.y + 2))
+		var r := e.r + 14.0
+		var a := 0.55 + 0.35 * sin(t * 18.0)
+		ci.draw_circle(c, r, Color(0.85, 0.1, 0.1, 0.16))
+		ci.draw_arc(c, r, 0.0, TAU, 28, Color(1.0, 0.2, 0.2, a), 1.5)
+		Gfx.text(ci, "!", c.x, c.y - e.r * e.scale - 22, "red", 2, 0.5, true, a)
+
 ## Open sky between islands (Skyreach Isles): the sky tile, with a cliff lip under any floor above it.
 func _paint_void(ci: CanvasItem, room: Room, kit: Texture2D) -> void:
 	if room.theme.get("layouts", "") != "isles":
@@ -402,6 +418,7 @@ func _paint_lower(ci: CanvasItem) -> void:
 	EnemyAI2.draw_goo(ci, t)
 	RiftBosses.draw_ground(ci, t)
 	Chaos.draw_ground(ci, t)
+	_paint_warnings(ci, t)   # 11.2: a red "!" circle under a foe winding up a big hit
 	Arsenal.draw_floor(ci, t)
 	Charged.draw_floor(ci, t)
 	Summons.draw_floor(ci, t)

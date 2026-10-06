@@ -814,6 +814,9 @@ the 10.3 hero weapons; icons from one grid in sprites.py (10.4). `tests/flail_te
 `_paint_neon` replaces the tiled background (black, a bright double outline and a dotted band in
 NEON[floor] or the rift world's accent; pillars outlined). Toggling emits room_changed. `--neon`.
 
+11.2 (part): world_view `_paint_warnings`: a red circle and "!" under a foe in a wind-up state
+(`WINDUPS`: slam, tele, swell, wind, spin, thrust, palm); drawing only, expanded game.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).
