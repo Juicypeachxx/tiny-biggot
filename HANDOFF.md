@@ -608,6 +608,17 @@ bread loaf (same 36x9 size and grip, so every move, reach and hit is
 unchanged); his phase-two line is now "SUNGLASSES ON. HE FOUND A MOLDY LOAF
 IN THE HAY". Code names (`rex_sword`, SWORD SPIN...) kept. RIFTS.md updated.
 
+**Brazil easter egg (his ask, 6 Oct; done).** `scripts/game/brazil.gd`
+(class `Brazil`), see `tiny_biggot_godot/BRAZIL.md`. Hooks: `spawn_wave`
+(`Brazil.maybe_spawn`, one `randf` a wave in the expanded game), the touch
+code in `Combat.update_enemies` (haggler catches, scrounger robs),
+`kill_enemy` (haggler hoard), `damage_enemy` (`Brazil.cow_rises`),
+`Hazards.update` (nags), `on_boss_dead` (cow milker). `Themes.REALMS` has
+"brazil" ("short": its second fight leads straight to the guardian).
+`BossAI`: plan holycow, and `THIRD_PLANS`/`THIRD_SUMMONS` (used when `e.phase == 3`), attacks moo,
+milkrain, udder, ascend, holyfire, stampede. Weapons may set "bullet" in
+their stats (the milker shoots sparks). Full replays re-recorded.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress (so iOS closing the app does not end it). Needs

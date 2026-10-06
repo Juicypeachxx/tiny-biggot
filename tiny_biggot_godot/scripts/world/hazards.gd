@@ -69,6 +69,7 @@ static func update(dt: float) -> void:
 	if not room.tides.is_empty() or not room.turrets.is_empty() or room.theme.get("hazard", "") == "tide":
 		RiftExtras.update(room, dt)
 	EnemyAI2.tick(room, dt)
+	Brazil.tick(dt)
 	RiftBosses.tick(room, dt)
 	Arsenal.tick(room, dt)
 	Charged.tick(room, dt)

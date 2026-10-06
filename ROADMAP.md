@@ -310,6 +310,13 @@ look (stage 5 redraws everything together later).
       his second phase Rex pulls a moldy bread loaf out of the hay; every move
       (spin, leap, fetch, wave) is the same, only the picture and his line
       changed.
+- [x] 4.7c **His ask, 6 Oct: "you're going to Brazil".** A rare easter-egg mob
+      (THE HAGGLER, lots of health; kill him for gold, a unique gun and his
+      hat; if he catches you he sends you to BRAZIL), a dark grimy stage
+      whose foes nag and rob you, and THE HOLY COW (two halves, then it rises
+      again with new moves) that drops the COW MILKER. The robbers are scrap
+      rats, not gypsies (no real people as the joke). See
+      `tiny_biggot_godot/BRAZIL.md`.
 - [ ] 4.8 **Ten new characters.** Send him one line per character first
       (name, weapon, the one thing that makes it play differently) and wait
       for his yes. No two may share a mechanic with each other or with the 14

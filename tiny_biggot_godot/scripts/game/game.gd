@@ -347,7 +347,7 @@ func open_exits() -> void:
 	if not room.theme.is_empty() and room.rift_step < 2:
 		# Inside a rift there is one way on: deeper, and then to its champion.
 		World.assign_exits(room, [{ "type": "rift", "reward": "rare" if room.rift_step == 0 else "", "theme": room.theme["id"],
-			"step": 3 if room.theme.get("realm", false) and room.rift_step == 1 else room.rift_step + 1 }])
+			"step": 3 if (room.theme.get("realm", false) or room.theme.get("short", false)) and room.rift_step == 1 else room.rift_step + 1 }])
 	elif FloorMap.active():
 		if room.on_map:
 			FloorMap.link(room)
@@ -644,6 +644,7 @@ func spawn_wave(hard: bool = false) -> void:
 	var fdef: Dictionary = GameData.floors()[floor_index]
 	var n := TB.rint(3, 4) + mini(floor_index, 4) + (1 if room.depth > 3 else 0)
 	var ec := (0.05 if floor_index == 0 else 0.08 + floor_index * 0.035) + (0.08 if dread >= 3 else 0.0) + (0.35 if hard else 0.0)
+	Brazil.maybe_spawn(room, floor_index)
 	if GameData.rogues():
 		# The expanded game is a little harder (ROADMAP 4.7): from the third floor one more foe a
 		# wave, and 3% more elites. --classic keeps the original numbers.
@@ -802,6 +803,8 @@ func on_boss_dead(b: Enemy) -> void:
 	if room.rift_step == 3:
 		# A rift guardian: its hoard, and the way back to the floor (no portal: the floor goes on).
 		show_banner(b.d["name"] + " FALLS", "ITS HOARD IS YOURS. THE WAY BACK IS OPEN")
+		if b.boss == "holycow":
+			drop_item(Weapons.by_id("cowmilker"), b.x, b.y + 30)   # (brazil.gd)
 		room.objects.append({ "kind": "chest", "x": 14.0 * TB.TS, "y": 10.0 * TB.TS, "boss": true })
 		drop_item(Weapons.random_weapon(Gear.roll_item_rarity(floor_index, "boss"), player.weapon), b.x - 20, b.y + 20)
 		drop_item(Gear.random_gear(Gear.roll_item_rarity(floor_index, "boss")), b.x + 20, b.y + 20)

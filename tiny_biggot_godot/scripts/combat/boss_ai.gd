@@ -19,7 +19,12 @@ const BOSS_PLANS := {
 	"judge": ["halo", "verdict", "beams", "summon", "halo", "spiral", "verdict", "teleport"],
 	"cinderking": ["brimstone", "sweep", "hellgate", "summon", "embers", "brimstone", "charge"],
 	"unwritten": ["ink", "halo", "brimstone", "rewrite", "eclipse", "verdict", "summon", "ink", "hellgate"],
+	# The Holy Cow (brazil.gd): two halves, then it rises again (THIRD_PLANS).
+	"holycow": ["moo", "milkrain", "charge", "udder", "moo", "summon"],
 }
+## A guardian's third stage (it rose again: e.phase == 3; brazil.gd).
+const THIRD_PLANS := { "holycow": ["ascend", "holyfire", "milkrain", "stampede", "udder", "halo", "summon"] }
+const THIRD_SUMMONS := { "holycow": ["scrounger", "scrounger", "crawler"] }
 const BOSS_SUMMONS := {
 	"colossus": ["bat", "bat", "skeleton"], "sporemother": ["slime", "mushroom", "slime"],
 	"tyrant": ["imp", "imp"], "regent": ["cultist", "ghost"], "librarian": ["bookwyrm", "bookwyrm", "drowned"],
@@ -27,6 +32,7 @@ const BOSS_SUMMONS := {
 	"bogmatriarch": ["bogling", "gnat", "gnat"], "ashwarlord": ["longbowman", "torchimp"], "frozenabbot": ["monk", "monk"],
 	"crowking": ["crow", "crow", "gunman"], "umbralsun": ["voidling", "shadeknight"],
 	"judge": ["wisp", "knight"], "cinderking": ["torchimp", "imp"], "unwritten": ["voidling", "wisp"],
+	"holycow": ["scrounger", "scrounger"],
 }
 const RING_SPR := { "colossus": "bone", "librarian": "water", "rimewarden": "ice",
 	"bogmatriarch": "spore", "ashwarlord": "fire", "frozenabbot": "ice", "crowking": "dark", "umbralsun": "darkBig",
@@ -66,7 +72,7 @@ static func update_boss(e: Enemy, dt: float) -> void:
 			e.state = &"pick"
 		return
 	if e.state == &"pick":
-		var plan: Array = BOSS_PLANS[e.boss]
+		var plan: Array = THIRD_PLANS[e.boss] if e.phase == 3 and THIRD_PLANS.has(e.boss) else BOSS_PLANS[e.boss]
 		var nxt: String = plan[TB.rmod(e.cycle, plan.size())]
 		e.cycle += 1
 		if nxt == "summon" and (G.enemies.size() > 5 or (not h and e.boss == "colossus")):
@@ -129,7 +135,7 @@ static func update_boss(e: Enemy, dt: float) -> void:
 		&"summon":
 			if e.sub == 0:
 				e.sub = 1
-				for t in BOSS_SUMMONS[e.boss]:
+				for t in (THIRD_SUMMONS[e.boss] if e.phase == 3 and THIRD_SUMMONS.has(e.boss) else BOSS_SUMMONS[e.boss]):
 					var s := World.free_spot(G.room, p, 80, World.M_FLYER)
 					Combat.spawn_enemy(t, s.x, s.y)
 			if e.st > 1:
@@ -477,6 +483,86 @@ static func update_boss(e: Enemy, dt: float) -> void:
 				Combat.ering(cx, cy, 26 if h else 20, 70, e.sub * 0.12, "bone" if e.sub % 2 == 1 else "dark")
 				e.sub += 1
 				if e.sub >= 4: done(e, 1)
+		# ---------- The Holy Cow (brazil.gd) ----------
+		&"moo":
+			# MOO: three rings of milk spread out, each wider than the last.
+			if e.t <= 0:
+				e.t = 0.45
+				Combat.ering(cx, cy, 18 + e.sub * 4, 60 + e.sub * 12, e.sub * 0.2, "page")
+				Fx.float_text(cx, cy - 26, "MOO!", "white", true)
+				G.add_shake(3)
+				e.sub += 1
+				if e.sub >= (4 if h else 3): done(e)
+		&"milkrain":
+			# Milk falls from the ceiling in rows, each row with two gaps.
+			if e.t <= 0:
+				e.t = 0.8
+				var g1 := TB.rint(2, 11)
+				var g2 := TB.rint(14, 23)
+				for i in 26:
+					if absi(i - g1) <= 1 or absi(i - g2) <= 1:
+						continue
+					Combat.eshot(TB.IX0 * TB.TS + i * TB.TS + 8, TB.IY0 * TB.TS + 6, PI / 2, 60, "page")
+				Snd.play("ebullet")
+				e.sub += 1
+				if e.sub >= (5 if h else 4): done(e, 0.8)
+		&"udder":
+			# A spray of milk at you, sweeping side to side.
+			if e.t <= 0:
+				e.t = 0.12
+				var a := TB.ang_to(e, p) + sin(e.st * 3.0) * 0.6
+				Combat.eshot(cx, cy, a, 110, "page")
+				if h:
+					Combat.eshot(cx, cy, a + 0.3, 100, "page")
+			if e.st > 2.6:
+				done(e)
+		&"ascend":
+			# The third stage: it rises into the air (a ring marks where it lands) and comes down in a blast.
+			if e.sub == 0:
+				e.sub = 1
+				e.from = Vector2(e.x, e.y)
+				e.to = Vector2(clampf(p.x, 4 * TB.TS, 24 * TB.TS), clampf(p.y, 4 * TB.TS, 15 * TB.TS))
+				RiftBosses.rings.append({ "x": e.to.x, "y": e.to.y, "r": 50.0, "gap": randf() * TAU, "gw": 0.6, "warn": 0.9, "n": 18, "by": e.d["name"] })
+				Snd.play("charge")
+			var k := minf(1.0, e.st / 0.9)
+			e.x = e.from.x + (e.to.x - e.from.x) * k
+			e.y = e.from.y + (e.to.y - e.from.y) * k
+			e.z = sin(k * PI) * 46
+			if k >= 1:
+				e.z = 0.0
+				G.add_shake(9)
+				Snd.play("boom")
+				Combat.ering(e.x, e.y, 26, 90, randf(), "page")
+				Combat.ering(e.x, e.y, 14, 55, randf(), "bone")
+				e.repeat += 1
+				if e.repeat >= 2:
+					e.repeat = 0
+					done(e, 0.9)
+				else:
+					e.sub = 0
+					e.st = 0.0
+		&"holyfire":
+			# A holy spiral, gold and white, with rings between.
+			if e.t <= 0:
+				e.t = 0.07
+				e.angle += 0.21
+				for i in 3:
+					Combat.eshot(cx, cy, e.angle + i * TAU / 3, 70, "fire" if i == 0 else "page")
+				if e.sub % 14 == 0:
+					Combat.ering(cx, cy, 16, 50, randf(), "bone")
+				e.sub += 1
+			if e.st > 3.4:
+				done(e, 1)
+		&"stampede":
+			# Phantom cows charge across the room in lanes: their lanes light up first.
+			if e.t <= 0 and e.sub < 4:
+				e.t = 0.5
+				RiftBosses.bands.append({ "horiz": true, "pos": clampf(p.y + randf_range(-40.0, 40.0), 4.0 * TB.TS, 16.0 * TB.TS), "half": 12.0,
+					"warn": 0.8, "fire": 0.14, "by": e.d["name"], "hit": false })
+				Fx.float_text(cx, cy - 26, "MOO!", "white", true)
+				e.sub += 1
+			if e.sub >= 4 and e.st > 3.0:
+				done(e, 0.8)
 		&"eclipse":
 			# Two counter-rotating spirals, light and dark, and a ring every second.
 			if e.t <= 0:

@@ -346,6 +346,7 @@ const ROWS := [
 	["frostbitering", "FROSTBITE RING", "ring", "rare", ["frost", "edge"], null, "ring", [["chill", 0.1]], [], "+10% CHILL CHANCE. A QUARTER OF YOUR CRITS ON CHILLED FOES FREEZE THEM SOLID.", [{ "on": "on_crit", "if": "chilled", "chance": 0.25, "do": [["status", "stun", 1]] }]],
 	["returnring", "RING OF RETURNING", "ring", "rare", ["arcane"], null, "ring", [["rate", 1.06]], [], "+6% FIRE RATE. SWAPPING WEAPONS FIRES A RING OF 12 SHOTS AND ERASES THE SHOTS NEAR YOU.", [{ "on": "on_weapon_swap", "cd": 1.0, "do": [["nova", 12, 0.8, ""], ["clear_shots", 60]] }]],
 	["kindlingring", "KINDLING RING", "ring", "rare", ["pyre"], null, "ring", [["burn", 0.1]], [], "+10% BURN CHANCE. DRINKING A POTION SETS EVERY FOE NEAR YOU ALIGHT.", [{ "on": "on_potion", "do": [["status_area", "burn", 2, 120], ["vfx", "ring", "#e8873a", 120]] }]],
+	["hagglerhat", "HAGGLER'S HAT", "head", "legend", ["fortune"], null, "hat", [["luck", 2], ["shop_disc", 0.15]], [], "+2 LUCK, SHOP PRICES -15%. EVERY PURCHASE PAYS 10 GOLD BACK. SCROUNGERS CAN'T PICK YOUR POCKETS.", [{ "on": "on_buy", "do": [["gold", 10]] }]],
 ]
 
 ## Readable lines for stat tuples.
@@ -385,7 +386,7 @@ static func by_id(id: String) -> Dictionary:
 static func random_gear(rarity: String) -> Dictionary:
 	var pool := []
 	for g in all():
-		if g["rarity"] == rarity:
+		if g["rarity"] == rarity and g["id"] != "hagglerhat":   # only from the Haggler (brazil.gd)
 			pool.append(g)
 	return TB.pick(pool)
 

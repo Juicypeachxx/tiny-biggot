@@ -64,6 +64,9 @@ const REALMS := [
 	  "pool": ["wisp", "knight", "golem", "monk", "icearcher", "wisp"], "guardian": "judge", "hazard": "", "decor": "", "music": 5, "realm": true },
 	{ "id": "hell", "name": "THE SCORCHED DEEP", "sub": "THE DARK HAS CLAIMED YOUR SOUL", "kit": "kit_hell", "accent_hex": "#d8443c",
 	  "pool": ["torchimp", "voidling", "shadeknight", "eclipsed", "cultist", "torchimp"], "guardian": "cinderking", "hazard": "", "decor": "", "music": 5, "realm": true },
+	{ "id": "brazil", "name": "BRAZIL", "sub": "YOU'RE NOT SUPPOSED TO BE HERE", "kit": "kit_brazil", "accent_hex": "#8b8f5a",
+	  "pool": ["scrounger", "scrounger", "crawler", "scrounger", "thug", "crawler"], "guardian": "holycow", "hazard": "", "decor": "",
+	  "fog": true, "music": 4, "short": true },
 	{ "id": "seam", "name": "THE UNWRITTEN PAGE", "sub": "WHERE THE WORLD WAS FIRST WRITTEN", "kit": "kit_seam", "accent_hex": "#f4ecd8",
 	  "pool": ["ghost", "voidling"], "guardian": "unwritten", "hazard": "", "decor": "", "music": 5, "realm": true },
 ]

@@ -293,6 +293,8 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	if e.hp > 0 and p.cap("shatter") and e.chill_t > 0 and not e.is_boss() and e.hp < e.max_hp * 0.3:
 		e.shattered = true
 		e.hp = 0
+	if e.hp <= 0 and Brazil.cow_rises(e):
+		return crit   # the Holy Cow's third stage
 	if e.hp <= 0:
 		e.over = -e.hp
 		kill_enemy(e, o)
@@ -395,6 +397,8 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 		ering(e.x, e.y, 8 + (4 if e.elite else 0), 60, randf(), "water")
 	if e.type == "goblin":
 		G.on_goblin_dead(e)
+	if e.type == "haggler":
+		Brazil.on_kill(e)
 	if boss:
 		G.on_boss_dead(e)
 	# 04b additions.
@@ -634,6 +638,11 @@ static func update_enemies(dt: float) -> void:
 			if absf(e.kx) < 2: e.kx = 0.0
 			if absf(e.ky) < 2: e.ky = 0.0
 		if not e.hidden and TB.dist(e, p) < e.r + p.r and not e.d.has("no_touch") and e.puppet_t <= 0 and e.charm_t <= 0 and e.shrink_t <= 0:
+			if e.type == "haggler":
+				Brazil.caught(e)
+				break
+			if e.type == "scrounger" and p.invuln <= 0 and p.dodge_t <= 0:
+				Brazil.rob(e)
 			hurt_player(1, e.d["name"] if e.is_boss() else e.d.get("label", "a " + e.type))
 			if p.thorns > 0 and not e.thorn_cd > 0:
 				damage_enemy(e, p.thorns, { "no_crit": true, "col": "green" })
@@ -708,7 +717,7 @@ static func _merge_shot(dmg: float) -> PBullet:
 static func spawn_pbullet(p: Player, a: float, dmg: Variant = null, kind: String = "", speed_mul: float = 1.0) -> PBullet:
 	var w: Dictionary = p.weapon
 	if kind == "":
-		kind = Weapons.BULLET_KIND.get(w["kind"], "bolt")
+		kind = w.get("bullet", Weapons.BULLET_KIND.get(w["kind"], "bolt"))
 	var sp := Weapons.wspd(p) * (0.94 + randf() * 0.12) * speed_mul
 	if sp <= 0:
 		sp = 220 * speed_mul

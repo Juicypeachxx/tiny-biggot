@@ -328,6 +328,9 @@ const ENEMIES := {
 		"shot": "bone", "scale": 2.0, "mini": true, "champion": true, "gold": 4.0, "rule": "phase" },
 	# Event rooms.
 	"target": { "sprite": "target", "hp": 1, "speed": 0, "r": 6, "ai": "target", "gold": 0.0, "label": "a target", "no_touch": true },
+	# "You're going to Brazil" (his ask, 6 Oct; scripts/game/brazil.gd).
+	"haggler": { "sprite": "haggler", "name": "THE HAGGLER", "hp": 900, "speed": 52, "r": 7, "ai": "runner", "gold": 0.0, "label": "the haggler" },
+	"scrounger": { "sprite": "scrounger", "hp": 24, "speed": 76, "r": 5, "ai": "runner", "gold": 0.6, "label": "a scrounger" },
 	"goblin": { "sprite": "goblin", "hp": 40, "speed": 96, "r": 5, "ai": "flee", "gold": 0.0, "label": "a loot goblin" },
 	"mimic": { "sprite": "mimic", "hp": 80, "speed": 46, "r": 8, "ai": "golem", "shot": "red", "scale": 1.3, "gold": 2.0, "label": "a mimic" },
 	"shadow": { "sprite": "shadow", "name": "YOUR SHADOW", "hp": 150, "speed": 60, "r": 6, "ai": "champion", "shot": "dark",
@@ -349,6 +352,7 @@ const BOSSES := {
 	"crowking": { "name": "THE CROW KING", "sprite": "crowking", "hp": 1650, "r": 13, "scale": 2 },
 	"umbralsun": { "name": "THE UMBRAL SUN", "sprite": "umbralsun", "hp": 2100, "r": 13, "scale": 2.4 },
 	# Heaven and Hell (ROADMAP 4.7 part C, soul.gd): the realm rulers and the last boss of all.
+	"holycow": { "name": "THE HOLY COW", "sprite": "holycow", "hp": 520, "r": 13, "scale": 2.4, "rift": true },
 	"judge": { "name": "THE AUREATE JUDGE", "sprite": "judge", "hp": 2500, "r": 13, "scale": 2.4 },
 	"cinderking": { "name": "THE CINDER KING", "sprite": "cinderking", "hp": 2500, "r": 13, "scale": 2.4 },
 	"unwritten": { "name": "THE UNWRITTEN", "sprite": "unwritten", "hp": 3300, "r": 13, "scale": 2.4 },
@@ -422,6 +426,7 @@ const SPRITE_COLOR := {
 	"eclipsed": "#d8443c", "herald": "#8a2a33", "bogmatriarch": "#3f7a5a", "ashwarlord": "#d8443c",
 	"frozenabbot": "#e8f6ff", "crowking": "#5c3483", "umbralsun": "#d8443c",
 	"judge": "#f2c94c", "cinderking": "#e8873a", "unwritten": "#f4ecd8",
+	"haggler": "#5c3483", "scrounger": "#8b8f9c", "holycow": "#f4ecd8",
 	# Rift worlds and event rooms.
 	"inmate": "#63b84f", "grenadier": "#d8443c", "jailer": "#3f7a5a", "turnkey": "#3f7a5a", "graveborn": "#7a3a8c",
 	"bandsman": "#7a5236", "fiendling": "#8a2a33", "blackknight": "#2a2838", "carrionknight": "#2a2838", "drone": "#6fd3e0",
@@ -466,7 +471,7 @@ const ENEMY_XP := { "bat": 2, "slime": 3, "slimelet": 1, "skeleton": 3, "mushroo
 	"inmate": 4, "grenadier": 4, "jailer": 6, "graveborn": 4, "bandsman": 4, "fiendling": 3, "blackknight": 7, "drone": 3,
 	"glitch": 4, "chrome": 7, "turret": 4, "thug": 4, "molotov": 4, "copper": 5, "bomber": 3, "orderly": 4, "crawler": 2,
 	"static": 4, "tollkeeper": 5, "neighbour": 4, "robovac": 5, "burglar": 4, "gnome": 4, "gangster": 5, "biker": 5,
-	"riotcop": 7, "outlaw": 5, "dynamiter": 4, "sharpshooter": 4, "coyote": 2, "goblin": 10, "mimic": 15, "shadow": 40,
+	"riotcop": 7, "outlaw": 5, "dynamiter": 4, "sharpshooter": 4, "coyote": 2, "goblin": 10, "haggler": 60, "scrounger": 4, "mimic": 15, "shadow": 40,
 	"turnkey": 45, "carrionknight": 45, "broker": 45, "mayor": 45, "rustbutcher": 45, "landlord": 45, "kingpin": 45, "marshal": 45, "galewarden": 45, "target": 0, "rotking": 45, "highcaliber": 45, "squallheron": 40, "tidecaptain": 40, "bellringer": 40, "casingrat": 6, "skykite": 3, "gustling": 3, "stormharpy": 4, "thunderhead": 4, "mirrorwing": 4, "rampartguard": 6, "sludgecrawler": 4, "chainwarden": 5, "tidecaller": 5, "longpike": 4, "shellpriest": 5, "dervish": 5, "deacon": 5, "beltfeeder": 6, "beltlink": 2, "ammomimic": 6, "tombspider": 3, "candlewight": 4, "gargoyle": 6, "wardrummer": 4, "bloodleech": 3 }
 
 static func xp_needed(level: int) -> int:

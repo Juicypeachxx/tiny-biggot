@@ -6,6 +6,10 @@ extends Node
 ##      and EXIT, leading where the soul leans; the realm's two fights (its own foes) lead straight
 ##      to its ruler; the ruler falls and the page portal opens (no door back); the Unwritten waits
 ##      there; its fall wins the run with the last ending, counted, and paid in embers.
+##   4. "You're going to Brazil" (brazil.gd): the Haggler catching you sends you to BRAZIL; a
+##      scrounger's touch robs you (not with the Haggler's hat on); two fights lead to the Holy Cow;
+##      it falls once and rises again in a third stage, falls for good and leaves the COW MILKER;
+##      the Haggler killed leaves gold, his gun and his hat; neither prize is ever found elsewhere.
 ##   3. Each of the three bosses fights for 40 s (the hero cannot be hurt): every attack in its plan
 ##      is used, each new attack puts shots or lanes in the air, and nothing errs.
 ## Prints "realms test: PASSED" or a FAIL line per problem.
@@ -23,8 +27,9 @@ func _ready() -> void:
 	_soul()
 	for realm in ["heaven", "hell"]:
 		_way(realm)
-	for b in ["judge", "cinderking", "unwritten"]:
+	for b in ["judge", "cinderking", "unwritten", "holycow"]:
 		_fight(b)
+	_brazil()
 	print("realms test: PASSED" if fails == 0 else "realms test: %d FAILED" % fails)
 	get_tree().quit()
 
@@ -69,7 +74,7 @@ func _clear_and_leave() -> bool:
 	for k in 40:
 		for e in G.enemies:
 			if e.type != "dummy" and e.spawn_t <= 0:
-				Combat.damage_enemy(e, e.hp + 1.0, { "no_crit": true, "no_mult": true })
+				Combat.damage_enemy(e, e.hp * 2.0 + 10.0, { "no_crit": true, "no_mult": true })
 		play(30)
 		if G.room.exits_open and not G.room.exits.is_empty():
 			break
@@ -122,7 +127,7 @@ func _way(realm: String) -> void:
 		fail("%s: the ruler is %s, not %s" % [realm, G.boss.boss if G.boss != null else "nobody", want])
 		return
 	var b: Enemy = G.boss
-	Combat.damage_enemy(b, b.hp + 1.0, { "no_crit": true, "no_mult": true })
+	Combat.damage_enemy(b, b.hp * 2.0 + 10.0, { "no_crit": true, "no_mult": true })
 	play(60)
 	var page = null
 	for o in G.room.objects:
@@ -145,7 +150,7 @@ func _way(realm: String) -> void:
 		fail("%s: the Unwritten is not there" % realm)
 		return
 	var wins0: int = Meta.meta.get("unwritten_wins", 0)
-	Combat.damage_enemy(G.boss, G.boss.hp + 1.0, { "no_crit": true, "no_mult": true })
+	Combat.damage_enemy(G.boss, G.boss.hp * 2.0 + 10.0, { "no_crit": true, "no_mult": true })
 	for o in G.room.objects:
 		if o["kind"] == "chest":
 			o["opened"] = true
@@ -171,16 +176,85 @@ func _fight(key: String) -> void:
 	b.t = 0.5
 	var seen := {}
 	var most := 0
-	for i in 40 * 60:
+	var third := BossAI.THIRD_PLANS.has(key)
+	for i in (80 if third else 40) * 60:
 		play(1)
 		seen[String(b.state)] = true
 		most = maxi(most, EBullets.n + RiftBosses.bands.size() + RiftBosses.rings.size())
 		if i == 20 * 60:
 			b.hp = b.max_hp * 0.4   # the second half: harder versions
-	for a in BossAI.BOSS_PLANS[key]:
+		if third and i == 40 * 60:
+			Brazil.cow_rises(b)   # the third stage
+			b.max_hp = 1e9
+			b.hp = 1e9
+	for a in BossAI.BOSS_PLANS[key] + BossAI.THIRD_PLANS.get(key, []):
 		if a == "curtain":
 			continue
 		if not seen.has(a):
 			fail("%s never used %s (seen %s)" % [key, a, seen.keys()])
 	if most == 0:
 		fail("%s: nothing was ever in the air" % key)
+
+func _brazil() -> void:
+	var p := _run()
+	G.floor_index = 2
+	G.start_floor()
+	G.enter_room(World.make_room(G.floor_d, "combat", "", "s", { "no_secret": true }))
+	G.room.waves_left = 0
+	var h := Combat.spawn_enemy("haggler", p.x + 4.0, p.y, false, true)
+	play(120)
+	if G.room.theme.get("id", "") != "brazil":
+		fail("the Haggler caught the hero and he is in %s, not Brazil" % G.room.theme.get("id", "the floor"))
+		return
+	play(120)
+	var s := Combat.spawn_enemy("scrounger", p.x, p.y, false, true)
+	p.gold = 50
+	p.invuln = 0.0
+	G.god = false
+	play(3)
+	G.god = true
+	if p.gold >= 50:
+		fail("a scrounger's touch did not rob the hero")
+	Gear.equip_gear(p, Gear.by_id("hagglerhat"))
+	p.gold = 50
+	p.invuln = 0.0
+	s.x = p.x
+	s.y = p.y
+	G.god = false
+	play(3)
+	G.god = true
+	if p.gold < 50:
+		fail("the Haggler's hat did not keep the scrounger out of the pockets")
+	if not _clear_and_leave() or G.room.rift_step != 1:
+		fail("Brazil: no way from the first fight to the second")
+		return
+	if not _clear_and_leave() or G.room.rift_step != 3:
+		fail("Brazil: the second fight does not lead to the Holy Cow")
+		return
+	play(240)
+	if G.boss == null or G.boss.boss != "holycow":
+		fail("Brazil: the Holy Cow is not there")
+		return
+	var cow: Enemy = G.boss
+	Combat.damage_enemy(cow, cow.hp * 2.0 + 10.0, { "no_crit": true, "no_mult": true })
+	if cow.hp <= 0 or cow.phase != 3:
+		fail("the Holy Cow did not rise again (hp %.0f, phase %d)" % [cow.hp, cow.phase])
+	play(30)
+	Combat.damage_enemy(cow, cow.hp * 2.0 + 10.0, { "no_crit": true, "no_mult": true })
+	play(30)
+	if cow.hp > 0:
+		fail("the Holy Cow rose a second time")
+	if not G.room.objects.any(func(o): return o["kind"] == "item" and o["item"]["id"] == "cowmilker"):
+		fail("the Holy Cow left no COW MILKER")
+	# The Haggler killed: his hoard, gun and hat.
+	p = _run()
+	G.enter_room(World.make_room(G.floor_d, "combat", "", "s", { "no_secret": true }))
+	h = Combat.spawn_enemy("haggler", p.x + 100.0, p.y, false, true)
+	Combat.damage_enemy(h, h.hp * 2.0 + 10.0, { "no_crit": true, "no_mult": true })
+	var got := G.room.objects.map(func(o): return o["item"]["id"] if o["kind"] == "item" else "")
+	if not "hagglerbargain" in got or not "hagglerhat" in got or G.pickups.size() < 20:
+		fail("the Haggler left %s and %d pickups" % [got, G.pickups.size()])
+	for i in 300:
+		if Weapons.random_weapon("legend")["id"] in Weapons.UNIQUE or Gear.random_gear("legend")["id"] == "hagglerhat":
+			fail("a Brazil prize turned up in a random drop")
+			break

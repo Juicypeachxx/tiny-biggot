@@ -509,6 +509,9 @@ const ROWS := [
 	["leafblower", "LEAF BLOWER", "blower", "rare", ["storm", "venom"], "blower", { "dmg": 4.0 }, [], [], "A GUST THAT TURNS ENEMY SHOTS AROUND (NOW THEY ARE YOURS) AND PUSHES FOES BACK."],
 	["aegisprojector", "AEGIS PROJECTOR", "dome", "epic", ["bulwark", "storm"], "projector", {}, [], [], "A DOME BY YOU: ENEMY SHOTS THAT ENTER IT POP, AND FOES IN IT ARE BURNED. EACH ATTACK IT LANCES THE NEAREST FOE WITH LIGHT."],
 	["coinflipper", "COIN FLIPPER", "coin", "epic", ["fortune", "edge"], "pistol", {}, [], [], "EVERY 3RD SHOT TOSSES A SPINNING COIN. A SHOT THAT HITS THE COIN SPLITS INTO TWO CRITS THAT SEEK FOES."],
+	# "You're going to Brazil" (his ask, 6 Oct; brazil.gd): found only from the Haggler and the Holy Cow.
+	["cowmilker", "COW MILKER", "gatling", "legend", ["bulwark", "frost"], "minigun", { "dmg": 2.2, "rate": 9.0, "bullet": "spark" }, [["chill", 0.2]], [], "SPRAYS FRESH MILK THAT CHILLS. EVERY 30TH SQUIRT: MOO! A RING OF 16 MILK SHOTS. 5% OF KILLS HEAL HALF A HEART.", [{ "on": "every_n_shots", "every": 30, "do": [["nova", 16, 1.0, "spark"], ["vfx", "label", "MOO!", "#f4ecd8"]] }, { "on": "on_kill", "chance": 0.05, "do": [["heal", 1]] }]],
+	["hagglerbargain", "HAGGLER'S BARGAIN", "bolt", "legend", ["fortune"], "pistol", { "dmg": 9.0, "rate": 3.0 }, [["luck", 1]], [["gold_dmg", 0.1]], "+10% DAMAGE PER 100 GOLD. A FIFTH OF HITS HAGGLE 1 GOLD OUT OF THE FOE. EVERY 12TH SHOT THROWS 5 COINS THAT HIT.", [{ "on": "on_hit", "chance": 0.2, "do": [["gold", 1]] }, { "on": "every_n_shots", "every": 12, "do": [["shoot", 5, 0.8, "", 0.2]] }]],
 ]
 
 static var _by_id := {}
@@ -535,10 +538,14 @@ static func by_id(id: String) -> Dictionary:
 	all()
 	return _by_id[id]
 
+## Found only one way (brazil.gd): never in a chest, a shop or a drop.
+const UNIQUE := ["cowmilker", "hagglerbargain"]
+
 static func random_weapon(rarity: String, exclude: Variant = null) -> Dictionary:
 	var pool := []
 	for w in all():
-		if w["rarity"] == rarity and not (exclude != null and w["id"] == exclude["id"]) and not HERO_WEAPON.values().has(w["id"]):
+		if w["rarity"] == rarity and not (exclude != null and w["id"] == exclude["id"]) and not HERO_WEAPON.values().has(w["id"]) \
+				and not w["id"] in UNIQUE:
 			pool.append(w)
 	if pool.is_empty():
 		for w in all():

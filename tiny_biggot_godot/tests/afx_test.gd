@@ -91,8 +91,8 @@ func afx_art() -> void:
 	for boss in BossAI.BOSS_PLANS:
 		if not Afx.BOSS_COL.has(boss):
 			fail("guardian %s has no colour" % boss)
-		for st in BossAI.BOSS_PLANS[boss]:
-			if not (StringName(st) in Afx.CASTING or st in ["charge", "slam", "teleport", "beams", "palms"]):
+		for st in BossAI.BOSS_PLANS[boss] + BossAI.THIRD_PLANS.get(boss, []):
+			if not (StringName(st) in Afx.CASTING or st in ["charge", "slam", "teleport", "beams", "palms", "ascend"]):
 				fail("guardian attack %s has no visual rule" % st)
 
 # ---------- 2 ----------
