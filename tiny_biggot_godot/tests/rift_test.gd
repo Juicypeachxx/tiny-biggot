@@ -155,7 +155,7 @@ func worlds() -> void:
 						break
 				if ch.cycle < moves:
 					fail("champion %s: only %d of %d moves in 66 s" % [ch.type, ch.cycle, moves])
-			if not _clear_room():
+			if not _clear_room(3600):   # elite rooms: splitting elites, a mini through its stages and phases
 				fail("world %s step %d: the room never cleared (%s, waves left %d)" % [th["id"], step, G.enemies.map(func(e): return "%s %.0f/%.0f a%.0f st%d sp%.1f" % [e.type, e.hp, e.max_hp, e.armor, e.stage, e.spawn_t]), G.room.waves_left])
 				continue
 			var rifts := 0
