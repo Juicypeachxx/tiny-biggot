@@ -46,7 +46,7 @@ func _kill_all() -> void:
 			Combat.damage_enemy(e, e.hp * 2.0 + 1.0, { "no_crit": true, "no_mult": true, "silent": true })
 
 func _clear() -> void:
-	for i in 300:
+	for i in 1200:   # more waves since 5.8, and a mini-boss breaks through its stages (Stages.gate)
 		_tick(5)
 		_kill_all()
 		if not G.locked:
