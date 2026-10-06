@@ -374,11 +374,13 @@ Rules for the art:
 - The ability and attack effects were redrawn in October (`EFFECTS.md`,
   `ATTACK_EFFECTS.md`). Leave them unless they clash with the new look.
 
-- [ ] 5.1 **A sample, for his yes.** (6 Oct: sample drawn in three looks, A crisp, B
-      grim, C glow, `tiny_biggot_godot/tools/art/`; waiting for his pick. Same sizes.) Redraw one hero, three foes, one
-      guardian, five weapon icons, one floor's tiles and the hearts. Send him
-      one picture: old on the left, new on the right, at 5x, and a screenshot
-      of a fight using them. Do not go on without his answer.
+- [x] 5.1 **A sample, for his yes.** Drawn in three looks (A crisp, B grim, C
+      glow); he picked **a mix of A and C** (6 Oct): A's clean, bright colours
+      and readable outlines with C's richer colour, outlines tinted by each
+      sprite's colour, and a soft glow on magic. In the game: the hexer, bat,
+      skeleton, slime (and their elites), the Colossus, hearts, five weapon
+      icons and the Ossuary tiles. Built as IPA 5.1. Tool: `tools/art/` (look
+      "D"); the rest of stage 5 follows the same rules.
 - [ ] 5.2 Heroes (14, plus those from stage 4) and their gear overlay
       (`scripts/render/hero_gear.gd`).
 - [ ] 5.3 Foes, champions and guardians.

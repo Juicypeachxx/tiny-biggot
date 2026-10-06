@@ -16,6 +16,8 @@ VIBES = {
            outline=(0.09,0.06,0.13), colored_outline=False, rim=None, halo=0),
  "B": dict(name="GRIM", tones=[(0.07,1.0,0.4),(0.02,0.85,0.76),(-0.02,0.55,1.08)], sat=0.82, val=0.9,
            outline=(0.03,0.03,0.06), colored_outline=False, rim=(0.62,0.92,1.0), halo=90),
+ "D": dict(name="CRISP+GLOW", tones=[(0.07,1.2,0.54),(0,1.1,1.0),(-0.05,0.7,1.3)], sat=1.18, val=1.04,
+           outline=(0.09,0.06,0.13), colored_outline=True, outline_v=0.11, rim=None, halo=160, halo2=60),
  "C": dict(name="GLOW", tones=[(0.1,1.25,0.48),(0,1.2,1.02),(-0.07,0.65,1.35)], sat=1.3, val=1.0,
            outline=(0.14,0.06,0.2), colored_outline=True, rim=(1.0,0.86,0.5), halo=170, halo2=70),
 }
@@ -41,7 +43,7 @@ def sprite(name, vb, rng=None):
     pal["0"] = toh(rgb(mh[0]+0.05, 0.5, 0.12)) + (255,)
     oc = vb["outline"]
     if vb["colored_outline"]:
-        oc = rgb(mh[0]+0.04, 0.6, 0.16)
+        oc = rgb(mh[0]+0.04, 0.6, vb.get("outline_v", 0.16))
     pal["o"] = toh(oc)+(255,)
     W,H = len(grid[0]), len(grid)
     im = Image.new("RGBA",(W,H),(0,0,0,0)); px = im.load()
@@ -164,8 +166,18 @@ def kit(vb, seed=7):
     for y in range(28): put(0,32+y,dark); put(16,32+y,dark)
     return im
 
+ELITES = ["bat", "skeleton", "slime"]   # foes with an elite look: the outline turns gold
+
+def elite(name, im):
+    im = im.copy(); px = im.load()
+    for y,row in enumerate(S[name][1]):
+        for x,ch in enumerate(row):
+            if ch == 'o': px[x,y] = (242,201,76,255)
+    return im
+
 def all_for(v):
     vb = VIBES[v]
     out = {n: sprite(n, vb) for n in S}
+    for n in ELITES: out[n + "_elite"] = elite(n, out[n])
     out["kit0"] = kit(vb)
     return out

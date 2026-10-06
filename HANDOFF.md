@@ -662,12 +662,12 @@ the end of `weapons.gd` / `gear.gd`), dropped by `game.on_boss_dead` and
 `Combat.kill_enemy`; `random_weapon` / `random_gear` never roll them. Test:
 `tests/bosses_test.tscn` (in check.sh). Full replays re-recorded.
 
-**5.1, art sample (6 Oct), waiting for his pick.** `tiny_biggot_godot/tools/art/`
-draws the sample (hexer, bat, skeleton, slime, Colossus, hearts, five weapon icons,
-Ossuary tiles `kit0`) in three looks: A CRISP (Tiny Rogues-like), B GRIM (moody,
-cold rim light), C GLOW (rich colour, coloured outlines, glow on magic). Same sizes
-as before. Nothing is in the game yet: when he picks, copy `out/<look>/*.png` into
-`assets/graphics/`, bake the atlas, run the tests, and build 5.1.
+**5.1, art sample (6 Oct): he picked a mix of A and C (look "D" in
+`tiny_biggot_godot/tools/art/render.py`).** In the game: hexer, bat, skeleton, slime
+(+ elites: the outline turned gold), colossus, hearts, w_hexwand, w_repeater,
+w_pithatchet, w_graveshovel, w_flasksling, kit0. Same sizes. To redraw more: add grids to
+`sprites.py`, run `python3 tools/art/sheet.py x.png` from a folder outside the project,
+copy `out/D/*.png` into `assets/graphics/`, bake the atlas. Next: 5.2 (heroes).
 
 ## Noted, not yet acted on
 

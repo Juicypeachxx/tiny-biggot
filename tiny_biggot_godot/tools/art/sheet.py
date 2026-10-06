@@ -25,7 +25,7 @@ def scene(get, kitim):
         c.alpha_composite(im,(x,y))
     return c
 cols = [("OLD", lambda n: Image.open(OLD+n+".png").convert("RGBA"), Image.open(OLD+"kit0.png").convert("RGBA"))]
-for v in "ABC":
+for v in "ABCD":
     d = all_for(v)
     cols.append((v+" "+VIBES[v]["name"], (lambda d: lambda n: d[n])(d), d["kit0"]))
     os.makedirs("out/"+v, exist_ok=True)
