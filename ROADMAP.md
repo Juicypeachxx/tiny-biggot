@@ -544,7 +544,29 @@ Chosen for his asks of 6 Oct (more variety, foes that stand up to a build), no b
       hit chills every foe near you) and THE GLACIAL MAW (rift guardian on the guardians' rules,
       three stages and evolving looks, drops GLACIER HEART: chilling bolts, every 4th calls
       lightning). Original art in tools/art.
-- [ ] Full check, replays, IPA 7.3.
+- [x] Full check passed, replays re-recorded on purpose (new world in the pools), classic identical, IPA 7.3.
+
+
+## Stage 8: alignments, clear info, stat stacking (his ask, 6 Oct, with five pictures of another game's
+perk tree and HUD: ideas only, every name, number and icon here is this game's own)
+
+"Add those alignments in constellations and similar, also the last picture shows you how to make
+info of perks and stats and all info of the game, keep it this way so it could be easier to
+understand the build, also add stat stacking as shown to buff weapons and builds."
+
+- [ ] 8.1 Alignments: GOOD, EVIL, LAWFUL, CHAOTIC. Points come from relics and gear (by their
+      tags), the realms (Heaven, Hell) and the constellation. The constellation grows four diagonal
+      spokes, one per alignment, with stars that give points and stars whose perks depend on them
+      (e.g. "while one alignment is 2 or more and the other three 1 or less: ..."; "while GOOD is
+      your highest: ...").
+- [ ] 8.2 Clear info: every description (items, stars, traits, shop, stats) colours its keywords
+      (damage, crit, armor, gold, STR/DEX/INT, alignments, numbers) with a small icon, in boxes like
+      his pictures. A stat column on the left of the HUD: gold, keys, bombs, STR / DEX / INT,
+      luck, the four alignments (an option can hide it).
+- [ ] 8.3 Stat stacking: rooms, chests and shops give stat pickups with a label over them (+1 STR,
+      +1 DEX, +1 INT, +1% crit, +0.5% move speed ...), and the attributes do more than weapon
+      damage (STR, DEX and INT each also add a small stat of their own).
+- [ ] Full check, replays, IPA 8.3.
 
 ---
 
