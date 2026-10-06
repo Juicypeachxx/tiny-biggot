@@ -497,6 +497,17 @@ He said yes to all four; he will say when he has played 5.9 enough to judge the 
       escapement rifle. Stage 6 built as one IPA, 6.4 (his ask).
   Stage 6 closed (6 Oct): full check passed, IPA 6.4 built. Waiting for his word on the difficulty.
 
+## Step 6.5: foes answer the build (his ask, 6 Oct, with a video)
+
+"The game still instantly clears everything and melts the bosses after a few pickups." (Floor 3,
+level 19, THE HIGH CALIBER +11, hits of about 230.) Builds stay exactly as they are (rule 1).
+- [ ] Foes, mini-bosses and guardians spawned from now on read your real strength: the weapon
+      sheet (damage, rate, shots, crits) or what you really dealt in fights lately (combos, wisps,
+      meteors), whichever is more. When it runs ahead of what the floor expects, their health
+      grows with the lead to the power 0.6 (`Combat.power_scale`). Expanded game only.
+- [ ] Measured with bot runs (plain, Hall of Mirrors, High Caliber); full replays re-recorded;
+      classic identical; IPA 6.5.
+
 ---
 
 ## Log
