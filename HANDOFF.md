@@ -805,6 +805,11 @@ classic list is untouched). world_view's event-object match lists them. `tests/e
 jugglepins, greataxe, rustyshiv in HERO_WEAPON; branches SONGCRAFT, TOMFOOLERY, BLOODLUST,
 SURVIVAL; attributes; art in sprites.py 10.3 block); heroes_test NEW covers them.
 
+10.4: kind `flail` (`scripts/combat/flail.gd`: `tick` from Hazards.update, `fire` from
+Combat.player_shoot's match, `draw_over` in world_view, `clear` with Arsenal.clear); base row in
+weapons.gd KINDS, ARCH_DESC, WeaponInfo type PHYSICAL, attribute grades A/B/-. Six weapons before
+the 10.3 hero weapons; icons from one grid in sprites.py (10.4). `tests/flail_test`.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).
