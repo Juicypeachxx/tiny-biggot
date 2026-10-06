@@ -348,6 +348,9 @@ look (stage 5 redraws everything together later).
       stages (breaks at 67% and 34%); rift guardians and Rex a third stage
       below 25%. 37 bosses and mini-bosses each drop a unique legend weapon
       or gear piece, found nowhere else. See `BOSS_STAGES.md`.
+- [x] 4.14 **His ask, 6 Oct: the expanded game is the core.** Everything added
+      is kept and guarded as part of the game (rule 4 of `CLAUDE.md`). It was
+      already what he plays; classic rules stay behind the test switch only.
 
 ## Stage 5: sprite revamp
 

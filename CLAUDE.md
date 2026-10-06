@@ -24,9 +24,14 @@ cloud container).
 3. **Art is original.** The look takes ideas from Tiny Rogues, Dead Cells,
    Aion and League of Legends. No sprite, character, name or logo from any
    game is copied or traced.
-4. **Original content stays as it was.** `tests/replays/classic/` are
-   recordings of the original game's rules. They are never re-recorded. If
-   they change, something original was broken.
+4. **The expanded game is the core** (his word, 6 Oct). Everything added so
+   far is part of the game and is kept, the same as the original. It is
+   what he plays: classic rules only exist behind the test switch
+   `--classic`. Two sets of recordings guard it:
+   `tests/replays/classic/` (the original rules: never re-recorded) and
+   `tests/replays/*.txt` (the core as it is now). The core recordings are
+   re-recorded only when content is added or changed on purpose, and the
+   commit says so. If either set changes by accident, something was broken.
 5. **Godot 4.6.1 only.** No 4.7 features: the project must still open in Xogot.
 6. **Every stage ends with a working IPA** that he tests on the iPad. The next
    stage waits for it.
