@@ -394,6 +394,9 @@ Rules for the art:
       outline** (`ELITE` in `tools/art/sprites.py`: darker, richer body, gold eyes, an own mark).
   - [x] 5.3a (6 Oct): bat, bat2, slime, skeleton, mushroom, imp, ghost, bookwyrm, drowned (+ elites),
         Colossus, Spore Mother, Librarian. He took every new design.
+  - [x] 5.3b (6 Oct): Cinderforge to the Umbral Sun: 26 foes and minis (+ elites) and 8 guardians.
+  **His ask (6 Oct): no tests and no IPA between the art steps.** Redraw everything first (5.3 to
+  5.6), committing as it goes; then one full check and one IPA at the end of stage 5.
 - [ ] 5.4 Weapon, gear and relic icons.
 - [ ] 5.5 Tiles and room objects, floor by floor.
 - [ ] 5.6 Menus, HUD and the pixel font (the font last and only if he asks:

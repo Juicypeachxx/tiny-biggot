@@ -34,12 +34,13 @@ def sprite(name, vb, rng=None, elite=False):
     if elite:   # richer, darker body, hot gold eyes, its own mark (ELITE), gold outline
         h,s_,v = hsv(hx(m.get("main","#888888")))
         m["main"] = "#%02x%02x%02x" % toh(rgb(h, min(1, s_*1.2), v*0.82))
-        m["glow"] = "#ffd84a"
+        if not m.get("halo"):   # a glowing body keeps its own light
+            m["glow"] = "#ffd84a"
         grid = list(grid)
         for row, over in ELITE.get(name, {}).items():
             grid[row] = "".join(c if c != '.' else g for g, c in zip(grid[row], over))
     mats = {"123": m.get("main","#888888"), "abc": m.get("second","#3f7fbf"), "jkl": m.get("bone", BONE), "456": m.get("skin", SKIN),
-            "789": METAL, "pqr": GOLD, "uvw": WOOD}
+            "789": m.get("metal", METAL), "pqr": m.get("gold", GOLD), "uvw": m.get("wood", WOOD)}
     pal = {}
     for keys, base in mats.items():
         t = tones(base, vb)

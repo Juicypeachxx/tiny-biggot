@@ -283,3 +283,129 @@ ELITE = {
 	"bookwyrm": {1: ".q........q.", 3: ".....rr.....", 7: ".q........q."},
 	"drowned": {0: "...qoqqoq...", 6: "..q......q.."},
 }
+
+# ---- 5.3b: Cinderforge and the floors after it. M(): a symmetric sprite from its left halves;
+# the right side takes the shaded tones (3->1, 9->7, l->k ...), so the light comes from the left.
+_MIR = str.maketrans("3197lk64rpwuca", "1379kl46prwuac")
+def M(rows):
+    return [r + r[::-1].translate(_MIR) for r in rows]
+
+S["cultist"] = ("main:#a03040 glow:#ffb040", [
+"....oooo....", "...o3332o...", "..o333322o..", "..o0y00y0o..", "..o300001o..", ".o33o00o11o.",
+"o3o3q22q1o1o", "o3o322221o1o", "o5o32qq21o8o", ".o3222221o9o", ".o32222221o.", ".oooooooooo."])
+S["knight"] = ("main:#4a5a8a second:#4a7ad0", [
+"....obbo....", "...o9988o...", "..o998887o..", "..o707707o..", "..o888887o..", ".o98o88o87o.",
+"o9o332218o7o", "o9o3q22q1o7o", "o8o322221o8o", ".oo322221oo.", "..o98oo87o..", "..ooo..ooo.."])
+S["wisp"] = ("main:#6fb8e8 glow:#dff8ff halo:1", [
+".....o......", "....oyo.....", "...oyxyo.o..", "..oy3xx3yo..", ".oy33xx33yo.", ".oy303303yo.",
+"..oy3223yo..", "...oy22yo...", "....oyyo....", ".....oo....."])
+S["golem"] = ("main:#6a7a9a glow:#9ff0ff", [
+"..oooooooo..", ".o33322221o.", ".o3y3222y1o.", ".o32222221o.", "oo32222221oo", "o33o2yy2o11o",
+"o32o2yy2o21o", "o32o2222o21o", "oo1o2222o1oo", ".oo322221oo.", ".o322oo221o.", ".oooo..oooo."])
+S["bogling"] = ("main:#6a8a3a glow:#ffe060", [
+"..ooo..ooo..", ".oxyo..oyxo.", ".o33332222o.", "o3332222221o", "o3oooooooo1o", ".o32222221o.",
+"o3o322221o1o", ".oo3o22o1oo.", ".ooo.oo.ooo."])
+S["gnat"] = ("main:#4a5a3a bone:#d8e8e0 glow:#ff5a3a", [
+"..oo....oo..", ".ollo..ollo.", ".olkloolklo.", "..ooy33yoo..", "...o3322o...", "...o2112o...",
+"....o11o....", ".....oo....."])
+S["hexwife"] = ("main:#3a4a3a skin:#8aa070 glow:#c8ff5a", [
+".....oo.....", "....o32o....", "...o3322o...", ".oo333221oo.", "..o5y55y4o..", "..o455554o..",
+".o33o44o11o.", "o3o322221ouo", "o3o3q2221ouo", "o5o322221o5o", ".o32222221o.", ".oooooooooo."])
+S["longbowman"] = ("main:#4a6a3a skin:#e0a47a", [
+"....oooo..o.", "...o3332o.vo", "..o333221ovo", "..o505504olo", "..o455554olo", ".o33o55o1ovo",
+"o3o322221o5o", "o3o3uqu21ovo", "o5o322221oo.", ".oo322221o..", "..o32oo21o..", "..ooo..ooo.."])
+S["lancer"] = ("main:#a03a3a skin:#d89a70", [
+"....oooo..o.", "...o9988oo9o", "..o998887o8o", "..o505504ouo", "..o455554ouo", ".o98o88o8ouo",
+"o9o332218ouo", "o9o3q22q1ouo", "o8o322221o5o", ".oo322221ouo", "..o98oo87ouo", "..ooo..oooo."])
+S["warpriest"] = ("main:#6a3a8a", [
+"....oooo....", "...oqrrqo...", "..oqrqqqpo..", "..op0pp0po..", "..oqqqqqpo..", ".o33oqqo11o.",
+"o3o3lql21o1o", "o3o3lll21o8o", "o5o3lql21o9o", ".oo322221o9o", "..o32oo21o..", "..ooo..ooo.."])
+S["torchimp"] = ("main:#e07a3a second:#6a3a2a glow:#fff07a halo:1", [
+"....oyyo....", "...oyxxyo...", "..ob3332bo..", "o.o3y33y2o.o", "oao3l2l21oao", "oaao3221oaao",
+".oo332221oo.", "...o3221o...", "..o21oo12o..", "..ooo..ooo.."])
+S["monk"] = ("main:#d07a2a second:#6a3a2a skin:#c88a5a", [
+"....oooo....", "...o6665o...", "..o666554o..", "..o505504o..", "..o455554o..", ".o33o44o11o.",
+"o3o322221o1o", "o3obbbbbbo1o", "o5o322221o5o", ".oo322221oo.", "..o32oo21o..", "..ooo..ooo.."])
+S["icearcher"] = ("main:#8ab8e0 skin:#f0dce8", [
+"....oooo..o.", "...olllko.vo", "..ollllkkovo", "..o505504olo", "..o455554olo", ".olko55okovo",
+"o3o322221o5o", "o3o3uqu21ovo", "o5o322221oo.", ".oo322221o..", "..o32oo21o..", "..ooo..ooo.."])
+S["snowlantern"] = ("main:#8ab8e0 glow:#bff0ff halo:1", [
+"....oooo....", "...o9889o...", "..oooooooo..", "..o3yyyy1o..", ".o3y0yy0y1o.", ".o3yyyyyy1o.",
+".o3yy00yy1o.", "..o322221o..", "..oooooooo..", "....o99o...."])
+S["gunman"] = ("main:#8a6a3a second:#c0403a skin:#d89a70", [
+"...oooooo...", "..ouvvvvuo..", "ouuuuuuuuuuo", "..o505504o..", "..o455554o..", ".o33o44o11o.",
+"o3o3bbbb1o1o", "o3o3uqu21o1o", "o5o322221o89", ".oo322221o9.", "..o32oo21o..", "..ooo..ooo.."])
+S["cutthroat"] = ("main:#4a3a5a glow:#ff4a4a", [
+"....oooo....", "...o3332o...", "..o0y00y0o..", "..o322221o..", "o9o322221o9o", "o8o322221o8o",
+".oo322221oo.", "..o32oo21o..", "..ooo..ooo.."])
+S["crow"] = ("main:#2a2a3a glow:#ff4a3a", [
+"...ooo......", "..o332o.....", ".o3y22qqo...", ".o3222oo....", "o33222221oo.", "o3o22222211o",
+".oo222211oo.", "...oo.oo...."])
+S["chimneyimp"] = ("main:#4a4a52 second:#2a2433 glow:#ffa040", [
+"...oooooo...", "...obbbbo...", "..oaaaaaao..", "o.o3y33y2o.o", "oao3l2l21oao", "oaao3221oaao",
+".oo332221oo.", "...o3221o...", "..o21oo12o..", "..ooo..ooo.."])
+S["voidling"] = ("main:#5a3a8a glow:#ff7af0", [
+"....oooo....", "..oo3332oo..", ".o33333222o.", ".o33oooo21o.", "o333oyxo221o", "o333oyyo221o",
+"o3333oo2221o", ".o3o3221o1o.", "o3o.o22o.o1o", ".o..o..o..o."])
+S["shadeknight"] = ("main:#3a2a4a metal:#5a5470 second:#8a4ad0 glow:#d08aff", [
+"....obbo....", "...o9988o...", "..o998887o..", "..o7y77y7o..", "..o888887o..", ".o98o88o87o.",
+"o9o332218o7o", "o9o3q22q1o7o", "o8o322221o8o", ".oo322221oo.", "..o98oo87o..", "..ooo..ooo.."])
+S["eclipsed"] = ("main:#4a2a5a glow:#ffb040", [
+"...oqqqqo...", "..oq0000qo..", ".oq000000qo.", ".oq0y00y0qo.", "..oq0000qo..", ".o33oqqo11o.",
+"o3o322221o1o", "o3o322221o1o", "o5o322221o5o", ".o32222221o.", ".o32222221o.", ".oooooooooo."])
+S["mirehulk"] = ("main:#5a6a3a second:#8ab04a glow:#ffe060", [
+"..oooooooo..", ".o33cc3221o.", "o33cy22y221o", "o3322222221o", "o32llllll21o", "oo32222221oo",
+"o3o3c22c1o1o", "o3o322221o1o", "o5o32cc21o5o", ".oo322221oo.", ".o322oo221o.", ".oooo..oooo."])
+S["ironcaptain"] = ("main:#3a3a5a second:#b03a3a glow:#ffa040", [
+"....oqqo....", "...o9988o...", "..o998887o..", "..o7x77x7o..", "..o888887o..", ".obo9889obo.",
+"obo932219obo", "obo3q22q1obo", "o8o322221o8o", ".bo322221ob.", ".bo98oo87ob.", ".oooo..oooo."])
+S["stoneabbot"] = ("main:#8a8a7a glow:#7ff0ff", [
+"....oooo....", "...o3332o...", "..o333221o..", "..o3y22y1o..", "..o320221o..", ".o33o22o11o.",
+"o3o3y2221o1o", "o3o32y221o1o", "o3o322y21o3o", ".o32222221o.", ".o32222221o.", ".oooooooooo."])
+S["enforcer"] = ("main:#4a4a3a glow:#ff4a3a", [
+"....oooo....", "...o9998o...", "..o998887o..", "..o8y88y7o..", "..o7o88o7o..", ".o98o77o87o.",
+"o9o322218o7o", "o9o3q22q1o7o", "o8o322221o8o", ".oo322221oo.", "..o98oo87o..", "..ooo..ooo.."])
+S["herald"] = ("main:#3a8a8a glow:#ffe060", [
+"oo........oo", "ollo.oo.ollo", "olllo33olllo", ".oll3yx3llo.", "..oo3yy3oo..", "...o3qq3o...",
+"...oq22qo...", "....o22o....", ".....oo....."])
+S["tyrant"] = ("main:#5a4a4a glow:#ffa040 halo:1", M([
+"....oqo.", "...oqrqq", "..o99888", ".o998y88", ".o988888", ".o98o000", ".o988888", "o9o98888",
+"o9o8oooo", "o8o8oyxx", "o8o8oxyy", "o8o88888", ".oo98888", "..o988o.", "..o9988o", "..oooooo"]))
+S["rimewarden"] = ("main:#5a8ac8 glow:#dff8ff", M([
+".l....oo", ".lo.o333", "..lo3222", "..o32y22", "..o22222", "..o2llll", ".o32llll", "ollllo22",
+"o3o22222", "o3o22y22", "o3o22222", ".oo22222", "..o22222", "..o222o.", "..o998o.", "..ooooo."]))
+S["regent"] = ("main:#6a3a9a", M([
+"....oqoq", "....oqrq", "....oqqq", "...ollll", "...ol0ll", "...ollll", "...oll00", "..oqqlll",
+".o3q2222", "o32q2222", "o5o22222", "o3o2222q", ".o32222q", ".o32222q", "o332222q", "oooooooo"]))
+S["bogmatriarch"] = ("main:#5a8a3a second:#e87aa0 glow:#ffe060", M([
+"..ooo...", ".oxyo...", ".o33oooo", "o33c2222", "o322c222", "o3oooooo", "o322jjjj", "o32jllll",
+"o32jllll", "o32jllll", "o322jjjj", "oo322222", "o3oo2222", "o33o2222", "o32o2222", "oooooooo"]))
+S["ashwarlord"] = ("main:#4a3a3a second:#b03a3a glow:#ffa040", M([
+"9.....oo", "o9..o999", ".o9o9888", "..o9y888", "..o98888", "..o80808", ".boo9888", "bbo99888",
+"bo9o8888", "bo8o88y8", "bo8o8888", "bbo98888", ".bo98888", ".bo98o..", ".bo98o..", ".ooooo.."]))
+S["frozenabbot"] = ("main:#6a9ad0 glow:#dff8ff", M([
+"...x.x.x", "...oxxxx", "..o32222", "..o3y222", "..o32222", "..o3llll", ".ollllll", "olllllll",
+"o3olllll", "o3olllll", "o3ollllq", ".ollllll", ".ollllll", ".ollllll", "olllllll", "oooooooo"]))
+S["crowking"] = ("main:#2a2a3a glow:#ff4a3a", M([
+"....oqoq", "....oqqq", "...o3222", "..o32y22", "..o3222q", "...o22qq", "..o32222", ".o332222",
+"o3332222", "o3o32222", "o33o2222", "o3o3o222", ".o3o3o22", "..oo3222", "...oqo..", "...oo..."]))
+S["umbralsun"] = ("main:#3a2a5a glow:#e0a0ff", M([
+".......q", "..q....q", "...q.ooo", "....oqqq", "...oq000", "qq.oq0y0", "...oq000", "qq.oq000",
+"...oq000", "...oq0yy", "...oq000", "....oq00", "...q.oqq", "..q...oo", ".......q", "........"]))
+
+_HUM = {0: "...q.qq.q...", 5: ".q........q."}   # a little crown and shoulder spikes
+for _n in ["cultist", "knight", "hexwife", "longbowman", "lancer", "warpriest", "monk", "icearcher", "gunman",
+		"shadeknight", "eclipsed", "ironcaptain", "stoneabbot", "enforcer", "mirehulk", "golem"]:
+	ELITE[_n] = dict(_HUM)
+ELITE.update({
+	"wisp": {0: "...q.o.q....", 9: "....qooq...."},
+	"bogling": {0: ".qooo..oooq.", 4: "o3qqqqqqqq1o"},
+	"gnat": {7: "....qqqq...."},
+	"torchimp": {2: ".qob3332boq."},
+	"snowlantern": {1: "...oqrrqo...", 9: "....oqqo...."},
+	"cutthroat": {0: "...qooooq..."},
+	"crow": {0: "..qoooq.....", 1: ".qo332o....."},
+	"chimneyimp": {1: "...oqqqqo..."},
+	"voidling": {0: "...qoooq....", 9: "q..q..q..q.."},
+	"herald": {5: "...oqrrqo..."},
+})

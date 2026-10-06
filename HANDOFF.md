@@ -678,7 +678,12 @@ warm colours' highlights now lean to yellow (`render.tones`). Next: 5.3 (foes).
 
 **5.3a (6 Oct).** First three floors' foes and guardians redrawn (all new, his pick).
 Elites: `sprite(name, vb, elite=True)` with the `ELITE` marks; every elite file is
-made by the tool, so a foe redrawn later gets its elite in the same run. Next: 5.3b.
+made by the tool, so a foe redrawn later gets its elite in the same run.
+
+**5.3b (6 Oct).** Cinderforge to the Umbral Sun (26 foes and minis, 8 guardians). `M()` in
+`sprites.py` mirrors a left half into a whole sprite. Glowing bodies (`halo:1`) keep their
+glow as elites. His ask: no tests or IPA until stage 5 is all drawn; then one check and
+one IPA. Next: 5.3c (rift worlds).
 
 ## Noted, not yet acted on
 
