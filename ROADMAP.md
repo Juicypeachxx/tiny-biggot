@@ -661,7 +661,10 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       prism weapons (fans of lasers). Done: "!" warnings; six aura relics; GLOOM with DUSKBLADE,
       GLOOM LANTERN and NIGHTFALL; a beam's extra projectiles now fan out as rays (PRISM FAN,
       THE SPECTRUM).
-- [ ] 11.3 A little harder, measured with bot runs (nothing removed or toned down, rule 1).
+- [x] 11.3 A little harder, measured with bot runs (nothing removed or toned down, rule 1).
+      Foes +45% health on the first floor (was +35%), their shots 10% faster (was 6%), 4% more
+      elites. Bot (no god mode, 10 min, seeds 3 and 7): deaths 9 and 11 before, 10 and 11 after;
+      it reached level 2-3 instead of 4 (foes take longer to fall).
 - [ ] IPA 11.x.
 
 ## Stage 12: the story (a DLC of our own)

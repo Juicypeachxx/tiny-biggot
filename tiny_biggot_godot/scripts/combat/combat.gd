@@ -18,7 +18,7 @@ static func floor_scale() -> float:
 ## Cranked up (his ask, 6 Oct: "stages are still too easy"): 35% more on the first floor, 6% more
 ## each floor after (95% more on the eleventh).
 static func hard_hp() -> float:
-	return 1.35 + 0.06 * G.floor_index if GameData.rogues() else 1.0
+	return 1.45 + 0.06 * G.floor_index if GameData.rogues() else 1.0   # 11.3: +45% on the first floor (was +35%)
 
 ## The run grows with you (his ask, 6 Oct: broken builds end every fight at once; nothing about the
 ## build is touched): foes gain 2% health for every relic you carry and 1% for every minute of the
@@ -76,7 +76,7 @@ static func loop_scale() -> float:
 	return 1.0 + (1.5 if GameData.rogues() else 0.8) * G.loop   # each loop much harder (his ask, 6 Oct)
 
 static func shot_mult() -> float:
-	return (1 + (0.08 * (dread() - 1) if dread() >= 2 else 0.0)) * (1.0 + (0.12 if GameData.rogues() else 0.06) * G.loop) * (1.06 if GameData.rogues() else 1.0)
+	return (1 + (0.08 * (dread() - 1) if dread() >= 2 else 0.0)) * (1.0 + (0.12 if GameData.rogues() else 0.06) * G.loop) * (1.10 if GameData.rogues() else 1.0)   # 11.3: foes' shots 10% faster (was 6%)
 
 static func has_los(a: Object, b: Object) -> bool:
 	var d := TB.dist_xy(a.x, a.y, b.x, b.y)

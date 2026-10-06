@@ -822,6 +822,8 @@ NEON[floor] or the rift world's accent; pillars outlined). Toggling emits room_c
 one ray per projectile in the expanded game (`attack_beam(..., more)` keeps the fan's pictures);
 weapons duskblade, prismfan, spectrum; relics gloomlantern, nightfall. `tests/gloom_test`.
 
+11.3: `Combat.hard_hp` 1.45 + 0.06 f; `shot_mult` x1.10; elite chance +0.04 (game.gd).
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).
