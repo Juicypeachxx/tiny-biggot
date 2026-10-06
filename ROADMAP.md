@@ -459,6 +459,15 @@ the 3 boss stages." Nothing about any build was touched.
       corrupted body with glowing veins, white-hot eyes, an aura), in each guardian's own colour.
       18 guardians (`EVOLVE` in `tools/art/render.py`, `<sprite>_s2/_s3`, `Stages.look`). Rex, his
       dog, keeps his look. He confirmed nothing about any build changed in 5.8.
+  IPA 5.8 built (6 Oct).
+
+## Stage 5.9: evolved forms (his ask, 6 Oct)
+
+- [x] "Different evolved sprites per stage, to feel the evolution": each guardian's stage 2 and 3
+      now change shape, not only colour: hand-drawn parts (horns, bat and feather wings, a third
+      eye, eye clusters, a fanged maw, a crown of flames, shoulder spikes, tentacles, a broken halo),
+      a different mix per guardian and stage (`PART` and `FORMS` in `tools/art/render.py`), then
+      burned by `evolve()`. Nothing hangs below a guardian's feet.
 
 After each of 5.2 to 5.6: `tools/bake_atlas.sh`, `tools/check.sh`, a
 before-and-after picture for him, a new IPA.

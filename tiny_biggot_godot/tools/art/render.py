@@ -458,6 +458,7 @@ def form(im, name, stage, vb):
     placed = []
     for (pn, x, y, xr, behind) in spec:
         pim = _part_img(pn, vb, meta)
+        y = min(y, im.height - pim.height)   # the feet stay on the ground: nothing hangs below the sprite
         placed.append((pim, x, y, behind))
         if xr is not None:
             placed.append((pim.transpose(Image.FLIP_LEFT_RIGHT), xr - pim.width + 1, y, behind))

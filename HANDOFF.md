@@ -711,6 +711,8 @@ raised; `game._roll_twist()` and `Room.twist`. Tests fell bosses through their s
 about twice as long.
 Evolved guardian looks: `render.evolve()` from each finished sprite; `world_view._enemy_sprite`
 picks `_s2`/`_s3` by `Stages.look(e)`; `bosses_test._looks` checks them.
+5.9: `form()` puts each stage's parts (`FORMS`) on the guardian before `evolve()`; the canvas
+grows sideways and up only (bottom-centred drawing).
 
 ## Noted, not yet acted on
 
