@@ -665,7 +665,7 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       Foes +45% health on the first floor (was +35%), their shots 10% faster (was 6%), 4% more
       elites. Bot (no god mode, 10 min, seeds 3 and 7): deaths 9 and 11 before, 10 and 11 after;
       it reached level 2-3 instead of 4 (foes take longer to fall).
-- [ ] IPA 11.x.
+- [x] Full check passed, replays re-recorded on purpose, classic identical, IPA 11.3.
 
 ## Stage 12: the story (a DLC of our own)
 - [ ] 12.1 A story that ties the floors, the realms and the Unwritten together; told by new NPCs
