@@ -517,12 +517,15 @@ func draw_end(ci: CanvasItem) -> void:
 	var p := G.player
 	var r := G.run_stats
 	var win := G.state == &"win"
-	Gfx.text(ci, "THE CRYPT IS SILENT" if win else "YOU HAVE FALLEN", TB.SW / 2, 30, "gold" if win else "red", 3, 0.5)
+	var unwritten: bool = win and r.get("unwritten", false)   # ROADMAP 4.7 part C: the last ending of all
+	Gfx.text(ci, ("THE PAGE IS YOURS" if unwritten else "THE CRYPT IS SILENT") if win else "YOU HAVE FALLEN", TB.SW / 2, 30, "gold" if win else "red", 3, 0.5)
 	_sprite(p.hero["sprite"], TB.SW / 2, 92, 3, false, 1.0 if win else 0.5, Color(0, 0, 0, 0) if win else Color(1, 1, 1, 1))
 	if win:
 		_sprites[_sprites.size() - 1].append(p)   # the winner wears their gear
 	var msg: String = p.hero["name"] + " ESCAPED WITH THE REGENT'S CROWN" + (" ON DREAD %d" % G.dread if G.dread > 0 else "") \
 		if win else "SLAIN BY " + G.death_by.to_upper()
+	if unwritten:
+		msg = p.hero["name"] + " UNMADE THE UNWRITTEN, BY WAY OF " + ("HEAVEN" if r.get("realm", "") == "heaven" else "HELL")
 	Gfx.text(ci, msg, TB.SW / 2, 102, "white", 1, 0.5)
 	var rows := [["FLOOR REACHED", "%d - %s" % [G.floor_index + 1, GameData.floors()[G.floor_index]["name"]]], ["FOES SLAIN", r["kills"]],
 		["GUARDIANS", r["bosses"]], ["SECRETS FOUND", r["secrets"]], ["TIME", fmt_time(r["time"])]]

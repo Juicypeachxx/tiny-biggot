@@ -30,11 +30,12 @@ const SHOT_COL := { "red": "#ff8a8a", "redBig": "#ff8a8a", "bone": "#f4ecd8", "w
 ## A guardian's own colour: its circle while it casts, its lanes and beams.
 const BOSS_COL := { "colossus": "#d9d0b4", "sporemother": "#b8e05a", "librarian": "#6fd3e0", "tyrant": "#e8873a",
 	"rimewarden": "#c8f0ff", "regent": "#a35bd6", "bogmatriarch": "#b8e05a", "ashwarlord": "#e8873a",
-	"frozenabbot": "#c8f0ff", "crowking": "#a35bd6", "umbralsun": "#e86fb4",
+	"frozenabbot": "#c8f0ff", "crowking": "#a35bd6", "umbralsun": "#e86fb4", "judge": "#f2c94c", "cinderking": "#e8873a", "unwritten": "#f4ecd8",
 	"stormcrown": "#6fd3e0", "bilgehydra": "#b8e05a", "brassorgan": "#e8873a" }
 ## States in which a guardian stands and casts: it gets a turning circle under it.
 const CASTING := [&"ring", &"volley", &"spiral", &"burst", &"cloud", &"pages", &"tide", &"freeze", &"hail", &"shards",
-	&"sweep", &"embers", &"curtain", &"bogspit", &"arrowrain", &"gunline", &"eclipse", &"summon"]
+	&"sweep", &"embers", &"curtain", &"bogspit", &"arrowrain", &"gunline", &"eclipse", &"summon",
+	&"halo", &"verdict", &"brimstone", &"hellgate", &"ink", &"rewrite"]   # ROADMAP 4.7 part C (verdict and brimstone also show their lanes and rings)
 
 static var _rng := RandomNumberGenerator.new()
 static var _head := 0

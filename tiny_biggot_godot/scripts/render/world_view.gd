@@ -510,6 +510,17 @@ func _paint_lower(ci: CanvasItem) -> void:
 			"portal":
 				var zz := 1 + sin(t * 4) * 0.05
 				Gfx.sp(ci, "portal", x, y + 6, zz, zz)
+			"soulgate", "pageportal":
+				# Heaven or Hell (ROADMAP 4.7 part C): gold for the light, red for the dark, pale for the page.
+				var lit: bool = o.get("realm", "") == "heaven"
+				var col := TB.rgba(242, 201, 76, 170) if lit else (TB.rgba(216, 68, 60, 170) if o["kind"] == "soulgate" else TB.rgba(244, 236, 216, 150))
+				var zs := 1.25 + sin(t * 3) * 0.08
+				Gfx.sp(ci, "portal", x, y + 6, zs, zs, 0.0, false, 1.0, col)
+				var label := ("HEAVEN" if lit else "HELL") if o["kind"] == "soulgate" else "THE PAGE"
+				Gfx.text(ci, label, x, y - 22, ("gold" if lit else "red") if o["kind"] == "soulgate" else "bone", 1, 0.5)
+				for k in 4:
+					var a0 := -t * 1.8 + k * TAU / 4.0
+					ci.draw_arc(Vector2(x, y + 2), 16, a0, a0 + 0.9, 8, col, 1.5, false)
 				if _vr.randf() < 0.4 and G.state == &"play":
 					Fx.particle(x + _vr.randi_range(-5, 5), y + _vr.randi_range(-5, 5), 0, -20, 0.5, "#a35bd6")
 	if not G.locked:
@@ -799,7 +810,7 @@ func _paint_glow(ci: CanvasItem) -> void:
 				Gfx.at(ci, "glow_torch", x - 36, y - 40, (120 if o.get("used", false) else 220) / 255.0)
 			"altar":
 				if not o.get("used", false): Gfx.at(ci, "glow_red", x - 30, y - 34)
-			"portal", "loopportal", "exitportal":
+			"portal", "loopportal", "exitportal", "soulgate", "pageportal":
 				Gfx.at(ci, "glow_purple", x - 30, y - 30)
 			"pedestal":
 				if not o.get("opened", false) and o["relic"] != null:

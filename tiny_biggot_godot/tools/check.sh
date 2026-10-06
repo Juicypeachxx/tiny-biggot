@@ -87,6 +87,11 @@ timeout 600 "$GODOT" --headless --path . res://tests/items_test.tscn -- --no-sav
 grep -E "items test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== Heaven and Hell (4.7): the soul, the gate, both realms, their rulers, the page, the last boss"
+timeout 600 "$GODOT" --headless --path . res://tests/realms_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "realms test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== the constellation: the web, taking and giving back stars, a run with them"
 timeout 300 "$GODOT" --headless --path . res://tests/stars_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "stars test" "$LOG"

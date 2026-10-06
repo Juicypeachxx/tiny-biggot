@@ -15,6 +15,10 @@ const BOSS_PLANS := {
 	"frozenabbot": ["palms", "freeze", "hail", "palms", "shards", "summon"],
 	"crowking": ["teleport", "gunline", "spiral", "summon", "gunline", "beams"],
 	"umbralsun": ["eclipse", "beams", "curtain", "teleport", "summon", "eclipse", "sweep", "hail"],
+	# ROADMAP 4.7 part C (new attacks: halo, verdict, brimstone, hellgate, ink, rewrite).
+	"judge": ["halo", "verdict", "beams", "summon", "halo", "spiral", "verdict", "teleport"],
+	"cinderking": ["brimstone", "sweep", "hellgate", "summon", "embers", "brimstone", "charge"],
+	"unwritten": ["ink", "halo", "brimstone", "rewrite", "eclipse", "verdict", "summon", "ink", "hellgate"],
 }
 const BOSS_SUMMONS := {
 	"colossus": ["bat", "bat", "skeleton"], "sporemother": ["slime", "mushroom", "slime"],
@@ -22,9 +26,11 @@ const BOSS_SUMMONS := {
 	"rimewarden": ["wisp", "wisp"],
 	"bogmatriarch": ["bogling", "gnat", "gnat"], "ashwarlord": ["longbowman", "torchimp"], "frozenabbot": ["monk", "monk"],
 	"crowking": ["crow", "crow", "gunman"], "umbralsun": ["voidling", "shadeknight"],
+	"judge": ["wisp", "knight"], "cinderking": ["torchimp", "imp"], "unwritten": ["voidling", "wisp"],
 }
 const RING_SPR := { "colossus": "bone", "librarian": "water", "rimewarden": "ice",
-	"bogmatriarch": "spore", "ashwarlord": "fire", "frozenabbot": "ice", "crowking": "dark", "umbralsun": "darkBig" }
+	"bogmatriarch": "spore", "ashwarlord": "fire", "frozenabbot": "ice", "crowking": "dark", "umbralsun": "darkBig",
+	"judge": "bone", "cinderking": "fireBig", "unwritten": "dark" }
 ## Stage 7: per-guardian bullet sprites for shared attacks (originals keep theirs).
 const SHOT_SPR := {
 	"bogmatriarch": { "spiral": "spore", "burst": "spore", "cloud": "spore" },
@@ -32,6 +38,9 @@ const SHOT_SPR := {
 	"frozenabbot": { "freeze": "ice", "hail": "ice", "shards": "ice" },
 	"crowking": { "spiral": "dark", "beams": "dark" },
 	"umbralsun": { "curtain": "red", "sweep": "dark", "hail": "red", "spiral": "dark" },
+	"judge": { "spiral": "bone", "beams": "bone" },
+	"cinderking": { "sweep": "fire", "embers": "fire", "charge": "fire" },
+	"unwritten": { "eclipse": "dark", "halo": "page" },
 }
 static func _spr(e: Enemy, attack: String, default: String) -> String:
 	return SHOT_SPR.get(e.boss, {}).get(attack, default)
@@ -378,6 +387,96 @@ static func update_boss(e: Enemy, dt: float) -> void:
 				e.sub += 1
 			if e.st > 3.0:
 				done(e, 1)
+		# ---------- ROADMAP 4.7 part C: the realm rulers and The Unwritten ----------
+		&"halo":
+			# Rings of light with a gap where you stand: step into the gap.
+			if e.t <= 0:
+				e.t = 0.6
+				var n := 24
+				var gap := TB.ang_to(e, p) + (e.sub % 2) * 0.5 - 0.25
+				for i in n:
+					var a := gap + float(i) / n * TAU
+					if absf(TB.wrap_ang(a - gap)) < 0.38:
+						continue
+					Combat.eshot(cx, cy, a, 74, _spr(e, "halo", "bone"))
+				Snd.play("ebullet")
+				e.sub += 1
+				if e.sub >= (5 if h else 4): done(e)
+		&"verdict":
+			# Lances of judgement: lanes light up across you, then strike.
+			if e.t <= 0 and e.sub < (4 if h else 3):
+				e.t = 0.45
+				for off in ([-64.0, 0.0, 64.0] if e.sub % 2 == 0 else [-32.0, 32.0]):
+					RiftBosses.bands.append({ "horiz": false, "pos": clampf(p.x + off, 2.0 * TB.TS, 26.0 * TB.TS), "half": 10.0,
+						"warn": 0.8, "fire": 0.14, "by": e.d["name"], "hit": false })
+				if h:
+					RiftBosses.bands.append({ "horiz": true, "pos": clampf(p.y, 4.0 * TB.TS, 16.0 * TB.TS), "half": 10.0,
+						"warn": 0.8, "fire": 0.14, "by": e.d["name"], "hit": false })
+				Snd.play("charge")
+				e.sub += 1
+			if e.sub >= (4 if h else 3) and e.st > 2.4:
+				done(e, 0.8)
+		&"brimstone":
+			# Burning rings close in on where you stand, each with one way out.
+			if e.t <= 0 and e.sub < (4 if h else 3):
+				e.t = 0.7
+				RiftBosses.rings.append({ "x": p.x, "y": p.y, "r": 110.0, "gap": randf() * TAU, "gw": 0.45, "warn": 0.8,
+					"n": 22, "by": e.d["name"] })
+				Combat.efan(cx, cy, TB.ang_to(e, p), 5, 0.7, 100, "fire")
+				Snd.play("charge")
+				e.sub += 1
+			if e.sub >= (4 if h else 3) and e.st > 3.0:
+				done(e, 0.8)
+		&"hellgate":
+			# The floor splits: lines of fire across the room, and a spiral from the king.
+			if e.sub == 0:
+				e.sub = 1
+				var horiz := randf() < 0.5
+				for i in 4:
+					var along := (4.0 + i * 6.5) * TB.TS
+					for j in 6:
+						var x := along if not horiz else (3.0 + j * 4.2) * TB.TS
+						var y := (4.0 + j * 2.3) * TB.TS if not horiz else (4.0 + i * 3.6) * TB.TS
+						if G.zones.size() < 60:
+							G.zones.append({ "x": x, "y": y, "r": 12.0, "t": 4.0, "kind": "fire", "tick": 0.0 })
+				Snd.play("boom")
+				G.add_shake(4)
+			if e.t <= 0:
+				e.t = 0.1
+				e.angle += 0.23
+				for i in (3 if h else 2):
+					Combat.eshot(cx, cy, e.angle + float(i) / (3 if h else 2) * TAU, 62, "fireBig" if i == 0 else "fire")
+			if e.st > 3.4:
+				done(e, 1)
+		&"ink":
+			# Ink pours from both walls in rows, each row with a gap.
+			if e.t <= 0:
+				e.t = 0.9
+				var gap := TB.rint(1, 12)
+				var left := e.sub % 2 == 0
+				for r in 13:
+					if absi(r - gap) <= 1:
+						continue
+					var y := (TB.IY0 + 1 + r) * TB.TS + 8.0
+					Combat.eshot(TB.TS + 6.0 if left else TB.SW - TB.TS - 6.0, y, 0.0 if left else PI, 64, "dark" if left else "bone")
+				Snd.play("ebullet")
+				e.sub += 1
+				if e.sub >= (6 if h else 4): done(e, 0.8)
+		&"rewrite":
+			# The page is wiped clean, it reappears elsewhere, and writes three rings, light then dark.
+			if e.sub == 0:
+				e.sub = 1
+				EBullets.clear_all()
+				Fx.burst(e.x, e.y, ["#f4ecd8", "#14101a"], 24, 120)
+				e.x = TB.SW - e.x
+				e.y = clampf(e.y, 4.0 * TB.TS, 8.0 * TB.TS)
+				Snd.play("portal")
+				e.t = 0.5
+			elif e.t <= 0:
+				e.t = 0.35
+				Combat.ering(cx, cy, 26 if h else 20, 70, e.sub * 0.12, "bone" if e.sub % 2 == 1 else "dark")
+				e.sub += 1
+				if e.sub >= 4: done(e, 1)
 		&"eclipse":
 			# Two counter-rotating spirals, light and dark, and a ring every second.
 			if e.t <= 0:

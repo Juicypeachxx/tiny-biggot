@@ -56,11 +56,23 @@ const LIST := [
 	  "decor": "", "layouts": "cathedral", "music": 3 },
 ]
 
+## Heaven and Hell (ROADMAP 4.7 part C, soul.gd): reached only through the SOUL GATE past the Umbral
+## Sun, never offered as a rift. Two fights, then the ruler (step 3: the guardian's room). The
+## Unwritten Page is the last room of all.
+const REALMS := [
+	{ "id": "heaven", "name": "THE GILDED EMPYREAN", "sub": "THE LIGHT HAS WEIGHED YOUR SOUL", "kit": "kit_heaven", "accent_hex": "#f2c94c",
+	  "pool": ["wisp", "knight", "golem", "monk", "icearcher", "wisp"], "guardian": "judge", "hazard": "", "decor": "", "music": 5, "realm": true },
+	{ "id": "hell", "name": "THE SCORCHED DEEP", "sub": "THE DARK HAS CLAIMED YOUR SOUL", "kit": "kit_hell", "accent_hex": "#d8443c",
+	  "pool": ["torchimp", "voidling", "shadeknight", "eclipsed", "cultist", "torchimp"], "guardian": "cinderking", "hazard": "", "decor": "", "music": 5, "realm": true },
+	{ "id": "seam", "name": "THE UNWRITTEN PAGE", "sub": "WHERE THE WORLD WAS FIRST WRITTEN", "kit": "kit_seam", "accent_hex": "#f4ecd8",
+	  "pool": ["ghost", "voidling"], "guardian": "unwritten", "hazard": "", "decor": "", "music": 5, "realm": true },
+]
+
 static var _by_id := {}
 
 static func by_id(id: String) -> Dictionary:
 	if _by_id.is_empty():
-		for t in LIST:
+		for t in LIST + REALMS:
 			_by_id[t["id"]] = t
 	return _by_id.get(id, {})
 

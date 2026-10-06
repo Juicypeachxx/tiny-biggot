@@ -348,6 +348,10 @@ const BOSSES := {
 	"frozenabbot": { "name": "THE FROZEN ABBOT", "sprite": "frozenabbot", "hp": 1500, "r": 13, "scale": 2 },
 	"crowking": { "name": "THE CROW KING", "sprite": "crowking", "hp": 1650, "r": 13, "scale": 2 },
 	"umbralsun": { "name": "THE UMBRAL SUN", "sprite": "umbralsun", "hp": 2100, "r": 13, "scale": 2.4 },
+	# Heaven and Hell (ROADMAP 4.7 part C, soul.gd): the realm rulers and the last boss of all.
+	"judge": { "name": "THE AUREATE JUDGE", "sprite": "judge", "hp": 2500, "r": 13, "scale": 2.4 },
+	"cinderking": { "name": "THE CINDER KING", "sprite": "cinderking", "hp": 2500, "r": 13, "scale": 2.4 },
+	"unwritten": { "name": "THE UNWRITTEN", "sprite": "unwritten", "hp": 3300, "r": 13, "scale": 2.4 },
 	# Rift guardians (ROADMAP 4.5, scripts/entities/rift_bosses.gd): behind the champion of a new
 	# world, an optional fight. "rift": health grows with the floor (Combat.spawn_boss).
 	"stormcrown": { "name": "THE STORMCROWN", "sprite": "stormcrown", "hp": 400, "r": 14, "scale": 2, "rift": true, "rule": "phase" },
@@ -417,6 +421,7 @@ const SPRITE_COLOR := {
 	"crow": "#1a1423", "chimneyimp": "#a35bd6", "enforcer": "#4e4a5e", "voidling": "#d8443c", "shadeknight": "#2a2838",
 	"eclipsed": "#d8443c", "herald": "#8a2a33", "bogmatriarch": "#3f7a5a", "ashwarlord": "#d8443c",
 	"frozenabbot": "#e8f6ff", "crowking": "#5c3483", "umbralsun": "#d8443c",
+	"judge": "#f2c94c", "cinderking": "#e8873a", "unwritten": "#f4ecd8",
 	# Rift worlds and event rooms.
 	"inmate": "#63b84f", "grenadier": "#d8443c", "jailer": "#3f7a5a", "turnkey": "#3f7a5a", "graveborn": "#7a3a8c",
 	"bandsman": "#7a5236", "fiendling": "#8a2a33", "blackknight": "#2a2838", "carrionknight": "#2a2838", "drone": "#6fd3e0",

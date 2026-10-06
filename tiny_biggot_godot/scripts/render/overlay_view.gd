@@ -287,6 +287,12 @@ func draw_prompt(ci: CanvasItem, o: Dictionary) -> void:
 		"exitportal":
 			title = "LEAVE IN VICTORY"
 			desc = "END THE RUN AND CLAIM YOUR EMBERS"
+		"soulgate":
+			title = "THE SOUL GATE: " + ("HEAVEN" if o["realm"] == "heaven" else "HELL")
+			desc = "YOUR SOUL LEANS TO THE %s (LIGHT %d, DARK %d). ITS RULER WAITS" % ["LIGHT" if o["realm"] == "heaven" else "DARK", o["light"], o["dark"]]
+		"pageportal":
+			title = "THE UNWRITTEN PAGE"
+			desc = "THE LAST BOSS OF ALL"
 	var lines := [title, desc, "PRESS USE" if extra == "" else extra]
 	if o.has("curse"):
 		lines.insert(lines.size() - 1, "CURSED: " + EventRooms.CURSES[o["curse"]][0])

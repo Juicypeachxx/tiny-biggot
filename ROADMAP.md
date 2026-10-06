@@ -275,7 +275,7 @@ look (stage 5 redraws everything together later).
         tricks, seventeen new attack kinds (letters, bubble, flak, paint,
         slots, roller, money, camera, ray, junk, bat, stab, duel, shrink,
         blower, dome, coin). See `ARSENAL.md`. IPA built after it.
-- [ ] 4.7 **New equipment and relics.** Proposal: 40 gear pieces over the 8
+- [x] 4.7 **New equipment and relics.** Proposal: 40 gear pieces over the 8
       slots, with at least 3 new sets, and 20 relics, aimed at the thin spots
       stock-taking showed. Same "unique" test.
       **His ask, 5 Oct ("go"), with three more things. Done in three parts,
@@ -297,7 +297,11 @@ look (stage 5 redraws everything together later).
         game (`--classic`) as well; its rules and layouts are untouched and
         its replays identical. See `tiny_biggot_godot/ENVIRONMENTS.md`. IPA
         built after it.
-      - [ ] Part C: **Heaven and Hell** ("a story part, final two bosses
+      - [x] Part C (6 Oct): done, see `tiny_biggot_godot/HEAVEN_AND_HELL.md`.
+        The soul gate after the Umbral Sun; THE GILDED EMPYREAN (THE AUREATE
+        JUDGE) or THE SCORCHED DEEP (THE CINDER KING); then THE UNWRITTEN PAGE
+        and THE UNWRITTEN, the last boss of all. IPA built after it. The ask:
+        **Heaven and Hell** ("a story part, final two bosses
         based on your perks like in Tiny Rogues, that unlocks the final final
         final boss"): after the Umbral Sun, what your perks lean to (light or
         dark) opens Heaven or Hell, each with its own final boss; beating it

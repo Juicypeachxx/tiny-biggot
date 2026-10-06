@@ -589,6 +589,20 @@ look (drawing only; classic replays identical). Full-content replays
 re-recorded. Soaks: 23 x 10 minutes, every floor, 0 errors, none stuck. Not
 tested on the iPad.
 
+**4.7 part C, Heaven and Hell (done; 4.7 complete).** Details in
+`tiny_biggot_godot/HEAVEN_AND_HELL.md`. `scripts/game/soul.gd` (class
+`Soul`: weigh, realm); `Themes.REALMS` (heaven, hell, seam; found by
+`by_id`, never picked as rifts); `game.gd`: the soul gate in the true ending,
+`_enter_realm`, `_realm_won`, `open_exits` skips a realm ruler's room, the
+page portal, the award parts; `world_view.gd`/`overlay_view.gd`: the gate and
+page portal; `menu_view.gd`: the last ending's lines. Bosses `judge`,
+`cinderking`, `unwritten` in `GameData.BOSSES` and `BossAI` (new attacks
+halo, verdict, brimstone, hellgate, ink, rewrite; verdict and brimstone use
+`RiftBosses.bands`/`rings`). `tests/realms_test.tscn` in `tools/check.sh`;
+three planted faults caught. Soaks: 8 x 10 minutes in the realms, 0 errors.
+Not tested on the iPad. Next: 4.8 (characters) needs his one-line yes per
+character first.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress (so iOS closing the app does not end it). Needs

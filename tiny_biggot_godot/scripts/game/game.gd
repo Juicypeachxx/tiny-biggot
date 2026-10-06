@@ -339,13 +339,15 @@ func enter_room(r: Room) -> void:
 func open_exits() -> void:
 	if room.exits_open:
 		return
+	if room.rift_step == 3 and room.theme.get("realm", false):
+		return   # a realm's ruler: the way on is the page portal, or the end (_realm_won)
 	room.exits_open = true
 	if room.type == "boss" and room.rift_step < 3:
 		return
 	if not room.theme.is_empty() and room.rift_step < 2:
 		# Inside a rift there is one way on: deeper, and then to its champion.
 		World.assign_exits(room, [{ "type": "rift", "reward": "rare" if room.rift_step == 0 else "", "theme": room.theme["id"],
-			"step": room.rift_step + 1 }])
+			"step": 3 if room.theme.get("realm", false) and room.rift_step == 1 else room.rift_step + 1 }])
 	elif FloorMap.active():
 		if room.on_map:
 			FloorMap.link(room)
@@ -794,6 +796,9 @@ func on_boss_dead(b: Enemy) -> void:
 	if room.type == "barn":
 		Rex.on_beaten(b)   # a good boy rolls over: his hoard, and he offers to come along
 		return
+	if room.rift_step == 3 and room.theme.get("realm", false):
+		_realm_won(b)
+		return
 	if room.rift_step == 3:
 		# A rift guardian: its hoard, and the way back to the floor (no portal: the floor goes on).
 		show_banner(b.d["name"] + " FALLS", "ITS HOARD IS YOURS. THE WAY BACK IS OPEN")
@@ -815,9 +820,13 @@ func on_boss_dead(b: Enemy) -> void:
 	room.objects.append({ "kind": "chest", "x": 14.0 * TB.TS - (0 if last else 28), "y": 10.0 * TB.TS, "boss": true })
 	if last and GameData.floors().size() > GameData.FLOORS.size():
 		# The true ending: loop again with your build, or leave in victory.
-		show_banner("THE ECLIPSE ENDS", "LOOP AGAIN FOR GLORY, OR LEAVE IN VICTORY")
+		show_banner("THE ECLIPSE ENDS", "LOOP, LEAVE, OR FOLLOW YOUR SOUL THROUGH THE GATE")
 		room.objects.append({ "kind": "loopportal", "x": 14.0 * TB.TS - 56, "y": 10.0 * TB.TS })
 		room.objects.append({ "kind": "exitportal", "x": 14.0 * TB.TS + 56, "y": 10.0 * TB.TS })
+		# Heaven or Hell (ROADMAP 4.7 part C): where your soul leans.
+		var w := Soul.weigh(player)
+		room.objects.append({ "kind": "soulgate", "x": 14.0 * TB.TS, "y": 6.0 * TB.TS, "realm": Soul.realm(player),
+			"light": w[0], "dark": w[1] })
 	elif last:
 		win_timer = 4.5
 	else:
@@ -826,6 +835,32 @@ func on_boss_dead(b: Enemy) -> void:
 	drop_item(Weapons.random_weapon(Gear.roll_item_rarity(floor_index, "boss"), player.weapon), b.x - 20, b.y + 20)
 	if randf() < 0.5:
 		drop_item(Gear.random_gear(Gear.roll_item_rarity(floor_index, "boss")), b.x + 20, b.y + 20)
+
+## Heaven and Hell (ROADMAP 4.7 part C): a realm's ruler falls and the way to the Unwritten Page
+## opens; the Unwritten falls and the run is won, the last ending of all.
+func _realm_won(b: Enemy) -> void:
+	var id: String = room.theme["id"]
+	if id == "seam":
+		run_stats["unwritten"] = true
+		Meta.meta["unwritten_wins"] = Meta.meta.get("unwritten_wins", 0) + 1
+		show_banner("THE UNWRITTEN FALLS", "THE PAGE IS YOURS. WRITE WHAT COMES NEXT")
+		win_timer = 5.0
+		return
+	run_stats["realm"] = id
+	Meta.meta[id + "_wins"] = Meta.meta.get(id + "_wins", 0) + 1
+	show_banner(b.d["name"] + " FALLS", "A BLANK PAGE OPENS WHERE IT STOOD")
+	room.objects.append({ "kind": "chest", "x": 14.0 * TB.TS - 28, "y": 10.0 * TB.TS, "boss": true })
+	room.objects.append({ "kind": "pageportal", "x": 14.0 * TB.TS + 28, "y": 10.0 * TB.TS })
+	drop_item(Weapons.random_weapon(Gear.roll_item_rarity(floor_index, "boss"), player.weapon), b.x - 20, b.y + 20)
+	drop_item(Gear.random_gear(Gear.roll_item_rarity(floor_index, "boss")), b.x + 20, b.y + 20)
+	for i in 4:
+		Combat.drop_pickup("gem", b.x, b.y)
+
+func _enter_realm(id: String, step: int) -> void:
+	var nr := World.make_room(floor_d, "boss" if step == 3 else "combat", "", "s", { "theme": id, "step": step })
+	start_fade(func():
+		player.heal(4)
+		enter_room(nr))
 
 func award_embers(win: bool) -> void:
 	var r := run_stats
@@ -838,6 +873,10 @@ func award_embers(win: bool) -> void:
 		parts.append(["THE ECLIPSE", 80])
 	if loop > 0:
 		parts.append(["LOOPS", loop * 60])
+	if run_stats.get("realm", "") != "":
+		parts.append(["HEAVEN" if run_stats["realm"] == "heaven" else "HELL", 100])
+	if run_stats.get("unwritten", false):
+		parts.append(["THE UNWRITTEN", 200])
 	var base := 0
 	for x in parts:
 		base += x[1]
@@ -1210,6 +1249,14 @@ func interact(o: Dictionary) -> void:
 		"exitportal":
 			Snd.play("portal")
 			start_fade(on_win)
+		"soulgate":
+			Snd.play("portal")
+			o["used"] = true
+			_enter_realm(o["realm"], 0)
+		"pageportal":
+			Snd.play("portal")
+			o["used"] = true
+			_enter_realm("seam", 3)
 
 # ---------- Relics, items and traits ----------
 func price(v: float) -> int:
@@ -1885,7 +1932,12 @@ func update_play(dt: float) -> void:
 			boss_delay = null
 			if room.rift_step == 3:
 				Combat.spawn_boss(room.theme["guardian"])
-				show_banner(boss.d["name"], "GUARDIAN OF " + room.theme["name"])
+				if room.theme["id"] == "seam":
+					show_banner(boss.d["name"], "THE LAST BOSS OF ALL")
+				elif room.theme.get("realm", false):
+					show_banner(boss.d["name"], "RULER OF " + room.theme["name"])
+				else:
+					show_banner(boss.d["name"], "GUARDIAN OF " + room.theme["name"])
 			else:
 				Combat.spawn_boss(GameData.floors()[floor_index]["boss"])
 				show_banner(boss.d["name"], "")
