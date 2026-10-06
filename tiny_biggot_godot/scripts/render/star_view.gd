@@ -217,8 +217,8 @@ func _draw() -> void:
 	var t := G.time
 	# Faint region names.
 	for side in Stars.NAME:
-		var dv: Vector2 = { "n": Vector2(0, -1), "e": Vector2(1, 0), "s": Vector2(0, 1), "w": Vector2(-1, 0) }[side]
-		var sp := to_screen(dv * Stars.STEP * 4.5 + Vector2(dv.y, dv.x) * Stars.STEP * 1.2)
+		var dv: Vector2 = Stars.DIRS[side]
+		var sp := to_screen(dv * Stars.STEP * (8.6 if side.length() == 2 else 4.5) + (Vector2.ZERO if side.length() == 2 else Vector2(dv.y, dv.x) * Stars.STEP * 1.2))
 		Gfx.text(self, Stars.NAME[side], sp.x, sp.y, "dim", 1, 0.5)
 	# Links.
 	for i in nodes.size():

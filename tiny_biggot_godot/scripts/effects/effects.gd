@@ -40,7 +40,7 @@ const MIN_SHOT_INTERVAL := 1.0 / 60.0   # attack-speed floor: one attack per log
 const BUFF_CAP := 64
 
 const TRIGGERS := ["on_hit", "on_crit", "on_kill", "on_roll", "on_damage_taken", "on_heal", "on_room_enter",
-	"on_room_clear", "on_level_up", "on_shoot", "every_n_shots", "every_n_seconds", "while_low_hp", "on_pickup",
+	"on_room_clear", "on_level_up", "on_shoot", "every_n_shots", "every_n_seconds", "while_low_hp", "while_align", "on_pickup",
 	"on_potion", "on_weapon_swap", "on_floor_start",   # last three: new for the step-6 heroes
 	"on_bomb", "on_armor_lost", "on_dodge", "on_overheal", "on_chest", "on_buy"]   # ROADMAP 4.7 gear and relics
 const ACTIONS := ["nova", "shoot", "explode", "status", "heal", "buff", "chain", "lightning", "summon", "gold",
@@ -220,6 +220,12 @@ static func _cond(c: String, ctx: Dictionary) -> bool:
 		"crowd": return foes_left() >= 6
 		"unhurt": return G.room != null and G.room.hits == 0
 		"coin": return ctx.get("kind", "") == "coin"
+		# 8.1 alignments
+		"lead_good": return Alignments.leads(p, "good")
+		"lead_evil": return Alignments.leads(p, "evil")
+		"lead_law": return Alignments.leads(p, "law")
+		"lead_chaos": return Alignments.leads(p, "chaos")
+		"devout": return Alignments.devout(p)
 	return false
 
 ## Foes in the room that can still be fought (dummies and tamed foes left out).
@@ -319,6 +325,10 @@ static func tick(dt: float) -> void:
 				var on := p.hp <= p.max_hp / 2
 				if on != pr["active"]:
 					_while_toggle(p, pr, on)
+			"while_align":   # 8.1: holds while an alignment leads, or while devout
+				var on2 := Alignments.holds(p, d["need"])
+				if on2 != pr["active"]:
+					_while_toggle(p, pr, on2)
 
 ## "while" procs hold their stat ops only while the condition is true.
 static func _while_toggle(p: Player, pr: Dictionary, on: bool) -> void:

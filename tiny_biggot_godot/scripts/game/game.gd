@@ -618,6 +618,7 @@ func setup_objects(r: Room) -> void:
 			r.objects.append({ "kind": "campfire", "x": cx, "y": cy })
 			if GameData.rogues():
 				r.objects.append({ "kind": "anvil", "x": cx + 56, "y": cy })
+				Alignments.shrines(r, cx, cy)   # 8.1: take one alignment point
 	# Pets (expanded game only): a cage in some treasure rooms, vaults and hidden rooms, one for sale in some shops.
 	if GameData.rogues():
 		var chance: float = { "treasure": 0.12, "vault": 0.35, "secret": 0.2, "shop": 0.25 }.get(r.type, 0.0)
@@ -913,6 +914,8 @@ func _realm_won(b: Enemy) -> void:
 		return
 	run_stats["realm"] = id
 	Meta.meta[id + "_wins"] = Meta.meta.get(id + "_wins", 0) + 1
+	if GameData.rogues() and id in ["heaven", "hell"]:   # 8.1: the realm leaves its mark
+		Alignments.add(player, "good" if id == "heaven" else "evil", 2)
 	show_banner(b.d["name"] + " FALLS", "A BLANK PAGE OPENS WHERE IT STOOD")
 	room.objects.append({ "kind": "chest", "x": 14.0 * TB.TS - 28, "y": 10.0 * TB.TS, "boss": true })
 	room.objects.append({ "kind": "pageportal", "x": 14.0 * TB.TS + 28, "y": 10.0 * TB.TS })
@@ -1119,6 +1122,8 @@ func interact(o: Dictionary) -> void:
 			Fx.burst(o["x"], o["y"] - 4, ["#f2c94c", "#e8873a", "#ffffff"], 18, 70)
 			Juice.label("+%d" % lv, "#f2c94c", o["x"], o["y"] - 16, true)
 			toast(WeaponInfo.display_name(p.weapon), "gold")
+		"alshrine":
+			Alignments.take_shrine(room, o)
 		"campfire":
 			o["used"] = true
 			p.heal(ceili(p.max_hp / 2.0))

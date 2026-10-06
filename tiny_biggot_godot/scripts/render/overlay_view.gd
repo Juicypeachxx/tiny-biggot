@@ -217,6 +217,9 @@ func draw_prompt(ci: CanvasItem, o: Dictionary) -> void:
 		"bell":
 			title = "CHALLENGE BELL"
 			desc = "RING IT FOR 3 HARD WAVES AND A PRIZE"
+		"alshrine":
+			title = Alignments.NAMES[o["al"]] + " SHRINE"
+			desc = "+1 %s. ONE SHRINE PER REST STOP" % Alignments.NAMES[o["al"]]
 		"campfire":
 			title = "CAMPFIRE"
 			desc = "REST: HEAL HALF YOUR HEARTS, REFILL ROLLS"

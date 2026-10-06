@@ -554,8 +554,8 @@ perk tree and HUD: ideas only, every name, number and icon here is this game's o
 info of perks and stats and all info of the game, keep it this way so it could be easier to
 understand the build, also add stat stacking as shown to buff weapons and builds."
 
-- [ ] 8.1 Alignments: GOOD, EVIL, LAWFUL, CHAOTIC. Points come from relics and gear (by their
-      tags), the realms (Heaven, Hell) and the constellation. The constellation grows four diagonal
+- [x] 8.1 Alignments: GOOD, EVIL, LAWFUL, CHAOTIC. Points come from the four little shrines in
+      every rest stop (take one), the realms (Heaven +2 GOOD, Hell +2 EVIL) and the constellation. The constellation grows four diagonal
       spokes, one per alignment, with stars that give points and stars whose perks depend on them
       (e.g. "while one alignment is 2 or more and the other three 1 or less: ..."; "while GOOD is
       your highest: ...").

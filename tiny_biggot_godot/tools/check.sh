@@ -107,6 +107,11 @@ timeout 600 "$GODOT" --headless --path . res://tests/trophies_test.tscn -- --no-
 grep -E "trophies test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== alignments (8.1): leads, devout, rest-stop shrines, the four spokes, a perk that holds while it leads"
+timeout 600 "$GODOT" --headless --path . res://tests/align_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "align test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== the ten heroes of 4.8: data, each passive and special in a fight, every branch node"
 timeout 600 "$GODOT" --headless --path . res://tests/heroes_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "heroes test" "$LOG"

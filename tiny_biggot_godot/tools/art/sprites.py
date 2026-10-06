@@ -1005,3 +1005,14 @@ ELITE.update({
 	"glimmerwisp": {0: "q..........q"},
 	"hoarknight": {0: ".....q....q.....", 7: "q..............q"},
 })
+
+# ---- 8.1 (his ask, 6 Oct): the four alignment icons (stars, shrines, the HUD, coloured text).
+S["al_good"] = ("main:#e8b030 glow:#fff3b0", M([
+"....o.", ".o..o3", "..oo33", "..o3yy", "oo33yx", "..o3yy", "..oo33", ".o..o3", "....o.", "......"]))
+S["al_evil"] = ("main:#b8302a glow:#ffb040 bone:#e8dcc8", M([
+"o.....", "ojo...", ".ojooo", "..olll", "..ol0y", "..olll", "...olk", "...oko", "....oo", "......"]))
+S["al_law"] = ("main:#4ab8c8 glow:#c8f8ff", M([
+".....y", "o33333", "3....3", "3....3", "333..3", ".3...3", ".....3", "...333", "......", "......"]))
+S["al_chaos"] = ("main:#7a3ab0 glow:#e0a8ff", [
+"............", "...oooooo...", "..o333333o..", ".o3oooooo3o.", ".o3o3333o3o.", ".o3o3oyo3o..",
+".o3o3o.o3o..", ".o3o33oo3o..", ".o3oooo33o..", "..o33333oo..", "...ooooo....", "............"])

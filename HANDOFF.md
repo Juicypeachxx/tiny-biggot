@@ -753,6 +753,12 @@ after the Foreman), `glacialmaw` (BOSSES, `rift: true`, BossAI rows next to the 
 drops in boss_loot.gd, `hoarhelm` (gear.gd), `glacierheart` (weapons.gd, after enginecore); art in
 `tools/art/sprites.py` (7.3 block), `kit_rimefrost`, FORMS/EVOLVE/MINIS rows in render.py.
 
+8.1: `Alignments` (`scripts/game/alignments.gd`; `Player.al_good/al_evil/al_law/al_chaos`): `leads()`,
+`devout()`; Effects conditions `lead_*`/`devout` and the `while_align` proc (`need`); shrines
+(`alshrine`, from the rest stop setup; drawn in world_view, card in overlay_view); realms +2 in
+`_realm_won`. Stars: `DIRS`, `ALIGN` and the diagonal chains at the end of `nodes()` (rogues only).
+Icons `al_good/evil/law/chaos` (tools/art 8.1 block). `tests/align_test.tscn`.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

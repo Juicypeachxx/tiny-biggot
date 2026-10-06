@@ -50,8 +50,30 @@ const NOTABLE := {
 		["DEMOLITION KIT", "+3 BOMBS AT THE START OF A RUN", [["add", "bombs", 3]]],
 	],
 }
-const ICON := { "n": "fam_fury", "e": "fam_bulwark", "s": "fam_shadow", "w": "fam_fortune", "c": "fam_core" }
-const NAME := { "n": "OFFENSE", "e": "DEFENSE", "s": "AGILITY", "w": "FORTUNE" }
+const ICON := { "n": "fam_fury", "e": "fam_bulwark", "s": "fam_shadow", "w": "fam_fortune", "c": "fam_core",
+	"ne": "al_law", "se": "al_good", "sw": "al_chaos", "nw": "al_evil" }
+const NAME := { "n": "OFFENSE", "e": "DEFENSE", "s": "AGILITY", "w": "FORTUNE",
+	"ne": "LAWFUL", "se": "GOOD", "sw": "CHAOTIC", "nw": "EVIL" }
+const DIRS := { "n": Vector2(0, -1), "e": Vector2(1, 0), "s": Vector2(0, 1), "w": Vector2(-1, 0),
+	"ne": Vector2(0.7071, -0.7071), "se": Vector2(0.7071, 0.7071), "sw": Vector2(-0.7071, 0.7071), "nw": Vector2(-0.7071, -0.7071) }
+
+## 8.1 (his ask, 6 Oct): four diagonal spokes, one per alignment (scripts/game/alignments.gd). A straight
+## chain from the heart: +1 point, a small stat, +1 point, a notable star, +1 point, a small stat, a
+## notable star. Its perks hold while the alignment leads (2 or more, none higher) or you are devout.
+const ALIGN := {
+	"ne": ["law", ["+2% CRIT", [["add", "crit", 0.02]]], [
+		["DISCIPLINE", "WHILE LAWFUL LEADS: +12% FIRE RATE AND +6% DAMAGE", [{ "on": "while_align", "need": "law", "do": [["buff", "rate", 0.12, 0], ["buff", "dmg", 0.06, 0]] }]],
+		["DEVOTION", "WHILE DEVOUT (ONE ALIGNMENT 2 OR MORE, THE OTHER THREE 1 OR LESS): +30% GOLD AND +15% DAMAGE", [{ "on": "while_align", "need": "devout", "do": [["buff", "gold_mult", 0.3, 0], ["buff", "dmg", 0.15, 0]] }]]]],
+	"se": ["good", ["+1 ARMOR AT THE START OF A RUN", [["add", "armor", 1]]], [
+		["MERCY", "WHILE GOOD LEADS: CLEARING A ROOM HEALS HALF A HEART 30% OF THE TIME", [{ "on": "on_room_clear", "if": "lead_good", "chance": 0.3, "do": [["heal", 1]] }]],
+		["SAINTHOOD", "WHILE GOOD LEADS: EVERY NEW FLOOR GIVES 2 ARMOR", [{ "on": "on_floor_start", "if": "lead_good", "do": [["armor", 2]] }]]]],
+	"sw": ["chaos", ["+3% FIRE RATE", [["mul", "rate", 1.03]]], [
+		["WILD SURGE", "WHILE CHAOTIC LEADS: CRITS STRIKE A RANDOM AILMENT", [{ "on": "on_crit", "if": "lead_chaos", "do": [["rand_status", 1]] }]],
+		["ENTROPY", "WHILE CHAOTIC LEADS: 20% OF ATTACKS FIRE 3 EXTRA SHOTS", [{ "on": "on_shoot", "if": "lead_chaos", "chance": 0.2, "do": [["shoot", 3, 0.8, "", 0.2]] }]]]],
+	"nw": ["evil", ["+3% DAMAGE", [["mul", "dmg", 1.03]]], [
+		["BLOODTHIRST", "WHILE EVIL LEADS: +20% DAMAGE", [{ "on": "while_align", "need": "evil", "do": [["buff", "dmg", 0.2, 0]] }]],
+		["SOUL HARVEST", "WHILE EVIL LEADS: KILLS HEAL HALF A HEART 4% OF THE TIME", [{ "on": "on_kill", "if": "lead_evil", "chance": 0.04, "do": [["heal", 1]] }]]]],
+}
 
 static var _nodes: Array = []     # [{ id, pos: Vector2, name, text, effects, notable, side, links: [index] }]
 static var _by_id := {}
@@ -88,6 +110,18 @@ static func nodes() -> Array:
 					notable_i += 1
 					_add("%s%d%s3" % [side, k, "a" if sgn > 0 else "b"], _branch(dv, perp, sgn, k, 3) + dv * STEP * 0.4,
 						nb[0], nb[1], nb[2], true, side, bp)
+	if GameData.rogues():
+		for side in ["ne", "se", "sw", "nw"]:   # 8.1: the alignment spokes
+			var al: Array = ALIGN[side]
+			var key: String = al[0]
+			var pt := ["+1 " + Alignments.NAMES[key], [["add", "al_" + key, 1]]]
+			var chain := [pt, al[1], pt, al[2][0], pt, al[1], al[2][1]]
+			var prev2 := 0
+			for k in chain.size():
+				var c: Array = chain[k]
+				var notable: bool = c.size() == 3
+				prev2 = _add("%s%d" % [side, k + 1], DIRS[side] * STEP * (1.2 + k),
+					c[0], c[1] if notable else c[0], c[2] if notable else c[1], notable, side, prev2)
 	return _nodes
 
 ## A side branch leans outward, so it stays in its own quarter of the web.
