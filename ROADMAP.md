@@ -593,7 +593,26 @@ refresh runs."
       so most runs meet a few. 12 new (TWIN SOUL, LIGHTNING REFLEXES, STAT SURGE, HOARDER, LEGION,
       GLASS CANNON, ASSASSIN, BLOOD MOON, WINTER'S HEART, INFERNO, PLAGUE LORD, JUGGERNAUT): 21 in
       all; 8 are common (Traits.COMMON_SUPER: weight 4 from level 2), the rest rare from level 4.
-- [ ] Full check, replays, IPA 8.5.
+- [x] Full check passed, replays re-recorded on purpose, classic identical, IPA 8.5.
+
+## Stage 9: chaos bosses (his ask, 6 Oct, with three pictures of another game: a final boss fight
+## full of lasers and shots, a tier list of its bosses, a demon throwing chains inside a red circle.
+## Ideas only: every boss, name and sprite here is this game's own design, nothing traced.)
+
+"First picture shows final boss combat and chaos please make me similar, also second picture is a
+roster of bosses look at them and add similar, also 3 picture shows you boss abilities it looks
+fun and hard and chaotic, make me this."
+
+- [ ] 9.1 Chaos attacks for bosses, each shown before it hits: laser beams that sweep round the boss
+      (a thin warning line, then the beam), laser crosses and fans, chain hooks flung from the
+      boss across the room that then swing, and big danger circles (a red ring that fills, then
+      blasts). Kept within the 60 fps budget.
+- [ ] 9.2 The final fights become chaos: the last guardians and the Unwritten use them, the very
+      last phase stacking beams, hooks and shot storms at once.
+- [ ] 9.3 New bosses in the spirit of his roster (original designs): a radiant seraph, a dragon,
+      a chain demon (picture 3), a walrus admiral, a phoenix that rises again, a golem king, an
+      archmage. Each floor's guardian can now be one of several, so runs differ.
+- [ ] Full check, replays, IPA 9.3.
 
 ---
 
