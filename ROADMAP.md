@@ -621,6 +621,23 @@ fun and hard and chaotic, make me this."
       a picking round on it.
 - [ ] Full check, replays, IPA 9.3.
 
+## Stage 10: from his trailer clips (his ask, 6 Oct: four screen recordings of another game's
+## update trailer, "learn the mechanics, core gameplay, visuals and vibe, and add". Ideas only:
+## every name, number and sprite here is this game's own.)
+
+Already here: trait pick with keyword boxes, coloured info and stat column, companions (pets), a
+meta web (the constellation), telegraphed attacks, an anvil, event rooms.
+- [ ] 10.1 Live descriptions: texts that grow with the run show their current value
+      ("+20% DAMAGE FOR EACH EMPTY GEAR SLOT (+60% NOW)").
+- [ ] 10.2 New events: a frog to kiss or leave; a ritual circle where you draw a symbol for a
+      blessing; a pawn shop that buys your gear; a cup-and-ball game; a lightning round of quick
+      fights before a rest.
+- [ ] 10.3 New heroes: a minstrel who plays songs (picked buffs), a jester (random tricks), a
+      berserker, and a hero who starts with nothing (hard mode).
+- [ ] 10.4 Flails: weapons on a chain that swing round you.
+- [ ] 10.5 (ask him) An optional NEON look: black floors, thin bright walls, a colour per floor.
+- [ ] Full check, replays, IPA 10.x.
+
 ---
 
 ## Log
