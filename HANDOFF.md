@@ -704,6 +704,12 @@ He kept all 5.4 icons as they are.
 **5.7 extras (6 Oct).** `raider` foe (Brazil pool, `Brazil.rob` takes double), `Meta.opts.haggler`
 (OPTIONS > MEET THE HAGGLER, `Brazil.maybe_spawn`). Tests in `realms_test` (`_meet_haggler`).
 
+**5.8 harder (6 Oct).** `Stages.gate()` read before each blow in `Combat.damage_enemy` (only
+bosses and minis; other foes keep overkill). `Combat.run_scale/boss_hp`, `hard_hp` and `loop_scale`
+raised; `game._roll_twist()` and `Room.twist`. Tests fell bosses through their stages (`_fell`), and
+`bosses_test._gate` checks the stage lines. Broken builds (bot, --combo): the first guardian lasts
+about twice as long.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress (so iOS closing the app does not end it). Needs

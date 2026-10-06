@@ -438,6 +438,23 @@ Rules for the art:
       try Brazil on the iPad.
 - Noted for the next additions: saving a run in progress (there is no such option yet).
 
+## Stage 5.8: harder (his ask, 6 Oct)
+
+"Stages are still too easy, boss fights end fast, crank it up, rooms longer and more varied; broken
+builds end fights instantly: fix it without nerfing the builds; each loop harder; I can't even feel
+the 3 boss stages." Nothing about any build was touched.
+
+- [x] Bosses never skip a stage: a blow of any size stops at the next stage's line (`Stages.gate`),
+      for floor guardians, rift guardians, Rex and every mini-boss and champion.
+- [x] Guardians and rift guardians: 60% more health (`Combat.boss_hp`).
+- [x] Foes: 35% more health on the first floor, 6% more each floor (`hard_hp`).
+- [x] The run grows with you: +2% foe health per relic carried, +1% per minute (`run_scale`).
+- [x] Loops: +150% health per loop (was 80%), foes' shots +12% per loop, many more elites.
+- [x] Longer fights: one wave more in every fight, one more foe a wave, more elites; one room in
+      three has a twist: SWARM, HUNTERS, STRANGERS (foes from the next floor), AMBUSH (one more wave).
+- [x] Hidden rooms that felt empty: the embers-and-gems one gets a free iron chest, the loot-goblin
+      one keeps a pile of his coins.
+
 After each of 5.2 to 5.6: `tools/bake_atlas.sh`, `tools/check.sh`, a
 before-and-after picture for him, a new IPA.
 
