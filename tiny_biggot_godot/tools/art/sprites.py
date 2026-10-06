@@ -845,3 +845,37 @@ for _n in ["dummy", "goblin", "holycow", "cinderking"]:
 	S.pop(_n); ELITE.pop(_n, None)
 	REMASTER.append(_n)
 REMASTER_ELITE += ["dummy", "goblin"]
+
+# ---- His ask (6 Oct): the town and shop people remodelled before the stage-5 IPA. Hero rows
+# (12x14): head 0-6, body 7-10, legs 11, feet 12, ground 13.
+S["npc_attendant"] = ("main:#3a4a7a second:#c0403a skin:#f0c8a0", M([
+"..oooo", "..olll", "..ovvv", "..ov55", "..o505", "..o455", "...o55", "o5olbl", "o5oblb", "o5olbl",
+".oo322", "..o32o", "..o00o", "..ooo."]))
+S["npc_bartender"] = ("main:#2a2a35 second:#c0403a skin:#e0b090", M([
+"...ooo", "..o000", "..o055", "..o505", "..o5jj", "..o455", "...olb", "o5o0ll", "o5o0ll", "o5o0ll",
+".oo322", "..o32o", "..o00o", "..ooo."]))
+S["npc_broker"] = ("main:#6a3a7a skin:#d89a70", OV(M([
+"...ooo", "..ouvv", "ouuuuu", "..o505", "..o455", "..o455", "...o55", "o3o3q2", "o3o322", "o5o3q2",
+".oo322", "..o32o", "..ouuo", "..ooo."]), {3: "...00.......", 4: ".........q.."}))
+S["npc_courier"] = ("main:#3f7a4a second:#c0403a skin:#c88a5a", M([
+"...ooo", "..obbb", ".obbbb", "..o555", "..o505", "..o455", "...o55", "o3o3u2", "o3o32u", "o5o322",
+".oo322", "..o88o", "..ouuo", "..ooo."]))
+S["npc_drunk"] = ("main:#6a4a3a second:#5a8a4a skin:#e0a47a", [
+"..............", "..............", "..............", "..oooo........", ".o0005oooooooo", ".o0555o3322uuo",
+".oo55oo2221uuo", "..ooooooooooo.", "......ocbo....", ".......oo....."])
+S["npc_fisher"] = ("main:#e0b030 second:#3a7ab0 skin:#e0a47a", [
+".............u", ".............u", "....oooo.....u", "...o3332o...u.", ".o33333221o.u.", "...o5055o...u.",
+"...ojjjjo..u..", ".o33ojjo11ou..", "o3o322221o5u..", "o3o3q2q21o....", "o5o322221o....", ".oo322221oo...",
+"..o32oo21o....", "..ouuoouuo....", "..ooo..ooo....", "..bbbbbbbbbb.."])
+S["npc_mechanic"] = ("main:#3a6ab0 second:#e8873a skin:#d89a70", OV(M([
+"...ooo", "..obbb", ".obbbb", "..o555", "..o505", "..o455", "...o55", "o5o3q2", "o5o322", "o8o322",
+".oo322", "..o32o", "..o00o", "..ooo."]), {5: "........0..."}))
+S["npc_merchant"] = ("main:#3f7a4a second:#c0403a skin:#e0a47a", OV(M([
+"...ooo", "..o332", "o33322", "..o555", "..o505", "..o5jj", "...o55", "o5ovvq", "o5ovvv", "o5ouvv",
+".oovvv", "..o32o", "..ouuo", "..ooo."]), {0: "........b...", 1: ".........b.."}))
+S["npc_pitboss"] = ("main:#2a2a35 skin:#e0b090", M([
+"...ooo", "..o000", "..o055", "..o555", "..o500", "..o455", "...o55", "o3o3lq", "o3o322", "o5o322",
+".oo322", "..o32o", "..o00o", "..ooo."]))
+S["npc_teller"] = ("main:#7a3a4a second:#3f8a5a skin:#f0c8a0", M([
+"...ooo", "..ovvv", ".obbbb", "..o555", "..o909", "..o455", "...o55", "o5o3ll", "obo32l", "o5o322",
+".oo322", "..o32o", "..o00o", "..ooo."]))
