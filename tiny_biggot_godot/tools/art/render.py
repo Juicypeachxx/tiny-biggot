@@ -290,6 +290,10 @@ def all_for(v):
         n = f[:-4]
         if n not in S:
             out[n] = remaster(os.path.join(src, "rooms", f), vb, shade=True)
+    # 5.6: HUD, pickups, map, family, combo icons, frames and cards (the logos stay as they are).
+    for f in sorted(os.listdir(os.path.join(src, "hud"))):
+        if f[:-4] not in S:
+            out[f[:-4]] = remaster(os.path.join(src, "hud", f), vb, shade=True)
     # 5.5: every floor's tiles but kit0 (drawn new): recoloured, each floor tile bevelled like kit0.
     for f in sorted(os.listdir(os.path.join(src, "kits"))):
         out[f[:-4]] = kit_remaster(os.path.join(src, "kits", f), vb)

@@ -695,8 +695,9 @@ elite's outer outline turns gold, the body darker).
 `render.py`. To redraw one: add its grid to `sprites.py` (it then wins over the recolour).
 
 **5.5 (6 Oct).** Tiles: `kit_remaster()`; objects, npcs, summons, hydra parts, Rex props:
-`remaster(shade=True)` from `tools/art/src/rooms/`. Next: 5.6 (HUD and menus), then the one
-full check and IPA of stage 5.
+`remaster(shade=True)` from `tools/art/src/rooms/`. 
+**5.6 (6 Oct).** HUD and menu icons from `tools/art/src/hud/`. Logos, font and effects untouched.
+Stage 5 art done; then the one full check and IPA 5.6 (his ask).
 
 ## Noted, not yet acted on
 
