@@ -46,6 +46,8 @@ const DROPS := {
 	"rotking": ["gear", "rottingcrown"],
 	"foreman": ["gear", "foremanhat"],     # 6.4
 	"greatengine": ["weapon", "enginecore"],
+	"hoarknight": ["gear", "hoarhelm"],    # 7.3
+	"glacialmaw": ["weapon", "glacierheart"],
 }
 
 static func is_unique(id: String) -> bool:

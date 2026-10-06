@@ -198,7 +198,10 @@ func _armor(key: String) -> void:
 	var st := e.stage * 4 + e.phase
 	Combat.damage_enemy(e, e.hp * 2.0 + 10.0, { "no_crit": true, "no_mult": true })
 	Meta.opts["autofire"] = false   # the player's own shots would wear the new plate
-	play(400)
+	for k in 80:   # until the next stage starts (checked at once: a pet's bites would wear it)
+		play(5)
+		if e.hp <= 0 or (e.stage * 4 + e.phase != st and e.break_t <= 0 and e.state != &"stagebreak"):
+			break
 	Meta.opts["autofire"] = true
 	if e.hp <= 0 or e.stage * 4 + e.phase == st:
 		fail("%s: did not reach its next stage (stage %d, state %s, hp %.0f of %.0f)" % [key, e.stage, e.state, e.hp, e.max_hp])

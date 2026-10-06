@@ -748,6 +748,11 @@ options (`col` orange / lime / cyan, the crit, `boom`/`bomb`), `soak(..., weak)`
 `award_embers`), `apply()` in `new_run` after `start_rare`, `line()` on the hero screen in place of
 the unlock line. 19 guardians (not Rex): rewards at 5 / 10 / 15. `tests/trophies_test.tscn`.
 
+7.3: theme `rimefrost` (themes.gd, hazard spikes), foes and `hoarknight` (game_data ENEMIES,
+after the Foreman), `glacialmaw` (BOSSES, `rift: true`, BossAI rows next to the Great Engine's),
+drops in boss_loot.gd, `hoarhelm` (gear.gd), `glacierheart` (weapons.gd, after enginecore); art in
+`tools/art/sprites.py` (7.3 block), `kit_rimefrost`, FORMS/EVOLVE/MINIS rows in render.py.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

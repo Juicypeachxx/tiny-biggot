@@ -318,6 +318,7 @@ def all_for(v):
     out.pop("hexer_old", None)
     out["kit0"] = kit(vb)
     out["kit_spire"] = kit(vb, 11, { "floor": "#5a4630", "floor2": "#54412c", "wall": "#3a2c22", "cap": "#8a6a3a" })   # 6.4
+    out["kit_rimefrost"] = kit(vb, 13, { "floor": "#3a5068", "floor2": "#36495f", "wall": "#24324a", "cap": "#7aa8c8" })   # 7.3
     return out
 
 # ---- His ask (6 Oct): a guardian evolves with its stages, more menacing each time. Made from its
@@ -328,7 +329,7 @@ EVOLVE = {   # guardian -> the colour it burns with when it evolves
 	"rimewarden": "#8ae8ff", "regent": "#c05aff", "bogmatriarch": "#9aff3a", "ashwarlord": "#ff5a1a",
 	"frozenabbot": "#bff4ff", "crowking": "#ff2a2a", "umbralsun": "#e08aff", "holycow": "#ffd84a",
 	"judge": "#fff07a", "cinderking": "#ff6a1a", "unwritten": "#e0e0ff", "stormcrown": "#7ff0ff",
-	"bilgehydra": "#5affa0", "brassorgan": "#ff4a3a", "greatengine": "#ff8a1a",
+	"bilgehydra": "#5affa0", "brassorgan": "#ff4a3a", "greatengine": "#ff8a1a", "glacialmaw": "#5ad8ff",
 }
 
 def evolve(im, stage, burn):
@@ -452,6 +453,8 @@ FORMS = {
 	                3: [("horn_b", -1, -5, 9, 1), ("horn_b", 7, -5, 17, 1), ("maw", 8, 14, None, 0), ("tent", 7, 22, None, 1)]},
 	"greatengine": {2: [("horn_d", 0, -4, 16, 1), ("spike", -1, 10, 17, 0)],
 	                3: [("flames", 3, -3, None, 0), ("horn_b", -2, -5, 18, 1), ("spike", -2, 10, 18, 0), ("spike", -2, 5, 18, 0)]},
+	"glacialmaw":  {2: [("horn_d", 0, -4, 16, 1), ("spike", -1, 10, 17, 0)],
+	                3: [("horn_b", -2, -5, 18, 1), ("spike", -2, 10, 18, 0), ("spike", -2, 5, 18, 0), ("eyes", 5, 2, None, 0)]},
 	"brassorgan":  {2: [("spike", -2, 12, 43, 0), ("eye3", 18, 13, None, 0)],
 	                3: [("horn_b", 1, -5, 40, 1), ("spike", -2, 12, 43, 0), ("spike", -2, 18, 43, 0), ("maw", 16, 18, None, 0), ("eyes", 17, 12, None, 0)]},
 }
@@ -515,6 +518,7 @@ MINIS = {   # mini-boss or champion -> (kind of form, the colour it burns with)
 	"marshal": ("brute", "#ffa040"), "galewarden": ("wing", "#7ff0ff"), "rotking": ("maw", "#9aff3a"),
 	"highcaliber": ("fire", "#ff5a1a"), "squallheron": ("wing", "#8ae8ff"), "tidecaptain": ("brute", "#5affa0"),
 	"bellringer": ("maw", "#c05aff"), "shadow": ("maw", "#d08aff"), "foreman": ("brute", "#ffa040"),
+	"hoarknight": ("brute", "#8fe8ff"),
 }
 
 def _dominant_meta(im):

@@ -552,6 +552,7 @@ const ROWS := [
 	["tickbomb", "TICKING FLASK", "flask", "rare", ["demolition"], "grenade", { "dmg": 6.0, "rate": 1.4 }, [], [], "BURSTING THROWS. EVERY 6TH CALLS A METEOR DOWN ON A FOE.", [{ "on": "every_n_shots", "every": 6, "do": [["meteor", 1.2, 24]] }], "w_tickbomb"],
 	["escapement", "ESCAPEMENT RIFLE", "bolt", "epic", ["edge"], "rifle", { "dmg": 7.0, "rate": 1.8, "speed": 340, "pierce": 3 }, [["crit", 0.12]], [], "+12% CRIT. SHOTS THAT TICK THROUGH THREE FOES.", [], "w_escapement"],
 	["enginecore", "ENGINE CORE", "orb", "legend", ["pyre", "storm"], "orbstaff", { "dmg": 6.0, "rate": 2.6 }, [["burn", 0.2]], [["nth_nova", 5]], "THE GREAT ENGINE'S HEART. BURNING BOLTS, AND EVERY 5TH ERUPTS IN A RING OF FIRE.", [], "w_enginecore"],
+	["glacierheart", "GLACIER HEART", "orb", "legend", ["storm"], "orbstaff", { "dmg": 6.0, "rate": 2.6 }, [["chill", 0.4]], [["nth_zap", 4]], "THE GLACIAL MAW'S HEART. CHILLING BOLTS, AND EVERY 4TH CALLS DOWN LIGHTNING.", [], "w_glacierheart"],   # 7.3
 	["highcaliber", "THE HIGH CALIBER", "rail", "legend", ["edge", "demolition"], "cannon", { "dmg": 30.0, "rate": 0.8 }, [["pierce", 2]], [], "ONE ENORMOUS ROUND THAT PIERCES. EVERY HIT ON THE LAST FOE IN A ROOM STRIKES AGAIN FOR 150%.", [{ "on": "on_hit", "if": "last_foe", "do": [["damage", 1.5]] }], "w_longrifle"],
 ]
 

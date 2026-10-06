@@ -538,8 +538,12 @@ Chosen for his asks of 6 Oct (more variety, foes that stand up to a build), no b
 - [x] 7.2 Trophies: the first time a hero fells a guardian it is a trophy (+embers, a banner). The
       hero screen shows the count; 5 / 10 / 15 trophies (of 19) give that hero a starting potion / a
       relic / a rare relic.
-- [ ] 7.3 A new rift world, in the way of the Clockwork Spire: its foes, champion, guardian, art,
-      drops.
+- [x] 7.3 A new rift world, in the way of the Clockwork Spire: THE RIMEFROST HOLLOWS (ice
+      caverns, icicle spikes): frostmite, rime brute, shardcaster, frostfang, snow lobber, glimmer
+      wisp (+ elites); THE HOARFROST KNIGHT (champion, drops the HOARFROST HELM: +2 armor, being
+      hit chills every foe near you) and THE GLACIAL MAW (rift guardian on the guardians' rules,
+      three stages and evolving looks, drops GLACIER HEART: chilling bolts, every 4th calls
+      lightning). Original art in tools/art.
 - [ ] Full check, replays, IPA 7.3.
 
 ---

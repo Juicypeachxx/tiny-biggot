@@ -59,6 +59,11 @@ const LIST := [
 	{ "id": "spire", "name": "THE CLOCKWORK SPIRE", "sub": "EVERYTHING HERE IS WOUND TOO TIGHT", "kit": "kit_spire", "accent_hex": "#e8b84a",
 	  "pool": ["cogling", "steamjack", "boltslinger", "gearhound", "rivetlobber", "brasswasp"], "champion": "foreman", "guardian": "greatengine", "hazard": "vent",
 	  "decor": "", "music": 2 },
+	# 7.3 (his word "All", 6 Oct): caverns of blue ice where nothing thaws. Its guardian fights on the
+	# guardians' rules (BossAI: three stages, evolving), like the Great Engine.
+	{ "id": "rimefrost", "name": "THE RIMEFROST HOLLOWS", "sub": "NOTHING HERE HAS THAWED IN A THOUSAND YEARS", "kit": "kit_rimefrost", "accent_hex": "#8fd8ff",
+	  "pool": ["frostmite", "rimebrute", "shardcaster", "frostfang", "snowlobber", "glimmerwisp"], "champion": "hoarknight", "guardian": "glacialmaw", "hazard": "spikes",
+	  "decor": "", "music": 2 },
 ]
 
 ## Heaven and Hell (ROADMAP 4.7 part C, soul.gd): reached only through the SOUL GATE past the Umbral

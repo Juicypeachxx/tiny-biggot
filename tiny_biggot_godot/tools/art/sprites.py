@@ -967,3 +967,41 @@ ELITE.update({
 	"brasswasp": {0: "qq........qq"},
 	"foreman": {1: "..q..........q..", 6: "q..............q"},
 })
+
+# ---- 7.3 (his word "All", 6 Oct): THE RIMEFROST HOLLOWS, its champion and guardian, and their drops.
+S["frostmite"] = ("main:#7ab8e0 glow:#e8fbff", M([
+"o.....", "o3o..o", ".o3oo3", ".o33y3", "..o333", "..o220", "...o2o", "....o.", "......", "......"]))
+S["rimebrute"] = ("main:#6a8aa8 glow:#bff4ff", M([
+"...ooo", "..o333", ".o33y0", ".o3333", "oo3o33", "o3o322", "o3o322", "o2o322", ".oo222", "..o2oo",
+"..o2o.", "..ooo."]))
+S["shardcaster"] = ("main:#3a5a8a glow:#7ff0ff", OV(M([
+"....oo", "...o33", "..o333", "..o0y0", "..o000", ".o33o3", "o3o322", "o3o322", "o3o322", ".oo322",
+"..o32o", "..ooo."]), {0: "..........y.", 1: ".........yxy", 2: "..........9.", 3: "..........9.", 4: "..........9."}))
+S["frostfang"] = ("main:#a8bccc glow:#7ff0ff bone:#e8f4ff", [
+"............", "............", "............", ".o.o........", "o3o3o.......", "o3333o......",
+"o0y33ooooooo", ".o33232323lo", "..o3333333lo", "..o2o..o2o..", "..o2o..o2o..", ".oo....oo..."])
+S["snowlobber"] = ("main:#d8e8f4 glow:#7ff0ff skin:#9ab0c8 bone:#ffffff", OV(M([
+"...ooo", "..o333", "..o355", "..o35y", "..o333", ".o33o5", "o3ouvv", "o3ovvv", "o5ovvv", ".oovvv",
+"..o32o", "..ooo."]), {4: ".........ll."}))
+S["glimmerwisp"] = ("main:#6fb8e8 glow:#dff8ff halo:1", M([
+"....o.", "...oyo", "..oyxy", ".oy3xx", ".oy303", "..oy33", "...oy3", "....oy", ".....o", "......"]))
+S["hoarknight"] = ("main:#4a6a9a glow:#8fe8ff", M([
+"......oo", ".....o99", "....o998", "...o9888", "...o0yy0", "...o8888", "..oo9888", ".o99o888",
+"o9993322", "o9o33322", "o8o3xx22", "o8o33222", ".oo32222", "..o322oo", "..o99o..", "..ooo..."]))
+S["glacialmaw"] = ("main:#5a8ab8 glow:#bff4ff bone:#e8f4ff", M([
+"..o...oo", ".o3o.o33", ".o33o333", "o3333333", "o33yx333", "o3333333", "o2oooooo", "o2ojkojk",
+"o20000x0", "o2000000", "o2ojkojk", "o2oooooo", "o2222222", ".o122222", "..o11111", "...ooooo"]))
+S["w_glacierheart"] = ("main:#5a7a9a glow:#8fe8ff halo:1", [
+"........ooo.", ".......oyxyo", "......oyxxyo", ".......oyyo.", "......o9o...", ".....o9o....",
+"....o9o.....", "...o9o......", "..o9o.......", ".o9o........", "o9o.........", "oo.........."])
+S["g_hoarhelm"] = ("main:#8fb8d8 glow:#7ff0ff", [
+"............", "..o..oo..o..", ".o9oo99oo9o.", ".o99999999o.", ".o98888889o.", ".o8oyooyo8o.",
+".o88888888o.", ".o8o8888o8o.", "..oo8888oo..", "....oooo....", "............", "............"])
+for _n in ["rimebrute", "shardcaster", "snowlobber"]:
+	ELITE[_n] = dict(_HUM)
+ELITE.update({
+	"frostmite": {0: ".q........q."},
+	"frostfang": {3: ".q.q........"},
+	"glimmerwisp": {0: "q..........q"},
+	"hoarknight": {0: ".....q....q.....", 7: "q..............q"},
+})
