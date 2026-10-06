@@ -667,7 +667,12 @@ the end of `weapons.gd` / `gear.gd`), dropped by `game.on_boss_dead` and
 (+ elites: the outline turned gold), colossus, hearts, w_hexwand, w_repeater,
 w_pithatchet, w_graveshovel, w_flasksling, kit0. Same sizes. To redraw more: add grids to
 `sprites.py`, run `python3 tools/art/sheet.py x.png` from a folder outside the project,
-copy `out/D/*.png` into `assets/graphics/`, bake the atlas. Next: 5.2 (heroes).
+copy `out/D/*.png` into `assets/graphics/`, bake the atlas.
+
+**5.2, the heroes (6 Oct).** All 24 hero sprites redrawn in `tools/art/sprites.py`
+(same 12x14 rows as `hero_gear.gd`: head 0-6, body 7-10, hands row 9, legs 11, feet 12).
+Skin tones vary by hero (`skin:` in each sprite's line). The gear overlay's outline is
+now tinted by the piece's colour (`HeroGear.palette`, 4th entry). Next: 5.3 (foes).
 
 ## Noted, not yet acted on
 

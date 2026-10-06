@@ -381,8 +381,9 @@ Rules for the art:
       skeleton, slime (and their elites), the Colossus, hearts, five weapon
       icons and the Ossuary tiles. Built as IPA 5.1. Tool: `tools/art/` (look
       "D"); the rest of stage 5 follows the same rules.
-- [ ] 5.2 Heroes (14, plus those from stage 4) and their gear overlay
-      (`scripts/render/hero_gear.gd`).
+- [x] 5.2 Heroes (14, plus those from stage 4) and their gear overlay
+      (`scripts/render/hero_gear.gd`). All 24 redrawn in the A+C look (6 Oct); the
+      Gaolbird now wears its crow mask; worn gear gets an outline tinted by its colour.
 - [ ] 5.3 Foes, champions and guardians.
 - [ ] 5.4 Weapon, gear and relic icons.
 - [ ] 5.5 Tiles and room objects, floor by floor.

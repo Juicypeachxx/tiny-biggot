@@ -32,14 +32,13 @@ const NECK := { 7: "....2..2....", 8: ".....31....." }
 const TRINKET := { 10: ".......13..." }
 const RING1 := { 9: "3..........." }
 const RING2 := { 9: "...........3" }
-const OUTLINE := Color("#140f1c")
 ## Paint order: later pieces go over earlier ones.
 const ORDER := ["body", "feet", "hands", "head", "neck", "trinket", "ring1", "ring2"]
 
 static var _cache := {}
 static var _pal := {}
 
-## [main, dark, light] taken from the item's icon.
+## [main, dark, light, outline] taken from the item's icon.
 static func palette(g: Dictionary) -> Array:
 	var key: String = g["sprite"]
 	if _pal.has(key):
@@ -68,7 +67,8 @@ static func palette(g: Dictionary) -> Array:
 			dark = c
 		if c.get_luminance() > main.get_luminance() and (light == main.lightened(0.45) or c.get_luminance() > light.get_luminance()):
 			light = c
-	_pal[key] = [main, dark, light]
+	# The outline is tinted by the piece's own colour, as in the art of stage 5 (tools/art).
+	_pal[key] = [main, dark, light, Color.from_hsv(main.h, 0.6, 0.11)]
 	return _pal[key]
 
 static func _pattern(slot: String, g: Dictionary) -> Dictionary:
@@ -105,7 +105,7 @@ static func texture(p: Player) -> Texture2D:
 			var line: String = pat[row]
 			for x in W:
 				match line[x]:
-					"o": img.set_pixel(x, row, OUTLINE)
+					"o": img.set_pixel(x, row, pal[3])
 					"1": img.set_pixel(x, row, pal[0])
 					"2": img.set_pixel(x, row, pal[1])
 					"3": img.set_pixel(x, row, pal[2])

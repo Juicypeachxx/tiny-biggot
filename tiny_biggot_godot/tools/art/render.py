@@ -30,7 +30,7 @@ def tones(base, vb):
 def sprite(name, vb, rng=None):
     meta, grid = S[name]
     m = dict(kv.split(':') for kv in meta.split())
-    mats = {"123": m.get("main","#888888"), "abc": m.get("second","#3f7fbf"), "jkl": BONE, "456": SKIN,
+    mats = {"123": m.get("main","#888888"), "abc": m.get("second","#3f7fbf"), "jkl": m.get("bone", BONE), "456": m.get("skin", SKIN),
             "789": METAL, "pqr": GOLD, "uvw": WOOD}
     pal = {}
     for keys, base in mats.items():
@@ -179,5 +179,6 @@ def all_for(v):
     vb = VIBES[v]
     out = {n: sprite(n, vb) for n in S}
     for n in ELITES: out[n + "_elite"] = elite(n, out[n])
+    out.pop("hexer_old", None)
     out["kit0"] = kit(vb)
     return out
