@@ -176,7 +176,8 @@ static func build_room(room: Room) -> void:
 		Rex.layout(room)
 	if room.type in ["combat", "elite", "challenge"]:
 		# Rogues layer: eight more layouts (9-16).
-		var pat := rng.int_range(0, 16 if GameData.rogues() else 8)
+		# ROADMAP 4.7 part B: four more (17-20), with the floor's own pits (BiomeDeco).
+		var pat := rng.int_range(0, 20 if GameData.rogues() else 8)
 		if room.champion != "":
 			pat = 0   # a champion gets an open arena
 		elif room.theme.get("layouts", "") == "isles":
@@ -238,6 +239,24 @@ static func build_room(room: Room) -> void:
 			16:  # pillared hall: two rows of columns
 				for i in [2, 5, 8, 11]:
 					_put(room, i, 2, 2); _put(room, i, 5, 2)
+			17:  # a pool (or a lava pit, a chasm...) in each quarter
+				for a in range(3, 6):
+					for b in range(2, 4):
+						_put(room, a, b, T_VOID)
+				_put(room, 9, 2, T_PILLAR)
+			18:  # a channel across the room, broken by the doorways and the middle
+				for a in range(4, 11):
+					_put(room, a, 7, T_VOID)
+				_put(room, 6, 3, T_PILLAR); _put(room, 8, 3, T_PILLAR)
+			19:  # scattered sinkholes
+				for ab in [Vector2i(3, 2), Vector2i(7, 4), Vector2i(10, 1), Vector2i(5, 6)]:
+					_put(room, ab.x, ab.y, T_VOID)
+					_put(room, ab.x + 1, ab.y, T_VOID)
+				_put(room, 8, 2, T_PILLAR)
+			20:  # two long pits along the top and bottom, props between
+				for a in range(5, 11):
+					_put(room, a, 1, T_VOID)
+				_put(room, 4, 4, T_PILLAR); _put(room, 8, 5, T_PILLAR)
 			101:  # four sky lakes, one in each quarter
 				for a in range(3, 8):
 					for b in range(2, 5):

@@ -287,7 +287,16 @@ look (stage 5 redraws everything together later).
         1 rising to +40% on floor 11, one more foe a wave from floor 3, a few
         more elites, foes' shots 6% faster, and from floor 7 a foe's hit costs
         a whole heart. See `GEAR_AND_RELICS.md`. IPA built after it.
-      - [ ] Part B: **revamp the environments** ("make them less boring").
+      - [x] Part B (6 Oct): **revamp the environments** ("make them less
+        boring"). Each of the 11 floors: three props of its own instead of
+        the square pillar, floor marks, a centre piece in some rooms, top-wall
+        dressing, flickering lights, drifting air (dust, spores, embers, snow,
+        rain...), and four new room layouts with the floor's own pits (water,
+        lava, chasm, ice, void; expanded game only). **His ask, 6 Oct:
+        "revamp original stages too"**: the look applies to the original
+        game (`--classic`) as well; its rules and layouts are untouched and
+        its replays identical. See `tiny_biggot_godot/ENVIRONMENTS.md`. IPA
+        built after it.
       - [ ] Part C: **Heaven and Hell** ("a story part, final two bosses
         based on your perks like in Tiny Rogues, that unlocks the final final
         final boss"): after the Umbral Sun, what your perks lean to (light or

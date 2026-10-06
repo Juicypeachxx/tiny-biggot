@@ -1600,6 +1600,16 @@ static func drop_pickup(kind: String, x: float, y: float, t: float = 0.0) -> Pic
 		G.run_stats["gold"] += g
 		Fx.particle(x, y - 3, 0, -20, 0.2, "#f2c94c")
 		return null
+	if G.room != null and G.room.tile(floori(x / TB.TS), floori(y / TB.TS)) == World.T_VOID:
+		var at := World.free_spot(G.room, null, 0)   # nothing lands where no one can walk
+		var best := 1e9
+		for i in 12:
+			var sp := World.free_spot(G.room, null, 0)
+			if TB.dist_xy(sp.x, sp.y, x, y) < best:
+				best = TB.dist_xy(sp.x, sp.y, x, y)
+				at = sp
+		x = at.x
+		y = at.y
 	var k := Pickup.new()
 	k.kind = kind
 	k.x = x

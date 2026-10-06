@@ -574,6 +574,21 @@ report: no new item in a "same" or "near" group, none numbers-only. Soaks:
 god mode), 0 errors. The six classic replays identical; the full-content
 replays re-recorded. Not tested on the iPad.
 
+**4.7 part B, the floors' new look (done).** Details in
+`tiny_biggot_godot/ENVIRONMENTS.md`. `scripts/render/biome_deco.gd` (class
+`BiomeDeco`): per floor three props drawn where the square pillar was (same
+collision), floor marks, a centre piece in 60% of rooms (not start rooms),
+top-wall dressing, lights for lit props (glow layer), drifting air (only
+with FANCY EFFECTS on), and pit drawing. 43 new graphics (`prop_*`,
+`wall_*`; atlas 1200). Layouts 17-20 with `T_VOID` pits in the expanded game
+(`World.build_room`); `Hazards` runs `_off_the_edge` for them;
+`Combat.drop_pickup` moves a drop that lands on a pit to the nearest floor
+(this also helps Skyreach). His ask on 6 Oct, "revamp original stages too":
+`BiomeDeco.on` no longer requires the expanded game, so `--classic` gets the
+look (drawing only; classic replays identical). Full-content replays
+re-recorded. Soaks: 23 x 10 minutes, every floor, 0 errors, none stuck. Not
+tested on the iPad.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress (so iOS closing the app does not end it). Needs

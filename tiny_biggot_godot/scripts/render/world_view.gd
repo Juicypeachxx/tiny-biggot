@@ -88,6 +88,8 @@ func _paint_fog(ci: CanvasItem) -> void:
 func _paint_parts(ci: CanvasItem) -> void:
 	Fx.draw_particles(ci)
 	Juice.draw_sparks(ci)
+	if Vfx.enabled and BiomeDeco.on(G.room):
+		BiomeDeco.paint_air(ci, G.time)
 
 ## The top layer, bottom to top: loot name plates (this layer), floating
 ## numbers (FloatTexts, kept on the canvas), then ability labels and cards.
@@ -167,6 +169,8 @@ func refresh() -> void:
 	if G.dyn_dirty:
 		G.dyn_dirty = false
 		dyn.queue_redraw()
+	if Vfx.enabled and BiomeDeco.on(G.room):
+		BiomeDeco.tick(TB.DT)
 	_prepare_shots()
 	_floats.sync()
 	_labels.queue_redraw()
@@ -202,10 +206,19 @@ func _paint_bg(ci: CanvasItem) -> void:
 		ci.draw_texture_rect_region(kit, Rect2(27 * ts, r * ts, ts, ts), Rect2(4 * ts, ts, ts, ts))
 	_paint_decor(ci, room)
 	_paint_void(ci, room, kit)
+	# The expanded game: each floor's own floor marks, wall dressing and props (ROADMAP 4.7 part B).
+	var deco := BiomeDeco.on(room)
+	BiomeDeco.begin(room)
+	if deco:
+		BiomeDeco.paint_floor(ci, room)
+		BiomeDeco.paint_wall(ci, room)
 	for r in range(TB.IY0, TB.IY0 + TB.IH):
 		for c in range(TB.IX0, TB.IX0 + TB.IW):
 			if room.tile(c, r) == World.T_PILLAR:
-				ci.draw_texture_rect_region(kit, Rect2(c * ts, r * ts - 4, ts + 1, 2 * ts), Rect2(0, 2 * ts, ts + 1, 2 * ts))
+				if deco:
+					BiomeDeco.paint_prop(ci, room, c, r)
+				else:
+					ci.draw_texture_rect_region(kit, Rect2(c * ts, r * ts - 4, ts + 1, 2 * ts), Rect2(0, 2 * ts, ts + 1, 2 * ts))
 
 ## Open sky between islands (Skyreach Isles): the sky tile, with a cliff lip under any floor above it.
 func _paint_void(ci: CanvasItem, room: Room, kit: Texture2D) -> void:
@@ -769,6 +782,7 @@ func _paint_glow(ci: CanvasItem) -> void:
 	for i in 2:
 		var op := roundf(200 + sin(t * 9 + i * 7) * 25 + sin(t * 23 + i) * 15) / 255.0
 		Gfx.at(ci, "glow_torch", [6, 21][i] * TB.TS + 8 - 36, TB.TS + 4 - 36, op)
+	BiomeDeco.paint_glow(ci, t)
 	for o in G.room.objects:
 		if o.get("gone", false):
 			continue
