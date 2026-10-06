@@ -429,7 +429,7 @@ func _paint_lower(ci: CanvasItem) -> void:
 			"s_decor", "s_bartender", "s_drink", "s_merchant", "s_broker", "s_drunk", "s_piano", "s_poster":
 				Saloon.draw(ci, o, t)
 			"e_pitboss", "e_mechanic", "e_teller", "e_card", "e_courier", "e_attendant", "e_beacon", "e_statue", "e_plate", \
-					"e_decor", "w_drunk", "w_merchant":
+					"e_decor", "w_drunk", "w_merchant", "e_frog", "e_glyph", "e_pawn", "e_hustler", "e_cup", "e_gong":
 				EventRooms.draw(ci, o, t)
 			"x_table", "x_lever", "x_skull", "x_fisher", "x_saint", "x_ratpile":
 				RiftExtras.draw(ci, o, t)
@@ -569,7 +569,7 @@ func _paint_shadows(ci: CanvasItem, room: Room) -> void:
 			"chest", "ichest", "cchest", "mimicchest", "tome", "jukebox": shadow(ci, o["x"], o["y"] + 4, 12)
 			"idol", "campfire", "altar", "fountain", "wheel", "well", "bloodstall", "bed": shadow(ci, o["x"], o["y"] + 4, 14)
 			"bell": shadow(ci, o["x"], o["y"] + 4, 10)
-			"s_merchant", "s_broker", "e_pitboss", "e_mechanic", "e_teller", "e_courier", "e_attendant", "w_merchant": \
+			"s_merchant", "s_broker", "e_pitboss", "e_mechanic", "e_teller", "e_courier", "e_attendant", "w_merchant", "e_pawn", "e_hustler": \
 				shadow(ci, o["x"], o["y"] + 1, 8)
 			"item": shadow(ci, o["x"], o["y"] + 6, 10)
 	for k: Pickup in G.pickups:

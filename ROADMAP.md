@@ -629,7 +629,7 @@ Already here: trait pick with keyword boxes, coloured info and stat column, comp
 meta web (the constellation), telegraphed attacks, an anvil, event rooms.
 - [x] 10.1 Live descriptions: texts that grow with the run show their current value
       ("+20% DAMAGE FOR EACH EMPTY GEAR SLOT (+60% NOW)").
-- [ ] 10.2 New events: a frog to kiss or leave; a ritual circle where you draw a symbol for a
+- [x] 10.2 New events: a frog to kiss or leave; a ritual circle where you draw a symbol for a
       blessing; a pawn shop that buys your gear; a cup-and-ball game; a lightning round of quick
       fights before a rest.
 - [ ] 10.3 New heroes: a minstrel who plays songs (picked buffs), a jester (random tricks), a

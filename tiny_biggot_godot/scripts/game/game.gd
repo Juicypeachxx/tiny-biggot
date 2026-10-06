@@ -415,7 +415,7 @@ func leave_room(dir: String) -> void:
 		opts = { "theme": c["theme"], "step": step }
 		kind = ["combat", "elite", "elite", "boss"][clampi(step, 0, 3)]
 	elif kind == "mystery":
-		opts = { "event": TB.pick(MYSTERY_EVENTS) }
+		opts = { "event": TB.pick(mystery_events()) }
 		if randf() < 0.18:
 			opts["event"] = TB.pick(EventRooms.SPECIAL)   # a special room: rarer than an event
 	var nr := World.make_room(floor_d, kind, reward, World.OPP[dir], opts)
@@ -445,6 +445,10 @@ func _leave_on_map(dir: String, c: Dictionary) -> void:
 const MYSTERY_EVENTS := ["wheel", "market", "mimic", "armory", "well", "goblin", "mirror", "library", "safehouse", "saloon",
 	"pit", "chopshop", "fortune", "courier", "gallery"]
 const SECRET_EVENTS := ["market", "armory", "goblin", "mirror", "library"]
+
+## The mystery rooms' events; 10.2 adds five more in the expanded game (event_rooms.gd).
+func mystery_events() -> Array:
+	return MYSTERY_EVENTS + EventRooms.EVENTS_10 if GameData.rogues() else MYSTERY_EVENTS
 
 const EVENT_TITLE := {
 	"wheel": ["A GAMBLER'S DEN", "THE WHEEL OF FATE TURNS FOR GOLD"], "market": ["THE BLOOD MARKET", "RELICS FOR SALE. THE PRICE IS A HEART"],

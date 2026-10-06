@@ -18,7 +18,25 @@ extends RefCounted
 ##   a lost merchant: one thing for sale
 
 const KINDS := ["e_pitboss", "e_mechanic", "e_teller", "e_card", "e_courier", "e_attendant", "e_beacon", "e_statue",
-	"e_plate", "e_decor", "w_drunk", "w_merchant"]
+	"e_plate", "e_decor", "w_drunk", "w_merchant",
+	"e_frog", "e_glyph", "e_pawn", "e_hustler", "e_cup", "e_gong"]   # 10.2
+## 10.2 (his ask, 6 Oct, from his trailer clips: ideas only, this game's own events):
+##   frog       THE FROG POND: kiss the frog or leave it. A royal gift, a little luck, or warts.
+##   ritual     THE RITUAL CIRCLE: four glyphs (sun, moon, star, skull); stand on one for its
+##              blessing and two points of its alignment. The skull's gift has a price.
+##   pawn       THE PAWN SHOP: the broker buys a spare weapon or gear from your backpack, and sells
+##              a sealed box with a random piece in it.
+##   cups       CUP AND BALL: bet, watch three cups shuffle, pick one. The ball pays three times.
+##   lightning  THE LIGHTNING ROUND: ring the gong, clear three quick waves within 30 s: an iron chest.
+const EVENTS_10 := ["frog", "ritual", "pawn", "cups", "lightning"]
+const GLYPHS := {
+	"sun": ["THE SUN", "good", "HEAL EVERY HEART. +1 MAX HEART", [["add", "max_hp", 2], ["add", "hp", 99], ["clamp_max", "hp", "max_hp"]]],
+	"moon": ["THE MOON", "chaos", "+1 ROLL CHARGE. +10% MOVE SPEED", [["add", "dodge_charges", 1], ["add", "charges", 1], ["mul", "speed", 1.1]]],
+	"star": ["THE STAR", "law", "+10% CRIT. +10% FIRE RATE", [["add", "crit", 0.1], ["mul", "rate", 1.1]]],
+	"skull": ["THE SKULL", "evil", "+30% DAMAGE, BUT -1 MAX HEART", [["mul", "dmg", 1.3], ["add_floor", "max_hp", -2, 2], ["clamp_max", "hp", "max_hp"]]],
+}
+const PAWN_PRICE := { "common": 12, "uncommon": 18, "rare": 28, "epic": 45, "legend": 80 }
+const LIGHTNING_TIME := 30.0
 const EVENTS := ["pit", "chopshop", "fortune", "courier", "gallery"]
 const SPECIAL := ["beacon", "vault", "cursed"]
 
@@ -31,6 +49,11 @@ const TITLE := {
 	"beacon": ["THE SIGNAL BEACON", "LIGHT IT AND HOLD THE LINE"],
 	"vault": ["THE PLATE VAULT", "THE STATUE KNOWS THE ORDER"],
 	"cursed": ["THE CURSED ARMORY", "FINE WEAPONS. BAD LUCK"],
+	"frog": ["THE FROG POND", "IT LOOKS AT YOU EXPECTANTLY"],
+	"ritual": ["THE RITUAL CIRCLE", "WHICH SIGN WILL YOU STAND ON?"],
+	"pawn": ["THE PAWN SHOP", "EVERYTHING HAS A PRICE. EVEN YOUR JUNK"],
+	"cups": ["CUP AND BALL", "KEEP YOUR EYE ON THE BALL"],
+	"lightning": ["THE LIGHTNING ROUND", "THREE WAVES. THIRTY SECONDS. GO"],
 }
 
 ## Chop shop mods: id: [name, what it does, effect]
@@ -122,6 +145,24 @@ static func setup(r: Room, ev: String) -> void:
 			cols.shuffle()
 			for i in 4:
 				r.objects.append({ "kind": "e_plate", "col": cols[i], "x": spots[i].x, "y": spots[i].y, "used": true, "lit": false, "on": false })
+		# 10.2
+		"frog":
+			r.objects.append({ "kind": "e_frog", "x": cx, "y": cy })
+		"ritual":
+			var keys := GLYPHS.keys()
+			for i in keys.size():
+				var a := float(i) / keys.size() * TAU - PI / 2
+				r.objects.append({ "kind": "e_glyph", "sign": keys[i], "x": cx + cos(a) * 56, "y": cy + sin(a) * 40 })
+		"pawn":
+			r.objects.append({ "kind": "e_pawn", "x": cx - 30, "y": cy, "boxes": 1 })
+			r.objects.append({ "kind": "e_decor", "sprite": "weapon_rack", "x": cx + 36, "y": cy + 2, "used": true })
+		"cups":
+			r.objects.append({ "kind": "e_hustler", "x": cx, "y": cy - 34, "bet": 0, "t": 0.0, "state": "idle", "ball": 0,
+				"order": [0, 1, 2], "swap": -1.0, "a": 0, "b": 1 })
+			for i in 3:
+				r.objects.append({ "kind": "e_cup", "i": i, "x": cx - 36 + i * 36, "y": cy + 10, "used": true })
+		"lightning":
+			r.objects.append({ "kind": "e_gong", "x": cx, "y": cy, "t": 0.0, "waves": 0 })
 		"cursed":
 			for i in 3:
 				r.objects.append({ "kind": "e_decor", "sprite": "weapon_rack", "x": cx - 64 + i * 64, "y": cy + 2, "used": true })
@@ -230,6 +271,102 @@ static func interact(o: Dictionary) -> void:
 					pl["lit"] = false
 			Snd.play("bell")
 			G.toast("THE STATUE'S EYES FLASH: " + " ".join(o["order"].map(func(c): return PLATE_NAME[c])), "white")
+		# 10.2
+		"e_frog":
+			o["used"] = true
+			var roll := randf()
+			if roll < 0.4:
+				var r := G.roll_relics(1, "iron")
+				if not r.is_empty():
+					G.add_relic(p, r[0])
+				G.show_banner("IT WAS A PRINCE ALL ALONG", "HE THANKS YOU WITH " + (r[0]["name"] if not r.is_empty() else "A BOW"))
+				Fx.burst(o["x"], o["y"], ["#f2c94c", "#ffffff"], 24, 80)
+			elif roll < 0.8:
+				p.luck += 1
+				G.show_banner("IT WAS JUST A FROG", "IT CROAKS HAPPILY. +1 LUCK")
+			else:
+				Effects.apply(p, [["mul", "speed", 0.92]], 1, "frog:warts")
+				G.show_banner("WARTS", "YOU SHOULD HAVE KNOWN. -8% MOVE SPEED")
+			o["gone"] = true
+			Snd.play("select")
+		"e_glyph":
+			var gl: Array = GLYPHS[o["sign"]]
+			Effects.apply(p, gl[3], 1, "glyph:" + o["sign"])
+			Alignments.add(p, gl[1], 2)
+			for o2 in G.room.objects:
+				if o2["kind"] == "e_glyph":
+					o2["used"] = true
+			G.show_banner(gl[0] + ": " + gl[2], "+2 " + Alignments.NAMES[gl[1]])
+			Fx.burst(o["x"], o["y"], [Alignments.HEX[gl[1]], "#ffffff"], 22, 70)
+			Snd.play("portal")
+		"e_pawn":
+			var spare := -1
+			for i in p.backpack.size():
+				if p.backpack[i] != null:
+					spare = i
+					break
+			if spare >= 0:
+				var it: Dictionary = p.backpack[spare]
+				var price := G.price(PAWN_PRICE.get(it["rarity"], 15))
+				p.backpack.remove_at(spare)
+				p.gold += price
+				G.toast("SOLD %s FOR %d GOLD" % [it["name"], price], "gold")
+				Snd.play("coin")
+			elif o["boxes"] > 0:
+				var cost := G.price(40 + f * 4)
+				if p.gold < cost:
+					return G.deny(o, "NEED %d GOLD FOR A SEALED BOX" % cost)
+				p.gold -= cost
+				o["boxes"] -= 1
+				var rar := Gear.roll_item_rarity(f, "chest")
+				G.drop_item(Gear.random_gear(rar) if randf() < 0.5 else Weapons.random_weapon(rar, p.weapon), o["x"] + 20, o["y"] + 16)
+				G.toast("NO PEEKING BEFORE YOU PAY. TOO LATE NOW", "white")
+				Snd.play("open")
+			else:
+				return G.deny(o, "NOTHING TO SELL, NOTHING TO BUY")
+		"e_hustler":
+			if o["state"] != "idle":
+				return
+			if o.get("done", false):
+				return G.deny(o, "ONE GAME A CUSTOMER")
+			var bet := G.price(15 + f * 4)
+			if p.gold < bet:
+				return G.deny(o, "NEED %d GOLD TO PLAY" % bet)
+			p.gold -= bet
+			o["bet"] = bet
+			o["ball"] = randi() % 3
+			o["order"] = [0, 1, 2]
+			o["state"] = "show"
+			o["t"] = 1.2
+			o["swaps"] = 6 + f / 2
+			G.toast("WATCH THE BALL...", "white")
+			Snd.play("bell")
+		"e_cup":
+			var h = _hustler()
+			if h == null or h["state"] != "pick":
+				return
+			h["state"] = "reveal"
+			h["t"] = 1.6
+			h["picked"] = o["i"]
+			var won: bool = h["order"][o["i"]] == h["ball"]
+			if won:
+				p.gold += h["bet"] * 3
+				G.show_banner("SHARP EYES", "THREE TIMES YOUR BET: %d GOLD" % (h["bet"] * 3))
+				Snd.play("coin")
+			else:
+				G.show_banner("SO CLOSE", "THE BALL WAS NEVER THERE. OR WAS IT?")
+				Snd.play("deny")
+			h["done"] = true
+		"e_gong":
+			if o["waves"] > 0 or o.get("done", false):
+				return
+			o["waves"] = 3
+			o["t"] = LIGHTNING_TIME
+			o["used"] = true
+			G.locked = true
+			G.dyn_dirty = true
+			G.show_banner("THE LIGHTNING ROUND", "CLEAR THREE WAVES IN %d SECONDS" % LIGHTNING_TIME)
+			Snd.play("bell")
 		"w_drunk":
 			o["used"] = true
 			var gift: String = TB.pick(["potion", "heart", "bomb", "key"])
@@ -282,6 +419,86 @@ static func update(dt: float) -> void:
 				_update_beacon(o, dt)
 			"e_plate":
 				_update_plate(o)
+			"e_hustler":
+				_update_cups(o, dt)
+			"e_gong":
+				_update_gong(o, dt)
+
+static func _hustler() -> Variant:
+	for o in G.room.objects:
+		if o["kind"] == "e_hustler":
+			return o
+	return null
+
+## The cups: show the ball, shuffle (each swap 0.35 s, cups slide past each other), then wait for a pick.
+static func _update_cups(o: Dictionary, dt: float) -> void:
+	match o["state"]:
+		"show":
+			o["t"] -= dt
+			if o["t"] <= 0:
+				o["state"] = "shuffle"
+				o["swap"] = 0.0
+				o["a"] = randi() % 3
+				o["b"] = (o["a"] + 1 + randi() % 2) % 3
+		"shuffle":
+			o["swap"] += dt / 0.35
+			if o["swap"] >= 1.0:
+				var ord: Array = o["order"]
+				var tmp = ord[o["a"]]
+				ord[o["a"]] = ord[o["b"]]
+				ord[o["b"]] = tmp
+				o["swaps"] -= 1
+				o["swap"] = 0.0
+				if o["swaps"] <= 0:
+					o["state"] = "pick"
+					o["swap"] = -1.0
+					G.toast("WHERE IS IT?", "white")
+					for c in G.room.objects:
+						if c["kind"] == "e_cup":
+							c["used"] = false
+				else:
+					o["a"] = randi() % 3
+					o["b"] = (o["a"] + 1 + randi() % 2) % 3
+		"reveal":
+			o["t"] -= dt
+			if o["t"] <= 0:
+				o["state"] = "idle"
+				for c in G.room.objects:
+					if c["kind"] == "e_cup":
+						c["used"] = true
+
+## Where cup i is drawn now (it slides while it is being swapped).
+static func cup_pos(h: Dictionary, c: Dictionary) -> Vector2:
+	var base := Vector2(_cx() - 36 + c["i"] * 36, _cy() + 10)
+	if h["state"] != "shuffle" or h["swap"] < 0 or not c["i"] in [h["a"], h["b"]]:
+		return base
+	var other: int = h["b"] if c["i"] == h["a"] else h["a"]
+	var to := Vector2(_cx() - 36 + other * 36, _cy() + 10)
+	var k: float = h["swap"]
+	return base.lerp(to, k) + Vector2(0, (14.0 if c["i"] == h["a"] else -14.0) * sin(k * PI))
+
+static func _update_gong(o: Dictionary, dt: float) -> void:
+	if o["waves"] <= 0:
+		return
+	o["t"] -= dt
+	if not G.enemies.is_empty() and o.get("fighting", false):
+		return
+	if o.get("fighting", false):
+		o["waves"] -= 1
+		o["fighting"] = false
+		if o["waves"] <= 0:
+			o["done"] = true
+			G.locked = false
+			G.dyn_dirty = true
+			Snd.play("door")
+			if o["t"] > 0:
+				G.room.objects.append({ "kind": "ichest", "x": o["x"], "y": o["y"] + 30, "free": true })
+				G.show_banner("IN TIME!", "AN IRON CHEST, ON THE HOUSE")
+			else:
+				G.show_banner("TOO SLOW", "THE GONG IS SILENT")
+			return
+	o["fighting"] = true
+	_spawn_foes(4 + G.floor_index / 2)
 
 static func _spawn_foes(n: int, near: Vector2 = Vector2.ZERO) -> void:
 	var pool: Array = GameData.floors()[G.floor_index]["pool"]
@@ -517,6 +734,23 @@ static func prompt(o: Dictionary) -> Array:
 			return ["A SIGNAL BEACON", "LIGHT IT, THEN STAND IN ITS LIGHT FOR 45S", "LIGHT IT"]
 		"e_statue":
 			return ["A STONE STATUE", "ITS EYES SHOW THE ORDER OF THE PLATES", "LOOK"]
+		"e_frog":
+			return ["A FROG", "IT PUCKERS UP", "KISS IT"]
+		"e_glyph":
+			var gl: Array = GLYPHS[o["sign"]]
+			return [gl[0], gl[2] + ". +2 " + Alignments.NAMES[gl[1]], "STAND ON IT"]
+		"e_pawn":
+			var p2 := G.player
+			for it in p2.backpack:
+				if it != null:
+					return ["THE PAWNBROKER", "HE WANTS YOUR " + it["name"], "SELL FOR %d GOLD" % G.price(PAWN_PRICE.get(it["rarity"], 15))]
+			return ["THE PAWNBROKER", "A SEALED BOX: A RANDOM PIECE", "BUY FOR %d GOLD" % G.price(40 + f * 4)]
+		"e_hustler":
+			return ["THE CUP MAN", "FIND THE BALL, WIN THREE TIMES THE BET", "BET %d GOLD" % G.price(15 + f * 4)]
+		"e_cup":
+			return ["A CUP", "IS THE BALL UNDER THIS ONE?", "LIFT IT"]
+		"e_gong":
+			return ["A GONG", "3 QUICK WAVES IN 30S FOR AN IRON CHEST", "RING IT"]
 		"w_drunk":
 			return ["THE DRUNK FROM THE SALOON", "HE WAVES A BOTTLE AT YOU", "SAY HELLO"]
 		"w_merchant":
@@ -575,6 +809,51 @@ static func draw(ci: CanvasItem, o: Dictionary, t: float) -> void:
 			if not o["lit"]:
 				var col: String = { "r": "#d8443c", "g": "#63b84f", "u": "#4d9be6", "y": "#f2c94c" }[o["col"]]
 				Gfx.px(ci, TB.c(col), x - 1, y + 2, 2)
+		# 10.2
+		"e_frog":
+			if not o.get("gone", false):
+				ci.draw_circle(Vector2(x, y + 4), 11, TB.c("#2f6a3a"))
+				ci.draw_circle(Vector2(x, y + 4), 9, TB.c("#3f8a4a"))
+				Gfx.sp(ci, "frog", x, y + 2 - absf(sin(t * 2.5)) * 3.0, 2, 2)
+		"e_glyph":
+			var gl: Array = GLYPHS[o["sign"]]
+			var col := TB.c(Alignments.HEX[gl[1]])
+			col.a = 0.35 if o.get("used", false) else 0.9
+			ci.draw_arc(Vector2(x, y), 12, 0, TAU, 20, col, 1.5)
+			ci.draw_arc(Vector2(x, y), 9, 0, TAU, 20, col, 1.0)
+			Gfx.sp(ci, TraitView.ICONS[Alignments.NAMES[gl[1]]], x, y + 7, 2, 2, 0.0, false, 0.4 if o.get("used", false) else 1.0)
+		"e_pawn":
+			Gfx.sp(ci, "npc_merchant", x, y + breathe)
+			Gfx.sp(ci, "mi_gold", x + 9, y - 22, 1, 1)
+		"e_hustler":
+			Gfx.sp(ci, "npc_attendant", x, y + breathe)
+			if o["state"] == "show" or (o["state"] == "reveal"):
+				var shown: int = o["ball"] if o["state"] == "show" else -1
+				for c in G.room.objects:
+					if c["kind"] == "e_cup" and (c["i"] == shown or (shown < 0 and o["order"][c["i"]] == o["ball"])):
+						var cp := cup_pos(o, c)
+						ci.draw_circle(Vector2(cp.x, cp.y + 3), 3.5, TB.c("#f4ecd8"))
+		"e_cup":
+			var h = _hustler()
+			var cp := cup_pos(h, o) if h != null else Vector2(x, y)
+			var lift := 0.0
+			if h != null and h["state"] in ["show", "reveal"]:
+				lift = 10.0
+			var cx2 := cp.x
+			var cy2 := cp.y - lift
+			ci.draw_colored_polygon(PackedVector2Array([Vector2(cx2 - 8, cy2 + 6), Vector2(cx2 + 8, cy2 + 6), Vector2(cx2 + 5, cy2 - 8), Vector2(cx2 - 5, cy2 - 8)]), TB.c("#8a3a2a"))
+			ci.draw_colored_polygon(PackedVector2Array([Vector2(cx2 - 6, cy2 + 4), Vector2(cx2 - 2, cy2 + 4), Vector2(cx2 - 2, cy2 - 6), Vector2(cx2 - 4, cy2 - 6)]), TB.c("#c05a3a"))
+			ci.draw_rect(Rect2(cx2 - 9, cy2 + 5, 18, 2), TB.c("#5a2418"))
+		"e_gong":
+			ci.draw_line(Vector2(x - 14, y + 6), Vector2(x - 14, y - 26), TB.c("#6b4a2a"), 2.0)
+			ci.draw_line(Vector2(x + 14, y + 6), Vector2(x + 14, y - 26), TB.c("#6b4a2a"), 2.0)
+			ci.draw_line(Vector2(x - 15, y - 26), Vector2(x + 15, y - 26), TB.c("#6b4a2a"), 2.0)
+			var sw := sin(t * 6.0) * 1.5 if o["waves"] > 0 else 0.0
+			ci.draw_circle(Vector2(x + sw, y - 10), 11, TB.c("#b8862a"))
+			ci.draw_circle(Vector2(x + sw, y - 10), 8, TB.c("#e8b84a"))
+			ci.draw_circle(Vector2(x + sw, y - 10), 3, TB.c("#fff07a"))
+			if o["waves"] > 0:
+				Gfx.text(ci, "%dS" % maxi(0, ceili(o["t"])), x, y - 34, "gold" if o["t"] > 0 else "red", 1, 0.5)
 		"w_drunk":
 			Gfx.sp(ci, "npc_drunk", x, y + 6, 1, 1)
 		"w_merchant":

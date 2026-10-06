@@ -796,6 +796,11 @@ chaos_test section 5.
 idle/zealot/trait _dmg), "stack" bonuses (`p.gf[key]`) and miser; `Live.desc(t)` used by trait
 rows, item cards, relic choice and prompts, the equipment page and the inventory. `tests/live_test`.
 
+10.2: event_rooms.gd `EVENTS_10` (frog, ritual, pawn, cups, lightning; kinds e_frog, e_glyph,
+e_pawn, e_hustler, e_cup, e_gong): setup / interact / update (`_update_cups`, `cup_pos`,
+`_update_gong`) / prompt / draw. `G.mystery_events()` adds them in the expanded game only (the
+classic list is untouched). world_view's event-object match lists them. `tests/events10_test`.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

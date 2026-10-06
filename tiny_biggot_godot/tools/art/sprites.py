@@ -1061,3 +1061,7 @@ S["g_phoenixplume"] = ("main:#e8873a glow:#fff07a", [
 S["g_fiendchains"] = ("main:#a8282a", [
 "............", ".o99.o99.o9.", "o9oo9oo9oo9o", ".o99.o99.o9.", "............", "..oooooooo..",
 ".o33333333o.", ".o32222223o.", ".o33333333o.", "..oooooooo..", "............", "............"])
+
+# ---- 10.2 (his ask, 6 Oct): the frog of THE FROG POND (with a tiny crown, of course).
+S["frog"] = ("main:#4fae46 glow:#ffffff bone:#f4ecd8", M([
+"....q.", "....qq", ".ooo..", "o3y0oo", "o3333o", "o3222o", ".o222o", "o3o22o", "oo.ooo", "......"]))

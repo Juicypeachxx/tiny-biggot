@@ -157,7 +157,7 @@ static func room_at(c: Vector2i, entrance: String) -> Room:
 	var opts := { "no_secret": true }
 	if kind == "mystery" or kind == "secret":
 		if kind == "mystery":
-			opts["event"] = TB.pick(G.MYSTERY_EVENTS)
+			opts["event"] = TB.pick(G.mystery_events())
 			if randf() < 0.18:
 				opts["event"] = TB.pick(EventRooms.SPECIAL)
 	# Depth: how far in it is (the mini-boss room is the one before the rest stop, as in the chain).
