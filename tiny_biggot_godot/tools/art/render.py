@@ -180,6 +180,30 @@ def kit(vb, seed=7):
     return im
 
 
+def remaster(path, vb):
+    """An old graphic kept pixel for pixel, recoloured into the look: the outline tinted by the
+    sprite's main colour, colours a little richer, shadows cooler-red, lights toward yellow."""
+    im = Image.open(path).convert("RGBA"); px = im.load()
+    from collections import Counter
+    cnt = Counter(px[x, y][:3] for y in range(im.height) for x in range(im.width)
+                  if px[x, y][3] > 128 and sum(px[x, y][:3]) > 120)
+    mh = hsv(tuple(c / 255 for c in cnt.most_common(1)[0][0]))[0] if cnt else 0.08
+    for y in range(im.height):
+        for x in range(im.width):
+            r, g, b, a = px[x, y]
+            if a < 128:
+                continue
+            h, s, v = hsv((r / 255, g / 255, b / 255))
+            if v < 0.16:
+                px[x, y] = toh(rgb(mh + 0.04, 0.6, 0.11)) + (a,)
+                continue
+            if v > 0.7:
+                h += 0.005 if (h < 0.2 or h > 0.92) else 0
+            elif v < 0.5:
+                h += 0.01
+            px[x, y] = toh(rgb(h, s * 1.05, v)) + (a,)   # gentle: it is his dog
+    return im
+
 def all_for(v):
     vb = VIBES[v]
     out = {n: sprite(n, vb) for n in S}
@@ -190,6 +214,8 @@ def all_for(v):
             out[n + "_elite"] = sprite(n, vb, elite=True)
     for n, src in ELITE_SRC.items():
         out[n + "_elite"] = sprite(src, vb, elite=True)
+    for n in REMASTER:
+        out[n] = remaster(os.path.join(os.path.dirname(os.path.abspath(__file__)), "src", n + ".png"), vb)
     out.pop("hexer_old", None)
     out["kit0"] = kit(vb)
     return out

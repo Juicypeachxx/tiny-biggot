@@ -402,6 +402,10 @@ Rules for the art:
         and 6 champions. Waiting for his picks.
   - [x] 5.3d (6 Oct): Heist, Dust, Skyreach, Bastion, Cathedral: 23 foes (+ elites), 5 champions,
         3 rift minis, 3 rift guardians (the organ is drawn by `_organ()`). Waiting for his picks.
+  - [x] 5.3e (6 Oct): the special ones: dummy, target, tomb spider, candlewight, gargoyle, war
+        drummer, blood leech, casing rat, scrounger, goblin, mimic, shadow, the Haggler, the Holy Cow,
+        the Judge, the Cinder King, the Unwritten. Rex (his dog) is only recoloured, pixel for
+        pixel (`REMASTER`, originals in `tools/art/src/`). Waiting for his picks.
   **His ask (6 Oct): no tests and no IPA between the art steps.** Redraw everything first (5.3 to
   5.6), committing as it goes; then one full check and one IPA at the end of stage 5.
 - [ ] 5.4 Weapon, gear and relic icons.

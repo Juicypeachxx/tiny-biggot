@@ -749,3 +749,75 @@ ELITE.update({
 })
 for _n in ["squallheron", "tidecaptain", "bellringer"]:   # rift minis have elites too
 	ELITE[_n] = {1: "..q..........q..", 6: "q..............q"}
+
+# ---- 5.3e: the special ones. Rex is his own dog, drawn from his photos: never redesigned, only
+# recoloured into the look (REMASTER, from the originals kept in tools/art/src/).
+REMASTER = ["rex", "rex_lie"]
+S["dummy"] = ("main:#8a6a3a", M([
+"...ooo", "..ovvv", "..ov0v", "..ovvv", "...ouu", "ouuuvv", "oooovv", "...ovv", "...ovv", "....ou",
+"....ou", "....ou", "...ouu", "..oooo"]))
+S["target"] = ("main:#c03a3a second:#c03a3a", M([
+"...ooo", "..obbb", ".oblll", ".oblbb", ".oblbq", ".oblbq", ".oblbb", ".oblll", "..obbb", "...ooo",
+".....u", ".....u", "....ou", "...ooo"]))
+S["tombspider"] = ("main:#4a2a5a glow:#ff4a3a", M([
+"......", "......", "o.....", ".o..oo", "..oo33", "ooo3y2", "..o322", "ooo322", ".o.o32", "o...oo",
+"......", "......"]))
+S["candlewight"] = ("main:#c8b088 bone:#f0e8d0 glow:#ffd060 halo:1", M([
+".....y", "....yx", "....oy", "...oll", "..ol0l", "..olll", "..oll0", ".ollll", "..olll", "..olll",
+".oqqqq", "..oooo"]))
+S["gargoyle"] = ("main:#8a8a9a glow:#ff4a3a", [
+"o..o....o..o", "oo.oo..oo.oo", "o3oo3333oo1o", "o33oy22yo11o", "o332o22o211o", ".o33o00o11o.",
+"..oo3221oo..", "..o322221o..", ".o3o3221o1o.", ".o3o3221o1o.", ".oo.o21o.oo.", "..oooooooo.."])
+S["wardrummer"] = ("main:#6a4a32 skin:#7ab04a", M([
+"...ooo", "..o655", "o.o555", "..o505", "..o5l5", ".o33o5", "o3o322", "o3oqqq", "o5ovvv", "o3ovvv",
+".ooqqq", "..ooo."]))
+S["bloodleech"] = ("main:#a02a3a", M([
+"......", "......", "......", "...ooo", "..o332", ".o3322", "o33o00", "o32o00", "o32222", ".o3222",
+"..oooo", "......"]))
+S["casingrat"] = ("main:#7a7a8a second:#e09090 glow:#ff4a3a", M([
+"......", "......", "......", ".oo...", "o3o.oo", "o33o32", ".o3y22", "..o32b", ".o3322", "o3o322",
+".ooqqq", "..o.o."]))
+S["scrounger"] = ("main:#8a8a9a second:#e09090 skin:#e0a0a0 glow:#ffe060", OV(M([
+"...ooo", "..ouvv", ".ouvvv", ".ou8y8", "..o332", "...o3b", "o3ouvv", "o3ovvv", "o5ovvv", ".oovvv",
+"..o32o", "..ooo."]), {9: "...........b"}))
+S["goblin"] = ("main:#6a4a32 skin:#6ab04a", OV(M([
+"......", "...ooo", "oo.o55", "o5o555", ".oo505", "..o4ll", ".o33o5", "o3o322", "o5o322", ".oo322",
+"..o32o", "..ooo."]), {7: "..........oq", 8: "..........qq", 9: "..........qo"}))
+S["mimic"] = ("main:#8a5a32 second:#c03a3a glow:#ffe060", M([
+"......", "......", ".ooooo", ".owvvv", ".oqqqq", ".ol0l0", ".o0y00", ".o000b", ".ol0l0", ".ovvvv",
+".oqqqq", ".ooooo"]))
+S["shadow"] = ("main:#2a1a3a glow:#c08aff", M([
+"....oo", "...o32", "..o322", "..o3y2", "..o322", "..o322", "...o32", "o3o322", "o3o322", "o3o322",
+".oo322", "..o32o", "..o32o", "..ooo."]))
+S["haggler"] = ("main:#6a3a7a second:#c0803a skin:#c08a5a", M([
+"...ooooo", "..o33332", ".o333322", "o3qqqqqq", "o2222222", "...o5055", "...o5555", "...o5jjj",
+"..o3jjjj", ".o3c3222", "o5o32c22", "o3o3c222", ".oo32222", "..o322oo", "..ouuo..", "..ooo..."]))
+S["holycow"] = ("main:#c8c0b0 second:#f0a0b0 glow:#ffd84a", M([
+"...qqqqq", "..q.....", ".l.ooooo", ".loll0ll", "..ol0lll", "..olllll", "..olbbbb", "..olb0bb",
+"...obbbb", ".ollll0l", "olll0lll", "ol00llll", "olllllll", ".ollllbb", ".o0o.o0o", ".ooo.ooo"]))
+S["judge"] = ("main:#e8b84a", OV(M([
+"......oo", ".....oqr", "l...oqqq", "ll..oq0q", "lll.oqqq", "lllloooq", ".llollll", "..olllql",
+"..olllll", "..olllll", "..olllll", "..ollqll", ".ollllll", ".ollllll", "olllllll", "oooooooo"]),
+{8: "o9o.............", 9: "9.9.............", 10: "q.q.............", 11: "qqq............."}))
+S["cinderking"] = ("main:#b03030 metal:#4a3a3a skin:#c04030 glow:#ffa040", M([
+"..y..y.y", "...oqyqy", "...oqqqq", "..o32222", "..o32y22", "..o32222", "..o320xx", ".o98o322",
+"o98o3222", "o8o322y2", "o5o32222", ".oo32222", "..o32222", "..o988oo", "..o88o..", "..ooo..."]))
+S["unwritten"] = ("main:#1a1420 bone:#f4ecd8 glow:#e0e0ff", [
+"......oooo......", ".....oll00o.....", "....olll000o....", "...ollll0000o...", "...ol0ll00y0o...",
+"...ollll0000o...", "...olll0l000o...", "..ollll000000o..", ".ollllll000000o.", "olllllll0000000o",
+"olllllll0000000o", ".ollllll000000o.", ".ollllll000000o.", "olllllll0000000o", "olllllll0000000o",
+"oo.oo.oooo.oo.oo"])
+for _n in ["wardrummer", "scrounger", "goblin"]:
+	ELITE[_n] = dict(_HUM)
+ELITE["haggler"] = {1: "..q..........q..", 6: "q..............q"}
+ELITE.update({
+	"tombspider": {3: "qo..oooo..oq"},
+	"candlewight": {10: "qoqqqqqqqqoq"},
+	"gargoyle": {0: "q..o....o..q"},
+	"bloodleech": {3: "..qooooooq.."},
+	"casingrat": {3: "qoo......ooq"},
+	"mimic": {2: "qooooooooooq"},
+	"shadow": {0: "...q.oo.q..."},
+	"dummy": {0: "..qoooooq..."},
+	"target": {0: "..qoooooq..."},
+})

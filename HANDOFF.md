@@ -683,7 +683,12 @@ made by the tool, so a foe redrawn later gets its elite in the same run.
 **5.3b (6 Oct).** Cinderforge to the Umbral Sun (26 foes and minis, 8 guardians). `M()` in
 `sprites.py` mirrors a left half into a whole sprite. Glowing bodies (`halo:1`) keep their
 glow as elites. His ask: no tests or IPA until stage 5 is all drawn; then one check and
-one IPA. Next: 5.3c (rift worlds).
+one IPA.
+
+**5.3c-e (6 Oct).** Every foe, champion, mini and guardian is now drawn in `sprites.py`
+(`OV()` adds one-handed things to a mirrored sprite; `compare.py` makes his pick sheets).
+Rex and Rex lying down are recoloured only (`REMASTER`). Waiting on his picks for 5.3c-e.
+Next: 5.4 (weapon, gear and relic icons).
 
 ## Noted, not yet acted on
 
