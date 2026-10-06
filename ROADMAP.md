@@ -637,7 +637,7 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
 - [x] 10.4 Flails: weapons on a chain that swing round you. Six: MORNING STAR, TWIN CHAIN,
       RIMEBALL, EMBER MACE, THUNDERBALL, THE GRAVE BELL.
 - [x] 10.5 An optional NEON look (Options > NEON LOOK, off by default): black floors, thin bright walls, a colour per floor.
-- [ ] Full check, replays, IPA 10.x.
+- [x] Full check passed, replays re-recorded on purpose, classic identical, IPA 10.5.
 
 ## His plan from here (6 Oct, his words: "after you finish go stage 10 and then check videos for
 ## anything new then continue to analyze the game to add new things, after analysis continue to add
