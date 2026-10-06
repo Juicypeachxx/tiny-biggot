@@ -96,9 +96,12 @@ model: `GAOLBIRD.md`. Rooms, events and rift bosses: `RIFTS.md`, `BIOMES.md`. Pe
 ## Building the IPA
 
 Push a commit whose message contains `[ipa]`. GitHub builds the app on a Mac
-in about a minute and a half and publishes `TinyBiggot.ipa` as the release
-`ipa-latest`. Do this once at the end of a step, not on every commit.
-Follow it with `gh run list` and `gh run watch <id>`.
+in about a minute and a half and publishes `TinyBiggot-<version>.ipa` twice:
+as the release `ipa-<version>` (kept, one per step, so he can go back) and as
+`ipa-latest`. **The version is the file `VERSION`** at the top of the repo:
+set it to the roadmap step the build ends (e.g. `5.1`) in the `[ipa]` commit.
+The app shows it in SideStore. Do this once at the end of a step, not on
+every commit. Follow it with `gh run list` and `gh run watch <id>`.
 
 ## Git
 

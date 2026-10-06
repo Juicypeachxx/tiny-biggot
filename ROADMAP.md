@@ -351,6 +351,10 @@ look (stage 5 redraws everything together later).
 - [x] 4.14 **His ask, 6 Oct: the expanded game is the core.** Everything added
       is kept and guarded as part of the game (rule 4 of `CLAUDE.md`). It was
       already what he plays; classic rules stay behind the test switch only.
+- [x] 4.15 **His ask, 6 Oct: every IPA named by its stage.** The file `VERSION`
+      (the step a build ends) names the IPA `TinyBiggot-<version>.ipa`, its own
+      kept release `ipa-<version>`, and the app's version in SideStore.
+      `ipa-latest` stays the newest. First: 4.14.
 
 ## Stage 5: sprite revamp
 

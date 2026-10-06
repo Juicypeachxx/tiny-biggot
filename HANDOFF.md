@@ -103,7 +103,8 @@ changed: the stall timings and the 45-scene sweep in `IOS_BUILD.md`.
 
 ## The IPA build
 
-`.github/workflows/build-ipa.yml` builds an unsigned `TinyBiggot.ipa` on a
+`.github/workflows/build-ipa.yml` builds an unsigned `TinyBiggot-<VERSION>.ipa`
+(the file `VERSION`; release `ipa-<VERSION>` kept, plus `ipa-latest`) on a
 GitHub Mac (macos-15): Godot 4.6.1 imports the project, `tools/bake_atlas.sh`
 makes and tests the atlas, the iOS preset exports the Xcode project with the
 release engine, `xcodebuild` builds it with signing off, and the app is zipped
