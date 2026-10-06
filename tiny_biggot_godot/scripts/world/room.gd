@@ -40,6 +40,7 @@ var turrets: Array = []  # Caliber Cathedral wall guns (rift_extras.gd)
 var goo: Array = []      # webs and sludge left by foes (enemy_ai2.gd)
 var cell := Vector2i.ZERO # its place on the floor map (floor_map.gd)
 var on_map := false      # false: a room off the map (a rift's rooms, a hidden room, a debug room)
+var twist := ""          # a fight room's twist (game.gd, his ask 6 Oct): swarm, hunters, strangers, ambush
 var hits := 0            # times the hero was hurt in this room (a flawless fight can reveal a door)
 
 func tile(c: int, r: int) -> int:

@@ -78,9 +78,9 @@ func _soul() -> void:
 ## Kills what is in the room, keeps playing until the doors open, and walks through the one door.
 func _clear_and_leave() -> bool:
 	for k in 40:
-		for e in G.enemies:
-			if e.type != "dummy" and e.spawn_t <= 0:
-				Combat.damage_enemy(e, e.hp * 2.0 + 10.0, { "no_crit": true, "no_mult": true })
+		for e in G.enemies.duplicate():
+			if e.type != "dummy" and e.spawn_t <= 0 and e.hp > 0:
+				_fell(e)
 		play(30)
 		if G.room.exits_open and not G.room.exits.is_empty():
 			break
@@ -133,7 +133,7 @@ func _way(realm: String) -> void:
 		fail("%s: the ruler is %s, not %s" % [realm, G.boss.boss if G.boss != null else "nobody", want])
 		return
 	var b: Enemy = G.boss
-	Combat.damage_enemy(b, b.hp * 2.0 + 10.0, { "no_crit": true, "no_mult": true })
+	_fell(b)
 	play(60)
 	var page = null
 	for o in G.room.objects:
@@ -156,7 +156,7 @@ func _way(realm: String) -> void:
 		fail("%s: the Unwritten is not there" % realm)
 		return
 	var wins0: int = Meta.meta.get("unwritten_wins", 0)
-	Combat.damage_enemy(G.boss, G.boss.hp * 2.0 + 10.0, { "no_crit": true, "no_mult": true })
+	_fell(G.boss)
 	for o in G.room.objects:
 		if o["kind"] == "chest":
 			o["opened"] = true
@@ -214,6 +214,7 @@ func _brazil() -> void:
 		return
 	play(120)
 	var s := Combat.spawn_enemy("scrounger", p.x, p.y, false, true)
+	_cull(s)   # alone with the hero (Brazil's waves are bigger now)
 	p.gold = 50
 	p.invuln = 0.0
 	p.dodge_t = 0.0
@@ -257,11 +258,11 @@ func _brazil() -> void:
 		fail("Brazil: the Holy Cow is not there")
 		return
 	var cow: Enemy = G.boss
-	Combat.damage_enemy(cow, cow.hp * 2.0 + 10.0, { "no_crit": true, "no_mult": true })
+	_fell(cow)
 	if cow.hp <= 0 or cow.phase != 3:
 		fail("the Holy Cow did not rise again (hp %.0f, phase %d)" % [cow.hp, cow.phase])
 	play(30)
-	Combat.damage_enemy(cow, cow.hp * 2.0 + 10.0, { "no_crit": true, "no_mult": true })
+	_fell(cow)
 	play(30)
 	if cow.hp > 0:
 		fail("the Holy Cow rose a second time")
@@ -271,7 +272,7 @@ func _brazil() -> void:
 	p = _run()
 	G.enter_room(World.make_room(G.floor_d, "combat", "", "s", { "no_secret": true }))
 	h = Combat.spawn_enemy("haggler", p.x + 100.0, p.y, false, true)
-	Combat.damage_enemy(h, h.hp * 2.0 + 10.0, { "no_crit": true, "no_mult": true })
+	_fell(h)
 	var got := G.room.objects.map(func(o): return o["item"]["id"] if o["kind"] == "item" else "")
 	if not "hagglerbargain" in got or not "hagglerhat" in got or G.pickups.size() < 20:
 		fail("the Haggler left %s and %d pickups" % [got, G.pickups.size()])
@@ -333,7 +334,7 @@ func _reward() -> void:
 	p.hp = 2
 	G.room.hits = 0
 	var chests := G.room.objects.filter(func(o): return o["kind"] == "chest").size()
-	Combat.damage_enemy(G.boss, G.boss.hp * 2.0 + 10.0, { "no_crit": true, "no_mult": true })
+	_fell(G.boss)
 	var now := G.room.objects.filter(func(o): return o["kind"] == "chest").size()
 	if now - chests != 2 or G.run_stats.get("flawless", 0) != 1:
 		fail("a flawless guardian left %d chests (want 2), flawless %d" % [now - chests, G.run_stats.get("flawless", 0)])
@@ -352,6 +353,24 @@ func _meet_haggler() -> void:
 	Meta.opts["haggler"] = false
 	if not G.enemies.any(func(e): return e.type == "haggler"):
 		fail("MEET THE HAGGLER is on and he did not come to the first fight")
+
+
+## A boss is felled the way a player fells it: down through every stage (Stages.gate), then the
+## last blow. Other foes: the one blow.
+func _break_down(e: Enemy) -> bool:
+	var staged := false
+	for k in 8:
+		if e.hp <= 0 or Stages.gate(e) <= 0:
+			return staged
+		Combat.damage_enemy(e, e.hp * 2.0 + 10.0, { "no_crit": true, "no_mult": true })
+		play(150)
+		staged = true
+	return staged
+
+func _fell(e: Enemy) -> void:
+	if _break_down(e):
+		play(120)   # the last stage's break and a rift foe's grace between phases run out
+	Combat.damage_enemy(e, e.hp * 2.0 + 10.0, { "no_crit": true, "no_mult": true })
 
 func _cull(b: Enemy) -> void:
 	for e in G.enemies.duplicate():

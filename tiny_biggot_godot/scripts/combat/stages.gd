@@ -16,6 +16,24 @@ static func applies(e: Enemy) -> bool:
 		return RiftBosses.handles(e)   # rift guardians and Rex; floor guardians: BossAI.STAGE_PLANS
 	return e.d.get("mini", false)
 
+## The lowest health a blow can leave (his ask, 6 Oct: "I can't even feel the 3 stages"): however
+## hard it hits, a guardian, rift guardian or mini-boss stops at the line of its next stage and has
+## to break into it first. The build keeps all its power; the fight keeps all its stages.
+static func gate(e: Enemy) -> float:
+	if not GameData.rogues() or e.type == "dummy" or e.hp <= 0:
+		return 0.0
+	if e.is_boss() and BossAI.STAGE_PLANS.has(e.boss):
+		if e.phase == 3:
+			return 0.0   # the Holy Cow risen: its last fight
+		return e.max_hp * (0.66 if e.stage <= 1 else (0.33 if e.stage == 2 else 0.0))
+	if not applies(e):
+		return 0.0
+	if e.is_boss():   # rift guardians and Rex: a second phase at half, a third stage at a quarter
+		if e.phase <= 1:
+			return e.max_hp * 0.49
+		return e.max_hp * 0.24 if e.stage <= 1 else 0.0
+	return e.max_hp * (0.66 if e.stage <= 1 else (0.33 if e.stage == 2 else 0.0))
+
 static func _want(e: Enemy) -> int:
 	if e.is_boss():
 		return 3 if e.hp < e.max_hp * 0.25 else 1

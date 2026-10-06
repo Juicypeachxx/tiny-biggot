@@ -10,13 +10,27 @@ static func dread() -> int:
 	return G.dread
 
 static func floor_scale() -> float:
-	return (1 + 0.42 * G.floor_index) * (1 + 0.15 * dread()) * loop_scale() * hard_hp()
+	return (1 + 0.42 * G.floor_index) * (1 + 0.15 * dread()) * loop_scale() * hard_hp() * run_scale()
 
 ## The expanded game is a little harder than the original (his ask, 5 Oct, ROADMAP 4.7): foes,
 ## mini-bosses and guardians have 10% more health on the first floor, 3% more each floor after
 ## (40% more on the eleventh). --classic: exactly 1.0, the original game.
+## Cranked up (his ask, 6 Oct: "stages are still too easy"): 35% more on the first floor, 6% more
+## each floor after (95% more on the eleventh).
 static func hard_hp() -> float:
-	return 1.10 + 0.03 * G.floor_index if GameData.rogues() else 1.0
+	return 1.35 + 0.06 * G.floor_index if GameData.rogues() else 1.0
+
+## The run grows with you (his ask, 6 Oct: broken builds end every fight at once; nothing about the
+## build is touched): foes gain 2% health for every relic you carry and 1% for every minute of the
+## run, like the clock of a Risk of Rain run. --classic: 1.0.
+static func run_scale() -> float:
+	if not GameData.rogues() or G.player == null:
+		return 1.0
+	return 1.0 + 0.02 * G.player.relics.size() + 0.01 * G.run_stats.get("time", 0.0) / 60.0
+
+## Guardians and rift guardians: 60% more health in the expanded game (his ask, 6 Oct).
+static func boss_hp() -> float:
+	return 1.6 if GameData.rogues() else 1.0
 
 ## From the seventh floor on (the lands past the Pale Regent) a foe's blow or shot costs a whole
 ## heart in the expanded game; traps, your own bombs and the like stay at half. --classic: 1.
@@ -26,10 +40,10 @@ static func foe_hit() -> int:
 ## Loop playthroughs: foes, mini-bosses and guardians gain 80% health per loop
 ## (exactly 1.0 on the first time through).
 static func loop_scale() -> float:
-	return 1.0 + 0.8 * G.loop
+	return 1.0 + (1.5 if GameData.rogues() else 0.8) * G.loop   # each loop much harder (his ask, 6 Oct)
 
 static func shot_mult() -> float:
-	return (1 + (0.08 * (dread() - 1) if dread() >= 2 else 0.0)) * (1.0 + 0.06 * G.loop) * (1.06 if GameData.rogues() else 1.0)
+	return (1 + (0.08 * (dread() - 1) if dread() >= 2 else 0.0)) * (1.0 + (0.12 if GameData.rogues() else 0.06) * G.loop) * (1.06 if GameData.rogues() else 1.0)
 
 static func has_los(a: Object, b: Object) -> bool:
 	var d := TB.dist_xy(a.x, a.y, b.x, b.y)
@@ -130,7 +144,7 @@ static func spawn_enemy(type: String, x: float, y: float, elite: bool = false, i
 	var d: Dictionary = GameData.ENEMIES[type]
 	var hp: float = d["hp"] * floor_scale() * (2.2 if elite else 1.0)
 	if d.get("mini", false):
-		hp = d["hp"] * (1 + 0.15 * dread()) * loop_scale() * hard_hp()   # stage-7 mini-bosses: fixed health like guardians
+		hp = d["hp"] * (1 + 0.15 * dread()) * loop_scale() * hard_hp() * run_scale()   # stage-7 mini-bosses: fixed health like guardians
 	if d.get("champion", false):
 		hp = d["hp"] * floor_scale()   # rift champions turn up on any floor, so their health grows with it
 	var e := Enemy.new()
@@ -162,7 +176,7 @@ static func spawn_enemy(type: String, x: float, y: float, elite: bool = false, i
 
 static func spawn_boss(key: String, quiet: bool = false) -> Enemy:
 	var d: Dictionary = GameData.BOSSES[key]
-	var hp: float = d["hp"] * (1 + 0.15 * dread()) * loop_scale() * hard_hp()
+	var hp: float = d["hp"] * (1 + 0.15 * dread()) * loop_scale() * hard_hp() * run_scale() * boss_hp()
 	if d.get("rift", false):
 		hp *= 1 + 0.42 * G.floor_index   # a rift guardian turns up on any floor
 	var e := Enemy.new()
@@ -277,7 +291,10 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 		dmg *= Statuses.dmg_mult(e)
 	if e.guard_t > 0 or e.d.has("rule"):
 		dmg = EnemyAI2.adjust_damage(e, dmg)   # shields, a deacon's guard, a dizzy dervish
+	var gate := Stages.gate(e)   # read before the blow: a dead boss has no stage left
 	e.hp -= dmg
+	if gate > 0 and e.hp < gate:
+		e.hp = gate   # a boss never skips a stage (Stages.gate); other foes keep their overkill
 	e.flash = 0.08
 	if o.has("kx") and not e.is_boss():
 		e.kx += o["kx"]

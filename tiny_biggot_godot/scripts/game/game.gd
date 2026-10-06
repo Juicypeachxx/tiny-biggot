@@ -301,6 +301,8 @@ func enter_room(r: Room) -> void:
 		"combat", "elite":
 			locked = true
 			room.waves_left = (2 if room.type == "elite" else 1) + (1 if randf() < 0.25 + 0.08 * floor_index else 0)
+			if GameData.rogues():
+				_roll_twist()
 			if room.champion != "":
 				room.waves_left = 1   # a rift champion's room: the champion and its escort
 			_wave_delay = 0.35
@@ -491,7 +493,11 @@ func _setup_event(r: Room, ev: String) -> void:
 			r.objects.append({ "kind": "bed", "x": cx - 34, "y": cy })
 			r.objects.append({ "kind": "jukebox", "x": cx + 34, "y": cy })
 		"goblin":
-			pass   # the goblin itself appears when the room is entered
+			# the goblin itself appears when the room is entered; what he dropped while fleeing stays
+			if GameData.rogues():   # his ask (6 Oct): no hidden room that feels empty
+				for i in 8:
+					r.pickups.append(_room_pickup("coin", cx + TB.rint(-60, 60), cy + TB.rint(-30, 40)))
+				r.pickups.append(_room_pickup("gem", cx, cy + 30))
 		"saloon":
 			Saloon.setup(r)
 
@@ -599,6 +605,8 @@ func setup_objects(r: Room) -> void:
 					r.pickups.append(_room_pickup("ember", cx - 20 + i * 20, cy))
 				for i in 3:
 					r.pickups.append(_room_pickup("gem", cx - 20 + i * 20, cy + 20))
+				if GameData.rogues():   # his ask (6 Oct): no hidden room that feels empty
+					r.objects.append({ "kind": "ichest", "x": cx, "y": cy - 30, "free": true })
 		"challenge":
 			r.objects.append({ "kind": "bell", "x": cx, "y": cy })
 		"barn":
@@ -640,6 +648,21 @@ func _room_pickup(kind: String, x: float, y: float) -> Pickup:
 	k.t = 1.0
 	return k
 
+## Longer fights with more to them (his ask, 6 Oct: "make rooms last longer and add more variety").
+## Expanded game: one wave more in every fight, and one room in three has a twist, named on entry.
+const TWISTS := { "swarm": ["SWARM", "THEY KEEP COMING"], "hunters": ["HUNTERS", "THE STRONG ONES CAME"],
+	"strangers": ["STRANGERS", "FOES FROM DEEPER DOWN"], "ambush": ["AMBUSH", "ONE MORE WAVE"] }
+func _roll_twist() -> void:
+	room.waves_left += 1
+	room.twist = ""
+	if not room.theme.is_empty() and room.theme.get("short", false):
+		return   # Heaven, Hell, Brazil: their own fights
+	if randf() < 0.34:
+		room.twist = TB.pick(TWISTS.keys())
+		if room.twist == "ambush":
+			room.waves_left += 1
+		show_banner(TWISTS[room.twist][0], TWISTS[room.twist][1])
+
 func spawn_wave(hard: bool = false) -> void:
 	var fdef: Dictionary = GameData.floors()[floor_index]
 	var n := TB.rint(3, 4) + mini(floor_index, 4) + (1 if room.depth > 3 else 0)
@@ -648,12 +671,15 @@ func spawn_wave(hard: bool = false) -> void:
 	if GameData.rogues():
 		# The expanded game is a little harder (ROADMAP 4.7): from the third floor one more foe a
 		# wave, and 3% more elites. --classic keeps the original numbers.
-		n += 1 if floor_index >= 2 else 0
-		ec += 0.03
+		n += (1 if floor_index >= 2 else 0) + 1   # cranked up (6 Oct): one more foe a wave from the first floor
+		ec += 0.08
+		match room.twist:
+			"swarm": n += n / 2
+			"hunters": ec = minf(0.9, ec * 3.0)
 	if room.type == "elite":
 		ec += 0.45
 	# Stage 7: the elite room before the rest stop holds the floor's mini-boss.
-	ec += 0.06 * loop   # loop playthroughs: more elites
+	ec += (0.12 if GameData.rogues() else 0.06) * loop   # loop playthroughs: more elites
 	if fdef.has("mini") and room.type == "elite" and room.theme.is_empty() and room.depth == floor_d["total"] - 2 \
 			and not floor_d.get("mini_done", false):
 		floor_d["mini_done"] = true
@@ -672,8 +698,11 @@ func spawn_wave(hard: bool = false) -> void:
 		var mb := Combat.spawn_enemy(room.theme["mini"], 14.0 * TB.TS, 7.0 * TB.TS)
 		show_banner(mb.d["name"], "IT KEEPS THE WAY TO THE CHAMPION")
 		n = maxi(1, n / 3)
+	var deeper: Array = GameData.floors()[mini(floor_index + 1, GameData.floors().size() - 1)]["pool"]
 	for i in n:
 		var type: String = TB.pick(pool)
+		if room.twist == "strangers" and room.theme.is_empty() and i % 2 == 0:
+			type = TB.pick(deeper)   # STRANGERS: half the wave from the next floor down
 		var s := World.free_spot(room, player, 90, World.M_FLYER if GameData.ENEMIES[type].get("fly", false) else World.M_WALKER)
 		Combat.spawn_enemy(type, s.x, s.y, randf() < ec)
 	room.waves_left -= 1
