@@ -647,10 +647,18 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
 ## ipa"). One IPA at the end of every stage.
 
 ## Stage 11: a second look, and fresh fun
-- [ ] 11.1 Go through his clips again for anything not taken yet; look over our own game for
+- [x] 11.1 Go through his clips again for anything not taken yet; look over our own game for
       gaps (thin floors, items nobody picks, dull rooms) and write what is found here.
+      Found (6 Oct): enemies' big hits marked by a red "!" circle on the floor before they land;
+      aura rings round the hero (yellow circles that burn or slow what is inside); a stacking dark
+      ailment (each stack, more damage taken); fans of several lasers from one weapon; eight charm
+      slots (ours: relics do this already); equip load, attunement and mana costs (left out: they
+      add bookkeeping, not fun). Our side: the floors' own foes rarely warn before a big hit, and
+      relic choice is wide but has few "aura" or "ailment" builds.
 - [ ] 11.2 Fresh, fun, cool additions from that list (new weapons with new kinds, rooms, relics,
-      events), in the game's own style.
+      events), in the game's own style: "!" warnings before foes' big hits; aura relics and gear
+      (rings round you that burn, chill, poison or pull); the GLOOM ailment and items that use it;
+      prism weapons (fans of lasers).
 - [ ] 11.3 A little harder, measured with bot runs (nothing removed or toned down, rule 1).
 - [ ] IPA 11.x.
 
