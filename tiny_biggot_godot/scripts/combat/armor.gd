@@ -13,9 +13,11 @@ const THROUGH := 0.25
 static func has(e: Enemy) -> bool:
 	if not GameData.rogues() or e.type == "dummy":
 		return false
-	return e.is_boss() or e.d.get("mini", false) or e.d.get("champion", false)
+	return e.is_boss() or e.d.get("mini", false) or e.d.get("champion", false) or e.traits.has("plated")
 
 static func plate(e: Enemy) -> float:
+	if e.traits.has("plated"):
+		return e.max_hp * 0.5   # a PLATED elite (elite_traits.gd)
 	return e.max_hp * (0.35 if e.is_boss() else 0.25)
 
 ## A fresh plate at the start of each stage, and each phase of a rift guardian (read lazily, on

@@ -519,6 +519,16 @@ level 19, THE HIGH CALIBER +11, hits of about 230.) Builds stay exactly as they 
 
   Step 6.5 closed (6 Oct): full check passed, IPA 6.5 built. Waiting for his word on how it feels.
 
+## Step 6.6: elite traits (6 Oct, his word: "do what is best for now, go")
+
+Chosen for his asks of 6 Oct (more variety, foes that stand up to a build), no build touched.
+- [x] Every elite rolls a trait, two from the seventh floor or on a loop, its name in gold under
+      it: SWIFT (35% faster), PLATED (a plate of half its health, armor.gd; breaking it stuns),
+      SPLITTING (two copies of a third of its health), VOLATILE (a slow ring of shots when it
+      dies), MENDING (heals 5% a second when left alone 2 s). `scripts/combat/elite_traits.gd`,
+      `tests/traits_test.tscn` (in check.sh). Expanded game only.
+- [ ] Full replays re-recorded, classic identical, full check, IPA 6.6.
+
 ---
 
 ## Log

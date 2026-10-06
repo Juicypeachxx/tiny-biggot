@@ -200,6 +200,7 @@ static func spawn_enemy(type: String, x: float, y: float, elite: bool = false, i
 		var sp := World.free_spot(G.room, null, 0, World.M_WALKER, e.r + 1)
 		e.x = sp.x
 		e.y = sp.y
+	EliteTraits.roll(e)   # elites roll a trait or two (expanded game)
 	G.enemies.append(e)
 	if d.get("mini", false):
 		G.champ = e   # mini-bosses and champions show the boss bar
@@ -327,7 +328,8 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	var gate := Stages.gate(e)   # read before the blow: a dead boss has no stage left
 	if GameData.rogues() and e.type != "dummy":
 		G.run_stats["dealt"] = G.run_stats.get("dealt", 0.0) + minf(dmg, e.max_hp * 2.0)   # Combat.power: what you really deal
-	e.hp -= Armor.soak(e, dmg, gate)   # boss armor: most of a blow wears the plate down (armor.gd)
+	e.hp -= Armor.soak(e, dmg, gate)
+	e.mend_t = 0.0   # a mending elite waits again (elite_traits.gd)   # boss armor: most of a blow wears the plate down (armor.gd)
 	if gate > 0 and e.hp < gate:
 		e.hp = gate   # a boss never skips a stage (Stages.gate); other foes keep their overkill
 	e.flash = 0.08
@@ -367,6 +369,7 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 	Pets.on_kill(e)
 	Charged.on_kill(e)   # the deadeye reloads
 	Summons.on_kill(e)   # the gravecaller raises it
+	EliteTraits.on_kill(e)   # a splitting elite falls apart, a volatile one bursts
 	Oddities.on_kill(e)   # a frozen foe shatters
 	var boss := e.is_boss()
 	var cols := ["#f4ecd8", "#f2c94c", "#d8443c", "#a35bd6"] if boss else ["#f4ecd8", "#8b8f9c", GameData.SPRITE_COLOR.get(e.d["sprite"], "#d8443c")]
@@ -671,6 +674,8 @@ static func update_enemies(dt: float) -> void:
 			if e.weak_t > 0:
 				ddt *= 0.7
 			Statuses.tick(e, dt)
+		if not e.traits.is_empty():
+			EliteTraits.tick(e, ddt)
 		if e.stun_t > 0:
 			e.stun_t -= dt
 			if randf() < 0.5:

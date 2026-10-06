@@ -732,6 +732,12 @@ never touches the foe). `boss_hp()` 2.0. Tests that fell a boss strike `hp + Arm
 `bosses_test._armor`. Bot runs, seed 3, --god, against 6.4: High Caliber guardians 8-41 s → 36-110 s,
 Hall of Mirrors 10-46 s → 30-163 s; floors take about 50% longer.
 
+6.6: `EliteTraits` (`scripts/combat/elite_traits.gd`): `roll()` at the end of `spawn_enemy`
+(elites only, not minis or champions; `Enemy.traits`), `tick()` in the foe loop before the stun
+check (mending, `Enemy.mend_t` reset in `damage_enemy`), `on_kill()` from `kill_enemy`
+(splitting, volatile). PLATED goes through `Armor.has/plate`. Labels drawn in
+`world_view._paint_bars`. `tests/traits_test.tscn`.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

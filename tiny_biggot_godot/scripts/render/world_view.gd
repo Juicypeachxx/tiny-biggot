@@ -1059,6 +1059,9 @@ func _draw_pbullet(ci: CanvasItem, b: PBullet) -> void:
 
 # ---------- z 2050: foe health bars ----------
 func _paint_bars(ci: CanvasItem) -> void:
+	for e: Enemy in G.enemies:   # elite traits: their names under the foe (elite_traits.gd)
+		if not e.traits.is_empty() and e.hp > 0 and not e.hidden and e.spawn_t <= 0:
+			Gfx.text(ci, EliteTraits.label(e), roundf(e.x), roundf(e.y + e.r + 6), "gold", 1, 0.5)
 	for e: Enemy in G.enemies:
 		if e.is_boss() or e.hp >= e.max_hp or e.hidden or e.spawn_t > 0 or e.hp <= 0:
 			continue
@@ -1073,6 +1076,8 @@ func _paint_bars(ci: CanvasItem) -> void:
 			e.ghost_hp = maxf(e.hp, e.ghost_hp - e.max_hp * 0.012)
 			ci.draw_rect(Rect2(x, y, ceilf(12.0 * e.ghost_hp / e.max_hp), 2), TB.c("#f4ecd8"))
 		ci.draw_rect(Rect2(x, y, ceilf(12.0 * e.hp / e.max_hp), 2), TB.c("#f2c94c" if e.elite else "#d8443c"))
+		if not e.traits.is_empty() and e.armor > 0:   # a PLATED elite's plate, over its health
+			ci.draw_rect(Rect2(x, y, ceilf(12.0 * minf(e.armor, e.max_hp) / e.max_hp), 1), TB.c("#e8eef8"))
 
 # ---------- z 2250: melee arcs, thrusts, rays ----------
 func _paint_swings(ci: CanvasItem) -> void:
