@@ -930,6 +930,8 @@ static func player_shoot(p: Player, a: float, echo_ok: bool = true) -> void:
 			made = Summons.fire(p, a, forced)   # decks, turrets, summons (summons.gd)
 		_ when Charged.handles(w["kind"]):
 			made = Charged.fire(p, a, forced)   # charged and two-stage kinds (charged.gd)
+		_ when Flail.handles(w["kind"]):
+			Flail.fire(p, a, forced)   # 10.4: the ball on its chain lashes out
 		_ when Arsenal.handles(w["kind"]):
 			Arsenal.fire(p, a, forced)   # the new kinds: thrown, launched and called-down things
 		_ when p.g("piggy") > 0 and Arsenal.piggy_shot(p, a):
@@ -976,7 +978,7 @@ static func player_shoot(p: Player, a: float, echo_ok: bool = true) -> void:
 		dt_.split = 0
 	if echo_ok and p.echo > 0 and randf() < p.echo:
 		p.volleys.append({ "t": 0.15 })
-	if not w["kind"] in ["slash", "thrust", "whip", "beam", "zap", "wave", "slam", "dash", "combo", "hook", "javelin", "recall", "orbit", "deck", "turret", "thrall", "command", "swarm",
+	if not w["kind"] in ["slash", "thrust", "whip", "beam", "zap", "wave", "slam", "dash", "combo", "hook", "javelin", "recall", "orbit", "deck", "turret", "thrall", "command", "swarm", "flail",
 			"camera", "ray", "bat", "stab", "blower", "dome"]:
 		Fx.particle(p.x + cos(a) * 8, p.y - 2 + sin(a) * 8, 0, 0, 0.06, "#fffbe0", 3)
 	if not p.procs.is_empty():

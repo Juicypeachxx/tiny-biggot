@@ -1091,3 +1091,11 @@ S["w_greataxe"] = ("main:#8a8f9c", [
 S["w_rustyshiv"] = ("main:#8a6a4a", [
 "............", "..........o.", ".........o7o", "........o7o.", ".......o7o..", "......o7o...",
 ".....o7o....", "..o.o7o.....", "...ouo......", "..ouo.o.....", ".ouo........", ".oo........."])
+
+# ---- 10.4 (his ask, 6 Oct): flails: one picture, six metals.
+_FLAIL = [
+"......o.....", ".....o9o.o..", "....o999o9o.", "...o99y999o.", "....o9999o..", ".....o99o...",
+"......8.....", ".....8......", "....8.......", "..ouo.......", ".ouo........", "oo.........."]
+for _n, _c in [("w_flail", "#8b8f9c"), ("w_flail_rare", "#6fa0d0"), ("w_flail_frost", "#9ad8f0"),
+		("w_flail_ember", "#e8873a"), ("w_flail_storm", "#4d9be6"), ("w_flail_skull", "#e8dcc8")]:
+	S[_n] = ("main:#6b4a2a metal:%s glow:#ffffff" % _c, _FLAIL)

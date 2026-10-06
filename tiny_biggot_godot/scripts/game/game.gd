@@ -250,6 +250,7 @@ func enter_room(r: Room) -> void:
 	RiftBosses.clear()
 	Chaos.clear()
 	Arsenal.clear()
+	Flail.clear()
 	Charged.clear()
 	Summons.clear()
 	Oddities.clear()

@@ -88,6 +88,7 @@ const ARCH := {
 	"shrink": { "name": "SHRINK GUN", "dmg": 3.0, "rate": 1.6, "speed": 260, "life": 0.9, "size": 1.0, "pierce": 0, "count": 1, "spread": 0, "homing": 0.0 },
 	"blower": { "name": "BLOWER", "dmg": 3.0, "rate": 4.0, "speed": 0, "life": 0, "size": 1.0, "pierce": 0, "count": 1, "spread": 0, "homing": 0.0 },
 	"dome": { "name": "DOME", "dmg": 5.0, "rate": 1.0, "speed": 0, "life": 0, "size": 1.0, "pierce": 0, "count": 1, "spread": 0, "homing": 0.0 },
+	"flail": { "name": "FLAIL", "dmg": 6.0, "rate": 1.6, "speed": 0, "life": 0, "size": 1.0, "pierce": 99, "count": 1, "spread": 0, "homing": 0.0, "range": 70 },   # 10.4
 	"coin": { "name": "COIN GUN", "dmg": 4.0, "rate": 3.0, "speed": 280, "life": 0.8, "size": 1.0, "pierce": 0, "count": 1, "spread": 0.05, "homing": 0.0 },
 }
 const ARCH_DESC := {
@@ -104,7 +105,7 @@ const ARCH_DESC := {
 	"charge": "HOLD TO CHARGE A SHOT THAT GROWS", "slam": "HOLD TO CHARGE A SLAM: A SHOCKWAVE", "dash": "HOLD TO CHARGE A DASH THROUGH FOES",
 	"javelin": "THROW IT, THEN DASH TO IT", "hook": "PULLS A FOE IN, THEN PUNCHES", "combo": "THREE DIFFERENT ATTACKS IN TURN",
 	"heat": "FIRES FAST, OVERHEATS AND VENTS", "reload": "A MAGAZINE OF SHOTS, THEN A RELOAD", "orbit": "GATHERS STARS, THEN SENDS THEM",
-	"recall": "FLIES OUT AND WAITS TO BE CALLED BACK",
+	"recall": "FLIES OUT AND WAITS TO BE CALLED BACK", "flail": "A BALL ON A CHAIN CIRCLES YOU; ATTACKS LASH IT OUT",
 	"deck": "A DECK OF CARDS, ONE PLAYED AN ATTACK", "turret": "BUILDS TURRETS THAT FIGHT BY THEMSELVES", "thrall": "CALLS FIGHTERS TO YOUR SIDE",
 	"command": "SENDS A SPIRIT AT THE FOE", "mirror": "IMAGES OF YOU THAT FIGHT TOO", "swarm": "A SWARM YOU SEND AT FOES",
 	"egg": "AN EGG THAT HATCHES A DRAGON",
@@ -545,6 +546,13 @@ const ROWS := [
 	# 6.4 (his ask, 6 Oct): clockwork weapons. The Clockmaker's own, then seven to find, then the Great Engine's.
 	["gearwound", "GEARWOUND REPEATER", "bolt", "rare", ["storm"], "repeater", { "dmg": 2.6, "rate": 5.5 }, [], [], "SPRING-WOUND BOLTS. EVERY 12TH SHOT SLOWS THE FOES' SHOTS NEAR YOU.", [{ "on": "every_n_shots", "every": 12, "do": [["slow_shots", 120, 0.5]] }], "w_gearwound"],
 	# 10.3 the new heroes' own weapons (never in a loot pool: HERO_WEAPON).
+	# 10.4 (his ask, 6 Oct): flails, a new kind (flail.gd).
+	["morningstar", "MORNING STAR", "flail", "common", ["fury"], "flail", {}, [], [], "A SPIKED BALL ON A CHAIN.", [], "w_flail"],
+	["chainflail", "TWIN CHAIN", "flail", "rare", ["edge"], "flail", { "count": 2 }, [], [], "TWO BALLS CIRCLE YOU.", [], "w_flail_rare"],
+	["frostflail", "RIMEBALL", "flail", "rare", ["frost"], "flail", {}, [["chill", 0.3]], [], "A BALL OF BLACK ICE. CHILLS WHAT IT HITS.", [], "w_flail_frost"],
+	["emberflail", "EMBER MACE", "flail", "epic", ["pyre"], "flail", { "dmg": 7.5 }, [["burn", 0.3]], [], "A BALL OF COALS. SETS WHAT IT HITS ABLAZE.", [], "w_flail_ember"],
+	["stormflail", "THUNDERBALL", "flail", "epic", ["storm"], "flail", { "dmg": 7.0 }, [], [["nth_zap", 3]], "EVERY 3RD LASH CALLS LIGHTNING.", [], "w_flail_storm"],
+	["skullflail", "THE GRAVE BELL", "flail", "legend", ["malice", "fury"], "flail", { "dmg": 9.0, "count": 3 }, [], [["nth_nova", 4]], "THREE SKULLS ON CHAINS. EVERY 4TH LASH BURSTS INTO A RING.", [], "w_flail_skull"],
 	["lute", "SINGING LUTE", "orb", "rare", ["arcane"], "orbstaff", { "dmg": 3.4, "rate": 3.2 }, [], [], "NOTES THAT CURVE TOWARD FOES.", [], "w_lute"],
 	["jugglepins", "JUGGLING PINS", "boomer", "rare", ["fortune"], "chakram", { "dmg": 5.0, "rate": 2.4 }, [], [], "PINS THAT FLY OUT AND SPIN BACK.", [], "w_jugglepins"],
 	["greataxe", "GREAT AXE", "slash", "rare", ["fury"], "sword", { "dmg": 12.0, "rate": 1.6 }, [], [], "A WIDE, HEAVY SWING.", [], "w_greataxe"],

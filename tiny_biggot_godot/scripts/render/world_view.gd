@@ -763,6 +763,7 @@ func _paint_fx(ci: CanvasItem) -> void:
 	Pets.draw_over(ci, G.player, G.time)
 	Arsenal.draw_over(ci, G.time)
 	Charged.draw_over(ci, G.time)
+	Flail.draw_over(ci, G.time)
 	Summons.draw_over(ci, G.time)
 	Oddities.draw_over(ci, G.time)
 

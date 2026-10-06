@@ -23,6 +23,7 @@ const KIND := {
 	"rail": ["-", "A", "D"], "disc": ["C", "B", "-"], "boomer": ["C", "B", "-"], "flask": ["-", "C", "B"],
 	"mine": ["-", "C", "B"], "orb": ["-", "-", "S"], "zap": ["-", "-", "A"], "nova": ["-", "D", "A"],
 	"pulse": ["-", "-", "A"], "beam": ["-", "-", "S"], "flame": ["-", "C", "B"], "summon": ["-", "-", "A"],
+	"flail": ["A", "B", "-"],   # 10.4
 }
 ## Tags shift one attribute up a grade.
 const TAG_ATTR := { "fury": "str", "bulwark": "str", "blood": "str", "demolition": "str",

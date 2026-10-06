@@ -74,6 +74,7 @@ static func update(dt: float) -> void:
 	Chaos.tick(dt)   # 9.1 lasers, hooks, circles
 	Arsenal.tick(room, dt)
 	Charged.tick(room, dt)
+	Flail.tick(dt)   # 10.4
 	Summons.tick(room, dt)
 	Oddities.tick(room, dt)
 	if room.hazards.is_empty() and room.strike == "" and room.marks.is_empty():

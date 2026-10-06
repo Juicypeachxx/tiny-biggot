@@ -634,7 +634,7 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       fights before a rest.
 - [x] 10.3 New heroes: a minstrel who plays songs (picked buffs), a jester (random tricks), a
       berserker, and a hero who starts with nothing (hard mode).
-- [ ] 10.4 Flails: weapons on a chain that swing round you.
+- [x] 10.4 Flails: weapons on a chain that swing round you.
 - [ ] 10.5 (ask him) An optional NEON look: black floors, thin bright walls, a colour per floor.
 - [ ] Full check, replays, IPA 10.x.
 

@@ -20,7 +20,7 @@ const KIND_TYPE := { "slash": "SLASHING", "whip": "SLASHING", "disc": "SLASHING"
 	"grenade": "BLAST", "rocket": "BLAST", "missile": "BLAST", "sticky": "BLAST", "mortar": "BLAST", "walker": "BLAST", "strike": "BLAST",
 	"dynamite": "BLAST", "wave": "PHYSICAL",
 	"charge": "ARCANE", "slam": "PHYSICAL", "dash": "SLASHING", "javelin": "PIERCING", "hook": "PHYSICAL", "combo": "SLASHING",
-	"heat": "FIRE", "reload": "PIERCING", "orbit": "ARCANE", "recall": "SLASHING",
+	"heat": "FIRE", "reload": "PIERCING", "orbit": "ARCANE", "recall": "SLASHING", "flail": "PHYSICAL",
 	"deck": "ARCANE", "turret": "PIERCING", "thrall": "SHADOW", "command": "PHYSICAL", "mirror": "ARCANE", "swarm": "SHADOW", "egg": "FIRE",
 	"letters": "ARCANE", "bubble": "FROST", "flak": "PIERCING", "paint": "ARCANE", "slots": "PIERCING", "roller": "PHYSICAL",
 	"money": "PIERCING", "camera": "ARCANE", "ray": "FROST", "junk": "PHYSICAL", "bat": "PHYSICAL", "stab": "PIERCING",

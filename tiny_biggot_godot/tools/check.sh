@@ -137,6 +137,11 @@ timeout 600 "$GODOT" --headless --path . res://tests/events10_test.tscn -- --no-
 grep -E "events10 test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== flails (10.4): the circling ball, the lash, more balls"
+timeout 600 "$GODOT" --headless --path . res://tests/flail_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "flail test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== the ten heroes of 4.8: data, each passive and special in a fight, every branch node"
 timeout 600 "$GODOT" --headless --path . res://tests/heroes_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "heroes test" "$LOG"
