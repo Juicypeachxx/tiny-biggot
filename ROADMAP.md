@@ -427,6 +427,7 @@ Rules for the art:
       logos and the font are left as they are. Effects (fx, shots, glows) left: drawn in October.
       **His ask (6 Oct): the ten town and shop people remodelled before the IPA** (new grids
       `npc_*` in `sprites.py`).
+  Stage 5 closed (6 Oct): full check passed (all replays identical), IPA 5.6 built.
 
 After each of 5.2 to 5.6: `tools/bake_atlas.sh`, `tools/check.sh`, a
 before-and-after picture for him, a new IPA.
