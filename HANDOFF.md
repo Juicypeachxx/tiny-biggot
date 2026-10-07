@@ -903,6 +903,12 @@ room_dress.gd (kegs); `on_end` from award_embers (score, `Meta.meta.daily_best`)
 attributes); zone kind "ink" (combat.gd update_zones, vfx.gd draw_floor, world_view motes).
 18.3: `tests/balance_probe.gd` (not in check.sh): `--probe-hero=N --probe-secs=S`; prints
 "[probe] kind id ratio". Its arena suits ranged heroes; melee heroes barely reach the foes there.
+19.1: probe `--probe-melee` (slimes with 60 health, back at once beside you) `--probe-hero=ID`
+`--probe-only=a_storm,set:viper`. Traits that score exactly the same as each other did nothing in
+the arena (room-enter, rolls, getting hit, gold: not measured there). Melee finding: projectile count
+did nothing for swords and whips. Now (expanded only) combat.gd `attack_slash`: each projectile past
+the first gives +30 degrees of arc and +15% damage; `whip`: one more lash in a fan. BULLET STORM for
+melee heroes went from 0.80 to 1.02-1.35 (swords) and 1.3-2.3 (whips). Replays all identical.
 
 ## Noted, not yet acted on
 

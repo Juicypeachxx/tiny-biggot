@@ -4,10 +4,13 @@ extends Node
 ## Gives the hero one thing at a time (each trait at its full rank, each whole armour set) in the
 ## same seeded arena: six ordinary foes that come back as they die, autofire, god mode, S seconds.
 ## Prints the damage dealt against a baseline with nothing, as "[probe] kind id ratio".
-
-const FOE := "skeleton"
+## 19.1 --probe-melee: foes that walk in (slimes) and come back right beside you, so heroes that
+## fight up close are measured fairly (skeletons keep their distance). --probe-hero=ID also works.
 
 var secs := 20
+var foe := "skeleton"
+var ring := Vector2(60, 40)
+var foe_hp := 600.0
 
 func _arena(hero: int) -> Player:
 	seed(1803)
@@ -34,10 +37,10 @@ func _measure() -> float:
 	for i in secs * 60:
 		while G.enemies.filter(func(e): return e.hp > 0).size() < 6:
 			var a := randf() * TAU
-			var e := Combat.spawn_enemy(FOE, p.x + cos(a) * 60.0, p.y + sin(a) * 40.0, false, true)
+			var e := Combat.spawn_enemy(foe, p.x + cos(a) * ring.x, p.y + sin(a) * ring.y, false, true)
 			e.spawn_t = 0.0
-			e.max_hp = 600.0   # tough enough that the damage is never capped by how fast foes arrive
-			e.hp = 600.0
+			e.max_hp = foe_hp   # tough enough that the damage is never capped by how fast foes arrive
+			e.hp = foe_hp
 		var before := {}
 		for e in G.enemies:
 			before[e.uid] = [e, e.hp]
@@ -62,12 +65,20 @@ func _measure() -> float:
 func _ready() -> void:
 	await get_tree().process_frame
 	var hero := DebugArgs.get_int("probe-hero", 0)
+	for i in GameData.heroes().size():
+		if GameData.heroes()[i]["id"] == DebugArgs.get_str("probe-hero", ""):
+			hero = i
 	secs = DebugArgs.get_int("probe-secs", 20)
+	if DebugArgs.has("probe-melee"):
+		foe = "slime"
+		ring = Vector2(26, 22)
+		foe_hp = 60.0   # they come back at once beside you, so kills (and what kills trigger) happen often
 	_arena(hero)
 	var base := _measure()
 	print("[probe] base %s %.0f" % [GameData.heroes()[hero]["id"], base])
+	var only: Array = Array(DebugArgs.get_str("probe-only", "").split(",", false))   # --probe-only=a_storm,set:viper
 	for t in Traits.all():
-		if not t["new"]:
+		if not t["new"] or (not only.is_empty() and not t["id"] in only):
 			continue
 		var p := _arena(hero)
 		for k in t["max"]:
@@ -75,6 +86,8 @@ func _ready() -> void:
 			G.take_trait(t)
 		print("[probe] trait %s %.2f" % [t["id"], _measure() / maxf(1.0, base)])
 	for id in Gear.SETS:
+		if not only.is_empty() and not ("set:" + id) in only:
+			continue
 		var p := _arena(hero)
 		for g in Gear.pieces(id):
 			Gear.equip_gear(p, g)

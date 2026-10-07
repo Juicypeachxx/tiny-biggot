@@ -808,6 +808,16 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       or gold was left as it is; the strongest sets (Plague Doctor, Conclave) were not touched.
       IPA 18.
 
+## Stage 19 (his word, 7 Oct: "3, 5")
+- [x] 19.1 A fair balance check for heroes who fight up close: the probe with foes that walk in
+      (`--probe-melee`), run for the melee heroes; raise what is weak for them (nothing lowered).
+      Done: run for the Berserker, Executioner, Oathbreaker, Gaolbird, Sellsword. The one real gap:
+      extra projectiles did nothing for swords and whips (BULLET STORM was a 20% loss for them).
+      Now each extra projectile widens a sword's swing (+30 degrees) and adds 15% damage, and is
+      one more lash for a whip. BULLET STORM for them: 1.02-1.35x (swords), 1.3-2.3x (whips).
+- [ ] 19.2 More life in THE CAMP: visitors who come and go, a cook who turns your fish into a meal
+      for the next run, and a training ground where any weapon or relic can be tried on dummies. IPA.
+
 ---
 
 ## Log
