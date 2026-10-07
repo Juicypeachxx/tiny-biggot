@@ -456,6 +456,10 @@ static func by_id(id: String) -> Dictionary:
 	all()
 	return _by_id[id]
 
+static func has(id: String) -> bool:
+	all()
+	return _by_id.has(id)
+
 static func tree_for(hero_id: String) -> Array:
 	return SKILL_BRANCHES + [HERO_BRANCH[hero_id]]
 

@@ -405,11 +405,41 @@ static func _update_synergies(p: Player, owned: Dictionary) -> void:
 		if on and not p.synergies.has(key):
 			p.synergies[key] = true
 			apply(p, c["effects"], 1, key)
-			G.show_banner("COMBO: " + c["name"], c["desc"])
-			Snd.play("unlock")
+			if c.get("hidden", false):
+				_found_hidden(c)
+			else:
+				G.show_banner("COMBO: " + c["name"], c["desc"])
+				Snd.play("unlock")
 		elif not on and p.synergies.has(key):
 			p.synergies.erase(key)
 			apply_equipment(p, c["effects"], -1, key)
+
+## 14.3: a hidden trait combo comes alive. The first time ever it is a discovery (saved).
+static func _found_hidden(c: Dictionary) -> void:
+	if not (Meta.meta.get("combos_found") is Dictionary):
+		Meta.meta["combos_found"] = {}
+	var first: bool = not Meta.meta["combos_found"].has(c["id"])
+	Meta.meta["combos_found"][c["id"]] = true
+	G.show_banner(("HIDDEN COMBO FOUND: " if first else "HIDDEN COMBO: ") + c["name"], c["desc"])
+	Snd.play("unlock")
+	if first:
+		Snd.play("relic")
+		Juice.flash(0.3)
+		G.add_shake(6)
+		if G.player != null:
+			Fx.burst(G.player.x, G.player.y - 6, ["#e86fb4", "#f2c94c", "#ffffff"], 30, 90)
+
+## The hidden combos a trait belongs to that the player has already found: [other trait id, combo].
+static func found_partners(trait_id: String) -> Array:
+	var out := []
+	var found: Dictionary = Meta.meta.get("combos_found", {}) if Meta.meta.get("combos_found") is Dictionary else {}
+	for c in Synergies.COMBOS:
+		if not c.get("hidden", false) or not found.has(c["id"]) or not c["needs"].has("trait:" + trait_id):
+			continue
+		for n in c["needs"]:
+			if n != "trait:" + trait_id:
+				out.append([String(n).trim_prefix("trait:"), c])
+	return out
 
 ## True when the item carries any new mechanic, so callers can skip work otherwise.
 static func has_new(p: Player) -> bool:

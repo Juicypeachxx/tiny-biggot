@@ -138,6 +138,11 @@ func _ready() -> void:
 		"traits":
 			G.player.pending = 2
 			G.offer_traits()
+			if DebugArgs.has("combo-hint"):   # 14.3: found combos named on the cards, one ready
+				Meta.meta["combos_found"] = { "t_stormfront": true, "t_infernalkeg": true }
+				G.take_trait(Traits.by_id("z_thunderstep"))
+				G.state = &"traits"
+				G.tchoice["opts"] = [Traits.by_id("z_static"), Traits.by_id("z_scorch"), Traits.by_id("z_bankshot")]
 		"hud": pass
 		"stars":   # the constellation; with --unlock-all, a few stars already taken
 			G.state = &"title"

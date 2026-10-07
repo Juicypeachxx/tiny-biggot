@@ -160,12 +160,21 @@ static func _row(ci: CanvasItem, r: Rect2, tr: Dictionary, sel: bool, a: float) 
 	if tr["new"]:
 		var rar: Dictionary = Traits.RARITY[tr["rarity"]]
 		Gfx.text(ci, rar["name"], r.end.x - 5, r.end.y - 9, rar["col"], 1, 1.0, true, a)
+	# 14.3: a hidden combo already found with this trait: which trait it pairs with.
+	var bottom := r.end.y - 9
+	var partners := Effects.found_partners(tr["id"])
+	if not partners.is_empty():
+		var pr: Array = partners[0]
+		var ready: bool = G.player.traits.has(pr[0])
+		var pname: String = Traits.by_id(pr[0])["name"] if Traits.has(pr[0]) else pr[0].to_upper()
+		Gfx.text(ci, ("COMBO READY: " + pr[1]["name"]) if ready else ("COMBO WITH " + pname), tx, r.end.y - 9, "pink" if ready else "purple", 1, 0.0, true, a)
+		bottom -= 8
 	# Each sentence on its own bullet line (8.5), keywords in colour.
 	var y := r.position.y + 16
 	for part in bullets(Live.desc(tr)):   # 10.1: with its value now
 		var lines := rich_lines(part, int(r.size.x) - 66)
 		for j in lines.size():
-			if y > r.end.y - 9:
+			if y > bottom:
 				return
 			if j == 0:
 				ci.draw_rect(Rect2(tx, y + 2, 2, 2), TB.c("#f4ecd8"))

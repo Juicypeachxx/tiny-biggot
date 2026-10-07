@@ -718,7 +718,11 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
 - [x] 14.2 A WARDROBE page: every set, the pieces found, what each step gives. IPA.
       Done: WARDROBE on the title menu and in the pause menu. All 32 sets (LEGENDARY ones marked *),
       pieces found and worn, each step (green when worn), mastery. `--ui=wardrobe`. IPA 14.2.
-- [ ] 14.3 Trait combos: two particular traits together unlock a hidden third power. IPA.
+- [x] 14.3 Trait combos: two particular traits together unlock a hidden third power. IPA.
+      Done: 12 HIDDEN combos (INFERNAL KEG, STORMFRONT, SINGULARITY, CURSED HALO, FOUNTAIN, FINAL
+      ACT, TAILOR-MADE, STARSTORM, SLIPSTREAM, KING'S RANSOM, BLACK PLAGUE, LUCKY STRIKE). Nobody
+      is told; the first find is a big moment and is kept, then trait cards say "COMBO WITH X" or
+      "COMBO READY". The traits page counts them. IPA 14.3.
 - [ ] 14.4 Chapter III: after the Redactor, a third chapter with its own floors, foes,
       guardians and an ending. IPA.
 

@@ -409,6 +409,12 @@ func draw_traitlist(ci: CanvasItem) -> void:
 	# New: active tag synergies and combos.
 	if not p.synergies.is_empty():
 		Gfx.text(ci, "ACTIVE SYNERGIES: %d" % p.synergies.size(), TB.SW / 2, 252, "gold", 1, 0.5)
+	if GameData.rogues():   # 14.3: the hidden trait combos
+		var hid := Synergies.COMBOS.filter(func(c): return c.get("hidden", false))
+		var fd: Dictionary = Meta.meta.get("combos_found", {}) if Meta.meta.get("combos_found") is Dictionary else {}
+		var live := hid.filter(func(c): return p.synergies.has("combo:" + c["id"])).map(func(c): return c["name"])
+		Gfx.text(ci, "HIDDEN COMBOS FOUND %d OF %d%s" % [fd.size(), hid.size(), ("   ACTIVE: " + ", ".join(live)) if not live.is_empty() else ""],
+			TB.SW / 2, 242, "purple", 1, 0.5)
 	Gfx.text(ci, "PRESS ANY BUTTON", TB.SW / 2, 266, "dim", 1, 0.5)
 
 # ---------- Skill tree ----------

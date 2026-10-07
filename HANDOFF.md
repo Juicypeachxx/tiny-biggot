@@ -862,6 +862,10 @@ the shop), `continues_set` (plates), `pieces`. Aura: world_view `_paint_set_aura
 14.2: state `wardrobe` (game.gd `open_wardrobe`, `update_wardrobe`, `pause_items()` replaces the
 fixed pause indexes), menu_view `draw_wardrobe` / `ward_top`, taps.gd. `tests/wardrobe_test`.
 
+14.3: hidden combos are Synergies.COMBOS rows with "hidden": true and two "trait:" needs;
+effects.gd `_found_hidden` (Meta.meta["combos_found"]), `found_partners` (trait_view `_row`).
+`--ui=traits --combo-hint`. `tests/combos_test`.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).
