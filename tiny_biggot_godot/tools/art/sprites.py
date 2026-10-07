@@ -1225,6 +1225,69 @@ S["tornpage"] = ("main:#f4ecd8 glow:#d8443c", [
 "............", "..ooooooo...", "..o3333333o.", "..o3llll33o.", "..o333333o..", "..o3lll33o..",
 "..o33333o...", "..o3ll333o..", "..o333333o..", "..o3y3333o..", "..oo.ooooo..", "............"])
 
+# ---- 14.4 (his ask, 7 Oct): CHAPTER III, THE APPENDIX. Letters, footnotes and the cover.
+# The Glossary.
+S["letterling"] = ("main:#e8e0d0 glow:#4d9be6", M([
+"......", "..oooo", ".o3333", ".o3oo3", ".o3y03", ".o3333", ".o3oo3", ".o3oo3", "..o..o", "......"]))
+S["wordworm"] = ("main:#4d6aa8 glow:#f4ecd8", [
+"............", "............", "............", "....oooo....", "...o3333o...", "..o3y3333oo.",
+".o3333l3l33o", ".o33l3l33l3o", "..oooooooooo", "............", "............", "............"])
+S["definer"] = ("main:#2b4f8a glow:#f4ecd8 bone:#f4ecd8", OV(M([
+"...ooo", "..o333", ".o3333", ".o3y03", ".o3333", "..oooo", ".o3333", "o3o3ll", "o3o3ll", ".oo333",
+"..o33o", "..ooo."]), {7: "..........lo", 8: "..........lo"}))
+S["thesaurus"] = ("main:#5a3a2a glow:#4d9be6 bone:#f4ecd8", M([
+"oooooo", "o33333", "o3llll", "o3l0y0", "o3llll", "o3llll", "o3llll", "o33333", "oooooo", ".o2o..",
+".o2o..", ".oo..."]))
+S["commaimp"] = ("main:#16141c glow:#e8e0d0", M([
+"......", "...ooo", "..o333", "..o3y3", "..o333", "...o33", "....o3", "...o3o", "..oo..", "......"]))
+S["lexicant"] = ("main:#2b4f8a glow:#f2c94c bone:#f4ecd8", M([
+"....oooo", "...o3333", "..o33333", "..o3y0y3", "..o33333", "...ollll", ".oooll3l", "o3333333",
+"o3ollll3", "o3ol33l3", "o3ollll3", ".oo33333", "..o33333", "..o3oo33", "..oo..oo"]))
+S["lexicon"] = ("main:#2b4f8a second:#f4ecd8 glow:#f2c94c bone:#f4ecd8", M([
+"..o.o..o", ".olo.ol.", "..ooooo.", ".o333333", "o3333333", "o33y0333", "o3333333", "o3llllll",
+"o3l3l3l3", "o3llllll", "o3l3l3l3", ".o333333", "..o33333", ".o2o.o2o", "o2o...o2", "o.o...o."]))
+# The Footnotes.
+S["asterisk"] = ("main:#f2c94c glow:#ffffff", M([
+"......", ".....o", "..o.o3", "...o33", "..oo3y", ".o3333", "..oo3y", "...o33", "..o.o3", ".....o"]))
+S["obelus"] = ("main:#8a6a4a glow:#f4ecd8", M([
+".....o", "....o3", "....o3", "..ooo3", ".o333y", "..ooo3", "....o3", "....o3", "....o3", "...ooo"]))
+S["ibid"] = ("main:#c8c0e0 glow:#4d9be6", M([
+"...ooo", "..o333", ".o3333", ".o3y03", ".o3333", ".o3333", ".o3333", "o33333", "o3o3o3", ".o.o.o"]))
+S["citation"] = ("main:#5a4a3a second:#c8a878 glow:#f4ecd8", M([
+"...ooo", "..o999", ".o9888", ".o80y0", ".o8888", "..oooo", ".o3333", "o3o333", "o3o3a3", ".oo333",
+"..o3oo", "..oo.."]))
+S["smallprint"] = ("main:#3a3028 glow:#f4ecd8", M([
+"......", "......", "......", "...ooo", "..o333", ".o3y03", ".o3333", ".o2222", "..oooo", "......"]))
+S["fineprint"] = ("main:#3a3028 glow:#f2c94c bone:#f4ecd8", M([
+"....oooo", "...o3333", "..o33333", "..o3y0y3", "..o33333", ".ollllll", "o3l3l3l3", "o3llllll",
+"o3l3l3l3", "o3llllll", ".o333333", "..o33333", "..o3oo33", "..oo..oo"]))
+S["erratum"] = ("main:#d8443c second:#f4ecd8 glow:#ffffff bone:#f4ecd8", M([
+"........", "...oooo.", "..o3333o", ".o33333o", "o33y0333", "o3333333", "o333oooo", "o33o.ooo",
+".o33o333", "..o33333", "...o3333", "...o3333", "..o3oo33", ".o33o.o3", ".oooo.oo", "........"]))
+# The Cover.
+S["gildling"] = ("main:#f2c94c glow:#d8443c", M([
+"l.....", "lo..o.", ".lo.o3", "..oo3y", "..o333", "...o22", "....o2", "......"]))
+S["clasp"] = ("main:#c9a35a glow:#d8443c", M([
+"oooooo", "o33333", "o3oooo", "o3o..o", "o3o.oy", "o3o..o", "o3oooo", "o33333", "oooooo", ".o2o..",
+".o2o..", ".oo..."]))
+S["bookmark"] = ("main:#d8443c glow:#f2c94c", M([
+"..oooo", "..o333", "..o333", "..o3y3", "..o333", "..o333", "..o333", "..o333", "..o3o3", "..oo.o"]))
+S["spinewarden"] = ("main:#6a2a2a second:#f2c94c glow:#f2c94c", M([
+"...ooo", "..o999", ".o9888", ".o8y08", ".o8888", "..oooo", ".o3333", "o3oaa3", "o3o333", "o3oaa3",
+".oo333", "..o3oo", "..oo.."]))
+S["endpaper"] = ("main:#8a3a5a glow:#f4ecd8 bone:#f4ecd8", M([
+"oooooo", "o3l3l3", "o3l3l3", "o3ly0l", "o3l3l3", "o3l3l3", "o3l3l3", "oooooo", "......", "......"]))
+S["colophon"] = ("main:#6a2a2a second:#f2c94c glow:#f2c94c bone:#f4ecd8", M([
+"....oaao", "...oaaaa", "..o33333", "..o3y0y3", "..o33333", "...ollll", ".oooaaaa", "o3333333",
+"o3oaaaa3", "o3o33333", "o3oaaaa3", ".oo33333", "..o33333", "..o3oo33", "..oo..oo"]))
+# THE READER: the one who has been reading all along. Round spectacles, a hand turning a page.
+S["reader"] = ("main:#e0a47a second:#2a2a4a glow:#f2c94c bone:#f4ecd8 halo:1", M([
+"...ooooo", "..oaaaaa", ".oaaaaaa", ".o555555", "o5555555", "oooooo55", "o0yy0o55", "oo00ooo5",
+"o5555555", ".o555555", ".o55oooo", "..o55555", "...ooooo", "..ollll3", ".olllll3", "olllll33"]))
+for _n in ["letterling", "wordworm", "definer", "thesaurus", "commaimp", "asterisk", "obelus", "ibid", "citation",
+		"smallprint", "gildling", "clasp", "bookmark", "spinewarden", "endpaper"]:
+	ELITE.setdefault(_n, {})
+
 for _n in ["inkblot", "quillbat", "scrawler", "smudge", "inkhound", "papercut", "stitcher", "folio", "pressling",
 		"pagewraith", "quillknight", "nibling", "inkmage", "sealwarden", "scribe"]:
 	ELITE.setdefault(_n, {})
