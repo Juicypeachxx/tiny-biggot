@@ -730,6 +730,14 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       (THE LEXICON, THE ERRATUM, THE READER), new tiles. The Reader's fall: "THE END", +600 embers.
       Four new Archivist lines. The Bookbinder and the Inkling come along. `--chapter=3`. IPA 14.4.
 
+## Stage 15: his asks after Stage 14
+- [x] 15.1 Fishing (his ask, 7 Oct: "can you add fishing"). PONDS in 45% of rest stops and 25% of
+      treasure rooms, 3 casts each. Cast, wait, strike on the "!", then reel: hold USE to lift the
+      green box onto the darting fish until the catch bar fills (a finger anywhere on the iPad).
+      16 fish: everyday ones, one per part of the world, junk, rare (Golden Carp, Armored Bass,
+      Sunken Chest) and legendary (Moonlit Koi, The Old One: a relic). Each pays at once. Fish found
+      are kept between runs. `--ui=fishing --fish-auto`. IPA 15.1.
+
 ---
 
 ## Log

@@ -82,7 +82,7 @@ func _paint_anim(ci: CanvasItem) -> void:
 
 static func world_state() -> bool:
 	match G.state:
-		&"play", &"pause", &"relics", &"choice", &"traits", &"traitlist", &"gearpage", &"inventory":
+		&"play", &"pause", &"relics", &"choice", &"traits", &"traitlist", &"gearpage", &"inventory", &"fishing":
 			return true
 		&"options", &"keys":
 			return G.opt_from == &"pause"

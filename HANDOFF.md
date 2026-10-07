@@ -871,6 +871,10 @@ effects.gd `_found_hidden` (Meta.meta["combos_found"]), `found_partners` (trait_
 `_chapter3_won` (the Reader). Story milestones ch3, reader. realms_test `_redactor` walks Chapter III
 (and clears trophies before the stage checks: they make later test runs stronger).
 
+15.1: `scripts/game/fishing.gd` (state `fishing`: update from game.gd, panel from menu_view, the
+pond via EventRooms kind `e_pond`; touch: a finger anywhere holds USE). `Meta.meta["fish"]`,
+`run_stats.fish`. `Fishing.auto` plays itself (tests, `--fish-auto`). `tests/fishing_test`.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

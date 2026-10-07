@@ -57,6 +57,8 @@ func _paint_base(ci: CanvasItem) -> void:
 		&"pause":
 			_shade(ci, 210)
 			draw_pause(ci)
+		&"fishing":
+			Fishing.draw_panel(ci)   # 15.1: over the world
 		&"traitlist":
 			_shade(ci, 220)
 			draw_traitlist(ci)

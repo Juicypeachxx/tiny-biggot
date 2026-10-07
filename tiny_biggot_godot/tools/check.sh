@@ -172,6 +172,11 @@ timeout 300 "$GODOT" --headless --path . res://tests/combos_test.tscn -- --no-sa
 grep -E "combos test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 15.1 fishing"
+timeout 300 "$GODOT" --headless --path . res://tests/fishing_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "fishing test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== the ten heroes of 4.8: data, each passive and special in a fight, every branch node"
 timeout 600 "$GODOT" --headless --path . res://tests/heroes_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "heroes test" "$LOG"

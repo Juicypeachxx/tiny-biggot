@@ -159,6 +159,10 @@ func _ready() -> void:
 			G.open_wardrobe(&"title")
 			G.wardrobe_i = Gear.SETS.keys().find("sunforged")
 			G.menu = G.wardrobe_i
+		"fishing":   # 15.1: a pond next to the hero, the line already out (--fish-auto: it plays itself)
+			Fishing.auto = DebugArgs.has("fish-auto")
+			Fishing.place(G.room, G.player.x + 30, G.player.y + 20)
+			Fishing.start(G.room.objects[G.room.objects.size() - 1])
 		"options", "keys":   # the options page, or (13.1) its keyboard keys page
 			G.state = StringName(DebugArgs.get_str("ui"))
 			G.opt_from = &"title"

@@ -20,7 +20,7 @@ extends RefCounted
 const KINDS := ["e_pitboss", "e_mechanic", "e_teller", "e_card", "e_courier", "e_attendant", "e_beacon", "e_statue",
 	"e_plate", "e_decor", "w_drunk", "w_merchant",
 	"e_frog", "e_glyph", "e_pawn", "e_hustler", "e_cup", "e_gong",   # 10.2
-	"n_archivist", "n_endbook", "n_turnpage", "n_inkling", "n_bookbinder", "n_tornpage", "n_redactdoor", "n_readon"]   # 12.1-12.2 (story.gd)
+	"n_archivist", "n_endbook", "n_turnpage", "n_inkling", "n_bookbinder", "n_tornpage", "n_redactdoor", "n_readon", "e_pond"]   # 12.1-12.2 (story.gd)
 ## 10.2 (his ask, 6 Oct, from his trailer clips: ideas only, this game's own events):
 ##   frog       THE FROG POND: kiss the frog or leave it. A royal gift, a little luck, or warts.
 ##   ritual     THE RITUAL CIRCLE: four glyphs (sun, moon, star, skull); stand on one for its
@@ -279,6 +279,8 @@ static func interact(o: Dictionary) -> void:
 			Story.inkling(o)
 		"n_tornpage":
 			Story.take_page(o)
+		"e_pond":
+			Fishing.start(o)
 		"n_readon":
 			o["used"] = true
 			for o2 in G.room.objects:
@@ -779,6 +781,8 @@ static func prompt(o: Dictionary) -> Array:
 			return ["THE NEXT PAGE", "CHAPTER II: THE MARGINS, THE AUTHOR'S WORKSHOP", "TURN THE PAGE"]
 		"n_tornpage":
 			return ["A TORN PAGE", "TORN FROM THE BOOK. %d OF 3 FOUND" % G.run_stats.get("pages", 0), "TAKE IT"]
+		"e_pond":
+			return ["A POND", "%d CASTS LEFT. FISH FOUND %d OF %d" % [o.get("casts", 0), Fishing.caught_kinds(), Fishing.FISH.size()], "FISH"]
 		"n_readon":
 			return ["THE APPENDIX", "CHAPTER III: WHERE THE ERASED WORDS GATHER", "READ ON"]
 		"n_redactdoor":
@@ -878,6 +882,8 @@ static func draw(ci: CanvasItem, o: Dictionary, t: float) -> void:
 		"n_tornpage":
 			if not o.get("gone", false):
 				Gfx.sp(ci, "tornpage", x, y + sin(t * 2.5) * 2.0)
+		"e_pond":
+			Fishing.draw_pond(ci, o, t)
 		"n_readon":
 			if not o.get("used", false):
 				var zq := 2.0 + sin(t * 3) * 0.08

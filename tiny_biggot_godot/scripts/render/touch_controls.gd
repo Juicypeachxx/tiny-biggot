@@ -186,6 +186,10 @@ func _begin(index: int, pos: Vector2) -> void:
 		if pos.distance_to(b["pos"]) <= b["r"] * 1.3:
 			_touches[index] = { "kind": "button", "action": b["action"], "pos": pos }
 			return
+	# 15.1: while fishing, a finger anywhere holds the line (USE).
+	if G.state == &"fishing":
+		_touches[index] = { "kind": "button", "action": &"use", "pos": pos }
+		return
 	# Rogues layer: tap a quick-belt slot on the HUD to drink it.
 	if not menu_screen and GameData.rogues():
 		for i in Consumables.BELT_SIZE:
