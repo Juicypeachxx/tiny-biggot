@@ -369,7 +369,8 @@ func _sets() -> void:
 		var p := _start()
 		for id in pieces:
 			Gear.equip_gear(p, Gear.by_id(id))
-		if p.set_tier.get(s, 0) != 2:
+		var full := 3 if GameData.rogues() else 2   # 13.2: the expanded game has a 3-piece step
+		if p.set_tier.get(s, 0) != full:
 			fail("set %s: four pieces worn, tier %d" % [s, p.set_tier.get(s, 0)])
 		_tick(1)
 		if not _moment(p, SETS[s][1], SETS[s][2]):
@@ -380,7 +381,7 @@ func _sets() -> void:
 			if g["slot"] == off["slot"] and g["set"] != s and not g["new"]:
 				Gear.equip_gear(p, g)
 				break
-		if p.set_tier.get(s, 0) != 1:
+		if p.set_tier.get(s, 0) != full - 1:
 			fail("set %s: three pieces left, tier %d" % [s, p.set_tier.get(s, 0)])
 		var src: String = "se4:" + str(s)
 		for pr in p.procs:
