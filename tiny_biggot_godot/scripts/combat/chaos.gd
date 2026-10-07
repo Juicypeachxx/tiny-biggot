@@ -181,9 +181,16 @@ static func draw_over(ci: CanvasItem, t: float) -> void:
 		var a := Vector2(o.x, o.y - 6)
 		var dir := Vector2.from_angle(h["a"])
 		var n := int(h["len"] / 7.0)
+		# 17.1: each link a small square ring of rects (they batch; an arc per link cost a draw call each).
 		for i in n:
 			var c := a + dir * (i * 7.0 + 4.0)
-			ci.draw_arc(c, 2.5, 0.0, TAU, 8, Color(0.92, 0.9, 0.95, 1.0) if i % 2 == 0 else Color(0.85, 0.15, 0.2, 1.0), 1.5)
+			var lc := Color(0.92, 0.9, 0.95, 1.0) if i % 2 == 0 else Color(0.85, 0.15, 0.2, 1.0)
+			var x := roundf(c.x) - 2.0
+			var y := roundf(c.y) - 2.0
+			ci.draw_rect(Rect2(x, y, 5, 1), lc)
+			ci.draw_rect(Rect2(x, y + 4, 5, 1), lc)
+			ci.draw_rect(Rect2(x, y + 1, 1, 3), lc)
+			ci.draw_rect(Rect2(x + 4, y + 1, 1, 3), lc)
 		var tip: Vector2 = a + dir * h["len"]
 		ci.draw_arc(tip, 5.0, h["a"] - 1.6, h["a"] + 1.6, 10, Color(1.0, 0.95, 0.95), 2.0)
 		ci.draw_arc(tip, 6.5, h["a"] - 1.6, h["a"] + 1.6, 10, Color(0.85, 0.15, 0.2), 1.0)

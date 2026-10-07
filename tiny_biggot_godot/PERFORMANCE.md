@@ -95,3 +95,21 @@ before it hide a single stall; WORST shows it.
     --hitch-log=MS       prints every frame that took longer than MS milliseconds
     --no-warmup          skips the launch warm-up (scripts/render/warmup.gd)
     --no-bake            packs the sprite atlas at start-up, as before this pass
+
+## 17.1 Speed check after Stages 13-16 (7 Oct)
+
+Same desktop, `--perf` medians (script ms per tick; peak draw calls), before (15.2) / after 16 /
+after the 17.1 fixes:
+
+| Scene | logic | draw (script) | draw calls |
+|---|---|---|---|
+| A fight, floor 4 (bot) | 1.27 / 1.28 / 1.28 | 1.59 / 1.60 / 1.59 | 91 / 93 / 93 |
+| Treasure room (the hoard) | 0.60 / 0.66 / 0.65 | 1.43 / 2.02 / 1.75 | 39 / 90 / 90 |
+| Rest stop with a pond | 0.67 / 0.70 / 0.67 | 2.66 / 2.90 / 1.81 | 108 / 145 / 142 |
+| The Fishing Hole | - / - / 0.96 | - / - / 2.33 | - / - / 183 |
+| The Reader (chaos) | - / 0.96 / 1.00 | - / 1.23 / 1.29 | - / 277 / 148 |
+| The Redactor (chaos) | - / 0.96 / 0.94 | - / 1.31 / 1.29 | - / 217 / 88 |
+
+Fixes: a pond's still parts (bank, water, pads, reeds, dock, lantern posts) are drawn once with
+the room's background; pots, kegs and coin heaps are drawn with the doors (redrawn only when one
+breaks); a chaos chain's links are rects (they batch) instead of an arc per link.

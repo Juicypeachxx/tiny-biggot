@@ -896,14 +896,13 @@ static func draw(ci: CanvasItem, o: Dictionary, t: float) -> void:
 		"e_angler":
 			Fishing.draw_angler(ci, o, t)
 		"e_pot":
-			if not o.get("gone", false):
-				RoomDress.draw_pot(ci, o)
+			pass   # 17.1: drawn with the doors (RoomDress.paint_dyn)
 		"e_coins":
 			if not o.get("gone", false):
 				RoomDress.draw_coins(ci, o, t)
 		"e_keg":
 			if not o.get("gone", false):
-				RoomDress.draw_keg(ci, o, t)
+				RoomDress.draw_fuse(ci, o, t)
 		"n_readon":
 			if not o.get("used", false):
 				var zq := 2.0 + sin(t * 3) * 0.08

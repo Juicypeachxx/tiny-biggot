@@ -193,6 +193,7 @@ func _paint_bg(ci: CanvasItem) -> void:
 		return
 	if GameData.rogues() and Meta.opts.get("neon", false):
 		_paint_neon(ci, room)   # 10.5: the NEON LOOK option
+		RoomDress.paint_ponds(ci, room)
 		return
 	var ts := TB.TS
 	# A rift world has its own tiles.
@@ -333,6 +334,7 @@ func _paint_dyn(ci: CanvasItem) -> void:
 	var room := G.room
 	if room == null:
 		return
+	RoomDress.paint_dyn(ci, room)   # 17.1: pots, kegs, coin heaps
 	var ts := TB.TS
 	var dark := TB.c("#0d0a12")
 	var ol := TB.c("#140f1c")

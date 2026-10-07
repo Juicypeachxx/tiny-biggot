@@ -342,14 +342,22 @@ static func _ellipse(ci: CanvasItem, c: Vector2, rx: float, ry: float, col: Colo
 		pts.append(c + Vector2(cos(a) * rx, sin(a) * ry))
 	ci.draw_colored_polygon(pts, col)
 
-## The pond in the room (EventRooms.draw).
-static func draw_pond(ci: CanvasItem, o: Dictionary, tm: float) -> void:
+## The pond in the room. 17.1: what never moves (bank, water, lily pads, reeds, the dock, lantern
+## posts) is drawn once into the room's background (RoomDress.paint_static: live = false); the rest
+## every frame (EventRooms.draw: live = true).
+static func draw_pond(ci: CanvasItem, o: Dictionary, tm: float, live: bool = true) -> void:
 	var c := Vector2(o["cx"], o["cy"])
 	var rx: float = o["rx"]
 	var ry: float = o["ry"]
 	var s: float = o["seed"]
 	var big: bool = o.get("big", false)
 	var n := 40 if big else 28
+	if not live:
+		_pond_still(ci, o, c, rx, ry, s, big, n)
+		return
+	_pond_moving(ci, o, c, rx, ry, s, big, tm)
+
+static func _pond_still(ci: CanvasItem, o: Dictionary, c: Vector2, rx: float, ry: float, s: float, big: bool, n: int) -> void:
 	# The bank: mud, then a ring of stones and tufts of grass.
 	var bank := _pts(o, 1.16, n)
 	ci.draw_colored_polygon(bank, TB.c("#4a3a2a"))
@@ -371,32 +379,6 @@ static func draw_pond(ci: CanvasItem, o: Dictionary, tm: float) -> void:
 	var edge := _pts(o, 1.0, n)
 	edge.append(edge[0])
 	ci.draw_polyline(edge, Color(0.75, 0.92, 1.0, 0.55), 1.0)
-	# Fish shadows gliding about (one comes to the float when something bites).
-	var shadows := 6 if big else 3
-	for k in shadows:
-		var sp := 0.25 + 0.12 * k
-		var a := tm * sp * (1 if k % 2 == 0 else -1) + s + k * 2.1
-		var sc := 0.25 + 0.45 * fmod(k * 0.37 + s * 0.01, 1.0)
-		var at := c + Vector2(cos(a) * rx * sc, sin(a) * ry * sc)
-		var dir := (Vector2(-sin(a), cos(a) * ry / rx) * (1 if k % 2 == 0 else -1)).normalized()
-		if active() and pond == o and k == 0 and phase in ["bite", "reel"]:
-			at = _bob() + Vector2(sin(tm * 9) * 3.0, 3.0)
-			dir = Vector2(1, 0)
-		var col := Color(0.04, 0.1, 0.18, 0.5)
-		var len := 6.0 if big else 4.5
-		_ellipse(ci, at, len, len * 0.45, col)
-		var back := at - dir * len
-		var side := Vector2(-dir.y, dir.x)
-		var wig := sin(tm * 10 + k) * 1.5
-		ci.draw_colored_polygon(PackedVector2Array([back, back - dir * 4 + side * (2.5 + wig), back - dir * 4 - side * (2.5 - wig)]), col)
-	# Light on the water.
-	var glints := 12 if big else 5
-	for k in glints:
-		var u := fmod(s * 3.1 + k * 0.618, 1.0) * 2.0 - 1.0
-		var v := fmod(s * 1.7 + k * 0.414, 1.0) * 1.4 - 0.7
-		var gp := c + Vector2(u * rx * 0.75 + sin(tm * 0.6 + k) * 3.0, v * ry * 0.8)
-		var al := 0.15 + 0.3 * (0.5 + 0.5 * sin(tm * 1.7 + k * 1.3))
-		ci.draw_line(gp, gp + Vector2(3.0 + (k % 3) * 2.0, 0), Color(0.9, 0.97, 1.0, al), 1.0)
 	# Lily pads, some with a flower.
 	var pads := 7 if big else 3
 	for k in pads:
@@ -410,13 +392,6 @@ static func draw_pond(ci: CanvasItem, o: Dictionary, tm: float) -> void:
 		if k % 3 == 0:
 			ci.draw_circle(pp + Vector2(1, -1), 1.6, TB.c("#e86fb4"))
 			ci.draw_circle(pp + Vector2(1, -1), 0.7, TB.c("#fff0f8"))
-	# Rain-drop rings now and then.
-	for k in (3 if big else 1):
-		var ph := tm * 0.5 + k * 0.37 + s
-		var rr := fmod(ph, 1.0)
-		var u := fmod(s * 5.3 + k * 0.71 + floorf(ph) * 0.29, 1.0) * 1.2 - 0.6
-		var v := fmod(s * 2.9 + k * 0.33 + floorf(ph) * 0.47, 1.0) * 1.0 - 0.5
-		ci.draw_arc(c + Vector2(u * rx, v * ry), 1.0 + rr * 6.0, 0, TAU, 12, Color(0.85, 0.95, 1.0, 0.5 * (1.0 - rr)), 1.0)
 	# Reeds and cattails on the far bank and the sides.
 	var reeds := 10 if big else 4
 	for k in reeds:
@@ -424,7 +399,7 @@ static func draw_pond(ci: CanvasItem, o: Dictionary, tm: float) -> void:
 		var base := c + Vector2(cos(a) * rx * _shore(o, a) * 1.05, sin(a) * ry * _shore(o, a) * 1.05)
 		for st in 3:
 			var h := 9.0 + float((k * 7 + st * 3) % 6) + (4.0 if big else 0.0)
-			var sway := sin(tm * 1.3 + k + st) * 1.2
+			var sway := sin(k * 1.7 + st) * 1.0
 			var top := base + Vector2(st * 2.0 - 2.0 + sway, -h)
 			ci.draw_line(base + Vector2(st * 2.0 - 2.0, 0), top, TB.c("#3f6a3a" if st != 1 else "#4f7f45"), 1.0)
 			if st == 1:
@@ -443,13 +418,54 @@ static func draw_pond(ci: CanvasItem, o: Dictionary, tm: float) -> void:
 			ci.draw_rect(Rect2(px, dr.position.y - 3, 3, 6), TB.c("#4a3020"))
 			ci.draw_rect(Rect2(px, dr.position.y + dr.size.y * 0.5, 3, 5), TB.c("#4a3020"))
 		ci.draw_arc(Vector2(dr.end.x - 5, dr.end.y - 6), 2.5, 0, TAU, 8, TB.c("#c8a878"), 1.0)
-	# Lantern posts on the bank (the big lake).
+	# Lantern posts on the bank (the big lake); their flames move.
 	if big:
 		for k in 4:
 			var a: float = [PI * 1.15, PI * 1.85, PI * 0.2, PI * 0.8][k]
 			var lp := c + Vector2(cos(a) * rx * 1.2, sin(a) * ry * 1.3)
 			ci.draw_rect(Rect2(lp.x - 1, lp.y - 14, 2, 14), TB.c("#4a3020"))
 			ci.draw_rect(Rect2(lp.x - 3, lp.y - 19, 6, 6), TB.c("#2a2018"))
+
+static func _pond_moving(ci: CanvasItem, o: Dictionary, c: Vector2, rx: float, ry: float, s: float, big: bool, tm: float) -> void:
+	# Fish shadows gliding about (one comes to the float when something bites).
+	var shadows := 6 if big else 3
+	for k in shadows:
+		var sp := 0.25 + 0.12 * k
+		var a := tm * sp * (1 if k % 2 == 0 else -1) + s + k * 2.1
+		var sc := 0.25 + 0.45 * fmod(k * 0.37 + s * 0.01, 1.0)
+		var at := c + Vector2(cos(a) * rx * sc, sin(a) * ry * sc)
+		var dir := (Vector2(-sin(a), cos(a) * ry / rx) * (1 if k % 2 == 0 else -1)).normalized()
+		if active() and pond == o and k == 0 and phase in ["bite", "reel"]:
+			at = _bob() + Vector2(sin(tm * 9) * 3.0, 3.0)
+			dir = Vector2(1, 0)
+		if o["dock"] and _dock_rect(o).grow(4.0).has_point(at):
+			continue   # it passes under the dock
+		var col := Color(0.04, 0.1, 0.18, 0.5)
+		var len := 6.0 if big else 4.5
+		_ellipse(ci, at, len, len * 0.45, col)
+		var back := at - dir * len
+		var side := Vector2(-dir.y, dir.x)
+		var wig := sin(tm * 10 + k) * 1.5
+		ci.draw_colored_polygon(PackedVector2Array([back, back - dir * 4 + side * (2.5 + wig), back - dir * 4 - side * (2.5 - wig)]), col)
+	# Light on the water.
+	var glints := 12 if big else 5
+	for k in glints:
+		var u := fmod(s * 3.1 + k * 0.618, 1.0) * 2.0 - 1.0
+		var v := fmod(s * 1.7 + k * 0.414, 1.0) * 1.4 - 0.7
+		var gp := c + Vector2(u * rx * 0.75 + sin(tm * 0.6 + k) * 3.0, v * ry * 0.8)
+		var al := 0.15 + 0.3 * (0.5 + 0.5 * sin(tm * 1.7 + k * 1.3))
+		ci.draw_line(gp, gp + Vector2(3.0 + (k % 3) * 2.0, 0), Color(0.9, 0.97, 1.0, al), 1.0)
+	# Rain-drop rings now and then.
+	for k in (3 if big else 1):
+		var ph := tm * 0.5 + k * 0.37 + s
+		var rr := fmod(ph, 1.0)
+		var u := fmod(s * 5.3 + k * 0.71 + floorf(ph) * 0.29, 1.0) * 1.2 - 0.6
+		var v := fmod(s * 2.9 + k * 0.33 + floorf(ph) * 0.47, 1.0) * 1.0 - 0.5
+		ci.draw_arc(c + Vector2(u * rx, v * ry), 1.0 + rr * 6.0, 0, TAU, 12, Color(0.85, 0.95, 1.0, 0.5 * (1.0 - rr)), 1.0)
+	if big:
+		for k in 4:
+			var a: float = [PI * 1.15, PI * 1.85, PI * 0.2, PI * 0.8][k]
+			var lp := c + Vector2(cos(a) * rx * 1.2, sin(a) * ry * 1.3)
 			var fl := 0.8 + 0.2 * sin(tm * 9 + k * 2)
 			ci.draw_rect(Rect2(lp.x - 2, lp.y - 18, 4, 4), Color(1.0, 0.82 * fl, 0.4 * fl))
 			ci.draw_circle(Vector2(lp.x, lp.y - 16), 10, Color(1.0, 0.8, 0.35, 0.12 * fl))
@@ -502,6 +518,7 @@ static func draw_pond(ci: CanvasItem, o: Dictionary, tm: float) -> void:
 		ci.draw_rect(Rect2(sg.x - 9, sg.y - 17, 18, 9), TB.c("#7a5236"))
 		ci.draw_rect(Rect2(sg.x - 9, sg.y - 17, 18, 1), TB.c("#9a6a42"))
 		Gfx.sp(ci, "fish_mudfin", sg.x, sg.y - 9, 1, 1)
+
 
 ## The Angler (EventRooms.draw).
 static func draw_angler(ci: CanvasItem, o: Dictionary, tm: float) -> void:

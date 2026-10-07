@@ -150,6 +150,7 @@ static func tick_objects(room: Room) -> void:
 			"e_coins":
 				if TB.dist_xy(p.x, p.y, o["x"], o["y"]) < 12:
 					o["gone"] = true
+					G.dyn_dirty = true
 					for i in o["n"]:
 						Combat.drop_pickup("coin", o["x"], o["y"])
 					Snd.play("coin")
@@ -159,6 +160,7 @@ static func _blow(room: Room, o: Dictionary) -> void:
 	if o.get("gone", false):
 		return
 	o["gone"] = true
+	G.dyn_dirty = true
 	var dmg := maxf(30.0, Weapons.wdmg(G.player) * 4.0)
 	Combat.explode_at(o["x"], o["y"] - 4, dmg, null, 46, "#e8873a", true)
 	G.add_shake(6)
@@ -179,11 +181,14 @@ static func draw_keg(ci: CanvasItem, o: Dictionary, t: float) -> void:
 	ci.draw_rect(Rect2(x - 3, y - 8, 6, 4), TB.c("#f2c94c"))
 	ci.draw_rect(Rect2(x - 1, y - 8, 2, 3), TB.c("#1a1423"))   # a warning mark
 	ci.draw_line(Vector2(x + 2, y - 13), Vector2(x + 4, y - 17), TB.c("#c8a878"), 1.0)   # the fuse
-	if fmod(t * 3.0 + x * 0.1, 1.0) < 0.5:
-		ci.draw_rect(Rect2(x + 4, y - 18, 1, 1), TB.c("#fff07a"))
+
+static func draw_fuse(ci: CanvasItem, o: Dictionary, t: float) -> void:
+	if fmod(t * 3.0 + o["x"] * 0.1, 1.0) < 0.5:
+		ci.draw_rect(Rect2(roundf(o["x"]) + 4, roundf(o["y"]) - 18, 1, 1), TB.c("#fff07a"))
 
 static func _break_pot(o: Dictionary) -> void:
 	o["gone"] = true
+	G.dyn_dirty = true
 	Snd.play("hit")
 	Fx.burst(o["x"], o["y"] - 4, ["#a8705a", "#7a5236", "#d9b48a"] if o["style"] != 1 else ["#8b8f9c", "#5a5a6a", "#c8c8d8"], 12, 50)
 	var roll := randf()
@@ -212,7 +217,6 @@ static func draw_pot(ci: CanvasItem, o: Dictionary) -> void:
 static func draw_coins(ci: CanvasItem, o: Dictionary, t: float) -> void:
 	var x: float = o["x"]
 	var y: float = o["y"]
-	_heap(ci, x, y, o["n"] + 3)
 	if fmod(t * 0.7 + x * 0.01, 1.0) < 0.12:
 		ci.draw_rect(Rect2(x - 2 + (int(x) % 5), y - 5, 1, 1), Color(1, 1, 1, 0.9))
 
@@ -226,6 +230,7 @@ static func paint_static(ci: CanvasItem, room: Room) -> void:
 	if _room == null or _room.get_ref() != room:
 		_room = weakref(room)
 		_spawn_critters(room)
+	paint_ponds(ci, room)
 	if not on(room):
 		return
 	var rng := SeedRng.new(room.seed_value ^ 0x1f3a5c7e)
@@ -245,6 +250,23 @@ static func paint_static(ci: CanvasItem, room: Room) -> void:
 		"mystery":
 			if room.event != "fishing":
 				_mystery(ci, rng)
+
+## 17.1: the still part of every pond in the room (also under the NEON LOOK).
+static func paint_ponds(ci: CanvasItem, room: Room) -> void:
+	for o in room.objects:
+		if o["kind"] == "e_pond":
+			Fishing.draw_pond(ci, o, 0.0, false)
+
+## 17.1: pots, kegs and coin heaps change only when one breaks, so they are drawn with the doors
+## (world_view's dyn layer, redrawn when G.dyn_dirty is set), not every frame.
+static func paint_dyn(ci: CanvasItem, room: Room) -> void:
+	for o in room.objects:
+		if o.get("gone", false):
+			continue
+		match o["kind"]:
+			"e_pot": draw_pot(ci, o)
+			"e_keg": draw_keg(ci, o, 0.0)
+			"e_coins": _heap(ci, o["x"], o["y"], o["n"] + 3)
 
 static func _shadow(ci: CanvasItem, x: float, y: float, w: float) -> void:
 	ci.draw_rect(Rect2(x - w / 2, y - 1, w, 3), Color(0, 0, 0, 0.3))

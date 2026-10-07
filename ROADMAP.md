@@ -761,6 +761,17 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       POWDER KEGS in some fights (shoot one: it blows up the foes round it and the keg beside it).
       Still parts drawn once per room (no cost per frame). IPA 16.
 
+## Stage 17 (his word, 7 Oct: "2, 4, 5")
+- [x] 17.1 Speed check of the heaviest moments (a furnished room full of foes, lights and kegs;
+      Chapter III guardians; several sets with auras; fishing), and cut what costs too much.
+      Done (PERFORMANCE.md, 17.1): ponds' still parts drawn once, pots/kegs/heaps redrawn only
+      when one breaks, chaos chains batch. Rest stop draw 2.90 -> 1.81 ms; the Reader 277 -> 148
+      draw calls, the Redactor 217 -> 88. Fights unchanged from 15.2.
+- [ ] 17.2 THE CAMP: a hub between runs. The Archivist, the Angler and his pond, the Bookbinder,
+      the Wardrobe as a real wardrobe; what you have earned shows as furniture. IPA.
+- [ ] 17.3 Livelier fights: weather on each floor, foes that react to kegs and pots, cover that
+      breaks. IPA.
+
 ---
 
 ## Log

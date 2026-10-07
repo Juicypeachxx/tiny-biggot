@@ -162,6 +162,7 @@ func _ready() -> void:
 		"fishing":   # 15.1: a pond next to the hero, the line already out (--fish-auto: it plays itself)
 			Fishing.auto = DebugArgs.has("fish-auto")
 			Fishing.setup_hole(G.room)
+			G.room_changed.emit()   # the lake is drawn with the room
 			var pd: Dictionary = G.room.objects.filter(func(o): return o["kind"] == "e_pond")[0]
 			G.player.x = pd["x"]
 			G.player.y = pd["y"]
