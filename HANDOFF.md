@@ -899,6 +899,11 @@ ink rain on chapter floors (own RNG).
 `is_on(id)` hooks in game.gd (elite chance, price, boss relics), combat.gd (foe speed, boss hp),
 room_dress.gd (kegs); `on_end` from award_embers (score, `Meta.meta.daily_best`). Camp kind `c_daily`.
 
+18.2: hero "inkling" (game_data NEW_HEROES, weapons inkquill, traits branch INKCRAFT + NODE_EFFECTS,
+attributes); zone kind "ink" (combat.gd update_zones, vfx.gd draw_floor, world_view motes).
+18.3: `tests/balance_probe.gd` (not in check.sh): `--probe-hero=N --probe-secs=S`; prints
+"[probe] kind id ratio". Its arena suits ranged heroes; melee heroes barely reach the foes there.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

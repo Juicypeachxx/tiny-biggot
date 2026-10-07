@@ -798,8 +798,15 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       foes it kills rise as sketched wisps for 6s. SKETCH (special): three ink wisps for 10s and a
       flood of ink that poisons every foe near. Skill branch INKCRAFT: INK BLOTS, SKETCHBOOK, WET
       PAGES, MASTERPIECE. New zone kind "ink" (combat.gd, vfx.gd).
-- [ ] 18.3 Bot balance pass: many bot runs, measure what is never worth taking, raise the weak
+- [x] 18.3 Bot balance pass: many bot runs, measure what is never worth taking, raise the weak
       (nothing lowered). IPA.
+      Done: `tests/balance_probe` (a tool: each trait at full rank and each whole set alone in the
+      same seeded arena, damage against a baseline; ~100 s). Raised: GRAVITY WELL (every 5s, wider
+      pull, blast 90 wide for 300%), FALLING STAR (every 5th kill, stronger), THUNDER STEP (3
+      strikes), POWDER KEG (16%), OPEN VEINS (50%), SHADOW KNIVES (6, stronger), RETORT (12,
+      stronger), THE HOST (4 wisps for 12s). What scores low but works through rolls, hits, rooms
+      or gold was left as it is; the strongest sets (Plague Doctor, Conclave) were not touched.
+      IPA 18.
 
 ---
 
