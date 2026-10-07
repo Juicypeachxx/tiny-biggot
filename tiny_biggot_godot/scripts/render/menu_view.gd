@@ -152,7 +152,7 @@ func draw_title(ci: CanvasItem) -> void:
 ## Title menu row spacing (taps.gd uses it too): a little tighter with the constellation's row.
 static func title_dy() -> int:
 	var n := G.title_items().size()
-	return 17 if n <= 6 else (15 if n == 7 else (13 if n == 8 else 12))   # 8 with CONTINUE (6.3), 9 with the WARDROBE (14.2)
+	return 17 if n <= 6 else (15 if n == 7 else (13 if n == 8 else (12 if n == 9 else 11)))   # 8 with CONTINUE (6.3), 9 with the WARDROBE (14.2)
 
 ## Hero strip geometry, shared with the tap zones (taps.gd): up to six panels
 ## are shown and the strip scrolls to keep the selected hero in view.

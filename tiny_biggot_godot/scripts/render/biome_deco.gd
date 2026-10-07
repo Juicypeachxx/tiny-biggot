@@ -41,7 +41,7 @@ static var _rng := RandomNumberGenerator.new()
 
 ## True when the expanded game's look applies to this room.
 static func on(room: Room) -> bool:
-	return room != null and room.theme.is_empty() and room.kit == "" and room.type != "barn" and G.floor_index < GameData.FLOORS.size() + GameData.NEW_FLOORS.size()   # 12.2: Chapter II has plain tiles of its own
+	return room != null and room.theme.is_empty() and room.kit == "" and room.type != "barn" and room.type != "camp" and G.floor_index < GameData.FLOORS.size() + GameData.NEW_FLOORS.size()   # 12.2: Chapter II has plain tiles of its own
 
 static func biome() -> Dictionary:
 	return BIOMES[clampi(G.floor_index, 0, BIOMES.size() - 1)]

@@ -885,6 +885,11 @@ room's own seed so the run's random numbers are not shifted; drops roll at break
 (EventRooms.update); kinds `e_pot`, `e_coins`, `e_keg`. `WALL_SPOTS` keep wall dressing clear of
 the HUD. `tests/rooms_test`.
 
+17.2: `Camp` (scripts/game/camp.gd): `enter` (room type "camp", kit1, no exits: open_exits
+skips it), `setup` (setup_objects), kinds `c_*` (EventRooms), `paint_static` (RoomDress),
+`back_state()` (shrine, skill trees, constellation return to the camp), `pause_items`
+(LEAVE CAMP). The camp's pond has "camp": every world's fish. `--ui=camp`. `tests/camp_test`.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

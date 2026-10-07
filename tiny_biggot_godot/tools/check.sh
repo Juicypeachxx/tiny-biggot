@@ -182,6 +182,11 @@ timeout 300 "$GODOT" --headless --path . res://tests/rooms_test.tscn -- --no-sav
 grep -E "rooms test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 17.2 the camp"
+timeout 300 "$GODOT" --headless --path . res://tests/camp_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "camp test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== the ten heroes of 4.8: data, each passive and special in a fight, every branch node"
 timeout 600 "$GODOT" --headless --path . res://tests/heroes_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "heroes test" "$LOG"

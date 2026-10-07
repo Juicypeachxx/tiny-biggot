@@ -20,7 +20,8 @@ extends RefCounted
 const KINDS := ["e_pitboss", "e_mechanic", "e_teller", "e_card", "e_courier", "e_attendant", "e_beacon", "e_statue",
 	"e_plate", "e_decor", "w_drunk", "w_merchant",
 	"e_frog", "e_glyph", "e_pawn", "e_hustler", "e_cup", "e_gong",   # 10.2
-	"n_archivist", "n_endbook", "n_turnpage", "n_inkling", "n_bookbinder", "n_tornpage", "n_redactdoor", "n_readon", "e_pond", "e_angler", "e_pot", "e_coins", "e_keg"]   # 16: room_dress.gd   # 12.1-12.2 (story.gd)
+	"n_archivist", "n_endbook", "n_turnpage", "n_inkling", "n_bookbinder", "n_tornpage", "n_redactdoor", "n_readon", "e_pond", "e_angler", "e_pot", "e_coins", "e_keg",
+	"c_portal", "c_wardrobe", "c_shrine", "c_telescope", "c_dummy", "c_board"]   # 17.2 camp.gd   # 16: room_dress.gd   # 12.1-12.2 (story.gd)
 ## 10.2 (his ask, 6 Oct, from his trailer clips: ideas only, this game's own events):
 ##   frog       THE FROG POND: kiss the frog or leave it. A royal gift, a little luck, or warts.
 ##   ritual     THE RITUAL CIRCLE: four glyphs (sun, moon, star, skull); stand on one for its
@@ -286,6 +287,8 @@ static func interact(o: Dictionary) -> void:
 			Fishing.start(o)
 		"e_angler":
 			Fishing.angler(o)
+		"c_portal", "c_wardrobe", "c_shrine", "c_telescope", "c_dummy", "c_board":
+			Camp.interact(o)
 		"n_readon":
 			o["used"] = true
 			for o2 in G.room.objects:
@@ -790,6 +793,8 @@ static func prompt(o: Dictionary) -> Array:
 			return ["A TORN PAGE", "TORN FROM THE BOOK. %d OF 3 FOUND" % G.run_stats.get("pages", 0), "TAKE IT"]
 		"e_angler":
 			return Fishing.angler_prompt(o)
+		"c_portal", "c_wardrobe", "c_shrine", "c_telescope", "c_dummy", "c_board":
+			return Camp.prompt(o)
 		"e_pond":
 			return ["A POND", "%d CASTS LEFT. FISH FOUND %d OF %d" % [o.get("casts", 0), Fishing.caught_kinds(), Fishing.FISH.size()], "FISH"]
 		"n_readon":
@@ -895,6 +900,8 @@ static func draw(ci: CanvasItem, o: Dictionary, t: float) -> void:
 			Fishing.draw_pond(ci, o, t)
 		"e_angler":
 			Fishing.draw_angler(ci, o, t)
+		"c_portal", "c_wardrobe", "c_shrine", "c_telescope", "c_dummy", "c_board":
+			Camp.draw(ci, o, t)
 		"e_pot":
 			pass   # 17.1: drawn with the doors (RoomDress.paint_dyn)
 		"e_coins":

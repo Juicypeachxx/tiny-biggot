@@ -168,6 +168,8 @@ func _ready() -> void:
 			G.player.y = pd["y"]
 			if not DebugArgs.has("no-cast"):
 				Fishing.start(pd)
+		"camp":   # 17.2: the camp between runs
+			Camp.enter()
 		"options", "keys":   # the options page, or (13.1) its keyboard keys page
 			G.state = StringName(DebugArgs.get_str("ui"))
 			G.opt_from = &"title"

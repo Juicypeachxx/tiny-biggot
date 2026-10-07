@@ -147,8 +147,8 @@ static func _pick() -> String:
 	for id in FISH:
 		var d: Array = FISH[id]
 		var where: Array = d[5]
-		if not where.is_empty() and (f < where[0] or f > where[1]):
-			continue
+		if not where.is_empty() and (f < where[0] or f > where[1]) and not pond.get("camp", false):
+			continue   # the camp's pond has every world's fish
 		var wt: float = WEIGHT[d[2]]
 		if d[2] in ["rare", "legend"]:
 			wt *= (1.0 + 0.25 * luck) * (2.5 if pond.get("bait", false) else 1.0) * (1.5 if pond.get("big", false) else 1.0)
@@ -297,6 +297,10 @@ static func sprite_of(id: String) -> String:
 static func angler(o: Dictionary) -> void:
 	var pd: Dictionary = o["pond"]
 	var p := G.player
+	if pd.get("camp", false):
+		G.show_banner("THE ANGLER", "\"MY POND HAS A FISH FROM EVERY WORLD. %d OF %d FOUND.\"" % [caught_kinds(), FISH.size()])
+		Snd.play("select")
+		return
 	if pd.get("caught", 0) >= 3 and not o["rewarded"]:
 		o["rewarded"] = true
 		var rel := G.roll_relics(1, "iron")
@@ -321,6 +325,8 @@ static func angler(o: Dictionary) -> void:
 
 static func angler_prompt(o: Dictionary) -> Array:
 	var pd: Dictionary = o["pond"]
+	if pd.get("camp", false):
+		return ["THE ANGLER", "FISH HERE AS LONG AS YOU LIKE", "TALK"]
 	if pd.get("caught", 0) >= 3 and not o["rewarded"]:
 		return ["THE ANGLER", "HE WANTS TO SEE YOUR HAUL", "SHOW HIM"]
 	if not pd.get("bait", false):
@@ -520,11 +526,25 @@ static func _pond_moving(ci: CanvasItem, o: Dictionary, c: Vector2, rx: float, r
 		Gfx.sp(ci, "fish_mudfin", sg.x, sg.y - 9, 1, 1)
 
 
+static func pd_camp(o: Dictionary) -> bool:
+	return (o["pond"] as Dictionary).get("camp", false)
+
+static func _bucket(ci: CanvasItem, x: float, y: float, tm: float) -> void:
+	ci.draw_rect(Rect2(x + 9, y - 2, 8, 7), TB.c("#5a5a6a"))
+	ci.draw_rect(Rect2(x + 9, y - 2, 8, 1), TB.c("#8b8f9c"))
+	ci.draw_rect(Rect2(x + 10, y - 1, 6, 2), TB.c("#2f6f9a"))
+	if fmod(tm, 3.0) < 0.3:
+		Gfx.sp(ci, "fish_mudfin", x + 13, y - 3 - fmod(tm, 3.0) * 20.0, 1, 1)
+
 ## The Angler (EventRooms.draw).
 static func draw_angler(ci: CanvasItem, o: Dictionary, tm: float) -> void:
 	var x: float = o["x"]
 	var y: float = o["y"]
-	# His camp: crates on the far side of the dock, a barrel, a rod rack.
+	# His camp: crates on the far side of the dock, a barrel, a rod rack (not at the hero's camp).
+	if pd_camp(o):
+		_bucket(ci, x, y, tm)
+		Gfx.sp(ci, "npc_angler", x, y + sin(tm * 2) * 0.5)
+		return
 	Gfx.sp(ci, "crate", x - 108, y + 8)
 	Gfx.sp(ci, "crate", x - 94, y + 12)
 	Gfx.sp(ci, "crate", x - 101, y)

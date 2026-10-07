@@ -33,7 +33,7 @@ static func open() -> void:
 	_touch.clear()
 
 static func close() -> void:
-	G.state = &"title"
+	G.state = Camp.back_state()   # 17.2: back to the camp when it was opened there
 	G.menu = G.title_index("CONSTELLATION")
 	Snd.play("select")
 

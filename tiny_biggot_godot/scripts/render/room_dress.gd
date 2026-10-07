@@ -239,6 +239,10 @@ static func paint_static(ci: CanvasItem, room: Room) -> void:
 	if not room.theme.is_empty() and room.type != "boss":
 		return
 	match room.type:
+		"camp":
+			Camp.paint_static(ci, room, rng)   # 17.2
+			Gfx.sp(ci, "campfire", 224, 154)
+			Camp.fire(_flames, _lights)
 		"treasure": _treasure(ci, rng)
 		"shop": _shop(ci, rng)
 		"shrine": _shrine(ci, rng)

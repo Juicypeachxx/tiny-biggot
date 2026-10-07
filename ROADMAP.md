@@ -767,8 +767,14 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       Done (PERFORMANCE.md, 17.1): ponds' still parts drawn once, pots/kegs/heaps redrawn only
       when one breaks, chaos chains batch. Rest stop draw 2.90 -> 1.81 ms; the Reader 277 -> 148
       draw calls, the Redactor 217 -> 88. Fights unchanged from 15.2.
-- [ ] 17.2 THE CAMP: a hub between runs. The Archivist, the Angler and his pond, the Bookbinder,
+- [x] 17.2 THE CAMP: a hub between runs. The Archivist, the Angler and his pond, the Bookbinder,
       the Wardrobe as a real wardrobe; what you have earned shows as furniture. IPA.
+      Done: THE CAMP on the title menu, a clearing walked with your hero (no run counted or
+      saved). The portal (start a run), the Archivist, the Angler's pond (every world's fish), the
+      wardrobe (WARDROBE page) with an armour stand per set ever completed, the ember shrine, a
+      telescope (constellation), a practice dummy (skill trees), a notice board (runs, wins, deepest
+      floor, embers), a tent, trees, flowers, the fire. Earned furniture: a trophy cup per guardian
+      felled, a banner per ending reached, the fish wall. MENU > LEAVE CAMP. (One IPA with 17.3.)
 - [ ] 17.3 Livelier fights: weather on each floor, foes that react to kegs and pots, cover that
       breaks. IPA.
 

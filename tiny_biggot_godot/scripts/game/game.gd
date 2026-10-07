@@ -348,8 +348,8 @@ func enter_room(r: Room) -> void:
 		Effects.fire("on_room_enter")
 
 func open_exits() -> void:
-	if room.exits_open:
-		return
+	if room.exits_open or room.type == "camp":
+		return   # 17.2: the camp's way out is its portal
 	if room.rift_step == 3 and room.theme.get("realm", false):
 		return   # a realm's ruler: the way on is the page portal, or the end (_realm_won)
 	room.exits_open = true
@@ -623,6 +623,8 @@ func setup_objects(r: Room) -> void:
 					r.objects.append({ "kind": "ichest", "x": cx, "y": cy - 30, "free": true })
 		"challenge":
 			r.objects.append({ "kind": "bell", "x": cx, "y": cy })
+		"camp":
+			Camp.setup(r)   # 17.2
 		"barn":
 			Rex.setup_objects(r)
 		"rest":
@@ -1834,6 +1836,9 @@ func update_pause() -> void:
 				state = &"options"
 				opt_from = &"pause"
 				menu = 0
+			"LEAVE CAMP":
+				state = &"title"
+				menu = title_index("THE CAMP")
 			"ABANDON RUN":
 				if quit_armed:
 					on_death("giving up")
@@ -1844,6 +1849,8 @@ func update_pause() -> void:
 
 ## The pause menu; the expanded game adds the WARDROBE (14.2).
 func pause_items() -> Array:
+	if Camp.active():
+		return Camp.pause_items()   # 17.2
 	var out: Array = PAUSE_ITEMS.duplicate()
 	if GameData.rogues():
 		out.insert(out.find("OPTIONS"), "WARDROBE")
@@ -1884,6 +1891,7 @@ func title_items() -> Array:
 	if GameData.rogues():
 		out.insert(2, "CONSTELLATION")
 		out.insert(out.find("CODEX") + 1, "WARDROBE")   # 14.2
+		out.insert(out.find("START RUN") + 1, "THE CAMP")   # 17.2
 	if RunSave.exists():
 		out.insert(0, "CONTINUE")   # 6.3: a saved run
 	return out
@@ -1921,6 +1929,7 @@ func update_title(dt: float) -> void:
 			menu = codex_i
 		"HOW TO PLAY": state = &"howto"
 		"WARDROBE": open_wardrobe(&"title")
+		"THE CAMP": Camp.enter()
 		_:
 			state = &"options"
 			opt_from = &"title"
@@ -1988,7 +1997,7 @@ func update_tree() -> void:
 		tree_n = (tree_n + 1) % 4
 		Snd.play("select")
 	if Keys.back():
-		state = &"hero" if tree_from == &"hero" else &"title"
+		state = &"hero" if tree_from == &"hero" else Camp.back_state()
 		menu = hero_index if tree_from == &"hero" else title_index("SKILL TREES")
 		tree_from = &""
 		Snd.play("select")
@@ -2025,7 +2034,7 @@ func update_shrine() -> void:
 	var go := menu_nav(GameData.unlocks().size())
 	shrine_i = menu
 	if Keys.back():
-		state = &"title"
+		state = Camp.back_state()
 		menu = title_index("EMBER SHRINE")
 		Snd.play("select")
 		return
