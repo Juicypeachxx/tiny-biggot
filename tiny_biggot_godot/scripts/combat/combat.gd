@@ -297,6 +297,11 @@ static func hook_mult(p: Player, e: Enemy) -> float:
 				empty += 1
 		m += p.g("idle_dmg") * empty
 	if p.g("collect_dmg") > 0: m += p.g("collect_dmg") * p.stat_picks
+	if p.g("wardrobe_dmg") > 0:   # 13.3: every set piece you wear
+		var worn := 0
+		for v in p.sets.values():
+			worn += maxi(0, v)
+		m += p.g("wardrobe_dmg") * worn
 	if p.g("zealot_dmg") > 0:
 		var top := 0
 		for k in Alignments.KEYS:

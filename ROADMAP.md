@@ -702,7 +702,12 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       first time in a run: slow motion, flash, banner, full health and a relic. Once a set is
       started its missing pieces drop far more often (35-55% of gear drops), shops offer one, and
       loot that continues a set says "SET 2/4 > 3/4". `--set=ID` test option.
-- [ ] 13.3 Creative new traits (his ask, 7 Oct). One IPA for 13.2 and 13.3.
+- [x] 13.3 Creative new traits (his ask, 7 Oct). One IPA for 13.2 and 13.3.
+      Done: 16 new traits. BANK SHOT, SCORCHED TRAIL, FALLING STAR, STATIC CLING, NIGHT FEAST,
+      GOLDEN TOUCH, EVIL EYE, EVENT HORIZON, SPILLOVER, LAST WORD, LOADED DICE, THUNDER STEP, CHAIN
+      REACTION, WARDROBE (+6% damage per set piece worn); SUPER: MASTER TAILOR (set pieces come far
+      more often, +8% per piece), HALO OF BLADES. Core replays re-recorded on purpose (set pieces
+      now drop more often once a set is started). IPA 13.3.
 
 ---
 

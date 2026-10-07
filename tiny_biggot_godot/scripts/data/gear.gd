@@ -421,7 +421,7 @@ static func random_gear(rarity: String) -> Dictionary:
 		for id in G.player.sets:
 			if G.player.sets[id] < 4:
 				have = maxi(have, G.player.sets[id])
-		if have > 0 and randf() < 0.25 + 0.1 * have:   # 13.2: the set you started comes looking for you
+		if have > 0 and randf() < (0.25 + 0.1 * have) * (1.6 if G.player.g("tailor") > 0 else 1.0):   # 13.2: the set you started comes looking for you
 			var piece = chase_piece(G.player)
 			if piece != null:
 				return piece

@@ -246,6 +246,23 @@ const ROWS := [
 	["y_collector", "fortune", 1, "COLLECTOR", "+2% DAMAGE FOR EVERY STAT PICKUP TAKEN THIS RUN", false, [["hook", "collect_dmg", 0.02]], "rare", ["fortune"], {  }],
 	["y_zealot", "core", 1, "ZEALOT", "+5% DAMAGE FOR EACH POINT OF YOUR HIGHEST ALIGNMENT", false, [["hook", "zealot_dmg", 0.05]], "rare", ["fury"], {  }],
 	["y_prism", "arcane", 1, "PRISM", "+10% DAMAGE FOR EACH DIFFERENT AILMENT ON THE FOE YOU HIT", false, [["hook", "prism_dmg", 0.1]], "rare", ["arcane"], {  }],
+	# 13.3 (his ask, 7 Oct: "creative cool traits"). This game's own.
+	["z_bankshot", "arcane", 2, "BANK SHOT", "EVERY 5TH SHOT ALSO FIRES 2 SHOTS BEHIND YOU", false, [{ "on": "every_n_shots", "every": 5, "do": [["shoot_at", 2, 0.8, "", 0.25, PI]] }], "uncommon", ["arcane"], {  }],
+	["z_scorch", "pyre", 2, "SCORCHED TRAIL", "ROLLING LEAVES A POOL OF FIRE", false, [{ "on": "on_roll", "cd": 0.5, "do": [["zone", "fire", 26, 2.5]] }], "uncommon", ["pyre", "shadow"], {  }],
+	["z_comet", "pyre", 1, "FALLING STAR", "EVERY 8TH KILL CALLS DOWN A METEOR", false, [{ "on": "on_kill", "every": 8, "do": [["meteor", 2.5, 34], ["vfx", "label", "STARFALL!", "#f2c94c"]] }], "rare", ["pyre"], {  }],
+	["z_static", "storm", 2, "STATIC CLING", "CRITS SHOCK THE FOE AND ARC TO NEARBY FOES", false, [{ "on": "on_crit", "do": [["status", "shock", 1], ["chain", 0.4]] }], "uncommon", ["storm", "edge"], {  }],
+	["z_feast", "blood", 1, "NIGHT FEAST", "KILLING A BLEEDING FOE HEALS HALF A HEART (EVERY 4S)", false, [{ "on": "on_kill", "if": "bleeding", "cd": 4.0, "do": [["heal", 1]] }], "rare", ["blood"], {  }],
+	["z_midas", "fortune", 1, "GOLDEN TOUCH", "3% OF HITS TURN AN ORDINARY FOE INTO GOLD", false, [{ "on": "on_hit", "chance": 0.03, "do": [["transmute", 6]] }], "rare", ["fortune"], {  }],
+	["z_hexback", "malice", 2, "EVIL EYE", "WHEN HIT, CURSE EVERY FOE AROUND YOU", false, [{ "on": "on_damage_taken", "do": [["status_area", "curse", 2, 130], ["vfx", "ring", "#a35bd6", 130]] }], "uncommon", ["malice"], {  }],
+	["z_horizon", "arcane", 1, "EVENT HORIZON", "EVERY 6S IN A FIGHT, DRAG FOES TOGETHER AND BLAST THEM", false, [{ "on": "every_n_seconds", "period": 6.0, "if": "fighting", "do": [["pull", 140, 300], ["explode", 46, 1.2], ["vfx", "ring", "#a35bd6", 140]] }], "legend", ["arcane"], {  }],
+	["z_overflow", "bulwark", 2, "SPILLOVER", "HEALING AT FULL HEALTH FIRES A RING OF 12 SHOTS", false, [{ "on": "on_overheal", "do": [["nova", 12, 0.8, "spark"]] }], "uncommon", ["bulwark"], {  }],
+	["z_lastword", "edge", 2, "LAST WORD", "HITTING THE LAST FOE IN A ROOM STRIKES IT AGAIN FOR 150%", false, [{ "on": "on_hit", "if": "last_foe", "cd": 0.3, "do": [["damage", 1.5]] }], "uncommon", ["edge"], {  }],
+	["z_dice", "fortune", 1, "LOADED DICE", "ENTERING A ROOM, SOMETHING RANDOM HAPPENS", false, [{ "on": "on_room_enter", "do": [["chaos"]] }], "rare", ["fortune"], {  }],
+	["z_thunderstep", "storm", 1, "THUNDER STEP", "ROLLING INTO A CROWD CALLS 2 LIGHTNING STRIKES", false, [{ "on": "on_roll", "if": "crowd", "cd": 1.0, "do": [["bolts", 2, 1.2]] }], "rare", ["storm", "shadow"], {  }],
+	["z_chainreact", "demolition", 2, "CHAIN REACTION", "KILLS HAVE 12% CHANCE TO LEAVE A LIT BOMB", false, [{ "on": "on_kill", "chance": 0.12, "do": [["bomb", 0.6]] }], "uncommon", ["demolition"], {  }],
+	["z_wardrobe", "bulwark", 1, "WARDROBE", "+6% DAMAGE FOR EVERY SET PIECE YOU WEAR", false, [["hook", "wardrobe_dmg", 0.06]], "rare", ["bulwark"], {  }],
+	["x_tailor", "bulwark", 1, "MASTER TAILOR", "SET PIECES COME TO YOU FAR MORE OFTEN. +8% DAMAGE PER SET PIECE WORN", false, [["hook", "tailor", 1], ["hook", "wardrobe_dmg", 0.08]], "super", ["bulwark"], {  }],
+	["x_halo", "arcane", 1, "HALO OF BLADES", "EVERY 2S IN A FIGHT, A SPINNING RING OF 8 BLADES", false, [{ "on": "every_n_seconds", "period": 2.0, "if": "fighting", "do": [["nova", 8, 0.7, "spark", 3.0]] }], "super", ["arcane"], {  }],
 	["g_goldblood", "fortune", 1, "GOLDEN BLOOD", "+1% DAMAGE FOR EVERY 10 GOLD HELD. CRITS PAY 1 GOLD", false, [["set", "miser", true], { "on": "on_crit", "do": [["gold", 1]] }], "legend", ["fortune", "edge"], {  }],
 ]
 

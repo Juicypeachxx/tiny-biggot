@@ -853,6 +853,9 @@ Saved in `Meta.opts["keymap"]`. State `keys`: game.gd `update_keys`, menu_view `
 under --classic), `_complete` (once per run: `run_stats.sets_done`), `chase_piece` (random_gear and
 the shop), `continues_set` (plates), `pieces`. Aura: world_view `_paint_set_aura`. `tests/sets_test`.
 
+13.3: traits.gd rows `z_*`, `x_tailor`, `x_halo`; hooks `wardrobe_dmg` (combat.gd hook_mult) and
+`tailor` (gear.gd random_gear).
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).
