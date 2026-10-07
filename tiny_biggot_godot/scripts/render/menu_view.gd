@@ -48,12 +48,12 @@ func _paint_base(ci: CanvasItem) -> void:
 			_backdrop(ci, true)
 			call("draw_" + String(G.state), ci)
 			_toast(ci)
-		&"options":
+		&"options", &"keys":
 			if G.opt_from == &"title":
 				_backdrop(ci, true)
 			else:
 				_shade(ci, 210)
-			draw_options(ci)
+			call("draw_" + String(G.state), ci)
 		&"pause":
 			_shade(ci, 210)
 			draw_pause(ci)
@@ -328,15 +328,35 @@ func draw_howto(ci: CanvasItem) -> void:
 
 # ---------- Options and pause ----------
 ## Where the option rows sit (the tap zones in taps.gd use the same numbers).
-const OPT_Y0 := 74   # 8.2: eleven rows (STAT COLUMN) fit
-const OPT_DY := 17   # 10.5: twelve rows
+const OPT_Y0 := 70   # 8.2: eleven rows (STAT COLUMN) fit
+const OPT_DY := 16   # 13.1: thirteen rows
 func draw_options(ci: CanvasItem) -> void:
 	Gfx.text(ci, "OPTIONS", TB.SW / 2, 46, "gold", 2, 0.5)
 	for i in G.OPTION_LIST.size():
 		var label: String = G.OPTION_LIST[i][0]
 		var key: String = G.OPTION_LIST[i][1]
-		var txt := "%s:  %s" % [label, "ON" if Meta.opts[key] else "OFF"] if key != "" else label
+		var txt := "%s:  %s" % [label, "ON" if Meta.opts[key] else "OFF"] if key != "" and key[0] != "@" else label
 		_menu_item(ci, txt, TB.SW / 2, OPT_Y0 + i * OPT_DY, i, 2, 260)
+
+## 13.1: the keyboard keys page (taps.gd uses the same rows).
+const KEYS_Y0 := 36
+const KEYS_DY := 12
+func draw_keys(ci: CanvasItem) -> void:
+	Gfx.text(ci, "KEYBOARD KEYS", TB.SW / 2, 14, "gold", 2, 0.5)
+	var n := Keys.REBIND.size()
+	for i in n + 2:
+		var y := KEYS_Y0 + i * KEYS_DY
+		var sel := G.menu == i
+		if sel:
+			ci.draw_rect(Rect2(60, y - 3, TB.SW - 120, 11), TB.rgba(232, 135, 58, 46))
+		if i < n:
+			var a: StringName = Keys.REBIND[i][0]
+			Gfx.text(ci, Keys.REBIND[i][1], 72, y, "gold" if sel else "tan")
+			var k := "PRESS A KEY... (ESC: CANCEL)" if Keys.capturing == a else Keys.keys_label(a)
+			Gfx.text(ci, k, TB.SW - 72, y, "orange" if Keys.capturing == a else "white", 1, 1)
+		else:
+			Gfx.text(ci, "RESET ALL KEYS" if i == n else "BACK", TB.SW / 2, y, "gold" if sel else "tan", 1, 0.5)
+	Gfx.text(ci, "ESC ALWAYS PAUSES AND ENTER ALWAYS CONFIRMS", TB.SW / 2, TB.SH - 12, "dim", 1, 0.5)
 
 func draw_pause(ci: CanvasItem) -> void:
 	Gfx.text(ci, "PAUSED", TB.SW / 2, 44, "gold", 3, 0.5)

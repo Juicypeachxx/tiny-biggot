@@ -84,7 +84,7 @@ static func world_state() -> bool:
 	match G.state:
 		&"play", &"pause", &"relics", &"choice", &"traits", &"traitlist", &"gearpage", &"inventory":
 			return true
-		&"options":
+		&"options", &"keys":
 			return G.opt_from == &"pause"
 	return false
 

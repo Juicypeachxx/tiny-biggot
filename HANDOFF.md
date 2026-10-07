@@ -843,6 +843,12 @@ Test option: `--chapter=2 --floor=2 --rift=redaction --step=3`.
 12.4: endings in `menu_view.draw_end` (run_stats author / redactor); BossLoot drops inkspout,
 binderthread, authorspen, blackbar (weapons.gd, gear.gd; icons in sprites.py).
 
+13.1: key mapping in `Keys` (keys.gd): `DEFAULT_KEYS`, `REBIND` (the page's rows), `LOCKED`
+(Esc, Enter), `keys_of`, `apply_keymap` (rebuilds keyboard events; pads bound once in
+`_setup_input_map`), `set_key`, `reset_keys`, `capturing` (the next key press in `_input`).
+Saved in `Meta.opts["keymap"]`. State `keys`: game.gd `update_keys`, menu_view `draw_keys`, taps.gd.
+`--ui=keys` / `--ui=options`. `tests/keys_test`.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

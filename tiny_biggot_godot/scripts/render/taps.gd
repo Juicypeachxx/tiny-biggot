@@ -38,6 +38,9 @@ static func zones() -> Array:
 			var dy := MenuView.OPT_DY if opts else 22
 			for i in n:
 				out.append(_z(Rect2(sw / 2 - 130, y0 + i * dy - 5, 260, dy - 1), func(): G.menu = i, G.menu == i, true))
+		&"keys":   # 13.1
+			for i in Keys.REBIND.size() + 2:
+				out.append(_z(Rect2(60, MenuView.KEYS_Y0 + i * MenuView.KEYS_DY - 3, sw - 120, MenuView.KEYS_DY - 1), func(): G.menu = i, G.menu == i, true))
 		&"hero":
 			var order := GameData.hero_order()   # the hero screen's own order: free heroes first
 			var n := order.size()

@@ -47,7 +47,7 @@ var tchoice: Dictionary = {}   # trait offer: { opts, idx }
 # Menus (Game.rb).
 const TITLE_ITEMS := ["START RUN", "SKILL TREES", "EMBER SHRINE", "CODEX", "HOW TO PLAY", "OPTIONS"]
 const PAUSE_ITEMS := ["RESUME", "GEAR", "TRAITS", "RELICS", "OPTIONS", "ABANDON RUN"]
-const OPTION_LIST := [["AUTO-AIM FIRE", "autofire"], ["MUSIC", "music"], ["SOUND EFFECTS", "sfx"], ["SCREEN SHAKE", "shake"], ["SHOW FPS", "fps"], ["SHOW GEAR ON HERO", "show_gear"], ["FANCY EFFECTS", "vfx"], ["FAST DRAWING", "fast_draw"], ["MEET THE HAGGLER", "haggler"], ["STAT COLUMN", "statcol"], ["NEON LOOK", "neon"], ["BACK", ""]]
+const OPTION_LIST := [["AUTO-AIM FIRE", "autofire"], ["MUSIC", "music"], ["SOUND EFFECTS", "sfx"], ["SCREEN SHAKE", "shake"], ["SHOW FPS", "fps"], ["SHOW GEAR ON HERO", "show_gear"], ["FANCY EFFECTS", "vfx"], ["FAST DRAWING", "fast_draw"], ["MEET THE HAGGLER", "haggler"], ["STAT COLUMN", "statcol"], ["NEON LOOK", "neon"], ["KEYBOARD KEYS", "@keys"], ["BACK", ""]]
 const CODEX_COLS := 11
 var quit_armed := false
 var opt_from: StringName = &"title"
@@ -1716,6 +1716,7 @@ func update(dt: float) -> void:
 				state = &"title"
 				Snd.play("select")
 		&"options": update_options()
+		&"keys": update_keys()
 		&"shrine":
 			update_embers(dt)
 			update_shrine()
@@ -2007,6 +2008,13 @@ func update_options() -> void:
 		Snd.play("select")
 		return
 	var key: String = OPTION_LIST[menu][1]
+	if key == "@keys":
+		if go:
+			state = &"keys"   # 13.1: the keyboard keys page
+			menu = 0
+			Keys.hold_off = 6
+			Snd.play("select")
+		return
 	if go or (key != "" and (Keys.left() or Keys.right())):
 		if key == "":
 			state = opt_from
@@ -2022,6 +2030,30 @@ func update_options() -> void:
 			room_changed.emit()   # 10.5: the room is drawn again in the chosen look
 		Snd.play("confirm")
 		Meta.write_save()
+
+## 13.1: the keyboard keys page. Pick an action, press a key; RESET puts every key back.
+func update_keys() -> void:
+	if Keys.capturing != &"":
+		return   # Keys._input takes the next key press
+	if Keys.hold_off > 0:
+		Keys.hold_off -= 1
+		return
+	var n := Keys.REBIND.size() + 2
+	var go := menu_nav(n)
+	if Keys.back() or (go and menu == n - 1):
+		state = &"options"
+		menu = OPTION_LIST.size() - 2
+		Snd.play("select")
+		return
+	if not go:
+		return
+	if menu == n - 2:
+		Keys.reset_keys()
+		Meta.write_save()
+		Snd.play("confirm")
+		return
+	Keys.capturing = Keys.REBIND[menu][0]
+	Snd.play("select")
 
 ## The app goes to the background (iPad locked, another app opened): a fight in progress waits
 ## in the pause menu, and the progress so far is saved in case iOS closes the app meanwhile.

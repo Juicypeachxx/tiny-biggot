@@ -16,7 +16,7 @@ extends RefCounted
 ##   --god                        the player takes no damage (soak tests)
 ##   --weapon=ID                  start with this weapon (see data/weapons.gd)
 ##   --weapon-cycle=SECONDS       switch to the next weapon every N seconds (soak tests)
-##   --ui=SCREEN                  open a screen at start: choice, traits, title, hero, tree, shrine,
+##   --ui=SCREEN                  open a screen at start: choice, traits, title, hero, tree, shrine, options, keys,
 ##                                codex, howto, options, pause, traitlist, gearpage, relics, dead, win,
 ##                                stars (the constellation),
 ##                                ending (the true-ending room with the loop and exit portals)

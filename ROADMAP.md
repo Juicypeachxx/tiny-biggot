@@ -691,6 +691,12 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
 - [x] Full check passed except replays b and d, which changed only because the Archivist (12.1)
       now sits at rest stops: re-recorded on purpose. Classic identical. IPA 12.4.
 
+## Stage 13: his asks after Stage 12
+- [x] 13.1 Keyboard mapping in Options (his ask, 7 Oct). Options > KEYBOARD KEYS lists all 18
+      actions with their keys; pick one, press a key. A key taken from another action leaves it.
+      Esc always pauses and Enter always confirms (so nobody locks themselves out). RESET ALL
+      KEYS. Saved with the options. Pads and touch are unchanged. IPA 13.1.
+
 ---
 
 ## Log
