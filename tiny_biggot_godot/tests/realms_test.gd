@@ -213,8 +213,9 @@ func _chapter2(page: Dictionary) -> void:
 			fail("chapter II floor %d: the page was not taken (%d)" % [k + 1, G.run_stats.get("pages", 0)])
 		G.enter_room(World.make_room(G.floor_d, "combat", "", "s", { "no_secret": true }))
 		play(200)
+		var ok2: Array = GameData.CHAPTER2[k]["pool"] + (GameData.floors()[mini(G.floor_index + 1, GameData.floors().size() - 1)]["pool"] if G.room.twist == "strangers" else [])
 		for e in G.enemies:
-			if not e.type in GameData.CHAPTER2[k]["pool"] and e.type != "dummy":
+			if not e.type in ok2 and e.type != "dummy":
 				fail("chapter II floor %d: a foreign foe %s" % [k + 1, e.type])
 				break
 		G.enemies.clear()
@@ -494,8 +495,9 @@ func _redactor() -> void:
 			return
 		G.enter_room(World.make_room(G.floor_d, "combat", "", "s", { "no_secret": true }))
 		play(200)
+		var ok3: Array = GameData.CHAPTER3[k]["pool"] + (GameData.floors()[mini(G.floor_index + 1, GameData.floors().size() - 1)]["pool"] if G.room.twist == "strangers" else [])   # STRANGERS: half from the next floor
 		for e in G.enemies:
-			if not e.type in GameData.CHAPTER3[k]["pool"] and e.type != "dummy":
+			if not e.type in ok3 and e.type != "dummy":
 				fail("chapter III floor %d: a foreign foe %s" % [k + 1, e.type])
 				break
 		G.enemies.clear()
