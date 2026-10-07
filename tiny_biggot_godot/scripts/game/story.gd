@@ -95,6 +95,25 @@ static func bookbinder(o: Dictionary) -> void:
 	o["relic"] = null
 	Snd.play("coin")
 
+## 12.3: one TORN PAGE in a hidden room of each Chapter II floor. All three carried when the Author
+## falls open the way to THE REDACTOR.
+static func hide_page(r: Room, cx: float, cy: float) -> void:
+	if not chapter2() or G.run_stats.get("page_floors", []).has(G.floor_index):
+		return
+	if not (G.run_stats.get("page_floors") is Array):
+		G.run_stats["page_floors"] = []
+	G.run_stats["page_floors"].append(G.floor_index)
+	r.objects.append({ "kind": "n_tornpage", "x": cx - 96, "y": cy - 24 })
+
+static func take_page(o: Dictionary) -> void:
+	o["gone"] = true
+	o["used"] = true
+	G.run_stats["pages"] = G.run_stats.get("pages", 0) + 1
+	var n: int = G.run_stats["pages"]
+	G.show_banner("A TORN PAGE (%d OF 3)" % n, "THE AUTHOR'S DESK WILL KNOW" if n >= 3 else "THE OTHERS ARE HIDDEN ON THE OTHER FLOORS")
+	Fx.burst(o["x"], o["y"], ["#f4ecd8", "#d8443c"], 16, 60)
+	Snd.play("unlock")
+
 ## THE INKLING, wandering into cleared Chapter II fights: it drips on a wall and a hidden door opens.
 static func inkling(o: Dictionary) -> void:
 	o["used"] = true

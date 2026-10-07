@@ -31,9 +31,17 @@ even authors: the hidden final boss.
 - **THE ARCHIVIST** (12.1, done): an old ghost of a librarian by the fire at rest stops. He tells
   the story a line at a time, as far as the player has ever reached (kept between runs:
   `Meta.meta["story"]`, `story_heard`). A "!" over him: something new to hear.
-- **THE INKLING** (12.2): a little ink creature in the chapter's rest stops, with hints about the
-  torn pages.
-- **THE BOOKBINDER** (12.2): the chapter's shopkeeper.
+- **THE INKLING** (12.2, done): a drop of ink loose from the page. It wanders into cleared fights
+  on the chapter's floors (once a floor, 35%); talk to it and it drips on a wall: a hidden door
+  opens (the torn pages hide behind such walls).
+- **THE BOOKBINDER** (12.2, done): at the chapter's rest stops; sells one relic bound in a cover.
+
+## The torn pages (12.3, done)
+
+One TORN PAGE lies in the first hidden room found on each chapter floor (`Story.hide_page`). With
+all three carried, the Author's fall burns them and opens a door (`n_redactdoor`) beside the book:
+close the book (a win) or step through to THE REDACTED, a black room, and **THE REDACTOR** (3800
+health, three stages of chaos). Its fall wins the run: +500 embers, `redactor_wins`.
 
 ## Milestones (`Story.reach`)
 

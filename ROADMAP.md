@@ -679,8 +679,11 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       (the Ink Leviathan, the Binder, THE AUTHOR, with chaos attacks), new floor tiles. The Author's
       fall wins the run (+300 embers). New people: THE INKLING (wanders into cleared chapter fights,
       opens a hidden wall) and THE BOOKBINDER (chapter rest stops, sells a relic).
-- [ ] 12.3 New final bosses for the chapter, and hidden final bosses reached only by secret
+- [x] 12.3 New final bosses for the chapter, and hidden final bosses reached only by secret
       routes or conditions that the story hints at.
+      Done: THE AUTHOR ends Chapter II (12.2). Hidden: a TORN PAGE in a hidden room of each chapter
+      floor (the Archivist and the Inkling hint at them); all three carried, the Author's fall
+      opens a door to THE REDACTED and THE REDACTOR (3800 health, chaos in three stages). +500 embers.
 - [ ] 12.4 Endings and unlocks that follow the story; IPA per part as it grows.
 
 ---

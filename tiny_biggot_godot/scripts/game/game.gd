@@ -600,6 +600,7 @@ func setup_objects(r: Room) -> void:
 		"mystery":
 			_setup_event(r, r.event)
 		"secret":
+			Story.hide_page(r, cx, cy)   # 12.3: Chapter II's torn pages
 			var roll := randf()
 			if GameData.rogues() and randf() < 0.5:
 				# Rogues layer: half the hidden rooms hold an event instead.
@@ -939,6 +940,12 @@ func _chapter_won(b: Enemy) -> void:
 	Story.reach("author")
 	Meta.meta["author_wins"] = Meta.meta.get("author_wins", 0) + 1
 	room.objects.append({ "kind": "chest", "x": 14.0 * TB.TS, "y": 10.0 * TB.TS, "boss": true })
+	if run_stats.get("pages", 0) >= 3:
+		# 12.3: the three torn pages burn, and a door is cut into the page: THE REDACTOR (STORY.md).
+		show_banner("THE TORN PAGES BURN", "A DOOR IS CUT INTO THE PAGE. OR CLOSE THE BOOK")
+		room.objects.append({ "kind": "n_endbook", "x": 14.0 * TB.TS - 52, "y": 10.0 * TB.TS + 30 })
+		room.objects.append({ "kind": "n_redactdoor", "x": 14.0 * TB.TS + 52, "y": 10.0 * TB.TS + 30 })
+		return
 	show_banner("THE AUTHOR FALLS", "THE BOOK STAYS OPEN. THE STORY IS YOURS")
 	win_timer = 6.0
 
@@ -947,6 +954,15 @@ func _chapter_won(b: Enemy) -> void:
 func _realm_won(b: Enemy) -> void:
 	var id: String = room.theme["id"]
 	Story.reach("unwritten" if id == "seam" else "realm")   # 12.1
+	if id == "redaction":
+		# 12.3: the hidden one falls; the last word of the book is yours.
+		run_stats["redactor"] = true
+		Story.reach("redactor")
+		Meta.meta["redactor_wins"] = Meta.meta.get("redactor_wins", 0) + 1
+		room.objects.append({ "kind": "chest", "x": 14.0 * TB.TS, "y": 10.0 * TB.TS, "boss": true })
+		show_banner("THE REDACTOR IS ERASED", "NOTHING IS ERASED NOW. THE STORY IS YOURS")
+		win_timer = 6.0
+		return
 	if id == "seam":
 		run_stats["unwritten"] = true
 		Meta.meta["unwritten_wins"] = Meta.meta.get("unwritten_wins", 0) + 1
@@ -995,6 +1011,8 @@ func award_embers(win: bool) -> void:
 		parts.append(["THE UNWRITTEN", 200])
 	if run_stats.get("author", false):
 		parts.append(["CHAPTER II", 300])   # 12.2
+	if run_stats.get("redactor", false):
+		parts.append(["THE REDACTOR", 500])   # 12.3
 	if run_stats.get("trophies", 0) > 0:
 		parts.append(["NEW TROPHIES", run_stats["trophies"] * Trophies.EMBERS])
 	var base := 0
@@ -2070,6 +2088,8 @@ func update_play(dt: float) -> void:
 				Combat.spawn_boss(room.theme["guardian"])
 				if room.theme["id"] == "seam":
 					show_banner(boss.d["name"], "THE LAST BOSS OF ALL")
+				elif room.theme["id"] == "redaction":
+					show_banner(boss.d["name"], "IT ERASES EVEN AUTHORS")
 				elif room.theme.get("realm", false):
 					show_banner(boss.d["name"], "RULER OF " + room.theme["name"])
 				else:

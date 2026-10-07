@@ -834,6 +834,12 @@ weapons duskblade, prismfan, spectrum; relics gloomlantern, nightfall. `tests/gl
 `bind_shop()` (`n_bookbinder` at rest stops), `inkling()` (`n_inkling`, EventRooms.on_room_clear).
 Test option `--chapter=2` (then `--floor=0-2`). Tests: realms (`_chapter2`), story (the people).
 
+12.3: `Story.hide_page` (from setup_objects "secret") / `take_page` (`run_stats.pages`,
+`page_floors`); `_chapter_won` with 3 pages adds `n_endbook` + `n_redactdoor` (EventRooms) →
+`_enter_realm("redaction", 3)` (Themes.REALMS "redaction", kit_redact); `_realm_won` "redaction".
+Boss `redactor` in GameData.BOSSES and BossAI tables. realms_test `_redactor()`.
+Test option: `--chapter=2 --floor=2 --rift=redaction --step=3`.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

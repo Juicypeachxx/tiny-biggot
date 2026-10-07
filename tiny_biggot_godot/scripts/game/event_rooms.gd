@@ -20,7 +20,7 @@ extends RefCounted
 const KINDS := ["e_pitboss", "e_mechanic", "e_teller", "e_card", "e_courier", "e_attendant", "e_beacon", "e_statue",
 	"e_plate", "e_decor", "w_drunk", "w_merchant",
 	"e_frog", "e_glyph", "e_pawn", "e_hustler", "e_cup", "e_gong",   # 10.2
-	"n_archivist", "n_endbook", "n_turnpage", "n_inkling", "n_bookbinder"]   # 12.1-12.2 (story.gd)
+	"n_archivist", "n_endbook", "n_turnpage", "n_inkling", "n_bookbinder", "n_tornpage", "n_redactdoor"]   # 12.1-12.2 (story.gd)
 ## 10.2 (his ask, 6 Oct, from his trailer clips: ideas only, this game's own events):
 ##   frog       THE FROG POND: kiss the frog or leave it. A royal gift, a little luck, or warts.
 ##   ritual     THE RITUAL CIRCLE: four glyphs (sun, moon, star, skull); stand on one for its
@@ -277,6 +277,15 @@ static func interact(o: Dictionary) -> void:
 			Story.tell(o)
 		"n_inkling":
 			Story.inkling(o)
+		"n_tornpage":
+			Story.take_page(o)
+		"n_redactdoor":
+			o["used"] = true
+			for o2 in G.room.objects:
+				if o2["kind"] == "n_endbook":
+					o2["used"] = true
+			Snd.play("portal")
+			G._enter_realm("redaction", 3)
 		"n_bookbinder":
 			Story.bookbinder(o)
 		"n_endbook":
@@ -761,6 +770,10 @@ static func prompt(o: Dictionary) -> Array:
 			return ["THE BOOK", "END THE STORY HERE: THE RUN IS WON", "CLOSE IT"]
 		"n_turnpage":
 			return ["THE NEXT PAGE", "CHAPTER II: THE MARGINS, THE AUTHOR'S WORKSHOP", "TURN THE PAGE"]
+		"n_tornpage":
+			return ["A TORN PAGE", "TORN FROM THE BOOK. %d OF 3 FOUND" % G.run_stats.get("pages", 0), "TAKE IT"]
+		"n_redactdoor":
+			return ["A DOOR CUT INTO THE PAGE", "BEHIND IT: WHAT THE AUTHOR FEARED", "STEP THROUGH"]
 		"n_inkling":
 			return ["THE INKLING", "A DROP OF INK THAT GOT LOOSE FROM THE PAGE", "LISTEN"]
 		"n_bookbinder":
@@ -853,6 +866,14 @@ static func draw(ci: CanvasItem, o: Dictionary, t: float) -> void:
 				var zm := 2.0 + sin(t * 3) * 0.08
 				Gfx.sp(ci, "riftdoor", x, y + 8, zm, zm)
 				Gfx.text(ci, "CHAPTER II", x, y - 34, "gold", 1, 0.5)
+		"n_tornpage":
+			if not o.get("gone", false):
+				Gfx.sp(ci, "tornpage", x, y + sin(t * 2.5) * 2.0)
+		"n_redactdoor":
+			if not o.get("used", false):
+				var zr := 2.0 + sin(t * 4) * 0.1
+				Gfx.sp(ci, "riftdoor", x, y + 8, zr, zr)
+				Gfx.text(ci, "???", x, y - 34, "red", 1, 0.5)
 		"n_inkling":
 			if not o.get("used", false):
 				Gfx.sp(ci, "npc_inkling", x, y + absf(sin(t * 5.0)) * -2.0)

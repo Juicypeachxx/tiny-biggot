@@ -1202,6 +1202,16 @@ S["author"] = ("main:#f4ecd8 second:#2a2a4a skin:#e0a47a glow:#f2c94c bone:#ffff
 "....oooo", "...oaaaa", "..oaaaaa", "..o55555", "..o5y055", "..o55555", "...olll5", ".ooolll3",
 "o3333333", "o3o33333", "o3o3qq33", "o3o33333", ".oo33333", "..o33333", "..o333oo", "..oooo.."]),
 {0: "...............y", 1: "..............yo", 2: ".............oo.", 3: "............oo..", 4: "...........oo..."}))
+# 12.3: THE REDACTOR, the hidden one: a tall shape in black, a white bar where its face should be,
+# a long black stroke (its pen of erasing) held across it. And the TORN PAGE it fears.
+S["redactor"] = ("main:#16141c second:#e8e8f0 glow:#ff3a4a bone:#ffffff", OV(M([
+"....oooo", "...o3333", "..o33333", "..oaaaaa", "..oaaaaa", "..o333y3", "...o3333", ".ooo3333",
+"o3333333", "o3o33333", "o3o33333", "o3o33333", ".oo33333", "..o33333", "..o333oo", "..oooo.."]),
+{7: "o...............", 8: "oo..............", 9: ".oo.............", 10: "..oo............", 11: "...oo..........."}))
+S["tornpage"] = ("main:#f4ecd8 glow:#d8443c", [
+"............", "..ooooooo...", "..o3333333o.", "..o3llll33o.", "..o333333o..", "..o3lll33o..",
+"..o33333o...", "..o3ll333o..", "..o333333o..", "..o3y3333o..", "..oo.ooooo..", "............"])
+
 for _n in ["inkblot", "quillbat", "scrawler", "smudge", "inkhound", "papercut", "stitcher", "folio", "pressling",
 		"pagewraith", "quillknight", "nibling", "inkmage", "sealwarden", "scribe"]:
 	ELITE.setdefault(_n, {})

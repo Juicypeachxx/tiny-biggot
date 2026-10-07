@@ -322,6 +322,7 @@ def all_for(v):
     out["kit11"] = kit(vb, 21, { "floor": "#1e2238", "floor2": "#1b1f33", "wall": "#141628", "cap": "#4d6aa8" })   # 12.2 the Inkwell
     out["kit12"] = kit(vb, 22, { "floor": "#6a5a44", "floor2": "#64553f", "wall": "#3a2c22", "cap": "#c8a878" })   # the Bindery
     out["kit13"] = kit(vb, 23, { "floor": "#3a3448", "floor2": "#363043", "wall": "#241f30", "cap": "#f2c94c" })   # the Quill Spire
+    out["kit_redact"] = kit(vb, 24, { "floor": "#1a181e", "floor2": "#16141a", "wall": "#0c0b0e", "cap": "#e8e8f0" })   # 12.3 the Redacted
     return out
 
 # ---- His ask (6 Oct): a guardian evolves with its stages, more menacing each time. Made from its
@@ -333,7 +334,7 @@ EVOLVE = {   # guardian -> the colour it burns with when it evolves
 	"frozenabbot": "#bff4ff", "crowking": "#ff2a2a", "umbralsun": "#e08aff", "holycow": "#ffd84a",
 	"judge": "#fff07a", "cinderking": "#ff6a1a", "unwritten": "#e0e0ff", "stormcrown": "#7ff0ff",
 	"bilgehydra": "#5affa0", "brassorgan": "#ff4a3a", "greatengine": "#ff8a1a", "glacialmaw": "#5ad8ff",
-	"admiral": "#5ad8ff", "inkleviathan": "#9ab8ff", "thebinder": "#ff4a3a", "author": "#fff07a", "golemking": "#ffb040", "archmage": "#7ff0ff", "phoenix": "#fff07a", "wyrm": "#7ff0ff", "chainfiend": "#ff3020", "seraph": "#fff07a",
+	"admiral": "#5ad8ff", "inkleviathan": "#9ab8ff", "thebinder": "#ff4a3a", "author": "#fff07a", "redactor": "#ff3a4a", "golemking": "#ffb040", "archmage": "#7ff0ff", "phoenix": "#fff07a", "wyrm": "#7ff0ff", "chainfiend": "#ff3020", "seraph": "#fff07a",
 }
 
 def evolve(im, stage, burn):
@@ -461,6 +462,7 @@ FORMS = {
 	                3: [("horn_b", -2, -5, 18, 1), ("spike", -2, 10, 18, 0), ("spike", -2, 5, 18, 0), ("eyes", 5, 2, None, 0)]},
 	"inkleviathan": {2: [("tent", 3, 15, None, 1), ("horn_d", 0, -3, 16, 1)], 3: [("tent", 0, 15, None, 1), ("tent", 6, 15, None, 1), ("eyes", 5, 3, None, 0), ("horn_b", -2, -5, 18, 1)]},
 	"thebinder":   {2: [("spike", -1, 8, 17, 0)], 3: [("horn_b", 0, -4, 15, 1), ("spike", -2, 8, 18, 0), ("eye3", 6, 3, None, 0)]},
+	"redactor":    {2: [("wing", -6, 6, 22, 1), ("spike", -1, 9, 17, 0)], 3: [("wing", -6, 3, 22, 1), ("wing", -6, 9, 22, 1), ("eyes", 4, 9, None, 0), ("horn_b", 0, -4, 15, 1)]},
 	"author":      {2: [("wing", -6, 6, 22, 1), ("eye3", 6, 2, None, 0)], 3: [("wing", -6, 3, 22, 1), ("wing", -6, 9, 22, 1), ("eyes", 4, 8, None, 0), ("flames", 3, -4, None, 0)]},
 	"admiral":     {2: [("horn_s", 2, -2, 13, 1)], 3: [("horn_b", 0, -4, 15, 1), ("eyes", 5, 4, None, 0)]},
 	"golemking":   {2: [("spike", -1, 8, 17, 0)], 3: [("horn_b", 0, -4, 15, 1), ("spike", -2, 8, 18, 0), ("spike", -2, 4, 18, 0)]},

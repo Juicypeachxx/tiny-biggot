@@ -27,6 +27,7 @@ const BOSS_PLANS := {
 	"inkleviathan": ["ink", "spiral", "sweep", "hooks", "summon", "tide", "lasers"],
 	"thebinder": ["pages", "slam", "wall", "hooks", "summon", "cross", "zone"],
 	"author": ["rewrite", "lasers", "ink", "verdict", "hooks", "halo", "zone", "summon", "laserx", "pages"],
+	"redactor": ["laserx", "hooks", "eclipse", "zone", "rewrite", "lasers", "ink", "summon", "verdict", "hellgate"],   # 12.3
 	# 9.3 the second guardians (GameData.ALT_GUARDIANS).
 	"admiral": ["volley", "charge", "ring", "summon", "cross", "charge", "spiral"],
 	"golemking": ["slam", "ring", "slam", "wall", "summon", "charge", "zone"],
@@ -44,6 +45,7 @@ const BOSS_PLANS := {
 const STAGE_PLANS := {
 	"inkleviathan": [["ink", "hooks", "sweep", "zone", "summon", "spiral"], ["ink", "laserx", "hooks", "barrage", "tide", "flower"]],
 	"thebinder": [["pages", "hooks", "slam", "wall", "zone", "summon"], ["hooks", "pages", "barrage", "laserx", "slam", "flower"]],
+	"redactor": [["hooks", "laserx", "rewrite", "zone", "eclipse", "lasers", "verdict", "ink"], ["laserx", "hooks", "lasers", "zone", "rewrite", "barrage", "eclipse", "hellgate", "flower", "verdict"]],
 	"author": [["rewrite", "laserx", "ink", "hooks", "verdict", "zone", "lasers", "pages"], ["lasers", "rewrite", "hooks", "laserx", "barrage", "zone", "ink", "flower", "verdict"]],
 	"colossus": [["slam", "wall", "volley", "ring", "cross"], ["slam", "flower", "wall", "barrage", "slam", "cross"]],
 	"sporemother": [["spiral", "cloud", "flower", "burst", "summon"], ["flower", "barrage", "cloud", "wall", "spiral"]],
@@ -71,7 +73,7 @@ const STAGE_PLANS := {
 	"seraph": [["lasers", "halo", "laserx", "curtain", "zone", "verdict"], ["laserx", "lasers", "halo", "hooks", "barrage", "zone", "flower", "verdict"]],
 }
 const STAGE_LINE := {
-	"inkleviathan": ["THE INK RISES", "A FLOOD OF UNWRITTEN WORDS"], "thebinder": ["THE THREAD PULLS TIGHT", "EVERY PAGE BOUND AT ONCE"], "author": ["THE PEN SCRATCHES FASTER", "THE AUTHOR WRITES THE LAST WORD"],
+	"inkleviathan": ["THE INK RISES", "A FLOOD OF UNWRITTEN WORDS"], "thebinder": ["THE THREAD PULLS TIGHT", "EVERY PAGE BOUND AT ONCE"], "author": ["THE PEN SCRATCHES FASTER", "THE AUTHOR WRITES THE LAST WORD"], "redactor": ["WHOLE LINES GO BLACK", "THE REDACTOR ERASES EVERYTHING"],
 	"colossus": ["ITS RIBS CRACK OPEN", "THE BONES ARE ALL THAT IS LEFT"], "sporemother": ["SHE BURSTS INTO BLOOM", "THE WHOLE GROTTO BREATHES SPORES"],
 	"librarian": ["THE TIDE RISES IN THE STACKS", "EVERY BOOK SCREAMS AT ONCE"], "tyrant": ["THE FORGE ROARS", "MOLTEN AND FURIOUS"],
 	"rimewarden": ["THE ICE THICKENS", "A WHITEOUT FALLS"], "regent": ["THE CROWN BURNS PALE", "THE REGENT ABANDONS ALL COURTESY"],
@@ -98,6 +100,7 @@ const BOSS_SUMMONS := {
 	"inkleviathan": ["inkblot", "smudge", "quillbat"],
 	"thebinder": ["papercut", "pagewraith", "folio"],
 	"author": ["scribe", "inkmage", "nibling"],
+	"redactor": ["pagewraith", "inkmage", "smudge"],
 	"colossus": ["bat", "bat", "skeleton"], "sporemother": ["slime", "mushroom", "slime"],
 	"tyrant": ["imp", "imp"], "regent": ["cultist", "ghost"], "librarian": ["bookwyrm", "bookwyrm", "drowned"],
 	"rimewarden": ["wisp", "wisp"],
@@ -117,13 +120,14 @@ const BOSS_SUMMONS := {
 }
 const RING_SPR := { "colossus": "bone", "librarian": "water", "rimewarden": "ice",
 	"bogmatriarch": "spore", "ashwarlord": "fire", "frozenabbot": "ice", "crowking": "dark", "umbralsun": "darkBig",
-	"judge": "bone", "cinderking": "fireBig", "unwritten": "dark", "greatengine": "fire", "glacialmaw": "cyan", "inkleviathan": "dark", "thebinder": "page", "author": "darkBig",
+	"judge": "bone", "cinderking": "fireBig", "unwritten": "dark", "greatengine": "fire", "glacialmaw": "cyan", "inkleviathan": "dark", "thebinder": "page", "author": "darkBig", "redactor": "darkBig",
 	"admiral": "water", "golemking": "bone", "archmage": "cyan", "phoenix": "fire", "wyrm": "ice", "chainfiend": "fireBig", "seraph": "bone" }
 ## Stage 7: per-guardian bullet sprites for shared attacks (originals keep theirs).
 const SHOT_SPR := {
 	"inkleviathan": {"spiral": "dark", "sweep": "dark", "ink": "dark"},
 	"thebinder": {"spiral": "page", "pages": "page"},
 	"author": {"spiral": "dark", "beams": "bone", "curtain": "page"},
+	"redactor": {"spiral": "dark", "beams": "dark", "curtain": "dark", "ink": "dark"},
 	"bogmatriarch": { "spiral": "spore", "burst": "spore", "cloud": "spore" },
 	"greatengine": { "spiral": "fire", "volley": "fire", "burst": "fire" },   # 6.4
 	"glacialmaw": { "spiral": "cyan", "volley": "water", "burst": "cyan" },   # 7.3

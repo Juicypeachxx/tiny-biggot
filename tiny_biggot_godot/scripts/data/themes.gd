@@ -79,6 +79,9 @@ const REALMS := [
 	  "fog": true, "music": 4, "short": true },
 	{ "id": "seam", "name": "THE UNWRITTEN PAGE", "sub": "WHERE THE WORLD WAS FIRST WRITTEN", "kit": "kit_seam", "accent_hex": "#f4ecd8",
 	  "pool": ["ghost", "voidling"], "guardian": "unwritten", "hazard": "", "decor": "", "music": 5, "realm": true },
+	# 12.3: the hidden last room, behind the Author's desk when three torn pages are carried.
+	{ "id": "redaction", "name": "THE REDACTED", "sub": "WHERE EVEN AUTHORS ARE ERASED", "kit": "kit_redact", "accent_hex": "#e8e8f0",
+	  "pool": ["pagewraith", "inkmage"], "guardian": "redactor", "hazard": "", "decor": "", "music": 5, "realm": true },
 ]
 
 static var _by_id := {}

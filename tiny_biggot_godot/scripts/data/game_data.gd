@@ -558,6 +558,7 @@ const BOSSES := {
 	"inkleviathan": { "name": "THE INK LEVIATHAN", "sprite": "inkleviathan", "hp": 2300, "r": 14, "scale": 2.2 },
 	"thebinder": { "name": "THE BINDER", "sprite": "thebinder", "hp": 2500, "r": 13, "scale": 2.2 },
 	"author": { "name": "THE AUTHOR", "sprite": "author", "hp": 3000, "r": 13, "scale": 2.4 },
+	"redactor": { "name": "THE REDACTOR", "sprite": "redactor", "hp": 3800, "r": 13, "scale": 2.4 },   # 12.3 hidden
 	# 9.3 (his ask, 6 Oct, from another game's boss roster: ideas only, original designs): a second
 	# guardian for seven floors (GameData.ALT_GUARDIANS).
 	"admiral": { "name": "THE WALRUS ADMIRAL", "sprite": "admiral", "hp": 560, "r": 13, "scale": 2 },
@@ -648,7 +649,7 @@ const SPRITE_COLOR := {
 	"crow": "#1a1423", "chimneyimp": "#a35bd6", "enforcer": "#4e4a5e", "voidling": "#d8443c", "shadeknight": "#2a2838",
 	"eclipsed": "#d8443c", "herald": "#8a2a33", "bogmatriarch": "#3f7a5a", "ashwarlord": "#d8443c",
 	"frozenabbot": "#e8f6ff", "crowking": "#5c3483", "umbralsun": "#d8443c",
-	"judge": "#f2c94c", "cinderking": "#e8873a", "unwritten": "#f4ecd8",
+	"judge": "#f2c94c", "cinderking": "#e8873a", "unwritten": "#f4ecd8", "redactor": "#16141c",
 	"haggler": "#5c3483", "scrounger": "#8b8f9c", "raider": "#8a7a5a", "cogling": "#c9a35a", "steamjack": "#8a6a4a", "boltslinger": "#6fd3e0", "gearhound": "#a8705a", "rivetlobber": "#e8873a", "brasswasp": "#f2c94c", "foreman": "#e8873a", "greatengine": "#e8b84a", "frostmite": "#a8e0ff", "rimebrute": "#6a8aa8", "shardcaster": "#7ff0ff", "frostfang": "#c8d8e8", "snowlobber": "#e8f4ff", "glimmerwisp": "#c8f0ff", "hoarknight": "#8fd8ff", "glacialmaw": "#8fd8ff", "admiral": "#8a6a4a", "golemking": "#8a8f9c", "archmage": "#4d9be6", "phoenix": "#e8873a", "wyrm": "#c8f0ff", "chainfiend": "#d8443c", "seraph": "#f2c94c", "inkblot": "#2a2a4a", "quillbat": "#4d6aa8", "scrawler": "#3a3a5a", "smudge": "#5a5a7a", "inkhound": "#2a2a4a", "inkwidow": "#3a2a5a", "papercut": "#f4ecd8", "stitcher": "#c8a878", "folio": "#a8885a", "pressling": "#8a6a4a", "pagewraith": "#f4ecd8", "bindingpress": "#6b4a2a", "quillknight": "#4a4a6a", "nibling": "#f2c94c", "inkmage": "#3a2a5a", "sealwarden": "#d8443c", "scribe": "#c8a878", "headscribe": "#f2c94c", "inkleviathan": "#4d6aa8", "thebinder": "#c8a878", "author": "#f2c94c", "holycow": "#f4ecd8",
 	# Rift worlds and event rooms.
 	"inmate": "#63b84f", "grenadier": "#d8443c", "jailer": "#3f7a5a", "turnkey": "#3f7a5a", "graveborn": "#7a3a8c",

@@ -198,6 +198,18 @@ func _chapter2(page: Dictionary) -> void:
 		if G.floor_index != f or GameData.floors()[f]["name"] != GameData.CHAPTER2[k]["name"]:
 			fail("chapter II: on floor %d (%s), want %s" % [G.floor_index, GameData.floors()[G.floor_index]["name"], GameData.CHAPTER2[k]["name"]])
 			return
+		# 12.3: a hidden room of each chapter floor holds a torn page.
+		G.enter_room(World.make_room(G.floor_d, "secret", "", "s", { "no_secret": true }))
+		var pg = null
+		for o in G.room.objects:
+			if o["kind"] == "n_tornpage":
+				pg = o
+		if pg == null:
+			fail("chapter II floor %d: no torn page in the hidden room" % (k + 1))
+			return
+		G.interact(pg)
+		if G.run_stats.get("pages", 0) != k + 1:
+			fail("chapter II floor %d: the page was not taken (%d)" % [k + 1, G.run_stats.get("pages", 0)])
 		G.enter_room(World.make_room(G.floor_d, "combat", "", "s", { "no_secret": true }))
 		play(200)
 		for e in G.enemies:
@@ -223,13 +235,7 @@ func _chapter2(page: Dictionary) -> void:
 				return
 			G.floor_index += 1
 			G.start_floor()
-	for o in G.room.objects:
-		if o["kind"] == "chest":
-			o["opened"] = true
-	for i in 600:
-		play(1)
-		if G.state == &"win":
-			break
+	_redactor()
 	if G.state != &"win" or not G.run_stats.get("author", false):
 		fail("chapter II: the Author's fall did not win the run (state %s, author %s)" % [G.state, G.run_stats.get("author", false)])
 	elif not G.award.get("parts", []).any(func(x): return x[0] == "CHAPTER II"):
@@ -447,3 +453,32 @@ func _cull(b: Enemy) -> void:
 func _stick(s: Enemy) -> void:
 	s.x = G.player.x
 	s.y = G.player.y
+
+## 12.3: three pages carried: the Author's fall cuts a door to THE REDACTOR; its fall wins the run.
+func _redactor() -> void:
+	var door = null
+	for o in G.room.objects:
+		if o["kind"] == "n_redactdoor":
+			door = o
+	if door == null:
+		fail("chapter II: three pages, but no door to the Redactor")
+		return
+	var wins0: int = Meta.meta.get("redactor_wins", 0)
+	G.interact(door)
+	play(300)
+	if G.boss == null or G.boss.boss != "redactor":
+		fail("the Redactor is not there (%s)" % (G.boss.boss if G.boss != null else "nobody"))
+		return
+	_fell(G.boss)
+	play(30)
+	for o in G.room.objects:
+		if o["kind"] == "chest":
+			o["opened"] = true
+	for i in 600:
+		play(1)
+		if G.state == &"win":
+			break
+	if G.state != &"win" or not G.run_stats.get("redactor", false) or Meta.meta.get("redactor_wins", 0) != wins0 + 1:
+		fail("the Redactor's fall did not win the run (state %s)" % G.state)
+	elif not G.award.get("parts", []).any(func(x): return x[0] == "THE REDACTOR"):
+		fail("no embers for the Redactor")
