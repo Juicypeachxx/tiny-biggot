@@ -1124,3 +1124,9 @@ S["relic_gloomlantern"] = ("main:#3a2a5a glow:#c08aff", [
 S["relic_nightfall"] = ("main:#2a2040 glow:#c08aff", [
 "............", "....oooo....", "..oo3333oo..", ".o3333333yo.", ".o33333yyo..", "o3333yyo....",
 "o3333yo.....", ".o3333yyo...", ".o333333yyo.", "..oo3333oo..", "....oooo....", "............"])
+
+# ---- 12.1 (his ask, 6 Oct: story and new NPCs): THE ARCHIVIST, an old ghost of a librarian with a
+# lantern of ink-light and a book under his arm.
+S["npc_archivist"] = ("main:#5a6a8a glow:#c8f0ff bone:#e8e8f0 wood:#6b4a2a", OV(M([
+"...ooo", "..o333", ".o3333", ".o30y0", ".o3333", "..olll", "...oll", "o3o333", "o3ouvv", "o3ouvv",
+".oo333", "..o33o", "..o33o", "..ooo."]), {6: "..........y.", 7: ".........oyo", 8: "..........o."}))

@@ -668,8 +668,11 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
 - [x] Full check passed, replays re-recorded on purpose, classic identical, IPA 11.3.
 
 ## Stage 12: the story (a DLC of our own)
-- [ ] 12.1 A story that ties the floors, the realms and the Unwritten together; told by new NPCs
+- [x] 12.1 A story that ties the floors, the realms and the Unwritten together; told by new NPCs
       met along the run (and in a hub between runs if it fits), a little at a time.
+      Done: STORY.md (the world is a book still being written by THE AUTHOR); THE ARCHIVIST at rest
+      stops tells it line by line as far as the player has ever reached (saved); milestones at the
+      Regent, the Umbral Sun, a realm, the Unwritten. The chapter's NPCs come with 12.2.
 - [ ] 12.2 New stages and environments after the current end, in a new chapter.
 - [ ] 12.3 New final bosses for the chapter, and hidden final bosses reached only by secret
       routes or conditions that the story hints at.

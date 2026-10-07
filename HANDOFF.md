@@ -824,6 +824,10 @@ weapons duskblade, prismfan, spectrum; relics gloomlantern, nightfall. `tests/gl
 
 11.3: `Combat.hard_hp` 1.45 + 0.06 f; `shot_mult` x1.10; elite chance +0.04 (game.gd).
 
+12.1: `Story` (`scripts/game/story.gd`, STORY.md): `LINES` gated by milestones in
+`Meta.meta["story"]`, `reach()` from on_boss_dead (floors 6 and 11) and `_realm_won`, the Archivist
+(`n_archivist`, an EventRooms kind; seated by `Story.place` in rest stops). `tests/story_test`.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

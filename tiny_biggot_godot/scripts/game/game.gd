@@ -627,6 +627,7 @@ func setup_objects(r: Room) -> void:
 			if GameData.rogues():
 				r.objects.append({ "kind": "anvil", "x": cx + 56, "y": cy })
 				Alignments.shrines(r, cx, cy)   # 8.1: take one alignment point
+				Story.place(r, cx, cy)   # 12.1: the Archivist by the fire
 	# Pets (expanded game only): a cage in some treasure rooms, vaults and hidden rooms, one for sale in some shops.
 	if GameData.rogues():
 		var chance: float = { "treasure": 0.12, "vault": 0.35, "secret": 0.2, "shop": 0.25 }.get(r.type, 0.0)
@@ -836,6 +837,8 @@ func on_boss_dead(b: Enemy) -> void:
 	show_banner(b.d["name"] + " FALLS", "")
 	if Trophies.take(GameData.heroes()[hero_index]["id"], b.boss):   # 7.2
 		toast("NEW TROPHY: " + b.d["name"], "gold")
+	if room.theme.is_empty() and floor_index in [5, 10]:
+		Story.reach("f6" if floor_index == 5 else "f11")   # 12.1: the story grows
 	for i in 12:
 		Combat.drop_pickup("coin", b.x, b.y)
 	Combat.drop_pickup("heart", b.x, b.y)
@@ -921,6 +924,7 @@ func _boss_reward(b: Enemy) -> void:
 ## opens; the Unwritten falls and the run is won, the last ending of all.
 func _realm_won(b: Enemy) -> void:
 	var id: String = room.theme["id"]
+	Story.reach("unwritten" if id == "seam" else "realm")   # 12.1
 	if id == "seam":
 		run_stats["unwritten"] = true
 		Meta.meta["unwritten_wins"] = Meta.meta.get("unwritten_wins", 0) + 1

@@ -19,7 +19,8 @@ extends RefCounted
 
 const KINDS := ["e_pitboss", "e_mechanic", "e_teller", "e_card", "e_courier", "e_attendant", "e_beacon", "e_statue",
 	"e_plate", "e_decor", "w_drunk", "w_merchant",
-	"e_frog", "e_glyph", "e_pawn", "e_hustler", "e_cup", "e_gong"]   # 10.2
+	"e_frog", "e_glyph", "e_pawn", "e_hustler", "e_cup", "e_gong",   # 10.2
+	"n_archivist"]   # 12.1 (story.gd)
 ## 10.2 (his ask, 6 Oct, from his trailer clips: ideas only, this game's own events):
 ##   frog       THE FROG POND: kiss the frog or leave it. A royal gift, a little luck, or warts.
 ##   ritual     THE RITUAL CIRCLE: four glyphs (sun, moon, star, skull); stand on one for its
@@ -272,6 +273,8 @@ static func interact(o: Dictionary) -> void:
 			Snd.play("bell")
 			G.toast("THE STATUE'S EYES FLASH: " + " ".join(o["order"].map(func(c): return PLATE_NAME[c])), "white")
 		# 10.2
+		"n_archivist":
+			Story.tell(o)
 		"e_frog":
 			o["used"] = true
 			var roll := randf()
@@ -734,6 +737,8 @@ static func prompt(o: Dictionary) -> Array:
 			return ["A SIGNAL BEACON", "LIGHT IT, THEN STAND IN ITS LIGHT FOR 45S", "LIGHT IT"]
 		"e_statue":
 			return ["A STONE STATUE", "ITS EYES SHOW THE ORDER OF THE PLATES", "LOOK"]
+		"n_archivist":
+			return ["THE ARCHIVIST", "HE HAS SOMETHING NEW TO TELL" if Story.has_new() else "HE KNOWS HOW THE STORY GOES", "LISTEN"]
 		"e_frog":
 			return ["A FROG", "IT PUCKERS UP", "KISS IT"]
 		"e_glyph":
@@ -809,6 +814,10 @@ static func draw(ci: CanvasItem, o: Dictionary, t: float) -> void:
 			if not o["lit"]:
 				var col: String = { "r": "#d8443c", "g": "#63b84f", "u": "#4d9be6", "y": "#f2c94c" }[o["col"]]
 				Gfx.px(ci, TB.c(col), x - 1, y + 2, 2)
+		"n_archivist":
+			Gfx.sp(ci, "npc_archivist", x, y + breathe)
+			if Story.has_new():
+				Gfx.text(ci, "!", x, y - 24 - absf(sin(t * 4.0)) * 2.0, "gold", 1, 0.5)
 		# 10.2
 		"e_frog":
 			if not o.get("gone", false):

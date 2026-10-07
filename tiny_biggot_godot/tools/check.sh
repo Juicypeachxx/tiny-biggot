@@ -147,6 +147,11 @@ timeout 600 "$GODOT" --headless --path . res://tests/gloom_test.tscn -- --no-sav
 grep -E "gloom test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== the story (12): the Archivist's lines, milestones, rest stops"
+timeout 600 "$GODOT" --headless --path . res://tests/story_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "story test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== the ten heroes of 4.8: data, each passive and special in a fight, every branch node"
 timeout 600 "$GODOT" --headless --path . res://tests/heroes_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "heroes test" "$LOG"
