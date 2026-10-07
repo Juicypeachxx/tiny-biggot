@@ -696,6 +696,13 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       actions with their keys; pick one, press a key. A key taken from another action leaves it.
       Esc always pauses and Enter always confirms (so nobody locks themselves out). RESET ALL
       KEYS. Saved with the options. Pads and touch are unchanged. IPA 13.1.
+- [x] 13.2 Armor sets that matter (his ask, 7 Oct: "much more rewarding when you complete a set,
+      and something to plan, not just random pieces"). A 3-piece step (+1 armor, +8% damage); the
+      4th piece adds SET MASTERY (+1 max heart, +12% damage) and an aura in the set's colour; the
+      first time in a run: slow motion, flash, banner, full health and a relic. Once a set is
+      started its missing pieces drop far more often (35-55% of gear drops), shops offer one, and
+      loot that continues a set says "SET 2/4 > 3/4". `--set=ID` test option.
+- [ ] 13.3 Creative new traits (his ask, 7 Oct). One IPA for 13.2 and 13.3.
 
 ---
 

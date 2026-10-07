@@ -648,6 +648,9 @@ func setup_objects(r: Room) -> void:
 			r.objects.append({ "kind": "shop", "item": "weapon", "thing": w, "x": cx - 40, "y": cy + 34, "price": item_price(w) })
 			r.objects.append({ "kind": "shop", "item": "gear", "thing": g, "x": cx + 40, "y": cy + 34, "price": item_price(g) })
 			if GameData.rogues():
+				var sp = Gear.chase_piece(player)   # 13.2: a piece of the set you are building
+				if sp != null and sp["id"] != g["id"]:
+					r.objects.append({ "kind": "shop", "item": "gear", "thing": sp, "x": cx, "y": cy + 34, "price": item_price(sp) })
 				r.objects.append({ "kind": "anvil", "x": cx + 104, "y": cy + 34 })
 		"treasure":
 			if randf() < 0.35:

@@ -157,6 +157,11 @@ timeout 300 "$GODOT" --headless --path . res://tests/keys_test.tscn -- --no-save
 grep -E "keys test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 13.2 armor sets: 3-piece step, completion, mastery, chasing pieces"
+timeout 300 "$GODOT" --headless --path . res://tests/sets_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "sets test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== the ten heroes of 4.8: data, each passive and special in a fight, every branch node"
 timeout 600 "$GODOT" --headless --path . res://tests/heroes_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "heroes test" "$LOG"

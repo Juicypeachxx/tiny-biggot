@@ -135,6 +135,9 @@ func _paint_plates(ci: CanvasItem) -> void:
 				continue
 		if name == "" or TB.dist_xy(p.x, p.y, o["x"], o["y"]) > 110:
 			continue
+		var it = o.get("item") if o["kind"] == "item" else o.get("thing")
+		if it is Dictionary and Gear.continues_set(p, it):   # 13.2: a piece of a set you have started
+			sub = "%s SET %d/4 > %d/4" % [Gear.SETS[it["set"]]["name"], p.sets[it["set"]], p.sets[it["set"]] + 1]
 		if sub.length() > 30:
 			sub = sub.left(28) + ".."
 		var w := maxi(TB.text_w(name), TB.text_w(sub)) + 6
@@ -849,6 +852,30 @@ func _paint_marks(ci: CanvasItem, p: Player, t: float) -> void:
 		ci.draw_rect(Rect2(x0 + k * 2, hy + 10, 1, 2), TB.c("#f2c94c") if k < p.rally_prog else TB.c("#4e4a5e"))
 	ci.draw_rect(Rect2(x0 - 1, hy + 13, roundf((n * 2 + 1) * left), 1), TB.c("#fffbe0"))
 
+## 13.2: a whole set glows around the hero in its colour (one ring per complete set, at most 3).
+func _paint_set_aura(ci: CanvasItem, t: float) -> void:
+	var p := G.player
+	if p == null or not GameData.rogues() or p.hp <= 0:
+		return
+	var n := 0
+	for id in p.set_tier:
+		if p.set_tier[id] < 3:
+			continue
+		var cols: Array = Weapons.TAG_COLS.get(Gear.SETS[id]["tag"], Weapons.TAG_COLS["core"])
+		var c := TB.c(cols[0])
+		var c2 := TB.c(cols[2])
+		var cx := p.x
+		var cy := p.y - 3 - p.air
+		var r := 13.0 + n * 4 + sin(t * 3 + n) * 1.5
+		ci.draw_circle(Vector2(cx, cy), r + 4, Color(c.r, c.g, c.b, 0.10))
+		ci.draw_arc(Vector2(cx, cy), r, 0, TAU, 28, Color(c.r, c.g, c.b, 0.45), 1.0)
+		for k in 3:
+			var a := t * (1.6 + n * 0.4) * (1 if n % 2 == 0 else -1) + k * TAU / 3
+			ci.draw_circle(Vector2(cx, cy) + Vector2.from_angle(a) * r, 1.5, Color(c2.r, c2.g, c2.b, 0.9))
+		n += 1
+		if n >= 3:
+			break
+
 func _paint_glow(ci: CanvasItem) -> void:
 	var t := G.time
 	# Polish: light beams over rare, epic and legendary loot.
@@ -859,6 +886,7 @@ func _paint_glow(ci: CanvasItem) -> void:
 			Juice.beam(ci, o["x"], o["y"], o["item"].get("rarity", "common"), t)
 		elif o["kind"] == "pedestal" and o["relic"] != null:
 			Juice.beam(ci, o["x"], o["y"], o["relic"].get("rarity", "common"), t)
+	_paint_set_aura(ci, t)
 	for i in 2:
 		var op := roundf(200 + sin(t * 9 + i * 7) * 25 + sin(t * 23 + i) * 15) / 255.0
 		Gfx.at(ci, "glow_torch", [6, 21][i] * TB.TS + 8 - 36, TB.TS + 4 - 36, op)

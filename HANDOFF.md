@@ -849,6 +849,10 @@ binderthread, authorspen, blackbar (weapons.gd, gear.gd; icons in sprites.py).
 Saved in `Meta.opts["keymap"]`. State `keys`: game.gd `update_keys`, menu_view `draw_keys`, taps.gd.
 `--ui=keys` / `--ui=options`. `tests/keys_test`.
 
+13.2: gear.gd `B3`, `MASTERY`, `_tier_of` / `_apply_tier` (tiers 1-3 in the expanded game, 1-2
+under --classic), `_complete` (once per run: `run_stats.sets_done`), `chase_piece` (random_gear and
+the shop), `continues_set` (plates), `pieces`. Aura: world_view `_paint_set_aura`. `tests/sets_test`.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

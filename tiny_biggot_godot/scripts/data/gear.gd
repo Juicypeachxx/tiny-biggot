@@ -416,6 +416,15 @@ static func by_id(id: String) -> Dictionary:
 	return _by_id[id]
 
 static func random_gear(rarity: String) -> Dictionary:
+	if GameData.rogues() and G.player != null and not G.player.sets.is_empty():
+		var have := 0
+		for id in G.player.sets:
+			if G.player.sets[id] < 4:
+				have = maxi(have, G.player.sets[id])
+		if have > 0 and randf() < 0.25 + 0.1 * have:   # 13.2: the set you started comes looking for you
+			var piece = chase_piece(G.player)
+			if piece != null:
+				return piece
 	var pool := []
 	for g in all():
 		if g["rarity"] == rarity and g["id"] != "hagglerhat" and not BossLoot.is_unique(g["id"]):   # (brazil.gd, boss_loot.gd)
@@ -452,33 +461,122 @@ static func stat_line(k: String, v: Variant) -> String:
 	return "%+d %s" % [int(v), name]
 
 # ---------- Equipping (04b_items.rb) ----------
+## 13.2 (his ask, 7 Oct: "make armor sets more meaningful, a much more rewarding feel when you
+## complete a set, and something to plan for, not just random pieces"). Expanded game only:
+##   3 pieces   +1 ARMOR, +8% DAMAGE (a step between the 2- and 4-piece bonuses)
+##   4 pieces   the set's own power, plus SET MASTERY: +1 MAX HEART, +12% DAMAGE, an aura in the
+##              set's colour; the first time in a run: slow motion, a banner, a full heal and a relic
+##   chasing    once a set is started, a gear drop is often one of its missing pieces
+##              (chase_piece), and shops offer one.
+const B3 := [["armor", 1], ["dmg", 1.08]]
+const D3 := "+1 ARMOR, +8% DAMAGE"
+const MASTERY := [["max_hp", 2], ["dmg", 1.12]]
+const D_MASTERY := "SET MASTERY: +1 MAX HEART, +12% DAMAGE"
+
+## The pieces of a set, in row order.
+static func pieces(set_id: String) -> Array:
+	return all().filter(func(g): return g["set"] == set_id)
+
+## A missing piece of the set the hero is furthest into (null when none is started).
+static func chase_piece(p: Player) -> Variant:
+	if p == null:
+		return null
+	var best := ""
+	var most := 0
+	for id in p.sets:
+		if p.sets[id] > most and p.sets[id] < 4:
+			best = id
+			most = p.sets[id]
+	if best == "":
+		return null
+	var owned := {}
+	for sl in p.gear:
+		if p.gear[sl] != null:
+			owned[p.gear[sl]["id"]] = true
+	for it in p.backpack:
+		if it != null:
+			owned[it["id"]] = true
+	var miss := pieces(best).filter(func(g): return not owned.has(g["id"]))
+	return TB.pick(miss) if not miss.is_empty() else null
+
+## Whether an item would add to a set the hero has started (the ground and shop show "SET").
+static func continues_set(p: Player, it: Dictionary) -> bool:
+	if it.get("item", "") != "gear" or it.get("set") == null or p == null or p.sets.get(it["set"], 0) <= 0:
+		return false
+	return not p.gear.values().any(func(g): return g != null and g["id"] == it["id"])
+
+static func _tier_of(n: int) -> int:
+	if not GameData.rogues():
+		return 2 if n >= 4 else (1 if n >= 2 else 0)
+	return 3 if n >= 4 else (2 if n >= 3 else (1 if n >= 2 else 0))
+
+static func _apply_tier(p: Player, s: Dictionary, set_id: String, tier: int, dir: int) -> void:
+	var top := 3 if GameData.rogues() else 2
+	if tier == 1:
+		Weapons.apply_tuples(p, s["b2"], dir, "s2:" + set_id)
+		Effects.apply_equipment(p, s.get("e2", []), dir, "se2:" + set_id)
+	elif tier == 2 and top == 3:
+		Weapons.apply_tuples(p, B3, dir, "s3:" + set_id)
+	else:
+		Weapons.apply_tuples(p, s.get("b4", []), dir, "s4:" + set_id)
+		Weapons.apply_hooks(p, s.get("b4h", []), dir)
+		Effects.apply_equipment(p, s.get("e4", []), dir, "se4:" + set_id)
+		if top == 3:
+			Weapons.apply_tuples(p, MASTERY, dir, "sm:" + set_id)
+			if dir < 0:
+				p.hp = mini(p.hp, p.max_hp)
+
+static func set_desc(s: Dictionary, tier: int) -> String:
+	var top := 3 if GameData.rogues() else 2
+	if tier == 1:
+		return s["d2"]
+	if tier == 2 and top == 3:
+		return D3
+	return s["d4"]
+
 static func update_sets(p: Player, set_id: Variant, delta: int) -> void:
 	if set_id == null:
 		return
 	var s: Dictionary = SETS[set_id]
 	p.sets[set_id] = p.sets.get(set_id, 0) + delta
-	var tier := 2 if p.sets[set_id] >= 4 else (1 if p.sets[set_id] >= 2 else 0)
+	var tier := _tier_of(p.sets[set_id])
+	var top := 3 if GameData.rogues() else 2
 	var have: int = p.set_tier.get(set_id, 0)
 	while have < tier:
 		have += 1
-		if have == 1:
-			Weapons.apply_tuples(p, s["b2"], 1, "s2:" + set_id)
-			Effects.apply_equipment(p, s.get("e2", []), 1, "se2:" + set_id)
+		_apply_tier(p, s, set_id, have, 1)
+		if have == top and top == 3:
+			_complete(p, s, set_id)
 		else:
-			Weapons.apply_tuples(p, s.get("b4", []), 1, "s4:" + set_id)
-			Weapons.apply_hooks(p, s.get("b4h", []), 1)
-			Effects.apply_equipment(p, s.get("e4", []), 1, "se4:" + set_id)
-		G.toast(s["name"] + " SET: " + (s["d2"] if have == 1 else s["d4"]), "gold")
+			G.toast(s["name"] + " SET: " + set_desc(s, have), "gold")
 	while have > tier:
-		if have == 1:
-			Weapons.apply_tuples(p, s["b2"], -1, "s2:" + set_id)
-			Effects.apply_equipment(p, s.get("e2", []), -1, "se2:" + set_id)
-		else:
-			Weapons.apply_tuples(p, s.get("b4", []), -1, "s4:" + set_id)
-			Weapons.apply_hooks(p, s.get("b4h", []), -1)
-			Effects.apply_equipment(p, s.get("e4", []), -1, "se4:" + set_id)
+		_apply_tier(p, s, set_id, have, -1)
 		have -= 1
 	p.set_tier[set_id] = have
+
+## A set is whole: the big moment (the first time this run), the aura from now on.
+static func _complete(p: Player, s: Dictionary, set_id: String) -> void:
+	var done: Dictionary = G.run_stats.get("sets_done", {})
+	G.run_stats["sets_done"] = done
+	var cols: Array = Weapons.TAG_COLS.get(s["tag"], Weapons.TAG_COLS["core"])
+	if done.has(set_id) or G.state != &"play":
+		G.toast(s["name"] + " SET COMPLETE: " + s["d4"], "gold")
+		return
+	done[set_id] = true
+	Meta.meta["sets_done"] = Meta.meta.get("sets_done", 0) + 1
+	G.hitstop = 0.45
+	Juice.flash(0.4)
+	G.add_shake(10)
+	Snd.play("unlock")
+	Snd.play("relic")
+	G.show_banner(s["name"] + " SET COMPLETE!", s["d4"])
+	G.toast(D_MASTERY, "gold")
+	for k in 3:
+		Fx.burst(p.x, p.y - 6, cols, 26, 70 + k * 40)
+	p.hp = p.max_hp
+	var rel := G.roll_relics(1, "boss")
+	if not rel.is_empty():
+		G.add_relic(p, rel[0])
 
 ## Equips a piece of gear and returns the piece it replaced (or null).
 static func equip_gear(p: Player, g: Dictionary) -> Variant:

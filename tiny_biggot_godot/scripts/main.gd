@@ -76,7 +76,7 @@ func _ready() -> void:
 	G.hero_index = clampi(DebugArgs.get_int("hero", 0), 0, GameData.heroes().size() - 1)
 	# The game opens on the title screen. Test options start a run directly.
 	var quick := false
-	for k in ["bot", "room", "floor", "hero", "ui", "bench", "quick", "weapon", "heavy", "rift", "event", "rex"]:
+	for k in ["bot", "room", "floor", "hero", "ui", "bench", "quick", "weapon", "heavy", "rift", "event", "rex", "set"]:
 		if DebugArgs.has(k):
 			quick = true
 	if not quick:
@@ -108,6 +108,10 @@ func _ready() -> void:
 		var step := DebugArgs.get_int("step", 0)
 		G.enter_room(World.make_room(G.floor_d, ["combat", "elite", "elite", "boss"][clampi(step, 0, 3)], "", "s",
 			{ "theme": DebugArgs.get_str("rift"), "step": step }))
+	# --set=ID starts wearing a whole armor set (13.2: the set's big moment, its aura).
+	if DebugArgs.has("set"):
+		for g in Gear.pieces(DebugArgs.get_str("set")):
+			Gear.equip_gear(G.player, g)
 	# --pet=ID[:LEVEL] starts with a pet (scripts/entities/pets.gd).
 	if DebugArgs.has("pet"):
 		var pv := DebugArgs.get_str("pet").split(":")
