@@ -917,6 +917,10 @@ melee heroes went from 0.80 to 1.02-1.35 (swords) and 1.3-2.3 (whips). Replays a
 `Camp.fresh_player()` (enter and PUT EVERYTHING BACK; the rack never marks anything found).
 `spawn_dummies` (Camp.enter). Combat: `_hurt_player_base` returns in the camp; auto-aim reach 90
 there. `--ui=kitchen|armory [--camp-fish]`, `--ui=camp --camp-near=KIND`. `tests/camp_life_test`.
+19.1 follow-up: sword arc/damage bonus counts at most 6 extra projectiles, whips at most 7 lashes
+(a 999-projectile whip was 150 ms a tick). arsenal_test now seeds each fight by the weapon id (it
+had one seed for hundreds of fights in a row, so any change upstream moved later fights' luck:
+FROST BEACON's foes were pushed out of reach) and holds foes in place for turrets.
 
 ## Noted, not yet acted on
 

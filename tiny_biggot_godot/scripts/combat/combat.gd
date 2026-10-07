@@ -924,7 +924,7 @@ static func player_shoot(p: Player, a: float, echo_ok: bool = true) -> void:
 			Snd.play("hatchet")
 		"whip":
 			# 19.1: in the expanded game each projectile past the first is one more lash in a fan (as spears do).
-			var nw := Weapons.wcount(p) if GameData.rogues() else 1
+			var nw := mini(Weapons.wcount(p), 7) if GameData.rogues() else 1   # at most 7, as beams
 			for i in nw:
 				attack_line(p, a + (i - (nw - 1) / 2.0) * 0.22, Weapons.wrange(p), w.get("width", 6) * Weapons.wsize(p), true, forced)
 			Snd.play("dodge")
@@ -1030,7 +1030,7 @@ static func attack_slash(p: Player, a: float, force_crit: bool) -> void:
 	if GameData.rogues():
 		# 19.1: a sword has no projectiles to add. Each one past the first widens the swing by 30
 		# degrees and adds 15% damage, so +PROJECTILE items are never a loss for blades.
-		var extra := maxi(0, Weapons.wcount(p) - 1)
+		var extra := clampi(Weapons.wcount(p) - 1, 0, 6)   # at most 6, as beams (7 rays)
 		arc = minf(TAU, arc + extra * deg_to_rad(30.0))
 		dmg *= 1.0 + 0.15 * extra
 	for e in G.enemies.duplicate():

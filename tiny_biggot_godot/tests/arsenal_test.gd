@@ -182,6 +182,7 @@ func _tick(n: int, hold: Variant = null, every: Callable = Callable()) -> void:
 
 ## Damage dealt to sturdy foes in `secs`, with `extra` more projectiles; checks the caps and times.
 func _run(id: String, extra: int, secs: float) -> Dictionary:
+	seed(hash(id) + extra)   # 19.1: each fight its own luck, whatever the fights before it did
 	var p := _start()
 	_arena()
 	Weapons.equip_weapon(p, Weapons.by_id(id))
@@ -201,7 +202,14 @@ func _run(id: String, extra: int, secs: float) -> Dictionary:
 	var total := 0.0
 	var worst := 0.0
 	var n := int(secs * 60)
+	var pins := foes.map(func(e): return Vector2(e.x, e.y))
 	var feed := func(i: int) -> void:
+		if kind == "turret":
+			# Foes stay where they were set (a beacon reaches only so far): a push from
+			# the hero's own starting rolls must not carry them out of reach.
+			for k in foes.size():
+				foes[k].x = pins[k].x
+				foes[k].y = pins[k].y
 		if id == "piggybank" and i % 60 == 0:
 			G.run_stats["gold"] += 12   # gold picked up fills the pig
 		if id == "parasite" or id == "dynamite":
