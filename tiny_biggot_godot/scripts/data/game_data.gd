@@ -257,6 +257,7 @@ const NEW_HEROES := [
 ]
 
 static var _heroes: Array = []
+static var _floors2: Array = []
 ## Tests that compare with the original Ruby set this to run the original rules.
 static var force_classic := false
 
@@ -353,6 +354,31 @@ const ENEMIES := {
 	"shadeknight": { "sprite": "shadeknight", "hp": 40, "speed": 42, "r": 6, "ai": "knight", "shot": "dark", "gold": 0.6 },
 	"eclipsed": { "sprite": "eclipsed", "hp": 24, "speed": 34, "r": 6, "ai": "cultist", "shot": "dark", "gold": 0.5 },
 	"herald": { "sprite": "herald", "name": "THE HERALD OF DUSK", "hp": 520, "speed": 50, "r": 10, "ai": "book", "fly": true, "shot": "dark",
+		"scale": 1.8, "mini": true, "gold": 3.0 },
+	# 12.2 (his ask, 6 Oct: a story chapter with new stages): CHAPTER II, THE MARGINS (STORY.md).
+	# The Inkwell.
+	"inkblot": { "sprite": "inkblot", "hp": 30, "speed": 40, "r": 6, "ai": "slime", "shot": "dark", "gold": 0.5, "label": "an inkblot" },
+	"quillbat": { "sprite": "quillbat", "hp": 14, "speed": 76, "r": 5, "ai": "bat", "fly": true, "gold": 0.35, "label": "a quill bat" },
+	"scrawler": { "sprite": "scrawler", "hp": 24, "speed": 38, "r": 5, "ai": "gunman", "shot": "page", "gold": 0.5, "label": "a scrawler" },
+	"smudge": { "sprite": "smudge", "hp": 22, "speed": 44, "r": 6, "ai": "ghost", "fly": true, "shot": "dark", "gold": 0.45, "label": "a smudge" },
+	"inkhound": { "sprite": "inkhound", "hp": 26, "speed": 92, "r": 5, "ai": "runner", "gold": 0.45, "label": "an ink hound" },
+	"inkwidow": { "sprite": "inkwidow", "name": "THE INK WIDOW", "hp": 560, "speed": 46, "r": 10, "ai": "cultist", "shot": "dark",
+		"scale": 1.8, "mini": true, "gold": 3.0 },
+	# The Bindery.
+	"papercut": { "sprite": "papercut", "hp": 14, "speed": 72, "r": 4, "ai": "imp", "fly": true, "gold": 0.35, "label": "a papercut" },
+	"stitcher": { "sprite": "stitcher", "hp": 58, "speed": 28, "r": 7, "ai": "golem", "gold": 0.7, "label": "a stitcher" },
+	"folio": { "sprite": "folio", "hp": 26, "speed": 40, "r": 6, "ai": "book", "fly": true, "shot": "page", "gold": 0.5, "label": "a folio" },
+	"pressling": { "sprite": "pressling", "hp": 22, "speed": 36, "r": 5, "ai": "lobber", "shot": "page", "gold": 0.5, "label": "a pressling" },
+	"pagewraith": { "sprite": "pagewraith", "hp": 14, "speed": 84, "r": 5, "ai": "wisp", "fly": true, "shot": "page", "gold": 0.4, "label": "a page wraith" },
+	"bindingpress": { "sprite": "bindingpress", "name": "THE BINDING PRESS", "hp": 600, "speed": 28, "r": 10, "ai": "golem",
+		"scale": 1.8, "mini": true, "gold": 3.0 },
+	# The Quill Spire.
+	"quillknight": { "sprite": "quillknight", "hp": 48, "speed": 44, "r": 6, "ai": "knight", "shot": "dark", "gold": 0.6, "label": "a quill knight" },
+	"nibling": { "sprite": "nibling", "hp": 14, "speed": 80, "r": 4, "ai": "bat", "fly": true, "gold": 0.35, "label": "a nibling" },
+	"inkmage": { "sprite": "inkmage", "hp": 28, "speed": 34, "r": 6, "ai": "cultist", "shot": "dark", "gold": 0.55, "label": "an ink mage" },
+	"sealwarden": { "sprite": "sealwarden", "hp": 30, "speed": 36, "r": 6, "ai": "gunman", "shot": "red", "gold": 0.55, "label": "a seal warden" },
+	"scribe": { "sprite": "scribe", "hp": 32, "speed": 40, "r": 6, "ai": "monk", "shot": "page", "gold": 0.55, "label": "a scribe" },
+	"headscribe": { "sprite": "headscribe", "name": "THE HEAD SCRIBE", "hp": 640, "speed": 48, "r": 10, "ai": "book", "fly": true, "shot": "page",
 		"scale": 1.8, "mini": true, "gold": 3.0 },
 	# ---------- Rift worlds (scripts/data/themes.gd). "label" is how a foe is named when it kills
 	# you; "champion" marks a rift's boss (ChampionAI, health grows with the floor).
@@ -528,6 +554,10 @@ const BOSSES := {
 	# A hidden boss after the owner's dog (scripts/entities/rex.gd). "rift": his health grows with the floor too.
 	"greatengine": { "name": "THE GREAT ENGINE", "sprite": "greatengine", "hp": 470, "r": 14, "scale": 2, "rift": true },
 	"glacialmaw": { "name": "THE GLACIAL MAW", "sprite": "glacialmaw", "hp": 480, "r": 14, "scale": 2, "rift": true },   # 7.3
+	# 12.2 Chapter II's guardians (STORY.md); THE AUTHOR is the chapter's last.
+	"inkleviathan": { "name": "THE INK LEVIATHAN", "sprite": "inkleviathan", "hp": 2300, "r": 14, "scale": 2.2 },
+	"thebinder": { "name": "THE BINDER", "sprite": "thebinder", "hp": 2500, "r": 13, "scale": 2.2 },
+	"author": { "name": "THE AUTHOR", "sprite": "author", "hp": 3000, "r": 13, "scale": 2.4 },
 	# 9.3 (his ask, 6 Oct, from another game's boss roster: ideas only, original designs): a second
 	# guardian for seven floors (GameData.ALT_GUARDIANS).
 	"admiral": { "name": "THE WALRUS ADMIRAL", "sprite": "admiral", "hp": 560, "r": 13, "scale": 2 },
@@ -566,6 +596,17 @@ const NEW_FLOORS := [
 	{ "name": "THE ECLIPSE", "accent": "red", "accent_hex": "#d8443c", "pool": ["voidling", "shadeknight", "eclipsed", "ghost", "golem", "voidling", "cutthroat"],
 	  "boss": "umbralsun", "mini": "herald", "hazard": "rift", "music": 5, "rooms": 12 },
 ]
+## 12.2: CHAPTER II, THE MARGINS: three floors after the Unwritten, joined to the list only once
+## the page is turned (run_stats["chapter"] == 2; floors()).
+const CHAPTER2 := [
+	{ "name": "THE INKWELL", "accent": "cyan", "accent_hex": "#4d6aa8", "pool": ["inkblot", "quillbat", "scrawler", "smudge", "inkhound", "inkblot"],
+	  "boss": "inkleviathan", "mini": "inkwidow", "hazard": "tide", "music": 5, "rooms": 12 },
+	{ "name": "THE BINDERY", "accent": "tan", "accent_hex": "#c8a878", "pool": ["papercut", "stitcher", "folio", "pressling", "pagewraith", "papercut"],
+	  "boss": "thebinder", "mini": "bindingpress", "hazard": "spikes", "music": 2, "rooms": 12 },
+	{ "name": "THE QUILL SPIRE", "accent": "gold", "accent_hex": "#f2c94c", "pool": ["quillknight", "nibling", "inkmage", "sealwarden", "scribe", "nibling"],
+	  "boss": "author", "mini": "headscribe", "hazard": "rift", "music": 5, "rooms": 13 },
+]
+
 ## Index of the original final floor (the Hollow Throne).
 const THRONE_FLOOR := 5
 
@@ -573,6 +614,13 @@ static var _floors: Array = []
 
 ## All floors: the six originals, then the new biomes. --classic leaves them out.
 static func floors() -> Array:
+	if G.run_stats.get("chapter", 1) == 2 and GameData.rogues():
+		if _floors2.is_empty():
+			_floors2 = _main_floors() + CHAPTER2
+		return _floors2   # 12.2: Chapter II
+	return _main_floors()
+
+static func _main_floors() -> Array:
 	if _floors.is_empty():
 		_floors = FLOORS.duplicate()
 		if not DebugArgs.has("classic"):
@@ -601,7 +649,7 @@ const SPRITE_COLOR := {
 	"eclipsed": "#d8443c", "herald": "#8a2a33", "bogmatriarch": "#3f7a5a", "ashwarlord": "#d8443c",
 	"frozenabbot": "#e8f6ff", "crowking": "#5c3483", "umbralsun": "#d8443c",
 	"judge": "#f2c94c", "cinderking": "#e8873a", "unwritten": "#f4ecd8",
-	"haggler": "#5c3483", "scrounger": "#8b8f9c", "raider": "#8a7a5a", "cogling": "#c9a35a", "steamjack": "#8a6a4a", "boltslinger": "#6fd3e0", "gearhound": "#a8705a", "rivetlobber": "#e8873a", "brasswasp": "#f2c94c", "foreman": "#e8873a", "greatengine": "#e8b84a", "frostmite": "#a8e0ff", "rimebrute": "#6a8aa8", "shardcaster": "#7ff0ff", "frostfang": "#c8d8e8", "snowlobber": "#e8f4ff", "glimmerwisp": "#c8f0ff", "hoarknight": "#8fd8ff", "glacialmaw": "#8fd8ff", "admiral": "#8a6a4a", "golemking": "#8a8f9c", "archmage": "#4d9be6", "phoenix": "#e8873a", "wyrm": "#c8f0ff", "chainfiend": "#d8443c", "seraph": "#f2c94c", "holycow": "#f4ecd8",
+	"haggler": "#5c3483", "scrounger": "#8b8f9c", "raider": "#8a7a5a", "cogling": "#c9a35a", "steamjack": "#8a6a4a", "boltslinger": "#6fd3e0", "gearhound": "#a8705a", "rivetlobber": "#e8873a", "brasswasp": "#f2c94c", "foreman": "#e8873a", "greatengine": "#e8b84a", "frostmite": "#a8e0ff", "rimebrute": "#6a8aa8", "shardcaster": "#7ff0ff", "frostfang": "#c8d8e8", "snowlobber": "#e8f4ff", "glimmerwisp": "#c8f0ff", "hoarknight": "#8fd8ff", "glacialmaw": "#8fd8ff", "admiral": "#8a6a4a", "golemking": "#8a8f9c", "archmage": "#4d9be6", "phoenix": "#e8873a", "wyrm": "#c8f0ff", "chainfiend": "#d8443c", "seraph": "#f2c94c", "inkblot": "#2a2a4a", "quillbat": "#4d6aa8", "scrawler": "#3a3a5a", "smudge": "#5a5a7a", "inkhound": "#2a2a4a", "inkwidow": "#3a2a5a", "papercut": "#f4ecd8", "stitcher": "#c8a878", "folio": "#a8885a", "pressling": "#8a6a4a", "pagewraith": "#f4ecd8", "bindingpress": "#6b4a2a", "quillknight": "#4a4a6a", "nibling": "#f2c94c", "inkmage": "#3a2a5a", "sealwarden": "#d8443c", "scribe": "#c8a878", "headscribe": "#f2c94c", "inkleviathan": "#4d6aa8", "thebinder": "#c8a878", "author": "#f2c94c", "holycow": "#f4ecd8",
 	# Rift worlds and event rooms.
 	"inmate": "#63b84f", "grenadier": "#d8443c", "jailer": "#3f7a5a", "turnkey": "#3f7a5a", "graveborn": "#7a3a8c",
 	"bandsman": "#7a5236", "fiendling": "#8a2a33", "blackknight": "#2a2838", "carrionknight": "#2a2838", "drone": "#6fd3e0",
@@ -646,7 +694,7 @@ const ENEMY_XP := { "bat": 2, "slime": 3, "slimelet": 1, "skeleton": 3, "mushroo
 	"inmate": 4, "grenadier": 4, "jailer": 6, "graveborn": 4, "bandsman": 4, "fiendling": 3, "blackknight": 7, "drone": 3,
 	"glitch": 4, "chrome": 7, "turret": 4, "thug": 4, "molotov": 4, "copper": 5, "bomber": 3, "orderly": 4, "crawler": 2,
 	"static": 4, "tollkeeper": 5, "neighbour": 4, "robovac": 5, "burglar": 4, "gnome": 4, "gangster": 5, "biker": 5,
-	"riotcop": 7, "outlaw": 5, "dynamiter": 4, "sharpshooter": 4, "coyote": 2, "goblin": 10, "haggler": 60, "scrounger": 4, "raider": 5, "cogling": 2, "steamjack": 7, "boltslinger": 4, "gearhound": 3, "rivetlobber": 4, "brasswasp": 2, "foreman": 45, "frostmite": 2, "rimebrute": 7, "shardcaster": 4, "frostfang": 3, "snowlobber": 4, "glimmerwisp": 2, "hoarknight": 45, "mimic": 15, "shadow": 40,
+	"riotcop": 7, "outlaw": 5, "dynamiter": 4, "sharpshooter": 4, "coyote": 2, "goblin": 10, "haggler": 60, "scrounger": 4, "raider": 5, "cogling": 2, "steamjack": 7, "boltslinger": 4, "gearhound": 3, "rivetlobber": 4, "brasswasp": 2, "foreman": 45, "frostmite": 2, "rimebrute": 7, "shardcaster": 4, "frostfang": 3, "snowlobber": 4, "glimmerwisp": 2, "hoarknight": 45, "inkblot": 5, "quillbat": 3, "scrawler": 5, "smudge": 4, "inkhound": 4, "inkwidow": 65, "papercut": 3, "stitcher": 8, "folio": 5, "pressling": 5, "pagewraith": 3, "bindingpress": 70, "quillknight": 7, "nibling": 3, "inkmage": 6, "sealwarden": 6, "scribe": 6, "headscribe": 75, "mimic": 15, "shadow": 40,
 	"turnkey": 45, "carrionknight": 45, "broker": 45, "mayor": 45, "rustbutcher": 45, "landlord": 45, "kingpin": 45, "marshal": 45, "galewarden": 45, "target": 0, "rotking": 45, "highcaliber": 45, "squallheron": 40, "tidecaptain": 40, "bellringer": 40, "casingrat": 6, "skykite": 3, "gustling": 3, "stormharpy": 4, "thunderhead": 4, "mirrorwing": 4, "rampartguard": 6, "sludgecrawler": 4, "chainwarden": 5, "tidecaller": 5, "longpike": 4, "shellpriest": 5, "dervish": 5, "deacon": 5, "beltfeeder": 6, "beltlink": 2, "ammomimic": 6, "tombspider": 3, "candlewight": 4, "gargoyle": 6, "wardrummer": 4, "bloodleech": 3 }
 
 static func xp_needed(level: int) -> int:

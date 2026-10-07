@@ -1130,3 +1130,78 @@ S["relic_nightfall"] = ("main:#2a2040 glow:#c08aff", [
 S["npc_archivist"] = ("main:#5a6a8a glow:#c8f0ff bone:#e8e8f0 wood:#6b4a2a", OV(M([
 "...ooo", "..o333", ".o3333", ".o30y0", ".o3333", "..olll", "...oll", "o3o333", "o3ouvv", "o3ouvv",
 ".oo333", "..o33o", "..o33o", "..ooo."]), {6: "..........y.", 7: ".........oyo", 8: "..........o."}))
+
+# 12.2: THE INKLING, a drop of ink that got loose from the page (a quill stuck in its head), and
+# THE BOOKBINDER, a stitched paper woman with a needle and thread.
+S["npc_inkling"] = ("main:#2a2a4a glow:#9ab8ff bone:#f4ecd8", OV(M([
+"......", "......", "...ooo", "..o333", ".o3333", ".o3y03", ".o3333", "o33333", "o32222", ".o2222",
+"..oooo"]), {0: "......l.....", 1: "......lo....", 2: ".......l...."}))
+S["npc_bookbinder"] = ("main:#a8885a glow:#d8443c bone:#f4ecd8 wood:#6b4a2a", OV(M([
+"...ooo", "..o999", ".o9888", ".o80y0", ".o8888", "..oooo", "..o333", "o3ollv", "o3ollv", "o3ollv",
+".oo333", "..o33o", "..o33o", "..ooo."]), {6: ".........l..", 7: ".........yl.", 8: "..........l."}))
+
+# ---- 12.2 (his ask, 6 Oct: a story chapter): CHAPTER II, THE MARGINS. Ink, paper and quills.
+# The Inkwell.
+S["inkblot"] = ("main:#2a2a4a glow:#9ab8ff", M([
+"......", "...ooo", "..o333", ".o3333", ".o3y03", "o33333", "o32222", "o22222", ".oo2o2", "...o.o"]))
+S["quillbat"] = ("main:#4d6aa8 glow:#ffffff bone:#f4ecd8", M([
+"l.....", "lo..o.", ".lo.o3", "..oo3y", "..o333", "...o22", "....o2", "......"]))
+S["scrawler"] = ("main:#3a3a5a glow:#9ab8ff bone:#f4ecd8", OV(M([
+"...ooo", "..o333", "..o3y0", "..o333", ".o33o3", "o3o322", "o3o322", "o3o322", ".oo322", "..o32o",
+"..o00o", "..ooo."]), {5: "..........ll", 6: "..........lo"}))
+S["smudge"] = ("main:#5a5a7a glow:#c8d8ff", M([
+"...ooo", "..o333", ".o3333", ".o3y03", ".o3333", "o33333", "o32222", "o2o2o2", ".o.o.o", "......"]))
+S["inkhound"] = ("main:#2a2a4a glow:#9ab8ff", [
+"............", "............", ".o.o........", "o3o3o.......", "o3333o......", "o0y33ooooooo",
+".o33232323oo", "..o3333333o.", "..o2o..o2o..", "..o2o..o2o..", ".oo....oo...", "............"])
+S["inkwidow"] = ("main:#3a2a5a glow:#c08aff bone:#f4ecd8", M([
+"....oooo", "...o3333", "..o33333", "..o30y03", "..o33333", "o.o3llll", "3o.o3333", "o33o3333",
+".o33o222", "..o3o222", ".o3oo222", "o3o.o222", "3o..o22o", "o...oooo"]))
+# The Bindery.
+S["papercut"] = ("main:#e8e0d0 glow:#d8443c", M([
+".....o", "....ol", "...oll", "..olly", ".ollll", "olllll", ".ooool", "....oo"]))
+S["stitcher"] = ("main:#c8a878 glow:#d8443c", M([
+"...ooo", "..o333", ".o3y33", ".o3333", "oo3o33", "o3o3l3", "o3o3l2", "o2o322", ".oo2l2", "..o2oo",
+"..o2o.", "..ooo."]))
+S["folio"] = ("main:#a8885a bone:#f4ecd8 glow:#ffffff", M([
+"oooooo", "o3333o", "o3llll", "o3ly0l", "o3llll", "o3llll", "o3llll", "oooooo", "......", "......"]))
+S["pressling"] = ("main:#8a6a4a bone:#f4ecd8 glow:#ffb040", OV(M([
+"...ooo", "..o999", "..o888", "..o8y8", "..o888", ".o33o3", "o3o322", "o3o322", "o5o322", ".oo322",
+"..o32o", "..ooo."]), {4: ".........ll."}))
+S["pagewraith"] = ("main:#e8e0d0 glow:#9ab8ff halo:1", M([
+"....o.", "...oll", "..olll", ".olly0", ".ollll", "..olll", "..ol.l", "...o.o", "......", "......"]))
+S["bindingpress"] = ("main:#6b4a2a glow:#ffb040", M([
+"oooooooo", "o9999999", "o8888888", "oooooooo", "..o33333", "..o3y033", "..o33333", "oo333333",
+"o3o32222", "o3o32222", "o3o3o222", ".oo3o222", "..o3oo22", "..oooooo"]))
+# The Quill Spire.
+S["quillknight"] = ("main:#4a4a6a glow:#9ab8ff bone:#f4ecd8", OV(M([
+"....oo", "...o99", "..o998", "..o0y0", "..o888", ".o98o8", "o9o332", "o9o3q2", "o8o322", ".oo322",
+"..o98o", "..ooo."]), {0: "..........l.", 1: "..........l.", 2: "..........l."}))
+S["nibling"] = ("main:#f2c94c glow:#2a2a4a", M([
+"......", "....oo", "...o33", "..o3y3", "..o333", "...o3o", "....o.", "......"]))
+S["inkmage"] = ("main:#3a2a5a glow:#c08aff", M([
+".....o", "....o3", "...o33", "..o333", ".ooooo", "..o0y0", "..o000", ".o33o3", "o3o322", "o3o3x2",
+".oo322", "..o32o", "..ooo."]))
+S["sealwarden"] = ("main:#8a2a33 glow:#ffb040 gold:#f2c94c", M([
+"...ooo", "..oqqq", "..o333", "..o3y3", "..o333", ".o33o3", "o3o3qq", "o3o3qr", "o3o322", ".oo322",
+"..o32o", "..ooo."]))
+S["scribe"] = ("main:#c8a878 skin:#e0a47a glow:#2a2a4a", M([
+"...ooo", "..o333", ".o3333", "..o555", "..o5y5", "..o555", ".o33o3", "o3o322", "o3o322", ".oo322",
+"..o32o", "..ooo."]))
+S["headscribe"] = ("main:#f2c94c second:#3a2a5a skin:#e0a47a glow:#ffffff", M([
+"......oo", ".....o33", "....o333", "...oaaaa", "...o5555", "...o5y55", "...o5555", "..oo3333",
+".o33o333", "o333o222", "o3o3o2a2", ".oo3o222", "..o32222", "..oooooo"]))
+# The guardians.
+S["inkleviathan"] = ("main:#2a2a4a glow:#9ab8ff bone:#f4ecd8", M([
+"........", "..o..ooo", ".o3oo333", ".o333333", "o3333y03", "o3333333", "o3oooooo", "o3oljolj",
+"o3o0000x", "o3oljolj", "o3oooooo", "o3332222", ".o222222", "o2o2o2o2", "o.o.o.o.", "........"]))
+S["thebinder"] = ("main:#c8a878 glow:#d8443c bone:#f4ecd8", M([
+"...ooooo", "..o33333", ".o333333", ".o3y0333", ".o333333", "..olllll", "..ollll9", "oooooooo",
+"o3333333", "o3o3llll", "o3o3l9ll", "o3o3llll", ".oo32222", "..o32222", "..o3oo22", "..ooo..."]))
+S["author"] = ("main:#f4ecd8 second:#2a2a4a skin:#e0a47a glow:#f2c94c bone:#ffffff halo:1", OV(M([
+"....oooo", "...oaaaa", "..oaaaaa", "..o55555", "..o5y055", "..o55555", "...olll5", ".ooolll3",
+"o3333333", "o3o33333", "o3o3qq33", "o3o33333", ".oo33333", "..o33333", "..o333oo", "..oooo.."]),
+{0: "...............y", 1: "..............yo", 2: ".............oo.", 3: "............oo..", 4: "...........oo..."}))
+for _n in ["inkblot", "quillbat", "scrawler", "smudge", "inkhound", "papercut", "stitcher", "folio", "pressling",
+		"pagewraith", "quillknight", "nibling", "inkmage", "sealwarden", "scribe"]:
+	ELITE.setdefault(_n, {})

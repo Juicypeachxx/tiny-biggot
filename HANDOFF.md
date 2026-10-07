@@ -828,6 +828,12 @@ weapons duskblade, prismfan, spectrum; relics gloomlantern, nightfall. `tests/gl
 `Meta.meta["story"]`, `reach()` from on_boss_dead (floors 6 and 11) and `_realm_won`, the Archivist
 (`n_archivist`, an EventRooms kind; seated by `Story.place` in rest stops). `tests/story_test`.
 
+12.2: `GameData.CHAPTER2` (3 floors) joins `floors()` when `run_stats.chapter == 2`
+(`_main_floors()` is the plain list). The seam's `n_endbook` / `n_turnpage` (game.gd `_realm_won`);
+`begin_chapter2()`; `_chapter_won()` (the Author: last floor while chapter 2). `Story.chapter2()`,
+`bind_shop()` (`n_bookbinder` at rest stops), `inkling()` (`n_inkling`, EventRooms.on_room_clear).
+Test option `--chapter=2` (then `--floor=0-2`). Tests: realms (`_chapter2`), story (the people).
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

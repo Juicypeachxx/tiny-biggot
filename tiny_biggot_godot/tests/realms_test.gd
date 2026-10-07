@@ -160,6 +160,22 @@ func _way(realm: String) -> void:
 	for o in G.room.objects:
 		if o["kind"] == "chest":
 			o["opened"] = true
+	play(30)
+	# 12.2: end the story here (Heaven's way in this test), or turn the page (Hell's).
+	var book = null
+	var turn = null
+	for o in G.room.objects:
+		if o["kind"] == "n_endbook":
+			book = o
+		elif o["kind"] == "n_turnpage":
+			turn = o
+	if book == null or turn == null:
+		fail("%s: no choice of ending the story or turning the page" % realm)
+		return
+	if realm == "hell":
+		_chapter2(turn)
+		return
+	G.interact(book)
 	for i in 400:
 		play(1)
 		if G.state == &"win":
@@ -169,6 +185,57 @@ func _way(realm: String) -> void:
 	elif not G.award.get("parts", []).any(func(x): return x[0] == "THE UNWRITTEN"):
 		fail("%s: the last ending paid no embers" % realm)
 	G.state = &"play"
+
+## 12.2: the page turns: Chapter II's three floors, each with its own foes, then the Author.
+func _chapter2(page: Dictionary) -> void:
+	G.interact(page)
+	play(90)
+	if G.run_stats.get("chapter", 1) != 2 or GameData.floors().size() != GameData.FLOORS.size() + GameData.NEW_FLOORS.size() + 3:
+		fail("chapter II: not begun (chapter %s, %d floors)" % [G.run_stats.get("chapter", 1), GameData.floors().size()])
+		return
+	for k in 3:
+		var f := GameData.FLOORS.size() + GameData.NEW_FLOORS.size() + k
+		if G.floor_index != f or GameData.floors()[f]["name"] != GameData.CHAPTER2[k]["name"]:
+			fail("chapter II: on floor %d (%s), want %s" % [G.floor_index, GameData.floors()[G.floor_index]["name"], GameData.CHAPTER2[k]["name"]])
+			return
+		G.enter_room(World.make_room(G.floor_d, "combat", "", "s", { "no_secret": true }))
+		play(200)
+		for e in G.enemies:
+			if not e.type in GameData.CHAPTER2[k]["pool"] and e.type != "dummy":
+				fail("chapter II floor %d: a foreign foe %s" % [k + 1, e.type])
+				break
+		G.enemies.clear()
+		G.locked = false
+		G.enter_room(World.make_room(G.floor_d, "boss", "", "s", { "no_secret": true }))
+		play(240)
+		if G.boss == null or G.boss.boss != GameData.CHAPTER2[k]["boss"]:
+			fail("chapter II floor %d: the guardian is %s" % [k + 1, G.boss.boss if G.boss != null else "nobody"])
+			return
+		_fell(G.boss)
+		play(60)
+		if k < 2:
+			var portal = null
+			for o in G.room.objects:
+				if o["kind"] == "portal":
+					portal = o
+			if portal == null:
+				fail("chapter II floor %d: no way down" % (k + 1))
+				return
+			G.floor_index += 1
+			G.start_floor()
+	for o in G.room.objects:
+		if o["kind"] == "chest":
+			o["opened"] = true
+	for i in 600:
+		play(1)
+		if G.state == &"win":
+			break
+	if G.state != &"win" or not G.run_stats.get("author", false):
+		fail("chapter II: the Author's fall did not win the run (state %s, author %s)" % [G.state, G.run_stats.get("author", false)])
+	elif not G.award.get("parts", []).any(func(x): return x[0] == "CHAPTER II"):
+		fail("chapter II: no embers for the chapter")
+	G.state = &"play"
+	G.run_stats["chapter"] = 1
 
 func _fight(key: String) -> void:
 	var p := _run()

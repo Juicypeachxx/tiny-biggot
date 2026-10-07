@@ -319,6 +319,9 @@ def all_for(v):
     out["kit0"] = kit(vb)
     out["kit_spire"] = kit(vb, 11, { "floor": "#5a4630", "floor2": "#54412c", "wall": "#3a2c22", "cap": "#8a6a3a" })   # 6.4
     out["kit_rimefrost"] = kit(vb, 13, { "floor": "#3a5068", "floor2": "#36495f", "wall": "#24324a", "cap": "#7aa8c8" })   # 7.3
+    out["kit11"] = kit(vb, 21, { "floor": "#1e2238", "floor2": "#1b1f33", "wall": "#141628", "cap": "#4d6aa8" })   # 12.2 the Inkwell
+    out["kit12"] = kit(vb, 22, { "floor": "#6a5a44", "floor2": "#64553f", "wall": "#3a2c22", "cap": "#c8a878" })   # the Bindery
+    out["kit13"] = kit(vb, 23, { "floor": "#3a3448", "floor2": "#363043", "wall": "#241f30", "cap": "#f2c94c" })   # the Quill Spire
     return out
 
 # ---- His ask (6 Oct): a guardian evolves with its stages, more menacing each time. Made from its
@@ -330,7 +333,7 @@ EVOLVE = {   # guardian -> the colour it burns with when it evolves
 	"frozenabbot": "#bff4ff", "crowking": "#ff2a2a", "umbralsun": "#e08aff", "holycow": "#ffd84a",
 	"judge": "#fff07a", "cinderking": "#ff6a1a", "unwritten": "#e0e0ff", "stormcrown": "#7ff0ff",
 	"bilgehydra": "#5affa0", "brassorgan": "#ff4a3a", "greatengine": "#ff8a1a", "glacialmaw": "#5ad8ff",
-	"admiral": "#5ad8ff", "golemking": "#ffb040", "archmage": "#7ff0ff", "phoenix": "#fff07a", "wyrm": "#7ff0ff", "chainfiend": "#ff3020", "seraph": "#fff07a",
+	"admiral": "#5ad8ff", "inkleviathan": "#9ab8ff", "thebinder": "#ff4a3a", "author": "#fff07a", "golemking": "#ffb040", "archmage": "#7ff0ff", "phoenix": "#fff07a", "wyrm": "#7ff0ff", "chainfiend": "#ff3020", "seraph": "#fff07a",
 }
 
 def evolve(im, stage, burn):
@@ -456,6 +459,9 @@ FORMS = {
 	                3: [("flames", 3, -3, None, 0), ("horn_b", -2, -5, 18, 1), ("spike", -2, 10, 18, 0), ("spike", -2, 5, 18, 0)]},
 	"glacialmaw":  {2: [("horn_d", 0, -4, 16, 1), ("spike", -1, 10, 17, 0)],
 	                3: [("horn_b", -2, -5, 18, 1), ("spike", -2, 10, 18, 0), ("spike", -2, 5, 18, 0), ("eyes", 5, 2, None, 0)]},
+	"inkleviathan": {2: [("tent", 3, 15, None, 1), ("horn_d", 0, -3, 16, 1)], 3: [("tent", 0, 15, None, 1), ("tent", 6, 15, None, 1), ("eyes", 5, 3, None, 0), ("horn_b", -2, -5, 18, 1)]},
+	"thebinder":   {2: [("spike", -1, 8, 17, 0)], 3: [("horn_b", 0, -4, 15, 1), ("spike", -2, 8, 18, 0), ("eye3", 6, 3, None, 0)]},
+	"author":      {2: [("wing", -6, 6, 22, 1), ("eye3", 6, 2, None, 0)], 3: [("wing", -6, 3, 22, 1), ("wing", -6, 9, 22, 1), ("eyes", 4, 8, None, 0), ("flames", 3, -4, None, 0)]},
 	"admiral":     {2: [("horn_s", 2, -2, 13, 1)], 3: [("horn_b", 0, -4, 15, 1), ("eyes", 5, 4, None, 0)]},
 	"golemking":   {2: [("spike", -1, 8, 17, 0)], 3: [("horn_b", 0, -4, 15, 1), ("spike", -2, 8, 18, 0), ("spike", -2, 4, 18, 0)]},
 	"archmage":    {2: [("eye3", 6, 1, None, 0)], 3: [("eyes", 4, 9, None, 0), ("tent", 4, 15, None, 1), ("horn_d", 1, -3, 15, 1)]},
@@ -527,6 +533,7 @@ MINIS = {   # mini-boss or champion -> (kind of form, the colour it burns with)
 	"highcaliber": ("fire", "#ff5a1a"), "squallheron": ("wing", "#8ae8ff"), "tidecaptain": ("brute", "#5affa0"),
 	"bellringer": ("maw", "#c05aff"), "shadow": ("maw", "#d08aff"), "foreman": ("brute", "#ffa040"),
 	"hoarknight": ("brute", "#8fe8ff"),
+	"inkwidow": ("maw", "#c08aff"), "bindingpress": ("brute", "#ffb040"), "headscribe": ("wing", "#fff07a"),
 }
 
 def _dominant_meta(im):

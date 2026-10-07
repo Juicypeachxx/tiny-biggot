@@ -673,7 +673,12 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       Done: STORY.md (the world is a book still being written by THE AUTHOR); THE ARCHIVIST at rest
       stops tells it line by line as far as the player has ever reached (saved); milestones at the
       Regent, the Umbral Sun, a realm, the Unwritten. The chapter's NPCs come with 12.2.
-- [ ] 12.2 New stages and environments after the current end, in a new chapter.
+- [x] 12.2 New stages and environments after the current end, in a new chapter.
+      Done: after the Unwritten falls, END THE STORY or TURN THE PAGE. CHAPTER II, THE MARGINS: three
+      new floors (THE INKWELL, THE BINDERY, THE QUILL SPIRE), 15 new foes, 3 mini-bosses, 3 guardians
+      (the Ink Leviathan, the Binder, THE AUTHOR, with chaos attacks), new floor tiles. The Author's
+      fall wins the run (+300 embers). New people: THE INKLING (wanders into cleared chapter fights,
+      opens a hidden wall) and THE BOOKBINDER (chapter rest stops, sells a relic).
 - [ ] 12.3 New final bosses for the chapter, and hidden final bosses reached only by secret
       routes or conditions that the story hints at.
 - [ ] 12.4 Endings and unlocks that follow the story; IPA per part as it grows.

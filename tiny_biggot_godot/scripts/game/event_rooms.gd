@@ -20,7 +20,7 @@ extends RefCounted
 const KINDS := ["e_pitboss", "e_mechanic", "e_teller", "e_card", "e_courier", "e_attendant", "e_beacon", "e_statue",
 	"e_plate", "e_decor", "w_drunk", "w_merchant",
 	"e_frog", "e_glyph", "e_pawn", "e_hustler", "e_cup", "e_gong",   # 10.2
-	"n_archivist"]   # 12.1 (story.gd)
+	"n_archivist", "n_endbook", "n_turnpage", "n_inkling", "n_bookbinder"]   # 12.1-12.2 (story.gd)
 ## 10.2 (his ask, 6 Oct, from his trailer clips: ideas only, this game's own events):
 ##   frog       THE FROG POND: kiss the frog or leave it. A royal gift, a little luck, or warts.
 ##   ritual     THE RITUAL CIRCLE: four glyphs (sun, moon, star, skull); stand on one for its
@@ -275,6 +275,22 @@ static func interact(o: Dictionary) -> void:
 		# 10.2
 		"n_archivist":
 			Story.tell(o)
+		"n_inkling":
+			Story.inkling(o)
+		"n_bookbinder":
+			Story.bookbinder(o)
+		"n_endbook":
+			o["used"] = true
+			for o2 in G.room.objects:
+				if o2["kind"] == "n_turnpage":
+					o2["used"] = true
+			G.show_banner("THE BOOK IS CLOSED", "THE PAGE IS YOURS. A STORY WELL TOLD")
+			G.win_timer = 3.0
+			Snd.play("open")
+		"n_turnpage":
+			o["used"] = true
+			Snd.play("portal")
+			G.start_fade(func(): G.begin_chapter2())
 		"e_frog":
 			o["used"] = true
 			var roll := randf()
@@ -683,6 +699,10 @@ static func on_room_clear(room: Room) -> void:
 		met["drunk" + floor_key] = true
 		_place(room, { "kind": "w_drunk" })
 		G.toast("A FAMILIAR SNORE...", "grey")
+	elif Story.chapter2() and not met.has("inkling" + floor_key) and randf() < 0.35:
+		met["inkling" + floor_key] = true   # 12.2: in Chapter II, the Inkling knows where the walls are thin
+		_place(room, { "kind": "n_inkling" })
+		G.toast("SOMETHING DRIPS FROM THE CEILING...", "grey")
 	elif not met.has("merchant" + floor_key) and randf() < 0.06:
 		met["merchant" + floor_key] = true
 		var sells: String = TB.pick(["potion", "key", "bomb", "armor"])
@@ -737,6 +757,16 @@ static func prompt(o: Dictionary) -> Array:
 			return ["A SIGNAL BEACON", "LIGHT IT, THEN STAND IN ITS LIGHT FOR 45S", "LIGHT IT"]
 		"e_statue":
 			return ["A STONE STATUE", "ITS EYES SHOW THE ORDER OF THE PLATES", "LOOK"]
+		"n_endbook":
+			return ["THE BOOK", "END THE STORY HERE: THE RUN IS WON", "CLOSE IT"]
+		"n_turnpage":
+			return ["THE NEXT PAGE", "CHAPTER II: THE MARGINS, THE AUTHOR'S WORKSHOP", "TURN THE PAGE"]
+		"n_inkling":
+			return ["THE INKLING", "A DROP OF INK THAT GOT LOOSE FROM THE PAGE", "LISTEN"]
+		"n_bookbinder":
+			if o.get("relic") == null:
+				return ["THE BOOKBINDER", "HER SHELF IS BARE", "..."]
+			return ["THE BOOKBINDER", "A BOUND RELIC: " + str(o["relic"]["name"]), "PAY %d GOLD" % o["price"]]
 		"n_archivist":
 			return ["THE ARCHIVIST", "HE HAS SOMETHING NEW TO TELL" if Story.has_new() else "HE KNOWS HOW THE STORY GOES", "LISTEN"]
 		"e_frog":
@@ -814,6 +844,22 @@ static func draw(ci: CanvasItem, o: Dictionary, t: float) -> void:
 			if not o["lit"]:
 				var col: String = { "r": "#d8443c", "g": "#63b84f", "u": "#4d9be6", "y": "#f2c94c" }[o["col"]]
 				Gfx.px(ci, TB.c(col), x - 1, y + 2, 2)
+		"n_endbook":
+			if not o.get("used", false):
+				Gfx.sp(ci, "tome", x, y + 6, 2, 2)
+				Gfx.text(ci, "THE END", x, y - 30, "bone", 1, 0.5)
+		"n_turnpage":
+			if not o.get("used", false):
+				var zm := 2.0 + sin(t * 3) * 0.08
+				Gfx.sp(ci, "riftdoor", x, y + 8, zm, zm)
+				Gfx.text(ci, "CHAPTER II", x, y - 34, "gold", 1, 0.5)
+		"n_inkling":
+			if not o.get("used", false):
+				Gfx.sp(ci, "npc_inkling", x, y + absf(sin(t * 5.0)) * -2.0)
+		"n_bookbinder":
+			Gfx.sp(ci, "npc_bookbinder", x, y + breathe)
+			if o.get("relic") != null:
+				Gfx.text(ci, "RELIC", x, y - 24, "gold", 1, 0.5)
 		"n_archivist":
 			Gfx.sp(ci, "npc_archivist", x, y + breathe)
 			if Story.has_new():

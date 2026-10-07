@@ -628,6 +628,7 @@ func setup_objects(r: Room) -> void:
 				r.objects.append({ "kind": "anvil", "x": cx + 56, "y": cy })
 				Alignments.shrines(r, cx, cy)   # 8.1: take one alignment point
 				Story.place(r, cx, cy)   # 12.1: the Archivist by the fire
+				Story.bind_shop(r, cx, cy)   # 12.2: the Bookbinder, in Chapter II
 	# Pets (expanded game only): a cage in some treasure rooms, vaults and hidden rooms, one for sale in some shops.
 	if GameData.rogues():
 		var chance: float = { "treasure": 0.12, "vault": 0.35, "secret": 0.2, "shop": 0.25 }.get(r.type, 0.0)
@@ -874,6 +875,9 @@ func on_boss_dead(b: Enemy) -> void:
 		open_exits()
 		return
 	var last := floor_index >= GameData.floors().size() - 1
+	if last and run_stats.get("chapter", 1) == 2:
+		_chapter_won(b)   # 12.2: the Author falls
+		return
 	if floor_index == GameData.THRONE_FLOOR and not last and not run_stats.get("throne", false):
 		throne_victory()
 	room.objects.append({ "kind": "chest", "x": 14.0 * TB.TS - (0 if last else 28), "y": 10.0 * TB.TS, "boss": true })
@@ -920,6 +924,24 @@ func _boss_reward(b: Enemy) -> void:
 		for i in 3:
 			Combat.drop_pickup("gem", b.x, b.y)
 
+## 12.2: the page turns. Chapter II's three floors join the list (GameData.floors) and the run goes on
+## with everything the hero carries.
+func begin_chapter2() -> void:
+	run_stats["chapter"] = 2
+	Story.reach("ch2")
+	floor_index = GameData.FLOORS.size() + GameData.NEW_FLOORS.size()
+	start_floor()
+	toast("CHAPTER II: THE MARGINS", "gold")
+
+## 12.2: the Author falls: the book stays open and the run is won (12.3 adds what is hidden).
+func _chapter_won(b: Enemy) -> void:
+	run_stats["author"] = true
+	Story.reach("author")
+	Meta.meta["author_wins"] = Meta.meta.get("author_wins", 0) + 1
+	room.objects.append({ "kind": "chest", "x": 14.0 * TB.TS, "y": 10.0 * TB.TS, "boss": true })
+	show_banner("THE AUTHOR FALLS", "THE BOOK STAYS OPEN. THE STORY IS YOURS")
+	win_timer = 6.0
+
 ## Heaven and Hell (ROADMAP 4.7 part C): a realm's ruler falls and the way to the Unwritten Page
 ## opens; the Unwritten falls and the run is won, the last ending of all.
 func _realm_won(b: Enemy) -> void:
@@ -928,6 +950,12 @@ func _realm_won(b: Enemy) -> void:
 	if id == "seam":
 		run_stats["unwritten"] = true
 		Meta.meta["unwritten_wins"] = Meta.meta.get("unwritten_wins", 0) + 1
+		if GameData.rogues():
+			# 12.2: end the story here, or turn the page into Chapter II (STORY.md).
+			show_banner("THE UNWRITTEN FALLS", "END THE STORY HERE, OR TURN THE PAGE")
+			room.objects.append({ "kind": "n_endbook", "x": 14.0 * TB.TS - 52, "y": 10.0 * TB.TS })
+			room.objects.append({ "kind": "n_turnpage", "x": 14.0 * TB.TS + 52, "y": 10.0 * TB.TS })
+			return
 		show_banner("THE UNWRITTEN FALLS", "THE PAGE IS YOURS. WRITE WHAT COMES NEXT")
 		win_timer = 5.0
 		return
@@ -965,6 +993,8 @@ func award_embers(win: bool) -> void:
 		parts.append(["HEAVEN" if run_stats["realm"] == "heaven" else "HELL", 100])
 	if run_stats.get("unwritten", false):
 		parts.append(["THE UNWRITTEN", 200])
+	if run_stats.get("author", false):
+		parts.append(["CHAPTER II", 300])   # 12.2
 	if run_stats.get("trophies", 0) > 0:
 		parts.append(["NEW TROPHIES", run_stats["trophies"] * Trophies.EMBERS])
 	var base := 0

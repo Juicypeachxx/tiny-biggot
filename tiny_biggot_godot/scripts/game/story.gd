@@ -68,6 +68,42 @@ static func place(r: Room, cx: float, cy: float) -> void:
 	if GameData.rogues() and (has_new() or randf() < 0.35):
 		r.objects.append({ "kind": "n_archivist", "x": cx - 56, "y": cy })
 
+## 12.2: on a Chapter II floor.
+static func chapter2() -> bool:
+	return GameData.rogues() and G.run_stats.get("chapter", 1) == 2 \
+		and G.floor_index >= GameData.FLOORS.size() + GameData.NEW_FLOORS.size()
+
+## THE BOOKBINDER, at Chapter II rest stops: one relic bound into a cover, for gold.
+static func bind_shop(r: Room, cx: float, cy: float) -> void:
+	if not chapter2():
+		return
+	var rel := G.roll_relics(1, "iron", r)
+	r.objects.append({ "kind": "n_bookbinder", "x": cx + 104, "y": cy - 4,
+		"relic": rel[0] if not rel.is_empty() else null, "price": G.price(55 + G.floor_index * 2) })
+
+static func bookbinder(o: Dictionary) -> void:
+	var p := G.player
+	if o.get("relic") == null:
+		G.toast("COME BACK WHEN THE BOOK HAS MORE PAGES", "grey")
+		return
+	if p.gold < o["price"]:
+		G.deny(o, "NEED %d GOLD" % o["price"])
+		return
+	p.gold -= o["price"]
+	G.add_relic(p, o["relic"])
+	G.show_banner("THE BOOKBINDER", "\"" + str(o["relic"]["name"]) + ". MIND THE SPINE.\"")
+	o["relic"] = null
+	Snd.play("coin")
+
+## THE INKLING, wandering into cleared Chapter II fights: it drips on a wall and a hidden door opens.
+static func inkling(o: Dictionary) -> void:
+	o["used"] = true
+	o["gone"] = true
+	if not G.reveal_hidden_door("THE INKLING", "\"THE WALL IS ONLY PAPER HERE. TORN PAGES HIDE BEHIND PAPER.\""):
+		G.show_banner("THE INKLING", "\"THREE PAGES WERE TORN OUT. THEY HIDE IN THE ROOMS BEHIND THE WALLS.\"")
+	Fx.burst(o["x"], o["y"], ["#2a2a4a", "#9ab8ff"], 16, 60)
+	Snd.play("select")
+
 static func tell(o: Dictionary) -> void:
 	o["talks"] = o.get("talks", 0) + 1
 	G.show_banner("THE ARCHIVIST", next_line())
