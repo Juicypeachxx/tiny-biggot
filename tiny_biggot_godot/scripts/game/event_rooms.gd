@@ -20,7 +20,7 @@ extends RefCounted
 const KINDS := ["e_pitboss", "e_mechanic", "e_teller", "e_card", "e_courier", "e_attendant", "e_beacon", "e_statue",
 	"e_plate", "e_decor", "w_drunk", "w_merchant",
 	"e_frog", "e_glyph", "e_pawn", "e_hustler", "e_cup", "e_gong",   # 10.2
-	"n_archivist", "n_endbook", "n_turnpage", "n_inkling", "n_bookbinder", "n_tornpage", "n_redactdoor", "n_readon", "e_pond"]   # 12.1-12.2 (story.gd)
+	"n_archivist", "n_endbook", "n_turnpage", "n_inkling", "n_bookbinder", "n_tornpage", "n_redactdoor", "n_readon", "e_pond", "e_angler"]   # 12.1-12.2 (story.gd)
 ## 10.2 (his ask, 6 Oct, from his trailer clips: ideas only, this game's own events):
 ##   frog       THE FROG POND: kiss the frog or leave it. A royal gift, a little luck, or warts.
 ##   ritual     THE RITUAL CIRCLE: four glyphs (sun, moon, star, skull); stand on one for its
@@ -29,7 +29,7 @@ const KINDS := ["e_pitboss", "e_mechanic", "e_teller", "e_card", "e_courier", "e
 ##              a sealed box with a random piece in it.
 ##   cups       CUP AND BALL: bet, watch three cups shuffle, pick one. The ball pays three times.
 ##   lightning  THE LIGHTNING ROUND: ring the gong, clear three quick waves within 30 s: an iron chest.
-const EVENTS_10 := ["frog", "ritual", "pawn", "cups", "lightning"]
+const EVENTS_10 := ["frog", "ritual", "pawn", "cups", "lightning", "fishing"]   # 15.2: THE FISHING HOLE
 const GLYPHS := {
 	"sun": ["THE SUN", "good", "HEAL EVERY HEART. +1 MAX HEART", [["add", "max_hp", 2], ["add", "hp", 99], ["clamp_max", "hp", "max_hp"]]],
 	"moon": ["THE MOON", "chaos", "+1 ROLL CHARGE. +10% MOVE SPEED", [["add", "dodge_charges", 1], ["add", "charges", 1], ["mul", "speed", 1.1]]],
@@ -51,6 +51,7 @@ const TITLE := {
 	"vault": ["THE PLATE VAULT", "THE STATUE KNOWS THE ORDER"],
 	"cursed": ["THE CURSED ARMORY", "FINE WEAPONS. BAD LUCK"],
 	"frog": ["THE FROG POND", "IT LOOKS AT YOU EXPECTANTLY"],
+	"fishing": ["THE FISHING HOLE", "QUIET WATER. SOMETHING BIG LIVES HERE"],
 	"ritual": ["THE RITUAL CIRCLE", "WHICH SIGN WILL YOU STAND ON?"],
 	"pawn": ["THE PAWN SHOP", "EVERYTHING HAS A PRICE. EVEN YOUR JUNK"],
 	"cups": ["CUP AND BALL", "KEEP YOUR EYE ON THE BALL"],
@@ -149,6 +150,8 @@ static func setup(r: Room, ev: String) -> void:
 		# 10.2
 		"frog":
 			r.objects.append({ "kind": "e_frog", "x": cx, "y": cy })
+		"fishing":
+			Fishing.setup_hole(r)
 		"ritual":
 			var keys := GLYPHS.keys()
 			for i in keys.size():
@@ -281,6 +284,8 @@ static func interact(o: Dictionary) -> void:
 			Story.take_page(o)
 		"e_pond":
 			Fishing.start(o)
+		"e_angler":
+			Fishing.angler(o)
 		"n_readon":
 			o["used"] = true
 			for o2 in G.room.objects:
@@ -444,6 +449,7 @@ static func update(dt: float) -> void:
 	if room == null:
 		return
 	_update_parcel(dt)
+	Fishing.keep_out(G.player)   # 15.2: nobody walks on water
 	if room.event == "":
 		return
 	for o in room.objects:
@@ -781,6 +787,8 @@ static func prompt(o: Dictionary) -> Array:
 			return ["THE NEXT PAGE", "CHAPTER II: THE MARGINS, THE AUTHOR'S WORKSHOP", "TURN THE PAGE"]
 		"n_tornpage":
 			return ["A TORN PAGE", "TORN FROM THE BOOK. %d OF 3 FOUND" % G.run_stats.get("pages", 0), "TAKE IT"]
+		"e_angler":
+			return Fishing.angler_prompt(o)
 		"e_pond":
 			return ["A POND", "%d CASTS LEFT. FISH FOUND %d OF %d" % [o.get("casts", 0), Fishing.caught_kinds(), Fishing.FISH.size()], "FISH"]
 		"n_readon":
@@ -884,6 +892,8 @@ static func draw(ci: CanvasItem, o: Dictionary, t: float) -> void:
 				Gfx.sp(ci, "tornpage", x, y + sin(t * 2.5) * 2.0)
 		"e_pond":
 			Fishing.draw_pond(ci, o, t)
+		"e_angler":
+			Fishing.draw_angler(ci, o, t)
 		"n_readon":
 			if not o.get("used", false):
 				var zq := 2.0 + sin(t * 3) * 0.08

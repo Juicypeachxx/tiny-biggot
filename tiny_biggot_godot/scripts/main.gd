@@ -161,8 +161,12 @@ func _ready() -> void:
 			G.menu = G.wardrobe_i
 		"fishing":   # 15.1: a pond next to the hero, the line already out (--fish-auto: it plays itself)
 			Fishing.auto = DebugArgs.has("fish-auto")
-			Fishing.place(G.room, G.player.x + 30, G.player.y + 20)
-			Fishing.start(G.room.objects[G.room.objects.size() - 1])
+			Fishing.setup_hole(G.room)
+			var pd: Dictionary = G.room.objects.filter(func(o): return o["kind"] == "e_pond")[0]
+			G.player.x = pd["x"]
+			G.player.y = pd["y"]
+			if not DebugArgs.has("no-cast"):
+				Fishing.start(pd)
 		"options", "keys":   # the options page, or (13.1) its keyboard keys page
 			G.state = StringName(DebugArgs.get_str("ui"))
 			G.opt_from = &"title"

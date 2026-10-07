@@ -1288,6 +1288,33 @@ for _n in ["letterling", "wordworm", "definer", "thesaurus", "commaimp", "asteri
 		"smallprint", "gildling", "clasp", "bookmark", "spinewarden", "endpaper"]:
 	ELITE.setdefault(_n, {})
 
+# ---- 15.2 (his ask, 7 Oct: "make fishing better"): every fish of fishing.gd, and THE ANGLER.
+_FISH = ["............", "....oooo....", "..oo3333o.oo", ".o3y33333o3o", "o3332222o33o", ".o22222o.o3o",
+	"..ooooo...oo", "............"]
+_EEL = ["............", "......o.....", ".ooooo3oooo.", "o3y33333333o", "o2222222222o", ".ooooo2oooo.",
+	"............", "............"]
+_KOI = ["..o.........", ".o3o.oooo...", "..oo33333o.o", ".o3y333333oo", "o33332222o3o", ".o222222o.o3",
+	"..oo3oooo..o", "...o3o......"]
+_BIG = ["................", "...o.oooooo.....", "..o3o333333oo.oo", ".o33y33333333o3o", "o333333322223o33",
+	"oll322222222o.o3", ".oo3o2222222o.o3", "..o.ooooooooo..o", "................"]
+_BOOT = ["............", "....oooo....", "....o33o....", "....o33o....", "....o33o....", "..ooo33o....",
+	".o3333332o..", ".oooooooooo."]
+_SCROLL = ["............", ".oooooooooo.", "o3llllllll3o", ".ol2l2l2llo.", ".ollllllllo.", ".ol2l2l2l2o.",
+	"o3llllllll3o", ".oooooooooo."]
+for _id, _pal, _g in [
+		("mudfin", "main:#7a5236 glow:#f2c94c", _FISH), ("bonecarp", "main:#d9d0b4 glow:#d8443c", _FISH),
+		("glimmer", "main:#6fd3e0 glow:#ffffff", _FISH), ("crypteel", "main:#5c3483 glow:#c8f0ff", _EEL),
+		("embertrout", "main:#e8873a glow:#fff07a", _FISH), ("gloompike", "main:#3a3850 glow:#c08aff", _EEL),
+		("inkfish", "main:#2a2a4a glow:#9ab8ff", _FISH), ("pagepike", "main:#f4ecd8 glow:#2a2a4a", _EEL),
+		("goldcarp", "main:#f2c94c glow:#ffffff", _KOI), ("armorbass", "main:#8b8f9c glow:#6fd3e0", _FISH),
+		("moonkoi", "main:#c8f0ff glow:#e86fb4", _KOI), ("oldone", "main:#3f7a5a glow:#f2c94c bone:#d9d0b4", _BIG),
+		("oldboot", "main:#4e4a5e", _BOOT), ("soddenscroll", "main:#8a6a4a bone:#d9d0b4", _SCROLL)]:
+	S["fish_" + _id] = (_pal, _g)
+S["npc_angler"] = ("main:#3f6a8a second:#d8b45a skin:#e0a47a wood:#7a5236 glow:#ffffff", OV(M([
+"..oooo", ".oaaaa", "oaaaaa", "..o555", "..o505", "..o555", "..olll", ".o3333", "o3o333", "o5o333",
+".oo333", "..o33o", "..o22o", "..ooo."]), {0: "..........o.", 1: "..........uo", 2: ".........uo.", 3: "........uo..",
+	4: ".......uo...", 5: "......uo....", 6: ".....uo....."}))
+
 for _n in ["inkblot", "quillbat", "scrawler", "smudge", "inkhound", "papercut", "stitcher", "folio", "pressling",
 		"pagewraith", "quillknight", "nibling", "inkmage", "sealwarden", "scribe"]:
 	ELITE.setdefault(_n, {})

@@ -633,7 +633,7 @@ func setup_objects(r: Room) -> void:
 				Story.place(r, cx, cy)   # 12.1: the Archivist by the fire
 				Story.bind_shop(r, cx, cy)   # 12.2: the Bookbinder, in Chapter II
 				if randf() < 0.45:
-					Fishing.place(r, cx - 140, cy + 20)   # 15.1: a pond
+					Fishing.place(r, cx - 140, cy + 16, 32.0, 15.0)   # 15.1: a pond
 	# Pets (expanded game only): a cage in some treasure rooms, vaults and hidden rooms, one for sale in some shops.
 	if GameData.rogues():
 		var chance: float = { "treasure": 0.12, "vault": 0.35, "secret": 0.2, "shop": 0.25 }.get(r.type, 0.0)
@@ -645,7 +645,7 @@ func setup_objects(r: Room) -> void:
 	if GameData.rogues() and r.type in ["treasure", "shrine", "rest", "shop"] and randf() < 0.2:
 		r.objects.append({ "kind": "brick", "x": (2.0 if randf() < 0.5 else 26.0) * TB.TS, "y": 5.0 * TB.TS })
 	if GameData.rogues() and r.type == "treasure" and randf() < 0.25:
-		Fishing.place(r, cx + 110, cy + 34)   # 15.1: a pond
+		Fishing.place(r, cx + 112, cy + 30, 30.0, 14.0)   # 15.1: a pond
 	# 05b_items.rb: weapons and gear in shops and treasure rooms.
 	match r.type:
 		"shop":

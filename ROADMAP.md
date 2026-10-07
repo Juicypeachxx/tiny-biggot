@@ -736,7 +736,19 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       green box onto the darting fish until the catch bar fills (a finger anywhere on the iPad).
       16 fish: everyday ones, one per part of the world, junk, rare (Golden Carp, Armored Bass,
       Sunken Chest) and legendary (Moonlit Koi, The Old One: a relic). Each pays at once. Fish found
-      are kept between runs. `--ui=fishing --fish-auto`. IPA 15.1.
+      are kept between runs. `--ui=fishing --fish-auto`. (15.1 was not built: he wanted more first.)
+- [x] 15.2 Fishing made a place (his ask, 7 Oct: "make it better, not blank and soulless"). Ponds
+      live: an uneven shore with mud, stones and grass, deeper water in the middle, light on the
+      water, lily pads with flowers, reeds and cattails, fish shadows swimming (one comes to your
+      float on a bite), rain rings, fireflies, a sign. You cannot walk on water. THE FISHING HOLE (a
+      mystery room): a lake across the room, a wooden dock to fish from, lantern posts, THE ANGLER
+      and his camp (crates, rods, a bucket with something flapping in it): GLOW-WORM BAIT (+2 casts,
+      rare fish bite far more) and a relic for 3 fish. Every fish has its own sprite; the catch leaps
+      out of the water with a splash and floats over you with its name; the reel panel is a wooden
+      frame with a water column, bubbles, a net and the real fish (a dark shape until first caught).
+      IPA 15.2.
+- [ ] 16 ROOMS REVAMP (his word, 7 Oct: "next step we will do the rooms revamp, I know you can make
+      them better"): every room type looks lived-in and different, not blank floor.
 
 ---
 

@@ -874,6 +874,9 @@ effects.gd `_found_hidden` (Meta.meta["combos_found"]), `found_partners` (trait_
 15.1: `scripts/game/fishing.gd` (state `fishing`: update from game.gd, panel from menu_view, the
 pond via EventRooms kind `e_pond`; touch: a finger anywhere holds USE). `Meta.meta["fish"]`,
 `run_stats.fish`. `Fishing.auto` plays itself (tests, `--fish-auto`). `tests/fishing_test`.
+15.2: ponds are `place(r, cx, cy, rx, ry, dock, casts)`; all drawn in code (`draw_pond`); `keep_out`
+(from EventRooms.update); event "fishing" (THE FISHING HOLE, `setup_hole`), kind `e_angler`.
+Sprites `fish_*`, `npc_angler` (sprites.py). `--ui=fishing [--no-cast] [--fish-auto]`.
 
 ## Noted, not yet acted on
 
