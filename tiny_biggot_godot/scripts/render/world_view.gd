@@ -447,9 +447,9 @@ func _paint_lower(ci: CanvasItem) -> void:
 				if _vr.randf() < 0.5:
 					var col: String = ["#e8873a", "#f2c94c", "#d8443c"][_vr.randi() % 3]
 					Gfx.px(ci, TB.c(col), z["x"] + _vr.randi_range(-z["r"], z["r"]) * 0.7, z["y"] + _vr.randi_range(-3, 3), 2)
-			"poison":
+			"poison", "ink":
 				for k in 3:
-					var col := TB.ca(["#b8e05a", "#63b84f"][_vr.randi() % 2], 160)
+					var col := TB.ca(["#b8e05a", "#63b84f"][_vr.randi() % 2] if z["kind"] == "poison" else ["#2a2a4a", "#4d6aa8"][_vr.randi() % 2], 160)
 					Gfx.px(ci, col, z["x"] + cos(t * 2 + _vr.randf() * 6) * z["r"] * _vr.randf(), z["y"] + sin(t * 3 + _vr.randf() * 6) * z["r"] * 0.6)
 	# Room objects (z 6-8).
 	for o in room.objects:

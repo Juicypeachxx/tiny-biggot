@@ -301,6 +301,7 @@ const HERO_BRANCH := {
 	"berserker": { "name": "BLOODLUST", "nodes": [["THICK SKIN", "+1 MAX HEART"], ["RECKLESS", "+15% DAMAGE"], ["BATTLE TRANCE", "KILLS HEAL HALF A HEART 5% OF THE TIME"], ["UNSTOPPABLE", "WHEN HIT, +40% DAMAGE FOR 3S"]] },
 	"forsaken": { "name": "SURVIVAL", "nodes": [["ROUGH HANDS", "+1 STR AND +1 DEX"], ["SCROUNGE", "CLEARING A ROOM PAYS 3 GOLD"], ["HARDENED", "EVERY NEW FLOOR GIVES 1 ARMOR"], ["NOTHING LEFT", "BELOW HALF HEALTH: +50% DAMAGE"]] },
 	"clockmaker": { "name": "CLOCKWORK", "nodes": [["MAINSPRING", "ENTERING A ROOM: +30% FIRE RATE FOR 6S"], ["ESCAPEMENT", "EVERY 20TH SHOT CHILLS THE FOES NEAR YOU"], ["BALANCE WHEEL", "+1 MAX HEART"], ["GRAND COMPLICATION", "ROLLING SLOWS EVERY FOE SHOT NEAR YOU (EVERY 6S)"]] },
+	"inkling": { "name": "INKCRAFT", "nodes": [["INK BLOTS", "10% MORE OF YOUR HITS LEAVE INK"], ["SKETCHBOOK", "+1 WISP"], ["WET PAGES", "+60% POISON DAMAGE"], ["MASTERPIECE", "EVERY 8S IN A FIGHT, A SKETCHED WISP JOINS YOU FOR 8S"]] },
 	"beastmaster": { "name": "THE WILD", "nodes": [["SOFT WORDS", "4% MORE OF YOUR HITS TAME A FOE"], ["PACK LEADER", "+1 WISP"], ["FERAL BOND", "KILLS GIVE +20% DAMAGE FOR 3S"], ["ALPHA", "EVERY 10S IN A FIGHT, THE FOES CLOSE TO YOU ARE TAMED FOR 8S"]] },
 	"sellsword": { "name": "FREE COMPANY", "nodes": [["SPURS", "ROLLS RECHARGE 20% FASTER"], ["SHIELD WALL", "WHEN HIT, ERASE NEARBY SHOTS (EVERY 6S)"], ["WAR PAY", "KILLING AN ELITE PAYS 12 GOLD"], ["THUNDERING CHARGE", "CHARGES HIT TWICE AS HARD AND KILLS REFUND THE ROLL"]] },
 }
@@ -365,6 +366,10 @@ const NODE_EFFECTS := {
 	"HALO": [{"on": "every_n_seconds", "period": 5.0, "if": "fighting", "do": [["nova", 6, 0.7, "spark"]]}],
 	"SAINTHOOD": [["add", "revive", 1]],
 	"SOFT WORDS": [{"on": "on_hit", "chance": 0.04, "do": [["charm", 8.0]]}],
+	"INK BLOTS": [{"on": "on_hit", "chance": 0.1, "cd": 0.4, "do": [["zone", "ink", 20, 3.0]]}],   # 18.2 the Inkling
+	"SKETCHBOOK": [["add", "familiars", 1]],
+	"WET PAGES": [["add", "poison_dmg", 0.6]],
+	"MASTERPIECE": [{"on": "every_n_seconds", "period": 8.0, "if": "fighting", "do": [["summon", 8.0]]}],
 	"PACK LEADER": [["add", "familiars", 1]],
 	"FERAL BOND": [{"on": "on_kill", "do": [["buff", "dmg", 0.2, 3.0]]}],
 	"ALPHA": [{"on": "every_n_seconds", "period": 10.0, "if": "fighting", "do": [["charm_area", 50, 8.0]]}],

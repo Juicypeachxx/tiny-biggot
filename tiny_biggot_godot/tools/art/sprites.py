@@ -455,6 +455,11 @@ def OV(rows, over):
         rows[r] = "".join(c if c != '.' else g for g, c in zip(rows[r], o))
     return rows
 
+# 18.2 THE INKLING as a hero: the ink drop grown bold, a quill for a sword, a page for a cape.
+S["inkling_hero"] = ("main:#2a2a4a glow:#9ab8ff bone:#f4ecd8 wood:#c8a878", OV(M([
+"......", "...ooo", "..o333", ".o3333", ".o3y03", ".o3333", "..o333", ".ol333", "ollo33", "ollo33",
+".oo333", "..o32o", "..o22o", "..ooo."]), {0: ".........l..", 1: "........lo..", 2: ".......uo...", 3: "......uo....",
+	4: ".....uo.....", 7: "..........ll", 8: "..........ll"}))
 S["inmate"] = ("main:#e07a2a skin:#7ab04a", M([
 "....oo", "...o66", "..o565", "..o505", "..o5l5", ".o33o5", "o3o3l2", "o3o322", "o8o322", ".oo322",
 "..o32o", "..ooo."]))

@@ -505,7 +505,7 @@ static func draw_floor(ci: CanvasItem, t: float) -> void:
 	var bub := _strip("fx_bubble")
 	for z in G.zones:
 		var kind: String = z["kind"]
-		if kind != "fire" and kind != "poison":
+		if kind != "fire" and kind != "poison" and kind != "ink":
 			continue
 		var r: float = z["r"]
 		var zx: float = z["x"]
@@ -516,8 +516,9 @@ static func draw_floor(ci: CanvasItem, t: float) -> void:
 			continue
 		var zs := int(zx * 7.0 + zy * 13.0)
 		var grow := 1.0 + 0.04 * sin(t * 3.0 + zs)
+		var tint := Color(0.22, 0.26, 0.6, 0.95 * a) if kind == "ink" else Color(1, 1, 1, 0.9 * a)   # 18.2 ink
 		ci.draw_texture_rect(pool, Rect2(roundf(zx - r * 1.05 * grow), roundf(zy - r * 0.6 * grow + 1.0),
-			roundf(r * 2.1 * grow), roundf(r * 1.2 * grow)), false, Color(1, 1, 1, 0.9 * a))
+			roundf(r * 2.1 * grow), roundf(r * 1.2 * grow)), false, tint)
 		for j in 2:
 			var cyc := t * 1.6 + j * 0.5 + (zs % 10) * 0.1
 			var id := int(cyc)

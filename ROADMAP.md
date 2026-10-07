@@ -792,7 +792,12 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       gold, shops +50%), HASTE (you and every foe 30% faster), BIG GAME (guardians +50% health,
       2 more relics). Score: floors x1000, foes x10, guardians x500, gold, a win +5000; the day's
       best on the stone; +50 embers. `--day=YYYYMMDD`. `tests/daily_test`.
-- [ ] 18.2 A new hero from the story: THE INKLING (ink that lingers, sketched allies).
+- [x] 18.2 A new hero from the story: THE INKLING (ink that lingers, sketched allies).
+      Done: THE INKLING (250 embers at the shrine). INKWELL QUILL: curving ink bolts that poison.
+      INK: a fifth of hits leave a pool of ink (poisons; drawn as dark ink); half of the poisoned
+      foes it kills rise as sketched wisps for 6s. SKETCH (special): three ink wisps for 10s and a
+      flood of ink that poisons every foe near. Skill branch INKCRAFT: INK BLOTS, SKETCHBOOK, WET
+      PAGES, MASTERPIECE. New zone kind "ink" (combat.gd, vfx.gd).
 - [ ] 18.3 Bot balance pass: many bot runs, measure what is never worth taking, raise the weak
       (nothing lowered). IPA.
 

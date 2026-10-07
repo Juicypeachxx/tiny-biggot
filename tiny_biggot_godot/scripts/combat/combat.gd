@@ -1873,7 +1873,7 @@ static func update_zones(dt: float) -> void:
 		match z["kind"]:
 			"smoke":
 				EBullets.kill_radius(z["x"], z["y"], z["r"])
-			"fire", "poison":
+			"fire", "poison", "ink":   # 18.2: the Inkling's ink poisons like a poison pool
 				if z["tick"] > 0:
 					continue
 				z["tick"] = 0.4

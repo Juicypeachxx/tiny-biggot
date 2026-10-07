@@ -254,6 +254,17 @@ const NEW_HEROES := [
 	  "special": { "name": "DESPERATION", "cd": 12, "col": "#8b8f9c",
 		"desc": "LOSE HALF A HEART: +60% DAMAGE FOR 5S AND 2S UNTOUCHABLE.",
 		"do": [["hurt_self", 1], ["buff", "dmg", 0.6, 5.0], ["invuln", 2.0], ["vfx", "ring", "#8b8f9c", 80]] } },
+	# 18.2 (his ask, 7 Oct: "a new hero"): from the story (STORY.md), the drop of ink loose from the page.
+	{ "id": "inkling", "name": "THE INKLING", "sprite": "inkling_hero", "new": true,
+	  "blurb": "A drop of ink that got loose from the page. Now it writes its own story.",
+	  "passive": "INK: A FIFTH OF YOUR HITS LEAVE A POOL OF INK THAT POISONS. HALF OF THE POISONED FOES YOU KILL RISE AS SKETCHED WISPS FOR 6S.",
+	  "weapon": "INKWELL QUILL", "hp": 6, "speed": 92, "shot": "orb", "sound": "shoot", "cost": 250, "trait": "z_hexback",
+	  "stats": { "dmg": 3.4, "rate": 3.4, "shot_speed": 220.0, "life": 1.1, "homing": 0.5, "size": 1.0, "pierce": 0 },
+	  "effects": [{ "on": "on_hit", "chance": 0.2, "cd": 0.4, "do": [["zone", "ink", 20, 3.0]] },
+		{ "on": "on_kill", "if": "poisoned", "chance": 0.5, "do": [["summon", 6.0], ["vfx", "label", "SKETCHED!", "#9ab8ff"]] }],
+	  "special": { "name": "SKETCH", "cd": 11, "col": "#9ab8ff",
+		"desc": "DRAW THREE INK WISPS FOR 10S AND FLOOD THE GROUND ROUND YOU WITH INK: EVERY FOE NEAR YOU IS POISONED.",
+		"do": [["summon", 10.0], ["summon", 10.0], ["summon", 10.0], ["status_area", "poison", 3, 100], ["zone", "ink", 40, 4.0], ["vfx", "ring", "#2a2a4a", 100]] } },
 ]
 
 static var _heroes: Array = []
