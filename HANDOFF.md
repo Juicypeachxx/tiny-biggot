@@ -859,6 +859,9 @@ the shop), `continues_set` (plates), `pieces`. Aura: world_view `_paint_set_aura
 14.1: SETS gain "size": 6 (e4 at 4 pieces, e6/d6 at 6); `set_size`, `step_need`, `full_desc`;
 `_tier_of(n, size)`. Piece icons: `tools/art/set_icons.py` writes recoloured `src/icons/g_*.png`.
 
+14.2: state `wardrobe` (game.gd `open_wardrobe`, `update_wardrobe`, `pause_items()` replaces the
+fixed pause indexes), menu_view `draw_wardrobe` / `ward_top`, taps.gd. `tests/wardrobe_test`.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

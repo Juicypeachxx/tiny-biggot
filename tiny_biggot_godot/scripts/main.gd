@@ -147,6 +147,13 @@ func _ready() -> void:
 					Stars.taken()[id] = true
 				StarView.sel = Stars.nodes().find_custom(func(n): return n["id"] == "n2b3")
 				StarView.cam = Stars.nodes()[StarView.sel]["pos"] * 0.6
+		"wardrobe":   # 14.2 (with --unlock-all, every piece found)
+			if DebugArgs.has("unlock-all"):
+				for g in Gear.all():
+					Meta.meta["found_g"][g["id"]] = true
+			G.open_wardrobe(&"title")
+			G.wardrobe_i = Gear.SETS.keys().find("sunforged")
+			G.menu = G.wardrobe_i
 		"options", "keys":   # the options page, or (13.1) its keyboard keys page
 			G.state = StringName(DebugArgs.get_str("ui"))
 			G.opt_from = &"title"

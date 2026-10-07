@@ -33,11 +33,17 @@ static func zones() -> Array:
 			out.append(_act(Rex.title_rect(), func(): Rex.poke()))   # the sleeping dog in the corner
 		&"options", &"pause":
 			var opts := G.state == &"options"
-			var n: int = G.OPTION_LIST.size() if opts else G.PAUSE_ITEMS.size()
-			var y0 := MenuView.OPT_Y0 if opts else 86
-			var dy := MenuView.OPT_DY if opts else 22
+			var n: int = G.OPTION_LIST.size() if opts else G.pause_items().size()
+			var y0 := MenuView.OPT_Y0 if opts else MenuView.PAUSE_Y0
+			var dy := MenuView.OPT_DY if opts else MenuView.pause_dy()
 			for i in n:
 				out.append(_z(Rect2(sw / 2 - 130, y0 + i * dy - 5, 260, dy - 1), func(): G.menu = i, G.menu == i, true))
+		&"wardrobe":   # 14.2: tap a set to see it
+			var top := MenuView.ward_top()
+			for j in mini(MenuView.WARD_ROWS, Gear.SETS.size() - top):
+				var i := top + j
+				out.append(_z(Rect2(10, MenuView.WARD_Y0 + j * MenuView.WARD_DY - 3, 168, MenuView.WARD_DY - 1), func(): G.menu = i, G.wardrobe_i == i))
+			out.append(_act(Rect2(sw / 2 - 90, 262, 180, 16), func(): send(&"pause")))
 		&"keys":   # 13.1
 			for i in Keys.REBIND.size() + 2:
 				out.append(_z(Rect2(60, MenuView.KEYS_Y0 + i * MenuView.KEYS_DY - 3, sw - 120, MenuView.KEYS_DY - 1), func(): G.menu = i, G.menu == i, true))

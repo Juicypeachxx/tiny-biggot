@@ -50,6 +50,8 @@ const PAUSE_ITEMS := ["RESUME", "GEAR", "TRAITS", "RELICS", "OPTIONS", "ABANDON 
 const OPTION_LIST := [["AUTO-AIM FIRE", "autofire"], ["MUSIC", "music"], ["SOUND EFFECTS", "sfx"], ["SCREEN SHAKE", "shake"], ["SHOW FPS", "fps"], ["SHOW GEAR ON HERO", "show_gear"], ["FANCY EFFECTS", "vfx"], ["FAST DRAWING", "fast_draw"], ["MEET THE HAGGLER", "haggler"], ["STAT COLUMN", "statcol"], ["NEON LOOK", "neon"], ["KEYBOARD KEYS", "@keys"], ["BACK", ""]]
 const CODEX_COLS := 11
 var quit_armed := false
+var wardrobe_from: StringName = &"title"   # 14.2: where the WARDROBE page goes back to
+var wardrobe_i := 0
 var opt_from: StringName = &"title"
 var codex_i := 0
 var inv_i := 0                 # Rogues layer: inventory cursor (0-5 backpack, 6-9 belt)
@@ -1720,6 +1722,7 @@ func update(dt: float) -> void:
 				Snd.play("select")
 		&"options": update_options()
 		&"keys": update_keys()
+		&"wardrobe": update_wardrobe()
 		&"shrine":
 			update_embers(dt)
 			update_shrine()
@@ -1783,26 +1786,50 @@ func update_pause() -> void:
 		state = &"play"
 		Snd.play("select")
 		return
-	if menu_nav(PAUSE_ITEMS.size()):
+	var items := pause_items()
+	if menu_nav(items.size()):
 		Snd.play("confirm")
-		match menu:
-			0: state = &"play"
-			1:
+		match items[menu]:
+			"RESUME": state = &"play"
+			"GEAR":
 				state = &"inventory" if GameData.rogues() else &"gearpage"
 				inv_i = 0
-			2: state = &"traitlist"
-			3: state = &"relics"
-			4:
+			"TRAITS": state = &"traitlist"
+			"RELICS": state = &"relics"
+			"WARDROBE": open_wardrobe(&"pause")
+			"OPTIONS":
 				state = &"options"
 				opt_from = &"pause"
 				menu = 0
-			5:
+			"ABANDON RUN":
 				if quit_armed:
 					on_death("giving up")
 				else:
 					quit_armed = true
-	if menu != 5:
+	if menu >= items.size() or items[menu] != "ABANDON RUN":
 		quit_armed = false
+
+## The pause menu; the expanded game adds the WARDROBE (14.2).
+func pause_items() -> Array:
+	var out: Array = PAUSE_ITEMS.duplicate()
+	if GameData.rogues():
+		out.insert(out.find("OPTIONS"), "WARDROBE")
+	return out
+
+## 14.2: the WARDROBE page: every set, the pieces found, what each step gives.
+func open_wardrobe(from: StringName) -> void:
+	wardrobe_from = from
+	state = &"wardrobe"
+	menu = wardrobe_i
+
+func update_wardrobe() -> void:
+	var n := Gear.SETS.size()
+	menu_nav(n)
+	wardrobe_i = menu
+	if Keys.back():
+		state = wardrobe_from
+		menu = title_index("WARDROBE") if wardrobe_from == &"title" else pause_items().find("WARDROBE")
+		Snd.play("select")
 
 # ---------- Menus (Game.rb) ----------
 func update_embers(dt: float) -> void:
@@ -1823,6 +1850,7 @@ func title_items() -> Array:
 	var out: Array = TITLE_ITEMS.duplicate()
 	if GameData.rogues():
 		out.insert(2, "CONSTELLATION")
+		out.insert(out.find("CODEX") + 1, "WARDROBE")   # 14.2
 	if RunSave.exists():
 		out.insert(0, "CONTINUE")   # 6.3: a saved run
 	return out
@@ -1859,6 +1887,7 @@ func update_title(dt: float) -> void:
 			state = &"codex"
 			menu = codex_i
 		"HOW TO PLAY": state = &"howto"
+		"WARDROBE": open_wardrobe(&"title")
 		_:
 			state = &"options"
 			opt_from = &"title"
@@ -2004,7 +2033,7 @@ func update_codex() -> void:
 
 func update_options() -> void:
 	var go := menu_nav(OPTION_LIST.size())
-	var back_menu := title_index("OPTIONS") if opt_from == &"title" else 4
+	var back_menu := title_index("OPTIONS") if opt_from == &"title" else pause_items().find("OPTIONS")
 	if Keys.back():
 		state = opt_from
 		menu = back_menu

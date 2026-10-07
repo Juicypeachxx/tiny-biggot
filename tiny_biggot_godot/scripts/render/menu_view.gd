@@ -69,6 +69,12 @@ func _paint_base(ci: CanvasItem) -> void:
 		&"relics":
 			_shade(ci, 220)
 			draw_relics(ci)
+		&"wardrobe":
+			if G.wardrobe_from == &"title":
+				_backdrop(ci, true)
+			else:
+				_shade(ci, 228)
+			draw_wardrobe(ci)
 		&"dead", &"win":
 			_backdrop(ci, false)
 			draw_end(ci)
@@ -144,7 +150,7 @@ func draw_title(ci: CanvasItem) -> void:
 ## Title menu row spacing (taps.gd uses it too): a little tighter with the constellation's row.
 static func title_dy() -> int:
 	var n := G.title_items().size()
-	return 17 if n <= 6 else (15 if n == 7 else 13)   # 8 with CONTINUE (6.3): clear of the stats line
+	return 17 if n <= 6 else (15 if n == 7 else (13 if n == 8 else 12))   # 8 with CONTINUE (6.3), 9 with the WARDROBE (14.2)
 
 ## Hero strip geometry, shared with the tap zones (taps.gd): up to six panels
 ## are shown and the strip scrolls to keep the selected hero in view.
@@ -358,16 +364,21 @@ func draw_keys(ci: CanvasItem) -> void:
 			Gfx.text(ci, "RESET ALL KEYS" if i == n else "BACK", TB.SW / 2, y, "gold" if sel else "tan", 1, 0.5)
 	Gfx.text(ci, "ESC ALWAYS PAUSES AND ENTER ALWAYS CONFIRMS", TB.SW / 2, TB.SH - 12, "dim", 1, 0.5)
 
+const PAUSE_Y0 := 86
+static func pause_dy() -> int:
+	return 22 if G.pause_items().size() <= 6 else 19   # 14.2: seven rows with the WARDROBE
+
 func draw_pause(ci: CanvasItem) -> void:
 	Gfx.text(ci, "PAUSED", TB.SW / 2, 44, "gold", 3, 0.5)
-	for i in G.PAUSE_ITEMS.size():
-		var label: String = G.PAUSE_ITEMS[i]
-		if i == 5 and G.quit_armed:
+	var items := G.pause_items()
+	for i in items.size():
+		var label: String = items[i]
+		if label == "ABANDON RUN" and G.quit_armed:
 			label = "SURE? PRESS AGAIN"
-		_menu_item(ci, label, TB.SW / 2, 86 + i * 22, i, 2, 260)
+		_menu_item(ci, label, TB.SW / 2, PAUSE_Y0 + i * pause_dy(), i, 2, 260)
 	var p := G.player
 	Gfx.text(ci, "TIME %s   KILLS %d   LEVEL %d" % [fmt_time(G.run_stats["time"]), G.run_stats["kills"], p.level],
-		TB.SW / 2, 214, "grey", 1, 0.5)
+		TB.SW / 2, 214 if G.pause_items().size() <= 6 else 222, "grey", 1, 0.5)
 
 # ---------- Traits page ----------
 func draw_traitlist(ci: CanvasItem) -> void:
@@ -513,6 +524,97 @@ func draw_gearpage(ci: CanvasItem) -> void:
 		Gfx.text(ci, sline, TB.SW / 2, y, "gold" if n >= 2 else "dim", 1, 0.5)
 		y += 9
 	Gfx.text(ci, "PRESS ANY BUTTON", TB.SW / 2, 266, "dim", 1, 0.5)
+
+# ---------- 14.2 The WARDROBE ----------
+const WARD_Y0 := 34
+const WARD_DY := 13
+const WARD_ROWS := 16
+## The first set shown in the list (it scrolls to keep the chosen one in view); taps.gd uses it.
+static func ward_top() -> int:
+	return clampi(G.wardrobe_i - WARD_ROWS / 2, 0, maxi(0, Gear.SETS.size() - WARD_ROWS))
+
+func draw_wardrobe(ci: CanvasItem) -> void:
+	Gfx.text(ci, "WARDROBE", TB.SW / 2, 10, "gold", 2, 0.5)
+	var ids: Array = Gear.SETS.keys()
+	var found: Dictionary = Meta.meta.get("found_g", {})
+	var p := G.player
+	var in_run := G.wardrobe_from == &"pause" and p != null
+	var top := ward_top()
+	var all_found := 0
+	var all_n := 0
+	for id in ids:
+		for g in Gear.pieces(id):
+			all_n += 1
+			if found.has(g["id"]):
+				all_found += 1
+	for j in mini(WARD_ROWS, ids.size() - top):
+		var i := top + j
+		var id: String = ids[i]
+		var st: Dictionary = Gear.SETS[id]
+		var pcs := Gear.pieces(id)
+		var nf := pcs.filter(func(g): return found.has(g["id"])).size()
+		var y := WARD_Y0 + j * WARD_DY
+		var sel := i == G.wardrobe_i
+		if sel:
+			ci.draw_rect(Rect2(10, y - 3, 168, 11), TB.rgba(232, 135, 58, 46))
+		var col := "gold" if sel else ("tan" if nf > 0 else "dim")
+		Gfx.text(ci, ("* " if st.get("size", 4) == 6 else "") + st["name"], 16, y, col)
+		var right := "%d/%d" % [nf, pcs.size()]
+		if in_run and p.sets.get(id, 0) > 0:
+			right = "WEAR %d/%d" % [p.sets[id], pcs.size()]
+		Gfx.text(ci, right, 174, y, "lime" if in_run and p.sets.get(id, 0) > 0 else ("white" if nf == pcs.size() else "grey"), 1, 1)
+	if top > 0:
+		Gfx.text(ci, "^", 94, WARD_Y0 - 9, "dim", 1, 0.5)
+	if top + WARD_ROWS < ids.size():
+		Gfx.text(ci, "V", 94, WARD_Y0 + WARD_ROWS * WARD_DY - 2, "dim", 1, 0.5)
+	# The chosen set.
+	var id: String = ids[G.wardrobe_i]
+	var st: Dictionary = Gear.SETS[id]
+	var sz: int = st.get("size", 4)
+	var x0 := 192
+	var cols: Array = Weapons.TAG_COLS.get(st["tag"], Weapons.TAG_COLS["core"])
+	Gfx.text(ci, st["name"], x0, 34, "gold", 2)
+	Gfx.text(ci, ("LEGENDARY SET OF 6" if sz == 6 else "SET OF 4") + " - " + Traits.FAMILIES.get(st["tag"], { "name": st["tag"].to_upper() })["name"],
+		x0, 50, "pink" if sz == 6 else "grey")
+	var pcs := Gear.pieces(id)
+	for k in pcs.size():
+		var g: Dictionary = pcs[k]
+		var gx := x0 + 12 + k * 40
+		var have := found.has(g["id"])
+		var worn := in_run and p.gear.values().any(func(w): return w != null and w["id"] == g["id"])
+		ci.draw_rect(Rect2(gx - 14, 62, 28, 28), TB.c(cols[1]) if worn else Color(0.08, 0.06, 0.11, 0.8))
+		ci.draw_rect(Rect2(gx - 14, 62, 28, 1), TB.c(cols[0]) if have else TB.c("#4e4a5e"))
+		Gfx.sp(ci, g["sprite"], gx, 86, 2, 2, 0.0, false, 1.0 if have else 0.7, Color(0, 0, 0, 0) if have else Color(0.32, 0.29, 0.4, 1))
+		Gfx.text(ci, Gear.SLOT_NAME[g["slot"]], gx, 93, "white" if have else "dim", 1, 0.5)
+	var y := 106
+	for k in pcs.size():
+		var g: Dictionary = pcs[k]
+		Gfx.text(ci, g["name"] if found.has(g["id"]) else "??? " + Gear.SLOT_NAME[g["slot"]] + " - NOT FOUND YET", x0, y,
+			GameData.RARITY_COL[g["rarity"]] if found.has(g["id"]) else "dim")
+		y += 9
+	y += 4
+	var steps := [[2, st["d2"]]]
+	if sz == 6:
+		steps.append([4, st["d4"]])
+		steps.append([6, st["d6"]])
+	elif GameData.rogues():
+		steps.append([3, Gear.D3])
+		steps.append([4, st["d4"]])
+	else:
+		steps.append([4, st["d4"]])
+	var wearing: int = p.sets.get(id, 0) if in_run else 0
+	for stp in steps:
+		var on: bool = wearing >= stp[0]
+		var lines := Gfx.wrap_text("%d PIECES: %s" % [stp[0], stp[1]], 196)
+		for l in lines:
+			Gfx.text(ci, l, x0, y, "lime" if on else "white")
+			y += 9
+	if GameData.rogues():
+		Gfx.text(ci, "ALL %d: %s" % [sz, Gear.D_MASTERY], x0, y, "gold")
+		y += 9
+		Gfx.text(ci, "FIRST TIME IN A RUN: FULL HEALTH AND A RELIC", x0, y, "gold")
+	Gfx.text(ci, "PIECES FOUND %d OF %d    SETS COMPLETED %d" % [all_found, all_n, Meta.meta.get("sets_done", 0)], TB.SW / 2, 256, "grey", 1, 0.5)
+	Gfx.text(ci, "UP / DOWN: CHOOSE    BACK: ESC OR TAP HERE", TB.SW / 2, 268, "dim", 1, 0.5)
 
 # ---------- Relics page ----------
 func draw_relics(ci: CanvasItem) -> void:

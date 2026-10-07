@@ -715,7 +715,9 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       Done: STORMCALLER, BLOODLETTER, HEXWEAVER, VIPER, WARLORD, BEASTMASTER, DRIFTER (4 pieces);
       LEGENDARY SUNFORGED and VOID REGALIA (6 pieces: steps at 2, 4, 6; the sixth brings their
       power and SET MASTERY). 40 pieces, icons recoloured per set (tools/art/set_icons.py).
-- [ ] 14.2 A WARDROBE page: every set, the pieces found, what each step gives. IPA.
+- [x] 14.2 A WARDROBE page: every set, the pieces found, what each step gives. IPA.
+      Done: WARDROBE on the title menu and in the pause menu. All 32 sets (LEGENDARY ones marked *),
+      pieces found and worn, each step (green when worn), mastery. `--ui=wardrobe`. IPA 14.2.
 - [ ] 14.3 Trait combos: two particular traits together unlock a hidden third power. IPA.
 - [ ] 14.4 Chapter III: after the Redactor, a third chapter with its own floors, foes,
       guardians and an ending. IPA.
