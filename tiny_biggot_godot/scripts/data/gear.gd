@@ -62,6 +62,17 @@ const SETS := {
 	"blastwright": { "name": "BLASTWRIGHT", "tag": "demolition", "b2": [["bombs", 2], ["bomb_r", 1.25]], "e4": [{ "on": "on_bomb", "do": [["pull", 110, 260]] }], "d2": "+2 BOMBS, BOMBS 25% WIDER", "d4": "A BOMB YOU SET DRAGS FOES IN AROUND IT" },
 	"bonecaller": { "name": "BONECALLER", "tag": "malice", "b2": [["familiars", 1]], "e4": [{ "on": "on_kill", "do": [["raise", 8.0, 0.8]] }], "d2": "+1 WISP", "d4": "EVERY FOE YOU KILL RISES AS YOUR SKELETON FOR 8S" },
 	"clockwork": { "name": "CLOCKWORK", "tag": "swarm", "b2": [["rate", 1.12]], "e4": [{ "on": "every_n_seconds", "period": 8.0, "if": "fighting", "do": [["turret", "random", 8.0, 1.0]] }], "d2": "+12% FIRE RATE", "d4": "EVERY 8S IN A FIGHT, A RANDOM TURRET SPRINGS UP FOR 8S" },
+	# 14.1 (his ask, 7 Oct): sets for styles that had few, and LEGENDARY sets of six pieces
+	# ("size": 6: steps at 2, 4 and 6 pieces; the sixth brings "e6"/"d6" and SET MASTERY).
+	"stormcaller": { "name": "STORMCALLER", "tag": "storm", "b2": [["chain", 0.15]], "e4": [{ "on": "every_n_shots", "every": 7, "do": [["bolts", 3, 1.0]] }], "d2": "+15% ARC CHANCE", "d4": "EVERY 7TH ATTACK CALLS 3 LIGHTNING STRIKES" },
+	"bloodletter": { "name": "BLOODLETTER", "tag": "blood", "b2": [["crit", 0.08]], "e4": [{ "on": "on_crit", "chance": 0.5, "do": [["status", "bleed", 2]] }, { "on": "on_kill", "if": "bleeding", "cd": 3.0, "do": [["heal", 1]] }], "d2": "+8% CRIT CHANCE", "d4": "CRITS OFTEN BLEED. BLEEDING KILLS HEAL (EVERY 3S)" },
+	"hexweaver": { "name": "HEXWEAVER", "tag": "malice", "b2": [], "e2": [{ "on": "on_hit", "chance": 0.15, "do": [["status", "curse", 1]] }], "e4": [{ "on": "on_kill", "if": "cursed", "do": [["explode", 40, 1.2]] }], "d2": "15% OF HITS CURSE", "d4": "CURSED FOES EXPLODE WHEN THEY DIE" },
+	"viper": { "name": "VIPER", "tag": "venom", "b2": [["poison", 1]], "e4": [{ "on": "on_kill", "if": "poisoned", "do": [["zone", "poison", 30, 3.0]] }], "d2": "+1 POISON ON HIT", "d4": "POISONED FOES LEAVE A POOL OF POISON" },
+	"warlord": { "name": "WARLORD", "tag": "fury", "b2": [["dmg", 1.1]], "e4": [{ "on": "on_damage_taken", "do": [["buff", "dmg", 0.5, 4.0], ["buff", "rate", 0.25, 4.0], ["vfx", "label", "WAR CRY!", "#d8443c"]] }], "d2": "+10% DAMAGE", "d4": "WHEN HIT: +50% DAMAGE, +25% FIRE RATE FOR 4S" },
+	"beastmaster": { "name": "BEASTMASTER", "tag": "swarm", "b2": [["familiars", 1], ["fam_dmg", 0.2]], "e4": [{ "on": "on_room_enter", "do": [["summon", 12.0], ["summon", 12.0], ["summon", 12.0]] }], "d2": "+1 WISP, WISPS +20%", "d4": "EVERY ROOM BEGINS WITH 3 MORE WISPS FOR 12S" },
+	"drifter": { "name": "DRIFTER", "tag": "shadow", "b2": [["dodge_cd", 0.85]], "e4": [{ "on": "on_roll", "do": [["nova", 6, 0.8, "spark"]] }, { "on": "on_kill", "chance": 0.25, "do": [["refund_roll"]] }], "d2": "ROLLS RECHARGE 15% FASTER", "d4": "ROLLING FIRES 6 KNIVES. 25% OF KILLS REFUND A ROLL" },
+	"sunforged": { "name": "SUNFORGED", "tag": "pyre", "size": 6, "b2": [["burn", 0.2]], "e4": [{ "on": "every_n_seconds", "period": 5.0, "if": "fighting", "do": [["meteor", 2.0, 30]] }], "e6": [{ "on": "on_kill", "chance": 0.2, "do": [["meteor", 2.0, 30]] }, ["add", "vs_burn", 0.5]], "d2": "+20% BURN CHANCE", "d4": "EVERY 5S IN A FIGHT A METEOR FALLS", "d6": "KILLS MAY CALL METEORS. BURNING FOES TAKE +50%" },
+	"voidregalia": { "name": "VOID REGALIA", "tag": "shadow", "size": 6, "b2": [["count", 1]], "e4": [{ "on": "on_roll", "do": [["nova", 8, 1.0, "spark"]] }], "e6": [{ "on": "every_n_seconds", "period": 3.0, "if": "fighting", "do": [["clear_shots", 60], ["nova", 12, 1.0, "spark"]] }, ["mul", "dmg", 1.3]], "d2": "+1 PROJECTILE", "d4": "ROLLING FIRES A RING OF 8", "d6": "EVERY 3S: ERASE NEARBY SHOTS, FIRE 12. +30% DAMAGE" },
 }
 
 const ORIGINAL_COUNT := 96
@@ -379,6 +390,47 @@ const ROWS := [
 	["golemplate", "GOLEM KING'S MANTLE", "body", "legend", ["bulwark"], null, "plate", [["armor", 3]], [], "+3 ARMOR. +25 THORNS.", [["add", "thorns", 25]], "g_golemplate"],
 	["phoenixplume", "PHOENIX PLUME", "neck", "legend", ["pyre"], null, "amulet", [], [], "YOU RISE ONCE MORE FROM DEATH. +10% DAMAGE.", [["add", "revive", 1], ["mul", "dmg", 1.1]], "g_phoenixplume"],
 	["fiendchains", "FIEND'S CHAINS", "hands", "legend", ["blood", "edge"], null, "gloves", [], [], "ROLLING FLINGS 6 HOOKED BLADES AROUND YOU.", [{ "on": "on_roll", "do": [["nova", 6, 1.0, "spark"]] }], "g_fiendchains"],
+	# 14.1 new sets (icons: tools/art/set_icons.py).
+	["storm_hood", "STORMCALLER HOOD", "head", "rare", ["storm"], "stormcaller", "hood", [["chain", 0.08]], [], "STATIC IN THE STITCHES.", [], "g_storm_hood"],
+	["storm_robe", "STORMCALLER ROBE", "body", "rare", ["storm"], "stormcaller", "robe", [["max_hp", 2]], [], "IT CRACKLES WHEN YOU MOVE.", [], "g_storm_robe"],
+	["storm_boots", "STORMCALLER BOOTS", "feet", "rare", ["storm"], "stormcaller", "boots", [["speed", 1.06]], [], "LIGHT AS A SPARK.", [], "g_storm_boots"],
+	["storm_ring", "STORMCALLER RING", "ring", "epic", ["storm"], "stormcaller", "ring", [["dmg", 1.08]], [], "A BOTTLED BOLT.", [], "g_storm_ring"],
+	["blood_cap", "BLOODLETTER CAP", "head", "rare", ["blood"], "bloodletter", "hat", [["crit", 0.05]], [], "STAINED, NEVER WASHED.", [], "g_blood_cap"],
+	["blood_coat", "BLOODLETTER COAT", "body", "rare", ["blood"], "bloodletter", "plate", [["max_hp", 2]], [], "HEAVY WITH OLD RED.", [], "g_blood_coat"],
+	["blood_gloves", "BLOODLETTER GLOVES", "hands", "rare", ["blood"], "bloodletter", "gloves", [["crit_mult", 0.25]], [], "STEADY HANDS, SHARP CUTS.", [], "g_blood_gloves"],
+	["blood_fang", "BLOODLETTER FANG", "neck", "epic", ["blood"], "bloodletter", "amulet", [["dmg", 1.08]], [], "IT IS STILL THIRSTY.", [], "g_blood_fang"],
+	["hex_veil", "HEXWEAVER VEIL", "head", "rare", ["malice"], "hexweaver", "hood", [["dmg", 1.05]], [], "EYES THAT WISH YOU HARM.", [], "g_hex_veil"],
+	["hex_shroud", "HEXWEAVER SHROUD", "body", "rare", ["malice"], "hexweaver", "robe", [["max_hp", 2]], [], "WOVEN FROM BAD LUCK.", [], "g_hex_shroud"],
+	["hex_gloves", "HEXWEAVER GLOVES", "hands", "rare", ["malice"], "hexweaver", "gloves", [["rate", 1.06]], [], "FINGERS THAT KNOT CURSES.", [], "g_hex_gloves"],
+	["hex_ring", "HEXWEAVER RING", "ring", "epic", ["malice"], "hexweaver", "ring", [["dmg", 1.08]], [], "A TOAD WAS INVOLVED.", [], "g_hex_ring"],
+	["viper_hood", "VIPER HOOD", "head", "rare", ["venom"], "viper", "hood", [["poison", 1]], [], "SCALES ON THE BRIM.", [], "g_viper_hood"],
+	["viper_coat", "VIPER COAT", "body", "rare", ["venom"], "viper", "cloak", [["max_hp", 2]], [], "IT SHEDS EVERY SPRING.", [], "g_viper_coat"],
+	["viper_tabi", "VIPER TABI", "feet", "rare", ["venom"], "viper", "boots", [["speed", 1.07]], [], "QUIET AS A SNAKE.", [], "g_viper_tabi"],
+	["viper_fang", "VIPER FANG", "neck", "epic", ["venom"], "viper", "amulet", [["dmg", 1.08]], [], "STILL DRIPPING.", [], "g_viper_fang"],
+	["war_helm", "WARLORD HELM", "head", "rare", ["fury"], "warlord", "helm", [["armor", 1]], [], "HORNS FOR THE FRONT LINE.", [], "g_war_helm"],
+	["war_hide", "WARLORD HIDE", "body", "rare", ["fury"], "warlord", "plate", [["max_hp", 2]], [], "SCARRED AND PROUD.", [], "g_war_hide"],
+	["war_fists", "WARLORD FISTS", "hands", "rare", ["fury"], "warlord", "gloves", [["dmg", 1.06]], [], "MADE FOR ONE THING.", [], "g_war_fists"],
+	["war_ring", "WARLORD RING", "ring", "epic", ["fury"], "warlord", "ring", [["rate", 1.08]], [], "TAKEN FROM A KING.", [], "g_war_ring"],
+	["beast_helm", "BEASTMASTER HELM", "head", "rare", ["swarm"], "beastmaster", "helm", [["fam_dmg", 0.15]], [], "THE OWL KNOWS YOUR NAME.", [], "g_beast_helm"],
+	["beast_cloak", "BEASTMASTER CLOAK", "body", "rare", ["swarm"], "beastmaster", "cloak", [["max_hp", 2]], [], "FUR FROM FRIENDS.", [], "g_beast_cloak"],
+	["beast_glove", "BEASTMASTER GLOVE", "hands", "rare", ["swarm"], "beastmaster", "gloves", [["fam_dmg", 0.15]], [], "A PERCH FOR A WISP.", [], "g_beast_glove"],
+	["beast_collar", "BEASTMASTER COLLAR", "neck", "epic", ["swarm"], "beastmaster", "amulet", [["familiars", 1]], [], "A GOOD WISP WEARS IT.", [], "g_beast_collar"],
+	["drift_hood", "DRIFTER HOOD", "head", "rare", ["shadow"], "drifter", "hood", [["dodge_cd", 0.92]], [], "NEVER IN ONE PLACE.", [], "g_drift_hood"],
+	["drift_cloak", "DRIFTER CLOAK", "body", "rare", ["shadow"], "drifter", "cloak", [["max_hp", 2]], [], "IT FLAPS EVEN INDOORS.", [], "g_drift_cloak"],
+	["drift_steps", "DRIFTER STEPS", "feet", "rare", ["shadow"], "drifter", "boots", [["speed", 1.08]], [], "THE FLOOR FORGETS YOU.", [], "g_drift_steps"],
+	["drift_ring", "DRIFTER RING", "ring", "epic", ["shadow"], "drifter", "ring", [["evade", 0.05]], [], "SLIPS OFF ANY FINGER BUT YOURS.", [], "g_drift_ring"],
+	["sun_crown", "SUNFORGED CROWN", "head", "legend", ["pyre"], "sunforged", "crown", [["burn", 0.1], ["armor", 1]], [], "FORGED IN A DYING SUN.", [], "g_sun_crown"],
+	["sun_cuirass", "SUNFORGED CUIRASS", "body", "legend", ["pyre"], "sunforged", "plate", [["max_hp", 4]], [], "WARM TO THE TOUCH. ALWAYS.", [], "g_sun_cuirass"],
+	["sun_boots", "SUNFORGED BOOTS", "feet", "legend", ["pyre"], "sunforged", "boots", [["speed", 1.08]], [], "EACH STEP A SMALL DAWN.", [], "g_sun_boots"],
+	["sun_gauntlet", "SUNFORGED GAUNTLET", "hands", "legend", ["pyre"], "sunforged", "gloves", [["dmg", 1.1]], [], "HOLDS A FLAME LIKE A COIN.", [], "g_sun_gauntlet"],
+	["sun_heart", "SUNFORGED HEART", "neck", "legend", ["pyre"], "sunforged", "amulet", [["rate", 1.1]], [], "IT BEATS IN DAYLIGHT.", [], "g_sun_heart"],
+	["sun_band", "SUNFORGED BAND", "ring", "legend", ["pyre"], "sunforged", "ring", [["crit", 0.08]], [], "A RING OF NOON.", [], "g_sun_band"],
+	["void_crown", "VOID REGALIA CROWN", "head", "legend", ["shadow"], "voidregalia", "crown", [["dmg", 1.08], ["armor", 1]], [], "A CROWN FOR NOTHING.", [], "g_void_crown"],
+	["void_mantle", "VOID REGALIA MANTLE", "body", "legend", ["shadow"], "voidregalia", "cloak", [["max_hp", 4]], [], "STARS FALL INTO ITS FOLDS.", [], "g_void_mantle"],
+	["void_steps", "VOID REGALIA STEPS", "feet", "legend", ["shadow"], "voidregalia", "boots", [["dodge_charges", 1], ["charges", 1]], [], "YOU WALK ON THE DARK.", [], "g_void_steps"],
+	["void_grip", "VOID REGALIA GRIP", "hands", "legend", ["shadow"], "voidregalia", "gloves", [["rate", 1.1]], [], "IT HOLDS WHAT IS NOT THERE.", [], "g_void_grip"],
+	["void_star", "VOID REGALIA STAR", "neck", "legend", ["shadow"], "voidregalia", "amulet", [["crit", 0.08]], [], "A STAR THAT WENT OUT.", [], "g_void_star"],
+	["void_band", "VOID REGALIA BAND", "ring", "legend", ["shadow"], "voidregalia", "ring", [["dmg", 1.1]], [], "IT HUMS BELOW HEARING.", [], "g_void_band"],
 ]
 
 ## Readable lines for stat tuples.
@@ -419,7 +471,7 @@ static func random_gear(rarity: String) -> Dictionary:
 	if GameData.rogues() and G.player != null and not G.player.sets.is_empty():
 		var have := 0
 		for id in G.player.sets:
-			if G.player.sets[id] < 4:
+			if G.player.sets[id] < set_size(id):
 				have = maxi(have, G.player.sets[id])
 		if have > 0 and randf() < (0.25 + 0.1 * have) * (1.6 if G.player.g("tailor") > 0 else 1.0):   # 13.2: the set you started comes looking for you
 			var piece = chase_piece(G.player)
@@ -473,6 +525,10 @@ const D3 := "+1 ARMOR, +8% DAMAGE"
 const MASTERY := [["max_hp", 2], ["dmg", 1.12]]
 const D_MASTERY := "SET MASTERY: +1 MAX HEART, +12% DAMAGE"
 
+## How many pieces make the set whole (4, or 6 for a LEGENDARY set: 14.1).
+static func set_size(set_id: String) -> int:
+	return SETS[set_id].get("size", 4)
+
 ## The pieces of a set, in row order.
 static func pieces(set_id: String) -> Array:
 	return all().filter(func(g): return g["set"] == set_id)
@@ -484,7 +540,7 @@ static func chase_piece(p: Player) -> Variant:
 	var best := ""
 	var most := 0
 	for id in p.sets:
-		if p.sets[id] > most and p.sets[id] < 4:
+		if p.sets[id] > most and p.sets[id] < set_size(id):
 			best = id
 			most = p.sets[id]
 	if best == "":
@@ -505,22 +561,37 @@ static func continues_set(p: Player, it: Dictionary) -> bool:
 		return false
 	return not p.gear.values().any(func(g): return g != null and g["id"] == it["id"])
 
-static func _tier_of(n: int) -> int:
+## The step a number of worn pieces reaches. A 6-piece set steps at 2, 4 and 6.
+static func _tier_of(n: int, size: int = 4) -> int:
+	if size == 6:
+		return 3 if n >= 6 else (2 if n >= 4 else (1 if n >= 2 else 0))
 	if not GameData.rogues():
 		return 2 if n >= 4 else (1 if n >= 2 else 0)
 	return 3 if n >= 4 else (2 if n >= 3 else (1 if n >= 2 else 0))
 
+## Pieces needed for a step.
+static func step_need(size: int, tier: int) -> int:
+	if size == 6:
+		return tier * 2
+	return [0, 2, 3, 4][tier]
+
 static func _apply_tier(p: Player, s: Dictionary, set_id: String, tier: int, dir: int) -> void:
 	var top := 3 if GameData.rogues() else 2
+	var six: bool = s.get("size", 4) == 6
 	if tier == 1:
 		Weapons.apply_tuples(p, s["b2"], dir, "s2:" + set_id)
 		Effects.apply_equipment(p, s.get("e2", []), dir, "se2:" + set_id)
-	elif tier == 2 and top == 3:
+	elif tier == 2 and top == 3 and not six:
 		Weapons.apply_tuples(p, B3, dir, "s3:" + set_id)
-	else:
-		Weapons.apply_tuples(p, s.get("b4", []), dir, "s4:" + set_id)
-		Weapons.apply_hooks(p, s.get("b4h", []), dir)
+	elif tier == 2 and six:
 		Effects.apply_equipment(p, s.get("e4", []), dir, "se4:" + set_id)
+	else:
+		if six:
+			Effects.apply_equipment(p, s.get("e6", []), dir, "se6:" + set_id)
+		else:
+			Weapons.apply_tuples(p, s.get("b4", []), dir, "s4:" + set_id)
+			Weapons.apply_hooks(p, s.get("b4h", []), dir)
+			Effects.apply_equipment(p, s.get("e4", []), dir, "se4:" + set_id)
 		if top == 3:
 			Weapons.apply_tuples(p, MASTERY, dir, "sm:" + set_id)
 			if dir < 0:
@@ -530,16 +601,22 @@ static func set_desc(s: Dictionary, tier: int) -> String:
 	var top := 3 if GameData.rogues() else 2
 	if tier == 1:
 		return s["d2"]
+	if s.get("size", 4) == 6:
+		return s["d4"] if tier == 2 else s["d6"]
 	if tier == 2 and top == 3:
 		return D3
 	return s["d4"]
+
+## The whole set's own power (the last step's line).
+static func full_desc(s: Dictionary) -> String:
+	return s.get("d6", s["d4"])
 
 static func update_sets(p: Player, set_id: Variant, delta: int) -> void:
 	if set_id == null:
 		return
 	var s: Dictionary = SETS[set_id]
 	p.sets[set_id] = p.sets.get(set_id, 0) + delta
-	var tier := _tier_of(p.sets[set_id])
+	var tier := _tier_of(p.sets[set_id], s.get("size", 4))
 	var top := 3 if GameData.rogues() else 2
 	var have: int = p.set_tier.get(set_id, 0)
 	while have < tier:
@@ -560,7 +637,7 @@ static func _complete(p: Player, s: Dictionary, set_id: String) -> void:
 	G.run_stats["sets_done"] = done
 	var cols: Array = Weapons.TAG_COLS.get(s["tag"], Weapons.TAG_COLS["core"])
 	if done.has(set_id) or G.state != &"play":
-		G.toast(s["name"] + " SET COMPLETE: " + s["d4"], "gold")
+		G.toast(s["name"] + " SET COMPLETE: " + full_desc(s), "gold")
 		return
 	done[set_id] = true
 	Meta.meta["sets_done"] = Meta.meta.get("sets_done", 0) + 1
@@ -569,7 +646,7 @@ static func _complete(p: Player, s: Dictionary, set_id: String) -> void:
 	G.add_shake(10)
 	Snd.play("unlock")
 	Snd.play("relic")
-	G.show_banner(s["name"] + " SET COMPLETE!", s["d4"])
+	G.show_banner(s["name"] + (" LEGENDARY SET COMPLETE!" if s.get("size", 4) == 6 else " SET COMPLETE!"), full_desc(s))
 	G.toast(D_MASTERY, "gold")
 	for k in 3:
 		Fx.burst(p.x, p.y - 6, cols, 26, 70 + k * 40)

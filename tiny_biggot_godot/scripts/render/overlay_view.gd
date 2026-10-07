@@ -137,12 +137,18 @@ static func item_lines(it: Dictionary) -> Array:
 		if it["set"] != null:
 			var st: Dictionary = Gear.SETS[it["set"]]
 			var have: int = p.sets.get(it["set"], 0)
-			lines.append(["%s SET (%d/4): 2: %s" % [st["name"], have, st["d2"]], "gold"])
-			if GameData.rogues():   # 13.2
+			if st.get("size", 4) == 6:   # 14.1: a LEGENDARY set
+				lines.append(["LEGENDARY %s SET (%d/6): 2: %s" % [st["name"], have, st["d2"]], "gold"])
+				lines.append(["4: " + st["d4"], "gold"])
+				lines.append(["6: " + st["d6"], "gold"])
+				lines.append(["   + " + Gear.D_MASTERY, "gold"])
+			elif GameData.rogues():   # 13.2
+				lines.append(["%s SET (%d/4): 2: %s" % [st["name"], have, st["d2"]], "gold"])
 				lines.append(["3: " + Gear.D3, "gold"])
 				lines.append(["4: " + st["d4"], "gold"])
 				lines.append(["   + " + Gear.D_MASTERY, "gold"])
 			else:
+				lines.append(["%s SET (%d/4): 2: %s" % [st["name"], have, st["d2"]], "gold"])
 				lines.append(["4: " + st["d4"], "gold"])
 	for l in (TraitView.wrap_rich(Live.desc(it), 220) if ItemShow.active() else Gfx.wrap_text(it["desc"], 220)):   # 10.1
 		lines.append([l, "white"])

@@ -64,11 +64,28 @@ func _ready() -> void:
 		fail("the set paid twice")
 	for id in Gear.SETS:
 		var st: Dictionary = Gear.SETS[id]
-		for line in [st["d2"], Gear.D3, st["d4"], Gear.D_MASTERY, st["name"] + " SET COMPLETE!"]:
+		for line in [st["d2"], Gear.D3, st["d4"], st.get("d6", ""), Gear.D_MASTERY, st["name"] + " LEGENDARY SET COMPLETE!"]:
 			for ch in line:
 				if not ch in Gfx.FONT_CHARS:
 					fail("'%s' not in the font: %s" % [ch, line])
-		if Gear.pieces(id).size() != 4:
+		if Gear.pieces(id).size() != Gear.set_size(id):
 			fail("%s has %d pieces" % [id, Gear.pieces(id).size()])
+	_legendary()
 	print("sets test: PASSED" if fails == 0 else "sets test: %d FAILED" % fails)
 	get_tree().quit()
+
+## 14.1: a LEGENDARY set steps at 2, 4 and 6 pieces; the sixth brings its power and SET MASTERY.
+func _legendary() -> void:
+	G.new_run()
+	G.state = &"play"
+	var p := G.player
+	var pcs := Gear.pieces("voidregalia")
+	var d0 := p.dmg
+	var r0 := p.relics.size()
+	var want := [0, 1, 1, 2, 2, 3]
+	for i in 6:
+		Gear.equip_gear(p, pcs[i])
+		if p.set_tier.get("voidregalia", 0) != want[i]:
+			fail("VOID REGALIA at %d pieces: step %d, want %d" % [i + 1, p.set_tier.get("voidregalia", 0), want[i]])
+	if not p.procs.any(func(pr): return pr["src"] == "se6:voidregalia") or p.dmg < d0 * 1.4 or p.relics.size() != r0 + 1:
+		fail("six pieces: no six-piece power, mastery or relic (damage %.2f)" % p.dmg)

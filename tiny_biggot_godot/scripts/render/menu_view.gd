@@ -508,7 +508,8 @@ func draw_gearpage(ci: CanvasItem) -> void:
 		var st: Dictionary = Gear.SETS[id]
 		var sline := "%s %d/4:  2: %s   4: %s" % [st["name"], n, st["d2"], st["d4"]]
 		if GameData.rogues():   # 13.2: the next step is shown
-			sline = "%s %d/4  NEXT: %s" % [st["name"], n, Gear.set_desc(st, Gear._tier_of(n) + 1) if n < 4 else "COMPLETE! " + st["d4"]]
+			var sz: int = st.get("size", 4)
+			sline = "%s %d/%d  NEXT: %s" % [st["name"], n, sz, Gear.set_desc(st, Gear._tier_of(n, sz) + 1) if n < sz else "COMPLETE! " + Gear.full_desc(st)]
 		Gfx.text(ci, sline, TB.SW / 2, y, "gold" if n >= 2 else "dim", 1, 0.5)
 		y += 9
 	Gfx.text(ci, "PRESS ANY BUTTON", TB.SW / 2, 266, "dim", 1, 0.5)

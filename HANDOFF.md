@@ -856,6 +856,9 @@ the shop), `continues_set` (plates), `pieces`. Aura: world_view `_paint_set_aura
 13.3: traits.gd rows `z_*`, `x_tailor`, `x_halo`; hooks `wardrobe_dmg` (combat.gd hook_mult) and
 `tailor` (gear.gd random_gear).
 
+14.1: SETS gain "size": 6 (e4 at 4 pieces, e6/d6 at 6); `set_size`, `step_need`, `full_desc`;
+`_tier_of(n, size)`. Piece icons: `tools/art/set_icons.py` writes recoloured `src/icons/g_*.png`.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

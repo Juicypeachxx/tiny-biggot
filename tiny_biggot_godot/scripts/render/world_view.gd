@@ -137,7 +137,8 @@ func _paint_plates(ci: CanvasItem) -> void:
 			continue
 		var it = o.get("item") if o["kind"] == "item" else o.get("thing")
 		if it is Dictionary and Gear.continues_set(p, it):   # 13.2: a piece of a set you have started
-			sub = "%s SET %d/4 > %d/4" % [Gear.SETS[it["set"]]["name"], p.sets[it["set"]], p.sets[it["set"]] + 1]
+			var sz := Gear.set_size(it["set"])
+			sub = "%s SET %d/%d > %d/%d" % [Gear.SETS[it["set"]]["name"], p.sets[it["set"]], sz, p.sets[it["set"]] + 1, sz]
 		if sub.length() > 30:
 			sub = sub.left(28) + ".."
 		var w := maxi(TB.text_w(name), TB.text_w(sub)) + 6
