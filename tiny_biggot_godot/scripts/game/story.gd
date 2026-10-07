@@ -28,6 +28,10 @@ const LINES := [
 	["author", "THE AUTHOR WANTED TO CLOSE THE BOOK. YOU WOULD NOT LET IT."],
 	["author", "THE AUTHOR FEARED ONE THING: THE REDACTOR, WHO ERASES EVEN AUTHORS."],
 	["redactor", "NOTHING IS ERASED NOW. THE STORY IS YOURS, ALL OF IT. THANK YOU."],
+	["redactor", "BUT THE ERASED WORDS DID NOT VANISH. THEY GATHER AT THE BACK OF THE BOOK."],
+	["ch3", "THE APPENDIX: THE GLOSSARY, THE FOOTNOTES, THE COVER. SOMEONE WAITS OUTSIDE IT."],
+	["ch3", "WHO TURNS THE PAGES, STRANGER? WHO HAS BEEN READING ALL THIS TIME?"],
+	["reader", "THE READER CLOSED THE BOOK. AND YET HERE YOU ARE, OPENING IT AGAIN."],
 ]
 
 static func _db() -> Dictionary:
@@ -70,7 +74,7 @@ static func place(r: Room, cx: float, cy: float) -> void:
 
 ## 12.2: on a Chapter II floor.
 static func chapter2() -> bool:
-	return GameData.rogues() and G.run_stats.get("chapter", 1) == 2 \
+	return GameData.rogues() and G.run_stats.get("chapter", 1) >= 2 \
 		and G.floor_index >= GameData.FLOORS.size() + GameData.NEW_FLOORS.size()
 
 ## THE BOOKBINDER, at Chapter II rest stops: one relic bound into a cover, for gold.
@@ -98,7 +102,7 @@ static func bookbinder(o: Dictionary) -> void:
 ## 12.3: one TORN PAGE in a hidden room of each Chapter II floor. All three carried when the Author
 ## falls open the way to THE REDACTOR.
 static func hide_page(r: Room, cx: float, cy: float) -> void:
-	if not chapter2() or G.run_stats.get("page_floors", []).has(G.floor_index):
+	if not chapter2() or G.run_stats.get("chapter", 1) != 2 or G.run_stats.get("page_floors", []).has(G.floor_index):
 		return
 	if not (G.run_stats.get("page_floors") is Array):
 		G.run_stats["page_floors"] = []

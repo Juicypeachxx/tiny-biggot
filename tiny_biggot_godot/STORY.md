@@ -26,6 +26,18 @@ Author's workshop, three new floors:
 when it falls, a door opens that should not exist: **THE REDACTOR**, the eraser that blots out
 even authors: the hidden final boss.
 
+## Chapter III: THE APPENDIX (14.4)
+
+When the Redactor is erased, the run can end (a win) or **read on**. The words the Redactor erased
+did not vanish: they gather at the back of the book. Three floors:
+1. **THE GLOSSARY**: pale pages of loose letters and words. Guardian **THE LEXICON**, a swarm of
+   every word at once (mini: the Lexicant).
+2. **THE FOOTNOTES**: the cramped bottom of the page, asterisks and small print. Guardian **THE
+   ERRATUM**, the one mistake nobody fixed (mini: the Fine Print).
+3. **THE COVER**: the leather and gold outside the book. Guardian **THE READER**, the one who has
+   been turning the pages all along (mini: the Colophon). Its fall ends the run: "THE END. WRITTEN
+   BY YOU". +600 embers.
+
 ## The people
 
 - **THE ARCHIVIST** (12.1, done): an old ghost of a librarian by the fire at rest stops. He tells
@@ -46,4 +58,5 @@ health, three stages of chaos). Its fall wins the run: +500 embers, `redactor_wi
 ## Milestones (`Story.reach`)
 
 f6 the Pale Regent falls; f11 the Umbral Sun falls; realm a realm's ruler falls; unwritten the
-Unwritten falls; ch2 Chapter II begun; author the Author falls; redactor the Redactor falls.
+Unwritten falls; ch2 Chapter II begun; author the Author falls; redactor the Redactor falls; ch3
+Chapter III begun; reader the Reader falls.

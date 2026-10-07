@@ -884,6 +884,9 @@ func on_boss_dead(b: Enemy) -> void:
 	if last and run_stats.get("chapter", 1) == 2:
 		_chapter_won(b)   # 12.2: the Author falls
 		return
+	if last and run_stats.get("chapter", 1) == 3:
+		_chapter3_won(b)   # 14.4: the Reader falls
+		return
 	if floor_index == GameData.THRONE_FLOOR and not last and not run_stats.get("throne", false):
 		throne_victory()
 	room.objects.append({ "kind": "chest", "x": 14.0 * TB.TS - (0 if last else 28), "y": 10.0 * TB.TS, "boss": true })
@@ -939,6 +942,24 @@ func begin_chapter2() -> void:
 	start_floor()
 	toast("CHAPTER II: THE MARGINS", "gold")
 
+## 14.4: read on. Chapter III's three floors join the list (after Chapter II's).
+func begin_chapter3() -> void:
+	run_stats["chapter"] = 3
+	Story.reach("ch3")
+	floor_index = GameData.FLOORS.size() + GameData.NEW_FLOORS.size() + GameData.CHAPTER2.size()
+	start_floor()
+	toast("CHAPTER III: THE APPENDIX", "gold")
+
+## 14.4: the Reader falls: the last page is turned, by you. The run is won.
+func _chapter3_won(b: Enemy) -> void:
+	run_stats["reader"] = true
+	Story.reach("reader")
+	Meta.meta["reader_wins"] = Meta.meta.get("reader_wins", 0) + 1
+	room.objects.append({ "kind": "chest", "x": 14.0 * TB.TS - 28, "y": 10.0 * TB.TS, "boss": true })
+	room.objects.append({ "kind": "chest", "x": 14.0 * TB.TS + 28, "y": 10.0 * TB.TS, "boss": true })
+	show_banner("THE READER CLOSES THE BOOK", "THE END. WRITTEN BY YOU")
+	win_timer = 7.0
+
 ## 12.2: the Author falls: the book stays open and the run is won (12.3 adds what is hidden).
 func _chapter_won(b: Enemy) -> void:
 	run_stats["author"] = true
@@ -965,8 +986,10 @@ func _realm_won(b: Enemy) -> void:
 		Story.reach("redactor")
 		Meta.meta["redactor_wins"] = Meta.meta.get("redactor_wins", 0) + 1
 		room.objects.append({ "kind": "chest", "x": 14.0 * TB.TS, "y": 10.0 * TB.TS, "boss": true })
-		show_banner("THE REDACTOR IS ERASED", "NOTHING IS ERASED NOW. THE STORY IS YOURS")
-		win_timer = 6.0
+		# 14.4: close the book here, or read on into the appendix: CHAPTER III (STORY.md).
+		show_banner("THE REDACTOR IS ERASED", "CLOSE THE BOOK, OR READ ON")
+		room.objects.append({ "kind": "n_endbook", "x": 14.0 * TB.TS - 52, "y": 10.0 * TB.TS + 30 })
+		room.objects.append({ "kind": "n_readon", "x": 14.0 * TB.TS + 52, "y": 10.0 * TB.TS + 30 })
 		return
 	if id == "seam":
 		run_stats["unwritten"] = true
@@ -1018,6 +1041,8 @@ func award_embers(win: bool) -> void:
 		parts.append(["CHAPTER II", 300])   # 12.2
 	if run_stats.get("redactor", false):
 		parts.append(["THE REDACTOR", 500])   # 12.3
+	if run_stats.get("reader", false):
+		parts.append(["CHAPTER III", 600])   # 14.4
 	if run_stats.get("trophies", 0) > 0:
 		parts.append(["NEW TROPHIES", run_stats["trophies"] * Trophies.EMBERS])
 	var base := 0

@@ -31,6 +31,7 @@ func _ready() -> void:
 		_fight(b)
 	_brazil()
 	_meet_haggler()
+	Meta.meta["trophies"] = {}   # the guardians felled above leave trophies (7.2) that would make later runs stronger
 	for b in BossAI.STAGE_PLANS:
 		_stages(b)
 	_reward()
@@ -471,14 +472,53 @@ func _redactor() -> void:
 		return
 	_fell(G.boss)
 	play(30)
+	if not G.run_stats.get("redactor", false) or Meta.meta.get("redactor_wins", 0) != wins0 + 1:
+		fail("the Redactor's fall was not counted")
+	# 14.4: close the book, or read on into CHAPTER III.
+	var readon = null
+	for o in G.room.objects:
+		if o["kind"] == "n_readon":
+			readon = o
+	if readon == null:
+		fail("no way to read on after the Redactor")
+		return
+	G.interact(readon)
+	play(90)
+	var base := GameData.FLOORS.size() + GameData.NEW_FLOORS.size() + GameData.CHAPTER2.size()
+	if G.run_stats.get("chapter", 1) != 3 or GameData.floors().size() != base + 3:
+		fail("chapter III: not begun (chapter %s, %d floors)" % [G.run_stats.get("chapter", 1), GameData.floors().size()])
+		return
+	for k in 3:
+		if G.floor_index != base + k or GameData.floors()[base + k]["name"] != GameData.CHAPTER3[k]["name"]:
+			fail("chapter III: on floor %d, want %s" % [G.floor_index, GameData.CHAPTER3[k]["name"]])
+			return
+		G.enter_room(World.make_room(G.floor_d, "combat", "", "s", { "no_secret": true }))
+		play(200)
+		for e in G.enemies:
+			if not e.type in GameData.CHAPTER3[k]["pool"] and e.type != "dummy":
+				fail("chapter III floor %d: a foreign foe %s" % [k + 1, e.type])
+				break
+		G.enemies.clear()
+		G.locked = false
+		G.enter_room(World.make_room(G.floor_d, "boss", "", "s", { "no_secret": true }))
+		play(240)
+		if G.boss == null or G.boss.boss != GameData.CHAPTER3[k]["boss"]:
+			fail("chapter III floor %d: the guardian is %s" % [k + 1, G.boss.boss if G.boss != null else "nobody"])
+			return
+		_fell(G.boss)
+		play(60)
+		if k < 2:
+			G.floor_index += 1
+			G.start_floor()
+	var rw0: int = Meta.meta.get("reader_wins", 0)
 	for o in G.room.objects:
 		if o["kind"] == "chest":
 			o["opened"] = true
-	for i in 600:
+	for i in 700:
 		play(1)
 		if G.state == &"win":
 			break
-	if G.state != &"win" or not G.run_stats.get("redactor", false) or Meta.meta.get("redactor_wins", 0) != wins0 + 1:
-		fail("the Redactor's fall did not win the run (state %s)" % G.state)
-	elif not G.award.get("parts", []).any(func(x): return x[0] == "THE REDACTOR"):
-		fail("no embers for the Redactor")
+	if G.state != &"win" or not G.run_stats.get("reader", false):
+		fail("the Reader's fall did not win the run (state %s)" % G.state)
+	elif not G.award.get("parts", []).any(func(x): return x[0] == "CHAPTER III") or not G.award.get("parts", []).any(func(x): return x[0] == "THE REDACTOR"):
+		fail("no embers for Chapter III or the Redactor")

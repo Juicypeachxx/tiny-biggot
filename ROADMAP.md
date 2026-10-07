@@ -723,8 +723,12 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       ACT, TAILOR-MADE, STARSTORM, SLIPSTREAM, KING'S RANSOM, BLACK PLAGUE, LUCKY STRIKE). Nobody
       is told; the first find is a big moment and is kept, then trait cards say "COMBO WITH X" or
       "COMBO READY". The traits page counts them. IPA 14.3.
-- [ ] 14.4 Chapter III: after the Redactor, a third chapter with its own floors, foes,
+- [x] 14.4 Chapter III: after the Redactor, a third chapter with its own floors, foes,
       guardians and an ending. IPA.
+      Done: after the Redactor, CLOSE THE BOOK or READ ON. CHAPTER III, THE APPENDIX: THE GLOSSARY,
+      THE FOOTNOTES, THE COVER; 15 foes, 3 minis (Lexicant, Fine Print, Colophon), 3 guardians
+      (THE LEXICON, THE ERRATUM, THE READER), new tiles. The Reader's fall: "THE END", +600 embers.
+      Four new Archivist lines. The Bookbinder and the Inkling come along. `--chapter=3`. IPA 14.4.
 
 ---
 

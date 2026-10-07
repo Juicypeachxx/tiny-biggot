@@ -866,6 +866,11 @@ fixed pause indexes), menu_view `draw_wardrobe` / `ward_top`, taps.gd. `tests/wa
 effects.gd `_found_hidden` (Meta.meta["combos_found"]), `found_partners` (trait_view `_row`).
 `--ui=traits --combo-hint`. `tests/combos_test`.
 
+14.4: `GameData.CHAPTER3` (`floors()` with chapter 3 = main + CHAPTER2 + CHAPTER3, kits 14-16);
+`_realm_won("redaction")` offers `n_endbook` / `n_readon` (EventRooms) → `begin_chapter3`;
+`_chapter3_won` (the Reader). Story milestones ch3, reader. realms_test `_redactor` walks Chapter III
+(and clears trophies before the stage checks: they make later test runs stronger).
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).
