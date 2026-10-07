@@ -684,7 +684,10 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       Done: THE AUTHOR ends Chapter II (12.2). Hidden: a TORN PAGE in a hidden room of each chapter
       floor (the Archivist and the Inkling hint at them); all three carried, the Author's fall
       opens a door to THE REDACTED and THE REDACTOR (3800 health, chaos in three stages). +500 embers.
-- [ ] 12.4 Endings and unlocks that follow the story; IPA per part as it grows.
+- [x] 12.4 Endings and unlocks that follow the story; IPA per part as it grows.
+      Done: end screens "THE STORY IS YOURS" (the Author) and "NOTHING IS ERASED" (the Redactor);
+      each chapter guardian leaves its own legend item: THE INKSPOUT, THE BINDER'S THREAD, THE
+      AUTHOR'S PEN, THE BLACK BAR (the Redactor's). Embers: CHAPTER II +300, THE REDACTOR +500.
 
 ---
 

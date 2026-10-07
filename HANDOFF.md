@@ -840,6 +840,9 @@ Test option `--chapter=2` (then `--floor=0-2`). Tests: realms (`_chapter2`), sto
 Boss `redactor` in GameData.BOSSES and BossAI tables. realms_test `_redactor()`.
 Test option: `--chapter=2 --floor=2 --rift=redaction --step=3`.
 
+12.4: endings in `menu_view.draw_end` (run_stats author / redactor); BossLoot drops inkspout,
+binderthread, authorspen, blackbar (weapons.gd, gear.gd; icons in sprites.py).
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

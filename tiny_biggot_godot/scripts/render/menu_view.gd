@@ -521,7 +521,12 @@ func draw_end(ci: CanvasItem) -> void:
 	var r := G.run_stats
 	var win := G.state == &"win"
 	var unwritten: bool = win and r.get("unwritten", false)   # ROADMAP 4.7 part C: the last ending of all
-	Gfx.text(ci, ("THE PAGE IS YOURS" if unwritten else "THE CRYPT IS SILENT") if win else "YOU HAVE FALLEN", TB.SW / 2, 30, "gold" if win else "red", 3, 0.5)
+	var title := ("THE PAGE IS YOURS" if unwritten else "THE CRYPT IS SILENT") if win else "YOU HAVE FALLEN"
+	if win and r.get("redactor", false):
+		title = "NOTHING IS ERASED"   # 12.4: the hidden ending
+	elif win and r.get("author", false):
+		title = "THE STORY IS YOURS"   # 12.4: Chapter II's ending
+	Gfx.text(ci, title, TB.SW / 2, 30, "gold" if win else "red", 3, 0.5)
 	_sprite(p.hero["sprite"], TB.SW / 2, 92, 3, false, 1.0 if win else 0.5, Color(0, 0, 0, 0) if win else Color(1, 1, 1, 1))
 	if win:
 		_sprites[_sprites.size() - 1].append(p)   # the winner wears their gear
@@ -529,6 +534,10 @@ func draw_end(ci: CanvasItem) -> void:
 		if win else "SLAIN BY " + G.death_by.to_upper()
 	if unwritten:
 		msg = p.hero["name"] + " UNMADE THE UNWRITTEN, BY WAY OF " + ("HEAVEN" if r.get("realm", "") == "heaven" else "HELL")
+	if win and r.get("redactor", false):
+		msg = p.hero["name"] + " ERASED THE REDACTOR. THE BOOK IS WHOLE"
+	elif win and r.get("author", false):
+		msg = p.hero["name"] + " OUTWROTE THE AUTHOR"
 	Gfx.text(ci, msg, TB.SW / 2, 102, "white", 1, 0.5)
 	var rows := [["FLOOR REACHED", "%d - %s" % [G.floor_index + 1, GameData.floors()[G.floor_index]["name"]]], ["FOES SLAIN", r["kills"]],
 		["GUARDIANS", r["bosses"]], ["SECRETS FOUND", r["secrets"]], ["TIME", fmt_time(r["time"])]]

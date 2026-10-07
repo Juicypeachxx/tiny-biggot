@@ -571,6 +571,9 @@ const ROWS := [
 	["enginecore", "ENGINE CORE", "orb", "legend", ["pyre", "storm"], "orbstaff", { "dmg": 6.0, "rate": 2.6 }, [["burn", 0.2]], [["nth_nova", 5]], "THE GREAT ENGINE'S HEART. BURNING BOLTS, AND EVERY 5TH ERUPTS IN A RING OF FIRE.", [], "w_enginecore"],
 	["glacierheart", "GLACIER HEART", "orb", "legend", ["storm"], "orbstaff", { "dmg": 6.0, "rate": 2.6 }, [["chill", 0.4]], [["nth_zap", 4]], "THE GLACIAL MAW'S HEART. CHILLING BOLTS, AND EVERY 4TH CALLS DOWN LIGHTNING.", [], "w_glacierheart"],   # 7.3
 	# 9.3 the second guardians' weapons.
+	# 12.4 Chapter II's guardians (boss_loot.gd).
+	["inkspout", "THE INKSPOUT", "orb", "legend", ["arcane", "malice"], "orbstaff", { "dmg": 5.5, "rate": 3.0 }, [["echo", 0.15]], [["nth_nova", 4]], "THE LEVIATHAN'S OWN. 15% OF SHOTS ECHO. EVERY 4TH SHOT BURSTS INTO A RING.", [], "w_inkspout"],
+	["authorspen", "THE AUTHOR'S PEN", "orb", "legend", ["arcane", "storm"], "staff", { "dmg": 8.0, "rate": 2.6, "homing": 0.6 }, [["echo", 0.25]], [["nth_zap", 4]], "THE LAST WORD. 25% OF SHOTS ARE WRITTEN TWICE. EVERY 4TH CALLS LIGHTNING. EVERY 12TH REWRITES THE FIGHT.", [{ "on": "every_n_shots", "every": 12, "do": [["chaos"]] }], "w_authorspen"],
 	["archstaff", "ARCHMAGE'S STAFF", "orb", "legend", ["arcane", "storm"], "orbstaff", { "dmg": 7.0, "rate": 2.4 }, [], [["nth_zap", 3]], "THE TOWER'S OWN. EVERY 3RD BOLT CALLS LIGHTNING.", [], "w_archstaff"],
 	["wyrmfang", "WYRMFANG", "slash", "legend", ["frost", "edge"], "sword", { "dmg": 11.0, "rate": 2.0 }, [["chill", 0.35]], [], "A FANG OF WHITE ICE. CHILLS WHAT IT CUTS.", [], "w_wyrmfang"],
 	["seraphlance", "SERAPH'S LANCE", "rail", "legend", ["arcane"], "rifle", { "dmg": 18.0, "rate": 1.2, "pierce": 3 }, [], [["nth_nova", 3]], "LIGHT ITSELF. EVERY 3RD SHOT BURSTS INTO A RING.", [], "w_seraphlance"],

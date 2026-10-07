@@ -372,6 +372,9 @@ const ROWS := [
 	["foremanhat", "FOREMAN'S HARD HAT", "head", "legend", ["bulwark", "demolition"], null, "helm", [["armor", 2]], [], "+2 ARMOR. ENTERING A ROOM SETS UP A GUN TURRET FOR 10S.", [{ "on": "on_room_enter", "do": [["turret", "gun", 10.0, 1.0]] }], "g_foremanhat"],
 	["hoarhelm", "HOARFROST HELM", "head", "legend", ["bulwark", "storm"], null, "helm", [["armor", 2]], [], "+2 ARMOR. WHEN HIT, CHILL EVERY FOE WITHIN 80 FOR A MOMENT.", [{ "on": "on_damage_taken", "do": [["status_area", "chill", 1, 80], ["vfx", "ring", "#8fd8ff", 80]] }], "g_hoarhelm"],
 	# 9.3 the second guardians' own gear.
+	# 12.4 Chapter II's guardians (boss_loot.gd).
+	["binderthread", "THE BINDER'S THREAD", "neck", "legend", ["bulwark"], null, "amulet", [["armor", 1]], [], "+1 ARMOR. +15% FIRE RATE.", [["mul", "rate", 1.15]], "g_binderthread"],
+	["blackbar", "THE BLACK BAR", "head", "legend", ["malice"], null, "helm", [["armor", 2]], [], "+2 ARMOR. +20% DAMAGE. ENTERING A ROOM FIRES A RING OF 12 SHOTS.", [["mul", "dmg", 1.2], { "on": "on_room_enter", "do": [["nova", 12, 0.8, "spark"]] }], "g_blackbar"],
 	["admiralhat", "ADMIRAL'S BICORNE", "head", "legend", ["bulwark", "storm"], null, "helm", [["armor", 2]], [], "+2 ARMOR. ENTERING A ROOM FIRES A RING OF 10 SHOTS.", [{ "on": "on_room_enter", "do": [["nova", 10, 0.8, "spark"]] }], "g_admiralhat"],
 	["golemplate", "GOLEM KING'S MANTLE", "body", "legend", ["bulwark"], null, "plate", [["armor", 3]], [], "+3 ARMOR. +25 THORNS.", [["add", "thorns", 25]], "g_golemplate"],
 	["phoenixplume", "PHOENIX PLUME", "neck", "legend", ["pyre"], null, "amulet", [], [], "YOU RISE ONCE MORE FROM DEATH. +10% DAMAGE.", [["add", "revive", 1], ["mul", "dmg", 1.1]], "g_phoenixplume"],
