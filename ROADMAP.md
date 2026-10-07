@@ -688,6 +688,8 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       Done: end screens "THE STORY IS YOURS" (the Author) and "NOTHING IS ERASED" (the Redactor);
       each chapter guardian leaves its own legend item: THE INKSPOUT, THE BINDER'S THREAD, THE
       AUTHOR'S PEN, THE BLACK BAR (the Redactor's). Embers: CHAPTER II +300, THE REDACTOR +500.
+- [x] Full check passed except replays b and d, which changed only because the Archivist (12.1)
+      now sits at rest stops: re-recorded on purpose. Classic identical. IPA 12.4.
 
 ---
 
