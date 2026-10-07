@@ -895,6 +895,10 @@ break pots), `_blow` pushes foes (kx/ky) and breaks crates; EBullets chips crate
 in the expanded game. Weather: `STORMY` floors flash (`paint_over` in world_view `_paint_top`),
 ink rain on chapter floors (own RNG).
 
+18.1: `Daily` (scripts/game/daily.gd): `start(day)` (seed, hero, rule; `run_stats.daily`),
+`is_on(id)` hooks in game.gd (elite chance, price, boss relics), combat.gd (foe speed, boss hp),
+room_dress.gd (kegs); `on_end` from award_embers (score, `Meta.meta.daily_best`). Camp kind `c_daily`.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

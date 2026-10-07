@@ -784,6 +784,18 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       Eclipse); ink rain on the chapter floors (the floors' own rain, snow, ash... were already
       there). IPA 17.
 
+## Stage 18 (his word, 7 Oct: "3, 4, 5")
+- [x] 18.1 THE DAILY TRIAL: one fixed run a day (seed and hero from the date) with a rule of the
+      day; best score kept and shown in the camp.
+      Done: a standing stone in THE CAMP. Rules: POWDER DAY (kegs in every fight, blasts x2), ELITE
+      HOUR (half the foes elite), GLASS HEROES (double damage, 2 fewer hearts), GOLD RUSH (double
+      gold, shops +50%), HASTE (you and every foe 30% faster), BIG GAME (guardians +50% health,
+      2 more relics). Score: floors x1000, foes x10, guardians x500, gold, a win +5000; the day's
+      best on the stone; +50 embers. `--day=YYYYMMDD`. `tests/daily_test`.
+- [ ] 18.2 A new hero from the story: THE INKLING (ink that lingers, sketched allies).
+- [ ] 18.3 Bot balance pass: many bot runs, measure what is never worth taking, raise the weak
+      (nothing lowered). IPA.
+
 ---
 
 ## Log

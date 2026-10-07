@@ -188,7 +188,7 @@ static func spawn_enemy(type: String, x: float, y: float, elite: bool = false, i
 	e.r = d["r"] * (1.2 if elite else 1.0)
 	e.hp = hp
 	e.max_hp = hp
-	e.speed = d["speed"] * (1 + G.floor_index * 0.05)
+	e.speed = d["speed"] * (1 + G.floor_index * 0.05) * (1.3 if Daily.is_on("haste") else 1.0)   # 18.1 HASTE
 	e.t = randf() * 1.5
 	e.elite = elite
 	e.spawn_t = 0.0 if instant else 0.75
@@ -213,6 +213,8 @@ static func spawn_boss(key: String, quiet: bool = false) -> Enemy:
 	var hp: float = d["hp"] * (1 + 0.15 * dread()) * loop_scale() * hard_hp() * run_scale() * boss_hp()
 	if d.get("rift", false):
 		hp *= 1 + 0.42 * G.floor_index   # a rift guardian turns up on any floor
+	if Daily.is_on("giants"):
+		hp *= 1.5   # 18.1 BIG GAME
 	var e := Enemy.new()
 	e.type = "boss"
 	e.boss = key

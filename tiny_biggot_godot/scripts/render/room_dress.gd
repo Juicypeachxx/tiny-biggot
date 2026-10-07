@@ -57,8 +57,8 @@ static func furnish(r: Room) -> void:
 	if r.type in ["combat", "elite"]:
 		if g.randf() < 0.6:
 			place_pots(r, 2 + g.randi() % 3)
-		if g.randf() < 0.35:
-			place_kegs(r)
+		if g.randf() < 0.35 or Daily.is_on("powder"):
+			place_kegs(r, 3 if Daily.is_on("powder") else 0)   # 18.1 POWDER DAY: kegs everywhere
 	elif r.type in ["treasure", "rest", "shrine", "secret", "vault", "mystery"]:
 		place_pots(r, 2 + g.randi() % 2)
 	if r.type == "treasure":
@@ -101,9 +101,11 @@ static func place_pots(r: Room, n: int) -> void:
 		placed += 1
 
 ## One or two powder kegs out in a fight room, away from the doors and the middle.
-static func place_kegs(r: Room) -> void:
+static func place_kegs(r: Room, want: int = 0) -> void:
 	var g := _place_rng(r, 0x6e9)
 	var n := 1 + (1 if g.randf() < 0.4 else 0)
+	if want > 0:
+		n = want
 	for tries in 30:
 		if n <= 0:
 			break
@@ -190,7 +192,7 @@ static func _blow(room: Room, o: Dictionary) -> void:
 		return
 	o["gone"] = true
 	G.dyn_dirty = true
-	var dmg := maxf(30.0, Weapons.wdmg(G.player) * 4.0)
+	var dmg := maxf(30.0, Weapons.wdmg(G.player) * 4.0) * (2.0 if Daily.is_on("powder") else 1.0)
 	Combat.explode_at(o["x"], o["y"] - 4, dmg, null, 46, "#e8873a", true)
 	G.add_shake(6)
 	Snd.play("boom")

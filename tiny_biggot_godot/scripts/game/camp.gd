@@ -14,7 +14,7 @@ extends RefCounted
 ## the shelf for every guardian felled (all heroes), the fish you have caught on the fish wall.
 ## MENU > LEAVE CAMP returns to the title.
 
-const KINDS := ["c_portal", "c_wardrobe", "c_shrine", "c_telescope", "c_dummy", "c_board"]
+const KINDS := ["c_portal", "c_wardrobe", "c_shrine", "c_telescope", "c_dummy", "c_board", "c_daily"]
 ## Endings: [Meta key, banner colour, name]
 const ENDINGS := [["wins", "#f2c94c", "THE THRONE"], ["heaven_wins", "#fff07a", "HEAVEN"], ["hell_wins", "#d8443c", "HELL"],
 	["unwritten_wins", "#f4ecd8", "THE UNWRITTEN"], ["author_wins", "#4d6aa8", "THE AUTHOR"],
@@ -60,6 +60,7 @@ static func setup(r: Room) -> void:
 	r.objects.append({ "kind": "c_telescope", "x": 70.0, "y": 92.0 })
 	r.objects.append({ "kind": "c_dummy", "x": 124.0, "y": 118.0 })
 	r.objects.append({ "kind": "c_board", "x": 300.0, "y": 70.0 })
+	r.objects.append({ "kind": "c_daily", "x": 290.0, "y": 176.0 })   # 18.1 the daily trial
 
 static func interact(o: Dictionary) -> void:
 	Snd.play("select")
@@ -80,6 +81,9 @@ static func interact(o: Dictionary) -> void:
 			G.tree_hero = G.hero_index
 			G.tree_b = 0
 			G.tree_n = 0
+		"c_daily":
+			G.start_fade(func(): Daily.start())
+			Snd.play("portal")
 		"c_board":
 			var m := Meta.meta
 			G.show_banner("THE NOTICE BOARD", "RUNS %d   WINS %d   DEEPEST FLOOR %d   EMBERS %d" % [m["runs"], m["wins"], m["best"], m["embers"]])
@@ -92,6 +96,7 @@ static func prompt(o: Dictionary) -> Array:
 		"c_telescope": return ["THE TELESCOPE", "THE CONSTELLATION", "LOOK"]
 		"c_dummy": return ["THE PRACTICE DUMMY", "THE SKILL TREES", "TRAIN"]
 		"c_board": return ["THE NOTICE BOARD", "WHAT YOU HAVE DONE SO FAR", "READ"]
+		"c_daily": return Daily.prompt()
 	return ["", "", ""]
 
 ## Where the title-menu screens go back to: the camp when they were opened from it.
@@ -200,6 +205,15 @@ static func draw(ci: CanvasItem, o: Dictionary, t: float) -> void:
 				ci.draw_rect(Rect2(x + 9, y - 22, 1, 1), Color(1, 1, 1))
 		"c_dummy":
 			Gfx.sp(ci, "dummy", x, y + 2)
+		"c_daily":   # a standing stone with a glowing rune of the day
+			ci.draw_rect(Rect2(x - 7, y - 1, 14, 3), Color(0, 0, 0, 0.3))
+			ci.draw_colored_polygon(PackedVector2Array([Vector2(x - 7, y), Vector2(x - 5, y - 24), Vector2(x + 1, y - 28), Vector2(x + 6, y - 22), Vector2(x + 7, y)]), TB.c("#6b6a72"))
+			ci.draw_colored_polygon(PackedVector2Array([Vector2(x - 5, y), Vector2(x - 3, y - 22), Vector2(x + 1, y - 25), Vector2(x + 2, y)]), TB.c("#8b8f9c"))
+			var gl := 0.6 + 0.4 * sin(t * 3.0)
+			ci.draw_rect(Rect2(x - 2, y - 18, 4, 1), Color(1.0, 0.8, 0.3, gl))
+			ci.draw_rect(Rect2(x - 1, y - 20, 2, 8), Color(1.0, 0.8, 0.3, gl))
+			ci.draw_rect(Rect2(x - 3, y - 13, 6, 1), Color(1.0, 0.8, 0.3, gl))
+			Gfx.text(ci, "DAILY", x, y - 38, "gold", 1, 0.5)
 		"c_board":
 			ci.draw_rect(Rect2(x - 1, y - 6, 2, 12), TB.c("#4a3020"))
 			ci.draw_rect(Rect2(x - 16, y - 22, 32, 18), TB.c("#7a5236"))

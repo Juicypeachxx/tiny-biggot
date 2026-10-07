@@ -696,6 +696,8 @@ func spawn_wave(hard: bool = false) -> void:
 	var fdef: Dictionary = GameData.floors()[floor_index]
 	var n := TB.rint(3, 4) + mini(floor_index, 4) + (1 if room.depth > 3 else 0)
 	var ec := (0.05 if floor_index == 0 else 0.08 + floor_index * 0.035) + (0.08 if dread >= 3 else 0.0) + (0.35 if hard else 0.0)
+	if Daily.is_on("elite"):
+		ec = maxf(ec, 0.5)   # 18.1 ELITE HOUR
 	Brazil.maybe_spawn(room, floor_index)
 	if GameData.rogues():
 		# The expanded game is a little harder (ROADMAP 4.7): from the third floor one more foe a
@@ -866,6 +868,9 @@ func on_boss_dead(b: Enemy) -> void:
 	if GameData.rogues() and room.type != "barn":
 		_boss_reward(b)
 	BossLoot.drop(b)   # its own item (expanded game)
+	if Daily.is_on("giants"):
+		for rel in roll_relics(2, "boss"):   # 18.1 BIG GAME
+			add_relic(player, rel)
 	if room.type == "barn":
 		Rex.on_beaten(b)   # a good boy rolls over: his hoard, and he offers to come along
 		return
@@ -1054,6 +1059,7 @@ func award_embers(win: bool) -> void:
 		parts.append(["CHAPTER III", 600])   # 14.4
 	if run_stats.get("trophies", 0) > 0:
 		parts.append(["NEW TROPHIES", run_stats["trophies"] * Trophies.EMBERS])
+	Daily.on_end(win, parts)   # 18.1
 	var base := 0
 	for x in parts:
 		base += x[1]
@@ -1440,6 +1446,8 @@ func interact(o: Dictionary) -> void:
 
 # ---------- Relics, items and traits ----------
 func price(v: float) -> int:
+	if Daily.is_on("gold"):
+		v *= 1.5   # 18.1 GOLD RUSH
 	if dread >= 3:
 		v *= 1 + 0.08 * dread
 	return maxi(1, roundi(v * (1 - player.shop_disc)))
