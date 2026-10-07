@@ -170,6 +170,29 @@ func _ready() -> void:
 				Fishing.start(pd)
 		"camp":   # 17.2: the camp between runs
 			Camp.enter()
+			if DebugArgs.has("camp-near"):   # 19.2: stand by one of its people (a visitor is made to come)
+				var k := DebugArgs.get_str("camp-near")
+				var near := G.room.objects.filter(func(o): return o["kind"] == k)
+				if near.is_empty():
+					var o := { "kind": k, "x": 186.0, "y": 214.0, "face": -1 }
+					if k == "v_peddler":
+						o["relic"] = G.roll_relics(1, "iron")[0]
+					G.room.objects.append(o)
+					near = [o]
+				G.player.x = near[0]["x"] - 14.0
+				G.player.y = near[0]["y"] + 4.0
+		"kitchen", "armory":   # 19.2: the camp's cook and training rack (--camp-fish: a full larder)
+			Camp.enter()
+			if DebugArgs.has("camp-fish"):
+				for f in Fishing.FISH:
+					CampLife.stock(f)
+					CampLife.stock(f)
+			if DebugArgs.get_str("ui") == "kitchen":
+				G.state = &"kitchen"
+				G.menu = 0
+			else:
+				CampLife.open_armory()
+				CampLife.pick(12)
 		"options", "keys":   # the options page, or (13.1) its keyboard keys page
 			G.state = StringName(DebugArgs.get_str("ui"))
 			G.opt_from = &"title"

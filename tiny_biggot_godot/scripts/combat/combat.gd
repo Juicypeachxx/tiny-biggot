@@ -567,7 +567,7 @@ static func hurt_player(amount: int, source: String, env := false) -> void:
 		Effects.fire("on_damage_taken", { "x": p.x, "y": p.y })
 
 static func _hurt_player_base(p: Player, amount: int, source: String) -> void:
-	if p.invuln > 0 or p.dodge_t > 0 or G.state != &"play" or G.god:
+	if p.invuln > 0 or p.dodge_t > 0 or G.state != &"play" or G.god or Camp.active():   # 19.2: nothing hurts in the camp
 		return
 	if Pets.absorb(p):
 		return   # a loyal slime took it
@@ -2031,7 +2031,7 @@ static func _update_player_base(p: Player, dt: float) -> void:
 	if manual != null:
 		aim = manual
 	elif Meta.opts["autofire"] or Keys.fire_held():
-		var t := auto_target(p, 320)
+		var t := auto_target(p, 90 if Camp.active() else 320)   # 19.2: in the camp, only at the training ground
 		if t != null:
 			aim = TB.ang_xy(p.x, p.y, t.x, t.y - 2)
 	if aim != null:

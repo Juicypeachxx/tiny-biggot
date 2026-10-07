@@ -44,6 +44,19 @@ static func zones() -> Array:
 				var i := top + j
 				out.append(_z(Rect2(10, MenuView.WARD_Y0 + j * MenuView.WARD_DY - 3, 168, MenuView.WARD_DY - 1), func(): G.menu = i, G.wardrobe_i == i))
 			out.append(_act(Rect2(sw / 2 - 90, 262, 180, 16), func(): send(&"pause")))
+		&"kitchen":   # 19.2: tap a meal, tap it again to cook it
+			for i in CampLife.MEALS.size():
+				out.append(_z(Rect2(10, CampLife.KIT_Y0 + i * CampLife.KIT_DY - 4, 168, CampLife.KIT_DY - 2), func(): G.menu = i, G.menu == i))
+			out.append(_act(Rect2(sw / 2 - 90, 262, 180, 16), func(): send(&"pause")))
+		&"armory":   # 19.2: rows, page arrows, a jump to the relics
+			var top := CampLife.arm_top()
+			for j in mini(CampLife.ARM_ROWS, CampLife.arm_list.size() - top):
+				var i := top + j
+				out.append(_z(Rect2(10, CampLife.ARM_Y0 + j * CampLife.ARM_DY - 3, 190, CampLife.ARM_DY - 1), func(): CampLife.pick(i), G.menu == i))
+			out.append(_act(Rect2(214, 228, 60, 14), func(): CampLife.page(-1)))
+			out.append(_act(Rect2(280, 228, 60, 14), func(): CampLife.page(1)))
+			out.append(_act(Rect2(346, 228, 80, 14), func(): CampLife.pick(CampLife.first_relic())))
+			out.append(_act(Rect2(sw / 2 - 150, 262, 300, 16), func(): send(&"pause")))
 		&"keys":   # 13.1
 			for i in Keys.REBIND.size() + 2:
 				out.append(_z(Rect2(60, MenuView.KEYS_Y0 + i * MenuView.KEYS_DY - 3, sw - 120, MenuView.KEYS_DY - 1), func(): G.menu = i, G.menu == i, true))

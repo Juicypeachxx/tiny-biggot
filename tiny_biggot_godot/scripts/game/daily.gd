@@ -17,6 +17,7 @@ const MODS := {
 const EMBERS := 50
 
 static var _prev_hero := -1
+static var starting := false   # 19.2: true while start() builds the run (the camp's meal waits)
 
 ## Today as a number, YYYYMMDD (DebugArgs --day=N for tests).
 static func today() -> int:
@@ -24,6 +25,13 @@ static func today() -> int:
 		return DebugArgs.get_int("day")
 	var d := Time.get_date_dict_from_system()
 	return int(d["year"]) * 10000 + int(d["month"]) * 100 + int(d["day"])
+
+## 19.2 the seer: the day after today, as YYYYMMDD.
+static func tomorrow() -> int:
+	var d := today()
+	var u := Time.get_unix_time_from_datetime_dict({ "year": d / 10000, "month": (d / 100) % 100, "day": d % 100, "hour": 12 }) + 86400
+	var t := Time.get_datetime_dict_from_unix_time(u)
+	return int(t["year"]) * 10000 + int(t["month"]) * 100 + int(t["day"])
 
 static func mod_for(day: int) -> String:
 	return MODS.keys()[day % MODS.size()]
@@ -49,7 +57,9 @@ static func start(day: int = -1) -> void:
 	_prev_hero = G.hero_index
 	G.hero_index = hero_for(day)
 	seed(day)
+	starting = true
 	G.new_run()
+	starting = false
 	G.run_stats["daily"] = m
 	G.run_stats["daily_day"] = day
 	var p := G.player

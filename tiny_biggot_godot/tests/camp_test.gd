@@ -34,6 +34,8 @@ func _ready() -> void:
 		fail("the camp has doors: %s" % [G.room.exits.keys()])
 	var kinds := G.room.objects.map(func(o): return o["kind"])
 	for k in Camp.KINDS + ["n_archivist", "e_angler", "e_pond"]:
+		if k.begins_with("v_"):
+			continue   # 19.2: visitors come and go (camp_life_test)
 		if not k in kinds:
 			fail("the camp has no %s" % k)
 	var by := {}

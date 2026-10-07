@@ -815,8 +815,20 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       extra projectiles did nothing for swords and whips (BULLET STORM was a 20% loss for them).
       Now each extra projectile widens a sword's swing (+30 degrees) and adds 15% damage, and is
       one more lash for a whip. BULLET STORM for them: 1.02-1.35x (swords), 1.3-2.3x (whips).
-- [ ] 19.2 More life in THE CAMP: visitors who come and go, a cook who turns your fish into a meal
+- [x] 19.2 More life in THE CAMP: visitors who come and go, a cook who turns your fish into a meal
       for the next run, and a training ground where any weapon or relic can be tried on dummies. IPA.
+      Done: THE COOK by the fire. Every fish you catch (any pond) goes in a larder; eight meals
+      (FISH SOUP +1 heart, GRILLED EEL +15% damage, EMBER CHOWDER +15% fire rate, INKFISH PIE +10%
+      crit, GOLDEN FILLET +50% gold, IRON STEW +3 armor, BOOT BROTH a key and a bomb, THE MOONLIT
+      FEAST a relic, a heart and +10% damage), one at a time, eaten at the next run's start.
+      VISITORS, two of four each time: THE PEDDLER (a relic for embers, waiting at the next run's
+      start), THE BARD (a song: +10% speed and gold next run), THE SEER (tomorrow's daily trial and
+      a fortune), THE FISHMONGER (buys fish past 3 of a kind for embers). A STRAY CAT naps by the
+      fire; pet it and it follows you; 10 pets and it stays, named SOOT. THE TRAINING GROUND: a
+      fenced yard with 3 dummies (damage per second) and a rack: every weapon and relic in the
+      game, tried in the camp only (nothing counts as found); PUT EVERYTHING BACK. The daily trial
+      leaves the camp's gifts for the next ordinary run. New sprites: the cook, the four visitors,
+      the cat. Nothing hurts in the camp; autofire there only reaches the dummies nearby.
 
 ---
 

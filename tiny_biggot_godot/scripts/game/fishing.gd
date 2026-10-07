@@ -229,6 +229,7 @@ static func _catch() -> void:
 	if not (Meta.meta.get("fish") is Dictionary):
 		Meta.meta["fish"] = {}
 	fresh = not Meta.meta["fish"].has(fish_id)
+	CampLife.stock(fish_id)   # 19.2: into the larder (for the camp's cook)
 	Meta.meta["fish"][fish_id] = int(Meta.meta["fish"].get(fish_id, 0)) + 1
 	G.run_stats["fish"] = G.run_stats.get("fish", 0) + 1
 	pond["caught"] = pond.get("caught", 0) + 1

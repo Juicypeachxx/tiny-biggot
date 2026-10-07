@@ -145,6 +145,7 @@ func new_run() -> void:
 		var r := roll_relics(1, "iron")
 		if not r.is_empty(): add_relic(p, r[0])
 	Trophies.apply(p, hero["id"])   # 7.2: a potion, a relic, a rare relic for 5 / 10 / 20 trophies
+	CampLife.on_new_run(p)   # 19.2: the camp's meal, song and parcel
 	run_stats["power0"] = Combat.power(p)   # the yardstick of Combat.power_scale
 	_debug_give(p)
 	Meta.meta["runs"] += 1
@@ -1765,6 +1766,8 @@ func update(dt: float) -> void:
 		&"options": update_options()
 		&"keys": update_keys()
 		&"wardrobe": update_wardrobe()
+		&"kitchen": CampLife.update_kitchen()   # 19.2
+		&"armory": CampLife.update_armory()
 		&"shrine":
 			update_embers(dt)
 			update_shrine()

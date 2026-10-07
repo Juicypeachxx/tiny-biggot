@@ -71,6 +71,12 @@ func _paint_base(ci: CanvasItem) -> void:
 		&"relics":
 			_shade(ci, 220)
 			draw_relics(ci)
+		&"kitchen":   # 19.2
+			_shade(ci, 228)
+			CampLife.draw_kitchen(ci)
+		&"armory":
+			_shade(ci, 228)
+			CampLife.draw_armory(ci)
 		&"wardrobe":
 			if G.wardrobe_from == &"title":
 				_backdrop(ci, true)

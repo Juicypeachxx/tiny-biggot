@@ -909,6 +909,14 @@ the arena (room-enter, rolls, getting hit, gold: not measured there). Melee find
 did nothing for swords and whips. Now (expanded only) combat.gd `attack_slash`: each projectile past
 the first gives +30 degrees of arc and +15% damage; `whip`: one more lash in a fan. BULLET STORM for
 melee heroes went from 0.80 to 1.02-1.35 (swords) and 1.3-2.3 (whips). Replays all identical.
+19.2: `CampLife` (scripts/game/camp_life.gd), set up from `Camp.setup`, kinds forwarded by
+`Camp.interact/prompt/draw` (and listed in EventRooms KINDS + world_view). Meta: `larder` (filled by
+`Fishing._catch` → `stock`; first use copies the `fish` counts), `meal`, `song`, `next_relic`,
+`cat_pets`. `on_new_run` (game.gd new_run, after Trophies) applies and clears them, except while
+`Daily.starting`. States `kitchen` and `armory` (game.gd update, menu_view draw, taps.gd).
+`Camp.fresh_player()` (enter and PUT EVERYTHING BACK; the rack never marks anything found).
+`spawn_dummies` (Camp.enter). Combat: `_hurt_player_base` returns in the camp; auto-aim reach 90
+there. `--ui=kitchen|armory [--camp-fish]`, `--ui=camp --camp-near=KIND`. `tests/camp_life_test`.
 
 ## Noted, not yet acted on
 

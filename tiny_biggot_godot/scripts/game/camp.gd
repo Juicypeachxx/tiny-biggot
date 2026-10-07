@@ -14,7 +14,7 @@ extends RefCounted
 ## the shelf for every guardian felled (all heroes), the fish you have caught on the fish wall.
 ## MENU > LEAVE CAMP returns to the title.
 
-const KINDS := ["c_portal", "c_wardrobe", "c_shrine", "c_telescope", "c_dummy", "c_board", "c_daily"]
+const KINDS := ["c_portal", "c_wardrobe", "c_shrine", "c_telescope", "c_dummy", "c_board", "c_daily", "c_cook", "c_rack", "v_peddler", "v_bard", "v_seer", "v_monger", "v_cat"]
 ## Endings: [Meta key, banner colour, name]
 const ENDINGS := [["wins", "#f2c94c", "THE THRONE"], ["heaven_wins", "#fff07a", "HEAVEN"], ["hell_wins", "#d8443c", "HELL"],
 	["unwritten_wins", "#f4ecd8", "THE UNWRITTEN"], ["author_wins", "#4d6aa8", "THE AUTHOR"],
@@ -25,10 +25,7 @@ static func active() -> bool:
 
 ## The title's THE CAMP.
 static func enter() -> void:
-	var hero: Dictionary = GameData.heroes()[G.hero_index]
-	G.player = Player.new(hero)
-	Effects.reset_run_state()
-	Weapons.equip_weapon(G.player, Weapons.by_id(Weapons.HERO_WEAPON[hero["id"]]))
+	fresh_player()
 	G.run_stats = { "kills": 0, "gold": 0, "time": 0.0, "floor": 1, "bosses": 0, "secrets": 0, "rifts": [], "camp": true }
 	G.floor_index = 0
 	G.loop = 0
@@ -42,11 +39,24 @@ static func enter() -> void:
 	r.exits.clear()
 	r.doors.clear()
 	G.enter_room(r)
+	CampLife.spawn_dummies()   # 19.2 the training ground
 	G.player.x = 224.0
 	G.player.y = 196.0
 	G.state = &"play"
 	G.show_banner("THE CAMP", "REST, LOOK AROUND, AND SET OUT WHEN YOU ARE READY")
 	Snd.music(0)
+
+## The hero as they walk about the camp: their own weapon, nothing else (also the training rack's
+## PUT EVERYTHING BACK).
+static func fresh_player() -> void:
+	var hero: Dictionary = GameData.heroes()[G.hero_index]
+	G.player = Player.new(hero)
+	Effects.reset_run_state()
+	var w := Weapons.by_id(Weapons.HERO_WEAPON[hero["id"]])
+	var had: bool = Meta.meta["found_w"].has(w["id"])
+	Weapons.equip_weapon(G.player, w)
+	if not had:
+		Meta.meta["found_w"].erase(w["id"])
 
 ## The camp's people and things (game.gd setup_objects, room type "camp").
 static func setup(r: Room) -> void:
@@ -56,13 +66,16 @@ static func setup(r: Room) -> void:
 	pond["camp"] = true
 	r.objects.append({ "kind": "e_angler", "x": 160.0, "y": 238.0, "pond": pond, "rewarded": true })
 	r.objects.append({ "kind": "c_wardrobe", "x": 372.0, "y": 120.0 })
-	r.objects.append({ "kind": "c_shrine", "x": 352.0, "y": 222.0 })
+	r.objects.append({ "kind": "c_shrine", "x": 326.0, "y": 214.0 })
 	r.objects.append({ "kind": "c_telescope", "x": 70.0, "y": 92.0 })
 	r.objects.append({ "kind": "c_dummy", "x": 124.0, "y": 118.0 })
 	r.objects.append({ "kind": "c_board", "x": 300.0, "y": 70.0 })
 	r.objects.append({ "kind": "c_daily", "x": 290.0, "y": 176.0 })   # 18.1 the daily trial
+	CampLife.setup(r)   # 19.2 the cook, the rack, visitors, the stray
 
 static func interact(o: Dictionary) -> void:
+	if o["kind"] in CampLife.KINDS:
+		return CampLife.interact(o)
 	Snd.play("select")
 	match o["kind"]:
 		"c_portal":
@@ -89,6 +102,8 @@ static func interact(o: Dictionary) -> void:
 			G.show_banner("THE NOTICE BOARD", "RUNS %d   WINS %d   DEEPEST FLOOR %d   EMBERS %d" % [m["runs"], m["wins"], m["best"], m["embers"]])
 
 static func prompt(o: Dictionary) -> Array:
+	if o["kind"] in CampLife.KINDS:
+		return CampLife.prompt(o)
 	match o["kind"]:
 		"c_portal": return ["THE PORTAL", "SET OUT ON A NEW RUN", "GO"]
 		"c_wardrobe": return ["THE WARDROBE", "EVERY SET, AND WHAT YOU HAVE FOUND", "OPEN"]
@@ -99,6 +114,7 @@ static func prompt(o: Dictionary) -> Array:
 		"c_daily": return Daily.prompt()
 	return ["", "", ""]
 
+## 19.2: "kitchen" and "armory" are the camp's own pages.
 ## Where the title-menu screens go back to: the camp when they were opened from it.
 static func back_state() -> StringName:
 	return &"play" if active() else &"title"
@@ -126,7 +142,8 @@ static func paint_static(ci: CanvasItem, room: Room, rng: SeedRng) -> void:
 	ci.draw_rect(Rect2(212, 104, 24, 30), TB.c("#6b5a3a"))
 	ci.draw_rect(Rect2(214, 104, 20, 30), TB.c("#7a6a48"))
 	# Trees round the edges.
-	for spot in [Vector2(36, 60), Vector2(410, 58), Vector2(30, 160), Vector2(418, 186), Vector2(260, 258), Vector2(400, 258)]:
+	CampLife.paint_static(ci)   # 19.2 the training ground's fence
+	for spot in [Vector2(36, 60), Vector2(410, 58), Vector2(30, 160), Vector2(428, 150), Vector2(260, 258), Vector2(318, 268)]:
 		ci.draw_rect(Rect2(spot.x - 2, spot.y - 6, 4, 10), TB.c("#5a3a22"))
 		ci.draw_circle(spot + Vector2(0, -12), 11, TB.c("#2f6a3a"))
 		ci.draw_circle(spot + Vector2(-4, -15), 7, TB.c("#3f8a4a"))
@@ -167,6 +184,8 @@ static func paint_static(ci: CanvasItem, room: Room, rng: SeedRng) -> void:
 
 ## What moves (EventRooms.draw for the c_ kinds, and the fire).
 static func draw(ci: CanvasItem, o: Dictionary, t: float) -> void:
+	if o["kind"] in CampLife.KINDS:
+		return CampLife.draw(ci, o, t)
 	var x: float = o["x"]
 	var y: float = o["y"]
 	match o["kind"]:
