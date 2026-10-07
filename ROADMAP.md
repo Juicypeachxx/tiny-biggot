@@ -709,6 +709,14 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       more often, +8% per piece), HALO OF BLADES. Core replays re-recorded on purpose (set pieces
       now drop more often once a set is started). IPA 13.3.
 
+## Stage 14: sets, combos, Chapter III (his word, 7 Oct: "go 2,3,4,5")
+- [ ] 14.1 New sets for styles that have few or none (pets, turrets, rolling, gold, curses...)
+      and LEGENDARY sets of 6 pieces with a 6-piece power.
+- [ ] 14.2 A WARDROBE page: every set, the pieces found, what each step gives. IPA.
+- [ ] 14.3 Trait combos: two particular traits together unlock a hidden third power. IPA.
+- [ ] 14.4 Chapter III: after the Redactor, a third chapter with its own floors, foes,
+      guardians and an ending. IPA.
+
 ---
 
 ## Log
