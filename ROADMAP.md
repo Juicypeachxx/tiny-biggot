@@ -747,8 +747,19 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       out of the water with a splash and floats over you with its name; the reel panel is a wooden
       frame with a water column, bubbles, a net and the real fish (a dark shape until first caught).
       IPA 15.2.
-- [ ] 16 ROOMS REVAMP (his word, 7 Oct: "next step we will do the rooms revamp, I know you can make
-      them better"): every room type looks lived-in and different, not blank floor.
+- [x] 16 ROOMS REVAMP (his word, 7 Oct: "go and revamp all, add new things, make them full and
+      enjoyable"). Done (scripts/render/room_dress.gd): THE HOARD (gold-trimmed rug, coin heaps,
+      open chests, banners, braziers, glints), THE STALL (striped awning, bottle shelves, sign,
+      sacks, crates, lanterns, rug), the SHRINE (rune circle, ring of candles, carpet, statues,
+      petals, incense), the VAULT (iron floor, velvet ropes on brass posts, gold bars, strongboxes,
+      chains), HIDDEN ROOMS (cobwebs, dust, bones, candles, glowing mushrooms), THE CAMP at rest
+      stops (log seats, tent, bedroll, pot on a tripod, firewood, lantern), the GUARDIAN'S ARENA
+      (a sigil in the floor's colour, cracks, braziers, banners), the START (a runner, braziers),
+      MYSTERY rooms (lanterns, barrels), ink and pages on Chapter II/III floors. Warm light from
+      every flame; rats, moths and butterflies that run from you. New to play with: POTS along the
+      walls (shoot or roll into them: coins, gems, hearts), COIN HEAPS in the hoard (walk through),
+      POWDER KEGS in some fights (shoot one: it blows up the foes round it and the keg beside it).
+      Still parts drawn once per room (no cost per frame). IPA 16.
 
 ---
 

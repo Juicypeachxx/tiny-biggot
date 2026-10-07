@@ -175,6 +175,8 @@ func refresh() -> void:
 		dyn.queue_redraw()
 	if Vfx.enabled and BiomeDeco.on(G.room):
 		BiomeDeco.tick(TB.DT)
+	if G.state == &"play":
+		RoomDress.tick(TB.DT)
 	_prepare_shots()
 	_floats.sync()
 	_labels.queue_redraw()
@@ -226,6 +228,7 @@ func _paint_bg(ci: CanvasItem) -> void:
 					BiomeDeco.paint_prop(ci, room, c, r)
 				else:
 					ci.draw_texture_rect_region(kit, Rect2(c * ts, r * ts - 4, ts + 1, 2 * ts), Rect2(0, 2 * ts, ts + 1, 2 * ts))
+	RoomDress.paint_static(ci, room)   # 16: each kind of room furnished
 
 ## 10.5 (his ask, 6 Oct, from his trailer clips: an option, the usual look stays the default): black
 ## floors and thin bright walls in the floor's own colour (a rift world's accent in its rooms).
@@ -417,6 +420,7 @@ func _paint_lower(ci: CanvasItem) -> void:
 		for i in lines.size():
 			var w := TB.text_w(lines[i]) + 1
 			Gfx.text(ci, lines[i], TB.SW / 2 - w / 2, 6 * TB.TS + i * 10, "bone", 1, 0.0, true, 120 / 255.0)
+	RoomDress.paint_live(ci, t)   # 16: flames, glints, incense, little animals
 	Hazards.draw_floor(ci, t)
 	Rex.draw_floor(ci, t)
 	EnemyAI2.draw_goo(ci, t)
@@ -483,7 +487,7 @@ func _paint_lower(ci: CanvasItem) -> void:
 			"s_decor", "s_bartender", "s_drink", "s_merchant", "s_broker", "s_drunk", "s_piano", "s_poster":
 				Saloon.draw(ci, o, t)
 			"e_pitboss", "e_mechanic", "e_teller", "e_card", "e_courier", "e_attendant", "e_beacon", "e_statue", "e_plate", \
-					"e_decor", "w_drunk", "w_merchant", "e_frog", "e_glyph", "e_pawn", "e_hustler", "e_cup", "e_gong", "n_archivist", "n_endbook", "n_turnpage", "n_inkling", "n_bookbinder", "n_tornpage", "n_redactdoor", "n_readon", "e_pond", "e_angler":
+					"e_decor", "w_drunk", "w_merchant", "e_frog", "e_glyph", "e_pawn", "e_hustler", "e_cup", "e_gong", "n_archivist", "n_endbook", "n_turnpage", "n_inkling", "n_bookbinder", "n_tornpage", "n_redactdoor", "n_readon", "e_pond", "e_angler", "e_pot", "e_coins", "e_keg":
 				EventRooms.draw(ci, o, t)
 			"x_table", "x_lever", "x_skull", "x_fisher", "x_saint", "x_ratpile":
 				RiftExtras.draw(ci, o, t)
@@ -892,6 +896,7 @@ func _paint_glow(ci: CanvasItem) -> void:
 		var op := roundf(200 + sin(t * 9 + i * 7) * 25 + sin(t * 23 + i) * 15) / 255.0
 		Gfx.at(ci, "glow_torch", [6, 21][i] * TB.TS + 8 - 36, TB.TS + 4 - 36, op)
 	BiomeDeco.paint_glow(ci, t)
+	RoomDress.paint_glow(ci, t)
 	for o in G.room.objects:
 		if o.get("gone", false):
 			continue

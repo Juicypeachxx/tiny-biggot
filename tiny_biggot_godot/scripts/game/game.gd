@@ -641,11 +641,21 @@ func setup_objects(r: Room) -> void:
 			var at: Vector2 = { "treasure": Vector2(cx + 100, cy + 10), "vault": Vector2(cx + 84, cy),
 				"secret": Vector2(cx + 76, cy - 6), "shop": Vector2(cx, cy + 44) }[r.type]
 			r.objects.append(Pets.cage(player, at.x, at.y, "gold" if r.type == "shop" else "key"))
+	# 16: pots along the walls (shoot or roll into them), coin heaps in the hoard.
+	if GameData.rogues() and r.theme.is_empty():
+		if r.type in ["combat", "elite"] and randf() < 0.6:
+			RoomDress.place_pots(r, 2 + randi() % 3)
+		if r.type in ["combat", "elite"] and randf() < 0.35:
+			RoomDress.place_kegs(r)
+		elif r.type in ["treasure", "rest", "shrine", "secret", "vault", "mystery"]:
+			RoomDress.place_pots(r, 2 + randi() % 2)
+		if r.type == "treasure":
+			RoomDress.place_coins(r)
 	# Rogues layer: a loose brick in the wall of some quiet rooms opens a hidden door.
 	if GameData.rogues() and r.type in ["treasure", "shrine", "rest", "shop"] and randf() < 0.2:
 		r.objects.append({ "kind": "brick", "x": (2.0 if randf() < 0.5 else 26.0) * TB.TS, "y": 5.0 * TB.TS })
 	if GameData.rogues() and r.type == "treasure" and randf() < 0.25:
-		Fishing.place(r, cx + 112, cy + 30, 30.0, 14.0)   # 15.1: a pond
+		Fishing.place(r, cx - 130, cy + 62, 30.0, 14.0)   # 15.1: a pond
 	# 05b_items.rb: weapons and gear in shops and treasure rooms.
 	match r.type:
 		"shop":

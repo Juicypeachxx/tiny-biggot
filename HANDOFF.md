@@ -878,6 +878,12 @@ pond via EventRooms kind `e_pond`; touch: a finger anywhere holds USE). `Meta.me
 (from EventRooms.update); event "fishing" (THE FISHING HOLE, `setup_hole`), kind `e_angler`.
 Sprites `fish_*`, `npc_angler` (sprites.py). `--ui=fishing [--no-cast] [--fish-auto]`.
 
+16: `RoomDress` (scripts/render/room_dress.gd): `paint_static` (world_view `_paint_bg`, after the
+floor's own dressing), `paint_live` (lower layer), `paint_glow`, `tick` (critters, own RNG);
+`place_pots` / `place_coins` / `place_kegs` (game.gd setup_objects, rules) and `tick_objects`
+(EventRooms.update); kinds `e_pot`, `e_coins`, `e_keg`. `WALL_SPOTS` keep wall dressing clear of
+the HUD. `tests/rooms_test`.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).
