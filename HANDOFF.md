@@ -880,7 +880,8 @@ Sprites `fish_*`, `npc_angler` (sprites.py). `--ui=fishing [--no-cast] [--fish-a
 
 16: `RoomDress` (scripts/render/room_dress.gd): `paint_static` (world_view `_paint_bg`, after the
 floor's own dressing), `paint_live` (lower layer), `paint_glow`, `tick` (critters, own RNG);
-`place_pots` / `place_coins` / `place_kegs` (game.gd setup_objects, rules) and `tick_objects`
+`furnish` → `place_pots` / `place_coins` / `place_kegs` (game.gd setup_objects; placed with the
+room's own seed so the run's random numbers are not shifted; drops roll at break time) and `tick_objects`
 (EventRooms.update); kinds `e_pot`, `e_coins`, `e_keg`. `WALL_SPOTS` keep wall dressing clear of
 the HUD. `tests/rooms_test`.
 

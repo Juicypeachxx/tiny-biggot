@@ -92,7 +92,7 @@ func _one(t: String) -> void:
 			_play(60)
 			if e.hp > h + 0.5:
 				fail("MENDING healed within 1 s of a blow")
-			_play(120)
+			_play(180)   # 2 s untouched, then 2 s of mending (5% a second); a frame either way must not matter
 			if e.hp < h + e.max_hp * 0.05:
 				fail("MENDING did not heal when left alone (%.0f -> %.0f)" % [h, e.hp])
 

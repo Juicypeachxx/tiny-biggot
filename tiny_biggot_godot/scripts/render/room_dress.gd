@@ -42,28 +42,51 @@ static func _accent() -> Color:
 	return TB.c(f.get("accent_hex", "#e8873a"))
 
 # ---------- Interactive bits (placed by game.gd setup_objects; rules) ----------
+## Where they go is rolled from the room's own seed, so furnishing a room never shifts the run's
+## random numbers (what a broken pot drops is rolled when it breaks, from the run's).
+static func _place_rng(r: Room, salt: int) -> RandomNumberGenerator:
+	var g := RandomNumberGenerator.new()
+	g.seed = r.seed_value ^ salt
+	return g
+
+## Called by setup_objects for every room of the expanded game.
+static func furnish(r: Room) -> void:
+	if not r.theme.is_empty():
+		return
+	var g := _place_rng(r, 0x51a7)
+	if r.type in ["combat", "elite"]:
+		if g.randf() < 0.6:
+			place_pots(r, 2 + g.randi() % 3)
+		if g.randf() < 0.35:
+			place_kegs(r)
+	elif r.type in ["treasure", "rest", "shrine", "secret", "vault", "mystery"]:
+		place_pots(r, 2 + g.randi() % 2)
+	if r.type == "treasure":
+		place_coins(r)
+
 ## Pots along the walls, away from the doors and anything solid.
 static func place_pots(r: Room, n: int) -> void:
+	var g := _place_rng(r, 0x9071)
 	var tries := 0
 	var placed := 0
 	while placed < n and tries < 40:
 		tries += 1
-		var side := randi() % 4
+		var side := g.randi() % 4
 		var x := 0.0
 		var y := 0.0
 		match side:
 			0:
-				x = randf_range(28, 420)
-				y = randf_range(42, 52)
+				x = g.randf_range(28, 420)
+				y = g.randf_range(42, 52)
 			1:
-				x = randf_range(28, 420)
-				y = randf_range(250, 260)
+				x = g.randf_range(28, 420)
+				y = g.randf_range(250, 260)
 			2:
-				x = randf_range(26, 36)
-				y = randf_range(46, 256)
+				x = g.randf_range(26, 36)
+				y = g.randf_range(46, 256)
 			_:
-				x = randf_range(412, 422)
-				y = randf_range(46, 256)
+				x = g.randf_range(412, 422)
+				y = g.randf_range(46, 256)
 		if absf(x - CX) < 44 or (absf(y - CY) < 40 and (x < 60 or x > 388)):
 			continue   # clear of the doors
 		if World.hits_solid(r, x, y, 8, World.M_PLAYER):
@@ -74,17 +97,18 @@ static func place_pots(r: Room, n: int) -> void:
 				clash = true
 		if clash:
 			continue
-		r.objects.append({ "kind": "e_pot", "x": x, "y": y, "used": true, "style": randi() % 3 })
+		r.objects.append({ "kind": "e_pot", "x": x, "y": y, "used": true, "style": g.randi() % 3 })
 		placed += 1
 
 ## One or two powder kegs out in a fight room, away from the doors and the middle.
 static func place_kegs(r: Room) -> void:
-	var n := 1 + (1 if randf() < 0.4 else 0)
+	var g := _place_rng(r, 0x6e9)
+	var n := 1 + (1 if g.randf() < 0.4 else 0)
 	for tries in 30:
 		if n <= 0:
 			break
-		var x := randf_range(60, 388)
-		var y := randf_range(64, 240)
+		var x := g.randf_range(60, 388)
+		var y := g.randf_range(64, 240)
 		if TB.dist_xy(x, y, CX, CY) < 50 or absf(x - CX) < 40 and (y < 80 or y > 224) or World.hits_solid(r, x, y, 9, World.M_PLAYER):
 			continue
 		var clash := false
@@ -97,9 +121,10 @@ static func place_kegs(r: Room) -> void:
 		n -= 1
 
 static func place_coins(r: Room) -> void:
+	var g := _place_rng(r, 0xc01)
 	for spot in [Vector2(70, 70), Vector2(378, 70), Vector2(66, 236), Vector2(382, 236)]:
-		if randf() < 0.75:
-			r.objects.append({ "kind": "e_coins", "x": spot.x + randf_range(-6, 6), "y": spot.y + randf_range(-4, 4), "used": true, "n": 2 + randi() % 4 })
+		if g.randf() < 0.75:
+			r.objects.append({ "kind": "e_coins", "x": spot.x + g.randf_range(-6, 6), "y": spot.y + g.randf_range(-4, 4), "used": true, "n": 2 + g.randi() % 4 })
 
 ## Every play tick (EventRooms.update): shots and rolls break pots; walking through a coin heap pays.
 static func tick_objects(room: Room) -> void:

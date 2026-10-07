@@ -852,18 +852,20 @@ func worlds2() -> void:
 	else:
 		var foe0 := Combat.spawn_enemy("skeleton", 60.0, 250.0, false, true)
 		foe0.spawn_t = 0.0
-		var shots0: int = EBullets.n
 		var aimed := false
+		var fired := false
 		for i in 400:
 			for e in G.enemies:
 				e.hp = e.max_hp
+			var n0: int = EBullets.n
 			Hazards.update(TB.DT)
-			EBullets.update(TB.DT)
 			if rm.turrets[0]["state"] == 1:
 				aimed = true
-			if EBullets.n > shots0 + 2:
+			if aimed and EBullets.n > n0:
+				fired = true   # counted as they leave the gun (they may hit the hero at once)
 				break
-		if not aimed or EBullets.n <= shots0:
+			EBullets.update(TB.DT)
+		if not aimed or not fired:
 			fail("cathedral: the turrets never aimed and fired")
 	# The saint and the rat.
 	rm = _rift_room("cathedral")

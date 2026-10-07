@@ -642,15 +642,8 @@ func setup_objects(r: Room) -> void:
 				"secret": Vector2(cx + 76, cy - 6), "shop": Vector2(cx, cy + 44) }[r.type]
 			r.objects.append(Pets.cage(player, at.x, at.y, "gold" if r.type == "shop" else "key"))
 	# 16: pots along the walls (shoot or roll into them), coin heaps in the hoard.
-	if GameData.rogues() and r.theme.is_empty():
-		if r.type in ["combat", "elite"] and randf() < 0.6:
-			RoomDress.place_pots(r, 2 + randi() % 3)
-		if r.type in ["combat", "elite"] and randf() < 0.35:
-			RoomDress.place_kegs(r)
-		elif r.type in ["treasure", "rest", "shrine", "secret", "vault", "mystery"]:
-			RoomDress.place_pots(r, 2 + randi() % 2)
-		if r.type == "treasure":
-			RoomDress.place_coins(r)
+	if GameData.rogues():
+		RoomDress.furnish(r)
 	# Rogues layer: a loose brick in the wall of some quiet rooms opens a hidden door.
 	if GameData.rogues() and r.type in ["treasure", "shrine", "rest", "shop"] and randf() < 0.2:
 		r.objects.append({ "kind": "brick", "x": (2.0 if randf() < 0.5 else 26.0) * TB.TS, "y": 5.0 * TB.TS })
