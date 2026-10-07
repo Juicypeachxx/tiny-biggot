@@ -1205,6 +1205,7 @@ func _paint_swings(ci: CanvasItem) -> void:
 
 # ---------- z 2300: aim reticle ----------
 func _paint_top(ci: CanvasItem) -> void:
+	RoomDress.paint_over(ci)   # 17.3: lightning
 	var p := G.player
 	if G.enemies_active() or Keys.aim() != null:
 		var ax := p.x + cos(p.aim_a) * 16

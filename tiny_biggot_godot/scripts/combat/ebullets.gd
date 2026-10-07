@@ -173,6 +173,8 @@ static func update(dt: float) -> void:
 		var r := floori(y * inv_ts)
 		if c < 0 or r < 0 or c >= TB.COLS or r >= TB.ROWS or (grid[r * TB.COLS + c] != World.T_FLOOR and grid[r * TB.COLS + c] != World.T_VOID):
 			lifes[i] = 0.0
+			if grid[r * TB.COLS + c] == World.T_CRATE and GameData.rogues():
+				Combat.hit_crate(G.room, c, r, 3.0)   # 17.3: cover wears down under fire
 			Fx.burst(x, y, ["#8b8f9c", "#4e4a5e"], 3, 30, 0.2)
 			i += 1
 			continue

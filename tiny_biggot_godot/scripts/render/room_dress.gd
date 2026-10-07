@@ -140,13 +140,32 @@ static func tick_objects(room: Room) -> void:
 						if absf(b.x - o["x"]) < 7 and absf(b.y - o["y"] + 4) < 8:
 							hit = true
 							break
+				if not hit:
+					hit = _foe_shot_near(o["x"], o["y"] - 4, 6.0)   # 17.3: foes' shots break pots too
 				if hit:
 					_break_pot(o)
 			"e_keg":
+				# 17.3: a hit lights the fuse (your shots or a foe's); foes near it run; then it blows.
+				if o.has("fuse"):
+					o["fuse"] -= TB.DT
+					for e in G.enemies:
+						if e.hp > 0 and not e.is_boss() and TB.dist_xy(e.x, e.y, o["x"], o["y"]) < 70:
+							var away := Vector2(e.x - o["x"], e.y - o["y"]).normalized()
+							e.kx += away.x * 9.0
+							e.ky += away.y * 9.0
+					if o["fuse"] <= 0:
+						_blow(room, o)
+					continue
+				var lit := false
 				for b in G.pbullets:
 					if absf(b.x - o["x"]) < 7 and absf(b.y - o["y"] + 5) < 9:
-						_blow(room, o)
+						lit = true
 						break
+				if not lit:
+					lit = _foe_shot_near(o["x"], o["y"] - 5, 7.0)
+				if lit:
+					o["fuse"] = FUSE
+					Snd.play("charge")
 			"e_coins":
 				if TB.dist_xy(p.x, p.y, o["x"], o["y"]) < 12:
 					o["gone"] = true
@@ -155,6 +174,16 @@ static func tick_objects(room: Room) -> void:
 						Combat.drop_pickup("coin", o["x"], o["y"])
 					Snd.play("coin")
 					Fx.burst(o["x"], o["y"], ["#f2c94c", "#fff07a"], 10, 40)
+
+const FUSE := 0.6   # 17.3: seconds between a keg being hit and its blast
+
+## True when a foe's shot is within d of (x, y).
+static func _foe_shot_near(x: float, y: float, d: float) -> bool:
+	for i in EBullets.n:
+		if EBullets.blife[i] > 0 and absf(EBullets.bx[i] - x) < d and absf(EBullets.by[i] - y) < d:
+			EBullets.blife[i] = 0.0
+			return true
+	return false
 
 static func _blow(room: Room, o: Dictionary) -> void:
 	if o.get("gone", false):
@@ -165,9 +194,24 @@ static func _blow(room: Room, o: Dictionary) -> void:
 	Combat.explode_at(o["x"], o["y"] - 4, dmg, null, 46, "#e8873a", true)
 	G.add_shake(6)
 	Snd.play("boom")
+	# 17.3: the blast throws foes back and smashes the crates round it.
+	for e in G.enemies:
+		if e.hp > 0 and not e.is_boss():
+			var d := TB.dist_xy(e.x, e.y, o["x"], o["y"])
+			if d < 60 and d > 1:
+				e.kx += (e.x - o["x"]) / d * 220.0
+				e.ky += (e.y - o["y"]) / d * 220.0
+	var c0 := int(o["x"] / TB.TS)
+	var r0 := int(o["y"] / TB.TS)
+	for dc in range(-3, 4):
+		for dr in range(-3, 4):
+			var cc := c0 + dc
+			var rr := r0 + dr
+			if TB.dist_xy(cc * TB.TS + 8.0, rr * TB.TS + 8.0, o["x"], o["y"]) < 46:
+				Combat.hit_crate(room, cc, rr, 999.0)
 	for o2 in room.objects:
-		if o2["kind"] == "e_keg" and not o2.get("gone", false) and TB.dist_xy(o["x"], o["y"], o2["x"], o2["y"]) < 56:
-			_blow(room, o2)   # kegs set each other off
+		if o2["kind"] == "e_keg" and not o2.get("gone", false) and not o2.has("fuse") and TB.dist_xy(o["x"], o["y"], o2["x"], o2["y"]) < 56:
+			o2["fuse"] = 0.15   # kegs set each other off
 
 static func draw_keg(ci: CanvasItem, o: Dictionary, t: float) -> void:
 	var x: float = roundf(o["x"])
@@ -183,8 +227,19 @@ static func draw_keg(ci: CanvasItem, o: Dictionary, t: float) -> void:
 	ci.draw_line(Vector2(x + 2, y - 13), Vector2(x + 4, y - 17), TB.c("#c8a878"), 1.0)   # the fuse
 
 static func draw_fuse(ci: CanvasItem, o: Dictionary, t: float) -> void:
-	if fmod(t * 3.0 + o["x"] * 0.1, 1.0) < 0.5:
-		ci.draw_rect(Rect2(roundf(o["x"]) + 4, roundf(o["y"]) - 18, 1, 1), TB.c("#fff07a"))
+	var x := roundf(o["x"])
+	var y := roundf(o["y"])
+	if o.has("fuse"):
+		# Lit: it flashes, sparks fly, a ring shows how far the blast will reach.
+		var k: float = clampf(o["fuse"] / FUSE, 0.0, 1.0)
+		if fmod(t * 20.0, 1.0) < 0.5:
+			ci.draw_rect(Rect2(x - 6, y - 13, 12, 13), Color(1, 1, 1, 0.55))
+		ci.draw_arc(Vector2(x, y - 4), 46.0, 0, TAU, 32, Color(1.0, 0.4, 0.2, 0.6 * (1.0 - k)), 1.0)
+		for j in 3:
+			ci.draw_rect(Rect2(x + 4 + sin(t * 40 + j) * 3, y - 18 - j * 2 + cos(t * 33 + j) * 2, 1, 1), TB.c("#fff07a"))
+		return
+	if fmod(t * 3.0 + x * 0.1, 1.0) < 0.5:
+		ci.draw_rect(Rect2(x + 4, y - 18, 1, 1), TB.c("#fff07a"))
 
 static func _break_pot(o: Dictionary) -> void:
 	o["gone"] = true
@@ -641,11 +696,41 @@ static func _spawn_critters(room: Room) -> void:
 		_critters.append({ "kind": k, "x": _rng.randf_range(40, 408), "y": _rng.randf_range(50, 250), "vx": 0.0, "vy": 0.0, "t": _rng.randf() * 3.0,
 			"col": ["#e86fb4", "#f2c94c", "#6fd3e0", "#f4ecd8"][_rng.randi_range(0, 3)] if k == "butterfly" else "#8b8f9c" })
 
+## 17.3 weather moments (drawing only, own random numbers): lightning on the stormy floors (the
+## Nightspire rooftops, the windswept roofs, the Eclipse), ink rain on the chapter floors.
+const STORMY := [6, 9, 10]
+static var _flash := 0.0
+static var _flash_t := 6.0
+static var _bolt := PackedVector2Array()
+static var _drops: Array = []
+
 ## Once per logic tick (world_view, like the floor's drifting air).
 static func tick(dt: float) -> void:
 	var p := G.player
 	if p == null:
 		return
+	if G.room != null and on(G.room) and G.room.theme.is_empty():
+		if G.floor_index in STORMY:
+			_flash = maxf(0.0, _flash - dt)
+			_flash_t -= dt
+			if _flash_t <= 0:
+				_flash_t = _rng.randf_range(7.0, 16.0)
+				_flash = 0.35
+				_bolt = PackedVector2Array()
+				var x := _rng.randf_range(60, 388)
+				var y := 32.0
+				while y < 150:
+					_bolt.append(Vector2(x, y))
+					x += _rng.randf_range(-14, 14)
+					y += _rng.randf_range(10, 22)
+		elif G.floor_index >= GameData.FLOORS.size() + GameData.NEW_FLOORS.size():
+			while _drops.size() < 18:
+				_drops.append([_rng.randf_range(20, 428), _rng.randf_range(-40, 260), _rng.randf_range(70, 110)])
+			for d in _drops:
+				d[1] += d[2] * dt
+				if d[1] > 268:
+					d[0] = _rng.randf_range(20, 428)
+					d[1] = _rng.randf_range(-30, 20)
 	for c in _critters:
 		c["t"] -= dt
 		var d := TB.dist_xy(p.x, p.y, c["x"], c["y"])
@@ -671,6 +756,9 @@ static func tick(dt: float) -> void:
 static func paint_live(ci: CanvasItem, t: float) -> void:
 	if G.room == null or not on(G.room):
 		return
+	for d in _drops:   # 17.3: ink rain on the chapter floors
+		if G.floor_index >= GameData.FLOORS.size() + GameData.NEW_FLOORS.size() and G.room.theme.is_empty():
+			ci.draw_rect(Rect2(d[0], d[1], 1, 3), Color(0.1, 0.1, 0.18, 0.55))
 	for f in _flames:
 		var fl := 0.8 + 0.2 * sin(t * 13.0 + f[0])
 		var s: float = f[2]
@@ -702,6 +790,15 @@ static func paint_live(ci: CanvasItem, t: float) -> void:
 				ci.draw_rect(Rect2(x - 1 - 2 * flap, y - 1, 2, 2), cl)
 				ci.draw_rect(Rect2(x + 1 + 2 * flap - 1, y - 1, 2, 2), cl)
 				ci.draw_rect(Rect2(x, y - 1, 1, 3), TB.c("#2a2018"))
+
+## 17.3: a lightning flash over the whole room (world_view's top layer).
+static func paint_over(ci: CanvasItem) -> void:
+	if _flash <= 0.0 or G.room == null or not on(G.room):
+		return
+	var a := _flash / 0.35
+	ci.draw_rect(Rect2(0, 0, TB.SW, TB.SH), Color(0.85, 0.9, 1.0, 0.22 * a))
+	if _bolt.size() > 1 and a > 0.5:
+		ci.draw_polyline(_bolt, Color(1, 1, 1, a), 2.0)
 
 ## The warm light of fires, candles and lanterns (the additive glow layer).
 static func paint_glow(ci: CanvasItem, t: float) -> void:

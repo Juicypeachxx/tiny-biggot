@@ -890,6 +890,11 @@ skips it), `setup` (setup_objects), kinds `c_*` (EventRooms), `paint_static` (Ro
 `back_state()` (shrine, skill trees, constellation return to the camp), `pause_items`
 (LEAVE CAMP). The camp's pond has "camp": every world's fish. `--ui=camp`. `tests/camp_test`.
 
+17.3: kegs have a fuse (`RoomDress.FUSE`, `o.fuse`), `_foe_shot_near` (foes' shots light kegs and
+break pots), `_blow` pushes foes (kx/ky) and breaks crates; EBullets chips crates (`hit_crate`, 3)
+in the expanded game. Weather: `STORMY` floors flash (`paint_over` in world_view `_paint_top`),
+ink rain on chapter floors (own RNG).
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

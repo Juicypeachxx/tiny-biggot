@@ -775,8 +775,14 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       telescope (constellation), a practice dummy (skill trees), a notice board (runs, wins, deepest
       floor, embers), a tent, trees, flowers, the fire. Earned furniture: a trophy cup per guardian
       felled, a banner per ending reached, the fish wall. MENU > LEAVE CAMP. (One IPA with 17.3.)
-- [ ] 17.3 Livelier fights: weather on each floor, foes that react to kegs and pots, cover that
+- [x] 17.3 Livelier fights: weather on each floor, foes that react to kegs and pots, cover that
       breaks. IPA.
+      Done: a hit keg now burns a short fuse (it flashes, sparks, shows its blast ring) and foes
+      near it scramble away; the blast throws foes back and smashes crates round it; kegs set each
+      other off. Foes' shots light kegs and break pots too, and wear crates down (cover breaks
+      under fire). Lightning flashes over the stormy floors (Nightspire, the rooftops, the
+      Eclipse); ink rain on the chapter floors (the floors' own rain, snow, ash... were already
+      there). IPA 17.
 
 ---
 

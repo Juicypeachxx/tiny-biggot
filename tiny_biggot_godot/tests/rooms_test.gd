@@ -2,8 +2,9 @@ extends Node
 ## 16 the rooms revamp (scripts/render/room_dress.gd). Run:
 ##   godot --headless --path . res://tests/rooms_test.tscn -- --no-save
 ## Every kind of room can be entered; pots break when shot and when rolled into;
-## coin heaps pay when walked through; a shot powder keg hurts the foes near it and sets off the
-## keg beside it, and never the hero.
+## coin heaps pay when walked through; a shot powder keg lights its fuse, then hurts the foes near
+## it and sets off the keg beside it, and never the hero; a foe's shot lights a keg and wears down a
+## crate (17.3).
 ## Prints "rooms test: PASSED" or a FAIL line per problem.
 
 var fails := 0
@@ -76,12 +77,34 @@ func _ready() -> void:
 	G.pbullets.clear()
 	_shot(150.0, 146.0)
 	RoomDress.tick_objects(G.room)
+	G.pbullets.clear()
+	if not k1.has("fuse") or k1.get("gone", false):
+		fail("a shot keg did not light its fuse first")
+	for i in 60:
+		RoomDress.tick_objects(G.room)
 	if not k1.get("gone", false) or not k2.get("gone", false):
 		fail("the keg did not blow, or did not set off its neighbour")
 	if foe.hp >= hp0:
 		fail("the blast did not hurt the foe beside it")
 	if G.player.hp != php:
 		fail("the blast hurt the hero")
+	# 17.3: a foe's shot lights a keg and chips a crate.
+	var k3 := { "kind": "e_keg", "x": 300.0, "y": 200.0, "used": true }
+	G.room.objects.append(k3)
+	EBullets.clear_all()
+	Combat.eshot(300.0, 195.0, 0.0, 1.0, "red", 2.0)
+	RoomDress.tick_objects(G.room)
+	if not k3.has("fuse"):
+		fail("a foe's shot did not light the keg")
+	var cc := 5
+	var rr := 5
+	G.room.set_tile(cc, rr, World.T_CRATE)
+	G.room.crate_hp[Vector2i(cc, rr)] = 12.0
+	EBullets.clear_all()
+	Combat.eshot(cc * TB.TS + 8.0, rr * TB.TS + 8.0, 0.0, 1.0, "red", 2.0)
+	EBullets.update(TB.DT)
+	if G.room.crate_hp.get(Vector2i(cc, rr), 12.0) >= 12.0:
+		fail("a foe's shot did not wear down a crate")
 	G.pbullets.clear()
 	print("rooms test: PASSED" if fails == 0 else "rooms test: %d FAILED" % fails)
 	get_tree().quit()
