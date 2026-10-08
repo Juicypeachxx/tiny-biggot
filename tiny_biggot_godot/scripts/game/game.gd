@@ -36,6 +36,7 @@ var bombs: Array = []
 var zones: Array = []
 var familiars: Array = []
 var temp_fams: Array = []
+var endless_next := false   # 22.2: the camp's ENDLESS STAIR was taken; the next run goes down for ever
 var swings: Array = []
 var boss: Enemy = null
 var champ: Enemy = null       # a rift champion or floor mini-boss in the room: it gets the boss bar
@@ -105,6 +106,9 @@ func new_run() -> void:
 	if DebugArgs.has("weapon"):
 		Weapons.equip_weapon(player, Weapons.by_id(DebugArgs.get_str("weapon")))
 	run_stats = { "kills": 0, "gold": 0, "time": 0.0, "floor": 1, "bosses": 0, "secrets": 0, "rifts": [] }
+	if (endless_next or DebugArgs.has("endless")) and GameData.rogues():
+		Endless.setup()   # 22.2
+	endless_next = false   # (taken: a later run from anywhere else is an ordinary one)
 	loop = DebugArgs.get_int("loop", 0) if DebugArgs.has("loop") else 0
 	floor_index = 0
 	familiars = []
@@ -224,6 +228,8 @@ func start_floor() -> void:
 	EventRooms.on_floor_start()
 	Wanderers.on_floor_start()
 	Weather.on_floor_start()   # 22.1 this floor's weather (own dice)
+	if Endless.on():
+		Endless.on_floor()   # 22.2 the depth, and the record
 	run_stats["floor"] = floor_index + 1
 	Meta.meta["best"] = maxi(Meta.meta["best"], floor_index + 1)
 	Meta.write_save()
@@ -239,7 +245,8 @@ func start_floor() -> void:
 	state = &"play"
 	Barks.hero("floor", true)   # 21.1: a word on arriving
 	RunSave.save()   # 6.3: the run can be continued from here
-	show_banner(GameData.floors()[floor_index]["name"], "FLOOR %d OF %d" % [floor_index + 1, GameData.floors().size()]
+	show_banner(GameData.floors()[floor_index]["name"], Endless.banner_sub() if Endless.on() else
+		"FLOOR %d OF %d" % [floor_index + 1, GameData.floors().size()]
 		+ ("   DREAD %d" % dread if dread > 0 else "") + ("   LOOP %d" % (loop + 1) if loop > 0 else ""))
 	if GameData.rogues() and floor_index == 6:
 		toast("HITS NOW COST A WHOLE HEART", "red")   # past the Pale Regent (Combat.foe_hit)
@@ -884,6 +891,9 @@ func on_boss_dead(b: Enemy) -> void:
 	if Daily.is_on("giants"):
 		for rel in roll_relics(2, "boss"):   # 18.1 BIG GAME
 			add_relic(player, rel)
+	if Endless.on() and room.type != "barn" and room.rift_step != 3:
+		Endless.guardian_down(b)   # 22.2: its hoard and the stair down; no endings
+		return
 	if room.type == "barn":
 		Rex.on_beaten(b)   # a good boy rolls over: his hoard, and he offers to come along
 		return
@@ -1097,6 +1107,8 @@ func award_embers(win: bool) -> void:
 		parts.append(["CHAPTER IV", 700])   # 20.3
 	if run_stats.get("trophies", 0) > 0:
 		parts.append(["NEW TROPHIES", run_stats["trophies"] * Trophies.EMBERS])
+	if Endless.on():
+		Endless.score(parts)   # 22.2: the depth is the score
 	Daily.on_end(win, parts)   # 18.1
 	Barks.remember(win)   # 21.1: the camp remembers how it ended
 	Quests.on_run_end(win, parts)   # 20.2
@@ -1468,7 +1480,10 @@ func interact(o: Dictionary) -> void:
 		"portal":
 			Snd.play("portal")
 			start_fade(func():
-				floor_index += 1
+				if Endless.on():
+					Endless.next_floor()   # 22.2: past the last floor, round again a loop deeper
+				else:
+					floor_index += 1
 				player.heal(2)
 				start_floor())
 		"loopportal":
@@ -1977,6 +1992,7 @@ func update_title(dt: float) -> void:
 				RunSave.clear()
 				toast("THE SAVED RUN COULD NOT BE READ", "red")
 		"START RUN":
+			endless_next = false
 			state = &"hero"
 			menu = hero_index
 		"SKILL TREES":
@@ -2024,6 +2040,7 @@ func update_hero() -> void:
 	if Keys.back():
 		state = &"title"
 		menu = 0
+		endless_next = false
 		Snd.play("select")
 		Meta.write_save()
 		return

@@ -256,7 +256,8 @@ func _minimap() -> void:
 	if FloorMap.active():
 		FloorMap.draw_minimap(self, TB.SW - 6, 2)
 		var secs2 := int(G.run_stats.get("time", 0.0))
-		Gfx.text(self, "FLOOR %d  %02d:%02d" % [G.floor_index + 1, secs2 / 60, secs2 % 60], TB.SW - 6, 40, "bone", 1, 1)
+		Gfx.text(self, ("DEPTH %d  %02d:%02d" % [Endless.depth(), secs2 / 60, secs2 % 60]) if Endless.on() else
+			("FLOOR %d  %02d:%02d" % [G.floor_index + 1, secs2 / 60, secs2 % 60]), TB.SW - 6, 40, "bone", 1, 1)
 		return
 	var n: int = f["total"]
 	var w := 7
@@ -275,7 +276,8 @@ func _minimap() -> void:
 	if GameData.rogues():
 		# Rogues layer: floor-room and the run clock.
 		var secs := int(G.run_stats.get("time", 0.0))
-		Gfx.text(self, "FLOOR %d-%d  %02d:%02d" % [G.floor_index + 1, f["depth"], secs / 60, secs % 60], TB.SW - 6, 12, "bone", 1, 1)
+		Gfx.text(self, ("DEPTH %d-%d  %02d:%02d" % [Endless.depth(), f["depth"], secs / 60, secs % 60]) if Endless.on() else
+			("FLOOR %d-%d  %02d:%02d" % [G.floor_index + 1, f["depth"], secs / 60, secs % 60]), TB.SW - 6, 12, "bone", 1, 1)
 	else:
 		Gfx.text(self, "ROOM %d/%d" % [f["depth"], n], TB.SW - 6, 12, "grey", 1, 1)
 

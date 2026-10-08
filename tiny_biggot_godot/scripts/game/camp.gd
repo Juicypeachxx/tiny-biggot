@@ -14,7 +14,7 @@ extends RefCounted
 ## the shelf for every guardian felled (all heroes), the fish you have caught on the fish wall.
 ## MENU > LEAVE CAMP returns to the title.
 
-const KINDS := ["c_portal", "c_wardrobe", "c_shrine", "c_telescope", "c_dummy", "c_board", "c_daily", "c_cook", "c_rack", "v_peddler", "v_bard", "v_seer", "v_monger", "v_cat"]
+const KINDS := ["c_portal", "c_wardrobe", "c_shrine", "c_telescope", "c_dummy", "c_board", "c_daily", "c_cook", "c_rack", "v_peddler", "v_bard", "v_seer", "v_monger", "v_cat", "c_endless"]
 ## Endings: [Meta key, banner colour, name]
 const ENDINGS := [["wins", "#f2c94c", "THE THRONE"], ["heaven_wins", "#fff07a", "HEAVEN"], ["hell_wins", "#d8443c", "HELL"],
 	["unwritten_wins", "#f4ecd8", "THE UNWRITTEN"], ["author_wins", "#4d6aa8", "THE AUTHOR"],
@@ -66,6 +66,7 @@ static func fresh_player() -> void:
 ## The camp's people and things (game.gd setup_objects, room type "camp").
 static func setup(r: Room) -> void:
 	r.objects.append({ "kind": "c_portal", "x": 224.0, "y": 92.0 })
+	r.objects.append({ "kind": "c_endless", "x": 168.0, "y": 80.0 })   # 22.2 the endless stair
 	r.objects.append({ "kind": "n_archivist", "x": 176.0, "y": 150.0 })
 	var pond := Fishing.place(r, 92.0, 222.0, 52.0, 20.0, false, 9999)
 	pond["camp"] = true
@@ -88,6 +89,7 @@ static func interact(o: Dictionary) -> void:
 	match o["kind"]:
 		"c_portal":
 			CampBuild.on_set_out()   # 20.2 the lending rack
+			G.endless_next = false
 			G.state = &"hero"
 			G.menu = G.hero_index
 			Snd.play("portal")
@@ -106,6 +108,12 @@ static func interact(o: Dictionary) -> void:
 		"c_daily":
 			G.start_fade(func(): Daily.start())
 			Snd.play("portal")
+		"c_endless":   # 22.2: choose a hero, then down for ever
+			CampBuild.on_set_out()
+			G.endless_next = true
+			G.state = &"hero"
+			G.menu = G.hero_index
+			Snd.play("portal")
 		"c_board":   # 20.2 the quest board
 			Quests.open_board()
 
@@ -116,6 +124,7 @@ static func prompt(o: Dictionary) -> Array:
 		return CampLife.prompt(o)
 	match o["kind"]:
 		"c_portal": return ["THE PORTAL", "SET OUT ON A NEW RUN", "GO"]
+		"c_endless": return ["THE ENDLESS STAIR", "DOWN AND DOWN, AS DEEP AS YOU CAN. BEST: DEPTH %d" % Endless.best(), "GO DOWN"]
 		"c_wardrobe": return ["THE WARDROBE", "EVERY SET, AND WHAT YOU HAVE FOUND", "OPEN"]
 		"c_shrine": return ["THE EMBER SHRINE", "%d EMBERS TO SPEND" % Meta.meta["embers"], "PRAY"]
 		"c_telescope": return ["THE TELESCOPE", "THE CONSTELLATION", "LOOK"]
@@ -237,6 +246,18 @@ static func draw(ci: CanvasItem, o: Dictionary, t: float) -> void:
 				ci.draw_rect(Rect2(x + 9, y - 22, 1, 1), Color(1, 1, 1))
 		"c_dummy":
 			Gfx.sp(ci, "dummy", x, y + 2)
+		"c_endless":   # 22.2 a stairwell into the dark, its steps fading as they go down
+			ci.draw_rect(Rect2(x - 15, y - 9, 30, 20), TB.c("#5a5866"))
+			ci.draw_rect(Rect2(x - 13, y - 7, 26, 16), TB.c("#0c0a12"))
+			for k in 5:
+				var shade := 0.55 - k * 0.11
+				ci.draw_rect(Rect2(x - 12 + k, y - 6 + k * 3, 24 - k * 2, 2), Color(shade, shade * 0.95, shade * 1.1))
+			ci.draw_rect(Rect2(x - 15, y - 9, 30, 1), TB.c("#8b8f9c"))
+			var gl := 0.35 + 0.25 * sin(t * 1.7)
+			ci.draw_rect(Rect2(x - 3, y + 6, 6, 2), Color(0.64, 0.36, 0.84, gl))
+			Gfx.text(ci, "DOWN", x, y - 24, "purple", 1, 0.5)
+			if Endless.best() > 0:
+				Gfx.text(ci, "BEST %d" % Endless.best(), x, y - 16, "dim", 1, 0.5)
 		"c_daily":   # a standing stone with a glowing rune of the day
 			ci.draw_rect(Rect2(x - 7, y - 1, 14, 3), Color(0, 0, 0, 0.3))
 			ci.draw_colored_polygon(PackedVector2Array([Vector2(x - 7, y), Vector2(x - 5, y - 24), Vector2(x + 1, y - 28), Vector2(x + 6, y - 22), Vector2(x + 7, y)]), TB.c("#6b6a72"))

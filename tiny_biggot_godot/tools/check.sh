@@ -232,6 +232,11 @@ timeout 300 "$GODOT" --headless --path . res://tests/weather_test.tscn -- --no-s
 grep -E "weather test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 22.2 the endless descent"
+timeout 300 "$GODOT" --headless --path . res://tests/endless_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "endless test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== 18.1 the daily trial"
 timeout 300 "$GODOT" --headless --path . res://tests/daily_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "daily test" "$LOG"

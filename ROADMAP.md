@@ -961,7 +961,17 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       camp at night is now lit the same way: lantern posts, the fire and the portal light it.
       Rift worlds keep their own look. Drawing only (replays unchanged). `tests/weather_test`.
       Test switch for pictures: `--weather=KIND`.
-- [ ] 22.2 Endless descent: a mode to see how deep you can go; your best depth is kept.
+- [x] 22.2 Endless descent: a mode to see how deep you can go; your best depth is kept.
+      Done: THE ENDLESS STAIR, a stairwell beside the camp's portal (DOWN; your best depth
+      under it). Take it, choose a hero ("THE ENDLESS DESCENT"), and go down all twenty floors
+      in order, each with its guardian; a fallen guardian leaves its hoard and the stair down,
+      never an ending (no Throne victory, no chapter endings). Past the Hearth the stair goes on
+      into the Ossuary again, a loop deeper, where everything is much tougher, and so on for
+      ever. The depth is on the floor banner ("DEPTH 5   BEST 5"), the HUD and the end of the run;
+      going deeper than ever before says so and pays 50 embers; the run's embers count the depth
+      (6 a floor). The camp's chapter quests are not won on the stair. (In the title menu there
+      was no room for another line, so the stair is in the camp.) `tests/endless_test`. Test
+      switch: `--endless`.
 - [ ] 22.3 A bestiary: every foe you have met, their lines, how many you have beaten, and your
       past runs.
 - [ ] 22.4 Stability and performance polish: profile the heaviest fights and everything Stages

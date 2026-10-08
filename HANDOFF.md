@@ -1028,6 +1028,16 @@ warnings, Afx ground) move from the lower layer to `_paint_danger` at the start 
 dark. `dark_level()`: DARK on a night floor, DARK_CAMP for the camp at night (CampClock's night
 tint lightened). Storms use RoomDress's lightning; fog uses world_view `_paint_fog`. Combat
 .explode_at -> `flash`. Warmup draws the dark shader once (dark 0). `tests/weather_test`.
+22.2: `Endless` (scripts/game/endless.gd). Camp object `c_endless` (camp.gd: KINDS, setup at
+(168, 80), interact sets `G.endless_next` and opens the heroes, prompt, draw; routed through the
+EventRooms and world_view camp lists). Game.new_run -> `setup` (run_stats endless, chapter 4 for
+every floor, best0) and clears `endless_next`; start_floor -> `on_floor` (depth, new_best, Meta
+"endless_best") and the banner's `banner_sub`; on_boss_dead -> `guardian_down` (before the barn,
+realm, rift and ending branches: chest + portal); the "portal" interact -> `next_floor` (past the
+last floor: floor 0, loop + 1, the game's loop scaling); award_embers -> `score` (DEPTH in place
+of FLOORS and LOOPS, NEW BEST DEPTH). HUD and end screen show the depth. Quests' "chapter" goal
+is never met on the stair. main.gd: `--endless`; `--floor` counts from the top on the stair.
+`tests/endless_test`.
 
 ## Noted, not yet acted on
 

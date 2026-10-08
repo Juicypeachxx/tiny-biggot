@@ -76,7 +76,7 @@ func _ready() -> void:
 	G.hero_index = clampi(DebugArgs.get_int("hero", 0), 0, GameData.heroes().size() - 1)
 	# The game opens on the title screen. Test options start a run directly.
 	var quick := false
-	for k in ["bot", "room", "floor", "hero", "ui", "bench", "quick", "weapon", "heavy", "rift", "event", "rex", "set", "wanderer"]:
+	for k in ["bot", "room", "floor", "hero", "ui", "bench", "quick", "weapon", "heavy", "rift", "event", "rex", "set", "wanderer", "endless"]:
 		if DebugArgs.has(k):
 			quick = true
 	if not quick:
@@ -85,7 +85,7 @@ func _ready() -> void:
 	G.new_run()
 	if DebugArgs.get_int("chapter", 1) >= 2:   # 12.2 / 14.4: a chapter's floors (--floor counts on from them)
 		G.run_stats["chapter"] = DebugArgs.get_int("chapter", 1)
-	var ch: int = G.run_stats.get("chapter", 1)   # 20.3: and Chapter IV
+	var ch: int = 1 if Endless.on() else G.run_stats.get("chapter", 1)   # 20.3: and Chapter IV (22.2: the endless stair counts from the top)
 	var off := (GameData.FLOORS.size() + GameData.NEW_FLOORS.size() + (GameData.CHAPTER2.size() if ch >= 3 else 0) + (GameData.CHAPTER3.size() if ch >= 4 else 0)) if ch >= 2 else 0
 	G.floor_index = clampi(DebugArgs.get_int("floor", 0) + off, 0, GameData.floors().size() - 1)
 	if G.floor_index > 0:

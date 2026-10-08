@@ -180,7 +180,7 @@ static func hero_window() -> Array:
 
 func draw_hero(ci: CanvasItem) -> void:
 	var t := G.time
-	Gfx.text(ci, "CHOOSE YOUR DELVER", TB.SW / 2, 10, "gold", 2, 0.5)
+	Gfx.text(ci, "THE ENDLESS DESCENT" if G.endless_next else "CHOOSE YOUR DELVER", TB.SW / 2, 10, "purple" if G.endless_next else "gold", 2, 0.5)
 	var n := GameData.heroes().size()
 	var w := HERO_W
 	var win := hero_window()
@@ -699,10 +699,15 @@ func draw_end(ci: CanvasItem) -> void:
 		msg = p.hero["name"] + " ERASED THE REDACTOR. THE BOOK IS WHOLE"
 	elif win and r.get("author", false):
 		msg = p.hero["name"] + " OUTWROTE THE AUTHOR"
+	if r.get("endless", false):   # 22.2
+		msg = "THE ENDLESS DESCENT: DEPTH %d%s" % [r.get("depth", 1), "  NEW BEST!" if r.get("new_best", false) else ""]
 	if r.has("daily_score"):   # 18.1
 		msg = "DAILY TRIAL (%s): SCORE %d%s" % [Daily.MODS[r["daily"]][0], r["daily_score"], "  NEW BEST!" if r.get("daily_record", false) else ""]
 	Gfx.text(ci, msg, TB.SW / 2, 102, "white", 1, 0.5)
-	var rows := [["FLOOR REACHED", "%d - %s" % [G.floor_index + 1, GameData.floors()[G.floor_index]["name"]]], ["FOES SLAIN", r["kills"]],
+	var reached := ["FLOOR REACHED", "%d - %s" % [G.floor_index + 1, GameData.floors()[G.floor_index]["name"]]]
+	if r.get("endless", false):
+		reached = ["DEPTH REACHED", "%d - %s (BEST %d)" % [r.get("depth", 1), GameData.floors()[G.floor_index]["name"], Endless.best()]]
+	var rows := [reached, ["FOES SLAIN", r["kills"]],
 		["GUARDIANS", r["bosses"]], ["SECRETS FOUND", r["secrets"]], ["TIME", fmt_time(r["time"])]]
 	for i in rows.size():
 		Gfx.text(ci, rows[i][0], 120, 118 + i * 11, "grey")

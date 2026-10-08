@@ -118,7 +118,7 @@ static func met(q: Dictionary, win: bool, in_run: bool) -> bool:
 		"secrets": return int(r.get("secrets", 0)) >= int(d[3])
 		"level": return p.level >= int(d[3])
 		"daily": return r.has("daily")
-		"chapter": return int(r.get("chapter", 1)) >= int(d[3])
+		"chapter": return int(r.get("chapter", 1)) >= int(d[3]) and not r.get("endless", false)   # (22.2: not the endless stair)
 		"kind": return fl >= 5 and (p.weapon["kind"] == d[3] or (d[3] == "whip" and p.weapon["kind"] == "flail"))
 		"hero": return fl >= int(d[3]) and p.hero["id"] == q["hero"]
 		"dread": return fl >= int(d[3]) and G.dread > 0
