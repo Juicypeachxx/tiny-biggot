@@ -8,7 +8,7 @@ extends RefCounted
 ##   --floor=N                    start on floor N (0-5)
 ##   --day=YYYYMMDD               the daily trial of that date (18.1)
 ##   --set=ID                     start wearing a whole armor set (13.2), e.g. --set=emberweave
-##   --chapter=2|3                Chapter II or III: --floor=0-2 are its three floors (12.2, 14.4)
+##   --chapter=2|3|4              Chapter II, III or IV: --floor=0-2 are its three floors (12.2, 14.4, 20.3)
 ##   --room=KIND                  jump straight into a room of that type (combat, boss, mini, ...)
 ##   --seed=N                     fixed random seed
 ##   --bot                        autopilot that moves, aims and rolls (soak test)

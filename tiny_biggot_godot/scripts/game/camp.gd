@@ -18,7 +18,7 @@ const KINDS := ["c_portal", "c_wardrobe", "c_shrine", "c_telescope", "c_dummy", 
 ## Endings: [Meta key, banner colour, name]
 const ENDINGS := [["wins", "#f2c94c", "THE THRONE"], ["heaven_wins", "#fff07a", "HEAVEN"], ["hell_wins", "#d8443c", "HELL"],
 	["unwritten_wins", "#f4ecd8", "THE UNWRITTEN"], ["author_wins", "#4d6aa8", "THE AUTHOR"],
-	["redactor_wins", "#16141c", "THE REDACTOR"], ["reader_wins", "#a35bd6", "THE READER"]]
+	["redactor_wins", "#16141c", "THE REDACTOR"], ["reader_wins", "#a35bd6", "THE READER"], ["critic_wins", "#ff8a3a", "THE CRITIC"]]
 
 static func active() -> bool:
 	return G.run_stats.get("camp", false) and G.room != null and G.room.type == "camp"

@@ -940,6 +940,15 @@ trap; own RNG). `Quests` (scripts/game/quests.gd): POOL, `active()` (Meta `quest
 with the guest tent, `meal2` (smokehouse), garden hearts in `on_new_run`, armory rows "g"/"s"
 (master's rack). gear.gd `_complete` skips the camp. `--ui=plans|board`, `--camp-built`.
 `tests/camp_build_test`.
+20.3: `GameData.CHAPTER4` (`floors()` with chapter 4 = main + CHAPTER2 + CHAPTER3 + CHAPTER4, kits
+17-19), foes and minis in ENEMIES (+ SPRITE_COLOR, ENEMY_XP), BOSSES shelver / hush / critic
+(boss_ai plans, stage plans, lines, summons, ring and shot sprites; afx SHOT_COL). Hazards "books",
+"lamps" (strikes) and "hearth" (pits + strikes). game.gd `_chapter3_won` now offers `n_endbook` /
+`n_shelf` (EventRooms) → `begin_chapter4`; `_chapter4_won` (critic: `critic_wins`, three chests,
+win); award "CHAPTER IV" 700; end screen "WELL READ"; Camp ENDINGS. RoomDress `library()` and
+`_library_floor` (shelves at WALL_SPOTS, floor scatter; dust motes / rising embers instead of ink
+rain). Sets `bookworm`, `criticregalia` (icons from set_icons.py); BossLoot shelversarm, hushbell,
+redpen (sprites.py). realms_test walks Chapter IV to the Critic's win.
 
 ## Noted, not yet acted on
 

@@ -325,6 +325,9 @@ def all_for(v):
     out["kit14"] = kit(vb, 25, { "floor": "#c8c0a8", "floor2": "#c0b8a0", "wall": "#4d6aa8", "cap": "#e8e0d0" })   # 14.4 the Glossary
     out["kit15"] = kit(vb, 26, { "floor": "#4a3a2c", "floor2": "#453628", "wall": "#2a2018", "cap": "#c8a878" })   # the Footnotes
     out["kit16"] = kit(vb, 27, { "floor": "#5a2028", "floor2": "#541e25", "wall": "#2a0e14", "cap": "#f2c94c" })   # the Cover
+    out["kit17"] = kit(vb, 28, { "floor": "#3e2e20", "floor2": "#3a2b1e", "wall": "#22160e", "cap": "#c8a878" })   # 20.3 the Stacks
+    out["kit18"] = kit(vb, 29, { "floor": "#1e3a2e", "floor2": "#1b3529", "wall": "#0f2018", "cap": "#e8c860" })   # the Reading Room
+    out["kit19"] = kit(vb, 30, { "floor": "#4a2418", "floor2": "#44211a", "wall": "#24100a", "cap": "#ff8a3a" })   # the Hearth
     out["kit_redact"] = kit(vb, 24, { "floor": "#1a181e", "floor2": "#16141a", "wall": "#0c0b0e", "cap": "#e8e8f0" })   # 12.3 the Redacted
     return out
 
@@ -337,7 +340,7 @@ EVOLVE = {   # guardian -> the colour it burns with when it evolves
 	"frozenabbot": "#bff4ff", "crowking": "#ff2a2a", "umbralsun": "#e08aff", "holycow": "#ffd84a",
 	"judge": "#fff07a", "cinderking": "#ff6a1a", "unwritten": "#e0e0ff", "stormcrown": "#7ff0ff",
 	"bilgehydra": "#5affa0", "brassorgan": "#ff4a3a", "greatengine": "#ff8a1a", "glacialmaw": "#5ad8ff",
-	"admiral": "#5ad8ff", "inkleviathan": "#9ab8ff", "thebinder": "#ff4a3a", "author": "#fff07a", "redactor": "#ff3a4a", "lexicon": "#7fd0ff", "erratum": "#ff4a3a", "reader": "#fff07a", "golemking": "#ffb040", "archmage": "#7ff0ff", "phoenix": "#fff07a", "wyrm": "#7ff0ff", "chainfiend": "#ff3020", "seraph": "#fff07a",
+	"admiral": "#5ad8ff", "inkleviathan": "#9ab8ff", "thebinder": "#ff4a3a", "author": "#fff07a", "redactor": "#ff3a4a", "lexicon": "#7fd0ff", "erratum": "#ff4a3a", "reader": "#fff07a", "shelver": "#ffb040", "hush": "#9fe0ff", "critic": "#ff3a2a", "golemking": "#ffb040", "archmage": "#7ff0ff", "phoenix": "#fff07a", "wyrm": "#7ff0ff", "chainfiend": "#ff3020", "seraph": "#fff07a",
 }
 
 def evolve(im, stage, burn):
@@ -468,6 +471,9 @@ FORMS = {
 	"lexicon":     {2: [("horn_s", 1, -3, 7, 1), ("horn_s", 9, -3, 15, 1)], 3: [("wing", -6, 5, 22, 1), ("eyes", 4, 9, None, 0), ("horn_b", 0, -4, 15, 1)]},
 	"erratum":     {2: [("spike", -1, 8, 17, 0)], 3: [("horn_b", -2, -5, 18, 1), ("flames", 3, -4, None, 0), ("maw", 5, 10, None, 0)]},
 	"reader":      {2: [("eye3", 6, 1, None, 0), ("wing", -6, 6, 22, 1)], 3: [("wing", -6, 3, 22, 1), ("wing", -6, 9, 22, 1), ("eyes", 4, 9, None, 0), ("flames", 3, -4, None, 0)]},
+	"shelver":     {2: [("horn_s", 1, -3, 7, 1), ("spike", -1, 8, 17, 0)], 3: [("horn_b", 0, -4, 15, 1), ("spike", -2, 8, 18, 0), ("eye3", 6, 3, None, 0)]},
+	"hush":        {2: [("wing", -6, 6, 22, 1)], 3: [("wing", -6, 3, 22, 1), ("wing", -6, 9, 22, 1), ("eyes", 4, 6, None, 0)]},
+	"critic":      {2: [("eye3", 6, 1, None, 0), ("horn_s", 2, -2, 13, 1)], 3: [("horn_b", -2, -5, 18, 1), ("flames", 3, -4, None, 0), ("wing", -6, 8, 22, 1)]},
 	"redactor":    {2: [("wing", -6, 6, 22, 1), ("spike", -1, 9, 17, 0)], 3: [("wing", -6, 3, 22, 1), ("wing", -6, 9, 22, 1), ("eyes", 4, 9, None, 0), ("horn_b", 0, -4, 15, 1)]},
 	"author":      {2: [("wing", -6, 6, 22, 1), ("eye3", 6, 2, None, 0)], 3: [("wing", -6, 3, 22, 1), ("wing", -6, 9, 22, 1), ("eyes", 4, 8, None, 0), ("flames", 3, -4, None, 0)]},
 	"admiral":     {2: [("horn_s", 2, -2, 13, 1)], 3: [("horn_b", 0, -4, 15, 1), ("eyes", 5, 4, None, 0)]},
@@ -541,7 +547,7 @@ MINIS = {   # mini-boss or champion -> (kind of form, the colour it burns with)
 	"highcaliber": ("fire", "#ff5a1a"), "squallheron": ("wing", "#8ae8ff"), "tidecaptain": ("brute", "#5affa0"),
 	"bellringer": ("maw", "#c05aff"), "shadow": ("maw", "#d08aff"), "foreman": ("brute", "#ffa040"),
 	"hoarknight": ("brute", "#8fe8ff"),
-	"inkwidow": ("maw", "#c08aff"), "bindingpress": ("brute", "#ffb040"), "headscribe": ("wing", "#fff07a"), "lexicant": ("wing", "#7fd0ff"), "fineprint": ("brute", "#f2c94c"), "colophon": ("maw", "#ff4a3a"),
+	"inkwidow": ("maw", "#c08aff"), "bindingpress": ("brute", "#ffb040"), "headscribe": ("wing", "#fff07a"), "lexicant": ("wing", "#7fd0ff"), "fineprint": ("brute", "#f2c94c"), "colophon": ("maw", "#ff4a3a"), "overdue": ("brute", "#ffb040"), "quiet": ("wing", "#9fe0ff"), "kindling": ("fire", "#ff6a1a"),
 }
 
 def _dominant_meta(im):

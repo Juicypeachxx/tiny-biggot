@@ -1148,6 +1148,16 @@ S["w_wyrmfang"] = ("main:#c8e0f0 glow:#7ff0ff", [
 S["w_seraphlance"] = ("main:#f4ecd8 glow:#fff07a halo:1", [
 "..........yo", ".........y3o", "........o3o.", ".......o3o..", "......oqo...", ".....oqo....",
 "....o3o.....", "...o3o......", "..o3o.......", ".oqo........", "oqo.........", "oo.........."])
+# 20.3: Chapter IV's guardian drops.
+S["g_shelversarm"] = ("main:#8a5a2a second:#4d6aa8 glow:#f2c94c", [
+"............", "....oooo....", "...o3333o...", "..o3o33o3o..", "..o333333o..", "..o333333o..",
+"..oaaaaaao..", "..oa3y3aao..", "..oaaaaaao..", "...o3333o...", "...o3333o...", "....oooo...."])
+S["w_hushbell"] = ("main:#2a3a6a wood:#6b4a2a glow:#9fe0ff halo:1", [
+".....oo.....", "....ouuo....", ".....oo.....", "....o33o....", "...o3333o...", "..o333333o..",
+"..o333333o..", ".o33333333o.", ".oyyyyyyyyo.", "..oooooooo..", ".....oo.....", ".....yy....."])
+S["w_redpen"] = ("main:#d8443c gold:#f2c94c glow:#ff3a2a", [
+"..........oo", ".........o3o", "........o33o", ".......o33o.", "......o33o..", ".....o33o...",
+"....o33o....", "...oqqo.....", "..oqqo......", "..oqo.......", ".oyo........", ".o.........."])
 # 12.4: Chapter II's guardian drops.
 S["w_inkspout"] = ("main:#2a2a4a glow:#9ab8ff", [
 "........ooo.", ".......o3y3o", "......o333yo", ".......o33o.", "......ouo...", ".....ouo....",

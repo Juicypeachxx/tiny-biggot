@@ -20,7 +20,7 @@ extends RefCounted
 const KINDS := ["e_pitboss", "e_mechanic", "e_teller", "e_card", "e_courier", "e_attendant", "e_beacon", "e_statue",
 	"e_plate", "e_decor", "w_drunk", "w_merchant",
 	"e_frog", "e_glyph", "e_pawn", "e_hustler", "e_cup", "e_gong",   # 10.2
-	"n_archivist", "n_endbook", "n_turnpage", "n_inkling", "n_bookbinder", "n_tornpage", "n_redactdoor", "n_readon", "e_pond", "e_angler", "e_pot", "e_coins", "e_keg",
+	"n_archivist", "n_endbook", "n_turnpage", "n_inkling", "n_bookbinder", "n_tornpage", "n_redactdoor", "n_readon", "n_shelf", "e_pond", "e_angler", "e_pot", "e_coins", "e_keg",
 	"c_portal", "c_wardrobe", "c_shrine", "c_telescope", "c_dummy", "c_board", "c_daily", "c_cook", "c_rack", "v_peddler", "v_bard", "v_seer", "v_monger", "v_cat", "v_gambler", "v_tinker", "c_build", "c_deco"]   # 17.2 camp.gd   # 16: room_dress.gd   # 12.1-12.2 (story.gd)
 ## 10.2 (his ask, 6 Oct, from his trailer clips: ideas only, this game's own events):
 ##   frog       THE FROG POND: kiss the frog or leave it. A royal gift, a little luck, or warts.
@@ -296,6 +296,13 @@ static func interact(o: Dictionary) -> void:
 					o2["used"] = true
 			Snd.play("portal")
 			G.start_fade(func(): G.begin_chapter3())
+		"n_shelf":   # 20.3
+			o["used"] = true
+			for o2 in G.room.objects:
+				if o2["kind"] == "n_endbook":
+					o2["used"] = true
+			Snd.play("portal")
+			G.start_fade(func(): G.begin_chapter4())
 		"n_redactdoor":
 			o["used"] = true
 			for o2 in G.room.objects:
@@ -308,7 +315,7 @@ static func interact(o: Dictionary) -> void:
 		"n_endbook":
 			o["used"] = true
 			for o2 in G.room.objects:
-				if o2["kind"] == "n_turnpage":
+				if o2["kind"] in ["n_turnpage", "n_readon", "n_shelf", "n_redactdoor"]:
 					o2["used"] = true
 			G.show_banner("THE BOOK IS CLOSED", "THE PAGE IS YOURS. A STORY WELL TOLD")
 			G.win_timer = 3.0
@@ -800,6 +807,8 @@ static func prompt(o: Dictionary) -> Array:
 			return ["A POND", "%d CASTS LEFT. FISH FOUND %d OF %d" % [o.get("casts", 0), Fishing.caught_kinds(), Fishing.FISH.size()], "FISH"]
 		"n_readon":
 			return ["THE APPENDIX", "CHAPTER III: WHERE THE ERASED WORDS GATHER", "READ ON"]
+		"n_shelf":
+			return ["THE SHELF", "CHAPTER IV: THE LIBRARY, WHERE EVERY FINISHED BOOK IS KEPT", "STEP OUT"]
 		"n_redactdoor":
 			return ["A DOOR CUT INTO THE PAGE", "BEHIND IT: WHAT THE AUTHOR FEARED", "STEP THROUGH"]
 		"n_inkling":
@@ -916,6 +925,11 @@ static func draw(ci: CanvasItem, o: Dictionary, t: float) -> void:
 				var zq := 2.0 + sin(t * 3) * 0.08
 				Gfx.sp(ci, "riftdoor", x, y + 8, zq, zq)
 				Gfx.text(ci, "CHAPTER III", x, y - 34, "gold", 1, 0.5)
+		"n_shelf":
+			if not o.get("used", false):
+				var zs := 2.0 + sin(t * 3) * 0.08
+				Gfx.sp(ci, "riftdoor", x, y + 8, zs, zs)
+				Gfx.text(ci, "CHAPTER IV", x, y - 34, "gold", 1, 0.5)
 		"n_redactdoor":
 			if not o.get("used", false):
 				var zr := 2.0 + sin(t * 4) * 0.1

@@ -55,6 +55,8 @@ const DROPS := {
 	# 12.4 Chapter II.
 	"inkleviathan": ["weapon", "inkspout"], "thebinder": ["gear", "binderthread"], "author": ["weapon", "authorspen"],
 	"redactor": ["gear", "blackbar"],
+	# 20.3 Chapter IV.
+	"shelver": ["gear", "shelversarm"], "hush": ["weapon", "hushbell"], "critic": ["weapon", "redpen"],
 }
 
 static func is_unique(id: String) -> bool:

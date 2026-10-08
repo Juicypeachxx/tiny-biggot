@@ -14,12 +14,14 @@ extends RefCounted
 ## A strike marks the floor for 1 s, then hurts whoever stands in it (a roll
 ## dodges it, like any hit) and bursts into a small ring of shots.
 
-const STATIC := { "bog": ["pool", 3], "warfront": ["pit", 2], "vent": ["vent", 3], "rift": ["rift", 2],
+const STATIC := { "bog": ["pool", 3], "warfront": ["pit", 2], "vent": ["vent", 3], "rift": ["rift", 2], "hearth": ["pit", 2],
 	# Rift worlds: the same kinds of hazard under their own names.
 	"pylons": ["vent", 3], "barrels": ["pit", 2], "kitchen": ["pit", 2], "bloodrain": ["pit", 1], "ash": ["rift", 1] }
 const STRIKES := { "warfront": ["ARROW VOLLEY", "bone", 1], "icicle": ["FALLING ICICLES", "ice", 2], "rift": ["FALLING STAR", "dark", 1],
 	"spikes": ["A SPIKE TRAP", "bone", 2], "bloodrain": ["BLOOD RAIN", "dark", 2], "dynamite": ["DYNAMITE", "fire", 1],
-	"ash": ["FALLING ASH", "dark", 1] }
+	"ash": ["FALLING ASH", "dark", 1],
+	# 20.3 Chapter IV: books fall from the stacks, lamps from the reading room's ceiling, embers in the hearth.
+	"books": ["FALLING BOOKS", "page", 2], "lamps": ["A FALLING LAMP", "cyan", 1], "hearth": ["FALLING EMBERS", "fire", 2] }
 ## Heist City traffic: a lane is marked for a second, then a car tears across
 ## it. It runs over whoever is in the lane, foes included.
 const CAR_SPEED := 360.0

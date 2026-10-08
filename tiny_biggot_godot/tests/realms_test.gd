@@ -512,15 +512,61 @@ func _redactor() -> void:
 		if k < 2:
 			G.floor_index += 1
 			G.start_floor()
-	var rw0: int = Meta.meta.get("reader_wins", 0)
+	# 20.3: the Reader's fall: close the book, or step out onto the shelf: CHAPTER IV.
+	if not G.run_stats.get("reader", false):
+		fail("the Reader's fall was not counted")
+	var shelf = null
+	var book = null
+	for o in G.room.objects:
+		if o["kind"] == "n_shelf":
+			shelf = o
+		if o["kind"] == "n_endbook":
+			book = o
+	if shelf == null or book == null:
+		fail("after the Reader: no book to close or shelf to step onto")
+		return
+	G.interact(shelf)
+	play(90)
+	var base4 := base + GameData.CHAPTER3.size()
+	var cw0: int = Meta.meta.get("critic_wins", 0)
+	if G.run_stats.get("chapter", 1) != 4 or GameData.floors().size() != base4 + 3 or not book.get("used", false):
+		fail("chapter IV: not begun (chapter %s, %d floors)" % [G.run_stats.get("chapter", 1), GameData.floors().size()])
+		return
+	for k in 3:
+		if G.floor_index != base4 + k or GameData.floors()[base4 + k]["name"] != GameData.CHAPTER4[k]["name"]:
+			fail("chapter IV: on floor %d, want %s" % [G.floor_index, GameData.CHAPTER4[k]["name"]])
+			return
+		G.enter_room(World.make_room(G.floor_d, "combat", "", "s", { "no_secret": true }))
+		play(200)
+		var ok4: Array = GameData.CHAPTER4[k]["pool"] + (GameData.floors()[mini(G.floor_index + 1, GameData.floors().size() - 1)]["pool"] if G.room.twist == "strangers" else [])
+		for e in G.enemies:
+			if not e.type in ok4 and e.type != "dummy":
+				fail("chapter IV floor %d: a foreign foe %s" % [k + 1, e.type])
+				break
+		if G.room.strike == "" and RoomDress.library() != k:
+			fail("chapter IV floor %d: no hazard (%s) or not the library (%d)" % [k + 1, G.room.strike, RoomDress.library()])
+		G.enemies.clear()
+		G.locked = false
+		G.enter_room(World.make_room(G.floor_d, "boss", "", "s", { "no_secret": true }))
+		play(240)
+		if G.boss == null or G.boss.boss != GameData.CHAPTER4[k]["boss"]:
+			fail("chapter IV floor %d: the guardian is %s" % [k + 1, G.boss.boss if G.boss != null else "nobody"])
+			return
+		_fell(G.boss)
+		play(60)
+		if k < 2:
+			G.floor_index += 1
+			G.start_floor()
 	for o in G.room.objects:
 		if o["kind"] == "chest":
 			o["opened"] = true
-	for i in 700:
+	for i in 800:
 		play(1)
 		if G.state == &"win":
 			break
-	if G.state != &"win" or not G.run_stats.get("reader", false):
-		fail("the Reader's fall did not win the run (state %s)" % G.state)
-	elif not G.award.get("parts", []).any(func(x): return x[0] == "CHAPTER III") or not G.award.get("parts", []).any(func(x): return x[0] == "THE REDACTOR"):
-		fail("no embers for Chapter III or the Redactor")
+	if G.state != &"win" or not G.run_stats.get("critic", false) or Meta.meta.get("critic_wins", 0) != cw0 + 1:
+		fail("the Critic's fall did not win the run (state %s)" % G.state)
+	else:
+		for part in ["CHAPTER IV", "CHAPTER III", "THE REDACTOR"]:
+			if not G.award.get("parts", []).any(func(x): return x[0] == part):
+				fail("no embers for " + part)

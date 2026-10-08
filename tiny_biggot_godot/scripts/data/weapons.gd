@@ -574,6 +574,9 @@ const ROWS := [
 	# 9.3 the second guardians' weapons.
 	# 12.4 Chapter II's guardians (boss_loot.gd).
 	["inkspout", "THE INKSPOUT", "orb", "legend", ["arcane", "malice"], "orbstaff", { "dmg": 5.5, "rate": 3.0 }, [["echo", 0.15]], [["nth_nova", 4]], "THE LEVIATHAN'S OWN. 15% OF SHOTS ECHO. EVERY 4TH SHOT BURSTS INTO A RING.", [], "w_inkspout"],
+	# 20.3 Chapter IV's guardian drops.
+	["hushbell", "THE HUSH BELL", "pulse", "legend", ["arcane", "shadow"], "lanternw", { "dmg": 9.0, "rate": 1.5 }, [], [], "IT RINGS SILENCE. 20% OF ITS HITS STUN. EVERY 3RD RING ERASES THE SHOTS NEAR YOU.", [{ "on": "on_hit", "chance": 0.2, "do": [["status", "stun", 1]] }, { "on": "every_n_shots", "every": 3, "do": [["clear_shots", 70]] }], "w_hushbell"],
+	["redpen", "THE RED PEN", "beam", "legend", ["malice", "edge"], "wand", { "dmg": 7.5, "rate": 2.4 }, [["curse", 0.3]], [], "IT CROSSES OUT. 30% OF HITS CURSE. FOES IT FINISHES BURST INTO RED INK FOR 100%.", [{ "on": "on_kill", "do": [["explode", 34, 1.0]] }], "w_redpen"],
 	["authorspen", "THE AUTHOR'S PEN", "orb", "legend", ["arcane", "storm"], "staff", { "dmg": 8.0, "rate": 2.6, "homing": 0.6 }, [["echo", 0.25]], [["nth_zap", 4]], "THE LAST WORD. 25% OF SHOTS ARE WRITTEN TWICE. EVERY 4TH CALLS LIGHTNING. EVERY 12TH REWRITES THE FIGHT.", [{ "on": "every_n_shots", "every": 12, "do": [["chaos"]] }], "w_authorspen"],
 	["archstaff", "ARCHMAGE'S STAFF", "orb", "legend", ["arcane", "storm"], "orbstaff", { "dmg": 7.0, "rate": 2.4 }, [], [["nth_zap", 3]], "THE TOWER'S OWN. EVERY 3RD BOLT CALLS LIGHTNING.", [], "w_archstaff"],
 	["wyrmfang", "WYRMFANG", "slash", "legend", ["frost", "edge"], "sword", { "dmg": 11.0, "rate": 2.0 }, [["chill", 0.35]], [], "A FANG OF WHITE ICE. CHILLS WHAT IT CUTS.", [], "w_wyrmfang"],

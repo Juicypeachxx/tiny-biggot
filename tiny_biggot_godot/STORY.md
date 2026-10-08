@@ -38,6 +38,21 @@ did not vanish: they gather at the back of the book. Three floors:
    been turning the pages all along (mini: the Colophon). Its fall ends the run: "THE END. WRITTEN
    BY YOU". +600 embers.
 
+## Chapter IV: THE LIBRARY (20.3)
+
+When the Reader closes the book, the run can end (a win) or the hero can **step out onto the
+shelf**. A finished book is not thrown away: it goes onto a shelf in a library that holds every
+story ever finished. Three floors:
+1. **THE STACKS**: endless shelves, dust and moths; books fall from the shelves. Guardian **THE
+   SHELVER**, a bookcase that walks and puts every book back where it belongs, you included (mini:
+   the Overdue, a cart of books long past their date).
+2. **THE READING ROOM**: green lamps and long tables, where nobody may make a sound. Guardian
+   **THE HUSH**, the silence itself (mini: the Quiet). Lamps fall from the ceiling.
+3. **THE HEARTH**: the library's great fireplace, where the books nobody keeps are burned.
+   Guardian **THE CRITIC**, who decides which books are kept and which feed the fire (mini: the
+   Kindling). Its fall ends the run: "WELL READ. THE BOOK IS KEPT". +700 embers, `critic_wins`,
+   a banner in the camp.
+
 ## The people
 
 - **THE ARCHIVIST** (12.1, done): an old ghost of a librarian by the fire at rest stops. He tells
@@ -59,4 +74,4 @@ health, three stages of chaos). Its fall wins the run: +500 embers, `redactor_wi
 
 f6 the Pale Regent falls; f11 the Umbral Sun falls; realm a realm's ruler falls; unwritten the
 Unwritten falls; ch2 Chapter II begun; author the Author falls; redactor the Redactor falls; ch3
-Chapter III begun; reader the Reader falls.
+Chapter III begun; reader the Reader falls; ch4 Chapter IV begun; critic the Critic falls.

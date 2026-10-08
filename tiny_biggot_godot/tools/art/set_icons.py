@@ -25,6 +25,12 @@ PIECES = {
     "sun_crown": ("kingscrown", 48, 1.3, 1.15), "sun_cuirass": ("polishedcuirass", 48, 1.4, 1.1),
     "sun_boots": ("rocketboots", 48, 1.3, 1.1), "sun_gauntlet": ("emberglove", 48, 1.3, 1.15),
     "sun_heart": ("pocketsun", 48, 1.3, 1.15), "sun_band": ("ember_ring", 48, 1.3, 1.15),
+    # 20.3 Chapter IV: BOOKWORM and THE CRITIC'S REGALIA.
+    "worm_specs": ("scholarcap", 120, 1.0, 0.9), "worm_cardigan": ("paddedjack", 120, 1.0, 0.9),
+    "worm_slippers": ("sandals", 120, 1.0, 0.9), "worm_mitts": ("clothglove", 120, 1.0, 0.9),
+    "critic_hat": ("hagglerhat", 352, 1.3, 0.8), "critic_coat": ("smugglercoat", 352, 1.3, 0.8),
+    "critic_shoes": ("worntboots", 352, 1.3, 0.8), "critic_gloves": ("goldglove", 352, 1.3, 0.85),
+    "critic_monocle": ("clock_monocle", 352, 1.3, 0.9), "critic_signet": ("bigring", 352, 1.3, 0.9),
     "void_crown": ("crownofthorns", 255, 1.2, 0.9), "void_mantle": ("phoenixmantle", 255, 1.2, 0.85),
     "void_steps": ("springheels", 255, 1.2, 0.9), "void_grip": ("shadowglove", 255, 1.3, 0.9),
     "void_star": ("collapsedstar", 255, 1.2, 1.0), "void_band": ("twinring", 255, 1.2, 0.9),

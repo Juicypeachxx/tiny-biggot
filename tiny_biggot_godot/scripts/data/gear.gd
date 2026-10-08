@@ -72,6 +72,12 @@ const SETS := {
 	"beastmaster": { "name": "BEASTMASTER", "tag": "swarm", "b2": [["familiars", 1], ["fam_dmg", 0.2]], "e4": [{ "on": "on_room_enter", "do": [["summon", 12.0], ["summon", 12.0], ["summon", 12.0]] }], "d2": "+1 WISP, WISPS +20%", "d4": "EVERY ROOM BEGINS WITH 3 MORE WISPS FOR 12S" },
 	"drifter": { "name": "DRIFTER", "tag": "shadow", "b2": [["dodge_cd", 0.85]], "e4": [{ "on": "on_roll", "do": [["nova", 6, 0.8, "spark"]] }, { "on": "on_kill", "chance": 0.25, "do": [["refund_roll"]] }], "d2": "ROLLS RECHARGE 15% FASTER", "d4": "ROLLING FIRES 6 KNIVES. 25% OF KILLS REFUND A ROLL" },
 	"sunforged": { "name": "SUNFORGED", "tag": "pyre", "size": 6, "b2": [["burn", 0.2]], "e4": [{ "on": "every_n_seconds", "period": 5.0, "if": "fighting", "do": [["meteor", 2.0, 30]] }], "e6": [{ "on": "on_kill", "chance": 0.2, "do": [["meteor", 2.0, 30]] }, ["add", "vs_burn", 0.5]], "d2": "+20% BURN CHANCE", "d4": "EVERY 5S IN A FIGHT A METEOR FALLS", "d6": "KILLS MAY CALL METEORS. BURNING FOES TAKE +50%" },
+	# 20.3 Chapter IV: a set of the stacks, and the Critic's own (legendary, six).
+	"bookworm": { "name": "BOOKWORM", "tag": "arcane", "b2": [["pierce", 1]], "e4": [{ "on": "every_n_shots", "every": 8, "do": [["nova", 10, 0.8, "page"]] }],
+		"d2": "+1 PIERCE", "d4": "EVERY 8TH ATTACK SCATTERS 10 PAGES" },
+	"criticregalia": { "name": "CRITIC'S REGALIA", "tag": "malice", "size": 6, "b2": [["curse", 0.1]], "e4": [{ "on": "on_kill", "if": "cursed", "do": [["explode", 40, 1.0]] }],
+		"e6": [{ "on": "every_n_seconds", "period": 4.0, "if": "fighting", "do": [["execute_weakest", 4.0, 0.0]] }, ["mul", "dmg", 1.25]],
+		"d2": "10% OF HITS CURSE", "d4": "CURSED FOES BURST WHEN THEY DIE", "d6": "EVERY 4S IN A FIGHT THE WEAKEST FOE IS STRUCK FOR 400%. +25% DAMAGE" },
 	"voidregalia": { "name": "VOID REGALIA", "tag": "shadow", "size": 6, "b2": [["count", 1]], "e4": [{ "on": "on_roll", "do": [["nova", 8, 1.0, "spark"]] }], "e6": [{ "on": "every_n_seconds", "period": 3.0, "if": "fighting", "do": [["clear_shots", 60], ["nova", 12, 1.0, "spark"]] }, ["mul", "dmg", 1.3]], "d2": "+1 PROJECTILE", "d4": "ROLLING FIRES A RING OF 8", "d6": "EVERY 3S: ERASE NEARBY SHOTS, FIRE 12. +30% DAMAGE" },
 }
 
@@ -385,6 +391,7 @@ const ROWS := [
 	# 9.3 the second guardians' own gear.
 	# 12.4 Chapter II's guardians (boss_loot.gd).
 	["binderthread", "THE BINDER'S THREAD", "neck", "legend", ["bulwark"], null, "amulet", [["armor", 1]], [], "+1 ARMOR. +15% FIRE RATE.", [["mul", "rate", 1.15]], "g_binderthread"],
+	["shelversarm", "THE SHELVER'S ARM", "hands", "legend", ["fury"], null, "gloves", [["dmg", 1.15]], [], "+15% DAMAGE. EVERY 8TH ATTACK HURLS 3 BOOKS FOR 150%.", [{ "on": "every_n_shots", "every": 8, "do": [["shoot", 3, 1.5, "page", 0.3]] }], "g_shelversarm"],   # 20.3
 	["blackbar", "THE BLACK BAR", "head", "legend", ["malice"], null, "helm", [["armor", 2]], [], "+2 ARMOR. +20% DAMAGE. ENTERING A ROOM FIRES A RING OF 12 SHOTS.", [["mul", "dmg", 1.2], { "on": "on_room_enter", "do": [["nova", 12, 0.8, "spark"]] }], "g_blackbar"],
 	["admiralhat", "ADMIRAL'S BICORNE", "head", "legend", ["bulwark", "storm"], null, "helm", [["armor", 2]], [], "+2 ARMOR. ENTERING A ROOM FIRES A RING OF 10 SHOTS.", [{ "on": "on_room_enter", "do": [["nova", 10, 0.8, "spark"]] }], "g_admiralhat"],
 	["golemplate", "GOLEM KING'S MANTLE", "body", "legend", ["bulwark"], null, "plate", [["armor", 3]], [], "+3 ARMOR. +25 THORNS.", [["add", "thorns", 25]], "g_golemplate"],
@@ -419,6 +426,17 @@ const ROWS := [
 	["drift_cloak", "DRIFTER CLOAK", "body", "rare", ["shadow"], "drifter", "cloak", [["max_hp", 2]], [], "IT FLAPS EVEN INDOORS.", [], "g_drift_cloak"],
 	["drift_steps", "DRIFTER STEPS", "feet", "rare", ["shadow"], "drifter", "boots", [["speed", 1.08]], [], "THE FLOOR FORGETS YOU.", [], "g_drift_steps"],
 	["drift_ring", "DRIFTER RING", "ring", "epic", ["shadow"], "drifter", "ring", [["evade", 0.05]], [], "SLIPS OFF ANY FINGER BUT YOURS.", [], "g_drift_ring"],
+	# 20.3 BOOKWORM and THE CRITIC'S REGALIA.
+	["worm_specs", "BOOKWORM SPECTACLES", "head", "rare", ["arcane"], "bookworm", "helm", [["crit", 0.05]], [], "+5% CRIT. FOR READING THE SMALL PRINT.", [], "g_worm_specs"],
+	["worm_cardigan", "BOOKWORM CARDIGAN", "body", "rare", ["arcane"], "bookworm", "plate", [["max_hp", 2]], [], "+1 MAX HEART. ELBOW PATCHES INCLUDED.", [], "g_worm_cardigan"],
+	["worm_slippers", "BOOKWORM SLIPPERS", "feet", "rare", ["arcane"], "bookworm", "boots", [["speed", 1.06]], [], "+6% SPEED. SILENT IN THE STACKS.", [], "g_worm_slippers"],
+	["worm_mitts", "BOOKWORM MITTS", "hands", "rare", ["arcane"], "bookworm", "gloves", [["rate", 1.06]], [], "+6% FIRE RATE. INK ON EVERY FINGERTIP.", [], "g_worm_mitts"],
+	["critic_hat", "THE CRITIC'S HAT", "head", "legend", ["malice"], "criticregalia", "helm", [["armor", 1], ["crit", 0.05]], [], "IT HAS SEEN WORSE BOOKS. NOT MANY.", [], "g_critic_hat"],
+	["critic_coat", "THE CRITIC'S COAT", "body", "legend", ["malice"], "criticregalia", "plate", [["max_hp", 4]], [], "LINED WITH REJECTED PAGES.", [], "g_critic_coat"],
+	["critic_shoes", "THE CRITIC'S SHOES", "feet", "legend", ["malice"], "criticregalia", "boots", [["speed", 1.08]], [], "THEY WALK OUT OF EVERY BAD PLAY.", [], "g_critic_shoes"],
+	["critic_gloves", "THE CRITIC'S GLOVES", "hands", "legend", ["malice"], "criticregalia", "gloves", [["dmg", 1.1]], [], "STAINED RED TO THE KNUCKLE.", [], "g_critic_gloves"],
+	["critic_monocle", "THE CRITIC'S MONOCLE", "neck", "legend", ["malice"], "criticregalia", "amulet", [["crit", 0.08]], [], "IT FINDS EVERY FLAW.", [], "g_critic_monocle"],
+	["critic_signet", "THE CRITIC'S SIGNET", "ring", "legend", ["malice"], "criticregalia", "ring", [["rate", 1.1]], [], "IT SEALS EVERY VERDICT.", [], "g_critic_signet"],
 	["sun_crown", "SUNFORGED CROWN", "head", "legend", ["pyre"], "sunforged", "crown", [["burn", 0.1], ["armor", 1]], [], "FORGED IN A DYING SUN.", [], "g_sun_crown"],
 	["sun_cuirass", "SUNFORGED CUIRASS", "body", "legend", ["pyre"], "sunforged", "plate", [["max_hp", 4]], [], "WARM TO THE TOUCH. ALWAYS.", [], "g_sun_cuirass"],
 	["sun_boots", "SUNFORGED BOOTS", "feet", "legend", ["pyre"], "sunforged", "boots", [["speed", 1.08]], [], "EACH STEP A SMALL DAWN.", [], "g_sun_boots"],

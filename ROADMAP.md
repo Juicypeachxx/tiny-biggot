@@ -863,8 +863,19 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       kind, a hero, the Old One, a hidden combo, dread, a camp meal), 30 to 150 embers each, paid
       on the run's tally (dread multiplies them); a fish or a combo found in the camp pays at the
       board. A set tried on the training ground never counts as completed.
-- [ ] 20.3 Chapter IV: a new world after the Reader, with its own foes, guardians, gear sets and
+- [x] 20.3 Chapter IV: a new world after the Reader, with its own foes, guardians, gear sets and
       story. IPA.
+      Done: CHAPTER IV, THE LIBRARY (STORY.md). When the Reader falls: close the book (a win) or
+      step out onto the shelf. THE STACKS (bookcases on the walls, dust in the air, FALLING BOOKS;
+      mothlings, dust bunnies, shelf mimics, book golems, card sprites; mini THE OVERDUE; guardian
+      THE SHELVER), THE READING ROOM (rugs, green lamps, A FALLING LAMP; shushers, lamp wisps,
+      bookends, page wings, spectacles; mini THE QUIET; guardian THE HUSH), THE HEARTH (burning
+      pits, FALLING EMBERS, ash and embers rising; cinder pages, ash worms, poker knights,
+      fire-dogs, sootlings; mini THE KINDLING; THE CRITIC, the last of all). The Critic's fall:
+      "WELL READ", +700 embers, a banner in the camp. New sets BOOKWORM (4) and THE CRITIC'S
+      REGALIA (legendary, 6); the guardians drop THE SHELVER'S ARM, THE HUSH BELL and THE RED PEN.
+      21 new sprites (with elite and evolved forms), three floor tile kits, 13 icons, the
+      Archivist's new lines. `--chapter=4`.
 
 ---
 

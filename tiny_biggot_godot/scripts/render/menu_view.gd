@@ -675,7 +675,9 @@ func draw_end(ci: CanvasItem) -> void:
 	var win := G.state == &"win"
 	var unwritten: bool = win and r.get("unwritten", false)   # ROADMAP 4.7 part C: the last ending of all
 	var title := ("THE PAGE IS YOURS" if unwritten else "THE CRYPT IS SILENT") if win else "YOU HAVE FALLEN"
-	if win and r.get("reader", false):
+	if win and r.get("critic", false):
+		title = "WELL READ"   # 20.3: the book is kept
+	elif win and r.get("reader", false):
 		title = "THE END"   # 14.4: the last page of all
 	elif win and r.get("redactor", false):
 		title = "NOTHING IS ERASED"   # 12.4: the hidden ending
@@ -689,7 +691,9 @@ func draw_end(ci: CanvasItem) -> void:
 		if win else "SLAIN BY " + G.death_by.to_upper()
 	if unwritten:
 		msg = p.hero["name"] + " UNMADE THE UNWRITTEN, BY WAY OF " + ("HEAVEN" if r.get("realm", "") == "heaven" else "HELL")
-	if win and r.get("reader", false):
+	if win and r.get("critic", false):
+		msg = p.hero["name"] + " SILENCED THE CRITIC. THE BOOK IS KEPT"
+	elif win and r.get("reader", false):
 		msg = p.hero["name"] + " TURNED THE LAST PAGE. THE READER WAS YOU"
 	elif win and r.get("redactor", false):
 		msg = p.hero["name"] + " ERASED THE REDACTOR. THE BOOK IS WHOLE"

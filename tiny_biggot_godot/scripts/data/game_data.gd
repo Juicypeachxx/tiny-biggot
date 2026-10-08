@@ -269,6 +269,7 @@ const NEW_HEROES := [
 
 static var _heroes: Array = []
 static var _floors3: Array = []
+static var _floors4: Array = []
 static var _floors2: Array = []
 ## Tests that compare with the original Ruby set this to run the original rules.
 static var force_classic := false
@@ -455,6 +456,30 @@ const ENEMIES := {
 	"endpaper": { "sprite": "endpaper", "hp": 32, "speed": 40, "r": 6, "ai": "book", "fly": true, "shot": "page", "gold": 0.6, "label": "an endpaper" },
 	"colophon": { "sprite": "colophon", "name": "THE COLOPHON", "hp": 780, "speed": 46, "r": 10, "ai": "cultist", "shot": "red",
 		"scale": 1.8, "mini": true, "gold": 3.0 },
+	# 20.3 (his word, 8 Oct): CHAPTER IV, THE LIBRARY (STORY.md). The Stacks.
+	"mothling": { "sprite": "mothling", "hp": 18, "speed": 80, "r": 5, "ai": "bat", "fly": true, "gold": 0.4, "label": "a mothling" },
+	"dustbunny": { "sprite": "dustbunny", "hp": 34, "speed": 50, "r": 6, "ai": "slime", "gold": 0.5, "label": "a dust bunny" },
+	"shelfmimic": { "sprite": "shelfmimic", "hp": 36, "speed": 74, "r": 6, "ai": "ambush", "shot": "page", "gold": 0.6, "label": "a shelf mimic" },
+	"bookgolem": { "sprite": "bookgolem", "hp": 80, "speed": 28, "r": 7, "ai": "golem", "gold": 0.8, "label": "a book golem" },
+	"cardsprite": { "sprite": "cardsprite", "hp": 32, "speed": 40, "r": 6, "ai": "gunman", "shot": "page", "gold": 0.55, "label": "a card sprite" },
+	"overdue": { "sprite": "overdue", "name": "THE OVERDUE", "hp": 820, "speed": 32, "r": 10, "ai": "golem", "shot": "page",
+		"scale": 1.8, "mini": true, "gold": 3.0 },
+	# The Reading Room.
+	"shusher": { "sprite": "shusher", "hp": 34, "speed": 44, "r": 6, "ai": "ghost", "fly": true, "shot": "dark", "gold": 0.55, "label": "a shusher" },
+	"lampwisp": { "sprite": "lampwisp", "hp": 20, "speed": 84, "r": 5, "ai": "wisp", "fly": true, "shot": "cyan", "gold": 0.45, "label": "a lamp wisp" },
+	"bookend": { "sprite": "bookend", "hp": 84, "speed": 26, "r": 7, "ai": "golem", "gold": 0.8, "label": "a bookend" },
+	"pagewing": { "sprite": "pagewing", "hp": 18, "speed": 86, "r": 5, "ai": "bat", "fly": true, "gold": 0.4, "label": "a page wing" },
+	"spectacle": { "sprite": "spectacle", "hp": 30, "speed": 46, "r": 5, "ai": "gunman", "fly": true, "shot": "cyan", "gold": 0.55, "label": "a pair of spectacles" },
+	"quiet": { "sprite": "quiet", "name": "THE QUIET", "hp": 860, "speed": 44, "r": 10, "ai": "cultist", "fly": true, "shot": "dark",
+		"scale": 1.8, "mini": true, "gold": 3.0 },
+	# The Hearth.
+	"cinderpage": { "sprite": "cinderpage", "hp": 20, "speed": 84, "r": 5, "ai": "bat", "fly": true, "gold": 0.45, "label": "a cinder page" },
+	"ashworm": { "sprite": "ashworm", "hp": 36, "speed": 96, "r": 5, "ai": "runner", "gold": 0.55, "label": "an ash worm" },
+	"pokerknight": { "sprite": "pokerknight", "hp": 70, "speed": 44, "r": 6, "ai": "knight", "shot": "fire", "gold": 0.75, "label": "a poker knight" },
+	"firedog": { "sprite": "firedog", "hp": 40, "speed": 38, "r": 6, "ai": "lobber", "shot": "fire", "gold": 0.6, "label": "a fire-dog" },
+	"sootling": { "sprite": "sootling", "hp": 20, "speed": 80, "r": 4, "ai": "imp", "fly": true, "gold": 0.4, "label": "a sootling" },
+	"kindling": { "sprite": "kindling", "name": "THE KINDLING", "hp": 900, "speed": 46, "r": 10, "ai": "cultist", "shot": "fire",
+		"scale": 1.8, "mini": true, "gold": 3.0 },
 	# ---------- Rift worlds (scripts/data/themes.gd). "label" is how a foe is named when it kills
 	# you; "champion" marks a rift's boss (ChampionAI, health grows with the floor).
 	# Blackrock Gaol.
@@ -638,6 +663,10 @@ const BOSSES := {
 	"lexicon": { "name": "THE LEXICON", "sprite": "lexicon", "hp": 3200, "r": 14, "scale": 2.2 },
 	"erratum": { "name": "THE ERRATUM", "sprite": "erratum", "hp": 3500, "r": 13, "scale": 2.2 },
 	"reader": { "name": "THE READER", "sprite": "reader", "hp": 4600, "r": 14, "scale": 2.5 },
+	# 20.3 Chapter IV's guardians; THE CRITIC is the last of all.
+	"shelver": { "name": "THE SHELVER", "sprite": "shelver", "hp": 3800, "r": 14, "scale": 2.3 },
+	"hush": { "name": "THE HUSH", "sprite": "hush", "hp": 4100, "r": 13, "scale": 2.3 },
+	"critic": { "name": "THE CRITIC", "sprite": "critic", "hp": 5200, "r": 14, "scale": 2.5 },
 	# 9.3 (his ask, 6 Oct, from another game's boss roster: ideas only, original designs): a second
 	# guardian for seven floors (GameData.ALT_GUARDIANS).
 	"admiral": { "name": "THE WALRUS ADMIRAL", "sprite": "admiral", "hp": 560, "r": 13, "scale": 2 },
@@ -695,6 +724,15 @@ const CHAPTER3 := [
 	{ "name": "THE COVER", "accent": "red", "accent_hex": "#d8443c", "pool": ["gildling", "clasp", "bookmark", "spinewarden", "endpaper", "gildling"],
 	  "boss": "reader", "mini": "colophon", "hazard": "rift", "music": 5, "rooms": 13 },
 ]
+## 20.3: CHAPTER IV, THE LIBRARY: three floors after the Reader (run_stats["chapter"] == 4).
+const CHAPTER4 := [
+	{ "name": "THE STACKS", "accent": "tan", "accent_hex": "#c8a878", "pool": ["mothling", "dustbunny", "shelfmimic", "bookgolem", "cardsprite", "mothling"],
+	  "boss": "shelver", "mini": "overdue", "hazard": "books", "music": 2, "rooms": 13 },
+	{ "name": "THE READING ROOM", "accent": "lime", "accent_hex": "#7ab04a", "pool": ["shusher", "lampwisp", "bookend", "pagewing", "spectacle", "shusher"],
+	  "boss": "hush", "mini": "quiet", "hazard": "lamps", "music": 3, "rooms": 13 },
+	{ "name": "THE HEARTH", "accent": "orange", "accent_hex": "#e8873a", "pool": ["cinderpage", "ashworm", "pokerknight", "firedog", "sootling", "cinderpage"],
+	  "boss": "critic", "mini": "kindling", "hazard": "hearth", "music": 4, "rooms": 14 },
+]
 
 ## Index of the original final floor (the Hollow Throne).
 const THRONE_FLOOR := 5
@@ -711,6 +749,10 @@ static func floors() -> Array:
 		if _floors3.is_empty():
 			_floors3 = _main_floors() + CHAPTER2 + CHAPTER3
 		return _floors3   # 14.4: Chapter III
+	if G.run_stats.get("chapter", 1) == 4 and GameData.rogues():
+		if _floors4.is_empty():
+			_floors4 = _main_floors() + CHAPTER2 + CHAPTER3 + CHAPTER4
+		return _floors4   # 20.3: Chapter IV
 	return _main_floors()
 
 static func _main_floors() -> Array:
@@ -742,7 +784,7 @@ const SPRITE_COLOR := {
 	"eclipsed": "#d8443c", "herald": "#8a2a33", "bogmatriarch": "#3f7a5a", "ashwarlord": "#d8443c",
 	"frozenabbot": "#e8f6ff", "crowking": "#5c3483", "umbralsun": "#d8443c",
 	"judge": "#f2c94c", "cinderking": "#e8873a", "unwritten": "#f4ecd8", "redactor": "#16141c",
-	"haggler": "#5c3483", "scrounger": "#8b8f9c", "raider": "#8a7a5a", "cogling": "#c9a35a", "steamjack": "#8a6a4a", "boltslinger": "#6fd3e0", "gearhound": "#a8705a", "rivetlobber": "#e8873a", "brasswasp": "#f2c94c", "foreman": "#e8873a", "greatengine": "#e8b84a", "frostmite": "#a8e0ff", "rimebrute": "#6a8aa8", "shardcaster": "#7ff0ff", "frostfang": "#c8d8e8", "snowlobber": "#e8f4ff", "glimmerwisp": "#c8f0ff", "hoarknight": "#8fd8ff", "glacialmaw": "#8fd8ff", "admiral": "#8a6a4a", "golemking": "#8a8f9c", "archmage": "#4d9be6", "phoenix": "#e8873a", "wyrm": "#c8f0ff", "chainfiend": "#d8443c", "seraph": "#f2c94c", "inkblot": "#2a2a4a", "letterling": "#e8e0d0", "wordworm": "#4d6aa8", "definer": "#2b4f8a", "thesaurus": "#5a3a2a", "commaimp": "#16141c", "lexicant": "#2b4f8a", "asterisk": "#f2c94c", "obelus": "#8a6a4a", "ibid": "#c8c0e0", "citation": "#5a4a3a", "smallprint": "#3a3028", "fineprint": "#3a3028", "gildling": "#f2c94c", "clasp": "#c9a35a", "bookmark": "#d8443c", "spinewarden": "#6a2a2a", "endpaper": "#8a3a5a", "colophon": "#6a2a2a", "lexicon": "#2b4f8a", "erratum": "#d8443c", "reader": "#e0a47a", "quillbat": "#4d6aa8", "scrawler": "#3a3a5a", "smudge": "#5a5a7a", "inkhound": "#2a2a4a", "inkwidow": "#3a2a5a", "papercut": "#f4ecd8", "stitcher": "#c8a878", "folio": "#a8885a", "pressling": "#8a6a4a", "pagewraith": "#f4ecd8", "bindingpress": "#6b4a2a", "quillknight": "#4a4a6a", "nibling": "#f2c94c", "inkmage": "#3a2a5a", "sealwarden": "#d8443c", "scribe": "#c8a878", "headscribe": "#f2c94c", "inkleviathan": "#4d6aa8", "thebinder": "#c8a878", "author": "#f2c94c", "holycow": "#f4ecd8",
+	"haggler": "#5c3483", "scrounger": "#8b8f9c", "raider": "#8a7a5a", "cogling": "#c9a35a", "steamjack": "#8a6a4a", "boltslinger": "#6fd3e0", "gearhound": "#a8705a", "rivetlobber": "#e8873a", "brasswasp": "#f2c94c", "foreman": "#e8873a", "greatengine": "#e8b84a", "frostmite": "#a8e0ff", "rimebrute": "#6a8aa8", "shardcaster": "#7ff0ff", "frostfang": "#c8d8e8", "snowlobber": "#e8f4ff", "glimmerwisp": "#c8f0ff", "hoarknight": "#8fd8ff", "glacialmaw": "#8fd8ff", "admiral": "#8a6a4a", "golemking": "#8a8f9c", "archmage": "#4d9be6", "phoenix": "#e8873a", "wyrm": "#c8f0ff", "chainfiend": "#d8443c", "seraph": "#f2c94c", "inkblot": "#2a2a4a", "letterling": "#e8e0d0", "wordworm": "#4d6aa8", "definer": "#2b4f8a", "thesaurus": "#5a3a2a", "commaimp": "#16141c", "lexicant": "#2b4f8a", "asterisk": "#f2c94c", "obelus": "#8a6a4a", "ibid": "#c8c0e0", "citation": "#5a4a3a", "smallprint": "#3a3028", "fineprint": "#3a3028", "gildling": "#f2c94c", "clasp": "#c9a35a", "bookmark": "#d8443c", "spinewarden": "#6a2a2a", "endpaper": "#8a3a5a", "colophon": "#6a2a2a", "lexicon": "#2b4f8a", "erratum": "#d8443c", "reader": "#e0a47a", "mothling": "#9a8a72", "dustbunny": "#a8a8b0", "shelfmimic": "#6a2a3a", "bookgolem": "#6a4a2a", "cardsprite": "#e8dcc0", "overdue": "#6a4a2a", "shusher": "#6a8a7a", "lampwisp": "#2f8a4a", "bookend": "#8b8f9c", "pagewing": "#f4ecd8", "spectacle": "#c9a35a", "quiet": "#24243a", "cinderpage": "#ff8a3a", "ashworm": "#5e5a6e", "pokerknight": "#3a3850", "firedog": "#3a3a44", "sootling": "#2a2838", "kindling": "#8a5a2a", "shelver": "#6a4a2a", "hush": "#2a3a6a", "critic": "#3a1a2a", "quillbat": "#4d6aa8", "scrawler": "#3a3a5a", "smudge": "#5a5a7a", "inkhound": "#2a2a4a", "inkwidow": "#3a2a5a", "papercut": "#f4ecd8", "stitcher": "#c8a878", "folio": "#a8885a", "pressling": "#8a6a4a", "pagewraith": "#f4ecd8", "bindingpress": "#6b4a2a", "quillknight": "#4a4a6a", "nibling": "#f2c94c", "inkmage": "#3a2a5a", "sealwarden": "#d8443c", "scribe": "#c8a878", "headscribe": "#f2c94c", "inkleviathan": "#4d6aa8", "thebinder": "#c8a878", "author": "#f2c94c", "holycow": "#f4ecd8",
 	# Rift worlds and event rooms.
 	"inmate": "#63b84f", "grenadier": "#d8443c", "jailer": "#3f7a5a", "turnkey": "#3f7a5a", "graveborn": "#7a3a8c",
 	"bandsman": "#7a5236", "fiendling": "#8a2a33", "blackknight": "#2a2838", "carrionknight": "#2a2838", "drone": "#6fd3e0",
@@ -787,7 +829,7 @@ const ENEMY_XP := { "bat": 2, "slime": 3, "slimelet": 1, "skeleton": 3, "mushroo
 	"inmate": 4, "grenadier": 4, "jailer": 6, "graveborn": 4, "bandsman": 4, "fiendling": 3, "blackknight": 7, "drone": 3,
 	"glitch": 4, "chrome": 7, "turret": 4, "thug": 4, "molotov": 4, "copper": 5, "bomber": 3, "orderly": 4, "crawler": 2,
 	"static": 4, "tollkeeper": 5, "neighbour": 4, "robovac": 5, "burglar": 4, "gnome": 4, "gangster": 5, "biker": 5,
-	"riotcop": 7, "outlaw": 5, "dynamiter": 4, "sharpshooter": 4, "coyote": 2, "goblin": 10, "haggler": 60, "scrounger": 4, "raider": 5, "cogling": 2, "steamjack": 7, "boltslinger": 4, "gearhound": 3, "rivetlobber": 4, "brasswasp": 2, "foreman": 45, "frostmite": 2, "rimebrute": 7, "shardcaster": 4, "frostfang": 3, "snowlobber": 4, "glimmerwisp": 2, "hoarknight": 45, "inkblot": 5, "letterling": 3, "wordworm": 5, "definer": 5, "thesaurus": 8, "commaimp": 3, "lexicant": 60, "asterisk": 3, "obelus": 5, "ibid": 5, "citation": 7, "smallprint": 5, "fineprint": 60, "gildling": 3, "clasp": 9, "bookmark": 5, "spinewarden": 7, "endpaper": 6, "colophon": 60, "quillbat": 3, "scrawler": 5, "smudge": 4, "inkhound": 4, "inkwidow": 65, "papercut": 3, "stitcher": 8, "folio": 5, "pressling": 5, "pagewraith": 3, "bindingpress": 70, "quillknight": 7, "nibling": 3, "inkmage": 6, "sealwarden": 6, "scribe": 6, "headscribe": 75, "mimic": 15, "shadow": 40,
+	"riotcop": 7, "outlaw": 5, "dynamiter": 4, "sharpshooter": 4, "coyote": 2, "goblin": 10, "haggler": 60, "scrounger": 4, "raider": 5, "cogling": 2, "steamjack": 7, "boltslinger": 4, "gearhound": 3, "rivetlobber": 4, "brasswasp": 2, "foreman": 45, "frostmite": 2, "rimebrute": 7, "shardcaster": 4, "frostfang": 3, "snowlobber": 4, "glimmerwisp": 2, "hoarknight": 45, "inkblot": 5, "letterling": 3, "wordworm": 5, "definer": 5, "thesaurus": 8, "commaimp": 3, "lexicant": 60, "asterisk": 3, "obelus": 5, "ibid": 5, "citation": 7, "smallprint": 5, "fineprint": 60, "gildling": 3, "clasp": 9, "bookmark": 5, "spinewarden": 7, "endpaper": 6, "colophon": 60, "mothling": 3, "dustbunny": 5, "shelfmimic": 6, "bookgolem": 9, "cardsprite": 5, "overdue": 60, "shusher": 6, "lampwisp": 4, "bookend": 9, "pagewing": 3, "spectacle": 5, "quiet": 60, "cinderpage": 4, "ashworm": 6, "pokerknight": 8, "firedog": 6, "sootling": 3, "kindling": 60, "quillbat": 3, "scrawler": 5, "smudge": 4, "inkhound": 4, "inkwidow": 65, "papercut": 3, "stitcher": 8, "folio": 5, "pressling": 5, "pagewraith": 3, "bindingpress": 70, "quillknight": 7, "nibling": 3, "inkmage": 6, "sealwarden": 6, "scribe": 6, "headscribe": 75, "mimic": 15, "shadow": 40,
 	"turnkey": 45, "carrionknight": 45, "broker": 45, "mayor": 45, "rustbutcher": 45, "landlord": 45, "kingpin": 45, "marshal": 45, "galewarden": 45, "target": 0, "rotking": 45, "highcaliber": 45, "squallheron": 40, "tidecaptain": 40, "bellringer": 40, "casingrat": 6, "skykite": 3, "gustling": 3, "stormharpy": 4, "thunderhead": 4, "mirrorwing": 4, "rampartguard": 6, "sludgecrawler": 4, "chainwarden": 5, "tidecaller": 5, "longpike": 4, "shellpriest": 5, "dervish": 5, "deacon": 5, "beltfeeder": 6, "beltlink": 2, "ammomimic": 6, "tombspider": 3, "candlewight": 4, "gargoyle": 6, "wardrummer": 4, "bloodleech": 3 }
 
 static func xp_needed(level: int) -> int:

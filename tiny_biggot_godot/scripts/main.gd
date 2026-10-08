@@ -85,7 +85,9 @@ func _ready() -> void:
 	G.new_run()
 	if DebugArgs.get_int("chapter", 1) >= 2:   # 12.2 / 14.4: a chapter's floors (--floor counts on from them)
 		G.run_stats["chapter"] = DebugArgs.get_int("chapter", 1)
-	G.floor_index = clampi(DebugArgs.get_int("floor", 0) + (GameData.FLOORS.size() + GameData.NEW_FLOORS.size() + (GameData.CHAPTER2.size() if G.run_stats.get("chapter", 1) == 3 else 0) if G.run_stats.get("chapter", 1) >= 2 else 0), 0, GameData.floors().size() - 1)
+	var ch: int = G.run_stats.get("chapter", 1)   # 20.3: and Chapter IV
+	var off := (GameData.FLOORS.size() + GameData.NEW_FLOORS.size() + (GameData.CHAPTER2.size() if ch >= 3 else 0) + (GameData.CHAPTER3.size() if ch >= 4 else 0)) if ch >= 2 else 0
+	G.floor_index = clampi(DebugArgs.get_int("floor", 0) + off, 0, GameData.floors().size() - 1)
 	if G.floor_index > 0:
 		G.start_floor()
 	if DebugArgs.has("plain-draw"):   # picture tests: the plain painters instead of FAST DRAWING

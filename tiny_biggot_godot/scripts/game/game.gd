@@ -902,6 +902,9 @@ func on_boss_dead(b: Enemy) -> void:
 	if last and run_stats.get("chapter", 1) == 3:
 		_chapter3_won(b)   # 14.4: the Reader falls
 		return
+	if last and run_stats.get("chapter", 1) == 4:
+		_chapter4_won(b)   # 20.3: the Critic falls
+		return
 	if floor_index == GameData.THRONE_FLOOR and not last and not run_stats.get("throne", false):
 		throne_victory()
 	room.objects.append({ "kind": "chest", "x": 14.0 * TB.TS - (0 if last else 28), "y": 10.0 * TB.TS, "boss": true })
@@ -965,15 +968,35 @@ func begin_chapter3() -> void:
 	start_floor()
 	toast("CHAPTER III: THE APPENDIX", "gold")
 
-## 14.4: the Reader falls: the last page is turned, by you. The run is won.
+## 14.4: the Reader falls: the last page is turned, by you. 20.3: close the book there (the run is
+## won), or step out of it onto the shelf: CHAPTER IV (STORY.md).
 func _chapter3_won(b: Enemy) -> void:
 	run_stats["reader"] = true
 	Story.reach("reader")
 	Meta.meta["reader_wins"] = Meta.meta.get("reader_wins", 0) + 1
 	room.objects.append({ "kind": "chest", "x": 14.0 * TB.TS - 28, "y": 10.0 * TB.TS, "boss": true })
 	room.objects.append({ "kind": "chest", "x": 14.0 * TB.TS + 28, "y": 10.0 * TB.TS, "boss": true })
-	show_banner("THE READER CLOSES THE BOOK", "THE END. WRITTEN BY YOU")
-	win_timer = 7.0
+	show_banner("THE READER CLOSES THE BOOK", "THE END. OR STEP OUT ONTO THE SHELF")
+	room.objects.append({ "kind": "n_endbook", "x": 14.0 * TB.TS - 52, "y": 10.0 * TB.TS + 30 })
+	room.objects.append({ "kind": "n_shelf", "x": 14.0 * TB.TS + 52, "y": 10.0 * TB.TS + 30 })
+
+## 20.3: out of the book, onto the shelf. Chapter IV's three floors join the list (after Chapter III's).
+func begin_chapter4() -> void:
+	run_stats["chapter"] = 4
+	Story.reach("ch4")
+	floor_index = GameData.FLOORS.size() + GameData.NEW_FLOORS.size() + GameData.CHAPTER2.size() + GameData.CHAPTER3.size()
+	start_floor()
+	toast("CHAPTER IV: THE LIBRARY", "gold")
+
+## 20.3: the Critic falls silent: the book is kept, on the shelf, for good. The run is won.
+func _chapter4_won(b: Enemy) -> void:
+	run_stats["critic"] = true
+	Story.reach("critic")
+	Meta.meta["critic_wins"] = Meta.meta.get("critic_wins", 0) + 1
+	for dx in [-48.0, 0.0, 48.0]:
+		room.objects.append({ "kind": "chest", "x": 14.0 * TB.TS + dx, "y": 10.0 * TB.TS, "boss": true })
+	show_banner("THE CRITIC FALLS SILENT", "THE BOOK IS KEPT. ON THE SHELF, FOR GOOD")
+	win_timer = 8.0
 
 ## 12.2: the Author falls: the book stays open and the run is won (12.3 adds what is hidden).
 func _chapter_won(b: Enemy) -> void:
@@ -1058,6 +1081,8 @@ func award_embers(win: bool) -> void:
 		parts.append(["THE REDACTOR", 500])   # 12.3
 	if run_stats.get("reader", false):
 		parts.append(["CHAPTER III", 600])   # 14.4
+	if run_stats.get("critic", false):
+		parts.append(["CHAPTER IV", 700])   # 20.3
 	if run_stats.get("trophies", 0) > 0:
 		parts.append(["NEW TROPHIES", run_stats["trophies"] * Trophies.EMBERS])
 	Daily.on_end(win, parts)   # 18.1

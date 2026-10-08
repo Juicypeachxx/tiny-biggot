@@ -291,7 +291,9 @@ static func paint_static(ci: CanvasItem, room: Room) -> void:
 	if not on(room):
 		return
 	var rng := SeedRng.new(room.seed_value ^ 0x1f3a5c7e)
-	if G.floor_index >= GameData.FLOORS.size() + GameData.NEW_FLOORS.size() and room.theme.is_empty():
+	if library() >= 0 and room.theme.is_empty():
+		_library_floor(ci, room, rng, library())   # 20.3 Chapter IV: out of the book, in the library
+	elif G.floor_index >= GameData.FLOORS.size() + GameData.NEW_FLOORS.size() and room.theme.is_empty():
 		_ink_floor(ci, room, rng)
 	if not room.theme.is_empty() and room.type != "boss":
 		return
@@ -685,6 +687,69 @@ static func _ink_floor(ci: CanvasItem, room: Room, rng: SeedRng) -> void:
 				ci.draw_line(p, p + Vector2(10, -6), Color(0.95, 0.92, 0.85, 0.5), 1.0)
 				ci.draw_line(p, p + Vector2(2, -1), ink, 1.0)
 
+## 20.3: which Chapter IV floor this is (0 the Stacks, 1 the Reading Room, 2 the Hearth), or -1.
+static func library() -> int:
+	var c4 := GameData.FLOORS.size() + GameData.NEW_FLOORS.size() + GameData.CHAPTER2.size() + GameData.CHAPTER3.size()
+	if G.run_stats.get("chapter", 1) != 4 or G.floor_index < c4:
+		return -1
+	return G.floor_index - c4
+
+## 20.3 the library's floors: shelves of books on the wall, and on the floor what a library drops:
+## books and dust (the Stacks), rugs, papers and inkpots (the Reading Room), ash and scorch marks
+## (the Hearth, where rejected books burn).
+static func _library_floor(ci: CanvasItem, room: Room, rng: SeedRng, k: int) -> void:
+	var spines := ["#d8443c", "#4d6aa8", "#7ab04a", "#f2c94c", "#a35bd6", "#c8a878", "#e8873a"]
+	for x in WALL_SPOTS:   # a bookcase on the wall at each of the HUD-free spots
+		var y := 16.0
+		ci.draw_rect(Rect2(x - 15, y, 30, 26), TB.c("#3a2414"))
+		ci.draw_rect(Rect2(x - 14, y + 1, 28, 24), TB.c("#5a3a22"))
+		for row in 2:
+			var by := y + 3 + row * 12
+			var bx: float = x - 13
+			while bx < x + 12:
+				var w := rng.int_range(2, 3)
+				var h := rng.int_range(7, 9)
+				var col := TB.c(spines[rng.int_range(0, spines.size() - 1)])
+				if k == 2 and rng.next_f() < 0.4:
+					col = TB.c("#2a1a14")   # the hearth's shelves are half burned
+				ci.draw_rect(Rect2(bx, by + 9 - h, w, h), col)
+				ci.draw_rect(Rect2(bx, by + 9 - h, 1, h), col.lightened(0.25))
+				bx += w + (1 if rng.next_f() < 0.2 else 0)
+			ci.draw_rect(Rect2(x - 14, by + 9, 28, 2), TB.c("#3a2414"))
+	if k == 1:   # two long rugs under the reading tables
+		for ry in [96.0, 196.0]:
+			ci.draw_rect(Rect2(150, ry, 148, 26), Color(0.42, 0.12, 0.14, 0.45))
+			ci.draw_rect(Rect2(152, ry + 2, 144, 22), Color(0.6, 0.45, 0.2, 0.25), false, 1.0)
+	for i in 30:
+		var c := rng.int_range(TB.IX0, TB.IX0 + TB.IW - 1)
+		var r := rng.int_range(TB.IY0, TB.IY0 + TB.IH - 1)
+		if room.tile(c, r) != World.T_FLOOR:
+			continue
+		var p := Vector2(c * TB.TS + rng.int_range(2, 12), r * TB.TS + rng.int_range(2, 12))
+		match k * 10 + i % 3:
+			0, 10:   # a dropped book
+				var col := TB.c(spines[rng.int_range(0, spines.size() - 1)])
+				ci.draw_rect(Rect2(p.x, p.y, 7, 5), col.darkened(0.2))
+				ci.draw_rect(Rect2(p.x + 1, p.y + 1, 5, 3), TB.c("#e8dcc0"))
+				ci.draw_rect(Rect2(p.x, p.y, 7, 1), col)
+			1:   # a drift of dust
+				ci.draw_circle(p, rng.int_range(2, 4), Color(0.8, 0.78, 0.7, 0.18))
+				ci.draw_circle(p + Vector2(3, 1), 2, Color(0.8, 0.78, 0.7, 0.14))
+			2, 11:   # loose papers
+				ci.draw_colored_polygon(PackedVector2Array([p, p + Vector2(8, -1), p + Vector2(9, 6), p + Vector2(1, 7)]), Color(0.95, 0.92, 0.85, 0.3))
+			12:   # an inkpot and its spill
+				ci.draw_circle(p + Vector2(4, 3), 3, Color(0.08, 0.08, 0.14, 0.45))
+				ci.draw_rect(Rect2(p.x, p.y - 3, 4, 4), TB.c("#2a2a4a"))
+				ci.draw_rect(Rect2(p.x + 1, p.y - 4, 2, 1), TB.c("#c9a35a"))
+			20:   # a heap of ash
+				ci.draw_circle(p, rng.int_range(3, 5), Color(0.25, 0.23, 0.26, 0.5))
+				ci.draw_circle(p + Vector2(-2, -1), 2, Color(0.45, 0.42, 0.45, 0.35))
+			21:   # a scorch mark
+				ci.draw_circle(p, rng.int_range(4, 7), Color(0.08, 0.04, 0.03, 0.35))
+			_:   # a burnt page, still glowing at the edge
+				ci.draw_colored_polygon(PackedVector2Array([p, p + Vector2(7, -1), p + Vector2(8, 5), p + Vector2(1, 6)]), Color(0.2, 0.15, 0.12, 0.5))
+				ci.draw_rect(Rect2(p.x + 6, p.y, 2, 1), Color(1.0, 0.5, 0.2, 0.7))
+
 # ---------- What moves (every frame, cheap) ----------
 static func _spawn_critters(room: Room) -> void:
 	_critters.clear()
@@ -725,7 +790,25 @@ static func tick(dt: float) -> void:
 					_bolt.append(Vector2(x, y))
 					x += _rng.randf_range(-14, 14)
 					y += _rng.randf_range(10, 22)
+		elif library() >= 0:   # 20.3: dust in the library's light; embers rising from the hearth
+			if not _drops.is_empty() and (_drops[0] as Array).size() != 4:
+				_drops.clear()   # (ink rain from Chapter III's floors)
+			while _drops.size() < 22:
+				_drops.append([_rng.randf_range(20, 428), _rng.randf_range(40, 262), _rng.randf_range(4, 10), _rng.randf() * TAU])
+			for d in _drops:
+				d[3] += dt
+				if library() == 2:
+					d[1] -= d[2] * 3.0 * dt
+					d[0] += sin(d[3] * 2.0) * 6.0 * dt
+					if d[1] < 36:
+						d[0] = _rng.randf_range(20, 428)
+						d[1] = 262.0
+				else:
+					d[0] += sin(d[3] * 0.7) * d[2] * dt
+					d[1] += cos(d[3] * 0.5) * d[2] * 0.5 * dt
 		elif G.floor_index >= GameData.FLOORS.size() + GameData.NEW_FLOORS.size():
+			if not _drops.is_empty() and (_drops[0] as Array).size() != 3:
+				_drops.clear()
 			while _drops.size() < 18:
 				_drops.append([_rng.randf_range(20, 428), _rng.randf_range(-40, 260), _rng.randf_range(70, 110)])
 			for d in _drops:
@@ -758,8 +841,15 @@ static func tick(dt: float) -> void:
 static func paint_live(ci: CanvasItem, t: float) -> void:
 	if G.room == null or not on(G.room):
 		return
-	for d in _drops:   # 17.3: ink rain on the chapter floors
-		if G.floor_index >= GameData.FLOORS.size() + GameData.NEW_FLOORS.size() and G.room.theme.is_empty():
+	var lib := library() if G.room.theme.is_empty() else -1
+	for d in _drops:   # 17.3: ink rain on the chapter floors (20.3: dust and embers in the library)
+		if (d as Array).size() < 4 and lib >= 0:
+			continue
+		if lib == 2:
+			ci.draw_rect(Rect2(d[0], d[1], 1, 1), Color(1.0, 0.55 + 0.3 * sin(d[3] * 5.0), 0.2, 0.8))
+		elif lib >= 0:
+			ci.draw_rect(Rect2(d[0], d[1], 1, 1), Color(0.95, 0.9, 0.75, 0.35 + 0.2 * sin(d[3] * 2.0)))
+		elif G.floor_index >= GameData.FLOORS.size() + GameData.NEW_FLOORS.size() and G.room.theme.is_empty():
 			ci.draw_rect(Rect2(d[0], d[1], 1, 3), Color(0.1, 0.1, 0.18, 0.55))
 	for f in _flames:
 		var fl := 0.8 + 0.2 * sin(t * 13.0 + f[0])

@@ -32,6 +32,10 @@ const BOSS_PLANS := {
 	"erratum": ["slam", "hooks", "zone", "rewrite", "summon", "barrage", "laserx", "charge"],
 	"reader": ["rewrite", "laserx", "hooks", "eclipse", "zone", "pages", "verdict", "lasers", "summon", "hellgate", "ink"],
 	"redactor": ["laserx", "hooks", "eclipse", "zone", "rewrite", "lasers", "ink", "summon", "verdict", "hellgate"],   # 12.3
+	# 20.3 Chapter IV.
+	"shelver": ["wall", "pages", "slam", "summon", "volley", "cross", "hooks", "wall"],
+	"hush": ["eclipse", "curtain", "lasers", "zone", "summon", "spiral", "hooks", "eclipse"],
+	"critic": ["verdict", "rewrite", "laserx", "brimstone", "hooks", "embers", "zone", "summon", "hellgate", "eclipse", "lasers"],
 	# 9.3 the second guardians (GameData.ALT_GUARDIANS).
 	"admiral": ["volley", "charge", "ring", "summon", "cross", "charge", "spiral"],
 	"golemking": ["slam", "ring", "slam", "wall", "summon", "charge", "zone"],
@@ -52,6 +56,9 @@ const STAGE_PLANS := {
 	"lexicon": [["pages", "lasers", "wall", "zone", "summon", "spiral", "ink"], ["laserx", "pages", "barrage", "hooks", "flower", "zone", "lasers"]],
 	"erratum": [["hooks", "slam", "rewrite", "zone", "laserx", "summon"], ["rewrite", "hooks", "barrage", "laserx", "slam", "flower", "eclipse"]],
 	"reader": [["rewrite", "laserx", "hooks", "eclipse", "zone", "verdict", "lasers", "pages"], ["laserx", "hooks", "lasers", "rewrite", "barrage", "eclipse", "hellgate", "flower", "zone", "verdict", "ink"]],
+	"shelver": [["wall", "pages", "slam", "hooks", "zone", "summon", "volley"], ["wall", "laserx", "pages", "barrage", "slam", "flower", "hooks"]],
+	"hush": [["eclipse", "curtain", "zone", "hooks", "summon", "lasers", "spiral"], ["eclipse", "laserx", "curtain", "hooks", "barrage", "zone", "flower"]],
+	"critic": [["verdict", "rewrite", "brimstone", "hooks", "laserx", "zone", "summon", "embers"], ["laserx", "verdict", "brimstone", "hellgate", "rewrite", "barrage", "eclipse", "flower", "hooks", "zone", "embers"]],
 	"redactor": [["hooks", "laserx", "rewrite", "zone", "eclipse", "lasers", "verdict", "ink"], ["laserx", "hooks", "lasers", "zone", "rewrite", "barrage", "eclipse", "hellgate", "flower", "verdict"]],
 	"author": [["rewrite", "laserx", "ink", "hooks", "verdict", "zone", "lasers", "pages"], ["lasers", "rewrite", "hooks", "laserx", "barrage", "zone", "ink", "flower", "verdict"]],
 	"colossus": [["slam", "wall", "volley", "ring", "cross"], ["slam", "flower", "wall", "barrage", "slam", "cross"]],
@@ -80,7 +87,7 @@ const STAGE_PLANS := {
 	"seraph": [["lasers", "halo", "laserx", "curtain", "zone", "verdict"], ["laserx", "lasers", "halo", "hooks", "barrage", "zone", "flower", "verdict"]],
 }
 const STAGE_LINE := {
-	"inkleviathan": ["THE INK RISES", "A FLOOD OF UNWRITTEN WORDS"], "thebinder": ["THE THREAD PULLS TIGHT", "EVERY PAGE BOUND AT ONCE"], "author": ["THE PEN SCRATCHES FASTER", "THE AUTHOR WRITES THE LAST WORD"], "redactor": ["WHOLE LINES GO BLACK", "THE REDACTOR ERASES EVERYTHING"], "lexicon": ["THE WORDS SWARM", "EVERY WORD AT ONCE"], "erratum": ["THE MISTAKE SPREADS", "NOTHING IS SPELLED RIGHT NOW"], "reader": ["THE READER LEANS CLOSER", "THE READER TURNS THE LAST PAGE"],
+	"inkleviathan": ["THE INK RISES", "A FLOOD OF UNWRITTEN WORDS"], "thebinder": ["THE THREAD PULLS TIGHT", "EVERY PAGE BOUND AT ONCE"], "author": ["THE PEN SCRATCHES FASTER", "THE AUTHOR WRITES THE LAST WORD"], "redactor": ["WHOLE LINES GO BLACK", "THE REDACTOR ERASES EVERYTHING"], "lexicon": ["THE WORDS SWARM", "EVERY WORD AT ONCE"], "erratum": ["THE MISTAKE SPREADS", "NOTHING IS SPELLED RIGHT NOW"], "reader": ["THE READER LEANS CLOSER", "THE READER TURNS THE LAST PAGE"], "shelver": ["THE SHELVES TOPPLE", "EVERY BOOK COMES DOWN AT ONCE"], "hush": ["THE ROOM GOES QUIET", "NOT A SOUND. NOT ONE"], "critic": ["THE CRITIC SHARPENS ITS PEN", "EVERY WORD IS STRUCK OUT"],
 	"colossus": ["ITS RIBS CRACK OPEN", "THE BONES ARE ALL THAT IS LEFT"], "sporemother": ["SHE BURSTS INTO BLOOM", "THE WHOLE GROTTO BREATHES SPORES"],
 	"librarian": ["THE TIDE RISES IN THE STACKS", "EVERY BOOK SCREAMS AT ONCE"], "tyrant": ["THE FORGE ROARS", "MOLTEN AND FURIOUS"],
 	"rimewarden": ["THE ICE THICKENS", "A WHITEOUT FALLS"], "regent": ["THE CROWN BURNS PALE", "THE REGENT ABANDONS ALL COURTESY"],
@@ -111,6 +118,9 @@ const BOSS_SUMMONS := {
 	"lexicon": ["letterling", "commaimp", "definer"],
 	"erratum": ["asterisk", "ibid", "smallprint"],
 	"reader": ["gildling", "endpaper", "bookmark"],
+	"shelver": ["mothling", "dustbunny", "shelfmimic"],
+	"hush": ["shusher", "pagewing", "lampwisp"],
+	"critic": ["cinderpage", "pokerknight", "sootling"],
 	"colossus": ["bat", "bat", "skeleton"], "sporemother": ["slime", "mushroom", "slime"],
 	"tyrant": ["imp", "imp"], "regent": ["cultist", "ghost"], "librarian": ["bookwyrm", "bookwyrm", "drowned"],
 	"rimewarden": ["wisp", "wisp"],
@@ -130,7 +140,7 @@ const BOSS_SUMMONS := {
 }
 const RING_SPR := { "colossus": "bone", "librarian": "water", "rimewarden": "ice",
 	"bogmatriarch": "spore", "ashwarlord": "fire", "frozenabbot": "ice", "crowking": "dark", "umbralsun": "darkBig",
-	"judge": "bone", "cinderking": "fireBig", "unwritten": "dark", "greatengine": "fire", "glacialmaw": "cyan", "inkleviathan": "dark", "thebinder": "page", "author": "darkBig", "redactor": "darkBig", "lexicon": "page", "erratum": "fireBig", "reader": "darkBig",
+	"judge": "bone", "cinderking": "fireBig", "unwritten": "dark", "greatengine": "fire", "glacialmaw": "cyan", "inkleviathan": "dark", "thebinder": "page", "author": "darkBig", "redactor": "darkBig", "lexicon": "page", "erratum": "fireBig", "reader": "darkBig", "shelver": "page", "hush": "dark", "critic": "fireBig",
 	"admiral": "water", "golemking": "bone", "archmage": "cyan", "phoenix": "fire", "wyrm": "ice", "chainfiend": "fireBig", "seraph": "bone" }
 ## Stage 7: per-guardian bullet sprites for shared attacks (originals keep theirs).
 const SHOT_SPR := {
@@ -141,6 +151,9 @@ const SHOT_SPR := {
 	"lexicon": {"spiral": "page", "pages": "page"},
 	"erratum": {"spiral": "red", "barrage": "red"},
 	"reader": {"spiral": "dark", "beams": "bone", "curtain": "page"},
+	"shelver": {"spiral": "page", "pages": "page", "volley": "page"},
+	"hush": {"spiral": "dark", "beams": "dark", "curtain": "dark"},
+	"critic": {"spiral": "fire", "beams": "red", "curtain": "fire"},
 	"bogmatriarch": { "spiral": "spore", "burst": "spore", "cloud": "spore" },
 	"greatengine": { "spiral": "fire", "volley": "fire", "burst": "fire" },   # 6.4
 	"glacialmaw": { "spiral": "cyan", "volley": "water", "burst": "cyan" },   # 7.3
