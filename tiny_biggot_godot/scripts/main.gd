@@ -30,6 +30,16 @@ func _ready() -> void:
 		Vfx._rng.seed = DebugArgs.get_int("seed")
 		Afx._rng.seed = DebugArgs.get_int("seed")
 		BiomeDeco._rng.seed = DebugArgs.get_int("seed")
+		# (8 Oct) the decoration dice added since: voices, remains, props, weather, footsteps, the
+		# quest board and the camp's builders. Without them a seeded run's pictures differed from
+		# run to run (the hero's first line), so two builds could not be compared frame by frame.
+		Barks._rng.seed = DebugArgs.get_int("seed")
+		Remains._rng.seed = DebugArgs.get_int("seed")
+		RoomDress._rng.seed = DebugArgs.get_int("seed")
+		Weather._rng.seed = DebugArgs.get_int("seed")
+		Quests._rng.seed = DebugArgs.get_int("seed")
+		CampBuild._rng.seed = DebugArgs.get_int("seed")
+		Snd._deco_dice.seed = DebugArgs.get_int("seed")
 	_shot_path = DebugArgs.get_str("shot")
 	_shot_frame = DebugArgs.get_int("shot-frame", 60)
 	if DebugArgs.has("bot"):

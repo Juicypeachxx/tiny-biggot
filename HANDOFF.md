@@ -1144,6 +1144,12 @@ swap it read 60 fps, LOGIC 1.2: a quiet moment (nothing to shoot), not a fix.
   items with the belt full wait on the floor and pile up in a long fight (0.8 ms for 650 in the
   rebuild, where the hero stands still). tests/heavy_build_test (in check.sh) covers the fixes.
   Replays: all 14 identical.
+  Pictures: two seeded runs of the same build differed from the first frame (the hero's first
+  line): the decoration dice added in 21.1-22.1 (Barks, Remains, RoomDress, Weather, Quests,
+  CampBuild, Snd._deco_dice) were not seeded with --seed like the older ones (main.gd). Now they
+  are; a seeded run draws the same frames every time (0 of 420 differ). Old vs new code, 900
+  frames, --seed=9 --hero=2 --bot --god, plain and with --weapon=dynamite: 0 frames differ.
+  (tools/dev/cmpbuilds.sh still points at an old session's folders; the comparison was run by hand.)
 
 ## Noted, not yet acted on
 
