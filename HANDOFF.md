@@ -1065,6 +1065,10 @@ blast twice (effects on, then off) and did not stand the props back up between t
 whether one stood near the blast depended on the test room's layout. Now vfx_test puts a
 candelabra by the blasts (it failed every run that way), `_restore` stands props up, and
 RoomDress.knock seeds its dice from the prop's spot, so a prop always falls the same way.
+**Stage 22 done (8 Oct).** `tools/check.sh`: CHECK PASSED on the final code; every replay identical
+(the classic 6 and the core 8: Stage 22 changes no rules). Soak (tools/dev/monkey.sh 60 6): 16 of 16
+runs clean, the hour included. IPA 22 (release ipa-22). Not tested on the iPad (no iPad, no Mac
+here): the look of night floors, the sound of rain, and 60 fps there are his to try.
 
 ## Noted, not yet acted on
 
