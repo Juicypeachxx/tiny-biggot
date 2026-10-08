@@ -991,7 +991,9 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       so an iPad with no keyboard was stuck on that page; now a tap, BACK or 8 seconds ends the
       wait. (2) The camp's TINKER broke his talk box for most of the gear he could offer (gear
       with no set); fixed, and a failed talk box now shows nothing instead of a second error.
-      After the fixes: 16 of 16 soak runs clean, the hour included, and the game's object count
+      The full check then caught a flaky test (one run in four): a blast in its first half
+      knocked a candelabra over and the second half found it down; the test now stands props
+      up between the halves, and a falling prop always throws the same particles. After the fixes: 16 of 16 soak runs clean, the hour included, and the game's object count
       levels off (no leak). Measured: the new foe lives cost about 0.04 ms of a frame's logic; a
       night or storm floor about 0.2-0.3 ms more to draw here (on this container's software
       graphics; the iPad's chip does the dark in one cheap pass); nothing worth changing.
