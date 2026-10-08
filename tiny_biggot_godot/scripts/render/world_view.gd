@@ -495,6 +495,8 @@ func _paint_lower(ci: CanvasItem) -> void:
 				EventRooms.draw(ci, o, t)
 			"x_table", "x_lever", "x_skull", "x_fisher", "x_saint", "x_ratpile":
 				RiftExtras.draw(ci, o, t)
+			"w_ghost", "w_rival", "w_traveller":
+				Wanderers.draw(ci, o, t)   # 21.4
 			"pet_cage":
 				Pets.draw_cage(ci, o, t)
 			"x_bowl":

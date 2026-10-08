@@ -910,9 +910,19 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       wood, grass, snow, water, paper, metal). The music is as loud as before in a fight and a
       little softer once the room is quiet, and the place's own sound comes up. OPTIONS has a
       new switch, PLACE SOUNDS, to turn the loops and footsteps off. `tests/ambience_test`.
-- [ ] 21.4 Life between the fights: a rival adventurer who races you to chests (help or fight),
+- [x] 21.4 Life between the fights: a rival adventurer who races you to chests (help or fight),
       your last hero's ghost where they fell with some of their gold, lost travellers met on a
       floor.
+      Done: after a fight is won, sometimes someone is there. A RIVAL (another hero) comes in
+      with a chest on the far side and races you to it: get there first and they sulk off; be
+      slow and they grab it and run. Wave them on and they come back in your next fight on that
+      floor and shoot at your foes ("I OWE YOU ONE"); shoot them and they fight you for it,
+      then give up, dropping the chest and their purse. When a hero dies, the next run finds
+      their GHOST on that floor, where they fell, with 40% of the gold they had. A LOST
+      TRAVELLER (a pilgrim, a pedlar, a bard...) asks to be led to the guardian's door: they
+      follow you room to room and chat; a foe's shot or touch hurts them, and after three hits
+      they run home; at the guardian's door they pay with a relic and gold. Not in the daily
+      trial. `tests/wanderers_test`. Test switch for pictures: `--wanderer`.
 - [ ] 21.5 Monsters with lives of their own: some foes asleep until you come close, packs that
       call for help, moths drawn to the lamps, fire-dogs chasing sootlings, slimes that swallow
       dropped coins and grow.

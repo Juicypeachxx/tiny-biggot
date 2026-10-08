@@ -392,6 +392,7 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 	Remains.add(e)   # 21.2: something of it stays on the floor
 	Saloon.on_kill(e)
 	EventRooms.on_kill(e)
+	Wanderers.on_kill(e)   # 21.4 a rival gives up
 	RiftExtras.on_kill(e)
 	RiftBosses.on_kill(e)
 	Pets.on_kill(e)

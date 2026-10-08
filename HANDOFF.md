@@ -977,6 +977,18 @@ Measured with the movie writer: the loops sit 2-5 dB under the calm music, about
 it in a fight; footsteps peak about 11 dB under a hit. A run that is not headless reports
 streams still in use at exit (music, effects and now a loop): the dummy audio driver, as before.
 `tests/ambience_test`.
+21.4: `Wanderers` (scripts/game/wanderers.gd), kinds `w_ghost`, `w_rival`, `w_traveller`. Hooks:
+Game.room_cleared -> `on_room_clear` (after EventRooms; skipped when a drunk, inkling or merchant
+came in; dice from floor, kills and run time: `_dice`, never the global RNG), Game.enter_room ->
+`on_enter_room` (the traveller's object is made anew in each room from run_stats "traveller";
+a boss room: `_arrive` pays a relic + gold; run_stats "rival_owes" brings the rival back as an
+ally in the next fight), start_floor -> `on_floor_start`, on_death -> `on_death` (Meta "ghost":
+floor, x, y, sprite, name, 40% gold), Combat.kill_enemy -> `on_kill` (a hostile rival: an
+"outlaw" with a per-foe copy of `d`: the hero's sprite, x6 health, `rival`, `has_chest`;
+Remains skips it), EventRooms.update -> `update`, interact / prompt (overlay_view) / draw
+(world_view objects). The rival is struck by your shots or slashes (`_struck`); the traveller
+by foe shots (`EBullets.take_near`) or foes touching them. Not in the camp or the daily trial.
+Debug: `--wanderer`. `tests/wanderers_test`.
 
 ## Noted, not yet acted on
 

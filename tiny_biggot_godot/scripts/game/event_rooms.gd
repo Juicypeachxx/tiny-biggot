@@ -462,6 +462,7 @@ static func update(dt: float) -> void:
 	Fishing.keep_out(G.player)   # 15.2: nobody walks on water
 	RoomDress.tick_objects(room)   # 16: pots break, coin heaps pay
 	Remains.tick(TB.DT)   # 21.2: remains fade
+	Wanderers.update(dt)   # 21.4
 	CampLife.tick(dt)   # 19.2: the stray cat, the bard
 	if room.event == "":
 		return

@@ -76,7 +76,7 @@ func _ready() -> void:
 	G.hero_index = clampi(DebugArgs.get_int("hero", 0), 0, GameData.heroes().size() - 1)
 	# The game opens on the title screen. Test options start a run directly.
 	var quick := false
-	for k in ["bot", "room", "floor", "hero", "ui", "bench", "quick", "weapon", "heavy", "rift", "event", "rex", "set"]:
+	for k in ["bot", "room", "floor", "hero", "ui", "bench", "quick", "weapon", "heavy", "rift", "event", "rex", "set", "wanderer"]:
 		if DebugArgs.has(k):
 			quick = true
 	if not quick:
@@ -134,6 +134,16 @@ func _ready() -> void:
 		G.room_changed.emit()
 	if DebugArgs.has("event"):
 		G.enter_room(World.make_room(G.floor_d, "mystery", "", "s", { "event": DebugArgs.get_str("event") }))
+	if DebugArgs.has("wanderer"):
+		# 21.4 pictures: a cleared fight room with a rival and their chest, a lost traveller and a ghost.
+		var wr := World.make_room(G.floor_d, "combat", "", "s", { "no_secret": true })
+		wr.cleared = true
+		G.enter_room(wr)
+		G.locked = false
+		G.open_exits()
+		Wanderers._rival(wr)
+		Wanderers._traveller(wr)
+		Wanderers._ghost(wr, { "floor": G.floor_index, "x": 120.0, "y": 110.0, "sprite": "brute", "name": "THE BRUTE", "gold": 40 })
 	match DebugArgs.get_str("ui"):
 		"": pass
 		"choice": G.open_choice("chest", { "x": 200.0, "y": 150.0 })

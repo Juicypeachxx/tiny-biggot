@@ -212,6 +212,11 @@ timeout 300 "$GODOT" --headless --path . res://tests/ambience_test.tscn -- --no-
 grep -E "ambience test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 21.4 life between the fights: a rival, your last hero's ghost, a lost traveller"
+timeout 300 "$GODOT" --headless --path . res://tests/wanderers_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "wanderers test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== 18.1 the daily trial"
 timeout 300 "$GODOT" --headless --path . res://tests/daily_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "daily test" "$LOG"

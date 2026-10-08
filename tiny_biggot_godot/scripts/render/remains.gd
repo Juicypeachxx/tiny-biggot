@@ -45,8 +45,8 @@ static func family(type: String) -> String:
 
 ## Combat.kill_enemy: something of the foe stays on the floor.
 static func add(e: Enemy) -> void:
-	if not on() or e.type == "dummy" or e.hidden:
-		return
+	if not on() or e.type == "dummy" or e.hidden or e.d.get("rival", false):
+		return   # (21.4: a rival who gives up runs off)
 	var room := G.room
 	var big: bool = e.is_boss() or e.d.get("mini", false)
 	var col: String = GameData.SPRITE_COLOR.get(e.boss if e.is_boss() else e.type, "#6b4a4a")

@@ -222,6 +222,7 @@ func start_floor() -> void:
 		floor_d["guardian"] = GameData.ALT_GUARDIANS[floor_index]   # 9.3: half the time, the floor's second guardian
 	Saloon.on_floor_start()
 	EventRooms.on_floor_start()
+	Wanderers.on_floor_start()
 	run_stats["floor"] = floor_index + 1
 	Meta.meta["best"] = maxi(Meta.meta["best"], floor_index + 1)
 	Meta.write_save()
@@ -352,6 +353,7 @@ func enter_room(r: Room) -> void:
 	if room.type == "shop":
 		Barks.hero("shop")   # 21.1
 	Ambience.on_room()   # 21.3 the sound of this place
+	Wanderers.on_enter_room(room)   # 21.4 the traveller comes along; a rival you helped comes back
 
 func open_exits() -> void:
 	if room.exits_open or room.type == "camp":
@@ -778,6 +780,7 @@ func room_cleared() -> void:
 		StatDrops.maybe(0.25, 14.0 * TB.TS, 9.0 * TB.TS)   # 8.3: the middle of the room
 	Saloon.on_room_clear(room)
 	EventRooms.on_room_clear(room)
+	Wanderers.on_room_clear(room)   # 21.4 a ghost, a rival, a lost traveller
 	Pets.on_room_clear()
 	dyn_dirty = true
 	Snd.play("door")
@@ -1109,6 +1112,7 @@ func on_death(source: String) -> void:
 	death_by = source if source != "" else "the crypt"
 	state = &"dead"
 	state_t = 0.0
+	Wanderers.on_death(player)   # 21.4: the next run may meet this hero's ghost
 	award_embers(false)
 	Snd.play("die")
 	Snd.music(0)
@@ -1149,6 +1153,8 @@ func interact(o: Dictionary) -> void:
 		return Saloon.interact(o)
 	if EventRooms.handles(o["kind"]):
 		return EventRooms.interact(o)
+	if Wanderers.handles(o["kind"]):
+		return Wanderers.interact(o)
 	if RiftExtras.handles(o["kind"]):
 		return RiftExtras.interact(o)
 	if Pets.handles(o["kind"]):
