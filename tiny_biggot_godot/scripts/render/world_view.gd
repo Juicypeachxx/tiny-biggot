@@ -456,6 +456,7 @@ func _paint_lower(ci: CanvasItem) -> void:
 	Charged.draw_floor(ci, t)
 	Summons.draw_floor(ci, t)
 	Oddities.draw_floor(ci, t)
+	Spells.draw_floor(ci, t)
 	var fancy := Vfx.enabled
 	if fancy:
 		Vfx.draw_floor(ci, t)
@@ -794,7 +795,8 @@ func _draw_enemy(ci: CanvasItem, e: Enemy, t: float) -> void:
 		for k in range(3, 0, -1):
 			Gfx.sp(ci, name, e.x - cos(e.ca) * 9.0 * k, foot + bob - e.z - sin(e.ca) * 9.0 * k, sc * sx, sc * sy, 0.0, e.face < 0,
 				0.52 - 0.13 * k, Color(1.0, 0.54, 0.54, 0.7))
-	Gfx.sp(ci, name, e.x, foot + bob - e.z, sc * sx, sc * sy, 0.0, e.face < 0, 46 / 255.0 if e.hidden else 1.0, tint)
+	if not Spells.draw_sheep(ci, e, t, foot - e.z):   # 23.1: wild magic made it a sheep
+		Gfx.sp(ci, name, e.x, foot + bob - e.z, sc * sx, sc * sy, 0.0, e.face < 0, 46 / 255.0 if e.hidden else 1.0, tint)
 	if e.asleep or e.coins > 0:
 		Lives.draw(ci, e, t, foot + bob - e.z)   # 21.5: Zz; a slime's swallowed coins
 	if not e.parts.is_empty():
@@ -857,6 +859,7 @@ func _paint_fx(ci: CanvasItem) -> void:
 	Flail.draw_over(ci, G.time)
 	Summons.draw_over(ci, G.time)
 	Oddities.draw_over(ci, G.time)
+	Spells.draw_over(ci, G.time)
 
 # ---------- z 1900: additive glows ----------
 ## Small markers: a pink chevron over exposed foes (they take +25% damage), and

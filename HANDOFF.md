@@ -1070,6 +1070,37 @@ RoomDress.knock seeds its dice from the prop's spot, so a prop always falls the 
 runs clean, the hour included. IPA 22 (release ipa-22). Not tested on the iPad (no iPad, no Mac
 here): the look of night floors, the sound of rain, and 60 fps there are his to try.
 
+### Stage 23 THE SPELLBOOK (his word, 8 Oct: "Add more magic weapons with super cool effects")
+23.1 (in progress). `scripts/combat/spells.gd`: ten new kinds of spell, each a weapon kind
+(`Weapons.ARCH`, `ARCH_DESC`, `WeaponInfo.MAGIC` and `KIND_TYPE`, `Attributes.KIND`), hooked in
+like the 4.6 kinds: `Combat.player_shoot` (fire), `Hazards.update` (tick), `world_view` (draw_floor,
+draw_over, and a sheep drawn in a foe's place), `Game.enter_room` (clear).
+  singularity  a mote that becomes a black hole: pulls foes, then collapses (+30% a foe it held).
+               EVENT HORIZON also eats enemy shots (+20% each).
+  serpent      a fire serpent hunts foes, its body burns, its tail leaves flames. RIME SERPENT: ice,
+               and it coils round a foe to crush it.
+  comet        warned by a line and a ring, a comet crosses the room through the aimed foe, then
+               bursts. THE STARFALLEN: three, through three foes.
+  glyph        a rune under the aimed foe erupts in a pillar that stuns; every 4th is great.
+               SIGIL OF SUNDERING: each erupts twice, leaving foes vulnerable.
+  blades       each cast a spectral blade that hunts on its own for 4 s (six at most).
+               THE THOUSAND EDGES: every cut throws a wave of steel.
+  chrono       a clock circle: ordinary foes in it are held still (a stun, kept up each tick),
+               guardians only chilled; enemy shots in it hang; at the end the held foes take
+               dmg x (1 + seconds held). HOURGLASS OF AEONS: the held shots fly back at foes.
+  prism        a bolt that splits on a hit or a wall into red/blue/green bolts (burn, chill,
+               poison) that split again. FRACTAL CROWN: a third time (48 alive at most).
+  cloud        a storm cloud follows foes: lightning every 0.6 s, rain that chills (three at most).
+               TEMPEST CORE: a tornado drags foes under it, and flings them when it ends.
+  pinball      bounces foe to foe, x1.08 speed and +15% a bounce; a wall sends it back at the
+               nearest foe. STARBOUND ORRERY: 12 bounces, each throws a seeking star.
+  wild         a random spell a cast (fireball, ice, lightning, miasma, gold, sheep, heal at most
+               every 20 s and only when hurt, a void, a smite). THE CHAOS CODEX: two at once.
+               No gold from the training dummy.
++1 projectile stacks without limit (+35% damage each past the first; blades, comets and prism
+bolts add one more first, to their caps). Twenty rows at the end of `Weapons.ROWS` (classic never
+sees them). Still to do: the twenty icons, tests/spells_test, docs; then 23.2.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

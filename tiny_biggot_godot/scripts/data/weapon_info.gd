@@ -10,7 +10,8 @@ extends RefCounted
 const MAX_PLUS := 25
 const PER_PLUS := 0.08
 const MELEE := ["slash", "thrust", "whip"]
-const MAGIC := ["orb", "zap", "nova", "pulse", "beam", "summon"]
+const MAGIC := ["orb", "zap", "nova", "pulse", "beam", "summon",
+	"singularity", "serpent", "comet", "glyph", "blades", "chrono", "prism", "cloud", "pinball", "wild"]   # 23.1 the spellbook
 const TAG_TYPE := { "pyre": "FIRE", "frost": "FROST", "venom": "POISON", "storm": "LIGHTNING", "arcane": "ARCANE",
 	"malice": "SHADOW", "shadow": "SHADOW" }
 const KIND_TYPE := { "slash": "SLASHING", "whip": "SLASHING", "disc": "SLASHING", "spin": "SLASHING", "boomer": "SLASHING",
@@ -24,7 +25,9 @@ const KIND_TYPE := { "slash": "SLASHING", "whip": "SLASHING", "disc": "SLASHING"
 	"deck": "ARCANE", "turret": "PIERCING", "thrall": "SHADOW", "command": "PHYSICAL", "mirror": "ARCANE", "swarm": "SHADOW", "egg": "FIRE",
 	"letters": "ARCANE", "bubble": "FROST", "flak": "PIERCING", "paint": "ARCANE", "slots": "PIERCING", "roller": "PHYSICAL",
 	"money": "PIERCING", "camera": "ARCANE", "ray": "FROST", "junk": "PHYSICAL", "bat": "PHYSICAL", "stab": "PIERCING",
-	"duel": "PIERCING", "shrink": "ARCANE", "blower": "PHYSICAL", "dome": "ARCANE", "coin": "PIERCING" }
+	"duel": "PIERCING", "shrink": "ARCANE", "blower": "PHYSICAL", "dome": "ARCANE", "coin": "PIERCING",
+	"singularity": "SHADOW", "serpent": "FIRE", "comet": "FIRE", "glyph": "ARCANE", "blades": "SLASHING", "chrono": "ARCANE",
+	"prism": "ARCANE", "cloud": "LIGHTNING", "pinball": "ARCANE", "wild": "ARCANE" }
 const TYPE_COL := { "SLASHING": "bone", "PIERCING": "bone", "BLAST": "orange", "FIRE": "orange", "FROST": "cyan",
 	"POISON": "lime", "LIGHTNING": "cyan", "ARCANE": "pink", "SHADOW": "purple" }
 

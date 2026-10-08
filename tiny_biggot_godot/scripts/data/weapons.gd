@@ -90,6 +90,18 @@ const ARCH := {
 	"dome": { "name": "DOME", "dmg": 5.0, "rate": 1.0, "speed": 0, "life": 0, "size": 1.0, "pierce": 0, "count": 1, "spread": 0, "homing": 0.0 },
 	"flail": { "name": "FLAIL", "dmg": 6.0, "rate": 1.6, "speed": 0, "life": 0, "size": 1.0, "pierce": 99, "count": 1, "spread": 0, "homing": 0.0, "range": 70 },   # 10.4
 	"coin": { "name": "COIN GUN", "dmg": 4.0, "rate": 3.0, "speed": 280, "life": 0.8, "size": 1.0, "pierce": 0, "count": 1, "spread": 0.05, "homing": 0.0 },
+	# Stage 23 THE SPELLBOOK (scripts/combat/spells.gd). "life" is how long a spell lasts, "radius" its reach,
+	# "range" how far it is cast (for the item card).
+	"singularity": { "name": "BLACK HOLE", "dmg": 6.0, "rate": 0.9, "speed": 120, "life": 0.9, "size": 1.0, "pierce": 0, "count": 1, "spread": 0, "homing": 0.0, "radius": 48 },
+	"serpent": { "name": "SERPENT", "dmg": 3.0, "rate": 0.8, "speed": 120, "life": 3.0, "size": 1.0, "pierce": 99, "count": 1, "spread": 0, "homing": 0.0 },
+	"comet": { "name": "COMET", "dmg": 9.0, "rate": 0.7, "speed": 0, "life": 0, "size": 1.0, "pierce": 99, "count": 1, "spread": 0, "homing": 0.0, "range": 260 },
+	"glyph": { "name": "GLYPH", "dmg": 7.0, "rate": 1.2, "speed": 0, "life": 0, "size": 1.0, "pierce": 99, "count": 1, "spread": 0, "homing": 0.0, "range": 260 },
+	"blades": { "name": "SPELLBLADES", "dmg": 3.0, "rate": 1.0, "speed": 250, "life": 4.0, "size": 1.0, "pierce": 99, "count": 1, "spread": 0, "homing": 0.0 },
+	"chrono": { "name": "TIME STOP", "dmg": 3.0, "rate": 0.5, "speed": 0, "life": 2.2, "size": 1.0, "pierce": 0, "count": 1, "spread": 0, "homing": 0.0, "radius": 56, "range": 260 },
+	"prism": { "name": "PRISM", "dmg": 5.0, "rate": 1.6, "speed": 220, "life": 0.9, "size": 1.0, "pierce": 0, "count": 1, "spread": 0, "homing": 0.0 },
+	"cloud": { "name": "STORM CLOUD", "dmg": 4.0, "rate": 0.45, "speed": 0, "life": 4.0, "size": 1.0, "pierce": 0, "count": 1, "spread": 0, "homing": 0.0, "range": 320 },
+	"pinball": { "name": "PINBALL", "dmg": 3.0, "rate": 1.2, "speed": 300, "life": 2.0, "size": 1.0, "pierce": 99, "count": 1, "spread": 0, "homing": 0.0 },
+	"wild": { "name": "WILD MAGIC", "dmg": 6.0, "rate": 1.1, "speed": 0, "life": 0, "size": 1.0, "pierce": 0, "count": 1, "spread": 0, "homing": 0.0, "range": 260 },
 }
 const ARCH_DESC := {
 	"bolt": "FIRES FAST BOLTS", "orb": "HOMING BOLTS", "spin": "SPINNING THROWS THAT PIERCE", "shot": "A SPREAD OF SHOT",
@@ -114,6 +126,10 @@ const ARCH_DESC := {
 	"money": "SHOTS PAID FOR IN GOLD", "camera": "A FLASH THAT STUNS", "ray": "A RAY THAT FREEZES", "junk": "FIRES JUNK",
 	"bat": "KNOCKS FOES FLYING", "stab": "QUICK STABS", "duel": "THE FIRST HIT ON A FOE CRITS", "shrink": "SHRINKS FOES",
 	"blower": "A GUST THAT TURNS SHOTS AROUND", "dome": "A DOME THAT STOPS SHOTS", "coin": "SHOOT THE COIN",
+	"singularity": "A DARK MOTE THAT BECOMES A BLACK HOLE", "serpent": "A SERPENT OF MAGIC THAT HUNTS FOES",
+	"comet": "CALLS A COMET ACROSS THE ROOM", "glyph": "A RUNE UNDER THE FOE ERUPTS", "blades": "CONJURES BLADES THAT FIGHT BY THEMSELVES",
+	"chrono": "A CIRCLE WHERE TIME STOPS", "prism": "A CRYSTAL BOLT THAT SPLITS IN THREE", "cloud": "A STORM CLOUD THAT FOLLOWS FOES",
+	"pinball": "A BALL OF LIGHT THAT BOUNCES FOE TO FOE", "wild": "A DIFFERENT SPELL EVERY CAST",
 }
 const BULLET_KIND := { "bolt": "bolt", "orb": "hex", "spin": "spin", "shot": "clod", "flask": "flask", "boomer": "boomer",
 	"flame": "fire", "disc": "disc", "pulse": "pulse", "nova": "spark", "mine": "mine", "rail": "rail", "burst": "bolt",
@@ -582,6 +598,28 @@ const ROWS := [
 	["wyrmfang", "WYRMFANG", "slash", "legend", ["frost", "edge"], "sword", { "dmg": 11.0, "rate": 2.0 }, [["chill", 0.35]], [], "A FANG OF WHITE ICE. CHILLS WHAT IT CUTS.", [], "w_wyrmfang"],
 	["seraphlance", "SERAPH'S LANCE", "rail", "legend", ["arcane"], "rifle", { "dmg": 18.0, "rate": 1.2, "pierce": 3 }, [], [["nth_nova", 3]], "LIGHT ITSELF. EVERY 3RD SHOT BURSTS INTO A RING.", [], "w_seraphlance"],
 	["highcaliber", "THE HIGH CALIBER", "rail", "legend", ["edge", "demolition"], "cannon", { "dmg": 30.0, "rate": 0.8 }, [["pierce", 2]], [], "ONE ENORMOUS ROUND THAT PIERCES. EVERY HIT ON THE LAST FOE IN A ROOM STRIKES AGAIN FOR 150%.", [{ "on": "on_hit", "if": "last_foe", "do": [["damage", 1.5]] }], "w_longrifle"],
+	# Stage 23 THE SPELLBOOK (his word, 8 Oct: "more magic weapons with super cool effects"): two of each new kind of spell,
+	# the second with a twist (spells.gd).
+	["pocketvoid", "POCKET VOID", "singularity", "rare", ["shadow"], "orbstaff", { "dmg": 5.0, "rate": 1.0 }, [], [], "A DARK MOTE. ON THE FIRST FOE IT BECOMES A BLACK HOLE THAT DRAGS FOES IN, THEN COLLAPSES IN A BLAST THAT GROWS WITH EVERY FOE IT HELD."],
+	["eventhorizon", "EVENT HORIZON", "singularity", "legend", ["shadow", "arcane"], "orbstaff", { "dmg": 7.5, "rate": 0.9, "devour": true, "radius": 60 }, [], [], "A WIDER BLACK HOLE THAT ALSO EATS ENEMY SHOTS. EVERY SHOT IT EATS MAKES THE COLLAPSE HARDER."],
+	["emberwyrm", "EMBER WYRM ROD", "serpent", "rare", ["pyre"], "staff", { "dmg": 3.2, "rate": 0.8 }, [], [], "CALLS A SERPENT OF FIRE THAT HUNTS FOES FOR 3 SECONDS, BURNING ALL ITS BODY TOUCHES AND LEAVING FLAMES BEHIND."],
+	["rimeserpent", "RIME SERPENT", "serpent", "epic", ["frost"], "staff", { "dmg": 4.0, "rate": 0.75, "coil": true }, [], [], "A SERPENT OF ICE THAT CHILLS ALL IT TOUCHES AND COILS AROUND A FOE TO CRUSH IT."],
+	["cometscepter", "COMET SCEPTER", "comet", "rare", ["pyre", "arcane"], "wand", { "dmg": 9.0, "rate": 0.8 }, [], [], "A COMET CROSSES THE ROOM THROUGH THE FOE YOU AIM AT, BURNING ALL ON ITS PATH, AND BURSTS WHERE IT STRIKES."],
+	["starfallen", "THE STARFALLEN", "comet", "legend", ["arcane", "storm"], "wand", { "dmg": 8.0, "rate": 0.7, "shower": 3 }, [], [], "A SHOWER OF THREE COMETS, EACH THROUGH A DIFFERENT FOE."],
+	["runechalk", "RUNE CHALK", "glyph", "common", ["arcane"], "wand", { "dmg": 6.5, "rate": 1.3 }, [], [], "DRAWS A RUNE UNDER THE FOE YOU AIM AT. IT ERUPTS IN A PILLAR OF LIGHT THAT STUNS. EVERY 4TH RUNE IS A GREAT ONE."],
+	["sundersigil", "SIGIL OF SUNDERING", "glyph", "epic", ["arcane", "malice"], "tome", { "dmg": 7.0, "rate": 1.2, "twice": true }, [], [], "EVERY RUNE ERUPTS TWICE AND LEAVES FOES VULNERABLE. EVERY 4TH IS A GREAT ONE."],
+	["dancingsteel", "DANCING STEEL", "blades", "rare", ["edge", "arcane"], "sword", { "dmg": 3.0, "rate": 1.0 }, [], [], "EACH CAST CONJURES A SPECTRAL BLADE THAT HUNTS AND CUTS FOES BY ITSELF FOR 4 SECONDS. UP TO SIX AT ONCE."],
+	["thousandedges", "THE THOUSAND EDGES", "blades", "epic", ["edge", "storm"], "sword", { "dmg": 3.5, "rate": 1.1, "waves": true }, [], [], "SPECTRAL BLADES, AND EVERY CUT THROWS A WAVE OF STEEL."],
+	["stopwatch", "STOPWATCH WAND", "chrono", "rare", ["arcane", "frost"], "wand", { "dmg": 4.0, "rate": 0.5 }, [], [], "STOPS TIME IN A CIRCLE: FOES FREEZE AND THEIR SHOTS HANG IN THE AIR. WHEN TIME CATCHES UP, THE FOES IT HELD TAKE A BLOW."],
+	["aeonglass", "HOURGLASS OF AEONS", "chrono", "legend", ["arcane", "storm"], "orb", { "dmg": 5.0, "rate": 0.5, "reverse": true, "radius": 70 }, [], [], "A WIDER CIRCLE OF STOPPED TIME. WHEN IT ENDS, THE SHOTS IT HELD FLY BACK AT YOUR FOES."],
+	["kaleidoscope", "KALEIDOSCOPE", "prism", "rare", ["arcane", "frost"], "wand", { "dmg": 6.0, "rate": 1.8 }, [], [], "A CRYSTAL BOLT THAT SPLITS ON A HIT INTO RED, BLUE AND GREEN BOLTS THAT BURN, CHILL AND POISON, AND THEY SPLIT AGAIN."],
+	["fractalcrown", "FRACTAL CROWN", "prism", "epic", ["arcane", "venom"], "orb", { "dmg": 6.0, "rate": 1.6, "fractal": true }, [], [], "PRISM BOLTS THAT SPLIT THREE TIMES OVER: ONE BECOMES TWENTY-SEVEN."],
+	["cloudherd", "CLOUDHERD'S CROOK", "cloud", "rare", ["storm"], "staff", { "dmg": 4.0, "rate": 0.45 }, [], [], "CALLS A STORM CLOUD THAT FOLLOWS FOES FOR 4 SECONDS, STRIKING LIGHTNING AND RAINING ICE ON WHAT IS UNDER IT. UP TO THREE."],
+	["tempestcore", "TEMPEST CORE", "cloud", "epic", ["storm", "frost"], "orb", { "dmg": 5.0, "rate": 0.45, "tornado": true }, [], [], "STORM CLOUDS THAT SPIN TORNADOES: FOES ARE DRAGGED UNDER THE LIGHTNING, AND FLUNG WHEN IT ENDS."],
+	["pinballwand", "ARCANE PINBALL", "pinball", "common", ["arcane", "fortune"], "wand", { "dmg": 3.0, "rate": 1.2 }, [], [], "A BALL OF LIGHT THAT BOUNCES FROM FOE TO FOE, FASTER AND 15% HARDER EACH TIME. WALLS SEND IT BACK."],
+	["orrery", "STARBOUND ORRERY", "pinball", "epic", ["arcane", "storm"], "orb", { "dmg": 4.0, "rate": 1.2, "stars": true, "max": 12 }, [], [], "A PINBALL THAT BOUNCES UP TO 12 TIMES, AND EVERY BOUNCE THROWS A SEEKING STAR."],
+	["wildsurge", "WAND OF WILD SURGE", "wild", "rare", ["arcane", "fortune"], "wand", { "dmg": 6.0, "rate": 1.1 }, [], [], "EVERY CAST A DIFFERENT SPELL: FIREBALL, ICE, LIGHTNING, MIASMA, GOLD, A SHEEP, A HEAL, A VOID OR A SMITE."],
+	["chaoscodex", "THE CHAOS CODEX", "wild", "legend", ["arcane", "malice"], "tome", { "dmg": 7.0, "rate": 1.1, "double": true }, [], [], "WILD MAGIC: TWO DIFFERENT SPELLS AT ONCE, EVERY CAST."],
 ]
 
 static var _by_id := {}
@@ -629,6 +667,7 @@ static func weapon_dps(w: Dictionary) -> float:
 	if w["kind"] == "burst": base *= 3
 	if w["kind"] == "gatling": base *= 2
 	if w["kind"] == "boomer": base *= 2
+	if Spells.handles(w["kind"]): base *= Spells.POWER[w["kind"]]   # 23.1: a spell hits many times a cast
 	return base
 
 # ---------- Weapon-based stats (04b_items.rb) ----------

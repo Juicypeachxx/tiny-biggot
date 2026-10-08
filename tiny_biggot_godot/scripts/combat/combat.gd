@@ -955,6 +955,8 @@ static func player_shoot(p: Player, a: float, echo_ok: bool = true) -> void:
 				Snd.play("shoot")
 		"zap":
 			attack_zap(p, a, forced)
+		_ when Spells.handles(w["kind"]):
+			made = Spells.fire(p, a, forced)   # 23.1 the spellbook (spells.gd)
 		_ when Oddities.handles(w["kind"]):
 			made = Oddities.fire(p, a, forced)   # odd guns and tricks (oddities.gd)
 		_ when Summons.handles(w["kind"]):

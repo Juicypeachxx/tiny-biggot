@@ -24,6 +24,10 @@ const KIND := {
 	"mine": ["-", "C", "B"], "orb": ["-", "-", "S"], "zap": ["-", "-", "A"], "nova": ["-", "D", "A"],
 	"pulse": ["-", "-", "A"], "beam": ["-", "-", "S"], "flame": ["-", "C", "B"], "summon": ["-", "-", "A"],
 	"flail": ["A", "B", "-"],   # 10.4
+	# 23.1 the spellbook
+	"singularity": ["-", "-", "S"], "serpent": ["-", "D", "A"], "comet": ["-", "-", "S"], "glyph": ["-", "-", "S"],
+	"blades": ["-", "B", "A"], "chrono": ["-", "-", "S"], "prism": ["-", "C", "A"], "cloud": ["-", "-", "A"],
+	"pinball": ["-", "B", "A"], "wild": ["-", "C", "A"],
 }
 ## Tags shift one attribute up a grade.
 const TAG_ATTR := { "fury": "str", "bulwark": "str", "blood": "str", "demolition": "str",
