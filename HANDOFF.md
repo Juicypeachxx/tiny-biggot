@@ -949,6 +949,14 @@ win); award "CHAPTER IV" 700; end screen "WELL READ"; Camp ENDINGS. RoomDress `l
 `_library_floor` (shelves at WALL_SPOTS, floor scatter; dust motes / rising embers instead of ink
 rain). Sets `bookworm`, `criticregalia` (icons from set_icons.py); BossLoot shelversarm, hushbell,
 redpen (sprites.py). realms_test walks Chapter IV to the Critic's win.
+21.1: `Barks` (scripts/render/barks.gd): `say(who, text)` (a Player, an Enemy or a room object),
+`hero(event, big)` (HERO / VOICE / FLOOR_LINES), `update` (game.gd update_play: expiry, foe barks
+twice a second, elite taunts, `_boss_line` for G.boss, `_streak`), `flee(e, dt, p)` (Combat
+update_enemies, before EnemyAI.run: one foe in three by `uid % 3`, no dice), `camp_tick` /
+`camp_reset` (GREET; `last_run_line` from Meta `last_run`, written by `remember` in award_embers),
+`draw` (world_view `_paint_texts`). Own RNG; nothing under --classic. Enemy `flee_t`, `fled`.
+NOTE: the core replays are re-recorded once at the end of Stage 21 (21.1 and 21.5 change play).
+`tests/barks_test`.
 
 ## Noted, not yet acted on
 

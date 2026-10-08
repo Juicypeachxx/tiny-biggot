@@ -25,6 +25,7 @@ static func active() -> bool:
 
 ## The title's THE CAMP.
 static func enter() -> void:
+	Barks.camp_reset()   # 21.1: everyone greets you again
 	fresh_player()
 	G.run_stats = { "kills": 0, "gold": 0, "time": 0.0, "floor": 1, "bosses": 0, "secrets": 0, "rifts": [], "camp": true }
 	G.floor_index = 0

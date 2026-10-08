@@ -665,6 +665,7 @@ static func _complete(p: Player, s: Dictionary, set_id: String) -> void:
 	Snd.play("unlock")
 	Snd.play("relic")
 	G.show_banner(s["name"] + (" LEGENDARY SET COMPLETE!" if s.get("size", 4) == 6 else " SET COMPLETE!"), full_desc(s))
+	Barks.hero("set", true)   # 21.1
 	G.toast(D_MASTERY, "gold")
 	for k in 3:
 		Fx.burst(p.x, p.y - 6, cols, 26, 70 + k * 40)

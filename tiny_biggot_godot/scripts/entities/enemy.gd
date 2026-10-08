@@ -77,6 +77,8 @@ var flip := false
 var mini_t := 3.0
 var dps_log: Array = []       # Rogues layer: training dummy damage per tick (last 3 s)
 var dps := 0.0
+var flee_t := 0.0              # 21.1: running away, near death (Barks.flee)
+var fled := false               # 21.1: it has had its one chance to run
 var ghost_hp := -1.0          # Rogues layer: trailing "damage ghost" on health bars (render only)             # stage-7 mini-bosses: time to the next ring burst
 # Boss scratch
 var cycle := 0

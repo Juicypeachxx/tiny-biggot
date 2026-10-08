@@ -95,6 +95,7 @@ func _paint_parts(ci: CanvasItem) -> void:
 ## numbers (FloatTexts, kept on the canvas), then ability labels and cards.
 func _paint_texts(ci: CanvasItem) -> void:
 	_paint_plates(ci)
+	Barks.draw(ci)   # 21.1 speech bubbles
 
 func _paint_labels(ci: CanvasItem) -> void:
 	if not Meta.opts.get("fast_draw", true):

@@ -197,6 +197,11 @@ timeout 300 "$GODOT" --headless --path . res://tests/camp_build_test.tscn -- --n
 grep -E "camp build test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 21.1 voices: speech bubbles, barks, a foe that runs, the camp remembers"
+timeout 300 "$GODOT" --headless --path . res://tests/barks_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "barks test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== 18.1 the daily trial"
 timeout 300 "$GODOT" --headless --path . res://tests/daily_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "daily test" "$LOG"

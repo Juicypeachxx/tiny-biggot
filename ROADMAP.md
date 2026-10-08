@@ -877,6 +877,33 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       21 new sprites (with elite and evolved forms), three floor tile kits, 13 icons, the
       Archivist's new lines. `--chapter=4`. IPA 20.
 
+## Stage 21: a living game (his word, 8 Oct: "how to make game more alive" ... "1,2,3,4,5,6")
+- [x] 21.1 Voices and reactions: speech bubbles. The hero speaks at big moments (low health, a
+      legendary, a guardian down, a new floor), foes bark (elites taunt, shushers SHH, guardians
+      open their fights with a line), nearly dead foes may flee, and the camp's people greet you
+      by your hero's name and remember your last run.
+      Done: speech bubbles over heads. The hero: a line on every floor (each of the 20 floors has
+      its own), at low health, on a legendary, when a guardian falls, a level, a whole set, rising
+      again, a shop, six kills in three seconds; every hero has a voice of their own for some of
+      these. Elites taunt when they come near; about 30 kinds of foe bark now and then (SHH!,
+      *CLATTER*, WOOF!); all 38 guardians open their fight with a line. One ordinary foe in three
+      runs for a moment when nearly dead ("NOT LIKE THIS!"). In the camp everyone greets you by
+      your hero's name, and the archivist (or the seer) remembers how your last run ended
+      ("FLOOR 5, AND A SKELETON. IT HAPPENS."). `tests/barks_test`.
+- [ ] 21.2 Rooms that keep their story: fallen foes leave bones, ink or ash that fade slowly,
+      blasts leave scorch marks, candles and bookcases can be knocked over, critters scatter
+      when you come close or something blows up.
+- [ ] 21.3 The sound of each place: a quiet loop for every world, footsteps that change with the
+      floor, music that swells in a fight and calms after (all made here, original).
+- [ ] 21.4 Life between the fights: a rival adventurer who races you to chests (help or fight),
+      your last hero's ghost where they fell with some of their gold, lost travellers met on a
+      floor.
+- [ ] 21.5 Monsters with lives of their own: some foes asleep until you come close, packs that
+      call for help, moths drawn to the lamps, fire-dogs chasing sootlings, slimes that swallow
+      dropped coins and grow.
+- [ ] 21.6 The camp follows the iPad's clock: birds in the morning, lanterns in the evening,
+      fireflies and stars at night; the cat brings small gifts. IPA.
+
 ---
 
 ## Log

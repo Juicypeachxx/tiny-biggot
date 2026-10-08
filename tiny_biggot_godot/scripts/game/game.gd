@@ -235,6 +235,7 @@ func start_floor() -> void:
 		enter_room(World.make_room(floor_d, "start", "", ""))
 	Effects.fire("on_floor_start")
 	state = &"play"
+	Barks.hero("floor", true)   # 21.1: a word on arriving
 	RunSave.save()   # 6.3: the run can be continued from here
 	show_banner(GameData.floors()[floor_index]["name"], "FLOOR %d OF %d" % [floor_index + 1, GameData.floors().size()]
 		+ ("   DREAD %d" % dread if dread > 0 else "") + ("   LOOP %d" % (loop + 1) if loop > 0 else ""))
@@ -246,6 +247,7 @@ const ENTRY_SPOTS := { "s": Vector2(14.0 * 16, 16.0 * 16), "n": Vector2(14.0 * 1
 
 func enter_room(r: Room) -> void:
 	room = r
+	Barks.reset()   # 21.1
 	EventRooms.on_enter_room()
 	Fx.clear()
 	Juice.reset()
@@ -347,6 +349,8 @@ func enter_room(r: Room) -> void:
 	room_changed.emit()
 	if not p.procs.is_empty():
 		Effects.fire("on_room_enter")
+	if room.type == "shop":
+		Barks.hero("shop")   # 21.1
 
 func open_exits() -> void:
 	if room.exits_open or room.type == "camp":
@@ -838,6 +842,7 @@ func open_secret_door(d: String) -> void:
 	Snd.play("unlock")
 
 func on_boss_dead(b: Enemy) -> void:
+	Barks.hero("boss", true)   # 21.1
 	EBullets.clear_all()
 	for e in enemies:
 		if e != b and e.hp > 0:
@@ -1086,6 +1091,7 @@ func award_embers(win: bool) -> void:
 	if run_stats.get("trophies", 0) > 0:
 		parts.append(["NEW TROPHIES", run_stats["trophies"] * Trophies.EMBERS])
 	Daily.on_end(win, parts)   # 18.1
+	Barks.remember(win)   # 21.1: the camp remembers how it ended
 	Quests.on_run_end(win, parts)   # 20.2
 	CampBuild.on_run_end()
 	var base := 0
@@ -1151,6 +1157,8 @@ func interact(o: Dictionary) -> void:
 	if o["kind"] == "item":
 		if o.has("curse"):
 			EventRooms.take_cursed(p, o)
+		if (o["item"] as Dictionary).get("rarity", "") == "legend":
+			Barks.hero("legend", true)   # 21.1
 		var old = swap_item(o, o["item"])
 		if old != null and not to_backpack(old):
 			o["item"] = old
@@ -1591,6 +1599,8 @@ func roll_relics(n: int, source: String = "chest", in_room: Room = null) -> Arra
 	return out
 
 func add_relic(p: Player, r: Dictionary) -> void:
+	if r.get("rarity", "") == "legend" and state == &"play":
+		Barks.hero("legend", true)   # 21.1
 	p.relics.append(r)
 	Relics.apply(r["id"], p)
 	if r["new"]:
@@ -2205,6 +2215,9 @@ func update_play(dt: float) -> void:
 	Hazards.update(dt)
 	EventRooms.update(dt)
 	Fx.update(dt)
+	Barks.update(dt)   # 21.1 voices
+	if Camp.active():
+		Barks.camp_tick()
 	Juice.update(dt, p)
 	var keep := []
 	for w in swings:

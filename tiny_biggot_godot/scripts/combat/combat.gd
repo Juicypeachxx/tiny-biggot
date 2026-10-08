@@ -521,6 +521,7 @@ static func gain_xp(p: Player, n: int) -> void:
 	while p.xp >= GameData.xp_needed(p.level):
 		p.xp -= GameData.xp_needed(p.level)
 		p.level += 1
+		Barks.hero("level")   # 21.1
 		p.pending += 1
 		Fx.float_text(p.x, p.y - 18, "LEVEL UP!", "lime")
 		Juice.level_up(p.x, p.y)
@@ -603,6 +604,8 @@ static func _hurt_player_base(p: Player, amount: int, source: String) -> void:
 		Fx.burst(p.x, p.y, ["#f2c94c", "#fffbe0"], 12, 70)
 	else:
 		p.hp -= amount
+		if p.hp > 0 and p.hp <= 2:
+			Barks.hero("hurt")   # 21.1
 	if p.ice_armor:
 		for e in G.enemies:
 			if TB.dist(e, p) < 90:
@@ -630,6 +633,7 @@ static func _hurt_player_base(p: Player, amount: int, source: String) -> void:
 			p.revive -= 1
 		p.hp = 4
 		p.invuln = 2.5
+		Barks.hero("revive", true)   # 21.1
 		EBullets.clear_all()
 		Fx.burst(p.x, p.y, ["#e8873a", "#f2c94c", "#d8443c"], 40, 120, 0.8, 2)
 		Vfx.blast(p.x, p.y, 70.0, "#e8873a")
@@ -721,6 +725,8 @@ static func update_enemies(dt: float) -> void:
 			Summons.charm_tick(e, ddt)   # a tamed foe fights for you (summons.gd)
 		elif e.is_boss():
 			BossAI.update_boss(e, ddt)
+		elif Barks.flee(e, ddt, p):
+			pass   # 21.1: a foe near death runs for a moment
 		else:
 			EnemyAI.run(e, ddt, p)
 		if e.kx != 0 or e.ky != 0:
