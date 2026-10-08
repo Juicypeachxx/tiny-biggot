@@ -33,6 +33,10 @@ func _arena() -> Player:
 	for c in range(4, 25):
 		for r in range(6, 13):
 			G.room.set_tile(c, r, World.T_FLOOR)
+	# 22.4: a candelabra by the hero, where the probes' blasts land (21.2: a blast knocks it over),
+	# instead of wherever the room's own dice put them: _restore stands it up between the halves.
+	G.room.objects = G.room.objects.filter(func(o): return not o["kind"] in ["e_candle", "e_shelf"])
+	G.room.objects.append({ "kind": "e_candle", "x": p.x + 12.0, "y": p.y - 20.0 })
 	Keys.tick()
 	return p
 
@@ -134,6 +138,9 @@ func _restore(p: Player) -> void:
 	G.pbullets.clear()
 	G.new_pbullets.clear()
 	G.pickups.clear()
+	for o in G.room.objects:   # 22.4: a prop the first half's blast knocked over stands again (falling throws 10 particles)
+		if o["kind"] in ["e_candle", "e_shelf"]:
+			o["down"] = false
 	p.hp = 3
 	p.invuln = 0.0
 	p.fire_cd = 0.0

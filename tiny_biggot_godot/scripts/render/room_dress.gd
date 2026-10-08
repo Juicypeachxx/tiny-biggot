@@ -99,6 +99,7 @@ static func knock(o: Dictionary, from_x: float) -> void:
 		Lives.lamp_down(o["x"], o["y"])   # 21.5: the moths round it come for you
 	G.dyn_dirty = true
 	Snd.play("hit", true)   # (its own dice: a prop is only drawn)
+	_rng.seed = hash([roundi(o["x"]), roundi(o["y"]), 212])   # 22.4: the same prop always falls the same way
 	for k in 10:
 		var a := _rng.randf() * TAU
 		var col: String = (["#d9d0b4", "#8b8f9c", "#f4ecd8"] if o["kind"] == "e_candle" else ["#c8a878", "#d8443c", "#4d6aa8", "#f2c94c"])[k % (3 if o["kind"] == "e_candle" else 4)]

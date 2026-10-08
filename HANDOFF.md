@@ -1059,6 +1059,12 @@ camp_build_test asks it of every gear, and OverlayView.draw_prompt shows nothing
 prompt instead of a second error. Endless.on_floor reads best0 with int() (a saved run's numbers
 come back as fractions). Objects over the soak's hour: 3651 at 1 min, flat at about 4320 from 20
 to 60 min (no leak); nodes 68 and resources 162 throughout.
+A flaky check, found by the full run: vfx_test failed one run in four ("line 2: 36 vs 26", Fx.n
+ten apart). Cause: 21.2's candelabra fall to a blast and throw 10 particles; the test runs each
+blast twice (effects on, then off) and did not stand the props back up between the halves, and
+whether one stood near the blast depended on the test room's layout. Now vfx_test puts a
+candelabra by the blasts (it failed every run that way), `_restore` stands props up, and
+RoomDress.knock seeds its dice from the prop's spot, so a prop always falls the same way.
 
 ## Noted, not yet acted on
 
