@@ -223,6 +223,7 @@ func start_floor() -> void:
 	Saloon.on_floor_start()
 	EventRooms.on_floor_start()
 	Wanderers.on_floor_start()
+	Weather.on_floor_start()   # 22.1 this floor's weather (own dice)
 	run_stats["floor"] = floor_index + 1
 	Meta.meta["best"] = maxi(Meta.meta["best"], floor_index + 1)
 	Meta.write_save()

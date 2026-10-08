@@ -949,8 +949,18 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       switch for pictures: `--clock=H`. Stage 21 ends with IPA 21.
 
 ## Stage 22 (his word, 8 Oct: "4, 5, 6 and stability and performance polish patch")
-- [ ] 22.1 Weather and night in the dungeon: storms, fog, and dark floors lit by your lantern
+- [x] 22.1 Weather and night in the dungeon: storms, fog, and dark floors lit by your lantern
       (what the camp got in 21.6, taken into the runs).
+      Done: every floor after the first has a chance (about half) of weather fitting it: RAIN
+      (falling rain, rings on the floor, the sound of rain), STORM (wind-driven rain and
+      lightning), FOG (banks drifting across), SNOW (flakes; the sound of wind), ASH (ash and
+      embers falling), or NIGHT: the rooms go dark but for the light of your lantern (the
+      Warden's is bigger), the wall torches, candelabra, fires, blasts, chests and glowing foes.
+      In the dark, foes' eyes glow red; their shots, warnings, danger circles and health bars
+      always show. A word when the floor begins ("NIGHT HAS FALLEN: KEEP TO THE LIGHT"). The
+      camp at night is now lit the same way: lantern posts, the fire and the portal light it.
+      Rift worlds keep their own look. Drawing only (replays unchanged). `tests/weather_test`.
+      Test switch for pictures: `--weather=KIND`.
 - [ ] 22.2 Endless descent: a mode to see how deep you can go; your best depth is kept.
 - [ ] 22.3 A bestiary: every foe you have met, their lines, how many you have beaten, and your
       past runs.

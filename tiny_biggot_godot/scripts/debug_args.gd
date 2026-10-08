@@ -27,6 +27,7 @@ extends RefCounted
 ##                                itself (repeatable test runs)
 ##   --unlock-all                 every shrine unlock and every skill-tree node, all 30 constellation points
 ##   --rex                        start a run in Rex's barn (the hidden boss, scripts/entities/rex.gd)
+##   --weather=KIND               22.1: every floor after the first gets this weather (rain storm fog snow ash dark)
 ##   --clock=H                    21.6: the camp at hour H (0-23) instead of the iPad's clock
 ##   --wanderer                   21.4: a cleared fight room with a rival and their chest, a lost traveller and a ghost
 ##   --pet=ID[:LEVEL]             start with a pet (scripts/entities/pets.gd), level 1 to 3

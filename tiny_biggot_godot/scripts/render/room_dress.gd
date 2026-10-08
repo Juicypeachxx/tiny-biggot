@@ -916,7 +916,7 @@ static func tick(dt: float) -> void:
 	if p == null:
 		return
 	if G.room != null and on(G.room) and G.room.theme.is_empty():
-		if G.floor_index in STORMY:
+		if G.floor_index in STORMY or Weather.storm():   # 22.1: and a floor whose weather is a storm
 			_flash = maxf(0.0, _flash - dt)
 			_flash_t -= dt
 			if _flash_t <= 0:

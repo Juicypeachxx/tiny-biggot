@@ -227,6 +227,11 @@ timeout 300 "$GODOT" --headless --path . res://tests/camp_clock_test.tscn -- --n
 grep -E "camp clock test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 22.1 weather and night in the dungeon"
+timeout 300 "$GODOT" --headless --path . res://tests/weather_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "weather test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== 18.1 the daily trial"
 timeout 300 "$GODOT" --headless --path . res://tests/daily_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "daily test" "$LOG"

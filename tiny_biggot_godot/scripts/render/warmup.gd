@@ -48,6 +48,15 @@ func _ready() -> void:
 		sb.material.set_shader_parameter("rects", rects)
 		sb.material.set_shader_parameter("parms", parms)
 
+	# 22.1: the dark of a night floor, with nothing dark (dark = 0).
+	var dl := DrawLayer.new(func(ci): ci.draw_rect(Rect2(0, 0, 2, 2), Color.WHITE))
+	dl.material = Weather.material()
+	dl.material.set_shader_parameter("lights", PackedVector4Array([Vector4(0, 0, 1, 1)]))
+	dl.material.set_shader_parameter("count", 1)
+	dl.material.set_shader_parameter("dark", 0.0)
+	add_child(dl)
+	_layers.append(dl)
+
 func _process(_delta: float) -> void:
 	_left -= 1
 	if _left <= 0:

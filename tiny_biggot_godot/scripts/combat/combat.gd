@@ -1700,6 +1700,7 @@ static func chain_from(src: Enemy, dmg: float) -> void:
 
 static func explode_at(x: float, y: float, dmg: float, skip: Enemy, radius: float = 18, col: String = "",
 		boom: bool = false, from_bomb: bool = false) -> void:
+	Weather.flash(x, y, radius)   # 22.1: a blast lights up the dark
 	if GameData.rogues():
 		Remains.scorch(x, y, radius)   # 21.2: drawing only
 		RoomDress.scare(x, y, radius)

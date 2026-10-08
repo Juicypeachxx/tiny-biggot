@@ -1015,6 +1015,19 @@ by the check. Timing against Stage 20 on the same seeded bot runs (this containe
 GL): logic 0.51 -> 0.58 ms, script drawing 0.71-0.78 -> 0.84-0.85 ms, render 4.0 -> 4.4-4.8 ms
 (medians; a frame has 16.7 ms). IPA 21 (release ipa-21). Not tested on the iPad (no iPad, no
 Mac here): the sound on the device and 60 fps there are his to try.
+22.1: `Weather` (scripts/render/weather.gd): `on_floor_start` (Game.start_floor, before the
+first room; own dice from floor, kills and run time; BY_FLOOR; CHANCE; floor 0 clear; `--weather`),
+`here()` ("" in rifts, the camp, the barn, NEON LOOK), `sound()` (Ambience: rain, wind), `tick`
+(world_view.refresh: rain/snow/ash `_air`, rain `_rings`, blast `_flashes`), `paint_floor`
+(lower layer), `paint_air` (parts layer), `paint_eyes` (glow layer). NIGHT: the world_view layer
+`dark` (between ents and fx) draws one rect with `Weather.SHADER` (up to MAX_LIGHTS lights
+[x, y, r, strength] from `lights()`: lantern first, blasts, camp lanterns or wall torches,
+winding-up and glowing foes, candles, fires, portals, chests, fire zones, bombs; 8 steps of
+light). On a night floor the danger drawings (hazards, goo, rift-boss ground, chaos circles,
+warnings, Afx ground) move from the lower layer to `_paint_danger` at the start of fx, over the
+dark. `dark_level()`: DARK on a night floor, DARK_CAMP for the camp at night (CampClock's night
+tint lightened). Storms use RoomDress's lightning; fog uses world_view `_paint_fog`. Combat
+.explode_at -> `flash`. Warmup draws the dark shader once (dark 0). `tests/weather_test`.
 
 ## Noted, not yet acted on
 

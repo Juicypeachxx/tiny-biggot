@@ -13,6 +13,7 @@ var bg: DrawLayer        # z 0     room tiles (static per room)
 var dyn: DrawLayer       # z 1     doors, crates, cracked walls (redrawn on dyn_dirty)
 var lower: DrawLayer     # z 2-9   torches, hint, shadows, zones, objects, signs, pickups, bombs, mines
 var ents: DrawLayer      # z 100+y player, foes and the held weapon, sorted by y
+var dark: DrawLayer      # 22.1     the dark of a night floor (Weather), cut open by the lights
 var fx: DrawLayer        # z 1800  spawn rings, charge telegraphs, beams
 var glow: DrawLayer      # z 1900  additive glows
 var vfx: DrawLayer       # z 1950  ability effects (Vfx): blasts, lightning, marks on afflicted foes
@@ -41,6 +42,8 @@ func _ready() -> void:
 	dyn = _layer(_paint_dyn)
 	lower = _layer(_paint_lower)
 	ents = _layer(_paint_ents)
+	dark = _layer(func(ci): Weather.paint_dark(ci))
+	dark.material = Weather.material()
 	fx = _layer(_paint_fx)
 	glow = _layer(_paint_glow, true)
 	vfx = _layer(_paint_vfx)
@@ -66,9 +69,20 @@ func _ready() -> void:
 	texts.add_child(_labels)
 	G.room_changed.connect(_on_room_changed)
 
+## 22.1: on a night floor, what warns of danger shows over the dark (the floor layer leaves it out).
+func _paint_danger(ci: CanvasItem, t: float) -> void:
+	Hazards.draw_floor(ci, t)
+	EnemyAI2.draw_goo(ci, t)
+	RiftBosses.draw_ground(ci, t)
+	Chaos.draw_ground(ci, t)
+	_paint_warnings(ci, t)
+	if Vfx.enabled:
+		Afx.draw_ground(ci, t)
+
 ## Ashfall Town: banks of fog drift across the room and the edges close in (drawing only).
+## 22.1: and a floor whose weather is fog.
 func _paint_fog(ci: CanvasItem) -> void:
-	if G.room == null or not G.room.theme.get("fog", false):
+	if G.room == null or not (G.room.theme.get("fog", false) or Weather.fog()):
 		return
 	var t := G.time
 	for i in 5:
@@ -88,6 +102,7 @@ func _paint_fog(ci: CanvasItem) -> void:
 func _paint_parts(ci: CanvasItem) -> void:
 	Fx.draw_particles(ci)
 	Juice.draw_sparks(ci)
+	Weather.paint_air(ci, G.time)   # 22.1 rain, snow, ash
 	if Vfx.enabled and BiomeDeco.on(G.room):
 		BiomeDeco.paint_air(ci, G.time)
 
@@ -178,10 +193,11 @@ func refresh() -> void:
 		BiomeDeco.tick(TB.DT)
 	if G.state == &"play":
 		RoomDress.tick(TB.DT)
+		Weather.tick(TB.DT)   # 22.1
 	_prepare_shots()
 	_floats.sync()
 	_labels.queue_redraw()
-	for l in [lower, ents, fx, glow, vfx, pbul, bars, ebul, parts, swing, top, screen, texts]:
+	for l in [lower, ents, dark, fx, glow, vfx, pbul, bars, ebul, parts, swing, top, screen, texts]:
 		l.queue_redraw()
 
 static func deg(rgss_deg: float) -> float:
@@ -426,12 +442,16 @@ func _paint_lower(ci: CanvasItem) -> void:
 			Gfx.text(ci, lines[i], TB.SW / 2 - w / 2, 6 * TB.TS + i * 10, "bone", 1, 0.0, true, 120 / 255.0)
 	RoomDress.paint_live(ci, t)   # 16: flames, glints, incense, little animals
 	CampClock.paint_lower(ci, t)   # 21.6: lanterns, fireflies, stars in the pond
-	Hazards.draw_floor(ci, t)
+	Weather.paint_floor(ci)   # 22.1: rain rings
+	var night := Weather.here() == "dark"
+	if not night:   # (22.1: on a night floor these are drawn over the dark: _paint_danger)
+		Hazards.draw_floor(ci, t)
 	Rex.draw_floor(ci, t)
-	EnemyAI2.draw_goo(ci, t)
-	RiftBosses.draw_ground(ci, t)
-	Chaos.draw_ground(ci, t)
-	_paint_warnings(ci, t)   # 11.2: a red "!" circle under a foe winding up a big hit
+	if not night:
+		EnemyAI2.draw_goo(ci, t)
+		RiftBosses.draw_ground(ci, t)
+		Chaos.draw_ground(ci, t)
+		_paint_warnings(ci, t)   # 11.2: a red "!" circle under a foe winding up a big hit
 	Arsenal.draw_floor(ci, t)
 	Charged.draw_floor(ci, t)
 	Summons.draw_floor(ci, t)
@@ -441,7 +461,8 @@ func _paint_lower(ci: CanvasItem) -> void:
 		Vfx.draw_floor(ci, t)
 	_paint_shadows(ci, room)
 	if fancy:
-		Afx.draw_ground(ci, t)
+		if not night:
+			Afx.draw_ground(ci, t)
 		Vfx.draw_ground(ci, t)
 	# Zone motes (z 5): the plain look, when FANCY EFFECTS is off.
 	for z in ([] if fancy else G.zones):
@@ -785,6 +806,8 @@ func _draw_enemy(ci: CanvasItem, e: Enemy, t: float) -> void:
 func _paint_fx(ci: CanvasItem) -> void:
 	CampClock.paint_tint(ci)   # 21.6: the camp's light by the iPad's clock
 	var t := G.time
+	if Weather.here() == "dark":
+		_paint_danger(ci, t)
 	var fancy := Vfx.enabled
 	var accent := TB.c(GameData.floors()[G.floor_index]["accent_hex"])
 	for e: Enemy in G.enemies:
@@ -908,6 +931,7 @@ func _paint_glow(ci: CanvasItem) -> void:
 	BiomeDeco.paint_glow(ci, t)
 	RoomDress.paint_glow(ci, t)
 	CampClock.paint_glow(ci, t)   # 21.6
+	Weather.paint_eyes(ci, t)   # 22.1 eyes in the dark
 	for o in G.room.objects:
 		if o.get("gone", false):
 			continue

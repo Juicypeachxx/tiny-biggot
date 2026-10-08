@@ -46,7 +46,10 @@ static func here() -> Array:
 		return RIFT[room.theme["id"]]
 	var fl: Array = GameData.floors()
 	if G.floor_index >= 0 and G.floor_index < fl.size():
-		return FLOOR.get(fl[G.floor_index]["name"], ["crypt", "stone"])
+		var f: Array = FLOOR.get(fl[G.floor_index]["name"], ["crypt", "stone"])
+		if Weather.sound() != "":
+			return [Weather.sound(), f[1]]   # 22.1: rain or wind
+		return f
 	return ["crypt", "stone"]
 
 ## Game.enter_room: this place's loop (the same place carries on without a break).

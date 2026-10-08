@@ -200,7 +200,7 @@ static func paint_tint(ci: CanvasItem) -> void:
 		"evening":
 			c = Color(0.42, 0.18, 0.34, 0.2)
 		"night":
-			c = Color(0.03, 0.05, 0.18, 0.45)
+			c = Color(0.05, 0.08, 0.25, 0.16)   # (22.1: the dark itself is Weather's, cut open by the lights)
 	if c.a > 0.0:
 		ci.draw_rect(Rect2(0, 0, TB.SW, TB.SH), c)
 
