@@ -161,5 +161,10 @@ func _ready() -> void:
 	_press(&"pause")
 	if G.state != &"play":
 		fail("the board did not come back to the camp")
+	# 22.4 (found by the soak): the tinker can offer any gear above common, most of which has no set.
+	for g in Gear.all():
+		var sl := CampLife.prompt({ "kind": "v_tinker", "gear": g })
+		if sl.size() != 3 or str(sl[0]) == "" or str(sl[1]) == "":
+			fail("the tinker cannot show " + str(g.get("id")))
 	print("camp build test: PASSED" if fails == 0 else "camp build test: %d FAILED" % fails)
 	get_tree().quit()

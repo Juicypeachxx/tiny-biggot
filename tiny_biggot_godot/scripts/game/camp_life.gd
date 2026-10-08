@@ -414,8 +414,11 @@ static func prompt(o: Dictionary) -> Array:
 			if o.get("sold", false):
 				return ["THE TINKER", "\"IT WILL BE WAITING FOR YOU.\"", ""]
 			var g: Dictionary = o["gear"]
-			return ["THE TINKER: " + g["name"], Gear.SLOT_NAME[g["slot"]] + " OF THE " + Gear.SETS[g["set"]]["name"] + " SET" if g.get("set", "") != "" else g["desc"],
-				"BUY FOR YOUR NEXT RUN: %d EMBERS" % RELIC_PRICE.get(g["rarity"], 60)]
+			var what: String = g["desc"]
+			var st = g.get("set")   # (22.4: most gear has no set: null, which the old line looked up and broke on)
+			if st is String and st != "" and Gear.SETS.has(st):
+				what = Gear.SLOT_NAME.get(g["slot"], "A PIECE") + " OF THE " + Gear.SETS[st]["name"] + " SET"
+			return ["THE TINKER: " + g["name"], what, "BUY FOR YOUR NEXT RUN: %d EMBERS" % RELIC_PRICE.get(g["rarity"], 60)]
 		"v_cat":
 			var n := int(Meta.meta.get("cat_pets", 0))
 			if n >= CAT_STAYS:

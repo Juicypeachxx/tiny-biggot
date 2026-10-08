@@ -30,7 +30,7 @@ static func depth() -> int:
 static func on_floor() -> void:
 	var d := depth()
 	G.run_stats["depth"] = d
-	var b0: int = G.run_stats.get("best0", 0)
+	var b0 := int(G.run_stats.get("best0", 0))   # (a saved run reads its numbers back as fractions)
 	if b0 > 0 and d > b0 and not G.run_stats.get("new_best", false):
 		G.run_stats["new_best"] = true
 		G.toast("DEEPER THAN EVER BEFORE", "gold")

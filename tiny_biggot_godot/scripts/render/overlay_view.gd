@@ -204,6 +204,8 @@ func draw_prompt(ci: CanvasItem, o: Dictionary) -> void:
 		var sl := Saloon.prompt(o) if Saloon.handles(o["kind"]) else (EventRooms.prompt(o) if EventRooms.handles(o["kind"]) \
 			else (RiftExtras.prompt(o) if RiftExtras.handles(o["kind"]) else (Pets.prompt(o) if Pets.handles(o["kind"]) \
 			else (Wanderers.prompt(o) if Wanderers.handles(o["kind"]) else Rex.prompt(o)))))
+		if sl.size() < 3:
+			return   # (22.4: a prompt that failed shows nothing rather than a second error)
 		title = sl[0]
 		desc = sl[1]
 		extra = sl[2]

@@ -1053,6 +1053,12 @@ Found by the soak: OPTIONS > KEYBOARD KEYS waited for "PRESS A KEY" until a keyb
 an iPad with no keyboard (and the soak, from minute 10 of its hour) was stuck there. Now a tap
 (USE), BACK/MENU, or 8 s (Keys.CAPTURE_MAX) ends the wait (Game.update_keys; Keys.capture_t);
 tests/keys_test covers both.
+Then the soak, now really an hour of play, found the camp TINKER's prompt breaking on any gear
+without a set (214 of 352 have "set": null; the line looked SETS[null] up): CampLife.prompt fixed,
+camp_build_test asks it of every gear, and OverlayView.draw_prompt shows nothing for a failed
+prompt instead of a second error. Endless.on_floor reads best0 with int() (a saved run's numbers
+come back as fractions). Objects over the soak's hour: 3651 at 1 min, flat at about 4320 from 20
+to 60 min (no leak); nodes 68 and resources 162 throughout.
 
 ## Noted, not yet acted on
 
