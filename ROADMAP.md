@@ -875,7 +875,7 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       "WELL READ", +700 embers, a banner in the camp. New sets BOOKWORM (4) and THE CRITIC'S
       REGALIA (legendary, 6); the guardians drop THE SHELVER'S ARM, THE HUSH BELL and THE RED PEN.
       21 new sprites (with elite and evolved forms), three floor tile kits, 13 icons, the
-      Archivist's new lines. `--chapter=4`.
+      Archivist's new lines. `--chapter=4`. IPA 20.
 
 ---
 
