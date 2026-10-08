@@ -1112,6 +1112,9 @@ chaos codex 73. (First numbers were higher: the pinballs went from +15% to +10% 
 10 bounces, the orrery's stars 40% to 30%, the event horizon +20% to +10% a shot eaten (15 at
 most); sundering, kaleidoscope, fractal crown and wild surge were given less damage.)
 content_test passes. Docs: ARSENAL.md part 5. 23.1 done.
+23.2: replays before re-recording: the classic 6 identical; the core 8 identical but h, which
+differs from 89 s: the bot picks up SANGUINE RING where it found the STEAM REPEATER, because the
+rare pool has eight more weapons (the same roll lands on another). h re-recorded on purpose.
 
 ## Noted, not yet acted on
 
