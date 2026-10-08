@@ -955,14 +955,16 @@ static func tick(dt: float) -> void:
 				if d[1] > 268:
 					d[0] = _rng.randf_range(20, 428)
 					d[1] = _rng.randf_range(-30, 20)
-	if G.floor_index in BIRD_FLOORS and G.room != null and G.room.theme.is_empty() and on(G.room):
+	var songbirds := CampClock.birds()   # 21.6: songbirds in the camp of a morning
+	if songbirds or G.floor_index in BIRD_FLOORS and G.room != null and G.room.theme.is_empty() and on(G.room):
 		_land_t -= dt
 		if _land_t <= 0.0:   # a new crow lands now and then
-			_land_t = _rng.randf_range(10.0, 20.0)
-			if _critters.filter(func(c): return c["kind"] == "bird").size() < 3:
+			_land_t = _rng.randf_range(3.0, 8.0) if songbirds else _rng.randf_range(10.0, 20.0)
+			if _critters.filter(func(c): return c["kind"] == "bird").size() < (5 if songbirds else 3):
 				var lx := _rng.randf_range(60, 388)
 				_critters.append({ "kind": "bird", "x": lx, "y": 20.0, "vx": _rng.randf_range(-20, 20), "vy": 80.0, "t": 0.0,
-					"col": "#2a2838", "land": _rng.randf_range(80, 240) })
+					"col": ["#a8705a", "#4d9be6", "#d8443c", "#e8c84a"][_rng.randi() % 4] if songbirds else "#2a2838",
+					"land": _rng.randf_range(80, 240) })
 	for i in range(_critters.size() - 1, -1, -1):
 		var c: Dictionary = _critters[i]
 		if c["kind"] == "bird":

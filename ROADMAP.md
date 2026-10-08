@@ -936,8 +936,17 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       until they notice you (the sootlings flee, "EEP!"). Slimes leave you for coins and gems
       dropped near them and swallow them: each makes the slime bigger and tougher (+20%
       health); burst it and the coins come back. `tests/lives_test`.
-- [ ] 21.6 The camp follows the iPad's clock: birds in the morning, lanterns in the evening,
+- [x] 21.6 The camp follows the iPad's clock: birds in the morning, lanterns in the evening,
       fireflies and stars at night; the cat brings small gifts. IPA.
+      Done: the camp reads the iPad's clock. Morning (5-10): a warm haze, songbirds (brown,
+      blue, red, yellow) land and peck about and fly off when you come near, and birdsong by
+      the fire instead of crickets. Day (11-16): as before, with birdsong. Evening (17-20): a
+      dusky light, five lantern posts lit, the first fireflies, crickets. Night (21-4): dark
+      blue, the lanterns and the fire glow, fireflies drift and blink, stars and the moon
+      shine in the pond. The banner greets you for the time of day. Once a day (the iPad's
+      date), if Soot the cat is about, a gift lies by the cat: a fish for the larder, or a shiny
+      button, a lost ring, a feather or a mouse for embers. `tests/camp_clock_test`. Test
+      switch for pictures: `--clock=H`.
 
 ---
 

@@ -41,7 +41,7 @@ static func here() -> Array:
 	if room == null:
 		return ["", "stone"]
 	if room.type == "camp":
-		return ["camp", "grass"]
+		return [CampClock.loop(), "grass"]   # 21.6: crickets after dark, birdsong by day
 	if not room.theme.is_empty() and RIFT.has(room.theme.get("id", "")):
 		return RIFT[room.theme["id"]]
 	var fl: Array = GameData.floors()

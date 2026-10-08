@@ -21,7 +21,7 @@ const KINDS := ["e_pitboss", "e_mechanic", "e_teller", "e_card", "e_courier", "e
 	"e_plate", "e_decor", "w_drunk", "w_merchant",
 	"e_frog", "e_glyph", "e_pawn", "e_hustler", "e_cup", "e_gong",   # 10.2
 	"n_archivist", "n_endbook", "n_turnpage", "n_inkling", "n_bookbinder", "n_tornpage", "n_redactdoor", "n_readon", "n_shelf", "e_pond", "e_angler", "e_pot", "e_coins", "e_keg",
-	"c_portal", "c_wardrobe", "c_shrine", "c_telescope", "c_dummy", "c_board", "c_daily", "c_cook", "c_rack", "v_peddler", "v_bard", "v_seer", "v_monger", "v_cat", "v_gambler", "v_tinker", "c_build", "c_deco"]   # 17.2 camp.gd   # 16: room_dress.gd   # 12.1-12.2 (story.gd)
+	"c_portal", "c_wardrobe", "c_shrine", "c_telescope", "c_dummy", "c_board", "c_daily", "c_cook", "c_rack", "v_peddler", "v_bard", "v_seer", "v_monger", "v_cat", "v_gambler", "v_tinker", "c_build", "c_deco", "c_gift"]   # 17.2 camp.gd   # 16: room_dress.gd   # 12.1-12.2 (story.gd)
 ## 10.2 (his ask, 6 Oct, from his trailer clips: ideas only, this game's own events):
 ##   frog       THE FROG POND: kiss the frog or leave it. A royal gift, a little luck, or warts.
 ##   ritual     THE RITUAL CIRCLE: four glyphs (sun, moon, star, skull); stand on one for its
@@ -289,6 +289,8 @@ static func interact(o: Dictionary) -> void:
 			Fishing.angler(o)
 		"c_portal", "c_wardrobe", "c_shrine", "c_telescope", "c_dummy", "c_board", "c_daily", "c_cook", "c_rack", "v_peddler", "v_bard", "v_seer", "v_monger", "v_cat", "v_gambler", "v_tinker", "c_build", "c_deco":
 			Camp.interact(o)
+		"c_gift":
+			CampClock.take(o)   # 21.6 the cat's gift
 		"n_readon":
 			o["used"] = true
 			for o2 in G.room.objects:
@@ -805,6 +807,8 @@ static func prompt(o: Dictionary) -> Array:
 			return Fishing.angler_prompt(o)
 		"c_portal", "c_wardrobe", "c_shrine", "c_telescope", "c_dummy", "c_board", "c_daily", "c_cook", "c_rack", "v_peddler", "v_bard", "v_seer", "v_monger", "v_cat", "v_gambler", "v_tinker", "c_build", "c_deco":
 			return Camp.prompt(o)
+		"c_gift":
+			return CampClock.prompt(o)
 		"e_pond":
 			return ["A POND", "%d CASTS LEFT. FISH FOUND %d OF %d" % [o.get("casts", 0), Fishing.caught_kinds(), Fishing.FISH.size()], "FISH"]
 		"n_readon":
@@ -914,6 +918,8 @@ static func draw(ci: CanvasItem, o: Dictionary, t: float) -> void:
 			Fishing.draw_angler(ci, o, t)
 		"c_portal", "c_wardrobe", "c_shrine", "c_telescope", "c_dummy", "c_board", "c_daily", "c_cook", "c_rack", "v_peddler", "v_bard", "v_seer", "v_monger", "v_cat", "v_gambler", "v_tinker", "c_build", "c_deco":
 			Camp.draw(ci, o, t)
+		"c_gift":
+			CampClock.draw_gift(ci, o, t)
 		"e_pot":
 			pass   # 17.1: drawn with the doors (RoomDress.paint_dyn)
 		"e_coins":

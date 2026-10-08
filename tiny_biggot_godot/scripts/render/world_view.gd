@@ -425,6 +425,7 @@ func _paint_lower(ci: CanvasItem) -> void:
 			var w := TB.text_w(lines[i]) + 1
 			Gfx.text(ci, lines[i], TB.SW / 2 - w / 2, 6 * TB.TS + i * 10, "bone", 1, 0.0, true, 120 / 255.0)
 	RoomDress.paint_live(ci, t)   # 16: flames, glints, incense, little animals
+	CampClock.paint_lower(ci, t)   # 21.6: lanterns, fireflies, stars in the pond
 	Hazards.draw_floor(ci, t)
 	Rex.draw_floor(ci, t)
 	EnemyAI2.draw_goo(ci, t)
@@ -491,7 +492,7 @@ func _paint_lower(ci: CanvasItem) -> void:
 			"s_decor", "s_bartender", "s_drink", "s_merchant", "s_broker", "s_drunk", "s_piano", "s_poster":
 				Saloon.draw(ci, o, t)
 			"e_pitboss", "e_mechanic", "e_teller", "e_card", "e_courier", "e_attendant", "e_beacon", "e_statue", "e_plate", \
-					"e_decor", "w_drunk", "w_merchant", "e_frog", "e_glyph", "e_pawn", "e_hustler", "e_cup", "e_gong", "n_archivist", "n_endbook", "n_turnpage", "n_inkling", "n_bookbinder", "n_tornpage", "n_redactdoor", "n_readon", "n_shelf", "e_pond", "e_angler", "e_pot", "e_coins", "e_keg", "c_portal", "c_wardrobe", "c_shrine", "c_telescope", "c_dummy", "c_board", "c_daily", "c_cook", "c_rack", "v_peddler", "v_bard", "v_seer", "v_monger", "v_cat", "v_gambler", "v_tinker", "c_build", "c_deco":
+					"e_decor", "w_drunk", "w_merchant", "e_frog", "e_glyph", "e_pawn", "e_hustler", "e_cup", "e_gong", "n_archivist", "n_endbook", "n_turnpage", "n_inkling", "n_bookbinder", "n_tornpage", "n_redactdoor", "n_readon", "n_shelf", "e_pond", "e_angler", "e_pot", "e_coins", "e_keg", "c_portal", "c_wardrobe", "c_shrine", "c_telescope", "c_dummy", "c_board", "c_daily", "c_cook", "c_rack", "v_peddler", "v_bard", "v_seer", "v_monger", "v_cat", "v_gambler", "v_tinker", "c_build", "c_deco", "c_gift":
 				EventRooms.draw(ci, o, t)
 			"x_table", "x_lever", "x_skull", "x_fisher", "x_saint", "x_ratpile":
 				RiftExtras.draw(ci, o, t)
@@ -782,6 +783,7 @@ func _draw_enemy(ci: CanvasItem, e: Enemy, t: float) -> void:
 
 # ---------- z 1800: spawn rings, telegraphs, boss beams ----------
 func _paint_fx(ci: CanvasItem) -> void:
+	CampClock.paint_tint(ci)   # 21.6: the camp's light by the iPad's clock
 	var t := G.time
 	var fancy := Vfx.enabled
 	var accent := TB.c(GameData.floors()[G.floor_index]["accent_hex"])
@@ -905,6 +907,7 @@ func _paint_glow(ci: CanvasItem) -> void:
 		Gfx.at(ci, "glow_torch", [6, 21][i] * TB.TS + 8 - 36, TB.TS + 4 - 36, op)
 	BiomeDeco.paint_glow(ci, t)
 	RoomDress.paint_glow(ci, t)
+	CampClock.paint_glow(ci, t)   # 21.6
 	for o in G.room.objects:
 		if o.get("gone", false):
 			continue

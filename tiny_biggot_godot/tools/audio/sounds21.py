@@ -279,8 +279,41 @@ def camp(rnd):
     return out
 
 
+def chirp(rnd, f0, f1, dur):
+    n = int(dur * SR)
+    out, ph = [], 0.0
+    for i in range(n):
+        k = i / n
+        f = f0 + (f1 - f0) * k + 260.0 * math.sin(2 * math.pi * 38.0 * i / SR)   # a warble
+        ph += 2 * math.pi * f / SR
+        out.append(math.sin(ph) * math.sin(math.pi * k) ** 2)
+    return out
+
+
+def birds(rnd, lo, hi, gain):
+    out = zeros(N)
+    t = rnd.uniform(0.2, 1.0)
+    while t < L:
+        n_ch = rnd.randint(2, 5)   # a phrase of a few chirps
+        base = rnd.uniform(lo, hi)
+        for k in range(n_ch):
+            f0 = base * rnd.uniform(0.92, 1.08)
+            f1 = f0 * (rnd.uniform(1.15, 1.45) if rnd.random() < 0.6 else rnd.uniform(0.7, 0.9))
+            mix(out, chirp(rnd, f0, f1, rnd.uniform(0.05, 0.11)), int((t + k * 0.13) * SR), gain * rnd.uniform(0.6, 1.0))
+        t += n_ch * 0.13 + rnd.uniform(0.8, 2.2)
+    return out
+
+
+def campday(rnd):
+    out = [v * 0.15 for v in seam(bandpass(white(N, rnd), 300, 1500))]   # a breeze in the leaves
+    mix(out, crackle(rnd, 8, 0.35))
+    mix(out, birds(rnd, 2600, 3400, 0.35))
+    mix(out, birds(rnd, 3800, 4600, 0.25))
+    return out
+
+
 PLACES = { "crypt": crypt, "grotto": grotto, "rain": rain, "water": water, "forge": forge, "wind": wind,
-	"eclipse": eclipse, "ink": ink, "library": library, "hearth": hearth, "camp": camp }
+	"eclipse": eclipse, "ink": ink, "library": library, "hearth": hearth, "camp": camp, "campday": campday }
 
 
 # ---------- footsteps ----------

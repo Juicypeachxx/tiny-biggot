@@ -28,7 +28,7 @@ func _ready() -> void:
 	await get_tree().process_frame
 	# Every place and floor has its sound, and the loops repeat.
 	G.run_stats["chapter"] = 4
-	var places := ["camp"]
+	var places := ["camp", "campday"]
 	var floors_ := ["grass"]
 	for f in GameData.floors():
 		if not Ambience.FLOOR.has(f["name"]):
@@ -121,8 +121,8 @@ func _ready() -> void:
 		fail("the sound of a place moved the run's random numbers")
 	# The camp.
 	Camp.enter()
-	if Snd.ambience_name() != "camp":
-		fail("the camp sounds of '%s'" % Snd.ambience_name())
+	if Snd.ambience_name() != CampClock.loop():
+		fail("the camp sounds of '%s', not %s" % [Snd.ambience_name(), CampClock.loop()])
 	# The title: it fades away, and the music is full again.
 	G.state = &"title"
 	G.update(TB.DT)

@@ -44,7 +44,8 @@ static func enter() -> void:
 	G.player.x = 224.0
 	G.player.y = 196.0
 	G.state = &"play"
-	G.show_banner("THE CAMP", "REST, LOOK AROUND, AND SET OUT WHEN YOU ARE READY")
+	CampClock.on_enter(G.room)   # 21.6: the cat's gift, once a day
+	G.show_banner("THE CAMP", CampClock.greeting())
 	if Meta.meta.has("trap_news"):   # 20.2
 		G.toast("THE FISH TRAP CAUGHT: " + str(Meta.meta["trap_news"]), "gold")
 		Meta.meta.erase("trap_news")

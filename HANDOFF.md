@@ -1000,6 +1000,15 @@ speed x RALLY, undone when rally_t runs out); kill_enemy -> `on_kill` (a slime's
 back); RoomDress.knock -> `lamp_down`; world_view `_draw_enemy` -> `draw` (Zz, coin glints);
 Barks skips sleepers. `pop()`: a floating word without Fx.float_text's dice. No run dice rolled
 by any of it. `tests/lives_test`.
+21.6: `CampClock` (scripts/game/camp_clock.gd): `hour()` (force_hour for tests, --clock=H, else
+the system clock), `phase()`; drawing in world_view: `paint_lower` (LANTERNS posts, fireflies,
+stars and a moon in the pond at POND), `paint_tint` (start of the fx layer: over the people,
+under the lights), `paint_glow` (lanterns, the cook fire, fireflies). RoomDress.tick lands
+songbirds in the camp of a morning (`birds()`; `_land_t` set to 1 s on arrival). Ambience: the
+camp's loop is `CampClock.loop()` ("campday": birdsong, made by sounds21.py `birds`/`chirp`).
+Camp.enter -> `on_enter` (the gift `c_gift` by the cat; Meta "cat_gift" = the date it was
+taken; routed through EventRooms KINDS/interact/prompt/draw), banner `greeting()`.
+`tests/camp_clock_test`.
 
 ## Noted, not yet acted on
 
