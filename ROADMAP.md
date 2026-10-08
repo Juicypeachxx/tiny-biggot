@@ -830,6 +830,30 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       leaves the camp's gifts for the next ordinary run. New sprites: the cook, the four visitors,
       the cat. Nothing hurts in the camp; autofire there only reaches the dummies nearby.
 
+## Stage 20 (his word, 8 Oct: "3, 4, 5")
+- [x] 20.1 A second balance pass: why the Condemned and the Sellsword dealt the least of the
+      close-range heroes (raise them if it is real), and a test fight with rolls, hits, new rooms
+      and gold, to measure the traits the first one could not (MARTYR, THE HOST, LEGION, PRISM,
+      THUNDER STEP ...). Raise the weak ones; nothing lowered.
+      Done: a live test fight (`--probe-live`: foes that walk in and foes that shoot, hits land,
+      a roll every 2s, the skill when ready, a new room every 10s). The Condemned and the
+      Sellsword are fine once they roll and use their skill (1,636 and 2,659; the middle is about
+      2,150). The weakest were the six originals, who had no skill: in the expanded game each now
+      has one (WITCHING HOUR, HUNTER'S VOLLEY, WHIRLWIND, OPEN GRAVES, GRAND REACTION, LANTERN
+      FLARE) and the two free starters a passive (HEXCRAFT, QUICK HANDS). Hexer 829 -> 1,705,
+      Poacher 958 -> 1,560, Brute 1,301 -> 2,446, Gravedigger 1,125 -> 1,514, Alchemist 1,296 ->
+      2,237, Warden 1,210 -> 2,073. Raised too: Frost Witch 665 -> 1,975 (her shards now pierce,
+      chilled foes take +30% from her, BLIZZARD hits for 150%), Beastmaster 988 -> 2,204,
+      Clockmaker 1,044 -> 1,556 (a ring of gears every 12th shot), Minstrel 1,006 -> 1,498,
+      Pilgrim 1,136 -> 1,794, Tinkerer 1,293 -> 1,619. The Forsaken stays the hard one on purpose.
+      Traits: WINTER'S HEART (every second, +50%), PRISM (+15% an ailment, 15% of hits add one),
+      TOXIC BLOOM (every 3s, and the foes near you). MARTYR, THE HOST, LEGION, THUNDER STEP and
+      OVERCHARGED are strong once rolls, hits and rooms are in the fight: left as they are.
+- [ ] 20.2 Camp upgrades and quests: embers build the camp up (more meals at once, a third
+      visitor, a better rack, more), and a quest board with small goals that pay embers.
+- [ ] 20.3 Chapter IV: a new world after the Reader, with its own foes, guardians, gear sets and
+      story. IPA.
+
 ---
 
 ## Log

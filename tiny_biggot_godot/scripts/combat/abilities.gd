@@ -16,7 +16,8 @@ const LEAP_HEIGHT := 26.0     # how high a leap carries the hero (drawing only)
 const LEAP_MIN := 0.2         # seconds in the air, even for a hop on the spot
 
 static func has_special(p: Player) -> bool:
-	return p != null and p.hero.has("special")
+	# 20.1: the originals' skills (GameData.ORIGINAL_SPECIALS) are expanded-game only.
+	return p != null and p.hero.has("special") and (p.hero.get("new", false) or GameData.rogues())
 
 static func ready(p: Player) -> bool:
 	return has_special(p) and p.special_cd <= 0

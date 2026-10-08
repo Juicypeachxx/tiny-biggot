@@ -518,16 +518,16 @@ const ROWS := [
 	["hagglerbargain", "HAGGLER'S BARGAIN", "bolt", "legend", ["fortune"], "pistol", { "dmg": 9.0, "rate": 3.0 }, [["luck", 1]], [["gold_dmg", 0.1]], "+10% DAMAGE PER 100 GOLD. A FIFTH OF HITS HAGGLE 1 GOLD OUT OF THE FOE. EVERY 12TH SHOT THROWS 5 COINS THAT HIT.", [{ "on": "on_hit", "chance": 0.2, "do": [["gold", 1]] }, { "on": "every_n_shots", "every": 12, "do": [["shoot", 5, 0.8, "", 0.2]] }]],
 	# ROADMAP 4.8 hero weapons (signature: never in loot pools).
 	["hivesmoker", "HIVE SMOKER", "flame", "rare", ["swarm", "venom"], "handcannon", { "dmg": 1.4, "rate": 9.0 }, [["poison", 1]], [], "PUFFS SMOKE THAT SOOTHES BEES AND CHOKES EVERYTHING ELSE.", [], "w_firespitter"],
-	["rivetgun", "RIVET GUN", "bolt", "rare", ["swarm"], "pistol", { "dmg": 3.0, "rate": 4.5 }, [], [], "FIRES HOT RIVETS FAST.", [], "w_repeater"],
+	["rivetgun", "RIVET GUN", "bolt", "rare", ["swarm"], "pistol", { "dmg": 3.8, "rate": 4.5 }, [], [], "FIRES HOT RIVETS FAST.", [], "w_repeater"],
 	["inkquill", "INKWELL QUILL", "orb", "rare", ["venom", "arcane"], "staff", { "dmg": 3.4, "rate": 3.4, "homing": 0.5 }, [["poison", 1]], [], "BOLTS OF INK THAT CURVE TOWARD FOES AND POISON THEM.", [], "w_inkspout"],   # 18.2 the Inkling
 	["bonestaff", "BONE STAFF", "orb", "rare", ["malice"], "staff", { "dmg": 4.0, "rate": 2.6, "homing": 1.0 }, [["curse", 0.05]], [], "HEX BOLTS THAT SEEK THE LIVING.", [], "w_hexwand"],
 	["brightblade", "BRIGHT BLADE", "slash", "rare", ["bulwark", "arcane"], "sword", { "dmg": 7.0, "rate": 2.4 }, [], [], "A BLADE POLISHED UNTIL IT SHINES LIKE A MIRROR.", [], "w_sabre"],
 	["censerflail", "CENSER FLAIL", "whip", "rare", ["venom", "malice"], "whip", { "dmg": 5.0, "rate": 2.2 }, [["poison", 1]], [], "A SWINGING CENSER OF SICKLY SMOKE.", [], "w_bramblewhip"],
-	["iciclewand", "ICICLE WAND", "orb", "rare", ["frost"], "staff", { "dmg": 3.6, "rate": 3.0 }, [["chill", 0.15]], [], "SHARDS OF ICE THAT PIERCE ONE FOE.", [], "w_rimerod"],
+	["iciclewand", "ICICLE WAND", "orb", "rare", ["frost"], "staff", { "dmg": 5.0, "rate": 3.0, "pierce": 2 }, [["chill", 0.15]], [], "SHARDS OF ICE THAT PIERCE TWO FOES.", [], "w_rimerod"],
 	["blastmortar", "BLAST MORTAR", "grenade", "rare", ["demolition"], "grenade", { "dmg": 9.0, "rate": 1.1, "shrapnel": 4 }, [], [], "LOBS SHELLS THAT LAND BY THE FOE YOU AIM AT. THE BLAST THROWS 4 SHARDS.", [], "w_pineapple"],
 	["headsmansaxe", "HEADSMAN'S AXE", "slash", "rare", ["blood", "edge"], "greatsword", { "dmg": 12.0, "rate": 1.4, "range": 44, "arc": 140 }, [], [], "HEAVY, SLOW AND FINAL.", [], "w_gallows"],
-	["pilgrimstaff", "PILGRIM'S STAFF", "pulse", "rare", ["bulwark"], "staff", { "dmg": 4.0, "rate": 1.8 }, [], [], "EACH TAP OF THE STAFF SENDS OUT A PULSE OF LIGHT.", [], "w_sparkrune"],
-	["beastspear", "BEAST SPEAR", "thrust", "rare", ["swarm", "edge"], "halberd", { "dmg": 7.0, "rate": 2.2, "range": 56 }, [], [], "A HUNTING SPEAR WITH A BONE TIP.", [], "w_halberd"],
+	["pilgrimstaff", "PILGRIM'S STAFF", "pulse", "rare", ["bulwark"], "staff", { "dmg": 5.6, "rate": 1.8 }, [], [], "EACH TAP OF THE STAFF SENDS OUT A PULSE OF LIGHT.", [], "w_sparkrune"],
+	["beastspear", "BEAST SPEAR", "thrust", "rare", ["swarm", "edge"], "halberd", { "dmg": 9.0, "rate": 2.5, "range": 56 }, [], [], "A HUNTING SPEAR WITH A BONE TIP.", [], "w_halberd"],
 	# Boss and mini-boss drops (his ask, 6 Oct; boss_loot.gd): found only from their owner.
 	["bloomspitter", "SPORE MOTHER'S BLOOM", "flame", "legend", ["venom"], "handcannon", { "dmg": 1.6, "rate": 8.0 }, [["poison", 2]], [], "SPRAYS LIVING SPORES: +2 POISON. A POISONED FOE YOU KILL BURSTS INTO A SPORE CLOUD.", [{ "on": "on_kill", "if": "poisoned", "do": [["zone", "poison", 26, 3.0]] }], "w_firespitter"],
 	["drownedtome", "THE DROWNED TOME", "orb", "legend", ["arcane", "frost"], "staff", { "dmg": 4.5, "rate": 2.4 }, [["chill", 0.15]], [], "WET PAGES THAT CHILL. EVERY 8TH CAST, THE BOOK FLINGS 10 PAGES ALL AROUND YOU.", [{ "on": "every_n_shots", "every": 8, "do": [["nova", 10, 0.8, "spark"]] }], "w_witchstaff"],
@@ -545,7 +545,7 @@ const ROWS := [
 	["kingpingun", "KINGPIN'S DRUM GUN", "gatling", "legend", ["fortune", "edge"], "minigun", { "dmg": 2.4, "rate": 8.0 }, [["crit", 0.1]], [], "+10% CRIT. EVERY 30TH SHOT EMPTIES THE DRUM: 8 SHOTS IN A SPRAY. KILLS PAY 1 GOLD.", [{ "on": "every_n_shots", "every": 30, "do": [["shoot", 8, 0.8, "", 0.15]] }, { "on": "on_kill", "do": [["gold", 1]] }], "w_crankgun"],
 	["marshalsiron", "MARSHAL'S SIX-SHOOTER", "bolt", "legend", ["edge"], "pistol", { "dmg": 7.0, "rate": 3.0 }, [["crit", 0.1]], [], "+10% CRIT. THE SIXTH SHOT IS A FAN OF THREE HEAVY ROUNDS.", [{ "on": "every_n_shots", "every": 6, "do": [["shoot", 3, 1.5, "", 0.2]] }], "w_repeater"],
 	# 6.4 (his ask, 6 Oct): clockwork weapons. The Clockmaker's own, then seven to find, then the Great Engine's.
-	["gearwound", "GEARWOUND REPEATER", "bolt", "rare", ["storm"], "repeater", { "dmg": 2.6, "rate": 5.5 }, [], [], "SPRING-WOUND BOLTS. EVERY 12TH SHOT SLOWS THE FOES' SHOTS NEAR YOU.", [{ "on": "every_n_shots", "every": 12, "do": [["slow_shots", 120, 0.5]] }], "w_gearwound"],
+	["gearwound", "GEARWOUND REPEATER", "bolt", "rare", ["storm"], "repeater", { "dmg": 3.4, "rate": 5.5 }, [], [], "SPRING-WOUND BOLTS. EVERY 12TH SHOT SLOWS THE FOES' SHOTS NEAR YOU.", [{ "on": "every_n_shots", "every": 12, "do": [["slow_shots", 120, 0.5]] }], "w_gearwound"],
 	# 10.3 the new heroes' own weapons (never in a loot pool: HERO_WEAPON).
 	# 11.2 (his ask, 6 Oct, from his trailer clips): GLOOM and prism fans.
 	["duskblade", "DUSKBLADE", "slash", "epic", ["malice", "edge"], "sword", { "dmg": 8.0, "rate": 2.2 }, [], [], "HALF ITS HITS ADD GLOOM.", [{ "on": "on_hit", "chance": 0.5, "do": [["status", "gloom", 1]] }], "w_duskblade"],
@@ -558,7 +558,7 @@ const ROWS := [
 	["emberflail", "EMBER MACE", "flail", "epic", ["pyre"], "flail", { "dmg": 7.5 }, [["burn", 0.3]], [], "A BALL OF COALS. SETS WHAT IT HITS ABLAZE.", [], "w_flail_ember"],
 	["stormflail", "THUNDERBALL", "flail", "epic", ["storm"], "flail", { "dmg": 7.0 }, [], [["nth_zap", 3]], "EVERY 3RD LASH CALLS LIGHTNING.", [], "w_flail_storm"],
 	["skullflail", "THE GRAVE BELL", "flail", "legend", ["malice", "fury"], "flail", { "dmg": 9.0, "count": 3 }, [], [["nth_nova", 4]], "THREE SKULLS ON CHAINS. EVERY 4TH LASH BURSTS INTO A RING.", [], "w_flail_skull"],
-	["lute", "SINGING LUTE", "orb", "rare", ["arcane"], "orbstaff", { "dmg": 3.4, "rate": 3.2 }, [], [], "NOTES THAT CURVE TOWARD FOES.", [], "w_lute"],
+	["lute", "SINGING LUTE", "orb", "rare", ["arcane"], "orbstaff", { "dmg": 5.0, "rate": 3.2 }, [], [], "NOTES THAT CURVE TOWARD FOES.", [], "w_lute"],
 	["jugglepins", "JUGGLING PINS", "boomer", "rare", ["fortune"], "chakram", { "dmg": 5.0, "rate": 2.4 }, [], [], "PINS THAT FLY OUT AND SPIN BACK.", [], "w_jugglepins"],
 	["greataxe", "GREAT AXE", "slash", "rare", ["fury"], "sword", { "dmg": 12.0, "rate": 1.6 }, [], [], "A WIDE, HEAVY SWING.", [], "w_greataxe"],
 	["rustyshiv", "RUSTY SHIV", "thrust", "common", ["edge"], "spear", { "dmg": 4.0, "rate": 2.6 }, [], [], "IT IS ALL YOU HAVE.", [], "w_rustyshiv"],

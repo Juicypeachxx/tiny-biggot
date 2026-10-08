@@ -921,6 +921,15 @@ there. `--ui=kitchen|armory [--camp-fish]`, `--ui=camp --camp-near=KIND`. `tests
 (a 999-projectile whip was 150 ms a tick). arsenal_test now seeds each fight by the weapon id (it
 had one seed for hundreds of fights in a row, so any change upstream moved later fights' luck:
 FROST BEACON's foes were pushed out of reach) and holds foes in place for turrets.
+20.1: probe `--probe-live` (3 slimes + 3 skeletons, 60 health; not god, health topped up below 3;
+`start_roll` every 2s and `Abilities.use` when ready, both inside the counted window, or their
+instant damage is missed; a new room every 10s), `--probe-heroes`, `--probe-seeds=N`,
+`--probe-actions`. Expanded-only hero changes: `GameData.ORIGINAL_SPECIALS` and
+`ORIGINAL_PASSIVES` (merged into copies of the six originals in `heroes()`, never with --classic);
+`Abilities.has_special` and game.gd new_run (hero effects) also check `GameData.rogues()`, so tests
+that set `force_classic` see the originals as before. Hero page: a skill line for the originals.
+Weapons raised: iciclewand (5.0, pierce 2), beastspear (9.0, 2.5/s), gearwound 3.4, lute 5.0,
+pilgrimstaff 5.6, rivetgun 3.8. Traits raised: x_winter, y_prism, v_toxic.
 
 ## Noted, not yet acted on
 

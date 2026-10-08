@@ -119,7 +119,7 @@ func new_run() -> void:
 			Traits.apply_node(tree[bi]["nodes"][ni][0], p)
 	Attributes.start(p)
 	# Step 6 heroes: a passive (effect-system data) and a starting trait.
-	if hero.has("effects"):
+	if hero.has("effects") and (hero.get("new", false) or GameData.rogues()):   # 20.1: the originals' passives are expanded-only
 		Effects.apply(p, hero["effects"], 1, "hero:" + hero["id"])
 	if hero.has("trait"):
 		p.pending += 1

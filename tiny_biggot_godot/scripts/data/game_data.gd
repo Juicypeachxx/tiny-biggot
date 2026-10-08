@@ -163,13 +163,13 @@ const NEW_HEROES := [
 		"do": [["consume_area", 110, 0.8], ["vfx", "ring", "#b8e05a", 110]] } },
 	{ "id": "frostwitch", "name": "THE FROST WITCH", "sprite": "frostwitch", "new": true,
 	  "blurb": "Where she walks, even arrows think twice.",
-	  "passive": "+20% CHILL CHANCE. EVERY 3S IN A FIGHT, THE SHOTS NEAR YOU SLOW TO HALF SPEED.",
+	  "passive": "+20% CHILL CHANCE. CHILLED FOES TAKE +30% FROM YOU. EVERY 3S IN A FIGHT, THE SHOTS NEAR YOU SLOW TO HALF SPEED.",
 	  "weapon": "ICICLE WAND", "hp": 6, "speed": 88, "shot": "orb", "sound": "shoot", "cost": 180, "trait": "chillbite",
 	  "stats": { "dmg": 3.6, "rate": 3.0, "shot_speed": 210.0, "life": 1.3, "homing": 0.0, "size": 1.0, "pierce": 1 },
-	  "effects": [["add", "chill", 0.2], { "on": "every_n_seconds", "period": 3.0, "if": "fighting", "do": [["slow_shots", 70, 0.5]] }],
+	  "effects": [["add", "chill", 0.2], ["add", "vs_chill", 0.3], { "on": "every_n_seconds", "period": 3.0, "if": "fighting", "do": [["slow_shots", 70, 0.5]] }],
 	  "special": { "name": "BLIZZARD", "cd": 14, "col": "#9fc3ee",
-		"desc": "EVERY FOE NEAR YOU FREEZES SOLID FOR 1S AND IS CHILLED. EVERY SHOT ON SCREEN SLOWS TO A CRAWL.",
-		"do": [["status_area", "stun", 1, 170], ["status_area", "chill", 2, 170], ["slow_shots", 260, 0.3], ["vfx", "ring", "#9fc3ee", 170]] } },
+		"desc": "EVERY FOE NEAR YOU FREEZES SOLID FOR 1S, IS CHILLED AND TAKES 150%. EVERY SHOT ON SCREEN SLOWS TO A CRAWL.",
+		"do": [["status_area", "stun", 1, 170], ["status_area", "chill", 2, 170], ["area", 170, 1.5], ["slow_shots", 260, 0.3], ["vfx", "ring", "#9fc3ee", 170]] } },
 	{ "id": "demolitionist", "name": "THE DEMOLITIONIST", "sprite": "demolitionist", "new": true,
 	  "blurb": "Retired from the mines. The mines were glad.",
 	  "passive": "A FREE BOMB EVERY 6S IN A FIGHT. BOMBS DEAL +40%, DRAG FOES IN AROUND THEM, AND CANNOT HURT YOU.",
@@ -200,30 +200,30 @@ const NEW_HEROES := [
 		"do": [["heal", 2], ["invuln", 2.0], ["push", 120, 320], ["clear_shots", 120], ["vfx", "flash", "#fffbe0", 0.2]] } },
 	{ "id": "beastmaster", "name": "THE BEASTMASTER", "sprite": "beastmaster", "new": true,
 	  "blurb": "Speaks to anything with teeth. Some of it listens.",
-	  "passive": "12% OF HITS TAME AN ORDINARY FOE FOR 8S: IT TURNS AND FIGHTS FOR YOU.",
+	  "passive": "18% OF HITS TAME AN ORDINARY FOE FOR 8S: IT TURNS AND FIGHTS FOR YOU.",
 	  "weapon": "BEAST SPEAR", "hp": 8, "speed": 90, "shot": "thrust", "sound": "hatchet", "cost": 200, "trait": "packtactics",
 	  "stats": { "dmg": 7.0, "rate": 2.2, "shot_speed": 0.0, "life": 0.0, "homing": 0.0, "size": 1.0, "pierce": 99 },
-	  "effects": [{ "on": "on_hit", "chance": 0.12, "do": [["charm", 8.0]] }],
+	  "effects": [{ "on": "on_hit", "chance": 0.18, "do": [["charm", 8.0]] }],
 	  "special": { "name": "CALL OF THE WILD", "cd": 12, "col": "#7a5236",
 		"desc": "EVERY ORDINARY FOE NEAR YOU IS TAMED FOR 10S AND FIGHTS FOR YOU.",
 		"do": [["charm_area", 100, 10.0], ["vfx", "ring", "#e8873a", 100]] } },
 	# 6.4 (his ask, 6 Oct): a hero who keeps time.
 	{ "id": "clockmaker", "name": "THE CLOCKMAKER", "sprite": "clockmaker", "new": true,
 	  "blurb": "Keeps every clock in the Spire wound. Lately, they keep him.",
-	  "passive": "TICK-TOCK: EVERY 12TH SHOT SLOWS EVERY FOE SHOT NEAR YOU FOR A MOMENT.",
+	  "passive": "TICK-TOCK: EVERY 12TH SHOT SLOWS EVERY FOE SHOT NEAR YOU FOR A MOMENT AND LOOSES A RING OF 8 GEARS.",
 	  "weapon": "GEARWOUND REPEATER", "hp": 6, "speed": 90, "shot": "bolt", "sound": "shoot", "cost": 200, "trait": "sh_blur",
 	  "stats": { "dmg": 2.6, "rate": 5.5, "shot_speed": 260.0, "life": 0.9, "homing": 0.0, "size": 1.0, "pierce": 0 },
-	  "effects": [{ "on": "every_n_shots", "every": 12, "do": [["slow_shots", 120, 0.5]] }],
+	  "effects": [{ "on": "every_n_shots", "every": 12, "do": [["slow_shots", 120, 0.5], ["nova", 8, 0.8, "bolt"]] }],
 	  "special": { "name": "REWIND", "cd": 14, "col": "#e8b84a",
 		"desc": "HEALS A HEART, 2S UNTOUCHABLE, AND +40% FIRE RATE FOR 5S.",
 		"do": [["heal", 2], ["invuln", 2.0], ["buff", "rate", 0.4, 5.0], ["vfx", "ring", "#e8b84a", 90]] } },
 	# 10.3 (his ask, 6 Oct, from his trailer clips: ideas only, this game's own heroes).
 	{ "id": "minstrel", "name": "THE MINSTREL", "sprite": "minstrel", "new": true,
 	  "blurb": "Plays the taverns between the floors. The dead are a tough crowd.",
-	  "passive": "ENCORE: EVERY 3S IN A FIGHT, A BURST OF 6 NOTES AND +10% FIRE RATE FOR 2S.",
+	  "passive": "ENCORE: EVERY 3S IN A FIGHT, A BURST OF 8 NOTES AND +10% FIRE RATE FOR 2S.",
 	  "weapon": "SINGING LUTE", "hp": 6, "speed": 90, "shot": "hex", "sound": "shoot", "cost": 160, "trait": "w_choir",
 	  "stats": { "dmg": 3.4, "rate": 3.2, "shot_speed": 200.0, "life": 1.0, "homing": 0.6, "size": 1.0, "pierce": 0 },
-	  "effects": [{ "on": "every_n_seconds", "period": 3.0, "if": "fighting", "do": [["nova", 6, 0.5, "spark"], ["buff", "rate", 0.1, 2.0]] }],
+	  "effects": [{ "on": "every_n_seconds", "period": 3.0, "if": "fighting", "do": [["nova", 8, 0.6, "spark"], ["buff", "rate", 0.1, 2.0]] }],
 	  "special": { "name": "BALLAD", "cd": 14, "col": "#e86fb4",
 		"desc": "A SONG: HEAL A HEART, +30% DAMAGE, +30% FIRE RATE AND +20% MOVE SPEED FOR 6S.",
 		"do": [["heal", 2], ["buff", "dmg", 0.3, 6.0], ["buff", "rate", 0.3, 6.0], ["buff", "speed", 0.2, 6.0], ["vfx", "ring", "#e86fb4", 90]] } },
@@ -284,8 +284,47 @@ static func heroes() -> Array:
 	if _heroes.is_empty():
 		_heroes = HEROES.duplicate()
 		if not DebugArgs.has("classic"):
+			# 20.1: in the expanded game the six originals have a skill too (ORIGINAL_SPECIALS).
+			for i in _heroes.size():
+				var h: Dictionary = _heroes[i].duplicate()
+				h["special"] = ORIGINAL_SPECIALS[h["id"]]
+				if ORIGINAL_PASSIVES.has(h["id"]):   # the two free starters also get a passive
+					h["passive"] = ORIGINAL_PASSIVES[h["id"]][0]
+					h["effects"] = ORIGINAL_PASSIVES[h["id"]][1]
+				_heroes[i] = h
 			_heroes.append_array(NEW_HEROES)
 	return _heroes
+
+## 20.1: the two free starters were still the weakest after their skills: a passive each.
+const ORIGINAL_PASSIVES := {
+	"hexer": ["HEXCRAFT: EVERY 3RD CAST LOOSES 2 MORE BOLTS. 15% OF HITS CURSE (CURSED FOES TAKE +25%).",
+		[["add", "curse", 0.15], { "on": "every_n_shots", "every": 3, "do": [["shoot", 2, 1.0, "hex", 0.35]] }]],
+	"poacher": ["QUICK HANDS: EVERY ROLL GIVES +30% FIRE RATE FOR 2S.", [{ "on": "on_roll", "do": [["buff", "rate", 0.3, 2.0]] }]],
+}
+
+## 20.1 (his ask, 8 Oct: "a second balance pass"): in a fight with rolls, hits and new rooms the six
+## original heroes dealt the least of all (no skill of their own). In the expanded game each now
+## has one; --classic plays exactly as before (Abilities.has_special checks GameData.rogues()).
+const ORIGINAL_SPECIALS := {
+	"hexer": { "name": "WITCHING HOUR", "cd": 10, "col": "#a35bd6",
+		"desc": "CURSE EVERY FOE NEAR YOU AND LOOSE A RING OF 12 HEX BOLTS FOR 150%.",
+		"do": [["status_area", "curse", 2, 150], ["nova", 12, 1.5, "hex"], ["vfx", "ring", "#a35bd6", 150]] },
+	"poacher": { "name": "HUNTER'S VOLLEY", "cd": 9, "col": "#c8a878",
+		"desc": "FOUR VOLLEYS OF 7 BOLTS AT YOUR AIM, AND A ROLL COMES BACK.",
+		"do": [["refund_roll"], ["channel", 1.2, 0.3, [["shoot", 7, 0.8, "bolt", 0.12]]], ["vfx", "flash", "#f4ecd8", 0.1]] },
+	"brute": { "name": "WHIRLWIND", "cd": 11, "col": "#d8443c",
+		"desc": "SPIN FOR 1.5S: EVERYTHING AROUND YOU IS HIT FOR 120% FIVE TIMES A SECOND, AND SHOTS NEAR YOU BREAK.",
+		"do": [["invuln", 0.5], ["channel", 1.5, 0.2, [["area", 46, 1.2], ["clear_shots", 46], ["vfx", "spin", "#d8443c", 0.2]]]] },
+	"gravedigger": { "name": "OPEN GRAVES", "cd": 10, "col": "#8a6a4a",
+		"desc": "FOUR GRAVESTONES FALL ON FOES FOR 150% EACH, AND A RING OF 16 CLODS BURSTS FROM YOU.",
+		"do": [["nova", 16, 1.0, "clod"], ["meteor", 1.5, 28], ["meteor", 1.5, 28], ["meteor", 1.5, 28], ["meteor", 1.5, 28]] },
+	"alchemist": { "name": "GRAND REACTION", "cd": 12, "col": "#7ab04a",
+		"desc": "EVERY FOE NEAR YOU IS POISONED THRICE OVER, A POOL OF POISON SPREADS AT YOUR FEET AND 8 FLASKS FLY OUT.",
+		"do": [["status_area", "poison", 3, 140], ["zone", "poison", 44, 4.0], ["nova", 8, 1.0, "flask"], ["vfx", "ring", "#7ab04a", 140]] },
+	"warden": { "name": "LANTERN FLARE", "cd": 13, "col": "#f2c94c",
+		"desc": "THE LANTERN FLARES: FOES NEAR YOU BURN, ARE HURLED BACK AND HIT FOR 200%. +30% FIRE RATE FOR 5S.",
+		"do": [["area", 90, 2.0], ["status_area", "burn", 2, 120], ["push", 100, 260], ["buff", "rate", 0.3, 5.0], ["vfx", "flash", "#fff07a", 0.15]] },
+}
 
 ## The order heroes are shown in on the hero and skill-tree screens: the free ones
 ## first, then the rest, each group in list order. Only those screens use it;
