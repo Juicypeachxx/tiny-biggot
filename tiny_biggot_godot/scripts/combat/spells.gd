@@ -88,11 +88,15 @@ static func _add(list: Array, o: Dictionary, cap: int = MAX_LIVE) -> void:
 		return
 	list.append(o)
 
+## A foe the spells may touch: not one tamed to fight for you (summons.gd), as every other attack.
+static func _foe(e: Enemy) -> bool:
+	return e.targetable() and e.charm_t <= 0
+
 static func _wall(x: float, y: float) -> bool:
 	return World.solid(G.room, floori(x / TB.TS), floori(y / TB.TS), World.M_BULLET)
 
 static func _hurt(e: Enemy, dmg: float, p: Player, crit: bool = false, col: String = "") -> void:
-	if e.hp <= 0 or not e.targetable():
+	if e.hp <= 0 or not _foe(e):
 		return
 	var o := { "force_crit": crit }
 	if col != "":
@@ -105,7 +109,7 @@ static func _aimed(p: Player, a: float) -> Enemy:
 	var best: Enemy = null
 	var bd := 260.0
 	for e in G.enemies:
-		if e.targetable() and e.charm_t <= 0 and absf(TB.wrap_ang(TB.ang_to(p, e) - a)) < 0.5:
+		if _foe(e) and absf(TB.wrap_ang(TB.ang_to(p, e) - a)) < 0.5:
 			var d := TB.dist(p, e)
 			if d < bd:
 				bd = d
@@ -116,7 +120,7 @@ static func _nearest(x: float, y: float, within: float, skip: int = -1) -> Enemy
 	var best: Enemy = null
 	var bd := within
 	for e in G.enemies:
-		if e.uid != skip and e.targetable() and e.charm_t <= 0:
+		if e.uid != skip and _foe(e):
 			var d := TB.dist_xy(e.x, e.y, x, y)
 			if d < bd:
 				bd = d
@@ -170,7 +174,7 @@ static func fire(p: Player, a: float, forced: bool) -> Array:
 			for i in count:
 				var e: Enemy = first if i == 0 else null
 				if i > 0:
-					var pool := G.enemies.filter(func(f): return f.targetable() and not used.has(f.uid))
+					var pool := G.enemies.filter(func(f): return _foe(f) and not used.has(f.uid))
 					if not pool.is_empty():
 						e = pool[randi() % pool.size()]
 				var tgt := Vector2(e.x, e.y) if e != null else Vector2(p.x + cos(a) * 100.0, p.y + sin(a) * 100.0)
@@ -257,7 +261,7 @@ static func _wild(p: Player, a: float, s: String, dmg: float, crit: bool, k: int
 		"fireball":
 			Combat.explode_at(tx, ty, dmg * 1.6, null, 30, "#e8873a")
 			for f in G.enemies:
-				if f.targetable() and TB.dist_xy(f.x, f.y, tx, ty) < 30 + f.r:
+				if _foe(f) and TB.dist_xy(f.x, f.y, tx, ty) < 30 + f.r:
 					Statuses.apply(f, "burn", 1, dmg)
 			Snd.play("boom")
 		"ice":
@@ -278,7 +282,7 @@ static func _wild(p: Player, a: float, s: String, dmg: float, crit: bool, k: int
 				var nxt: Enemy = null
 				var bd := 120.0
 				for f in G.enemies:
-					if f.targetable() and not hit.has(f.uid) and TB.dist(f, cur) < bd:
+					if _foe(f) and not hit.has(f.uid) and TB.dist(f, cur) < bd:
 						bd = TB.dist(f, cur)
 						nxt = f
 				cur = nxt
@@ -286,7 +290,7 @@ static func _wild(p: Player, a: float, s: String, dmg: float, crit: bool, k: int
 			if G.zones.size() < 60:
 				G.zones.append({ "x": tx, "y": ty, "r": 30, "t": 3.0, "kind": "poison", "tick": 0.0 })
 			for f in G.enemies:
-				if f.targetable() and TB.dist_xy(f.x, f.y, tx, ty) < 30 + f.r:
+				if _foe(f) and TB.dist_xy(f.x, f.y, tx, ty) < 30 + f.r:
 					Statuses.apply(f, "poison", 3, dmg)
 					_hurt(f, dmg * 0.5, p, crit, "lime")
 		"gold":
@@ -370,7 +374,7 @@ static func _tick_voids(p: Player, room: Room, dt: float) -> void:
 				o["x"] = nx
 				o["y"] = ny
 				for e in G.enemies:
-					if e.targetable() and TB.dist_xy(e.x, e.y, nx, ny) < e.r + 4.0:
+					if _foe(e) and TB.dist_xy(e.x, e.y, nx, ny) < e.r + 4.0:
 						stop = true
 						break
 			if stop:
@@ -386,7 +390,7 @@ static func _tick_voids(p: Player, room: Room, dt: float) -> void:
 		if hurt:
 			o["tick"] = 0.25
 		for e in G.enemies.duplicate():
-			if not e.targetable():
+			if not _foe(e):
 				continue
 			var d := TB.dist_xy(e.x, e.y, o["x"], o["y"])
 			if d > r:
@@ -413,7 +417,7 @@ static func _collapse(o: Dictionary, p: Player) -> void:
 	var held: int = (o["held"] as Dictionary).size()
 	var dmg: float = o["dmg"] * (1.5 + 0.3 * held + 0.1 * mini(o["eaten"], 15))   # (+10% a shot eaten, up to 15)
 	for e in G.enemies.duplicate():
-		if e.targetable() and TB.dist_xy(e.x, e.y, o["x"], o["y"]) < o["r"] * 0.9 + e.r:
+		if _foe(e) and TB.dist_xy(e.x, e.y, o["x"], o["y"]) < o["r"] * 0.9 + e.r:
 			_hurt(e, dmg, p, o["crit"], "purple")
 	_stat("collapse")
 	Fx.burst(o["x"], o["y"], ["#a35bd6", "#16141c", "#e8c8ff"], 22, 120, 0.5)
@@ -470,7 +474,7 @@ static func _tick_serpents(p: Player, room: Room, dt: float) -> void:
 			tr.pop_back()
 		# The body: eight segments along the trail burn (or chill) what they touch.
 		for e in G.enemies.duplicate():
-			if not e.targetable() or o["next"].get(e.uid, 0.0) > o["t"]:
+			if not _foe(e) or o["next"].get(e.uid, 0.0) > o["t"]:
 				continue
 			var k := 0
 			while k < tr.size():
@@ -511,7 +515,7 @@ static func _tick_comets(p: Player, dt: float) -> void:
 		o["hx"] = head.x
 		o["hy"] = head.y
 		for e in G.enemies.duplicate():
-			if e.targetable() and not o["hit"].has(e.uid) and _seg_d(e.x, e.y, prev, head) < o["w"] + e.r:
+			if _foe(e) and not o["hit"].has(e.uid) and _seg_d(e.x, e.y, prev, head) < o["w"] + e.r:
 				o["hit"][e.uid] = true
 				_hurt(e, o["dmg"], p, o["crit"], "orange")
 				Statuses.apply(e, "burn", 1, o["dmg"])
@@ -537,7 +541,7 @@ static func _tick_glyphs(p: Player, dt: float) -> void:
 			o["t"] = o["delay"] - 0.35   # (a second eruption, 0.35 s on)
 			o["pillar"] = 0.4
 			for e in G.enemies.duplicate():
-				if e.targetable() and TB.dist_xy(e.x, e.y, o["x"], o["y"]) < o["r"] + e.r:
+				if _foe(e) and TB.dist_xy(e.x, e.y, o["x"], o["y"]) < o["r"] + e.r:
 					_hurt(e, o["dmg"], p, o["crit"], "pink")
 					if e.hp > 0:
 						Statuses.apply(e, "stun", 0.5, o["dmg"])
@@ -603,7 +607,7 @@ static func _tick_waves(p: Player, dt: float) -> void:
 		if o["t"] >= o["life"] or _wall(o["x"], o["y"]):
 			continue
 		for e in G.enemies.duplicate():
-			if e.targetable() and not o["hit"].has(e.uid) and TB.dist_xy(e.x, e.y, o["x"], o["y"]) < e.r + 8.0:
+			if _foe(e) and not o["hit"].has(e.uid) and TB.dist_xy(e.x, e.y, o["x"], o["y"]) < e.r + 8.0:
 				o["hit"][e.uid] = true
 				_hurt(e, o["dmg"], p, false, "white")
 		keep.append(o)
@@ -615,7 +619,7 @@ static func _tick_clocks(p: Player, dt: float) -> void:
 		o["t"] += dt
 		var r: float = o["r"]
 		for e in G.enemies:
-			if not e.targetable() or TB.dist_xy(e.x, e.y, o["x"], o["y"]) >= r:
+			if not _foe(e) or TB.dist_xy(e.x, e.y, o["x"], o["y"]) >= r:
 				continue
 			if not o["frozen"].has(e.uid):
 				o["frozen"][e.uid] = [e.x, e.y, 0.0]
@@ -644,7 +648,7 @@ static func _tick_clocks(p: Player, dt: float) -> void:
 static func _catch_up(o: Dictionary, p: Player) -> void:
 	for uid in o["frozen"].keys():
 		var e := _by_uid(uid)
-		if e == null or not e.targetable():
+		if e == null or not _foe(e):
 			continue
 		var secs: float = o["frozen"][uid][2]
 		_hurt(e, o["dmg"] * (1.0 + secs), p, o["crit"], "cyan")
@@ -680,7 +684,7 @@ static func _tick_prisms(p: Player, dt: float) -> void:
 			o["x"] = nx
 			o["y"] = ny
 			for e in G.enemies.duplicate():
-				if e.targetable() and not o["hit"].has(e.uid) and TB.dist_xy(e.x, e.y, nx, ny) < e.r + 3.0:
+				if _foe(e) and not o["hit"].has(e.uid) and TB.dist_xy(e.x, e.y, nx, ny) < e.r + 3.0:
 					o["hit"][e.uid] = true
 					_hurt(e, o["dmg"], p, o["crit"], "pink")
 					match o["c"]:
@@ -717,7 +721,7 @@ static func _tick_clouds(p: Player, room: Room, dt: float) -> void:
 		if o["t"] >= o["life"]:
 			if o["tornado"]:
 				for e in G.enemies:   # the tornado lets go: what it held is flung
-					if e.targetable() and not _big(e) and TB.dist_xy(e.x, e.y, gx, gy) < 50.0:
+					if _foe(e) and not _big(e) and TB.dist_xy(e.x, e.y, gx, gy) < 50.0:
 						var a := TB.ang_xy(gx, gy, e.x, e.y)
 						e.kx += cos(a) * 220.0
 						e.ky += sin(a) * 220.0
@@ -740,11 +744,11 @@ static func _tick_clouds(p: Player, room: Room, dt: float) -> void:
 		if o["rain"] <= 0.0:
 			o["rain"] = 0.5
 			for e in G.enemies:
-				if e.targetable() and TB.dist_xy(e.x, e.y, gx, gy) < 30.0 + e.r:
+				if _foe(e) and TB.dist_xy(e.x, e.y, gx, gy) < 30.0 + e.r:
 					Statuses.apply(e, "chill", 0.5, o["dmg"])
 		if o["tornado"]:
 			for e in G.enemies.duplicate():
-				if not e.targetable() or _big(e):
+				if not _foe(e) or _big(e):
 					continue
 				var de := TB.dist_xy(e.x, e.y, gx, gy)
 				if de < 56.0 and de > 4.0:
@@ -788,7 +792,7 @@ static func _tick_pins(p: Player, dt: float) -> void:
 		if tr.size() > 8:
 			tr.pop_back()
 		for e in G.enemies.duplicate():
-			if not e.targetable() or e.uid == o["last"] or TB.dist_xy(e.x, e.y, nx, ny) >= e.r + 4.0:
+			if not _foe(e) or e.uid == o["last"] or TB.dist_xy(e.x, e.y, nx, ny) >= e.r + 4.0:
 				continue
 			_hurt(e, o["dmg"] * (1.0 + 0.1 * o["bounces"]), p, o["crit"], "gold")
 			_stat("bounce")
@@ -933,7 +937,7 @@ static func draw_over(ci: CanvasItem, t: float) -> void:
 			ci.draw_rect(Rect2(roundf(s[0]), roundf(s[1]), 1, 1), Color(1, 0.4, 0.4))
 		for uid in o["frozen"].keys():
 			var e := _by_uid(uid)
-			if e != null and e.targetable() and not _big(e):
+			if e != null and _foe(e) and not _big(e):
 				var y := roundf(e.y - e.r * e.scale * 2.0 - 8.0)
 				ci.draw_rect(Rect2(roundf(e.x) - 3, y, 2, 5), Color(0.95, 0.85, 0.5))   # the pause sign
 				ci.draw_rect(Rect2(roundf(e.x) + 1, y, 2, 5), Color(0.95, 0.85, 0.5))
