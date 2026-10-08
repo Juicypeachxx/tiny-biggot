@@ -52,6 +52,24 @@ func _ready() -> void:
 	_press(KEY_G)
 	if Keys.capturing != &"" or not _has(&"bomb", KEY_G):
 		fail("the page did not take G for %s" % Keys.REBIND[11][1])
+	# 22.4: with no keyboard (a touch-only iPad) a tap, or the wait running out, ends the wait.
+	Keys.capturing = Keys.REBIND[3][0]
+	Keys.capture_t = 0.0
+	for i in 30:
+		Keys.tick()
+		G.update_keys()
+	Keys._latched[&"use"] = true   # a tap on the page counts as USE
+	Keys.tick()
+	G.update_keys()
+	if Keys.capturing != &"":
+		fail("a tap did not end the wait for a key")
+	Keys.capturing = Keys.REBIND[3][0]
+	Keys.capture_t = 0.0
+	for i in int((Keys.CAPTURE_MAX + 0.5) / TB.DT):
+		Keys.tick()
+		G.update_keys()
+	if Keys.capturing != &"":
+		fail("the wait for a key never ended")
 	for r in Keys.REBIND:
 		for ch in r[1] + Keys.keys_label(r[0]):
 			if not ch in Gfx.FONT_CHARS:

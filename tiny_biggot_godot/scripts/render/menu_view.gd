@@ -390,7 +390,7 @@ func draw_keys(ci: CanvasItem) -> void:
 		if i < n:
 			var a: StringName = Keys.REBIND[i][0]
 			Gfx.text(ci, Keys.REBIND[i][1], 72, y, "gold" if sel else "tan")
-			var k := "PRESS A KEY... (ESC: CANCEL)" if Keys.capturing == a else Keys.keys_label(a)
+			var k := "PRESS A KEY... (TAP OR ESC: CANCEL)" if Keys.capturing == a else Keys.keys_label(a)
 			Gfx.text(ci, k, TB.SW - 72, y, "orange" if Keys.capturing == a else "white", 1, 1)
 		else:
 			Gfx.text(ci, "RESET ALL KEYS" if i == n else "BACK", TB.SW / 2, y, "gold" if sel else "tan", 1, 0.5)

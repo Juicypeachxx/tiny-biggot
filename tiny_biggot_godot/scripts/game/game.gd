@@ -2202,7 +2202,14 @@ func update_options() -> void:
 ## 13.1: the keyboard keys page. Pick an action, press a key; RESET puts every key back.
 func update_keys() -> void:
 	if Keys.capturing != &"":
-		return   # Keys._input takes the next key press
+		# Keys._input takes the next key press. 22.4: a tap (USE), BACK or MENU, or a wait of
+		# CAPTURE_MAX seconds, ends it: an iPad with no keyboard was stuck on this page.
+		Keys.capture_t += TB.DT
+		if Keys.capture_t > Keys.CAPTURE_MAX or (Keys.capture_t > 0.25 and (Keys.confirm() or Keys.back())):
+			Keys.capturing = &""
+			Keys.hold_off = 12
+			Snd.play("select")
+		return
 	if Keys.hold_off > 0:
 		Keys.hold_off -= 1
 		return
@@ -2221,6 +2228,7 @@ func update_keys() -> void:
 		Snd.play("confirm")
 		return
 	Keys.capturing = Keys.REBIND[menu][0]
+	Keys.capture_t = 0.0
 	Snd.play("select")
 
 ## The app goes to the background (iPad locked, another app opened): a fight in progress waits

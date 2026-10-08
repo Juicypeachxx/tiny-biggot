@@ -1049,6 +1049,10 @@ taps on the names and the bestiary grid. Debug `--ui=codex|bestiary|runs`. `test
 new foe lives (Lives.override) about 0.04 ms of it; drawing a night or storm floor adds 0.2-0.3 ms
 of render time on this container's software GL. tools/dev/monkey.sh now also soaks the endless
 stair, night and storm floors, the wanderers and Chapter IV.
+Found by the soak: OPTIONS > KEYBOARD KEYS waited for "PRESS A KEY" until a keyboard key came, so
+an iPad with no keyboard (and the soak, from minute 10 of its hour) was stuck there. Now a tap
+(USE), BACK/MENU, or 8 s (Keys.CAPTURE_MAX) ends the wait (Game.update_keys; Keys.capture_t);
+tests/keys_test covers both.
 
 ## Noted, not yet acted on
 

@@ -52,6 +52,8 @@ var DEFAULT_KEYS := {
 	&"belt1": [KEY_1], &"belt2": [KEY_2], &"belt3": [KEY_3], &"belt4": [KEY_4],
 }
 var capturing: StringName = &""   # waiting for a key for this action (the KEYBOARD KEYS page)
+var capture_t := 0.0              # 22.4: how long it has waited (a touch-only iPad has no key to press)
+const CAPTURE_MAX := 8.0
 var hold_off := 0                  # ticks the keys page ignores input after a key was taken
 
 var _down := {}
