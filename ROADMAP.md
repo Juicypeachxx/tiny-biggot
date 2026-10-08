@@ -999,6 +999,17 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       graphics; the iPad's chip does the dark in one cheap pass); nothing worth changing.
       Stage 22 ends with IPA 22.
 
+## Stage 23 (his word, 8 Oct: "Add more magic weapons with super cool effects")
+- [ ] 23.1 THE SPELLBOOK: ten new kinds of spell, each its own effect, never seen in the game
+      before: a black hole that drags foes in and collapses; a fire serpent that slithers after
+      foes; a comet that crosses the whole room; rune circles that erupt in pillars of light;
+      blades that dance and fight on their own; a clock that stops time (foes crawl, their shots
+      hang in the air); a prism bolt that splits into colours and splits again; a storm cloud that
+      follows foes and strikes; a pinball of light that bounces from foe to foe; wild magic,
+      every cast a different spell. Twenty magic weapons using them (two of each kind, each with
+      a twist), with icons of their own. Expanded game only; nothing removed or toned down.
+- [ ] 23.2 Checks, the core replays re-recorded (new weapons change what drops), IPA 23.
+
 ---
 
 ## Log
