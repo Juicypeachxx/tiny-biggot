@@ -823,7 +823,16 @@ static func _merge_shot(dmg: float) -> PBullet:
 	Effects.stats["merged_shots"] += 1
 	var b: PBullet = G.pbullets[G.pbullets.size() - 1] if not G.pbullets.is_empty() else G.new_pbullets[G.new_pbullets.size() - 1]
 	b.dmg += dmg
-	return b
+	if not GameData.rogues():
+		return b
+	# 8 Oct: the caller gets a stand-in, never the shot flying. Whatever it sets on its new shot
+	# (a heavy shot's x3 and x1.5, a lance's reach, a dart's poison) was being set on the old shot
+	# instead, again for every shot merged: one shot grew to cover the room, its damage tripled
+	# over and over. The stand-in carries only its own share of the damage (player_shoot).
+	var s := PBullet.new()
+	s.dmg = dmg
+	s.merged = b
+	return s
 
 static func spawn_pbullet(p: Player, a: float, dmg: Variant = null, kind: String = "", speed_mul: float = 1.0) -> PBullet:
 	var w: Dictionary = p.weapon
@@ -912,8 +921,18 @@ static func fire_projectiles(p: Player, a: float) -> Array:
 				made.append(spawn_pbullet(p, a))
 		_:
 			var jit := 0.12 if w["kind"] == "shot" else (step if w["kind"] == "gatling" else 0.0)
-			for i in n:
-				made.append(spawn_pbullet(p, a + (i - (n - 1) / 2.0) * step + (randf() - 0.5) * jit))
+			if n > 1 and GameData.rogues() and G.pbullets.size() + G.new_pbullets.size() >= Effects.pbullet_cap():
+				# 8 Oct: the room is full of your shots, so every shot of this attack would only merge
+				# its damage into one flying: merge them at once (shot by shot it was a large part of a
+				# heavy build's tick). The dice each shot would have rolled are still rolled, so all
+				# that follows is the same.
+				var kind: String = w.get("bullet", Weapons.BULLET_KIND.get(w["kind"], "bolt"))
+				for i in n * (3 if kind == "clod" or kind == "fire" else 2):
+					randf()
+				made.append(_merge_shot(Weapons.wdmg(p) * n))
+			else:
+				for i in n:
+					made.append(spawn_pbullet(p, a + (i - (n - 1) / 2.0) * step + (randf() - 0.5) * jit))
 	var bs := p.backshot
 	for i in bs:
 		made.append(spawn_pbullet(p, a + PI + (i - (bs - 1) / 2.0) * 0.25))
@@ -978,15 +997,18 @@ static func player_shoot(p: Player, a: float, echo_ok: bool = true) -> void:
 			Snd.play("dodge" if k == "flame" else ("hatchet" if k in ["spin", "boomer", "disc"] else ("bolt" if k in ["bolt", "rail"] else "shoot")))
 	if forced:
 		for b in made:
-			b.crit = true
+			(b.merged if b.merged != null else b).crit = true
 	if p.tempo_max > 0 or p.rally_n > 0:
 		for b in made:
-			b.own = true   # the Gaolbird: only the weapon's own shots count as blows
+			(b.merged if b.merged != null else b).own = true   # the Gaolbird: only the weapon's own shots count as blows
 	var nb := (p.heavy_n > 0 and p.shot_n % p.heavy_n == 0) or (p.g("nth_big") > 0 and p.shot_n % int(p.g("nth_big")) == 0)
 	if nb:
 		for b in made:
-			b.dmg *= 3
-			b.r *= 1.5
+			if b.merged != null:
+				b.merged.dmg += b.dmg * 2.0   # a merged shot's share is tripled; the shot flying keeps its size
+			else:
+				b.dmg *= 3
+				b.r *= 1.5
 	if p.g("nth_nova") > 0 and p.shot_n % int(p.g("nth_nova")) == 0:
 		for i in 8:
 			spawn_pbullet(p, a + i * TAU / 8, Weapons.wdmg(p) * 0.7, "fire" if "pyre" in w["tags"] else "spark")
@@ -1920,10 +1942,22 @@ static func update_zones(dt: float) -> void:
 					else:
 						e.poison = minf(12, e.poison + 1)
 	var keep := []
+	# 8 Oct: a long fight left hundreds of poison pools (a robe spills one at every blow taken).
+	# A foe's poison stops at 12 stacks, so past POISON_POOLS the oldest pools dry up first.
+	var dry := -POISON_POOLS
+	if G.zones.size() > POISON_POOLS and GameData.rogues():
+		for z in G.zones:
+			if z["kind"] == "poison":
+				dry += 1
 	for z in G.zones:
 		if z["t"] > 0:
+			if dry > 0 and z["kind"] == "poison":
+				dry -= 1
+				continue
 			keep.append(z)
 	G.zones = keep
+
+const POISON_POOLS := 80
 
 # ---------- Familiars (wisps) ----------
 static func update_familiars(p: Player, dt: float) -> void:
@@ -2085,7 +2119,7 @@ static func _update_player_base(p: Player, dt: float) -> void:
 				var burst := fire_projectiles(p, p.aim_a)
 				if p.tempo_max > 0 or p.rally_n > 0:
 					for b in burst:
-						b.own = true
+						(b.merged if b.merged != null else b).own = true
 			else:
 				player_shoot(p, p.aim_a)
 		i += 1

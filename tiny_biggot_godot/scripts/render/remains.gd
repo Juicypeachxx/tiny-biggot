@@ -15,6 +15,9 @@ const FADE := 12.0
 const SCORCH_LIFE := 60.0
 const MAX := 40
 const MAX_SCORCH := 20
+const SCORCH_EVERY := 0.2   # scorch marks are drawn in at most this often (scorch)
+static var _scorch_t := -1.0
+static var _scorch_wait := false
 
 ## family -> words in a foe's type that put it in that family (the first match wins).
 const FAMILY := [
@@ -64,10 +67,25 @@ static func scorch(x: float, y: float, r: float) -> void:
 	room.scorch.append({ "x": x, "y": y, "r": minf(r * 0.6, 34.0), "t0": G.time, "step": 0 })
 	if room.scorch.size() > MAX_SCORCH:
 		room.scorch.pop_front()
-	G.dyn_dirty = true
+	# A blast marks the floor at once; blasts that come thick and fast (a heavy build sets off
+	# several a tick) are marked together, at most five times a second: each mark redraws the
+	# floor's whole layer (8 Oct, his slow fight).
+	if _scorch_due():
+		_scorch_t = G.time
+		G.dyn_dirty = true
+	else:
+		_scorch_wait = true
+
+## (A new run starts its clock again: a mark made "later" than now is from the last run.)
+static func _scorch_due() -> bool:
+	return G.time - _scorch_t >= SCORCH_EVERY or G.time < _scorch_t
 
 ## Every tick of play: once a second, drop what is gone and redraw what has faded a step.
 static func tick(dt: float) -> void:
+	if _scorch_wait and _scorch_due():
+		_scorch_wait = false
+		_scorch_t = G.time
+		G.dyn_dirty = true
 	_t -= dt
 	if _t > 0.0 or G.room == null:
 		return

@@ -35,6 +35,7 @@ const BUDGET := 200            # action executions per logic tick; the rest wait
 const QUEUE_MAX := 2000        # queued actions beyond this are dropped (counted)
 const PBULLET_CAP := 1000     # live player shots; beyond it new shots merge their damage into old ones
 const ROGUES_PBULLET_CAP := 300  # Rogues layer: lower, for smooth heavy fights on iPad (damage still merges)
+const GIANT_PBULLET_CAP := 120   # the cap for giant shots (pbullet_cap)
 const SUMMON_CAP := 24         # wisps (permanent + temporary) per player
 const MIN_SHOT_INTERVAL := 1.0 / 60.0   # attack-speed floor: one attack per logic tick
 const BUFF_CAP := 64
@@ -181,6 +182,7 @@ static func add_proc(p: Player, def: Dictionary, src: String) -> void:
 			pr["stacks"] += 1
 			return
 	p.procs.append({ "def": def, "src": src, "stacks": 1, "count": 0, "cd": 0.0, "timer": 0.0, "active": false })
+	p.proc_index = {}
 
 static func remove_procs(p: Player, src: String) -> void:
 	var keep := []
@@ -191,6 +193,7 @@ static func remove_procs(p: Player, src: String) -> void:
 		else:
 			keep.append(pr)
 	p.procs = keep
+	p.proc_index = {}
 
 static func _cond(c: String, ctx: Dictionary) -> bool:
 	var p := G.player
@@ -243,7 +246,16 @@ static func foes_left() -> int:
 ## Fires a trigger. ctx may carry: enemy, dmg, crit, x, y.
 ## Live player shot cap (classic keeps the original 1000).
 static func pbullet_cap() -> int:
-	return ROGUES_PBULLET_CAP if GameData.rogues() else PBULLET_CAP
+	if not GameData.rogues():
+		return PBULLET_CAP
+	# 8 Oct (his slow fight on floor 12): shots grown past twice their size overlap anyway, so fewer
+	# of them fly; the cap falls with their size to GIANT_PBULLET_CAP and the rest merge their
+	# damage into the shots flying, as at any cap. Shots of ordinary size keep the full cap.
+	var p := G.player
+	var s := Weapons.wsize(p) if p != null and p.weapon != null else 1.0
+	if s <= 2.0:
+		return ROGUES_PBULLET_CAP
+	return maxi(GIANT_PBULLET_CAP, int(ROGUES_PBULLET_CAP * 2.0 / s))
 
 static func fire(trig: String, ctx: Dictionary = {}) -> void:
 	var p := G.player
@@ -252,10 +264,20 @@ static func fire(trig: String, ctx: Dictionary = {}) -> void:
 	if depth >= MAX_DEPTH:
 		stats["dropped_depth"] += 1
 		return
-	for pr in p.procs.duplicate():
+	# Only this trigger's procs, in their order (a heavy build has a hundred procs and fires
+	# triggers dozens of times a tick: looking through them all each time was a large part of
+	# its logic). The same procs are visited in the same order, so nothing else changes.
+	var mine: Variant = p.proc_index.get(trig)
+	if mine == null:
+		mine = []
+		for pr in p.procs:
+			if pr["def"]["on"] == trig:
+				mine.append(pr)
+		p.proc_index[trig] = mine
+	if mine.is_empty():
+		return
+	for pr in mine.duplicate():
 		var d: Dictionary = pr["def"]
-		if d["on"] != trig:
-			continue
 		if pr["cd"] > 0:
 			continue
 		if d.has("every"):

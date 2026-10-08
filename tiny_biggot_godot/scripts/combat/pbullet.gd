@@ -50,13 +50,14 @@ var gk := 0              # set with dk: the shot's glow (1 hex, boomer, rail; 2 
 var ds := -1             # set with dk: the shot's new-look rule (ShotBatch.specs), -1 in the old look
 var dw := -1             # set with dk: the rule of the whirl drawn under a spinning weapon, or -1
 var own := false         # fired by the hero's weapon itself (not a proc or a wisp): a blow for tempo and rally
+var merged: PBullet = null   # set on a stand-in: the shot flying that this one merged into (Combat._merge_shot)
 
 func reset() -> void:
 	x = 0.0; y = 0.0; vx = 0.0; vy = 0.0; dmg = 0.0; life = 0.0; max_life = 0.0; r = 2.5
 	pierce = 0; bounce = 0; homing = 0.0; kind = "bolt"; hit = {}; rot = 0.0; age = 0.0; ric = 0
 	back = BACK_NONE; crit = false; bloom = false; poison_add = 0; split = 0.0; grow = 0.0; accel = 0.0
 	icon = ""; tag = ""; nohit = false; pulse_t = 0.0; linger = 0.0; hovering = false; arm = 0.0
-	has_mv = false; mvx = 0.0; mvy = 0.0; chill = false; dk = -1; tgt = null; tgt_n = 0; own = false
+	has_mv = false; mvx = 0.0; mvy = 0.0; chill = false; dk = -1; tgt = null; tgt_n = 0; own = false; merged = null
 
 ## Ruby b.dup (the hit set is copied separately by the caller, as in Ruby).
 func copy_from(b: PBullet) -> void:

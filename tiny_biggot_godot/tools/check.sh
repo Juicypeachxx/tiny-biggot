@@ -247,6 +247,11 @@ timeout 900 "$GODOT" --headless --path . res://tests/spells_test.tscn -- --no-sa
 grep -E "spells test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 23.2 his slow fight: merged shots, giant shots, the proc index, poison pools"
+timeout 300 "$GODOT" --headless --path . res://tests/heavy_build_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "heavy build test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== 18.1 the daily trial"
 timeout 300 "$GODOT" --headless --path . res://tests/daily_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "daily test" "$LOG"

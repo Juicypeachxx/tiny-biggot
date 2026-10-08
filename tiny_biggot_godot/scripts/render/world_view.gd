@@ -992,7 +992,7 @@ func _paint_glow(ci: CanvasItem) -> void:
 				"rail":
 					ci.draw_texture_rect(gw, Rect2(roundf(b.x) - 24, roundf(b.y) - 24, 48, 48), false, Color(c.r, c.g, c.b, 0.55))
 				"pulse":
-					var s := b.r * 9.0
+					var s := minf(b.r, SHOT_DRAW_R) * 9.0
 					ci.draw_texture_rect(gw, Rect2(roundf(b.x - s * 0.5), roundf(b.y - s * 0.5), s, s), false, Color(c.r, c.g, c.b, 0.8))
 	for b: PBullet in ([] if Vfx.enabled else _glows):
 		match b.kind:
@@ -1002,7 +1002,7 @@ func _paint_glow(ci: CanvasItem) -> void:
 				Gfx.at(ci, "glow_white", b.x - 24, b.y - 24, 120 / 255.0)
 			"pulse":
 				# RGSS zooms about the sprite origin, here its top-left corner.
-				var z := b.r / 3.0
+				var z := minf(b.r, SHOT_DRAW_R) / 3.0
 				Gfx.sprite(ci, "glow_small", b.x - 12, b.y - 12, 0, 0, z, z)
 	if Vfx.enabled:
 		Vfx.draw_glow(ci)
@@ -1020,6 +1020,11 @@ var _shots: ShotBatch
 var _plain: Array = []     # this tick's shots for the plain painter
 var _mines: Array = []     # this tick's mines (drawn on the floor)
 var _glows: Array = []     # this tick's first 40 glowing shots
+
+## A shot is drawn at most this big (8 Oct: stacked size boosts drew shots that covered the whole
+## room, so nothing else could be seen). Its reach stays as large as it is; only the picture stops
+## growing. Shots of ordinary builds never get this big, so they look the same.
+const SHOT_DRAW_R := 16.0
 
 func _paint_pbullets(ci: CanvasItem) -> void:
 	var p := G.player
@@ -1088,7 +1093,7 @@ func _prepare_shots() -> void:
 				buf[i + 8] = b.vx
 				buf[i + 9] = b.vy
 				buf[i + 12] = fmod(b.rot * 40, 360)
-				buf[i + 13] = b.r
+				buf[i + 13] = minf(b.r, SHOT_DRAW_R)
 				buf[i + 14] = wk
 				buf[i + 15] = 1.0
 				i += ShotBatch.STRIDE
@@ -1098,7 +1103,7 @@ func _prepare_shots() -> void:
 			buf[i + 8] = b.vx
 			buf[i + 9] = b.vy
 			buf[i + 12] = fmod(b.rot * 40, 360)
-			buf[i + 13] = b.r
+			buf[i + 13] = minf(b.r, SHOT_DRAW_R)
 			buf[i + 14] = dk
 			buf[i + 15] = b.life / maxf(b.max_life, 0.01)
 			i += ShotBatch.STRIDE
@@ -1123,7 +1128,7 @@ func _centered(ci: CanvasItem, name: String, b: PBullet, zx: float = 1.0, zy: fl
 ## The new look, drawn in script: the same sprite, frame, zoom and angle the batch's shader works out
 ## from the same rule (ShotBatch.specs), so FAST DRAWING on and off give the same picture.
 func _draw_spec(ci: CanvasItem, b: PBullet, sp: Array, frame: int) -> void:
-	var r := ShotBatch.half(b.r)      # the shader gets these as 16-bit floats: round the same way
+	var r := ShotBatch.half(minf(b.r, SHOT_DRAW_R))      # the shader gets these as 16-bit floats: round the same way
 	var z: float = sp[3]
 	if sp[4] > 0.0:
 		z = maxf(sp[3], r / sp[4])
@@ -1153,7 +1158,7 @@ func _draw_pbullet(ci: CanvasItem, b: PBullet) -> void:
 	match b.kind:
 		"hex":
 			var big := b.r > 3.5
-			var z := b.r / (5.0 if big else 2.5) if b.r > 6 else 1.0
+			var z := minf(b.r, SHOT_DRAW_R) / (5.0 if big else 2.5) if b.r > 6 else 1.0
 			_centered(ci, "orb_hexBig" if big else "orb_hex", b, z, z)
 		"lance":
 			Gfx.sprite(ci, "orb_iceBig", b.x, b.y, 6, 6, 1.3, 0.8, atan2(b.vy, b.vx))
@@ -1161,11 +1166,11 @@ func _draw_pbullet(ci: CanvasItem, b: PBullet) -> void:
 			Gfx.sprite(ci, "orb_spore", b.x, b.y, 4, 4)
 		"clod", "flask", "spark":
 			var name: String = { "clod": "orb_clod", "flask": "orb_flask", "spark": "orb_cyan" }[b.kind]
-			var z := maxf(1.0, b.r / 2.5) if b.kind != "spark" else 1.0
+			var z := maxf(1.0, minf(b.r, SHOT_DRAW_R) / 2.5) if b.kind != "spark" else 1.0
 			_centered(ci, name, b, z, z)
 		"boomer":
 			var name := b.icon if b.icon != "" else "orb_gold"
-			var z := maxf(1.0, b.r / 3.0)
+			var z := maxf(1.0, minf(b.r, SHOT_DRAW_R) / 3.0)
 			var rot := 0.0 if b.icon == "w_lantern" or b.icon == "w_sunlantern" else deg(fmod(b.rot * 40, 360))
 			_centered(ci, name, b, z, z, rot)
 		"bolt":
@@ -1178,7 +1183,7 @@ func _draw_pbullet(ci: CanvasItem, b: PBullet) -> void:
 		"feather":
 			_centered(ci, "feather", b, 1.0, 1.0, atan2(b.vy, b.vx))
 		"pulse":
-			var z := b.r / 4.0
+			var z := minf(b.r, SHOT_DRAW_R) / 4.0
 			_centered(ci, PULSE_SPRITE.get(b.tag, "orb_hexBig"), b, z, z, 0.0, 1.0,
 				TB.rgba(184, 224, 90, 140) if b.tag == "venom" else Color(0, 0, 0, 0))
 		"mine":
@@ -1188,7 +1193,7 @@ func _draw_pbullet(ci: CanvasItem, b: PBullet) -> void:
 			Gfx.bar(ci, Color.WHITE, b.x - cos(a) * 14, b.y - sin(a) * 14, 18, 2, a)
 		_:
 			var name := b.icon if b.icon != "" and b.kind != "hatchet" else "hatchet"
-			var z := maxf(0.8, b.r / 4.0)
+			var z := maxf(0.8, minf(b.r, SHOT_DRAW_R) / 4.0)
 			_centered(ci, name, b, z, z, deg(fmod(b.rot * 40, 360)))
 
 # ---------- z 2050: foe health bars ----------

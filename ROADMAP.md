@@ -1015,6 +1015,23 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       a fight, the caps and the logic time with 999 more projectiles (under 0.7 ms a tick here),
       stopped time and wild magic. In its test fight each sits with the old weapons of its rarity
       (the pinballs and the event horizon were first much stronger and were tuned before release).
+- [x] 23.3 (his recording, 8 Oct: "We have a problem"): a late run (floor 12, level 52, THE BLANK
+      QUILL at 100+ attacks a second, two TWIN-SOUL RINGs) ran at 31 fps with LOGIC 16.3 ms, and the
+      room was hidden under giant pink squares. Done: (1) a bug: with the room full of shots, an
+      attack's shots merge into a shot already flying, and a heavy shot's x3 and x1.5 (or a lance's
+      reach) landed on that old shot once per merged shot, attack after attack: a shot grew to a
+      radius of 59000 px and its damage tripled over and over. A merged shot now hands back a
+      stand-in with its own share; the share is tripled, the old shot keeps its size. (2) Speed,
+      same rules: triggers find their procs through an index (it looked through every proc of a
+      40-relic build each time); a whole attack merges at once when the room is full (the dice it
+      would have rolled are still rolled). (3) Giant shots (past twice their size) fly fewer at once:
+      the cap falls with their size from 300 to 120, the rest merge their damage as at any cap.
+      (4) Past 80 poison pools the oldest dry up (a foe's poison stops at 12 stacks anyway).
+      (5) Drawing only: a shot is drawn at most 16 px in radius (its reach is untouched); blasts in
+      quick succession redraw the floor's scorch marks together, five times a second at most.
+      Measured on a rebuild of his fight (tests/quill_profile, six fights): 6.5 -> 4.9 ms of logic
+      a tick here (-26%, worst ticks 75 -> 40 ms); with the HEAVY BOLT trait 13.8 -> 10.7 ms. On his
+      iPad that is about 16 -> 12 ms (an estimate: no iPad here). All replays identical.
 - [ ] 23.2 Checks, the core replays re-recorded (new weapons change what drops), IPA 23.
 
 ---

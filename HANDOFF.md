@@ -1115,6 +1115,35 @@ content_test passes. Docs: ARSENAL.md part 5. 23.1 done.
 23.2: replays before re-recording: the classic 6 identical; the core 8 identical but h, which
 differs from 89 s: the bot picks up SANGUINE RING where it found the STEAM REPEATER, because the
 rare pool has eight more weapons (the same roll lands on another). h re-recorded on purpose.
+23.3 his recording (8 Oct, "We have a problem"): floor 12, level 52, 47 min, THE BLANK QUILL at
+102 attacks/s, 12 shots, 3626% crit, two TWIN-SOUL RINGs; "31 FPS LOGIC 16.3 DRAW 3.4 CALLS 608";
+the room under giant pink squares (orb_hexBig scaled by a shot's radius). After a pause and a ring
+swap it read 60 fps, LOGIC 1.2: a quiet moment (nothing to shoot), not a fix.
+  The giant squares were a bug: at the shot cap Combat._merge_shot returned the shot flying, and
+  player_shoot's heavy x3/x1.5 (HEAVY BOLT heavy_n, nth_big), a lance's r/pierce/life, a dart's
+  poison, a reflected spark's x/y, shatter lances' chill, a ricochet's crit and a fireball's tag
+  were set on it, once per merged shot (15 a heavy attack): r reached 59000 px in the rebuild.
+  Now (rogues only; classic keeps the old path) _merge_shot returns a stand-in PBullet (in no list,
+  .merged = the shot flying, .dmg = its share). player_shoot: forced crit and "own" go to the shot
+  flying as before; a heavy attack adds 2x each stand-in's share there (the share tripled), no size.
+  Speed (tests/quill_profile.gd rebuilds his fight: 40 random relics, 41 trait ranks, his gear,
+  --heavy adds HEAVY BOLT, --full times G.update, --secs=N; diagnosis only, not in check.sh):
+  - Effects.fire: Player.proc_index (trigger -> its procs in order), emptied in add_proc and
+    remove_procs; the same procs in the same order, so nothing else changes.
+  - fire_projectiles: an attack that would only merge (room full, n > 1) merges in one step,
+    rolling the same dice (2 or 3 randf a shot) so all that follows is identical.
+  - Effects.pbullet_cap(): shots past twice their size (Weapons.wsize) get 300 * 2 / size, at
+    least GIANT_PBULLET_CAP 120.
+  - update_zones: past POISON_POOLS (80) poison pools the oldest go.
+  - world_view: SHOT_DRAW_R 16 caps a shot's drawn radius (batch buffer, _draw_spec, plain kinds,
+    glows). Remains.scorch: a blast within 0.2 s of the last marks waits (SCORCH_EVERY) and the
+    floor layer is redrawn once for them.
+  Six fights, old -> new code, 30 s each: 4.81->4.02, 7.35->4.86, 5.98->4.80, 8.43->5.56,
+  6.72->5.55, 5.94->4.45 ms a tick (-26%); worst ticks 26-75 -> 15-40 ms. With --heavy:
+  13.76 -> 10.66 ms, largest shot r 59002 -> 59. Found but left: hearts at full health and belt
+  items with the belt full wait on the floor and pile up in a long fight (0.8 ms for 650 in the
+  rebuild, where the hero stands still). tests/heavy_build_test (in check.sh) covers the fixes.
+  Replays: all 14 identical.
 
 ## Noted, not yet acted on
 
