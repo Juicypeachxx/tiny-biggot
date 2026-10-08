@@ -1000,7 +1000,7 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       Stage 22 ends with IPA 22.
 
 ## Stage 23 (his word, 8 Oct: "Add more magic weapons with super cool effects")
-- [ ] 23.1 THE SPELLBOOK: ten new kinds of spell, each its own effect, never seen in the game
+- [x] 23.1 THE SPELLBOOK: ten new kinds of spell, each its own effect, never seen in the game
       before: a black hole that drags foes in and collapses; a fire serpent that slithers after
       foes; a comet that crosses the whole room; rune circles that erupt in pillars of light;
       blades that dance and fight on their own; a clock that stops time (foes crawl, their shots
@@ -1008,6 +1008,13 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       follows foes and strikes; a pinball of light that bounces from foe to foe; wild magic,
       every cast a different spell. Twenty magic weapons using them (two of each kind, each with
       a twist), with icons of their own. Expanded game only; nothing removed or toned down.
+      Done: `scripts/combat/spells.gd` and twenty weapons at the end of the weapon list (classic
+      never sees them), each with its own 12x12 icon; see `ARSENAL.md` part 5. The time-stop
+      holds ordinary foes still (a guardian is only slowed). Wild magic heals at most every 20 s
+      and gives no gold from the training dummy. `tests/spells_test` checks each weapon's trick in
+      a fight, the caps and the logic time with 999 more projectiles (under 0.7 ms a tick here),
+      stopped time and wild magic. In its test fight each sits with the old weapons of its rarity
+      (the pinballs and the event horizon were first much stronger and were tuned before release).
 - [ ] 23.2 Checks, the core replays re-recorded (new weapons change what drops), IPA 23.
 
 ---

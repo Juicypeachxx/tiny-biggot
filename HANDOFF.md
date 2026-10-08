@@ -1111,7 +1111,7 @@ kaleidoscope 38, fractal crown 54, cloudherd 20, tempest 26, pinball 26, orrery 
 chaos codex 73. (First numbers were higher: the pinballs went from +15% to +10% a bounce and 6 or
 10 bounces, the orrery's stars 40% to 30%, the event horizon +20% to +10% a shot eaten (15 at
 most); sundering, kaleidoscope, fractal crown and wild surge were given less damage.)
-content_test passes. Still to do: docs; then 23.2.
+content_test passes. Docs: ARSENAL.md part 5. 23.1 done.
 
 ## Noted, not yet acted on
 

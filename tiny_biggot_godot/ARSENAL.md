@@ -193,6 +193,37 @@ Seventeen new attack kinds (`scripts/combat/oddities.gd`), one thing an attack e
 +1 projectile: every kind here makes one thing an attack, and each projectile past the first adds
 35% damage to it (a ball also grows); slots and the coin flipper fire through the usual shot path.
 
+## Part 5: THE SPELLBOOK (Stage 23, his word, 8 Oct: "more magic weapons with super cool effects")
+
+Ten new kinds of spell (`scripts/combat/spells.gd`), all shown as MAGIC, two weapons each (the
+second with a twist), expanded game only:
+
+| Weapon | Kind | What makes it different |
+|---|---|---|
+| POCKET VOID | singularity | a dark mote; on the first foe (or at the end of its flight) a black hole that drags foes in and hurts them, then collapses in a blast, +30% for every foe it held |
+| EVENT HORIZON | singularity | a wider hole that also eats enemy shots; each one eaten makes the collapse 10% harder (15 at most) |
+| EMBER WYRM ROD | serpent | a fire serpent that hunts foes for 3 s; its body burns what it touches, its tail leaves flames |
+| RIME SERPENT | serpent | an ice serpent that chills, and coils round a foe for a second to crush it |
+| COMET SCEPTER | comet | a warning line, then a comet crosses the room through the aimed foe, burning all on its path, and bursts |
+| THE STARFALLEN | comet | three comets, each through a different foe |
+| RUNE CHALK | glyph | a rune under the aimed foe erupts in a pillar of light that stuns; every 4th is a great one |
+| SIGIL OF SUNDERING | glyph | every rune erupts twice and leaves foes vulnerable |
+| DANCING STEEL | blades | each cast a spectral blade that hunts and cuts by itself for 4 s (six at most) |
+| THE THOUSAND EDGES | blades | and every cut throws a wave of steel |
+| STOPWATCH WAND | chrono | a clock circle: ordinary foes in it stand still and do nothing (guardians and champions are only slowed), enemy shots hang in the air; when time catches up, the held foes take a blow that grows with the time held |
+| HOURGLASS OF AEONS | chrono | a wider circle; when it ends the shots it held fly back at your foes |
+| KALEIDOSCOPE | prism | a crystal bolt that splits on a hit (or a wall) into red, blue and green bolts that burn, chill and poison, and split again |
+| FRACTAL CROWN | prism | they split a third time (48 bolts alive at most) |
+| CLOUDHERD'S CROOK | cloud | a storm cloud that follows foes for 4 s, striking lightning and raining ice on what is under it (three at most) |
+| TEMPEST CORE | cloud | a tornado under each cloud drags foes under the lightning, and flings them when it ends |
+| ARCANE PINBALL | pinball | a ball of light that bounces from foe to foe 6 times, faster and 10% harder each time; a wall sends it back at the nearest foe |
+| STARBOUND ORRERY | pinball | 10 bounces, and every bounce throws a seeking star |
+| WAND OF WILD SURGE | wild | every cast a different spell: fireball, ice, lightning, miasma, gold, a sheep (squashed underfoot), a heal (at most every 20 s, only when hurt), a void or a smite |
+| THE CHAOS CODEX | wild | two different spells at once |
+
++1 projectile: each projectile past the first adds 35% damage; blades, comets (to five) and prism
+bolts (to three) add one more first.
+
 ## Code
 
 `scripts/combat/oddities.gd` (class `Oddities`): `fire`, `tick`, `draw_floor`, `draw_over`,
@@ -227,3 +258,13 @@ and the drawing. Hooks, one line each: `Combat.player_shoot`, `update_enemies` (
 `actions.gd`. Data: kinds in `Weapons.ARCH`, rows after "homingaxes". Icons `w_<id>.png` (12 x 12)
 and `dynastick.png`. Tested by `tests/arsenal_test.tscn` (`--ids=a,b` runs only those weapons,
 old ones too, for comparing).
+
+`scripts/combat/spells.gd` (class `Spells`): `fire` (from `Combat.player_shoot`), `tick` (from
+`Hazards.update`), `clear` (`G.enter_room`), `draw_floor` and `draw_over` (world_view), and
+`draw_sheep` (world_view `_draw_enemy`: a foe made a sheep by wild magic is drawn as `s_sheep`;
+`Enemy.shrink_t` runs its time, and `Oddities` squashes it underfoot). Twists a row may carry:
+`Spells.TWISTS`. Every hit goes through `Combat.damage_enemy` and `on_hit_effects`. Kinds in
+`Weapons.ARCH` (rows at the end of `Weapons.ROWS`), `WeaponInfo.MAGIC` and `KIND_TYPE`,
+`Attributes.KIND`; `Spells.POWER` (rough hits a cast) feeds the item card's BASE POWER. Icons
+`w_<id>.png` (12 x 12, `tools/art/sprites.py`). Tested by `tests/spells_test.tscn` (`--ids=a,b`
+runs only those weapons, old ones too, for comparing).
