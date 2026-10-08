@@ -332,6 +332,10 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 		return false   # a guardian between stages cannot be hurt (BossAI, stages.gd)
 	var p := G.player
 	var crit := false
+	if e.asleep:
+		dmg *= 2.0   # 21.5: a sneak attack on a sleeper
+		Lives.wake(e)
+		Lives.pop(e.x, e.y - e.r - 20, "SNEAK ATTACK!", "gold")
 	if GameData.rogues():
 		dmg *= 0.85 + 0.3 * randf()   # Rogues layer: every hit rolls within +-15%
 	if o.get("force_crit", false) or (not o.get("no_crit", false) and randf() < p.crit + (p.g("chill_crit") if e.chill_t > 0 else 0.0)):
@@ -356,6 +360,7 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	if GameData.rogues() and e.type != "dummy":
 		G.run_stats["dealt"] = G.run_stats.get("dealt", 0.0) + minf(dmg, e.max_hp * 2.0)   # Combat.power: what you really deal
 	e.hp -= Armor.soak(e, dmg, gate, Armor.weak_hit(e, o, crit))
+	Lives.on_hurt(e)   # 21.5: a call for help
 	e.mend_t = 0.0   # a mending elite waits again (elite_traits.gd)   # boss armor: most of a blow wears the plate down (armor.gd)
 	if gate > 0 and e.hp < gate:
 		e.hp = gate   # a boss never skips a stage (Stages.gate); other foes keep their overkill
@@ -393,6 +398,7 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 	Saloon.on_kill(e)
 	EventRooms.on_kill(e)
 	Wanderers.on_kill(e)   # 21.4 a rival gives up
+	Lives.on_kill(e)   # 21.5 a slime gives back its coins
 	RiftExtras.on_kill(e)
 	RiftBosses.on_kill(e)
 	Pets.on_kill(e)
@@ -729,6 +735,8 @@ static func update_enemies(dt: float) -> void:
 			BossAI.update_boss(e, ddt)
 		elif Barks.flee(e, ddt, p):
 			pass   # 21.1: a foe near death runs for a moment
+		elif Lives.override(e, ddt, p):
+			pass   # 21.5: asleep, a moth at its lamp, a fire-dog at play
 		else:
 			EnemyAI.run(e, ddt, p)
 		if e.kx != 0 or e.ky != 0:

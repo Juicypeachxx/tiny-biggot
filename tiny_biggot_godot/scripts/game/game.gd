@@ -740,12 +740,14 @@ func spawn_wave(hard: bool = false) -> void:
 		show_banner(mb.d["name"], "IT KEEPS THE WAY TO THE CHAMPION")
 		n = maxi(1, n / 3)
 	var deeper: Array = GameData.floors()[mini(floor_index + 1, GameData.floors().size() - 1)]["pool"]
+	var n0 := enemies.size()
 	for i in n:
 		var type: String = TB.pick(pool)
 		if room.twist == "strangers" and room.theme.is_empty() and i % 2 == 0:
 			type = TB.pick(deeper)   # STRANGERS: half the wave from the next floor down
 		var s := World.free_spot(room, player, 90, World.M_FLYER if GameData.ENEMIES[type].get("fly", false) else World.M_WALKER)
 		Combat.spawn_enemy(type, s.x, s.y, randf() < ec)
+	Lives.on_wave(enemies.slice(n0), not _spawned)   # 21.5: some of the first wave are asleep
 	room.waves_left -= 1
 
 func give_reward(kind: String) -> void:

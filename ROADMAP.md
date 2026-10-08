@@ -923,9 +923,19 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       follow you room to room and chat; a foe's shot or touch hurts them, and after three hits
       they run home; at the guardian's door they pay with a relic and gold. Not in the daily
       trial. `tests/wanderers_test`. Test switch for pictures: `--wanderer`.
-- [ ] 21.5 Monsters with lives of their own: some foes asleep until you come close, packs that
+- [x] 21.5 Monsters with lives of their own: some foes asleep until you come close, packs that
       call for help, moths drawn to the lamps, fire-dogs chasing sootlings, slimes that swallow
       dropped coins and grow.
+      Done: in the first wave of a fight room, one walking foe in three is asleep (Zz). It wakes
+      when you come near, when it is hit, when another foe calls, when it is the last one, or
+      after 14 seconds; the first hit on a sleeper does double damage (SNEAK ATTACK!). A foe
+      brought below half health may call for help ("HELP!", "AWOOO!"): sleepers near it wake,
+      and its own kind runs a third faster for 3 seconds. Mothlings flutter round the nearest
+      candelabra or wall torch until you come close or hit one; knock their candelabra over
+      and they come for you in a frenzy. In the Hearth, fire-dogs chase the sootlings about
+      until they notice you (the sootlings flee, "EEP!"). Slimes leave you for coins and gems
+      dropped near them and swallow them: each makes the slime bigger and tougher (+20%
+      health); burst it and the coins come back. `tests/lives_test`.
 - [ ] 21.6 The camp follows the iPad's clock: birds in the morning, lanterns in the evening,
       fireflies and stars at night; the cat brings small gifts. IPA.
 

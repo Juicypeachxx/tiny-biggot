@@ -95,6 +95,8 @@ static func knock(o: Dictionary, from_x: float) -> void:
 		return
 	o["down"] = true
 	o["dir"] = 1.0 if o["x"] >= from_x else -1.0
+	if o["kind"] == "e_candle":
+		Lives.lamp_down(o["x"], o["y"])   # 21.5: the moths round it come for you
 	G.dyn_dirty = true
 	Snd.play("hit", true)   # (its own dice: a prop is only drawn)
 	for k in 10:

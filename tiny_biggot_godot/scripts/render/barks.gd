@@ -189,7 +189,7 @@ static func update(dt: float) -> void:
 		return
 	var p := G.player
 	for e in G.enemies:
-		if e.hp <= 0 or e.spawn_t > 0 or e.is_boss() or e.hidden or TB.dist(e, p) > 170.0:
+		if e.hp <= 0 or e.spawn_t > 0 or e.is_boss() or e.hidden or e.asleep or TB.dist(e, p) > 170.0:
 			continue
 		if e.elite and _taunts < 2 and not e.get_meta("taunted", false):
 			e.set_meta("taunted", true)

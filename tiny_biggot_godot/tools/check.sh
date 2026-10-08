@@ -217,6 +217,11 @@ timeout 300 "$GODOT" --headless --path . res://tests/wanderers_test.tscn -- --no
 grep -E "wanderers test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 21.5 monsters with lives: sleepers, calls for help, moths, fire-dogs, greedy slimes"
+timeout 300 "$GODOT" --headless --path . res://tests/lives_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "lives test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== 18.1 the daily trial"
 timeout 300 "$GODOT" --headless --path . res://tests/daily_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "daily test" "$LOG"

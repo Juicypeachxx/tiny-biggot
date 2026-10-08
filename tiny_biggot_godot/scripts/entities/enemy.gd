@@ -78,6 +78,13 @@ var mini_t := 3.0
 var dps_log: Array = []       # Rogues layer: training dummy damage per tick (last 3 s)
 var dps := 0.0
 var flee_t := 0.0              # 21.1: running away, near death (Barks.flee)
+var asleep := false            # 21.5 (Lives): asleep until woken
+var sleep_t := 0.0             # 21.5: how long it has slept (a fire-dog: how long it has played)
+var called := false            # 21.5: it has had its chance to call for help
+var provoked := false          # 21.5: a moth or a fire-dog has noticed you (or been hurt)
+var rally_t := 0.0             # 21.5: running to a call, faster
+var play_cd := 0.0             # 21.5: a fire-dog sits a moment after a catch
+var coins := 0                 # 21.5: what a slime has swallowed
 var fled := false               # 21.1: it has had its one chance to run
 var ghost_hp := -1.0          # Rogues layer: trailing "damage ghost" on health bars (render only)             # stage-7 mini-bosses: time to the next ring burst
 # Boss scratch

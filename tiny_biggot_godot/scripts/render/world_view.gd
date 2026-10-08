@@ -773,6 +773,8 @@ func _draw_enemy(ci: CanvasItem, e: Enemy, t: float) -> void:
 			Gfx.sp(ci, name, e.x - cos(e.ca) * 9.0 * k, foot + bob - e.z - sin(e.ca) * 9.0 * k, sc * sx, sc * sy, 0.0, e.face < 0,
 				0.52 - 0.13 * k, Color(1.0, 0.54, 0.54, 0.7))
 	Gfx.sp(ci, name, e.x, foot + bob - e.z, sc * sx, sc * sy, 0.0, e.face < 0, 46 / 255.0 if e.hidden else 1.0, tint)
+	if e.asleep or e.coins > 0:
+		Lives.draw(ci, e, t, foot + bob - e.z)   # 21.5: Zz; a slime's swallowed coins
 	if not e.parts.is_empty():
 		RiftBosses.draw_parts(ci, e, foot + bob - e.z, t)
 	if e.type == "dummy":

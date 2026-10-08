@@ -989,6 +989,17 @@ Remains skips it), EventRooms.update -> `update`, interact / prompt (overlay_vie
 (world_view objects). The rival is struck by your shots or slashes (`_struck`); the traveller
 by foe shots (`EBullets.take_near`) or foes touching them. Not in the camp or the daily trial.
 Debug: `--wanderer`. `tests/wanderers_test`.
+21.5: `Lives` (scripts/combat/lives.gd). Enemy fields `asleep`, `sleep_t` (a fire-dog: time at
+play), `called`, `provoked`, `rally_t`, `play_cd`, `coins`. Hooks: Game.spawn_wave ->
+`on_wave(new foes, first wave)` (combat rooms only; `uid % 3 == 1`, walkers, not elites, minis,
+champions); Combat.update_enemies -> `override` (after Barks.flee: rally timer, sleep, greedy
+slimes, mothlings at `_lamp`, fire-dog `_dog`, sootling `_soot`); Combat.damage_enemy -> a
+sleeper takes x2 and wakes (before the +-15% roll), then `on_hurt` after the blow (provoked; one
+foe in two by `uid % 2` calls below half health: wakes all within CALL_R, rallies its own type:
+speed x RALLY, undone when rally_t runs out); kill_enemy -> `on_kill` (a slime's coins and gems
+back); RoomDress.knock -> `lamp_down`; world_view `_draw_enemy` -> `draw` (Zz, coin glints);
+Barks skips sleepers. `pop()`: a floating word without Fx.float_text's dice. No run dice rolled
+by any of it. `tests/lives_test`.
 
 ## Noted, not yet acted on
 
