@@ -900,8 +900,16 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       library) that fall to a roll, a shot (yours or a foe's) or a blast, and stay down. Crows
       peck about on the open-air floors and take off when you come close or something blows up;
       new ones land later. All drawing only, with dice of its own. `tests/remains_test`.
-- [ ] 21.3 The sound of each place: a quiet loop for every world, footsteps that change with the
+- [x] 21.3 The sound of each place: a quiet loop for every world, footsteps that change with the
       floor, music that swells in a fight and calms after (all made here, original).
+      Done: 11 loops of 8 seconds made from scratch by a small program here (dripping crypt,
+      crickets in the grotto, rain with far thunder, lapping water, the forge and a far anvil,
+      wind with a bell, the hum of the Eclipse, bubbling ink, a ticking library clock, the
+      roaring hearth, the camp's fire and crickets). Every floor and every rift world has one;
+      a new place fades in as the old one fades out. Footsteps on 7 kinds of floor (stone,
+      wood, grass, snow, water, paper, metal). The music is as loud as before in a fight and a
+      little softer once the room is quiet, and the place's own sound comes up. OPTIONS has a
+      new switch, PLACE SOUNDS, to turn the loops and footsteps off. `tests/ambience_test`.
 - [ ] 21.4 Life between the fights: a rival adventurer who races you to chests (help or fight),
       your last hero's ghost where they fell with some of their gold, lost travellers met on a
       floor.

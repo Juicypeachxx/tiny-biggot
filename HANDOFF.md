@@ -964,6 +964,19 @@ room seed), kinds `e_candle` / `e_shelf` (tick_objects: roll, shots, foe shots; 
 dyn layer, flames live, glow), `scare(x, y, r)` (explode_at: props fall, critters bolt), crows on
 BIRD_FLOORS (`_bird`). `Snd.play(name, true)`: pitch from its own dice (decor must not move the
 run's dice: the original pitched sounds roll the global randi). `tests/remains_test`.
+21.3: `Ambience` (scripts/core/ambience.gd): FLOOR (floor name) and RIFT (theme id) -> [loop,
+footsteps]; `on_room` (end of Game.enter_room), `tick(p)` (update_play after update_player:
+`Snd.calm(not G.locked)`, a step every STRIDE px walked, none in a roll, a leap or a jump),
+`stop` (title, death, win). Snd: two `_amb` players crossfaded in `_process` (AMB_VOL 0.12, x0.6
+in a fight), `_music_level` MUSIC_VOL 0.7 / MUSIC_CALM 0.45 (calm only while a loop plays),
+`step(surface)` on its own player, `places()` = sfx and OPTIONS PLACE SOUNDS (Meta opts
+"places"; options rows now OPT_Y0 68, OPT_DY 15). Own dice throughout. The sounds:
+`tools/audio/sounds21.py` (pure Python; noise beds made seamless by `seam`, loops matched by
+loudness) -> assets/audio/amb/amb_*.wav (import: loop forward, QOA) and se/cc_step_*.wav.
+Measured with the movie writer: the loops sit 2-5 dB under the calm music, about 12 dB under
+it in a fight; footsteps peak about 11 dB under a hit. A run that is not headless reports
+streams still in use at exit (music, effects and now a loop): the dummy audio driver, as before.
+`tests/ambience_test`.
 
 ## Noted, not yet acted on
 

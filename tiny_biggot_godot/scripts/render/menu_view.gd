@@ -355,8 +355,8 @@ func draw_howto(ci: CanvasItem) -> void:
 
 # ---------- Options and pause ----------
 ## Where the option rows sit (the tap zones in taps.gd use the same numbers).
-const OPT_Y0 := 70   # 8.2: eleven rows (STAT COLUMN) fit
-const OPT_DY := 16   # 13.1: thirteen rows
+const OPT_Y0 := 68   # 8.2: eleven rows (STAT COLUMN) fit
+const OPT_DY := 15   # 13.1: thirteen rows; 21.3: fourteen (PLACE SOUNDS)
 func draw_options(ci: CanvasItem) -> void:
 	Gfx.text(ci, "OPTIONS", TB.SW / 2, 46, "gold", 2, 0.5)
 	for i in G.OPTION_LIST.size():

@@ -47,7 +47,7 @@ var tchoice: Dictionary = {}   # trait offer: { opts, idx }
 # Menus (Game.rb).
 const TITLE_ITEMS := ["START RUN", "SKILL TREES", "EMBER SHRINE", "CODEX", "HOW TO PLAY", "OPTIONS"]
 const PAUSE_ITEMS := ["RESUME", "GEAR", "TRAITS", "RELICS", "OPTIONS", "ABANDON RUN"]
-const OPTION_LIST := [["AUTO-AIM FIRE", "autofire"], ["MUSIC", "music"], ["SOUND EFFECTS", "sfx"], ["SCREEN SHAKE", "shake"], ["SHOW FPS", "fps"], ["SHOW GEAR ON HERO", "show_gear"], ["FANCY EFFECTS", "vfx"], ["FAST DRAWING", "fast_draw"], ["MEET THE HAGGLER", "haggler"], ["STAT COLUMN", "statcol"], ["NEON LOOK", "neon"], ["KEYBOARD KEYS", "@keys"], ["BACK", ""]]
+const OPTION_LIST := [["AUTO-AIM FIRE", "autofire"], ["MUSIC", "music"], ["SOUND EFFECTS", "sfx"], ["PLACE SOUNDS", "places"], ["SCREEN SHAKE", "shake"], ["SHOW FPS", "fps"], ["SHOW GEAR ON HERO", "show_gear"], ["FANCY EFFECTS", "vfx"], ["FAST DRAWING", "fast_draw"], ["MEET THE HAGGLER", "haggler"], ["STAT COLUMN", "statcol"], ["NEON LOOK", "neon"], ["KEYBOARD KEYS", "@keys"], ["BACK", ""]]
 const CODEX_COLS := 11
 var quit_armed := false
 var wardrobe_from: StringName = &"title"   # 14.2: where the WARDROBE page goes back to
@@ -351,6 +351,7 @@ func enter_room(r: Room) -> void:
 		Effects.fire("on_room_enter")
 	if room.type == "shop":
 		Barks.hero("shop")   # 21.1
+	Ambience.on_room()   # 21.3 the sound of this place
 
 func open_exits() -> void:
 	if room.exits_open or room.type == "camp":
@@ -1111,6 +1112,7 @@ func on_death(source: String) -> void:
 	award_embers(false)
 	Snd.play("die")
 	Snd.music(0)
+	Ambience.stop()
 
 ## Stage 7: the Pale Regent falls with the new floors ahead. This is still the
 ## original game's victory (wins and dread unlock are granted now), and the
@@ -1134,6 +1136,7 @@ func on_win() -> void:
 	state_t = 0.0
 	Snd.play("win")
 	Snd.music(0)
+	Ambience.stop()
 
 func deny(o: Dictionary, text: String) -> void:
 	Snd.play("deny")
@@ -1788,7 +1791,9 @@ func update(dt: float) -> void:
 			fade = {}
 		return
 	match state:
-		&"title": update_title(dt)
+		&"title":
+			Ambience.stop()   # 21.3: the place's sound fades on the title
+			update_title(dt)
 		&"stars":
 			update_embers(dt)
 			StarView.keys(dt)
@@ -2204,6 +2209,7 @@ func update_play(dt: float) -> void:
 	var p := player
 	Effects.tick(dt)
 	Combat.update_player(p, dt)
+	Ambience.tick(p)   # 21.3 footsteps, the music's fight or calm level
 	if state != &"play":
 		return
 	Combat.update_enemies(dt)
