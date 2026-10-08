@@ -1076,7 +1076,7 @@ here): the look of night floors, the sound of rain, and 60 fps there are his to 
 like the 4.6 kinds: `Combat.player_shoot` (fire), `Hazards.update` (tick), `world_view` (draw_floor,
 draw_over, and a sheep drawn in a foe's place), `Game.enter_room` (clear).
   singularity  a mote that becomes a black hole: pulls foes, then collapses (+30% a foe it held).
-               EVENT HORIZON also eats enemy shots (+20% each).
+               EVENT HORIZON also eats enemy shots (+10% each, 15 at most).
   serpent      a fire serpent hunts foes, its body burns, its tail leaves flames. RIME SERPENT: ice,
                and it coils round a foe to crush it.
   comet        warned by a line and a ring, a comet crosses the room through the aimed foe, then
@@ -1092,14 +1092,26 @@ draw_over, and a sheep drawn in a foe's place), `Game.enter_room` (clear).
                poison) that split again. FRACTAL CROWN: a third time (48 alive at most).
   cloud        a storm cloud follows foes: lightning every 0.6 s, rain that chills (three at most).
                TEMPEST CORE: a tornado drags foes under it, and flings them when it ends.
-  pinball      bounces foe to foe, x1.08 speed and +15% a bounce; a wall sends it back at the
-               nearest foe. STARBOUND ORRERY: 12 bounces, each throws a seeking star.
+  pinball      bounces foe to foe 6 times, x1.08 speed and +10% a bounce; a wall sends it back at
+               the nearest foe. STARBOUND ORRERY: 10 bounces, each throws a seeking star.
   wild         a random spell a cast (fireball, ice, lightning, miasma, gold, sheep, heal at most
                every 20 s and only when hurt, a void, a smite). THE CHAOS CODEX: two at once.
                No gold from the training dummy.
 +1 projectile stacks without limit (+35% damage each past the first; blades, comets and prism
 bolts add one more first, to their caps). Twenty rows at the end of `Weapons.ROWS` (classic never
-sees them). Still to do: the twenty icons, tests/spells_test, docs; then 23.2.
+sees them). Icons: 12x12 in `tools/art/sprites.py` (look D, rendered and copied to
+assets/graphics, atlas baked: 1741 graphics). `tests/spells_test` (in tools/check.sh): data, each
+weapon's trick in a fight, +999 projectiles within caps (logic under 0.7 ms a tick here), stopped
+time holds a foe still and only slows a champion, the sheep is squashed underfoot, one heal in 20 s,
+no gold from the dummy. Damage a second in its fight (4 sturdy foes ahead; old weapons in the same
+fight: commons 15-37, rares 6-29, epics 9-45, legends 5-97): pocket void 38, event horizon 112 (fed
+6 enemy shots a second), ember wyrm 22, rime serpent 32, comet scepter 20, starfallen 62, rune
+chalk 21, sundering 45, dancing steel 26, thousand edges 39, stopwatch 18, hourglass 50,
+kaleidoscope 38, fractal crown 54, cloudherd 20, tempest 26, pinball 26, orrery 67, wild surge 34,
+chaos codex 73. (First numbers were higher: the pinballs went from +15% to +10% a bounce and 6 or
+10 bounces, the orrery's stars 40% to 30%, the event horizon +20% to +10% a shot eaten (15 at
+most); sundering, kaleidoscope, fractal crown and wild surge were given less damage.)
+content_test passes. Still to do: docs; then 23.2.
 
 ## Noted, not yet acted on
 

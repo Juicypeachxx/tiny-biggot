@@ -5,7 +5,7 @@ extends RefCounted
 ## picture and number is this game's own.
 ##   singularity  a dark mote; on the first foe (or at the end of its flight) it becomes a black hole that
 ##                drags foes in and hurts them, then collapses in a blast that grows with every foe it held.
-##                DEVOUR: it also eats enemy shots, and each one eaten makes the collapse harder.
+##                DEVOUR: it also eats enemy shots, and each one eaten makes the collapse harder (+10%, 15 at most).
 ##   serpent      a serpent of fire that hunts foes, burning all its body touches and leaving flames.
 ##                COIL (ice): it chills, and coils around a foe to crush it.
 ##   comet        a comet crosses the whole room through the foe you aim at, hitting everything on its
@@ -20,8 +20,8 @@ extends RefCounted
 ##                chill and poison, and split again. FRACTAL: three times over.
 ##   cloud        a storm cloud that follows foes, striking lightning and raining ice on what is under it.
 ##                TORNADO: it spins a tornado that drags foes under the lightning.
-##   pinball      a ball of light that bounces from foe to foe, faster and harder each time. STARS: every
-##                bounce throws a seeking star.
+##   pinball      a ball of light that bounces from foe to foe (6 times), faster and 10% harder each time; a
+##                wall sends it back at the nearest foe. STARS: every bounce throws a seeking star.
 ##   wild         every cast a different spell: fireball, ice, lightning, poison, gold, a sheep, a heal, a
 ##                void or a huge crit. DOUBLE: two at once.
 ## +1 PROJECTILE STACKS WITHOUT LIMIT: every projectile past the first adds 35% damage; blades, comets,
@@ -228,7 +228,7 @@ static func fire(p: Player, a: float, forced: bool) -> Array:
 			Snd.play("beam")
 		"pinball":
 			_add(pins, { "x": sx, "y": sy, "vx": cos(a) * spd, "vy": sin(a) * spd, "t": 0.0, "life": Weapons.wlife(p), "dmg": dmg,
-				"bounces": 0, "max": int(w.get("max", 8)), "last": -1, "stars": w.get("stars", false), "trail": [], "crit": forced,
+				"bounces": 0, "max": int(w.get("max", 6)), "last": -1, "stars": w.get("stars", false), "trail": [], "crit": forced,
 				"col": col })
 			Snd.play("shoot")
 		"wild":
@@ -411,7 +411,7 @@ static func _tick_voids(p: Player, room: Room, dt: float) -> void:
 
 static func _collapse(o: Dictionary, p: Player) -> void:
 	var held: int = (o["held"] as Dictionary).size()
-	var dmg: float = o["dmg"] * (1.5 + 0.3 * held + 0.2 * o["eaten"])
+	var dmg: float = o["dmg"] * (1.5 + 0.3 * held + 0.1 * mini(o["eaten"], 15))   # (+10% a shot eaten, up to 15)
 	for e in G.enemies.duplicate():
 		if e.targetable() and TB.dist_xy(e.x, e.y, o["x"], o["y"]) < o["r"] * 0.9 + e.r:
 			_hurt(e, dmg, p, o["crit"], "purple")
@@ -790,13 +790,13 @@ static func _tick_pins(p: Player, dt: float) -> void:
 		for e in G.enemies.duplicate():
 			if not e.targetable() or e.uid == o["last"] or TB.dist_xy(e.x, e.y, nx, ny) >= e.r + 4.0:
 				continue
-			_hurt(e, o["dmg"] * (1.0 + 0.15 * o["bounces"]), p, o["crit"], "gold")
+			_hurt(e, o["dmg"] * (1.0 + 0.1 * o["bounces"]), p, o["crit"], "gold")
 			_stat("bounce")
 			o["bounces"] += 1
 			o["last"] = e.uid
 			_ring(nx, ny, 2.0, 12.0, 0.2, Color(1.0, 0.9, 0.5))
 			if o["stars"]:
-				Combat._raw_shot(e.x, e.y - 4.0, randf() * TAU, 200, o["dmg"] * 0.4, 1.2, 2.0, 0, "spark", {}, 4.0)
+				Combat._raw_shot(e.x, e.y - 4.0, randf() * TAU, 200, o["dmg"] * 0.3, 1.2, 2.0, 0, "spark", {}, 4.0)
 				_stat("star")
 			var spd := minf(520.0, Vector2(o["vx"], o["vy"]).length() * 1.08)
 			var nxt := _nearest(e.x, e.y, 220.0, e.uid)
@@ -949,12 +949,15 @@ static func draw_over(ci: CanvasItem, t: float) -> void:
 			ci.draw_rect(Rect2(roundf(c.x) - 1 + roundf(sin(t * 20.0)), roundf(c.y) - 1, 1, 1), Color(1.0, 0.4, 0.4))
 	for o in clouds:
 		var c := Vector2(o["x"], o["y"])
-		var dk := Color(0.32, 0.33, 0.42)
+		var flash := 1.0 if o["cd"] > 0.5 else 0.0   # it lights up as it strikes
+		for k in 5:   # a dark rim, then the body, then the light tops
+			var off := Vector2(-12.0 + k * 6.0, sin(t * 2.0 + k) * 1.5 - (4.0 if k % 2 == 1 else 0.0))
+			ci.draw_circle(c + off, 8.0 - absf(k - 2) * 0.8, Color(0.12, 0.1, 0.2))
 		for k in 5:
 			var off := Vector2(-12.0 + k * 6.0, sin(t * 2.0 + k) * 1.5 - (4.0 if k % 2 == 1 else 0.0))
-			ci.draw_circle(c + off, 7.0 - absf(k - 2) * 0.8, dk)
+			ci.draw_circle(c + off, 7.0 - absf(k - 2) * 0.8, Color(0.5, 0.53, 0.66).lerp(Color(0.85, 0.9, 1.0), flash))
 		for k in 3:
-			ci.draw_circle(c + Vector2(-6.0 + k * 6.0, -4.0), 4.0, Color(0.55, 0.57, 0.66))
+			ci.draw_circle(c + Vector2(-6.0 + k * 6.0, -4.0), 4.0, Color(0.78, 0.82, 0.92).lerp(Color(1, 1, 0.85), flash))
 		for k in 6:   # rain
 			var ph := fmod(t * 3.0 + k * 0.17, 1.0)
 			var rx := c.x - 10.0 + k * 4.0

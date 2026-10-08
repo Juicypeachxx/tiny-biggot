@@ -1427,3 +1427,65 @@ S["npc_angler"] = ("main:#3f6a8a second:#d8b45a skin:#e0a47a wood:#7a5236 glow:#
 for _n in ["inkblot", "quillbat", "scrawler", "smudge", "inkhound", "papercut", "stitcher", "folio", "pressling",
 		"pagewraith", "quillknight", "nibling", "inkmage", "sealwarden", "scribe"]:
 	ELITE.setdefault(_n, {})
+
+# ---- Stage 23 THE SPELLBOOK (his word, 8 Oct): the twenty magic weapons' icons (spells.gd).
+S["w_pocketvoid"] = ("main:#4a2a6a wood:#4a3050 glow:#c070ff", [
+"....3..oyyo.", "......oy00yo", "...3..oy00yo", ".......oyyo.", "......ouo..3", ".....ouo....",
+"....ouo.....", "...ouo......", "..ouo.......", ".ouo........", "ouo.........", "oo.........."])
+S["w_eventhorizon"] = ("main:#2a1a3a wood:#3a2a4a gold:#f2c94c glow:#d890ff", [
+"......oyyo..", ".....oy00yo.", "...xyy0000yx", ".....oy00yo.", "......oyyo..", ".....oqo....",
+"....ouo.....", "...ouo......", "..oqo.......", ".ouo........", "ouo.........", "oo.........."])
+S["w_emberwyrm"] = ("main:#e8573a wood:#5a3a2a glow:#ffd040", [
+"........ooo.", ".......o33yo", "......o3322o", ".......oo2o.", "......o2o...", ".....o2uo...",
+"....ouo2o...", "...o2uoo....", "..ouo2o.....", ".ouooo......", "ouo.........", "oo.........."])
+S["w_rimeserpent"] = ("main:#9fd8f0 glow:#2a4a8a", [
+"......ooo...", ".....o33yo..", ".....o332o..", "......o3o...", "...ooooo3o..", "..o3333332o.",
+".o3oooooo2o.", ".o33333322o.", "o3oooooooo2o", "o3333333222o", ".oooooooooo.", "............"])
+S["w_cometscepter"] = ("main:#c8643c gold:#f2c94c glow:#ffc040 halo:1", [
+"..........yy", ".........yy.", "......ooyy..", ".....oxxyo..", ".....oxxxo..", "......ooo...",
+".....oqo....", "....o2o.....", "...o2o......", "..o2o.......", ".oqo........", ".oo........."])
+S["w_starfallen"] = ("main:#e86fb4 gold:#f2c94c glow:#fff07a", [
+"x.......o...", ".y.....oyo..", "..y..ooyxyoo", "......oyyyo.", "x....oyoyo..", ".y..o2ooo...",
+"..yo2o......", "...o2o......", "..o2o.......", ".oqo........", "o2o.........", "oo.........."])
+S["w_runechalk"] = ("main:#e8e0d0 glow:#ff6fc8", [
+".yy.......oo", "y..y.....oxo", "y..y....o3yo", ".yy....o33o.", "......o33o..", ".....o33o...",
+"....o32o....", "...o32o.....", "..o32o......", ".o22o.......", ".ooo........", "............"])
+S["w_sundersigil"] = ("main:#5a2a6a bone:#e8dcc8 glow:#ff4a6a halo:1", [
+"............", "..oooooooo..", ".o22222222o.", ".o222yy222o.", ".o22y22y22o.", ".o2y2yy2y2o.",
+".o22y22y22o.", ".o222yy222o.", ".o22222222o.", ".ollllllllo.", "..oooooooo..", "............"])
+S["w_dancingsteel"] = ("main:#c8f0ff metal:#d8f4ff glow:#7ff0ff", [
+"........x..o", ".......x..o9", "......x..o9o", ".....x..o9o.", "....x..o9o..", "...x..o9o...",
+".oo..o9o....", "o99oo9o.....", "o9yo9o......", "o99oo.......", "..ouo.......", ".ouo........"])
+S["w_thousandedges"] = ("main:#c8f0ff metal:#e8f4ff glow:#9fd8ff", [
+"..x........o", ".x........o9", "x..x.....o9o", "..x.....o9o.", ".x.....o9o..", "......o9o.x.",
+".oo..o9o.x..", "o99oo9o.x...", "o9yo9o......", "o99oo.......", "..ouo.......", ".ouo........"])
+S["w_stopwatch"] = ("main:#e8f0f8 gold:#d8a838 glow:#3a4a8a", [
+"....ooo.....", "....oqo.....", "..oooqooo...", ".oq33333qo..", "oq333y333qo.", "oq333y333qo.",
+"oq333yyy3qo.", "oq3333333qo.", ".oq33333qo..", "..ooqqqoo...", "....ooo.....", "............"])
+S["w_aeonglass"] = ("main:#c8e8f8 gold:#f2c94c glow:#ffd860 halo:1", [
+".oooooooooo.", ".oqqqqqqqqo.", "..o3yyyy3o..", "...o3yy3o...", "....o33o....", "....oyyo....",
+"...o3333o...", "..o33yy33o..", "..oyyyyyyo..", ".oqqqqqqqqo.", ".oooooooooo.", "............"])
+S["w_kaleidoscope"] = ("main:#ff5a3a second:#4d8be6 skin:#6fd84a gold:#c8a040 glow:#ffffff halo:1", [
+".........oo.", "..3.....o3bo", ".......o5x3o", "....b.oqqoo.", ".5...oqqo...", "....oqqo....",
+"...oqqo.....", "..oqqo......", ".oqqo.......", ".oqo........", ".oo.........", "............"])
+S["w_fractalcrown"] = ("gold:#f2c94c glow:#8cf0e0", [
+"............", "............", ".x...xx...x.", "oyo.oyyo.oyo", "oqo.oqqo.oqo", "oqqoqqqqoqqo",
+"oqqqqyyqqqqo", "oqqyqqqqyqqo", "oqqqqqqqqqqo", "oppppppppppo", "oooooooooooo", "............"])
+S["w_cloudherd"] = ("main:#c8d0e0 wood:#7a5236 glow:#fff07a", [
+".ooo....ooo.", "o333oo.ouuuo", "o33333oouoou", ".oooooy..oou", "....y...ouo.", "...y...ouo..",
+"......ouo...", ".....ouo....", "....ouo.....", "...ouo......", "..ouo.......", "..oo........"])
+S["w_tempestcore"] = ("main:#8aa0c8 glow:#e8f8ff", [
+"............", "oooooooooooo", "o3333yyy333o", ".oyy33333yo.", "..o33yyy3o..", "...oyy33o...",
+"....o3yo....", ".....o3o....", "....o3o.....", ".....o3o....", ".....oo.....", "............"])
+S["w_pinballwand"] = ("main:#e86fb4 gold:#f2c94c glow:#fff07a", [
+"..y......oo.", "........oxyo", "....y...oyyo", ".........oo.", "......oqo...", ".....o2o....",
+"....o2o.....", "...o2o......", "..o2o.......", ".oqo........", "o2o.........", "oo.........."])
+S["w_orrery"] = ("main:#4a3a6a second:#4d8be6 gold:#f2c94c glow:#fff07a wood:#6b4a2a halo:1", [
+"....b.......", "...qqqqqq...", ".qq..oo..qq.", "q...oyyo...q", "q..oyxxyo..q", ".qqoyxxyoqq.",
+"...qqyyqq..b", ".....oo.....", ".....uu.....", "....ouuo....", "...oooooo...", "............"])
+S["w_wildsurge"] = ("main:#ff5a3a second:#4d8be6 skin:#6fd84a gold:#f2c94c wood:#5a3a2a glow:#ffffff", [
+"..3....b....", "......oyo..5", ".q...oyxyo..", "......oyo.q.", ".....ouo....", "....ouo..b..",
+"....ouuo....", ".....ouo....", "....ouo.....", "...ouo......", "..ouo.......", "..oo........"])
+S["w_chaoscodex"] = ("main:#5a1a4a second:#4d8be6 skin:#6fd84a gold:#f2c94c bone:#f4ecd8 glow:#ff3a6a", [
+"...3....b...", ".q....5.....", "....y...q.3.", "..b...3.....", "......y..5..", ".oo......oo.",
+"olloo..oollo", "ol00lool00lo", "olllloollllo", "o2222oo2222o", ".oooo..oooo.", "............"])

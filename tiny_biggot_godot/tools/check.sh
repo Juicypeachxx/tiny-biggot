@@ -242,6 +242,11 @@ timeout 300 "$GODOT" --headless --path . res://tests/bestiary_test.tscn -- --no-
 grep -E "bestiary test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 23.1 the spellbook: twenty magic weapons"
+timeout 900 "$GODOT" --headless --path . res://tests/spells_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "spells test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== 18.1 the daily trial"
 timeout 300 "$GODOT" --headless --path . res://tests/daily_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "daily test" "$LOG"
