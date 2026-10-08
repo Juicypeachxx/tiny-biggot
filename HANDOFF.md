@@ -1038,6 +1038,13 @@ last floor: floor 0, loop + 1, the game's loop scaling); award_embers -> `score`
 of FLOORS and LOOPS, NEW BEST DEPTH). HUD and end screen show the depth. Quests' "chapter" goal
 is never met on the stair. main.gd: `--endless`; `--floor` counts from the top on the stair.
 `tests/endless_test`.
+22.3: `Bestiary` (scripts/game/bestiary.gd). Meta "seen" (Combat.spawn_enemy / spawn_boss ->
+`seen`), "slain" (Combat.kill_enemy -> `slain`), "runs_log" (award_embers -> `log_run`, the last
+LOG_MAX). `entries()`: every ENEMIES key but SKIP and every BOSSES key, ordered floor by floor
+(pool, OLD_FLOOR_EXTRA, mini, guardian, ALT_GUARDIANS), then Themes, then the rest; `where`,
+`name_of`, `line_of` (Barks FOE_BARKS / BOSS_LINES). The codex: Game `codex_tab` (ROLL cycles),
+`bestiary_i`, `_grid_nav`; MenuView CODEX_TABS / CODEX_TAB_X (tab names at the top); taps.gd
+taps on the names and the bestiary grid. Debug `--ui=codex|bestiary|runs`. `tests/bestiary_test`.
 
 ## Noted, not yet acted on
 

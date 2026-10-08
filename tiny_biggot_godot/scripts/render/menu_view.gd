@@ -279,14 +279,26 @@ func draw_shrine(ci: CanvasItem) -> void:
 	Gfx.text(ci, "USE  UNLOCK     MENU  BACK", TB.SW / 2, 262, "grey", 1, 0.5)
 
 # ---------- Relic codex ----------
+## 22.3: the codex's pages, named along the top (tap one, or ROLL for the next).
+const CODEX_TABS := ["RELICS", "BESTIARY", "PAST RUNS"]
+const CODEX_TAB_X := [104, 224, 344]
 func draw_codex(ci: CanvasItem) -> void:
+	for k in CODEX_TABS.size():
+		Gfx.text(ci, CODEX_TABS[k], CODEX_TAB_X[k], 10, "gold" if G.codex_tab == k else "dim", 2, 0.5)
+	Gfx.text(ci, "ARROWS  BROWSE     ROLL  NEXT PAGE     MENU  BACK", TB.SW / 2, 262, "grey", 1, 0.5)
+	match G.codex_tab:
+		1:
+			Bestiary.draw_beasts(ci, G.bestiary_i)
+			return
+		2:
+			Bestiary.draw_runs(ci)
+			return
 	var rel := Relics.all()
 	var found_d: Dictionary = Meta.meta["found"]
 	var found := 0
 	for r in rel:
 		if found_d.has(r["id"]):
 			found += 1
-	Gfx.text(ci, "RELIC CODEX", TB.SW / 2, 10, "gold", 2, 0.5)
 	Gfx.text(ci, "%d OF %d FOUND" % [found, rel.size()], TB.SW / 2, 28, "grey", 1, 0.5)
 	var pool := {}
 	for r in G.relic_pool():
@@ -327,7 +339,6 @@ func draw_codex(ci: CanvasItem) -> void:
 	else:
 		Gfx.text(ci, "LOCKED", TB.SW / 2, 196, "red", 2, 0.5)
 		Gfx.text(ci, "UNLOCK ITS RELIC CACHE AT THE EMBER SHRINE", TB.SW / 2, 220, "dim", 1, 0.5)
-	Gfx.text(ci, "ARROWS  BROWSE     MENU  BACK", TB.SW / 2, 262, "grey", 1, 0.5)
 
 # ---------- How to play ----------
 func draw_howto(ci: CanvasItem) -> void:

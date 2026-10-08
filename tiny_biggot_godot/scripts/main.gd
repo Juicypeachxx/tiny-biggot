@@ -225,6 +225,15 @@ func _ready() -> void:
 			G.state = StringName(DebugArgs.get_str("ui"))
 			G.opt_from = &"title"
 			G.menu = 0
+		"codex", "bestiary", "runs":   # 22.3: the codex on a page (with a few foes met and runs logged for the picture)
+			G.state = &"codex"
+			G.codex_tab = ["codex", "bestiary", "runs"].find(DebugArgs.get_str("ui"))
+			for k in ["skeleton", "bat", "slime", "mushroom", "colossus", "imp", "ghost"]:
+				Bestiary.seen(k)
+			Bestiary.slain("skeleton")
+			G.bestiary_i = 2
+			G.death_by = "a skeleton"
+			G.award_embers(false)
 		"inventory":
 			G.state = &"inventory"
 		"tree":

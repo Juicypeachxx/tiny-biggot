@@ -972,8 +972,16 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       (6 a floor). The camp's chapter quests are not won on the stair. (In the title menu there
       was no room for another line, so the stair is in the camp.) `tests/endless_test`. Test
       switch: `--endless`.
-- [ ] 22.3 A bestiary: every foe you have met, their lines, how many you have beaten, and your
+- [x] 22.3 A bestiary: every foe you have met, their lines, how many you have beaten, and your
       past runs.
+      Done: the title's CODEX has three pages now, named along the top (tap one, or ROLL for the
+      next): RELICS (as before), BESTIARY and PAST RUNS. The bestiary holds all 212 foes and
+      guardians, floor by floor and then the rift worlds; one you have not met is a dark shape,
+      guardians stand on red. Pick one: its name, where it lives ("LIVES IN THE OSSUARY", "A
+      GUARDIAN OF THE CINDERFORGE"), how many you have slain, and what it says. It counts from
+      now on: foes met before this IPA start as shapes. PAST RUNS lists your last ten runs: the
+      hero, how far (or the endless depth), how it ended, the time, foes slain, embers and the
+      date. `tests/bestiary_test`. Test switch for pictures: `--ui=bestiary` / `--ui=runs`.
 - [ ] 22.4 Stability and performance polish: profile the heaviest fights and everything Stages
       21-22 added, a long random-button soak for crashes, fix what is found (nothing toned
       down). IPA 22.

@@ -21,6 +21,7 @@ extends RefCounted
 ##   --ui=SCREEN                  open a screen at start: choice, traits, title, hero, tree, shrine, options, keys,
 ##                                codex, howto, options, pause, traitlist, gearpage, relics, dead, win,
 ##                                stars (the constellation), camp, kitchen, armory, plans, board (the camp;
+##                                22.3: codex, bestiary, runs (the codex on a page);
 ##                                --camp-built: all its upgrades, --camp-fish: a full larder, --camp-near=KIND),
 ##                                ending (the true-ending room with the loop and exit portals)
 ##   --no-save                    neither read nor write the save file, nor the sprite atlas the game keeps for

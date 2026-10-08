@@ -175,6 +175,7 @@ static func orbital_positions(p: Player) -> Array:
 # ---------- Spawning foes ----------
 static func spawn_enemy(type: String, x: float, y: float, elite: bool = false, instant: bool = false) -> Enemy:
 	var d: Dictionary = GameData.ENEMIES[type]
+	Bestiary.seen(type)   # 22.3
 	var hp: float = d["hp"] * floor_scale() * (2.2 if elite else 1.0)
 	if d.get("mini", false):
 		hp = d["hp"] * (1 + 0.15 * dread()) * loop_scale() * hard_hp() * run_scale()   # stage-7 mini-bosses: fixed health like guardians
@@ -210,6 +211,7 @@ static func spawn_enemy(type: String, x: float, y: float, elite: bool = false, i
 
 static func spawn_boss(key: String, quiet: bool = false) -> Enemy:
 	var d: Dictionary = GameData.BOSSES[key]
+	Bestiary.seen(key)   # 22.3
 	var hp: float = d["hp"] * (1 + 0.15 * dread()) * loop_scale() * hard_hp() * run_scale() * boss_hp()
 	if d.get("rift", false):
 		hp *= 1 + 0.42 * G.floor_index   # a rift guardian turns up on any floor
@@ -394,6 +396,7 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 	p.kills += 1
 	p.room_kills += 1
 	G.run_stats["kills"] += 1
+	Bestiary.slain(e.boss if e.is_boss() else e.type)   # 22.3
 	Remains.add(e)   # 21.2: something of it stays on the floor
 	Saloon.on_kill(e)
 	EventRooms.on_kill(e)

@@ -85,6 +85,18 @@ static func zones() -> Array:
 				var i := top + j
 				out.append(_z(Rect2(30, 42 + j * 16 - 3, sw - 60, 15), func(): G.shrine_i = i, sel == i))
 		&"codex":
+			for k in MenuView.CODEX_TABS.size():   # 22.3: a tap on a page's name opens it
+				out.append(_act(Rect2(MenuView.CODEX_TAB_X[k] - 56, 4, 112, 20), func(): G.codex_tab = k))
+			if G.codex_tab == 1:
+				var bn := Bestiary.entries().size()
+				var bx0 := (sw - Bestiary.COLS * 30) / 2 + 4
+				var bfirst := Bestiary.first_row_for(G.bestiary_i)
+				for i in bn:
+					var row := i / Bestiary.COLS - bfirst
+					if row >= 0 and row < Bestiary.ROWS:
+						out.append(_act(Rect2(bx0 + (i % Bestiary.COLS) * 30 - 5, 42 + row * 22 - 5, 26, 22), func(): G.bestiary_i = i))
+			if G.codex_tab != 0:
+				return out
 			var n := Relics.all().size()
 			var cols: int = G.CODEX_COLS
 			var x0 := (sw - cols * 30) / 2 + 4

@@ -55,6 +55,8 @@ var wardrobe_from: StringName = &"title"   # 14.2: where the WARDROBE page goes 
 var wardrobe_i := 0
 var opt_from: StringName = &"title"
 var codex_i := 0
+var codex_tab := 0   # 22.3: 0 relics, 1 the bestiary, 2 past runs
+var bestiary_i := 0
 var inv_i := 0                 # Rogues layer: inventory cursor (0-5 backpack, 6-9 belt)
 var shrine_i := 0
 var tree_hero := 0
@@ -1121,6 +1123,7 @@ func award_embers(win: bool) -> void:
 	Meta.meta["embers"] += total
 	Meta.meta["kills"] += r["kills"]
 	award = { "parts": parts, "mult": mult, "total": total }
+	Bestiary.log_run(win, total)   # 22.3 past runs
 	Meta.write_save()
 
 func on_death(source: String) -> void:
@@ -2136,23 +2139,33 @@ func update_shrine() -> void:
 		toast(u["name"] + " UNLOCKED", "gold")
 
 func update_codex() -> void:
-	var n := Relics.all().size()
-	if Keys.left():
-		codex_i = (codex_i + n - 1) % n
+	if Keys.roll():
+		codex_tab = (codex_tab + 1) % 3   # 22.3: the next page
 		Snd.play("select")
-	if Keys.right():
-		codex_i = (codex_i + 1) % n
-		Snd.play("select")
-	if Keys.up():
-		codex_i = TB.rmod(codex_i - CODEX_COLS, n)
-		Snd.play("select")
-	if Keys.down():
-		codex_i = (codex_i + CODEX_COLS) % n
-		Snd.play("select")
+	if codex_tab == 0:
+		codex_i = _grid_nav(codex_i, Relics.all().size(), CODEX_COLS)
+	elif codex_tab == 1:
+		bestiary_i = _grid_nav(bestiary_i, Bestiary.entries().size(), Bestiary.COLS)
 	if Keys.back() or Keys.confirm():
 		state = &"title"
 		menu = title_index("CODEX")
 		Snd.play("select")
+
+## A grid's arrows: LEFT/RIGHT step, UP/DOWN a row (the codex pages).
+func _grid_nav(i: int, n: int, cols: int) -> int:
+	if Keys.left():
+		i = (i + n - 1) % n
+		Snd.play("select")
+	if Keys.right():
+		i = (i + 1) % n
+		Snd.play("select")
+	if Keys.up():
+		i = TB.rmod(i - cols, n)
+		Snd.play("select")
+	if Keys.down():
+		i = (i + cols) % n
+		Snd.play("select")
+	return i
 
 func update_options() -> void:
 	var go := menu_nav(OPTION_LIST.size())
