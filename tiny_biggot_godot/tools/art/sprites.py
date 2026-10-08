@@ -482,6 +482,78 @@ S["npc_monger"] = ("main:#4a6a8a second:#3f5a6a bone:#e8e8f0 skin:#e0a47a glow:#
 S["camp_cat"] = ("main:#a8502a glow:#7ab04a", [
 "............", ".o...o......", "o3o.o3o.....", "o333333o...o", "o3y33y3o..o3", "o333333oo.o3",
 ".o333333oo3o", "..o3333333o.", "..o3o..o3o..", "..ooo..ooo.."])
+# 20.2 THE CAMP grows: the carpenter who builds it, and two more visitors.
+S["npc_carpenter"] = ("main:#8a5a2a second:#c8a878 skin:#e0a47a wood:#a8705a metal:#c8ccd8", OV(M([
+"...ooo", "..obbb", ".obbbb", "..o555", "..o505", "..o555", ".o3333", "o3o3uu", "o5o333", ".oo333",
+"..o33o", "..o22o", "..ooo."]), {3: ".........777", 4: ".........o8o", 5: "..........u.", 6: "..........u.", 7: "..........u."}))
+S["npc_gambler"] = ("main:#5a2a4a second:#2a2838 skin:#e0a47a gold:#f2c94c glow:#ffffff", OV(M([
+"..oooo", ".obbbb", "obbbbb", "..o555", "..o505", "..o5qq", ".o3333", "o3o3q3", "o5o333", ".oo333",
+"..o33o", "..o22o", "..ooo."]), {8: "..........oy", 9: "..........yo"}))
+S["npc_tinker"] = ("main:#4a5a3a second:#8a6a4a skin:#d89a70 metal:#c8ccd8 glow:#f2c94c", OV(M([
+"...ooo", "..oaaa", ".oa777", ".oa575", "..o505", "..o555", ".o3333", "o3o333", "o5o333", ".oo333",
+"..o33o", "..o22o", "..ooo."]), {6: "..........o.", 7: ".........o7o", 8: ".........o8o", 9: "..........o."}))
+# ---- 20.3 (his word, 8 Oct): CHAPTER IV, THE LIBRARY (STORY.md). The Stacks.
+S["mothling"] = ("main:#9a8a72 second:#c8b898 glow:#f2c94c", M([
+"......", "...o.o", "oo..oo", "o3o.o3", "oc3oo3", "o33oy3", "oc3o33", ".o3o22", "..o.o2", "......"]))
+S["dustbunny"] = ("main:#a8a8b0 glow:#ffffff", M([
+"......", "..o.o.", ".o3o3o", "o33333", "o3y033", "o33333", "o22222", ".o2222", "..oooo"]))
+S["shelfmimic"] = ("main:#6a2a3a second:#f2c94c bone:#f4ecd8 glow:#ff4a3a", M([
+".ooooo", "o33333", "o3cccc", "o3oyoo", "o3llll", "o30000", "o3llll", "o3cccc", "o33333", ".ooooo"]))
+S["bookgolem"] = ("main:#6a4a2a second:#4d6aa8 bone:#f4ecd8 gold:#f2c94c glow:#f2c94c", M([
+"...ooo", "..o333", "..o3y0", "..oooo", ".oaaaa", ".orrrr", "o3oooo", "o3cccc", "o3llll", "o3aaaa",
+".oqqqq", "..o3oo", "..oo.."]))
+S["cardsprite"] = ("main:#e8dcc0 second:#d8443c glow:#4d6aa8", M([
+"......", "oooooo", "o3aaaa", "o33333", "o3y333", "o33333", "o3o333", "o33333", "oooooo", ".o.o.."]))
+# The Reading Room.
+S["shusher"] = ("main:#6a8a7a bone:#f4ecd8 glow:#c8f0ff halo:1", M([
+"..oooo", ".o3333", "o33333", "o3y033", "o33333", "o333o3", "o33333", "o33333", ".o3333", ".o3o3o", "..o.o."]))
+S["lampwisp"] = ("main:#2f8a4a metal:#c9a35a glow:#eaffb0", M([
+"......", "...ooo", "..o333", ".o3333", "o33333", "oooooo", "...oyy", "...oyx", "....o9", "....o8", "...o98", "...ooo"]))
+S["bookend"] = ("main:#8b8f9c metal:#6b6a72 glow:#f2c94c", M([
+".o....", ".oo...", ".o3ooo", ".o3333", "o3yxo3", "o3yyo3", "o33o33", "o33333", "o3o3o3", "o33333", "oooooo",
+"o88888", "oooooo"]))
+S["pagewing"] = ("main:#f4ecd8 glow:#2a2a4a", M([
+"......", "o.....", "oo....", "o3o..o", "o33oo3", "o333y3", ".o2233", "..oo23", "....oo"]))
+S["spectacle"] = ("main:#c9a35a metal:#c9a35a glow:#9fe0ff", M([
+"......", "......", ".oooo.", "oyyyyo", "oyxyyo", "oyyyyo", ".oooo9", "......"]))
+# The Hearth.
+S["cinderpage"] = ("main:#f4ecd8 bone:#c8a878 glow:#ff8a3a", M([
+"......", "...y..", "..yxy.", ".oyyyo", ".o333l", "o3333l", "o3ll3l", "o3333l", ".o333o", "..oooo"]))
+S["ashworm"] = ("main:#5e5a6e glow:#ff6a1a", M([
+"......", "......", "..ooo.", ".o333o", "o3y333", "o33333", "o2o2o2", ".o.o.o"]))
+S["pokerknight"] = ("main:#3a3850 metal:#8b8f9c glow:#ff8a3a", OV(M([
+"...ooo", "..o999", ".o9888", ".o8yy8", ".o8888", "..oooo", ".o3333", "o3o333", "o3o333", "o3o333",
+".oo333", "..o3oo", "..oo.."]), {2: "..........y.", 3: "..........8.", 4: "..........8.", 5: "..........8.",
+	6: "..........8.", 7: "..........8."}))
+S["firedog"] = ("main:#3a3a44 glow:#ff6a1a", M([
+"o.....", "oo....", "o3o.oo", "o33o33", ".o3y33", ".o3333", "..o3oo", "..o300", ".o3333", "o33333", "o3o3o3", "oo.oo."]))
+S["sootling"] = ("main:#2a2838 glow:#ff6a1a", M([
+".o....", ".oo...", "..o3oo", "..o333", ".o3y03", ".o3333", "o3o22o", "o..o2.", "....o."]))
+# The three minis.
+S["overdue"] = ("main:#6a4a2a second:#d8443c bone:#f4ecd8 gold:#f2c94c metal:#8b8f9c glow:#f2c94c", M([
+"....oooo", "...o3333", "..o3y0y3", "..o33333", ".ooooooo", ".oacrlac", ".oacrlac", ".oacrlac", ".oacrlac",
+"o9999999", "o8888888", ".o9o..o9", ".oo...oo"]))
+S["quiet"] = ("main:#24243a bone:#8b8f9c glow:#c8f0ff halo:1", M([
+"....oooo", "...o3333", "..o33333", "..o3y033", "..o33333", "..o3333l", "..o3333l", ".o333333", "o3333333",
+"o3333333", "o3333333", ".o333333", ".o3o3o33", "..o.o.oo"]))
+S["kindling"] = ("main:#8a5a2a gold:#c9a35a glow:#ff8a3a", M([
+"....y...", "...yxy.y", "..yyxyyx", "..oyyyyy", ".o3w3w3w", ".o3y03w3", ".o3w3w3w", ".oqqqqqq", ".o3w3w3w",
+".o3w3w3w", "..o3w3w3", "..ooo.oo"]))
+# The three guardians: THE SHELVER, THE HUSH and THE CRITIC.
+S["shelver"] = ("main:#6a4a2a second:#4d6aa8 bone:#f4ecd8 gold:#f2c94c glow:#f2c94c", M([
+"....oooo", "...o3333", "...o3y03", "...o3333", "oo.ooooo", "oro33333", "oroaaacc", "oo.o3333", "...orrll",
+"...o3333", "..o3aacc", "..o33333", "..o3llrr", "..o33333", "..o3o..o", "..oo...o"]))
+S["hush"] = ("main:#2a3a6a bone:#c8ccd8 glow:#9fe0ff halo:1", M([
+".....ooo", "....o333", "...o3333", "..o33333", "..o30y00", "..o33333", "..o3333l", "..o3333l", ".o333333",
+".o333333", "o3333333", "o3333333", "o3333333", "o3333333", "o3o33o33", "oo.oo.oo"]))
+S["critic"] = ("main:#3a1a2a second:#d8443c bone:#f4ecd8 skin:#e0b48a glow:#f2c94c halo:1", OV(M([
+"....oooo", "...o5555", "..o55555", "..o5o555", "..o55555", "..o55oo5", "...o5555", ".ollllll", "o3llllll",
+"o3333333", "o3333333", "o3o33333", "o3o33333", ".oo33333", "..o33o33", "..oo..oo"]),
+	{3: ".........oyo....", 4: "..........o.....", 7: "..............ao", 8: ".............ao.", 9: "............ao..",
+	10: "...........ao...", 11: "..........ll...."}))
+for _n in ["mothling", "dustbunny", "shelfmimic", "bookgolem", "cardsprite", "shusher", "lampwisp", "bookend",
+		"pagewing", "spectacle", "cinderpage", "ashworm", "pokerknight", "firedog", "sootling"]:
+	ELITE.setdefault(_n, {})
 S["inmate"] = ("main:#e07a2a skin:#7ab04a", M([
 "....oo", "...o66", "..o565", "..o505", "..o5l5", ".o33o5", "o3o3l2", "o3o322", "o8o322", ".oo322",
 "..o32o", "..ooo."]))

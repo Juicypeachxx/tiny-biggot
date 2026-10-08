@@ -77,6 +77,12 @@ func _paint_base(ci: CanvasItem) -> void:
 		&"armory":
 			_shade(ci, 228)
 			CampLife.draw_armory(ci)
+		&"plans":   # 20.2
+			_shade(ci, 228)
+			CampBuild.draw_plans(ci)
+		&"board":
+			_shade(ci, 228)
+			Quests.draw_board(ci)
 		&"wardrobe":
 			if G.wardrobe_from == &"title":
 				_backdrop(ci, true)

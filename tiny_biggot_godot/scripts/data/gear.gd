@@ -636,7 +636,7 @@ static func _complete(p: Player, s: Dictionary, set_id: String) -> void:
 	var done: Dictionary = G.run_stats.get("sets_done", {})
 	G.run_stats["sets_done"] = done
 	var cols: Array = Weapons.TAG_COLS.get(s["tag"], Weapons.TAG_COLS["core"])
-	if done.has(set_id) or G.state != &"play":
+	if done.has(set_id) or G.state != &"play" or Camp.active():   # 20.2: the training ground's sets do not count
 		G.toast(s["name"] + " SET COMPLETE: " + full_desc(s), "gold")
 		return
 	done[set_id] = true

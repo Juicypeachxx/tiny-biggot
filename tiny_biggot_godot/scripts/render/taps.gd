@@ -48,6 +48,12 @@ static func zones() -> Array:
 			for i in CampLife.MEALS.size():
 				out.append(_z(Rect2(10, CampLife.KIT_Y0 + i * CampLife.KIT_DY - 4, 168, CampLife.KIT_DY - 2), func(): G.menu = i, G.menu == i))
 			out.append(_act(Rect2(sw / 2 - 90, 262, 180, 16), func(): send(&"pause")))
+		&"plans":   # 20.2: tap a plan, tap it again to build it
+			for i in CampBuild.PLANS.size():
+				out.append(_z(Rect2(10, CampBuild.PLAN_Y0 + i * CampBuild.PLAN_DY - 4, 180, CampBuild.PLAN_DY - 2), func(): G.menu = i, G.menu == i))
+			out.append(_act(Rect2(sw / 2 - 90, 262, 180, 16), func(): send(&"pause")))
+		&"board":
+			out.append(_act(Rect2(0, 0, sw, TB.SH), func(): send(&"pause")))
 		&"armory":   # 19.2: rows, page arrows, a jump to the relics
 			var top := CampLife.arm_top()
 			for j in mini(CampLife.ARM_ROWS, CampLife.arm_list.size() - top):

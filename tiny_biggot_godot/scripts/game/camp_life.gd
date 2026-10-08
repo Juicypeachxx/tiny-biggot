@@ -15,7 +15,7 @@ extends RefCounted
 ## Meta.meta: "larder" (fish id -> n), "meal", "song", "next_relic", "cat_pets". None of it
 ## exists in a fresh save, so the replays and tests are untouched.
 
-const KINDS := ["c_cook", "c_rack", "v_peddler", "v_bard", "v_seer", "v_monger", "v_cat"]
+const KINDS := ["c_cook", "c_rack", "v_peddler", "v_bard", "v_seer", "v_monger", "v_cat", "v_gambler", "v_tinker"]
 
 ## id: [name, what it does, needs]. A need is a fish id or a rarity (any fish of it): count.
 const MEALS := {
@@ -36,8 +36,13 @@ const VISITORS := {
 	"v_bard": ["THE BARD", "npc_bard", "BARD"],
 	"v_seer": ["THE SEER", "npc_seer", "SEER"],
 	"v_monger": ["THE FISHMONGER", "npc_monger", "FISHMONGER"],
+	# 20.2 two more who come and go.
+	"v_gambler": ["THE GAMBLER", "npc_gambler", "GAMBLER"],
+	"v_tinker": ["THE TINKER", "npc_tinker", "TINKER"],
 }
-const SPOTS := [Vector2(112, 178), Vector2(262, 210)]
+const SPOTS := [Vector2(112, 178), Vector2(262, 210), Vector2(342, 180)]   # the third with the guest tent (20.2)
+const BET := 20
+const BETS := 3
 const RELIC_PRICE := { "common": 30, "rare": 60, "epic": 100, "legend": 160 }
 ## Embers the fishmonger pays for one spare fish, by rarity. He leaves you 3 of each kind.
 const MONGER_PAY := { "junk": 1, "common": 2, "rare": 8, "legend": 25 }
@@ -126,7 +131,13 @@ static func cook(meal_id: String) -> bool:
 		l[f] = int(l[f]) - int(take[f])
 		if int(l[f]) <= 0:
 			l.erase(f)
-	Meta.meta["meal"] = meal_id
+	if CampBuild.built("smokehouse") and MEALS.has(Meta.meta.get("meal", "")):
+		# 20.2 the smokehouse keeps two: a third pushes out the oldest.
+		if MEALS.has(Meta.meta.get("meal2", "")):
+			Meta.meta["meal"] = Meta.meta["meal2"]
+		Meta.meta["meal2"] = meal_id
+	else:
+		Meta.meta["meal"] = meal_id
 	Meta.write_save()
 	Snd.play("heal")
 	for i in 10:
@@ -140,8 +151,47 @@ static func on_new_run(p: Player) -> void:
 	if not GameData.rogues() or Daily.starting:
 		return
 	var got: Array = []
-	var meal: String = Meta.meta.get("meal", "")
-	if MEALS.has(meal):
+	for key in ["meal", "meal2"]:
+		var meal: String = Meta.meta.get(key, "")
+		if not MEALS.has(meal):
+			continue
+		_eat(p, meal)
+		if CampBuild.built("garden"):   # 20.2 the herb garden
+			p.max_hp += 2
+			p.hp += 2
+		Quests._ate = true
+		got.append(MEALS[meal][0])
+		Meta.meta.erase(key)
+	if Meta.meta.get("song", false):
+		p.speed *= 1.1
+		p.gold_mult *= 1.1
+		got.append("THE BARD'S SONG")
+		Meta.meta.erase("song")
+	var nr: String = Meta.meta.get("next_relic", "")
+	if nr != "":
+		Meta.meta.erase("next_relic")
+		for r in Relics.all():
+			if r["id"] == nr:
+				G.add_relic(p, r)
+				got.append(r["name"])
+	var ng: String = Meta.meta.get("next_gear", "")   # 20.2 the tinker's piece
+	if ng != "":
+		Meta.meta.erase("next_gear")
+		var g := Gear.by_id(ng)
+		if not g.is_empty():
+			Gear.equip_gear(p, g)
+			got.append(g["name"])
+	var lend: String = Meta.meta.get("lend", "")   # 20.2 the lending rack
+	if lend != "":
+		Meta.meta.erase("lend")
+		if Weapons._by_id.has(lend):
+			p.backpack.append(Weapons.by_id(lend))
+			got.append(Weapons.by_id(lend)["name"] + " IN YOUR PACK")
+	if not got.is_empty():
+		G.toast("FROM THE CAMP: " + ", ".join(got), "gold")
+
+static func _eat(p: Player, meal: String) -> void:
+	if true:
 		match meal:
 			"soup":
 				p.max_hp += 2
@@ -167,22 +217,6 @@ static func on_new_run(p: Player) -> void:
 				var r := G.roll_relics(1, "iron")
 				if not r.is_empty():
 					G.add_relic(p, r[0])
-		got.append(MEALS[meal][0])
-		Meta.meta.erase("meal")
-	if Meta.meta.get("song", false):
-		p.speed *= 1.1
-		p.gold_mult *= 1.1
-		got.append("THE BARD'S SONG")
-		Meta.meta.erase("song")
-	var nr: String = Meta.meta.get("next_relic", "")
-	if nr != "":
-		Meta.meta.erase("next_relic")
-		for r in Relics.all():
-			if r["id"] == nr:
-				G.add_relic(p, r)
-				got.append(r["name"])
-	if not got.is_empty():
-		G.toast("FROM THE CAMP: " + ", ".join(got), "gold")
 
 # ---------- Setting up (Camp.setup / Camp.enter) ----------
 static func setup(r: Room) -> void:
@@ -190,12 +224,18 @@ static func setup(r: Room) -> void:
 	r.objects.append({ "kind": "c_rack", "x": 364.0, "y": 246.0 })
 	var ids: Array = VISITORS.keys()
 	ids.shuffle()
-	for i in 2:
+	for i in (3 if CampBuild.built("guesttent") else 2):
 		var o := { "kind": ids[i], "x": SPOTS[i].x, "y": SPOTS[i].y, "face": 1 if SPOTS[i].x < 224.0 else -1 }
 		if ids[i] == "v_peddler":
 			var rr := G.roll_relics(1, "iron")
 			if not rr.is_empty():
 				o["relic"] = rr[0]
+		if ids[i] == "v_gambler":
+			o["bets"] = BETS
+		if ids[i] == "v_tinker":
+			var all := Gear.all().filter(func(g): return g["rarity"] != "common")
+			if not all.is_empty():
+				o["gear"] = all[randi() % all.size()]
 		r.objects.append(o)
 	# The stray: most visits, and always once it has stayed.
 	if int(Meta.meta.get("cat_pets", 0)) >= CAT_STAYS or randf() < 0.7:
@@ -217,6 +257,8 @@ static func tick(dt: float) -> void:
 	for o in G.room.objects:
 		if o["kind"] == "v_bard" and o.get("play_t", 0.0) > 0.0:
 			o["play_t"] -= dt
+		if o["kind"] == "v_gambler" and o.get("flip_t", 0.0) > 0.0:
+			o["flip_t"] -= dt
 		if o["kind"] != "v_cat":
 			continue
 		var target: Vector2 = o["home"]
@@ -288,6 +330,35 @@ static func interact(o: Dictionary) -> void:
 			Meta.write_save()
 			Snd.play("coin")
 			G.show_banner("THE FISHMONGER: \"PLEASURE DOING BUSINESS.\"", "%d FISH SOLD FOR %d EMBERS" % [sale[0], sale[1]])
+		"v_gambler":
+			if int(o.get("bets", 0)) <= 0:
+				G.deny(o, "\"COME BACK TOMORROW\"")
+				return
+			if int(Meta.meta["embers"]) < BET:
+				G.deny(o, "NOT ENOUGH EMBERS")
+				return
+			o["bets"] = int(o["bets"]) - 1
+			o["flip_t"] = 1.0
+			var won := randf() < 0.5
+			o["won"] = won
+			Meta.meta["embers"] += BET if won else -BET
+			Meta.write_save()
+			Snd.play("coin" if won else "deny")
+			G.toast("HEADS! +%d EMBERS" % BET if won else "TAILS. THE GAMBLER GRINS. -%d EMBERS" % BET, "gold" if won else "grey")
+		"v_tinker":
+			if not o.has("gear") or o.get("sold", false):
+				return
+			var g: Dictionary = o["gear"]
+			var price: int = RELIC_PRICE.get(g["rarity"], 60)
+			if int(Meta.meta["embers"]) < price:
+				G.deny(o, "NOT ENOUGH EMBERS")
+				return
+			Meta.meta["embers"] -= price
+			Meta.meta["next_gear"] = g["id"]
+			o["sold"] = true
+			Meta.write_save()
+			Snd.play("coin")
+			G.show_banner("THE TINKER: \"MENDED AND OILED.\"", g["name"] + " WILL BE WAITING AT THE START OF YOUR NEXT RUN")
 		"v_cat":
 			Meta.meta["cat_pets"] = int(Meta.meta.get("cat_pets", 0)) + 1
 			o["follow_t"] = 10.0
@@ -333,6 +404,18 @@ static func prompt(o: Dictionary) -> Array:
 			if s[0] == 0:
 				return ["THE FISHMONGER", "HE BUYS WHAT YOU HAVE MORE THAN %d OF. YOU HAVE NOTHING SPARE" % MONGER_KEEP, ""]
 			return ["THE FISHMONGER", "%d SPARE FISH (YOU KEEP %d OF EACH KIND)" % [s[0], MONGER_KEEP], "SELL: %d EMBERS" % s[1]]
+		"v_gambler":
+			if int(o.get("bets", 0)) <= 0:
+				return ["THE GAMBLER", "\"THAT IS ENOUGH LUCK FOR ONE DAY.\"", ""]
+			return ["THE GAMBLER", "\"DOUBLE OR NOTHING, FRIEND. HEADS YOU WIN.\" %d BETS LEFT" % o["bets"], "BET %d EMBERS" % BET]
+		"v_tinker":
+			if not o.has("gear"):
+				return ["THE TINKER", "\"NOTHING ON THE BENCH TODAY.\"", ""]
+			if o.get("sold", false):
+				return ["THE TINKER", "\"IT WILL BE WAITING FOR YOU.\"", ""]
+			var g: Dictionary = o["gear"]
+			return ["THE TINKER: " + g["name"], Gear.SLOT_NAME[g["slot"]] + " OF THE " + Gear.SETS[g["set"]]["name"] + " SET" if g.get("set", "") != "" else g["desc"],
+				"BUY FOR YOUR NEXT RUN: %d EMBERS" % RELIC_PRICE.get(g["rarity"], 60)]
 		"v_cat":
 			var n := int(Meta.meta.get("cat_pets", 0))
 			if n >= CAT_STAYS:
@@ -398,6 +481,20 @@ static func draw(ci: CanvasItem, o: Dictionary, t: float) -> void:
 						var col := TB.c(["#f2c94c", "#6fd3e0", "#e86fb4"][k]) * Color(1, 1, 1, 1.0 - nt)
 						ci.draw_rect(Rect2(nx, ny, 2, 2), col)
 						ci.draw_rect(Rect2(nx + 1, ny - 4, 1, 4), col)
+				"v_gambler":
+					ci.draw_rect(Rect2(x + 9, y - 6, 12, 7), TB.c("#2a5a3a"))
+					ci.draw_rect(Rect2(x + 9, y - 6, 12, 1), TB.c("#f2c94c"))
+					var ft: float = o.get("flip_t", 0.0)
+					if ft > 0.0:   # the coin in the air
+						var cy := y - 10 - sin(ft * PI) * 18.0
+						var w := absf(cos(ft * 14.0)) * 3.0 + 1.0
+						ci.draw_rect(Rect2(x + 15 - w / 2.0, cy, w, 3), TB.c("#f2c94c"))
+					else:
+						ci.draw_rect(Rect2(x + 13, y - 8, 3, 2), TB.c("#f2c94c"))
+				"v_tinker":
+					ci.draw_rect(Rect2(x + 9, y - 6, 14, 7), TB.c("#5a3a22"))
+					if o.has("gear") and not o.get("sold", false):
+						Gfx.sp(ci, o["gear"]["sprite"], x + 16, y - 4 + sin(t * 3.0))
 				"v_seer":
 					var gl := 0.5 + 0.5 * sin(t * 2.5)
 					ci.draw_circle(Vector2(x, y - 5), 4.0 + gl, Color(0.43, 0.83, 0.88, 0.12 + 0.1 * gl))
@@ -443,8 +540,11 @@ static func update_kitchen() -> void:
 static func draw_kitchen(ci: CanvasItem) -> void:
 	Gfx.text(ci, "THE COOK'S POT", TB.SW / 2, 10, "gold", 2, 0.5)
 	var m: String = Meta.meta.get("meal", "")
-	Gfx.text(ci, ("ON THE FIRE: " + MEALS[m][0] + " - " + MEALS[m][1]) if MEALS.has(m) else "NOTHING ON THE FIRE YET. ONE MEAL AT A TIME",
-		TB.SW / 2, 26, "lime" if MEALS.has(m) else "dim", 1, 0.5)
+	var m2: String = Meta.meta.get("meal2", "")
+	var fire: String = ("ON THE FIRE: " + MEALS[m][0] + " - " + MEALS[m][1]) if MEALS.has(m) else ("NOTHING ON THE FIRE YET. " + ("TWO MEALS AT A TIME (THE SMOKEHOUSE)" if CampBuild.built("smokehouse") else "ONE MEAL AT A TIME"))
+	if MEALS.has(m2):
+		fire = "ON THE FIRE: " + MEALS[m][0] + " AND " + MEALS[m2][0]
+	Gfx.text(ci, fire, TB.SW / 2, 26, "lime" if MEALS.has(m) else "dim", 1, 0.5)
 	var ids: Array = MEALS.keys()
 	for i in ids.size():
 		var y := KIT_Y0 + i * KIT_DY
@@ -473,8 +573,12 @@ static func draw_kitchen(ci: CanvasItem) -> void:
 	y += 6
 	var ready := not plan(id).is_empty()
 	Gfx.text(ci, "USE: COOK IT" if ready else "CATCH MORE FISH: ANY POND, IN A RUN OR HERE", x0, y, "gold" if ready else "dim")
-	if ready and MEALS.has(m) and m != id:
+	if ready and MEALS.has(m) and not CampBuild.built("smokehouse"):
 		Gfx.text(ci, "(IT TAKES THE PLACE OF " + MEALS[m][0] + ")", x0, y + 10, "dim")
+	elif ready and MEALS.has(m2):
+		Gfx.text(ci, "(IT TAKES THE PLACE OF " + MEALS[m][0] + ")", x0, y + 10, "dim")
+	if CampBuild.built("garden"):
+		Gfx.text(ci, "THE HERB GARDEN: +1 MAX HEART WITH IT", x0, y + 22, "lime")
 	# The larder along the bottom.
 	Gfx.text(ci, "THE LARDER", 16, 172, "tan")
 	var k2 := 0
@@ -494,6 +598,11 @@ static func _build_list() -> void:
 		arm_list.append(["w", w])
 	for r in Relics.all():
 		arm_list.append(["r", r])
+	if CampBuild.built("masterrack"):   # 20.2: every piece of armour, and whole sets
+		for id in Gear.SETS:
+			arm_list.append(["s", id])
+		for g in Gear.all():
+			arm_list.append(["g", g])
 
 static func open_armory() -> void:
 	if arm_list.is_empty():
@@ -553,6 +662,15 @@ static func take(row: Array) -> void:
 			if not had:
 				Meta.meta["found_w"].erase(w["id"])
 			G.toast("YOU HOLD " + w["name"], "gold")
+		"g", "s":
+			var pcs: Array = Gear.pieces(row[1]) if row[0] == "s" else [row[1]]
+			var found: Dictionary = Meta.meta["found_g"]
+			for g in pcs:
+				var had := found.has(g["id"])
+				Gear.equip_gear(p, g)
+				if not had:
+					found.erase(g["id"])
+			G.toast("YOU WEAR " + (Gear.SETS[row[1]]["name"] + " (THE WHOLE SET)" if row[0] == "s" else pcs[0]["name"]), "gold")
 		"r":
 			var r: Dictionary = row[1]
 			p.relics.append(r)
@@ -577,8 +695,11 @@ static func draw_armory(ci: CanvasItem) -> void:
 		if row[0] == "reset":
 			Gfx.text(ci, "PUT EVERYTHING BACK", 16, y, "gold" if sel else "tan")
 			continue
+		if row[0] == "s":
+			Gfx.text(ci, "SET " + Gear.SETS[row[1]]["name"], 16, y, "gold" if sel else "pink")
+			continue
 		var it: Dictionary = row[1]
-		Gfx.text(ci, ("W " if row[0] == "w" else "R ") + it["name"], 16, y, "gold" if sel else GameData.RARITY_COL.get(it["rarity"], "white"))
+		Gfx.text(ci, { "w": "W ", "r": "R ", "g": "A " }[row[0]] + it["name"], 16, y, "gold" if sel else GameData.RARITY_COL.get(it["rarity"], "white"))
 	if top > 0:
 		Gfx.text(ci, "^", 104, ARM_Y0 - 9, "dim", 1, 0.5)
 	if top + ARM_ROWS < arm_list.size():
@@ -590,12 +711,19 @@ static func draw_armory(ci: CanvasItem) -> void:
 	if row[0] == "reset":
 		Gfx.text(ci, "PUT EVERYTHING BACK", x0, 40, "gold", 1)
 		Gfx.text(ci, "YOUR HERO'S OWN WEAPON, NO RELICS", x0, 54, "white")
+	elif row[0] == "s":
+		var st: Dictionary = Gear.SETS[row[1]]
+		Gfx.text(ci, st["name"] + " SET", x0, 40, "pink", 1)
+		var yy := 54
+		for l in Gfx.wrap_text("ALL %d PIECES AT ONCE. WHOLE: %s" % [st.get("size", 4), Gear.full_desc(st)], 220):
+			Gfx.text(ci, l, x0, yy, "white")
+			yy += 10
 	else:
 		var it: Dictionary = row[1]
 		ci.draw_rect(Rect2(x0, 34, 28, 28), Color(0.08, 0.06, 0.11, 0.8))
 		Gfx.sp(ci, it["sprite"], x0 + 14, 58, 2, 2)
 		Gfx.text(ci, it["name"], x0 + 34, 38, GameData.RARITY_COL.get(it["rarity"], "white"))
-		Gfx.text(ci, GameData.RARITY_NAME.get(it["rarity"], "") + (" WEAPON" if row[0] == "w" else " RELIC"), x0 + 34, 50, "grey")
+		Gfx.text(ci, GameData.RARITY_NAME.get(it["rarity"], "") + { "w": " WEAPON", "r": " RELIC", "g": " ARMOUR" }[row[0]], x0 + 34, 50, "grey")
 		var y := 70
 		for l in Gfx.wrap_text(it["desc"], 220):
 			Gfx.text(ci, l, x0, y, "white")

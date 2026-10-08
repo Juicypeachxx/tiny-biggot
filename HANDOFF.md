@@ -930,6 +930,16 @@ instant damage is missed; a new room every 10s), `--probe-heroes`, `--probe-seed
 that set `force_classic` see the originals as before. Hero page: a skill line for the originals.
 Weapons raised: iciclewand (5.0, pierce 2), beastspear (9.0, 2.5/s), gearwound 3.4, lute 5.0,
 pilgrimstaff 5.6, rivetgun 3.8. Traits raised: x_winter, y_prism, v_toxic.
+20.2: `CampBuild` (scripts/game/camp_build.gd): PLANS, `built(id)`, `build(id)` (places the
+`c_deco` objects and repaints the camp), kinds `c_build` / `c_deco` (Camp forwards them), state
+`plans`, `paint_static` / `_still` (each thing at SPOT; the page draws it twice the size with
+draw_set_transform), `lights` (lanterns), `on_set_out` (the portal: Meta `lend`), `on_run_end` (the
+trap; own RNG). `Quests` (scripts/game/quests.gd): POOL, `active()` (Meta `quests`, 3, own RNG),
+`met`, `on_run_end` (award_embers: parts "QUEST: ..."), `check_camp` and state `board`
+(`open_board`, c_board). CampLife: visitors `v_gambler`, `v_tinker` (Meta `next_gear`), SPOTS[2]
+with the guest tent, `meal2` (smokehouse), garden hearts in `on_new_run`, armory rows "g"/"s"
+(master's rack). gear.gd `_complete` skips the camp. `--ui=plans|board`, `--camp-built`.
+`tests/camp_build_test`.
 
 ## Noted, not yet acted on
 

@@ -849,8 +849,20 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       Traits: WINTER'S HEART (every second, +50%), PRISM (+15% an ailment, 15% of hits add one),
       TOXIC BLOOM (every 3s, and the foes near you). MARTYR, THE HOST, LEGION, THUNDER STEP and
       OVERCHARGED are strong once rolls, hits and rooms are in the fight: left as they are.
-- [ ] 20.2 Camp upgrades and quests: embers build the camp up (more meals at once, a third
+- [x] 20.2 Camp upgrades and quests: embers build the camp up (more meals at once, a third
       visitor, a better rack, more), and a quest board with small goals that pay embers.
+      Done: THE CARPENTER at her workbench and her PLANS page (with a picture of each): LANTERNS
+      (40), THE FISH TRAP (80: a fish for the larder every time a run ends), THE HERB GARDEN (100:
+      every meal also +1 max heart), THE SMOKEHOUSE (120: two meals at once), THE GUEST TENT (150:
+      a third visitor), THE MASTER'S RACK (150: every piece of armour and whole sets on the
+      training ground), THE LENDING RACK (250: set out holding a weapon you have found before and
+      it comes along in your pack). Each stands in the camp once built. Two more visitors: THE
+      GAMBLER (bet 20 embers, double or nothing, 3 a visit) and THE TINKER (a piece of armour
+      waiting at the next run's start). THE QUEST BOARD: three goals from 26 (floors, guardians,
+      foes, gold, relics, a set, fish, secrets, levels, the daily trial, Chapter II, a weapon
+      kind, a hero, the Old One, a hidden combo, dread, a camp meal), 30 to 150 embers each, paid
+      on the run's tally (dread multiplies them); a fish or a combo found in the camp pays at the
+      board. A set tried on the training ground never counts as completed.
 - [ ] 20.3 Chapter IV: a new world after the Reader, with its own foes, guardians, gear sets and
       story. IPA.
 

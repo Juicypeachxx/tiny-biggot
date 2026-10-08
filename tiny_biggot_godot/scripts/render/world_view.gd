@@ -489,7 +489,7 @@ func _paint_lower(ci: CanvasItem) -> void:
 			"s_decor", "s_bartender", "s_drink", "s_merchant", "s_broker", "s_drunk", "s_piano", "s_poster":
 				Saloon.draw(ci, o, t)
 			"e_pitboss", "e_mechanic", "e_teller", "e_card", "e_courier", "e_attendant", "e_beacon", "e_statue", "e_plate", \
-					"e_decor", "w_drunk", "w_merchant", "e_frog", "e_glyph", "e_pawn", "e_hustler", "e_cup", "e_gong", "n_archivist", "n_endbook", "n_turnpage", "n_inkling", "n_bookbinder", "n_tornpage", "n_redactdoor", "n_readon", "e_pond", "e_angler", "e_pot", "e_coins", "e_keg", "c_portal", "c_wardrobe", "c_shrine", "c_telescope", "c_dummy", "c_board", "c_daily", "c_cook", "c_rack", "v_peddler", "v_bard", "v_seer", "v_monger", "v_cat":
+					"e_decor", "w_drunk", "w_merchant", "e_frog", "e_glyph", "e_pawn", "e_hustler", "e_cup", "e_gong", "n_archivist", "n_endbook", "n_turnpage", "n_inkling", "n_bookbinder", "n_tornpage", "n_redactdoor", "n_readon", "e_pond", "e_angler", "e_pot", "e_coins", "e_keg", "c_portal", "c_wardrobe", "c_shrine", "c_telescope", "c_dummy", "c_board", "c_daily", "c_cook", "c_rack", "v_peddler", "v_bard", "v_seer", "v_monger", "v_cat", "v_gambler", "v_tinker", "c_build", "c_deco":
 				EventRooms.draw(ci, o, t)
 			"x_table", "x_lever", "x_skull", "x_fisher", "x_saint", "x_ratpile":
 				RiftExtras.draw(ci, o, t)

@@ -1061,6 +1061,8 @@ func award_embers(win: bool) -> void:
 	if run_stats.get("trophies", 0) > 0:
 		parts.append(["NEW TROPHIES", run_stats["trophies"] * Trophies.EMBERS])
 	Daily.on_end(win, parts)   # 18.1
+	Quests.on_run_end(win, parts)   # 20.2
+	CampBuild.on_run_end()
 	var base := 0
 	for x in parts:
 		base += x[1]
@@ -1768,6 +1770,8 @@ func update(dt: float) -> void:
 		&"wardrobe": update_wardrobe()
 		&"kitchen": CampLife.update_kitchen()   # 19.2
 		&"armory": CampLife.update_armory()
+		&"plans": CampBuild.update_plans()   # 20.2
+		&"board": Quests.update_board()
 		&"shrine":
 			update_embers(dt)
 			update_shrine()

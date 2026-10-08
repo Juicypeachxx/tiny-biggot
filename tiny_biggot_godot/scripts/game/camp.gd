@@ -44,6 +44,9 @@ static func enter() -> void:
 	G.player.y = 196.0
 	G.state = &"play"
 	G.show_banner("THE CAMP", "REST, LOOK AROUND, AND SET OUT WHEN YOU ARE READY")
+	if Meta.meta.has("trap_news"):   # 20.2
+		G.toast("THE FISH TRAP CAUGHT: " + str(Meta.meta["trap_news"]), "gold")
+		Meta.meta.erase("trap_news")
 	Snd.music(0)
 
 ## The hero as they walk about the camp: their own weapon, nothing else (also the training rack's
@@ -72,13 +75,17 @@ static func setup(r: Room) -> void:
 	r.objects.append({ "kind": "c_board", "x": 300.0, "y": 70.0 })
 	r.objects.append({ "kind": "c_daily", "x": 290.0, "y": 176.0 })   # 18.1 the daily trial
 	CampLife.setup(r)   # 19.2 the cook, the rack, visitors, the stray
+	CampBuild.setup(r)  # 20.2 the carpenter, and what she has built
 
 static func interact(o: Dictionary) -> void:
+	if o["kind"] in ["c_build", "c_deco"]:
+		return CampBuild.interact(o)
 	if o["kind"] in CampLife.KINDS:
 		return CampLife.interact(o)
 	Snd.play("select")
 	match o["kind"]:
 		"c_portal":
+			CampBuild.on_set_out()   # 20.2 the lending rack
 			G.state = &"hero"
 			G.menu = G.hero_index
 			Snd.play("portal")
@@ -97,11 +104,12 @@ static func interact(o: Dictionary) -> void:
 		"c_daily":
 			G.start_fade(func(): Daily.start())
 			Snd.play("portal")
-		"c_board":
-			var m := Meta.meta
-			G.show_banner("THE NOTICE BOARD", "RUNS %d   WINS %d   DEEPEST FLOOR %d   EMBERS %d" % [m["runs"], m["wins"], m["best"], m["embers"]])
+		"c_board":   # 20.2 the quest board
+			Quests.open_board()
 
 static func prompt(o: Dictionary) -> Array:
+	if o["kind"] in ["c_build", "c_deco"]:
+		return CampBuild.prompt(o)
 	if o["kind"] in CampLife.KINDS:
 		return CampLife.prompt(o)
 	match o["kind"]:
@@ -110,7 +118,7 @@ static func prompt(o: Dictionary) -> Array:
 		"c_shrine": return ["THE EMBER SHRINE", "%d EMBERS TO SPEND" % Meta.meta["embers"], "PRAY"]
 		"c_telescope": return ["THE TELESCOPE", "THE CONSTELLATION", "LOOK"]
 		"c_dummy": return ["THE PRACTICE DUMMY", "THE SKILL TREES", "TRAIN"]
-		"c_board": return ["THE NOTICE BOARD", "WHAT YOU HAVE DONE SO FAR", "READ"]
+		"c_board": return ["THE QUEST BOARD", "THREE GOALS THAT PAY EMBERS, AND WHAT YOU HAVE DONE", "READ"]
 		"c_daily": return Daily.prompt()
 	return ["", "", ""]
 
@@ -143,6 +151,7 @@ static func paint_static(ci: CanvasItem, room: Room, rng: SeedRng) -> void:
 	ci.draw_rect(Rect2(214, 104, 20, 30), TB.c("#7a6a48"))
 	# Trees round the edges.
 	CampLife.paint_static(ci)   # 19.2 the training ground's fence
+	CampBuild.paint_static(ci)  # 20.2 what the carpenter built
 	for spot in [Vector2(36, 60), Vector2(410, 58), Vector2(30, 160), Vector2(428, 150), Vector2(260, 258), Vector2(318, 268)]:
 		ci.draw_rect(Rect2(spot.x - 2, spot.y - 6, 4, 10), TB.c("#5a3a22"))
 		ci.draw_circle(spot + Vector2(0, -12), 11, TB.c("#2f6a3a"))
@@ -184,6 +193,8 @@ static func paint_static(ci: CanvasItem, room: Room, rng: SeedRng) -> void:
 
 ## What moves (EventRooms.draw for the c_ kinds, and the fire).
 static func draw(ci: CanvasItem, o: Dictionary, t: float) -> void:
+	if o["kind"] in ["c_build", "c_deco"]:
+		return CampBuild.draw(ci, o, t)
 	if o["kind"] in CampLife.KINDS:
 		return CampLife.draw(ci, o, t)
 	var x: float = o["x"]
@@ -247,3 +258,4 @@ static func fire(rd_flames: Array, rd_lights: Array) -> void:
 	rd_flames.append([220.0, 146.0, 2.0])
 	rd_flames.append([228.0, 146.0, 2.0])
 	rd_lights.append([224.0, 140.0, 1.6])
+	CampBuild.lights(rd_lights)   # 20.2 the lanterns

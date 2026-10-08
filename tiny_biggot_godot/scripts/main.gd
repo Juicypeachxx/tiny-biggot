@@ -168,7 +168,11 @@ func _ready() -> void:
 			G.player.y = pd["y"]
 			if not DebugArgs.has("no-cast"):
 				Fishing.start(pd)
-		"camp":   # 17.2: the camp between runs
+		"camp":   # 17.2: the camp between runs (20.2 --camp-built: everything the carpenter builds)
+			if DebugArgs.has("camp-built"):
+				Meta.meta["camp_built"] = {}
+				for id in CampBuild.PLANS:
+					Meta.meta["camp_built"][id] = true
 			Camp.enter()
 			if DebugArgs.has("camp-near"):   # 19.2: stand by one of its people (a visitor is made to come)
 				var k := DebugArgs.get_str("camp-near")
@@ -181,18 +185,30 @@ func _ready() -> void:
 					near = [o]
 				G.player.x = near[0]["x"] - 14.0
 				G.player.y = near[0]["y"] + 4.0
-		"kitchen", "armory":   # 19.2: the camp's cook and training rack (--camp-fish: a full larder)
+		"kitchen", "armory", "plans", "board":   # 19.2 / 20.2: the camp's pages (--camp-fish: a full larder)
+			if DebugArgs.has("camp-built"):
+				Meta.meta["camp_built"] = {}
+				for id in CampBuild.PLANS:
+					Meta.meta["camp_built"][id] = true
 			Camp.enter()
 			if DebugArgs.has("camp-fish"):
 				for f in Fishing.FISH:
 					CampLife.stock(f)
 					CampLife.stock(f)
-			if DebugArgs.get_str("ui") == "kitchen":
-				G.state = &"kitchen"
-				G.menu = 0
-			else:
-				CampLife.open_armory()
-				CampLife.pick(12)
+			match DebugArgs.get_str("ui"):
+				"kitchen":
+					G.state = &"kitchen"
+					G.menu = 0
+				"plans":
+					G.state = &"plans"
+					G.menu = 3
+					CampBuild.plan_i = 3
+				"board":
+					Meta.meta["quest_news"] = ["REACH FLOOR 6"]
+					Quests.open_board()
+				_:
+					CampLife.open_armory()
+					CampLife.pick(12)
 		"options", "keys":   # the options page, or (13.1) its keyboard keys page
 			G.state = StringName(DebugArgs.get_str("ui"))
 			G.opt_from = &"title"
