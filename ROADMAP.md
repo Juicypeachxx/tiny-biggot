@@ -1032,7 +1032,13 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       Measured on a rebuild of his fight (tests/quill_profile, six fights): 6.5 -> 4.9 ms of logic
       a tick here (-26%, worst ticks 75 -> 40 ms); with the HEAVY BOLT trait 13.8 -> 10.7 ms. On his
       iPad that is about 16 -> 12 ms (an estimate: no iPad here). All replays identical.
-- [ ] 23.2 Checks, the core replays re-recorded (new weapons change what drops), IPA 23.
+- [x] 23.2 Checks, the core replays re-recorded (new weapons change what drops), IPA 23.
+      Done: tools/check.sh CHECK PASSED on the final code (spells_test and heavy_build_test in it).
+      Replays: the classic 6 identical; core replay h re-recorded on purpose (the rare pool grew by
+      eight, so the bot picks up another old weapon at 89 s), the other 7 identical; 23.3 changed
+      no replay. Pictures: old vs new code, 900 frames each of a plain and a dynamite run, 0 differ
+      (seeded runs now seed every decoration die, so they repeat). Soak: 4 runs of 5 minutes with
+      random buttons and spell weapons, no errors. IPA 23.
 
 ---
 

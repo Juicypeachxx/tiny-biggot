@@ -1150,6 +1150,10 @@ swap it read 60 fps, LOGIC 1.2: a quiet moment (nothing to shoot), not a fix.
   are; a seeded run draws the same frames every time (0 of 420 differ). Old vs new code, 900
   frames, --seed=9 --hero=2 --bot --god, plain and with --weapon=dynamite: 0 frames differ.
   (tools/dev/cmpbuilds.sh still points at an old session's folders; the comparison was run by hand.)
+**Stage 23 done (8 Oct).** tools/check.sh: CHECK PASSED on the final code; replays as in 23.2
+above; soak 4 x 5 min (--monkey, spell weapons) clean. IPA 23 (release ipa-23). Not tested on the
+iPad (no iPad, no Mac here): how the spells look and feel there, and whether his heavy build now
+holds 60 fps (estimated LOGIC about 12 ms there, down from 16.3) are his to try.
 
 ## Noted, not yet acted on
 
