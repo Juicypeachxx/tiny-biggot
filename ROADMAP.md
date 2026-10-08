@@ -946,7 +946,7 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       shine in the pond. The banner greets you for the time of day. Once a day (the iPad's
       date), if Soot the cat is about, a gift lies by the cat: a fish for the larder, or a shiny
       button, a lost ring, a feather or a mouse for embers. `tests/camp_clock_test`. Test
-      switch for pictures: `--clock=H`.
+      switch for pictures: `--clock=H`. Stage 21 ends with IPA 21.
 
 ---
 

@@ -1009,6 +1009,12 @@ camp's loop is `CampClock.loop()` ("campday": birdsong, made by sounds21.py `bir
 Camp.enter -> `on_enter` (the gift `c_gift` by the cat; Meta "cat_gift" = the date it was
 taken; routed through EventRooms KINDS/interact/prompt/draw), banner `greeting()`.
 `tests/camp_clock_test`.
+**Stage 21 done (8 Oct).** `tools/check.sh`: CHECK PASSED. The 6 classic replays identical; the 8
+core replays re-recorded on purpose (50db7b3: 21.1, 21.4 and 21.5 change play) and reproduced
+by the check. Timing against Stage 20 on the same seeded bot runs (this container, software
+GL): logic 0.51 -> 0.58 ms, script drawing 0.71-0.78 -> 0.84-0.85 ms, render 4.0 -> 4.4-4.8 ms
+(medians; a frame has 16.7 ms). IPA 21 (release ipa-21). Not tested on the iPad (no iPad, no
+Mac here): the sound on the device and 60 fps there are his to try.
 
 ## Noted, not yet acted on
 
