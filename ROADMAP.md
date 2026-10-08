@@ -982,9 +982,20 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       now on: foes met before this IPA start as shapes. PAST RUNS lists your last ten runs: the
       hero, how far (or the endless depth), how it ended, the time, foes slain, embers and the
       date. `tests/bestiary_test`. Test switch for pictures: `--ui=bestiary` / `--ui=runs`.
-- [ ] 22.4 Stability and performance polish: profile the heaviest fights and everything Stages
+- [x] 22.4 Stability and performance polish: profile the heaviest fights and everything Stages
       21-22 added, a long random-button soak for crashes, fix what is found (nothing toned
       down). IPA 22.
+      Done: the soak (random buttons for an hour of play from the title, and 16 shorter runs,
+      now also in the endless stair, night and storm floors, the wanderers and Chapter IV) found
+      two real faults, both fixed: (1) OPTIONS > KEYBOARD KEYS waited for a key press for ever,
+      so an iPad with no keyboard was stuck on that page; now a tap, BACK or 8 seconds ends the
+      wait. (2) The camp's TINKER broke his talk box for most of the gear he could offer (gear
+      with no set); fixed, and a failed talk box now shows nothing instead of a second error.
+      After the fixes: 16 of 16 soak runs clean, the hour included, and the game's object count
+      levels off (no leak). Measured: the new foe lives cost about 0.04 ms of a frame's logic; a
+      night or storm floor about 0.2-0.3 ms more to draw here (on this container's software
+      graphics; the iPad's chip does the dark in one cheap pass); nothing worth changing.
+      Stage 22 ends with IPA 22.
 
 ---
 
