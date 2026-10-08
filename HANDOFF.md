@@ -1045,6 +1045,10 @@ LOG_MAX). `entries()`: every ENEMIES key but SKIP and every BOSSES key, ordered 
 `name_of`, `line_of` (Barks FOE_BARKS / BOSS_LINES). The codex: Game `codex_tab` (ROLL cycles),
 `bestiary_i`, `_grid_nav`; MenuView CODEX_TABS / CODEX_TAB_X (tab names at the top); taps.gd
 taps on the names and the bestiary grid. Debug `--ui=codex|bestiary|runs`. `tests/bestiary_test`.
+22.4 (in progress): heavy fight profile (tests/heavy_profile): 5.2 ms of logic a tick here, the
+new foe lives (Lives.override) about 0.04 ms of it; drawing a night or storm floor adds 0.2-0.3 ms
+of render time on this container's software GL. tools/dev/monkey.sh now also soaks the endless
+stair, night and storm floors, the wanderers and Chapter IV.
 
 ## Noted, not yet acted on
 
