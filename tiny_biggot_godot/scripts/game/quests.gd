@@ -27,6 +27,8 @@ const POOL := {
 	"level20": ["REACH LEVEL 20 IN ONE RUN", 90, "level", 20],
 	"daily": ["PLAY THE DAILY TRIAL", 40, "daily", 0],
 	"chapter2": ["TURN THE PAGE INTO CHAPTER II", 150, "chapter", 2],
+	"chapter3": ["READ ON INTO CHAPTER III", 200, "chapter", 3],
+	"chapter4": ["STEP OUT ONTO THE SHELF: CHAPTER IV", 250, "chapter", 4],
 	"blade": ["REACH FLOOR 5 HOLDING A BLADE", 60, "kind", "slash"],
 	"whip": ["REACH FLOOR 5 HOLDING A WHIP OR FLAIL", 60, "kind", "whip"],
 	"hero": ["REACH FLOOR 5 AS {HERO}", 60, "hero", 5],
