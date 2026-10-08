@@ -74,7 +74,7 @@ func _ready() -> void:
 	p.al_evil = 4
 	e.burn_t = 2.0
 	e.poison = 2.0
-	var want := m0 + 0.2 * empty + 0.06 + 0.2 + 0.2
+	var want := m0 + 0.2 * empty + 0.06 + 0.2 + 0.15 * 2   # 20.1: PRISM is +15% for each ailment (two here)
 	if absf(Combat.hook_mult(p, e) - want) > 1e-4:
 		fail("the hooks: x%.3f, want x%.3f" % [Combat.hook_mult(p, e), want])
 	# 6. The odds box: the four shares add up to 100%; SUPER shows from level 4 only.

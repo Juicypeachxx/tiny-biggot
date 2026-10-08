@@ -384,6 +384,9 @@ func whirl_flood() -> void:
 # ---------- 5 ----------
 func _restore(p: Player) -> void:
 	super._restore(p)
+	for pr in p.procs:   # 20.1: the Hexer's own passive counts attacks; both halves start from the same count
+		if pr is Dictionary and pr.has("count"):
+			pr["count"] = 0
 	EBullets.clear()
 	p.x = 14.0 * TB.TS
 	p.y = 9.5 * TB.TS
