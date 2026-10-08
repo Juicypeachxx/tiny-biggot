@@ -63,6 +63,69 @@ static func furnish(r: Room) -> void:
 		place_pots(r, 2 + g.randi() % 2)
 	if r.type == "treasure":
 		place_coins(r)
+	if r.type in ["combat", "elite", "treasure", "rest", "shrine"]:
+		place_props(r)   # 21.2: last, so nothing with rules moves for them
+
+## 21.2: things that can be knocked over (drawing only): standing candelabra, and free-standing
+## bookcases in the library (Chapter IV). Rolled from the room's own seed.
+static func place_props(r: Room) -> void:
+	var g := _place_rng(r, 0x2b1d)
+	var lib := library() >= 0
+	var n := (1 + g.randi() % 2) if (lib or g.randf() < 0.6) else 0
+	for tries in 24:
+		if n <= 0:
+			break
+		var side := g.randi() % 2
+		var x := g.randf_range(52, 396)
+		var y := g.randf_range(60, 76) if side == 0 else g.randf_range(222, 240)
+		if absf(x - CX) < 50 or World.hits_solid(r, x, y, 8, World.M_PLAYER):
+			continue
+		var clash := false
+		for o in r.objects:
+			if TB.dist_xy(x, y, o["x"], o["y"]) < 26:
+				clash = true
+		if clash:
+			continue
+		r.objects.append({ "kind": "e_shelf" if lib else "e_candle", "x": x, "y": y, "used": true, "seed": g.randi() })
+		n -= 1
+
+## 21.2: something knocks a prop over (a roll, a shot, a blast). from_x: where the push came from.
+static func knock(o: Dictionary, from_x: float) -> void:
+	if o.get("down", false):
+		return
+	o["down"] = true
+	o["dir"] = 1.0 if o["x"] >= from_x else -1.0
+	G.dyn_dirty = true
+	Snd.play("hit", true)   # (its own dice: a prop is only drawn)
+	for k in 10:
+		var a := _rng.randf() * TAU
+		var col: String = (["#d9d0b4", "#8b8f9c", "#f4ecd8"] if o["kind"] == "e_candle" else ["#c8a878", "#d8443c", "#4d6aa8", "#f2c94c"])[k % (3 if o["kind"] == "e_candle" else 4)]
+		Fx.particle(o["x"], o["y"] - 10, cos(a) * _rng.randf_range(20, 60), sin(a) * _rng.randf_range(20, 60) - 20, 0.5, col, 1)
+
+## 21.2: a blast or a loud thing at (x, y): props near it fall, critters near it bolt.
+static func scare(x: float, y: float, r: float) -> void:
+	if G.room == null or not on(G.room):
+		return
+	for o in G.room.objects:
+		if o["kind"] in ["e_candle", "e_shelf"] and TB.dist_xy(x, y, o["x"], o["y"]) < r + 12:
+			knock(o, x)
+	for c in _critters:
+		if TB.dist_xy(x, y, c["x"], c["y"]) < 140.0:
+			_startle(c, x, y)
+
+static func _startle(c: Dictionary, x: float, y: float) -> void:
+	var away := Vector2(c["x"] - x, c["y"] - y).normalized()
+	if c["kind"] == "bird":
+		if c.get("fly", false):
+			return
+		c["fly"] = true
+		c["vx"] = (70.0 if away.x >= 0 else -70.0) * _rng.randf_range(0.8, 1.2)
+		c["vy"] = -95.0
+		return
+	var sp := 110.0 if c["kind"] == "rat" else 60.0
+	c["vx"] = away.x * sp
+	c["vy"] = away.y * sp
+	c["t"] = 0.8
 
 ## Pots along the walls, away from the doors and anything solid.
 static func place_pots(r: Room, n: int) -> void:
@@ -168,6 +231,21 @@ static func tick_objects(room: Room) -> void:
 				if lit:
 					o["fuse"] = FUSE
 					Snd.play("charge")
+			"e_candle", "e_shelf":   # 21.2: a roll, your shots or a foe's knock it over
+				if o.get("down", false):
+					continue
+				var knocked := p.dodge_t > 0 and TB.dist_xy(p.x, p.y, o["x"], o["y"]) < 14
+				var from_x: float = p.x
+				if not knocked:
+					for b in G.pbullets:
+						if absf(b.x - o["x"]) < 6 and absf(b.y - o["y"] + 9) < 10:
+							knocked = true
+							from_x = b.x - b.vx
+							break
+				if not knocked:
+					knocked = _foe_shot_near(o["x"], o["y"] - 9, 7.0)
+				if knocked:
+					knock(o, from_x)
 			"e_coins":
 				if TB.dist_xy(p.x, p.y, o["x"], o["y"]) < 12:
 					o["gone"] = true
@@ -330,6 +408,58 @@ static func paint_dyn(ci: CanvasItem, room: Room) -> void:
 			"e_pot": draw_pot(ci, o)
 			"e_keg": draw_keg(ci, o, 0.0)
 			"e_coins": _heap(ci, o["x"], o["y"], o["n"] + 3)
+			"e_candle": draw_candle(ci, o)   # 21.2
+			"e_shelf": draw_shelf(ci, o)
+
+## 21.2 a standing candelabrum, or one knocked over (its flames are drawn live, paint_live).
+static func draw_candle(ci: CanvasItem, o: Dictionary) -> void:
+	var x: float = o["x"]
+	var y: float = o["y"]
+	var iron := TB.c("#2a2430")
+	if not o.get("down", false):
+		_shadow(ci, x, y, 8)
+		ci.draw_rect(Rect2(x - 3, y - 2, 6, 2), iron)
+		ci.draw_rect(Rect2(x, y - 16, 1, 15), iron)
+		ci.draw_rect(Rect2(x - 4, y - 14, 9, 1), iron)
+		for dx in [-4.0, 0.0, 4.0]:
+			ci.draw_rect(Rect2(x + dx, y - 17 + (0.0 if dx == 0.0 else 1.0), 1, 3 - (0.0 if dx == 0.0 else 1.0)), TB.c("#f4ecd8"))
+		return
+	var d: float = o["dir"]
+	ci.draw_rect(Rect2(x + (0.0 if d > 0 else -16.0), y - 1, 16, 1), iron)
+	ci.draw_rect(Rect2(x - 3, y - 2, 6, 2), iron)
+	for k in 3:
+		ci.draw_rect(Rect2(x + d * (8 + k * 4), y + 1 + (k % 2), 3, 1), TB.c("#f4ecd8"))
+	ci.draw_circle(Vector2(x + d * 13, y + 2), 2.5, Color(0.95, 0.92, 0.85, 0.35))
+
+## 21.2 a free-standing bookcase, or one knocked flat with its books spilled.
+static func draw_shelf(ci: CanvasItem, o: Dictionary) -> void:
+	var x: float = o["x"]
+	var y: float = o["y"]
+	var g := RandomNumberGenerator.new()
+	g.seed = o["seed"]
+	var spines := ["#d8443c", "#4d6aa8", "#7ab04a", "#f2c94c", "#a35bd6", "#c8a878"]
+	if not o.get("down", false):
+		_shadow(ci, x, y, 22)
+		ci.draw_rect(Rect2(x - 10, y - 28, 20, 28), TB.c("#3a2414"))
+		ci.draw_rect(Rect2(x - 9, y - 27, 18, 26), TB.c("#5a3a22"))
+		for row in 3:
+			var by := y - 26 + row * 9
+			var bx := x - 8
+			while bx < x + 7:
+				var w := 2 + g.randi() % 2
+				var h := 6 + g.randi() % 2
+				ci.draw_rect(Rect2(bx, by + 7 - h, w, h), TB.c(spines[g.randi() % spines.size()]))
+				bx += w
+			ci.draw_rect(Rect2(x - 9, by + 7, 18, 1), TB.c("#3a2414"))
+		return
+	var d: float = o["dir"]
+	var x0 := x if d > 0 else x - 28.0
+	ci.draw_rect(Rect2(x0, y - 9, 28, 10), TB.c("#3a2414"))
+	ci.draw_rect(Rect2(x0 + 1, y - 8, 26, 8), TB.c("#5a3a22"))
+	for k in 7:
+		var bxy := Vector2(x0 + g.randf_range(-6, 34), y + g.randf_range(1, 9))
+		ci.draw_rect(Rect2(bxy, Vector2(4, 3)), TB.c(spines[g.randi() % spines.size()]))
+		ci.draw_rect(Rect2(bxy + Vector2(1, 1), Vector2(2, 1)), TB.c("#e8dcc0"))
 
 static func _shadow(ci: CanvasItem, x: float, y: float, w: float) -> void:
 	ci.draw_rect(Rect2(x - w / 2, y - 1, w, 3), Color(0, 0, 0, 0.3))
@@ -757,11 +887,18 @@ static func _spawn_critters(room: Room) -> void:
 		return
 	_rng.seed = room.seed_value ^ 0x7777
 	var kinds := ["rat", "rat", "moth"] if G.floor_index in [0, 3, 7, 10] else (["butterfly", "butterfly", "rat"] if G.floor_index in [1, 6] else ["moth", "rat"])
+	if G.floor_index in BIRD_FLOORS and room.theme.is_empty():
+		kinds = ["bird", "bird", "bird", "rat"]   # 21.2: crows on the open-air floors
 	var n := _rng.randi_range(2, 4)
 	for i in n:
 		var k: String = kinds[_rng.randi_range(0, kinds.size() - 1)]
 		_critters.append({ "kind": k, "x": _rng.randf_range(40, 408), "y": _rng.randf_range(50, 250), "vx": 0.0, "vy": 0.0, "t": _rng.randf() * 3.0,
 			"col": ["#e86fb4", "#f2c94c", "#6fd3e0", "#f4ecd8"][_rng.randi_range(0, 3)] if k == "butterfly" else "#8b8f9c" })
+
+## 21.2: crows peck about on the open-air floors (the hamlet, the warfront, the rooftops) and take
+## off when you come close or something blows up; later new ones land.
+const BIRD_FLOORS := [6, 7, 9]
+static var _land_t := 12.0
 
 ## 17.3 weather moments (drawing only, own random numbers): lightning on the stormy floors (the
 ## Nightspire rooftops, the windswept roofs, the Eclipse), ink rain on the chapter floors.
@@ -816,14 +953,25 @@ static func tick(dt: float) -> void:
 				if d[1] > 268:
 					d[0] = _rng.randf_range(20, 428)
 					d[1] = _rng.randf_range(-30, 20)
-	for c in _critters:
+	if G.floor_index in BIRD_FLOORS and G.room != null and G.room.theme.is_empty() and on(G.room):
+		_land_t -= dt
+		if _land_t <= 0.0:   # a new crow lands now and then
+			_land_t = _rng.randf_range(10.0, 20.0)
+			if _critters.filter(func(c): return c["kind"] == "bird").size() < 3:
+				var lx := _rng.randf_range(60, 388)
+				_critters.append({ "kind": "bird", "x": lx, "y": 20.0, "vx": _rng.randf_range(-20, 20), "vy": 80.0, "t": 0.0,
+					"col": "#2a2838", "land": _rng.randf_range(80, 240) })
+	for i in range(_critters.size() - 1, -1, -1):
+		var c: Dictionary = _critters[i]
+		if c["kind"] == "bird":
+			_bird(c, p, dt)
+			if c.get("gone", false):
+				_critters.remove_at(i)
+			continue
 		c["t"] -= dt
 		var d := TB.dist_xy(p.x, p.y, c["x"], c["y"])
 		if d < 40:   # it runs or flutters away
-			var away := Vector2(c["x"] - p.x, c["y"] - p.y).normalized()
-			var sp := 110.0 if c["kind"] == "rat" else 60.0
-			c["vx"] = away.x * sp
-			c["vy"] = away.y * sp
+			_startle(c, p.x, p.y)
 			c["t"] = 0.6
 		elif c["t"] <= 0:
 			c["t"] = _rng.randf_range(0.8, 3.0)
@@ -866,6 +1014,12 @@ static func paint_live(ci: CanvasItem, t: float) -> void:
 		for k in 4:
 			var ph := fmod(t * 0.35 + k * 0.25, 1.0)
 			ci.draw_circle(Vector2(s[0] + sin(t + k * 1.7) * 3.0 * ph, s[1] - ph * 22.0), 1.5 + ph * 2.5, Color(0.85, 0.85, 0.9, 0.22 * (1.0 - ph)))
+	if G.room != null:   # 21.2: the flames of standing candelabra (out once knocked over)
+		for o in G.room.objects:
+			if o["kind"] == "e_candle" and not o.get("down", false):
+				for dx in [-4.0, 0.0, 4.0]:
+					var fl := 0.8 + 0.2 * sin(t * 12.0 + o["x"] + dx)
+					ci.draw_rect(Rect2(o["x"] + dx, o["y"] - 19 - (1.0 if dx == 0.0 else 0.0) - fl, 1, 2 * fl), TB.c("#f2c94c"))
 	for c in _critters:
 		var x := roundf(c["x"])
 		var y := roundf(c["y"])
@@ -876,12 +1030,56 @@ static func paint_live(ci: CanvasItem, t: float) -> void:
 				ci.draw_rect(Rect2(x - 3, y - 2, 6, 3), TB.c("#6b6a72"))
 				ci.draw_rect(Rect2(x + 2 * dir, y - 3, 2, 2), TB.c("#8b8f9c"))
 				ci.draw_rect(Rect2(x - 4 * dir - (1 if dir > 0 else 0), y - 1 + (sin(t * 20) if moving else 0.0), 3, 1), TB.c("#e0a4a4"))
+			"bird":   # 21.2
+				var f: float = c.get("face", 1.0)
+				if c.get("fly", false) or c.has("land"):
+					var w := sin(t * 22.0 + x) * 3.0
+					ci.draw_rect(Rect2(x - 2, y - 1, 4, 2), TB.c("#2a2838"))
+					ci.draw_line(Vector2(x - 1, y - 1), Vector2(x - 5, y - 2 + w), TB.c("#3a3850"), 1.0)
+					ci.draw_line(Vector2(x + 1, y - 1), Vector2(x + 5, y - 2 + w), TB.c("#3a3850"), 1.0)
+				else:
+					var pk: float = 1.0 if c.get("peck", 0.0) > 0.0 else 0.0
+					ci.draw_rect(Rect2(x - 2, y - 3, 4, 3), TB.c("#2a2838"))
+					ci.draw_rect(Rect2(x + 2 * f - (1 if f < 0 else 0), y - 4 + pk, 2, 2), TB.c("#3a3850"))
+					ci.draw_rect(Rect2(x + 4 * f - (1 if f < 0 else 0), y - 3 + pk, 1, 1), TB.c("#e8873a"))
+					ci.draw_rect(Rect2(x - 1, y, 1, 1), TB.c("#e8873a"))
+					ci.draw_rect(Rect2(x + 1, y, 1, 1), TB.c("#e8873a"))
 			"moth", "butterfly":
 				var flap := absf(sin(t * 14.0 + x))
 				var cl := TB.c(c["col"])
 				ci.draw_rect(Rect2(x - 1 - 2 * flap, y - 1, 2, 2), cl)
 				ci.draw_rect(Rect2(x + 1 + 2 * flap - 1, y - 1, 2, 2), cl)
 				ci.draw_rect(Rect2(x, y - 1, 1, 3), TB.c("#2a2018"))
+
+## 21.2 a crow: lands, pecks, hops; flies off when startled (and is gone off the top).
+static func _bird(c: Dictionary, p: Player, dt: float) -> void:
+	if c.get("fly", false):
+		c["x"] += c["vx"] * dt
+		c["y"] += c["vy"] * dt
+		c["vy"] -= 30.0 * dt
+		if c["y"] < 10.0 or c["x"] < -10.0 or c["x"] > 458.0:
+			c["gone"] = true
+		return
+	if c.has("land"):   # coming down to land
+		c["x"] += c["vx"] * dt
+		c["y"] += c["vy"] * dt
+		if c["y"] >= c["land"]:
+			c.erase("land")
+			c["vx"] = 0.0
+			c["vy"] = 0.0
+		return
+	if TB.dist_xy(p.x, p.y, c["x"], c["y"]) < 60.0 or G.locked and _rng.randf() < 0.004:
+		_startle(c, p.x, p.y)
+		return
+	c["t"] -= dt
+	if c["t"] <= 0.0:   # a hop, or a peck
+		c["t"] = _rng.randf_range(0.4, 1.6)
+		c["peck"] = 0.25 if _rng.randf() < 0.5 else 0.0
+		if c["peck"] == 0.0:
+			c["x"] = clampf(c["x"] + _rng.randf_range(-6, 6), 24, 424)
+			c["y"] = clampf(c["y"] + _rng.randf_range(-3, 3), 40, 262)
+			c["face"] = 1.0 if _rng.randf() < 0.5 else -1.0
+	c["peck"] = maxf(0.0, c.get("peck", 0.0) - dt)
 
 ## 17.3: a lightning flash over the whole room (world_view's top layer).
 static func paint_over(ci: CanvasItem) -> void:
@@ -896,6 +1094,9 @@ static func paint_over(ci: CanvasItem) -> void:
 static func paint_glow(ci: CanvasItem, t: float) -> void:
 	if G.room == null or not on(G.room):
 		return
+	for o in G.room.objects:   # 21.2: standing candelabra glow
+		if o["kind"] == "e_candle" and not o.get("down", false):
+			Gfx.sp(ci, "glow_torch", o["x"], o["y"] - 18 + 14.0, 14.0 / 36.0, 14.0 / 36.0, 0.0, false, 0.45 + 0.05 * sin(t * 9.0 + o["x"]))
 	for i in _lights.size():
 		var l: Array = _lights[i]
 		var op: float = (0.55 + 0.1 * sin(t * 8.0 + i * 3.0)) * l[2]

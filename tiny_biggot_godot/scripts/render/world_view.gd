@@ -335,6 +335,7 @@ func _paint_dyn(ci: CanvasItem) -> void:
 	var room := G.room
 	if room == null:
 		return
+	Remains.paint(ci, room)   # 21.2: scorch marks and what fallen foes left
 	RoomDress.paint_dyn(ci, room)   # 17.1: pots, kegs, coin heaps
 	var ts := TB.TS
 	var dark := TB.c("#0d0a12")

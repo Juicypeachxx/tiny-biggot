@@ -957,6 +957,13 @@ update_enemies, before EnemyAI.run: one foe in three by `uid % 3`, no dice), `ca
 `draw` (world_view `_paint_texts`). Own RNG; nothing under --classic. Enemy `flee_t`, `fled`.
 NOTE: the core replays are re-recorded once at the end of Stage 21 (21.1 and 21.5 change play).
 `tests/barks_test`.
+21.2: `Remains` (scripts/render/remains.gd): `add(e)` (Combat.kill_enemy), `scorch(x, y, r)`
+(Combat.explode_at), FAMILY by words in the foe's type, Room `remains` / `scorch`, `tick` (once a
+second; EventRooms.update), `paint` (world_view's dyn layer). RoomDress: `place_props` (furnish, last,
+room seed), kinds `e_candle` / `e_shelf` (tick_objects: roll, shots, foe shots; `knock`; drawn on the
+dyn layer, flames live, glow), `scare(x, y, r)` (explode_at: props fall, critters bolt), crows on
+BIRD_FLOORS (`_bird`). `Snd.play(name, true)`: pitch from its own dice (decor must not move the
+run's dice: the original pitched sounds roll the global randi). `tests/remains_test`.
 
 ## Noted, not yet acted on
 

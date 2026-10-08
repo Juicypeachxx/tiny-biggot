@@ -48,7 +48,11 @@ func _stream(path: String) -> AudioStream:
 		_streams[path] = s if s != null else false
 	return s if s is AudioStream else null
 
-func play(name: String) -> void:
+## 21.2: own_dice: a sound of something only drawn (a prop falling) varies its pitch with dice of
+## its own, so it never moves the run's random numbers.
+var _deco_dice := RandomNumberGenerator.new()
+
+func play(name: String, own_dice: bool = false) -> void:
 	if not Meta.opts["sfx"]:
 		return
 	var f := Engine.get_physics_frames()
@@ -61,7 +65,7 @@ func play(name: String) -> void:
 		return
 	var pitch := 100
 	if name in PITCHED:
-		pitch = 94 + randi() % 13
+		pitch = 94 + (_deco_dice.randi() if own_dice else randi()) % 13
 	var vol := 55 if name == "ebullet" else 85
 	if _silent:
 		return

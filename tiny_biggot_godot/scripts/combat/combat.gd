@@ -389,6 +389,7 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 	p.kills += 1
 	p.room_kills += 1
 	G.run_stats["kills"] += 1
+	Remains.add(e)   # 21.2: something of it stays on the floor
 	Saloon.on_kill(e)
 	EventRooms.on_kill(e)
 	RiftExtras.on_kill(e)
@@ -1690,6 +1691,9 @@ static func chain_from(src: Enemy, dmg: float) -> void:
 
 static func explode_at(x: float, y: float, dmg: float, skip: Enemy, radius: float = 18, col: String = "",
 		boom: bool = false, from_bomb: bool = false) -> void:
+	if GameData.rogues():
+		Remains.scorch(x, y, radius)   # 21.2: drawing only
+		RoomDress.scare(x, y, radius)
 	Fx.burst(x, y, [col, "#f2c94c", "#fffbe0"] if col != "" else ["#e8873a", "#f2c94c", "#d8443c"],
 		8 + roundi(radius / 4), 70 + radius, 0.3)
 	Vfx.blast(x, y, radius, col)

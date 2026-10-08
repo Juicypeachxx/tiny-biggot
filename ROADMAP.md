@@ -890,9 +890,16 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       runs for a moment when nearly dead ("NOT LIKE THIS!"). In the camp everyone greets you by
       your hero's name, and the archivist (or the seer) remembers how your last run ended
       ("FLOOR 5, AND A SKELETON. IT HAPPENS."). `tests/barks_test`.
-- [ ] 21.2 Rooms that keep their story: fallen foes leave bones, ink or ash that fade slowly,
+- [x] 21.2 Rooms that keep their story: fallen foes leave bones, ink or ash that fade slowly,
       blasts leave scorch marks, candles and bookcases can be knocked over, critters scatter
       when you come close or something blows up.
+      Done: every fallen foe leaves something of its own kind (bones, goo, ink, ash with embers,
+      torn paper, feathers, scrap, a fading glow, or a splash of its colour; guardians a big one).
+      They stay with the room (come back and they are still there) and fade after about 35s.
+      Big blasts leave scorch marks. Fight rooms get standing candelabra (bookcases in the
+      library) that fall to a roll, a shot (yours or a foe's) or a blast, and stay down. Crows
+      peck about on the open-air floors and take off when you come close or something blows up;
+      new ones land later. All drawing only, with dice of its own. `tests/remains_test`.
 - [ ] 21.3 The sound of each place: a quiet loop for every world, footsteps that change with the
       floor, music that swells in a fight and calms after (all made here, original).
 - [ ] 21.4 Life between the fights: a rival adventurer who races you to chests (help or fight),
