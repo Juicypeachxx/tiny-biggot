@@ -904,17 +904,35 @@ static func spawn_pbullet(p: Player, a: float, dmg: Variant = null, kind: String
 	G.pbullets.append(b)
 	return b
 
+## 32.2: a big volley that fills the shot cap part-way: the shots still to come would each only
+## merge their damage into a flying shot (and each merge made a stand-in object), one by one; 700
+## of them in one tick was a 50 ms stall. They merge at once instead, and the dice each would have
+## rolled (rolls per shot) are still rolled, so all that follows is the same. Expanded game only.
+static func _volley_full(p: Player, rest: int, rolls: int, made: Array) -> bool:
+	if rest <= 1 or not GameData.rogues() or G.pbullets.size() + G.new_pbullets.size() < Effects.pbullet_cap():
+		return false
+	for i in rest * rolls:
+		randf()
+	made.append(_merge_shot(Weapons.wdmg(p) * rest))
+	return true
+
 static func fire_projectiles(p: Player, a: float) -> Array:
 	var w: Dictionary = p.weapon
 	var n := Weapons.wcount(p)
 	var step := Weapons.wspread(p)
 	var made := []
+	var bkind: String = w.get("bullet", Weapons.BULLET_KIND.get(w["kind"], "bolt"))
+	var life_roll := 1 if bkind == "clod" or bkind == "fire" else 0
 	match w["kind"]:
 		"nova":
 			for i in n:
+				if _volley_full(p, n - i, 1 + life_roll, made):
+					break
 				made.append(spawn_pbullet(p, a + i * TAU / n))
 		"flame":
 			for i in n:
+				if _volley_full(p, n - i, 3 + life_roll, made):
+					break
 				made.append(spawn_pbullet(p, a + (randf() - 0.5) * 2 * step, null, "", 0.8 + randf() * 0.4))
 		"mine":
 			var live := 0
@@ -936,6 +954,8 @@ static func fire_projectiles(p: Player, a: float) -> Array:
 				made.append(_merge_shot(Weapons.wdmg(p) * n))
 			else:
 				for i in n:
+					if _volley_full(p, n - i, 2 + life_roll, made):
+						break
 					made.append(spawn_pbullet(p, a + (i - (n - 1) / 2.0) * step + (randf() - 0.5) * jit))
 	var bs := p.backshot
 	for i in bs:
