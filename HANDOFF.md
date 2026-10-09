@@ -2,6 +2,7 @@
 
 **10 Oct: his trait pictures.** 146 traits and 14 infusions to add (TRAITS_PLAN.md), in
 Stages 40 to 44 (STR, DEX, INT, SUPER/PSYCHIC/AUGMENT, infusions), then 45 the alignment shops.
+Stage 40 done (IPA 40 "Strength Traits"). Next: Stage 41, the DEX traits.
 Done before: 39.4 "Bosses Fall" (IPA 39.4), Stage 39 "More to Find", 38 "Alignment and Loot", 37,
 36, 35 (the full check passed at 35). Next: Stage 40.
 
@@ -1511,6 +1512,23 @@ Done by another session (the port's), which took over from v31 on claude/dev.
   all die (4.6 to 7.4 s), a stun still holds a foe above its line, held blows count nothing, and
   100 hits in a moment make one number. Classic replays identical. Core replays re-recorded on
   purpose after the 39.4 build (Stage 39's new items and this fix; they matched at 38).
+
+### Stage 40 (10 Oct): the trait look and the STRENGTH traits (his pictures)
+- 40.0 Attributes.PER_POINT 0.05 (was 0.03; no cap), Lucky.LUCK_LUCKY 0.05 (was 0.02); the STR,
+  DEX, INT and LUCK keyword texts say so.
+- 40.1 TraitView._row: box and name in the group colour (GROUP_HEX/GROUP_COL by
+  Attributes.FAMILY_ATTR; super red); a trait with a picture tr_<id> (16 x 16 white shape) has it
+  drawn with a solid tint in that colour, else the family glyph. Debug --trait-opts=id,id,id.
+- 40.2 scripts/combat/might.gd (class Might): power (gf power, war_charge, crowd), crushing hits
+  (crush, resolute, crush_next; x1.5 and weak plate wear), rage (seething), puncture, instability,
+  pride (on_taunt from taming, puppets, LOOMING THREAT), courage (opening), special speed
+  (special_haste, special_str, honest) and on_special (Might.cast in Abilities.use, casting flag for
+  MERCILESS), buff power (presence), stride, steady, giant_grip, heavy_draw, focus_str (Attributes
+  .value), lucky_heart, drink_double, fire_blood stacks (Enemy.burn_n, bleed_n), open_wounds,
+  moon_gloom. Enemy fields puncture, punct_t, instab, burn_n, bleed_n, dot_cd, taunt_cd. All 1.0
+  or off in classic.
+- 40.3 38 str_ traits (traits.gd, after the 38.x rows), names checked against every other name in
+  scripts; pictures tools/art/stage40_traits.py. Test tests/stage40_test.tscn (in check.sh).
 
 ## Noted, not yet acted on
 

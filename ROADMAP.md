@@ -1295,15 +1295,15 @@ it becomes here in **TRAITS_PLAN.md**. Our own names and pictures (rule 3). Aske
 before this, he had no preference: the +5% numbers of his notes go in with Stage 40, the alignment
 shops after the traits.
 
-### Stage 40: the trait look and the STRENGTH traits (IPA 40)
-- [ ] 40.0 His notes' numbers: +5% damage per STR, DEX or INT point (times the weapon's grade; it
+### Stage 40: the trait look and the STRENGTH traits (IPA 40, "Strength Traits", built 10 Oct)
+- [x] 40.0 His notes' numbers: +5% damage per STR, DEX or INT point (times the weapon's grade; it
       was 3%), no soft cap (38.3: never his yes, it would lower big builds); +5% lucky hits per
       LUCK (was 2%).
-- [ ] 40.1 The look: every trait row's box in its group's colour (STR pink-red, DEX green, INT
+- [x] 40.1 The look: every trait row's box in its group's colour (STR pink-red, DEX green, INT
       blue, SUPER red), and a trait with a picture of its own shows it there.
-- [ ] 40.2 Shared mechanics the STR list needs: POWER, the hit kinds (crushing, ruthless), the
+- [x] 40.2 Shared mechanics the STR list needs: POWER, the hit kinds (crushing, ruthless), the
       named buffs (courage, berserk, rage, burning passion), instability, puncture, crush.
-- [ ] 40.3 The 38 STRENGTH traits of TRAITS_PLAN.md, each with its picture.
+- [x] 40.3 The 38 STRENGTH traits of TRAITS_PLAN.md, each with its picture.
 
 ### Stage 41: the DEXTERITY traits (IPA 41)
 - [ ] 41.1 What the DEX list needs: lethal and sneaky hits, tailwind, morale, fatigue, rupture,
