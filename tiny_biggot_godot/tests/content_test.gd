@@ -223,6 +223,9 @@ func _tags(where: String, tags: Array) -> void:
 func arena(hero: int) -> Player:
 	G.hero_index = hero % GameData.heroes().size()
 	G.new_run()
+	if G.player.oath_picks > 0:   # 29: tests start past the run's OATH pick
+		G.player.oath_picks = 0
+		G.player.pending = maxi(0, G.player.pending - 1)
 	G.floor_d["depth"] = 2
 	G.enter_room(World.make_room(G.floor_d, "combat", "", "s"))
 	var p := G.player

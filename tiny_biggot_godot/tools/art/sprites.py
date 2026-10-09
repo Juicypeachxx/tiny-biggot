@@ -1561,7 +1561,7 @@ S["w_portalgun"] = ("second:#a35bd6 metal:#b8c0d0 glow:#7ff0c8", [
 S["w_sawlauncher"] = ("metal:#c8d0e0", [
 ".....oo.....", "..o.o99o.o..", ".o9o9889o9o.", "..o888888o..", ".o88800888o.", "o9880..0889o",
 "o9880..0889o", ".o88800888o.", "..o888888o..", ".o9o9889o9o.", "..o.o99o.o..", ".....oo....."])
-S["w_voodoodoll"] = ("main:#b08a5a bone:#e8dcc8 metal:#e0e0e8", [
+S["w_stitcheddoll"] = ("main:#b08a5a bone:#e8dcc8 metal:#e0e0e8", [
 "....oooo....", "...o3333o...", "..o303303o..", "..o333333o..", "...o3ll3o.9.", "..oo3333oo9.",
 ".o33333333o.", ".o3o3333o3o.", "..oo3ll3oo..", "...o3oo3o...", "...o3o.o3o..", "...oo...oo.."])
 S["w_skyanvil"] = ("metal:#8b8f9c", [
@@ -1605,7 +1605,7 @@ for _n, _pal, _from in [
 	("gatecannon", "second:#5a2a7a metal:#4e4a5e glow:#d86fff halo:1", "w_portalgun"),
 	("hungrysaws", "metal:#e8a0a0", "w_sawlauncher"),
 	("buzzblade", "metal:#f2c94c", "w_sawlauncher"),
-	("doomdoll", "main:#5a3a6a bone:#d8443c metal:#f2c94c halo:1 glow:#a35bd6", "w_voodoodoll"),
+	("doomdoll", "main:#5a3a6a bone:#d8443c metal:#f2c94c halo:1 glow:#a35bd6", "w_stitcheddoll"),
 	("cursedcrossbow", "main:#4a2a5a glow:#a35bd6", "w_repeater"),
 	("portalbow", "main:#a35bd6 wood:#7ff0c8 glow:#ffffff halo:1", "w_dawnbow"),
 ]:

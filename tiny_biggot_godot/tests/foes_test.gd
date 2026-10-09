@@ -51,6 +51,9 @@ func _data() -> void:
 func _arena() -> Player:
 	G.hero_index = 0
 	G.new_run()
+	if G.player.oath_picks > 0:   # 29: tests start past the run's OATH pick
+		G.player.oath_picks = 0
+		G.player.pending = maxi(0, G.player.pending - 1)
 	G.floor_d["depth"] = 2
 	G.enter_room(World.make_room(G.floor_d, "treasure", "", "s"))
 	G.room.objects.clear()

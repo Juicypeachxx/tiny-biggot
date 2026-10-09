@@ -287,7 +287,7 @@ const ROWS := [
 	# Stage 26 (his word, 9 Oct: "more super cool synergy and legendary and mythic traits"): legendary and MYTHIC
 	# traits that cast the spellbook's spells (Actions "spell") or feed on reactions ("on_reaction").
 	["l_bladestorm", "edge", 1, "BLADESTORM", "HALF OF YOUR KILLS CONJURE A SPECTRAL BLADE THAT FIGHTS FOR 4S", false, [{ "on": "on_kill", "chance": 0.5, "do": [["spell", "blade", 0.8]] }], "legend", ["edge", "arcane"], {  }],
-	["l_starcaller", "arcane", 1, "STARCALLER", "EVERY 5TH CRIT CALLS A COMET THROUGH THE FOE", false, [{ "on": "on_crit", "every": 5, "do": [["spell", "comet", 2.0]] }], "legend", ["arcane", "pyre"], {  }],
+	["l_starcaller", "arcane", 1, "COMET CALLER", "EVERY 5TH CRIT CALLS A COMET THROUGH THE FOE", false, [{ "on": "on_crit", "every": 5, "do": [["spell", "comet", 2.0]] }], "legend", ["arcane", "pyre"], {  }],
 	["l_stormherd", "storm", 1, "STORMHERD", "EVERY 8S IN A FIGHT, A STORM CLOUD FOLLOWS YOUR FOES", false, [{ "on": "every_n_seconds", "period": 8.0, "if": "fighting", "do": [["spell", "cloud", 1.0]] }], "legend", ["storm"], {  }],
 	["l_runelord", "malice", 1, "RUNELORD", "EVERY 4TH HIT DRAWS A RUNE UNDER THE FOE THAT ERUPTS", false, [{ "on": "on_hit", "every": 4, "cd": 0.3, "do": [["spell", "glyph", 1.5]] }], "legend", ["malice", "arcane"], {  }],
 	["l_voidheart", "shadow", 1, "VOIDHEART", "WHEN HIT, A BLACK HOLE OPENS ON THE NEAREST FOE", false, [{ "on": "on_damage_taken", "cd": 2.0, "do": [["spell", "void", 2.0]] }], "legend", ["shadow"], {  }],

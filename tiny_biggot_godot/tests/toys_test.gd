@@ -7,7 +7,7 @@ extends Node
 ## crush), the toys cast by other weapons must have come out, and nothing may be left over after
 ## the room changes. Prints "toys test: PASSED" or a FAIL line per problem.
 
-const IDS := ["landshark", "twisterfan", "discostaff", "steelyoyo", "portalgun", "sawlauncher", "voodoodoll", "skyanvil",
+const IDS := ["landshark", "twisterfan", "discostaff", "steelyoyo", "portalgun", "sawlauncher", "stitcheddoll", "skyanvil",
 	"megalodon", "sharknado", "discoinferno", "twinyoyos", "gatecannon", "hungrysaws", "doomdoll", "grandpiano",
 	"fishslapper", "rubberchicken", "confetticannon", "pinatastick", "stormjar", "smithsrevenge", "partyhorn",
 	"cursedcrossbow", "portalbow", "buzzblade"]

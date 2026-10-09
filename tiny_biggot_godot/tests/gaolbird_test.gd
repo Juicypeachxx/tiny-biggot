@@ -748,6 +748,8 @@ func screen() -> void:
 		Keys.tick()
 		G.update(TB.DT)
 	Meta.meta["unlocked"] = saved
-	if G.state != &"play" or G.player.hero["id"] != "gaolbird":
+	# 29: in the expanded game a run opens on its OATH pick.
+	var begun: bool = G.state == &"play" or (G.state == &"traits" and G.tchoice.get("mode", "") == "oath")
+	if not begun or G.player.hero["id"] != "gaolbird":
 		fail("USE on the Gaolbird with a fresh save: state %s, hero %s" % [G.state, G.player.hero["id"]])
 	notes.append("hero screen: free heroes first, wraps both ways, USE begins a run as the Gaolbird on a fresh save")

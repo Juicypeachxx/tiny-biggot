@@ -173,8 +173,13 @@ static func _row(ci: CanvasItem, r: Rect2, tr: Dictionary, sel: bool, a: float) 
 		bottom -= 8
 	elif not partners.is_empty():
 		var pr: Array = partners[0]
-		var ready: bool = G.player.traits.has(pr[0])
-		var pname: String = Traits.by_id(pr[0])["name"] if Traits.has(pr[0]) else pr[0].to_upper()
+		var pid: String = pr[0]
+		var ready: bool = G.player.traits.has(pid)
+		var pname: String = Traits.by_id(pid)["name"] if Traits.has(pid) else pid.to_upper()
+		if pid.begins_with("weapon:"):   # 26: some combos pair a trait with a weapon
+			var wid := pid.trim_prefix("weapon:")
+			ready = G.player.weapon != null and G.player.weapon["id"] == wid
+			pname = Weapons.by_id(wid)["name"] if Weapons._by_id.has(wid) else wid.to_upper()
 		Gfx.text(ci, ("COMBO READY: " + pr[1]["name"]) if ready else ("COMBO WITH " + pname), tx, r.end.y - 9, "pink" if ready else "purple", 1, 0.0, true, a)
 		bottom -= 8
 	# Each sentence on its own bullet line (8.5), keywords in colour.

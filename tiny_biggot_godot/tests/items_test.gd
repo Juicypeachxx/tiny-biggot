@@ -120,6 +120,9 @@ func _data() -> void:
 func _start() -> Player:
 	G.hero_index = 0
 	G.new_run()
+	if G.player.oath_picks > 0:   # 29: tests start past the run's OATH pick
+		G.player.oath_picks = 0
+		G.player.pending = maxi(0, G.player.pending - 1)
 	G.floor_index = 2
 	G.start_floor()
 	G.god = false

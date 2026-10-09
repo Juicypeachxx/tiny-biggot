@@ -15,6 +15,7 @@ func _ready() -> void:
 	await get_tree().process_frame
 	seed(143)
 	Meta.meta["combos_found"] = {}
+	Weapons.all()
 	var hid := Synergies.COMBOS.filter(func(c): return c.get("hidden", false))
 	if hid.size() < 12:
 		fail("only %d hidden combos" % hid.size())
@@ -24,9 +25,17 @@ func _ready() -> void:
 	for c in hid:
 		if c["needs"].size() != 2:
 			fail("%s needs %d things" % [c["id"], c["needs"].size()])
+		var n_traits := 0
 		for n in c["needs"]:
-			if not String(n).begins_with("trait:") or not Traits.has(String(n).trim_prefix("trait:")):
-				fail("%s needs %s, not a trait" % [c["id"], n])
+			var sn := String(n)
+			if sn.begins_with("trait:") and Traits.has(sn.trim_prefix("trait:")):
+				n_traits += 1
+			elif sn.begins_with("weapon:") and Weapons._by_id.has(sn.trim_prefix("weapon:")):
+				pass   # 26: a trait paired with a weapon
+			else:
+				fail("%s needs %s, not a trait or a weapon" % [c["id"], n])
+		if n_traits == 0:
+			fail("%s needs no trait" % c["id"])
 		if names.has(c["name"]):
 			fail("%s shares its name with a trait" % c["name"])
 		for ch in c["name"] + c["desc"] + "HIDDEN COMBO FOUND: ":
