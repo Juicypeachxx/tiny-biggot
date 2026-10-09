@@ -258,13 +258,16 @@ func _fight(key: String) -> void:
 	var seen := {}
 	var most := 0
 	var third := BossAI.THIRD_PLANS.has(key)
-	for i in (80 if third else 40) * 60:
+	# The whole cycle must fit: 4 s a move, 40 s at least (35.2: the Unwritten's 13 moves took
+	# up to 38 s, so a small shift in timing left its last two just outside a 40 s window).
+	var secs := maxi(40, BossAI.BOSS_PLANS[key].size() * 4)
+	for i in (secs + 40 if third else secs) * 60:
 		play(1)
 		seen[String(b.state)] = true
 		most = maxi(most, EBullets.n + RiftBosses.bands.size() + RiftBosses.rings.size())
 		if i % 300 == 0:
 			_cull(b)   # (summons pile up otherwise, and a guardian with company does not summon)
-		if third and i == 40 * 60:
+		if third and i == secs * 60:
 			Brazil.cow_rises(b)   # the third stage
 			b.max_hp = 1e9
 			b.hp = 1e9

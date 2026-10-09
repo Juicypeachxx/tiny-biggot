@@ -1,7 +1,7 @@
 # Handoff: where the work stands
 
-**9 Oct, Stage 32: the full check passes again (all of Stages 24-31 checked, the core replays
-re-recorded).** Next: his new additions.
+**9 Oct, Stage 35 done (IPA 35 "Dice and Pace"): dice, faster rooms, clearer fights. The full check
+passes.** Next: Stage 36 (food and drink) from his 9 Oct pictures (ROADMAP Stages 36-39), then 37-39.
 
 **His word, 9 Oct: "Just compile after add, I'll test it."** Until he says otherwise: after adding
 content, only compile (import; a short run that starts the game) and build the IPA. He tests on the
@@ -1394,6 +1394,12 @@ Done by another session (the port's), which took over from v31 on claude/dev.
   ebr_<kind> / orbr_<kind> (tools/art/shot_rims.py: a soft dark rim, #140f1c at 150/255, one
   pixel outside each frame's outline; the originals stay). Draw calls in a busy bench fight:
   59 -> 61. Pictures compared before/after (the hero shows through its own effect cloud).
+- 35.4 The full check after 35.1-35.3: one failure, the realms test's Unwritten never showed
+  LASER X and HELLGATE. Not a broken boss: its 13 moves take up to 38 s and the test watched 40 s,
+  so the faster foe spawns of 35.2 (a different timing earlier in the test) left the last two
+  just outside. A probe of the fight alone gave the same attack order with 0.55 s and 0.75 s
+  spawns. The test now watches 4 s a move, 40 s at least (tests/realms_test.gd _fight). Every
+  replay identical. VERSION 35 "Dice and Pace", IPA 35.
 
 ## Noted, not yet acted on
 

@@ -1205,7 +1205,7 @@ a bullet storm. Ideas and play only: every name, sprite and text here is our own
       helper (wisps, thralls, turrets, pets, swarms); move speed turns into their attack speed.
       Traits: GRAVE MARSHAL, BONE BEACON, QUICK MARCH, ENDLESS RANKS; MARCHING BOOTS. A hero:
       THE BONECALLER.
-### Stage 35: the feel (IPA 35)
+### Stage 35: the feel (IPA 35, "Dice and Pace", built 9 Oct)
 - [x] 35.1 DICE to bend luck: REROLL, BANISH (gone for the run), ALTER (one row or one item
       changed): found and bought, used on trait picks, relic choices, items and shops. A run
       starts with 2 REROLL, 1 ALTER, 1 BANISH; MENU / HEAL / BOMB or a tap on the dice under a
