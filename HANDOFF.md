@@ -1,7 +1,8 @@
 # Handoff: where the work stands
 
-**9 Oct, Stage 36 done (IPA 36 "Food and Drink"); Stage 35 (IPA 35 "Dice and Pace") before it,
-with the full check passing.** Next: Stage 37 (offhands and charms), then 38 and 39 (ROADMAP).
+**9 Oct, Stage 37 done (IPA 37 "Offhands and Charms"), after 36 "Food and Drink" and 35 "Dice and
+Pace" (the full check passed at 35).** Next: Stage 38 (alignment and loot; 38.3 waits for his word),
+then 39 (ROADMAP).
 
 **His word, 9 Oct: "Just compile after add, I'll test it."** Until he says otherwise: after adding
 content, only compile (import; a short run that starts the game) and build the IPA. He tests on the
@@ -1424,6 +1425,29 @@ Done by another session (the port's), which took over from v31 on claude/dev.
   "golden") and GOLDEN SPOON (a guardian kill leaves golden food). Art: tools/art/stage36_food.py
   (ART_OUT= for a preview). Debug: --give=drink:c_ale (its buff) and --give=food:f_bread (on the
   first room's floor). Test tests/food_test.tscn (in check.sh).
+
+### Stage 37 (9 Oct): offhands and charms (his pictures)
+- 37.1 THE OFFHAND: a ninth gear slot "offhand" (Gear.NEW_SLOTS, ITEM_SLOTS, SLOT_NAME), so it
+  is expanded only (Gear.slots() leaves it out under --classic). 27 rows o_* at the end of
+  Gear.ROWS (they drop, sell and roll like any gear). The backpack screen draws it beside the
+  weapon (the weapon card is 84 px narrower), the other eight stay in the grid; HeroGear paints
+  it on the hero's off side (OFFHAND pattern, last in ORDER). `Block` (scripts/combat/block.gd):
+  gf block_rate (blocks per 10 s), block_chance, block_reflect (5 shards x150%), block_spikes
+  (8 spikes); Block.tick from Combat.update_player, Block.stop in Combat._hurt_player_base after
+  dodges and before the old buckler and armor; a small shield over the hero while one is ready
+  (world_view top layer); Block.reset in new_run. Lanterns use the 33.1 halos (halo_burn,
+  halo_wither, halo_sun) and aura_reach; tomes, flasks, the bell, the lute, the skull use procs.
+  Art tools/art/stage37_offhand.py. Test tests/offhand_test.tscn (in check.sh).
+- 37.2 CHARMS: `Charms` (scripts/data/charms.gd), 30 tokens (ch_*, a coin on a string with a
+  symbol: tools/art/stage37_charms.py), items {"item": "charm"} worn in Player.charms, 3 slots +
+  gf charm_slots (max 6; COLLECTOR trait, CHARM BRACELET relic). Effects through
+  Effects.apply_equipment with "charm:<id>" (all reversible). Picked up from the floor
+  (Game.interact "item") into a free slot or the backpack; a shop ware (shop item "charm" with
+  "thing", at cx-144); chests 20-60% (open_choice), elites 6%. Backpack screen: a charm row after
+  the belt (inv_i 10+; MenuView.inv_slot_rect, INV_CHARM_X; taps too); USE on a backpack charm
+  wears it (all taken: a toast), USE on a worn one takes it off into the backpack, ROLL drops it.
+  Item card line "CHARM - WORN IN A CHARM SLOT (n/m)", "PRESS USE TO WEAR". Dice ALTER/BANISH
+  work on backpack charms. Debug --give=charm:<id>. Test tests/charms_test.tscn (in check.sh).
 
 ## Noted, not yet acted on
 

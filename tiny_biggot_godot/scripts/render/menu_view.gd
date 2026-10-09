@@ -749,11 +749,14 @@ const INV_BP_Y := 170
 const INV_BELT_Y := 206
 const INV_SLOT := 22
 const INV_DICE := ["alter", "banish"]
+const INV_CHARM_X := INV_X + 4 * (INV_SLOT + 4) + 18
 const INV_DICE_Y := 273
 
 static func inv_slot_rect(i: int) -> Rect2:
 	if i < 6:
 		return Rect2(INV_X + i * (INV_SLOT + 4), INV_BP_Y, INV_SLOT, INV_SLOT)
+	if i >= 10:   # 37.2 the charm slots, after the belt
+		return Rect2(INV_CHARM_X + (i - 10) * (INV_SLOT + 4), INV_BELT_Y, INV_SLOT, INV_SLOT)
 	return Rect2(INV_X + (i - 6) * (INV_SLOT + 4), INV_BELT_Y, INV_SLOT, INV_SLOT)
 
 func _stat_row(ci: CanvasItem, y: int, label: String, value: String, col: String) -> void:
@@ -801,14 +804,25 @@ func draw_inventory(ci: CanvasItem) -> void:
 		_stat_row(ci, y + 4, "LOOP", str(G.loop + 1), "gold")
 	# Right top: weapon and equipment.
 	var w: Dictionary = p.weapon
-	Gfx.panel(ci, INV_X - 4, 24, TB.SW - INV_X, 34, GameData.RARITY_HEX[w["rarity"]], "#0f0d16")
+	var has_off := Gear.slots().has("offhand")   # 37.1: the offhand beside the weapon
+	Gfx.panel(ci, INV_X - 4, 24, TB.SW - INV_X - (84 if has_off else 0), 34, GameData.RARITY_HEX[w["rarity"]], "#0f0d16")
 	ci.draw_texture_rect(Img.t(w["sprite"]), Rect2(INV_X, 29, 24, 24), false)
 	Gfx.text(ci, WeaponInfo.display_name(w), INV_X + 30, 29, GameData.RARITY_COL[w["rarity"]])
 	var dr := WeaponInfo.damage_range(p, w)
 	Gfx.text(ci, "%s %s  %s TO %s %s  %.1f/S" % [WeaponInfo.wtype(w), WeaponInfo.range_name(w), TB.fmt_dmg(dr[0]), TB.fmt_dmg(dr[1]),
 		WeaponInfo.damage_type(w), w["rate"]], INV_X + 30, 39, "tan")
 	Gfx.text(ci, "SCALING " + Attributes.grade_line(w), INV_X + 30, 48, "white")
-	var gs := Gear.slots()
+	var gs := Gear.slots().filter(func(sl): return sl != "offhand")
+	if has_off:
+		var og = p.gear.get("offhand")
+		var ox := TB.SW - 84
+		Gfx.panel(ci, ox, 24, 80, 34, GameData.RARITY_HEX[og["rarity"]] if og != null else "#2a2838", "#0f0d16")
+		Gfx.text(ci, "OFFHAND", ox + 4, 27, "dim")
+		if og != null:
+			ci.draw_texture_rect(Img.t(og["sprite"]), Rect2(ox + 4, 36, 16, 16), false)
+			var onl := Gfx.wrap_text(og["name"], 54)
+			for j in mini(2, onl.size()):
+				Gfx.text(ci, onl[j], ox + 23, 37 + j * 8, GameData.RARITY_COL[og["rarity"]])
 	for i in gs.size():
 		var g = p.gear.get(gs[i])
 		var gx := INV_X - 4 + (i % 4) * 84
@@ -823,6 +837,17 @@ func draw_inventory(ci: CanvasItem) -> void:
 	# Backpack and belt.
 	Gfx.text(ci, "BACKPACK", INV_X - 4, INV_BP_Y - 9, "tan")
 	Gfx.text(ci, "QUICK BELT  (KEYS 1-4)", INV_X - 4, INV_BELT_Y - 9, "tan")
+	if Charms.on():   # 37.2 the charm row
+		var ns := Charms.slots(p)
+		Gfx.text(ci, "CHARMS %d/%d" % [p.charms.size(), ns], INV_CHARM_X - 2, INV_BELT_Y - 9, "tan")
+		for k in ns:
+			var cr := inv_slot_rect(10 + k)
+			var csel := G.inv_i == 10 + k
+			var cc = p.charms[k] if k < p.charms.size() else null
+			Gfx.panel(ci, cr.position.x, cr.position.y, cr.size.x, cr.size.y,
+				"#f2c94c" if csel else (GameData.RARITY_HEX[cc["rarity"]] if cc != null else "#2a2838"), "#0f0d16")
+			if cc != null:
+				Gfx.at(ci, cc["sprite"], cr.position.x + 6, cr.position.y + 5)
 	for i in 10:
 		var r := inv_slot_rect(i)
 		var sel := G.inv_i == i
@@ -843,6 +868,8 @@ func draw_inventory(ci: CanvasItem) -> void:
 	# Details of the selected slot.
 	var dy := 234
 	var sel_it = p.backpack[G.inv_i] if G.inv_i < 6 and G.inv_i < p.backpack.size() else null
+	if G.inv_i >= 10 and G.inv_i - 10 < p.charms.size():
+		sel_it = p.charms[G.inv_i - 10]   # 37.2 a worn charm
 	var sel_c: String = p.belt[G.inv_i - 6] if G.inv_i >= 6 and G.inv_i - 6 < p.belt.size() else ""
 	if sel_it != null:
 		Gfx.text(ci, (WeaponInfo.display_name(sel_it) if sel_it["item"] == "weapon" else sel_it["name"]), INV_X - 4, dy, GameData.RARITY_COL[sel_it["rarity"]])

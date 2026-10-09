@@ -264,6 +264,11 @@ static func item_row(banish: bool) -> bool:
 ## rarity when there is one). A weapon keeps its anvil levels.
 static func changed_item(old: Dictionary) -> Variant:
 	var pool := []
+	if old["item"] == "charm":   # 37.2 another charm of the same rarity
+		for c in Charms.all():
+			if c["id"] != old["id"] and c["rarity"] == old["rarity"] and not banned(c["id"]) and not Charms.wearing(G.player, c["id"]):
+				pool.append(c)
+		return TB.pick(pool) if not pool.is_empty() else null
 	if old["item"] == "weapon":
 		for w in Weapons.all():
 			if w["rarity"] == old["rarity"] and _droppable_weapon(w, old):

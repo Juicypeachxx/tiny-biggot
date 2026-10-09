@@ -1242,10 +1242,14 @@ is removed: new things are added beside it. After Stage 35, in this order:
       the most; a trait makes them last for good. Today's TIPSY stays as it is. 10 rooms each; three
       new drinks (CIDER, GROG, PLUM WINE); HOLLOW LEG; the buffs show under the belt.
 
-### Stage 37: offhands and charms (IPA 37)
-- [ ] 37.1 THE OFFHAND: a new slot. Shields (stop a shot now and then), quivers (more arrows),
+### Stage 37: offhands and charms (IPA 37, "Offhands and Charms", built 9 Oct)
+- [x] 37.1 THE OFFHAND: a new slot. Shields (stop a shot now and then), quivers (more arrows),
       lanterns, tomes, potions, balloons, hearts, bombs: 25 or more, each with its own effect.
-- [ ] 37.2 CHARMS: small cards in a row of charm slots, each a passive; 30 or more.
+      27 offhands; shields stop a hit every few seconds (a small shield over the hero when ready),
+      lanterns carry a field, tomes cast; shown beside the weapon in the backpack.
+- [x] 37.2 CHARMS: small cards in a row of charm slots, each a passive; 30 or more. 30 charms
+      (our own look: tokens on a string), 3 slots (COLLECTOR, CHARM BRACELET: more), a row in the
+      backpack screen; from chests, elites and shops.
 
 ### Stage 38: alignment and loot (IPA 38)
 - [ ] 38.1 ALIGNMENT REVAMP: GOOD, EVIL, LAWFUL and CHAOTIC do not cancel each other out. They

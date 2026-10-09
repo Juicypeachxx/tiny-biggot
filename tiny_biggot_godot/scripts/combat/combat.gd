@@ -540,6 +540,7 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 		StatDrops.maybe(0.15, e.x, e.y)   # 8.3
 		Dice.maybe(0.12, e.x, e.y)   # 35.1
 		Food.maybe(0.1, e.x, e.y)   # 36.1
+		Charms.maybe(0.06, e.x, e.y)   # 37.2
 	if e.elite and not e.is_boss() and randf() < 0.05:
 		G.drop_gear_at(e.x, e.y)
 
@@ -605,6 +606,8 @@ static func _hurt_player_base(p: Player, amount: int, source: String) -> void:
 		Fx.burst(p.x, p.y, ["#a35bd6", "#e8c8ff"], 8, 50)
 		if not p.procs.is_empty():
 			Effects.fire("on_dodge", { "x": p.x, "y": p.y })
+		return
+	if Block.stop(p):   # 37.1 a shield (an offhand) stops the hit
 		return
 	if p.buckler and not p.buckler_used:
 		p.buckler_used = true
@@ -2208,6 +2211,7 @@ static func _update_player_base(p: Player, dt: float) -> void:
 				if e.targetable() and TB.dist(e, p) < (38 + 10 * maxi(p.aura, 1)) * Auras.reach(p):   # 33.1: grows with AURA REACH
 					e.burn_t = maxf(e.burn_t, 1.6)
 	Auras.tick(p, dt)   # 33.1 the halos
+	Block.tick(p, dt)   # 37.1 a shield's block comes back
 	Tipsy.tick(p, dt)   # 33.2 a stack of TIPSY wears off
 	Lucky.tick(dt)   # 34.1
 	# Static Coil.

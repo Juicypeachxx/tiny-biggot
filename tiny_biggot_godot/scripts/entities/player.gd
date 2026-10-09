@@ -208,6 +208,7 @@ var banishes := 0
 var banished := {}              # 35.1: ids gone for the run (traits, relics, weapons, gear)
 var dice_used := 0
 var drinks: Array = []          # 36.3 drink buffs on (food.gd): [kind, rooms left, effect source]
+var charms: Array = []          # 37.2 charms worn (scripts/data/charms.gd)
 var drink_n := 0
 var stat_picks := 0             # 8.3 stat pickups taken this run (stat_drops.gd)
 var al_good := 0                # 8.1 alignments (scripts/game/alignments.gd)

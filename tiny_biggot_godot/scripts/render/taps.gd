@@ -124,7 +124,7 @@ static func zones() -> Array:
 			out.append(_act(Rect2(sw / 2 - 110, 20, 80, 16), func(): G.tree_hero = ho[(ho.find(G.tree_hero) + hn - 1) % hn]))
 			out.append(_act(Rect2(sw / 2 + 30, 20, 80, 16), func(): G.tree_hero = ho[(ho.find(G.tree_hero) + 1) % hn]))
 		&"inventory":
-			for i in 10:
+			for i in 10 + (Charms.slots(G.player) if Charms.on() and G.player != null else 0):   # 37.2 charm slots too
 				out.append(_z(MenuView.inv_slot_rect(i), func(): G.inv_i = i, G.inv_i == i))
 			_dice(out, MenuView.INV_DICE, MenuView.INV_DICE_Y)   # 35.1
 		&"choice":

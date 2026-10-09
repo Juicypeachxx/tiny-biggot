@@ -8,10 +8,10 @@ extends RefCounted
 const SLOTS := ["head", "body", "feet", "trinket"]
 ## Design spec section 6 (step 8): gloves, an amulet and two ring slots join the
 ## original four. Items say "ring"; a ring fills ring1 or ring2 (slot_for).
-const NEW_SLOTS := ["hands", "neck", "ring1", "ring2"]
-const ITEM_SLOTS := ["head", "body", "feet", "trinket", "hands", "neck", "ring"]
+const NEW_SLOTS := ["hands", "neck", "ring1", "ring2", "offhand"]   # 37.1: the offhand
+const ITEM_SLOTS := ["head", "body", "feet", "trinket", "hands", "neck", "ring", "offhand"]
 const SLOT_NAME := { "head": "HELM", "body": "ARMOR", "feet": "BOOTS", "trinket": "TRINKET",
-	"hands": "GLOVES", "neck": "AMULET", "ring": "RING", "ring1": "RING", "ring2": "RING" }
+	"hands": "GLOVES", "neck": "AMULET", "ring": "RING", "ring1": "RING", "ring2": "RING", "offhand": "OFFHAND" }
 
 static var _slots: Array = []
 
@@ -458,6 +458,36 @@ const ROWS := [
 	["phoenixheart", "HEART OF THE PHOENIX", "neck", "mythic", ["pyre", "blood"], null, "amulet", [["max_hp", 4]], [], "+2 MAX HEARTS. 10% OF KILLS HEAL HALF A HEART. EVERY 8S IN A FIGHT, A FIRE SERPENT.", [{ "on": "on_kill", "chance": 0.1, "do": [["heal", 1]] }, { "on": "every_n_seconds", "period": 8.0, "if": "fighting", "do": [["spell", "serpent", 1.5]] }]],
 	# 34.2 THE LEGION PATH: haste turns into the companions' speed.
 	["marchingboots", "MARCHING BOOTS", "feet", "rare", ["swarm"], null, "boots", [["speed", 1.1]], [["march", 2]], "+10% MOVE SPEED. EVERY 1% OF EXTRA MOVE SPEED GIVES YOUR COMPANIONS +2% ATTACK SPEED.", [], "g_marchingboots"],
+	# 37.1 OFFHANDS (his word, 9 Oct: "Ideas for sprites for new stuff, and new stuff to add"; our own).
+	# A new slot beside the weapon. Shields stop hits (block.gd), lanterns carry a field (auras.gd),
+	# tomes cast, quivers, flasks, balloons, hearts and more.
+	["o_buckler", "OAK BUCKLER", "offhand", "common", ["bulwark"], null, "offhand", [], [["block_rate", 1.25]], "STOPS A HIT EVERY 8S.", [], "o_buckler"],
+	["o_kite", "KITE SHIELD", "offhand", "rare", ["bulwark"], null, "offhand", [["max_hp", 2]], [["block_rate", 1.67]], "+1 MAX HEART. STOPS A HIT EVERY 6S.", [], "o_kite"],
+	["o_tower", "TOWER SHIELD", "offhand", "epic", ["bulwark"], null, "offhand", [["speed", 0.92]], [["block_rate", 2.5]], "STOPS A HIT EVERY 4S. -8% MOVE SPEED.", [], "o_tower"],
+	["o_mirrorshield", "MIRROR SHIELD", "offhand", "legend", ["bulwark", "arcane"], null, "offhand", [], [["block_rate", 1.67], ["block_reflect", 1]], "STOPS A HIT EVERY 6S AND SENDS IT BACK AS 5 SHARDS FOR 150%.", [], "o_mirrorshield"],
+	["o_spiketarge", "SPIKED TARGE", "offhand", "rare", ["bulwark", "fury"], null, "offhand", [["thorns", 10]], [["block_rate", 1.43], ["block_spikes", 1]], "+10 THORNS. STOPS A HIT EVERY 7S, AND A BLOCK SENDS OUT 8 SPIKES.", [], "o_spiketarge"],
+	["o_handmirror", "HAND MIRROR", "offhand", "epic", ["arcane"], null, "offhand", [], [["block_chance", 0.15], ["block_reflect", 1]], "15% OF HITS ARE STOPPED AND SENT BACK AS SHARDS.", [], "o_handmirror"],
+	["o_quiver", "LEATHER QUIVER", "offhand", "common", ["edge"], null, "offhand", [["rate", 1.1], ["pierce", 1]], [], "+10% FIRE RATE. +1 PIERCE.", [], "o_quiver"],
+	["o_emberquiver", "EMBER QUIVER", "offhand", "rare", ["pyre"], null, "offhand", [["burn", 0.15], ["rate", 1.05]], [], "+15% BURN CHANCE. +5% FIRE RATE.", [], "o_emberquiver"],
+	["o_rimequiver", "RIME QUIVER", "offhand", "rare", ["frost"], null, "offhand", [["chill", 0.15], ["rate", 1.05]], [], "+15% CHILL CHANCE. +5% FIRE RATE.", [], "o_rimequiver"],
+	["o_lantern", "TIN LANTERN", "offhand", "common", ["pyre"], null, "offhand", [], [["halo_burn", 1]], "A FIELD OF FIRE AROUND YOU BURNS FOES. IT GROWS WITH INT.", [], "o_lantern"],
+	["o_soullantern", "SOUL LANTERN", "offhand", "epic", ["malice"], null, "offhand", [], [["halo_wither", 1], ["aura_reach", 0.15]], "A WITHERING FIELD AROUND YOU CURSES FOES. +15% AURA REACH.", [], "o_soullantern"],
+	["o_starlantern", "STAR LANTERN", "offhand", "legend", ["arcane"], null, "offhand", [], [["halo_sun", 1], ["aura_reach", 0.25]], "A FIELD OF SUNLIGHT AROUND YOU BURNS AND HITS FOES. +25% AURA REACH.", [], "o_starlantern"],
+	["o_primer", "SPELL PRIMER", "offhand", "common", ["arcane"], null, "offhand", [], [], "+1 INT. EVERY 5S IN A FIGHT, 3 BOLTS STRIKE FOES FOR 60%.", [["attr", "int", 1], { "on": "every_n_seconds", "period": 5.0, "if": "fighting", "do": [["bolts", 3, 0.6]] }], "o_primer"],
+	["o_blackgrimoire", "BLACK GRIMOIRE", "offhand", "epic", ["malice", "arcane"], null, "offhand", [], [], "+2 INT. EVERY 4S IN A FIGHT, FOES NEAR YOU ARE CURSED.", [["attr", "int", 2], { "on": "every_n_seconds", "period": 4.0, "if": "fighting", "do": [["status_area", "curse", 1, 90], ["vfx", "ring", "#a35bd6", 90]] }], "o_blackgrimoire"],
+	["o_hipflask", "HIP FLASK", "offhand", "common", ["fury"], null, "offhand", [], [["tipsy_gain", 1]], "DRINKS GIVE +1 MORE TIPSY. EVERY ROOM: +1 TIPSY.", [{ "on": "on_room_enter", "do": [["tipsy", 1]] }], "o_hipflask"],
+	["o_redvial", "RED VIAL", "offhand", "rare", ["blood"], null, "offhand", [], [], "WHEN A HIT LEAVES YOU LOW, HEAL 2 HEARTS (ONCE A MINUTE).", [{ "on": "on_damage_taken", "if": "low_hp", "cd": 60.0, "do": [["heal", 4]] }], "o_redvial"],
+	["o_balloon", "RED BALLOON", "offhand", "common", ["shadow"], null, "offhand", [["speed", 1.1], ["roll_speed", 1.1]], [], "+10% MOVE SPEED. ROLLS GO FURTHER.", [], "o_balloon"],
+	["o_balloons", "BALLOON BUNCH", "offhand", "rare", ["shadow"], null, "offhand", [["speed", 1.15], ["dodge_charges", 1]], [], "+15% MOVE SPEED. +1 ROLL CHARGE.", [], "o_balloons"],
+	["o_spareheart", "SPARE HEART", "offhand", "rare", ["bulwark"], null, "offhand", [["max_hp", 4]], [], "+2 MAX HEARTS.", [], "o_spareheart"],
+	["o_ironheart", "IRON HEART", "offhand", "epic", ["bulwark"], null, "offhand", [], [["room_armor", 1]], "+1 ARMOR AFTER EVERY ROOM.", [], "o_ironheart"],
+	["o_bombsatchel", "BOMB SATCHEL", "offhand", "common", ["demolition"], null, "offhand", [["bombs", 3], ["bomb_mult", 1.2]], [], "+3 BOMBS. +20% BOMB DAMAGE. A ROLL DROPS A SMALL BOMB (ONCE A SECOND).", [{ "on": "on_roll", "cd": 1.0, "do": [["bomb", 0.6]] }], "o_bombsatchel"],
+	["o_torch", "PITCH TORCH", "offhand", "common", ["pyre"], null, "offhand", [["burn", 0.2]], [], "+20% BURN CHANCE.", [], "o_torch"],
+	["o_seerorb", "SEER'S ORB", "offhand", "rare", ["arcane", "fortune"], null, "offhand", [["orbitals", 1], ["luck", 1]], [], "+1 MOON. +1 LUCK.", [], "o_seerorb"],
+	["o_warbanner", "WAR BANNER", "offhand", "rare", ["swarm"], null, "offhand", [], [["minion_dmg", 0.3], ["minion_cap", 1]], "COMPANIONS DEAL +30% DAMAGE. +1 COMPANION AT ONCE.", [], "o_warbanner"],
+	["o_graveskull", "GRAVE SKULL", "offhand", "epic", ["malice", "swarm"], null, "offhand", [], [], "15% OF YOUR KILLS RAISE A SKELETON FOR 15S.", [{ "on": "on_kill", "chance": 0.15, "do": [["raise", 15.0, 0.8]] }], "o_graveskull"],
+	["o_templebell", "TEMPLE BELL", "offhand", "rare", ["bulwark"], null, "offhand", [], [], "EVERY 8S IN A FIGHT, FOES NEAR YOU ARE STUNNED.", [{ "on": "every_n_seconds", "period": 8.0, "if": "fighting", "do": [["status_area", "stun", 1, 70], ["vfx", "ring", "#f2c94c", 70]] }], "o_templebell"],
+	["o_lute", "TRAVELLER'S LUTE", "offhand", "rare", ["fortune"], null, "offhand", [], [], "EVERY 10S IN A FIGHT, A SONG: +25% DAMAGE FOR 4S.", [{ "on": "every_n_seconds", "period": 10.0, "if": "fighting", "do": [["buff", "dmg", 0.25, 4.0], ["vfx", "ring", "#e86fb4", 40]] }], "o_lute"],
 	["firststar", "SHARD OF THE FIRST STAR", "trinket", "mythic", ["arcane", "pyre"], null, "charm", [["crit", 0.15]], [], "+15% CRIT. EVERY 4TH CRIT CALLS A COMET THROUGH THE FOE.", [{ "on": "on_crit", "every": 4, "do": [["spell", "comet", 2.5]] }]],
 ]
 

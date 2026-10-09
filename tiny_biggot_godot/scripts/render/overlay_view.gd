@@ -109,6 +109,9 @@ static func item_lines(it: Dictionary) -> Array:
 		lines.append([sl, "lime" if diff >= 0 else "red"])
 		if not it["tags"].is_empty():
 			lines.append(["TAGS: " + _tag_names(it["tags"]), "tan"])
+	elif it["item"] == "charm":   # 37.2
+		lines.append([it["name"], GameData.RARITY_COL[it["rarity"]]])
+		lines.append([GameData.RARITY_NAME[it["rarity"]] + " CHARM - WORN IN A CHARM SLOT (%d/%d)" % [p.charms.size(), Charms.slots(p)], "grey"])
 	elif it["item"] == "weapon":
 		lines.append([it["name"], GameData.RARITY_COL[it["rarity"]]])
 		lines.append([GameData.RARITY_NAME[it["rarity"]] + " " + Weapons.ARCH[it["kind"]]["name"] + " - " + Weapons.ARCH_DESC[it["kind"]], "grey"])
@@ -162,7 +165,7 @@ func draw_item_prompt(ci: CanvasItem, o: Dictionary, it: Dictionary, price: int 
 		lines.append(["REPLACES " + p.gear[gslot]["name"], "dim"])
 	elif it["item"] == "weapon" and p.weapon["id"] != it["id"]:
 		lines.append(["REPLACES " + p.weapon["name"], "dim"])
-	lines.append(["BUY FOR %d GOLD" % price if price >= 0 else "PRESS USE TO EQUIP", "gold" if price >= 0 else "grey"])
+	lines.append(["BUY FOR %d GOLD" % price if price >= 0 else ("PRESS USE TO WEAR" if it["item"] == "charm" else "PRESS USE TO EQUIP"), "gold" if price >= 0 else "grey"])
 	var w := 0
 	for l in lines:
 		w = maxi(w, ItemShow.line_w(l[0], l[1]) if ItemShow.active() else TB.text_w(l[0]))   # 8.2: icons count

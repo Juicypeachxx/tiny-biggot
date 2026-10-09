@@ -389,6 +389,8 @@ const ROWS := [
 	["d_fixedodds", "fortune", 1, "FIXED ODDS", "EVERY DIE YOU USE HAS A 40% CHANCE TO COME BACK", false, [["hook", "dice_back", 0.4]], "rare", ["fortune"], {  }],
 	["d_highroller", "fortune", 1, "HIGH ROLLER", "EVERY DIE YOU USE: +4% DAMAGE FOR THE REST OF THE RUN (UP TO +60%). +2 REROLL DICE", false, [["add", "rerolls", 2], { "on": "on_dice", "do": [["stack", "dmg", 0.04, 0.6, "highroller"]] }], "legend", ["fortune"], {  }],
 	# Stage 36 FOOD AND DRINK (his word, 9 Oct; scripts/game/food.gd).
+	# 37.2 CHARMS (scripts/data/charms.gd).
+	["c_collector", "fortune", 2, "COLLECTOR", "+1 CHARM SLOT. +3% LUCKY HITS", false, [["hook", "charm_slots", 1], ["hook", "lucky", 0.03]], "uncommon", ["fortune"], {  }],
 	["j_hollowleg", "fury", 1, "HOLLOW LEG", "YOUR DRINK BUFFS NEVER WEAR OFF. +1 DRINK BUFF AT ONCE", false, [["hook", "drink_forever", 1], ["hook", "drink_slots", 1]], "rare", ["fury"], {  }],
 	["j_gourmand", "bulwark", 2, "GOURMAND", "FOOD GIVES TWICE THE XP AND HEALS HALF A HEART", false, [["hook", "food_xp", 1.0], ["hook", "food_heal", 1]], "uncommon", ["bulwark"], {  }],
 	["h_ranks", "swarm", 1, "ENDLESS RANKS", "A QUARTER OF YOUR KILLS CALL A WISP FOR 6S. COMPANIONS ATTACK 25% FASTER", false, [["hook", "minion_speed", 0.25], { "on": "on_kill", "chance": 0.25, "do": [["summon", 6.0]] }], "legend", ["swarm"], {  }],

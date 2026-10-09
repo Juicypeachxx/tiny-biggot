@@ -1371,6 +1371,7 @@ func _paint_top(ci: CanvasItem) -> void:
 		# 35.3 CLARITY: the hero over your own shots, effects and sparks (foe shots stay above it).
 		_draw_hero_mark(ci, p, G.time)
 		_draw_player(ci, p, G.time)
+		Block.draw(ci, p, G.time)   # 37.1 a shield ready to stop a hit
 	if G.enemies_active() or Keys.aim() != null:
 		var ax := p.x + cos(p.aim_a) * 16
 		var ay := p.y - 2 + sin(p.aim_a) * 16

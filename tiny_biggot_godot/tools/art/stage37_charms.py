@@ -96,7 +96,32 @@ def token(dst, sym, metal):
     im.save(G + dst + ".png")
 
 
+def bracelet():
+    """CHARM BRACELET (relic, 10x10): a chain in a ring with three tokens hanging from it."""
+    rows = [
+        "..oooooo..",
+        ".oSssssSo.",
+        "oSo....oSo",
+        "oso....oso",
+        "oSo....oSo",
+        ".oSssssSo.",
+        "..oqoboro.",
+        "..oQoBoRo.",
+        "...o.o.o..",
+        "..........",
+    ]
+    pal = {"o": OUT, "s": (200, 204, 216), "S": (139, 143, 156), "q": (242, 201, 76), "Q": (200, 150, 58),
+           "b": (77, 155, 230), "B": (42, 74, 138), "r": (216, 68, 60), "R": (138, 42, 51)}
+    im = Image.new("RGBA", (10, 10), (0, 0, 0, 0))
+    for y, row in enumerate(rows):
+        for x, ch in enumerate(row):
+            if ch in pal:
+                im.putpixel((x, y), pal[ch] + (255,))
+    im.save(G + "relic_charmbracelet.png")
+
+
 if __name__ == "__main__":
     for cid, (sym, metal) in CHARMS.items():
         token(cid, sym, metal)
-    print("stage 37 charms: %d" % len(CHARMS))
+    bracelet()
+    print("stage 37 charms: %d and the bracelet" % len(CHARMS))

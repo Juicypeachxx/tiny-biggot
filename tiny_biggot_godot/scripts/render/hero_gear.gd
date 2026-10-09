@@ -32,8 +32,9 @@ const NECK := { 7: "....2..2....", 8: ".....31....." }
 const TRINKET := { 10: ".......13..." }
 const RING1 := { 9: "3..........." }
 const RING2 := { 9: "...........3" }
+const OFFHAND := { 8: "o1..........", 9: "o13.........", 10: "o12.........", 11: ".o.........." }   # 37.1: in the off hand
 ## Paint order: later pieces go over earlier ones.
-const ORDER := ["body", "feet", "hands", "head", "neck", "trinket", "ring1", "ring2"]
+const ORDER := ["body", "feet", "hands", "head", "neck", "trinket", "ring1", "ring2", "offhand"]
 
 static var _cache := {}
 static var _pal := {}
@@ -82,6 +83,7 @@ static func _pattern(slot: String, g: Dictionary) -> Dictionary:
 		"trinket": return TRINKET
 		"ring1": return RING1
 		"ring2": return RING2
+		"offhand": return OFFHAND
 	return {}
 
 ## The outfit texture for the player's current gear, or null with nothing equipped.

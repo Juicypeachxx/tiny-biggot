@@ -297,6 +297,16 @@ timeout 300 "$GODOT" --headless --path . res://tests/food_test.tscn -- --no-save
 grep -E "^\[food\]|food test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 37.1 offhands: the slot, shields that stop hits, every offhand on and off"
+timeout 300 "$GODOT" --headless --path . res://tests/offhand_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[offhand\]|offhand test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
+echo "== 37.2 charms: slots, wearing and taking off, the floor, the shop, the backpack"
+timeout 300 "$GODOT" --headless --path . res://tests/charms_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[charms\]|charms test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== 18.1 the daily trial"
 timeout 300 "$GODOT" --headless --path . res://tests/daily_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "daily test" "$LOG"

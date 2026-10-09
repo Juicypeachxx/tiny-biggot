@@ -157,6 +157,7 @@ func new_run() -> void:
 	Trophies.apply(p, hero["id"])   # 7.2: a potion, a relic, a rare relic for 5 / 10 / 20 trophies
 	CampLife.on_new_run(p)   # 19.2: the camp's meal, song and parcel
 	Dice.start(p)   # 35.1: an ALTER and a BANISH die (the 2 REROLL dice were always there)
+	Block.reset()   # 37.1
 	if GameData.rogues() and not DebugArgs.has("no-oath"):   # 29 (his word, 9 Oct): every run opens with an OATH that shapes it
 		p.oath_picks = 1
 		p.pending += 1
@@ -183,6 +184,10 @@ func _debug_give(p: Player) -> void:
 			continue
 		if parts.size() == 2 and parts[0] == "pack" and Weapons._by_id.has(parts[1]):
 			p.backpack.append(Weapons.by_id(parts[1]))
+			continue
+		if parts.size() == 2 and parts[0] == "charm" and Charms.has(parts[1]):
+			if not Charms.wear(p, Charms.by_id(parts[1])):
+				p.backpack.append(Charms.by_id(parts[1]))   # 37.2 (slots full: the backpack)
 			continue
 		if parts.size() == 2 and parts[0] == "drink" and Food.DRINKS.has(parts[1]):
 			Food.drink(p, parts[1])   # 36.3: a drink's buff (pictures)
@@ -761,6 +766,7 @@ func setup_objects(r: Room) -> void:
 					r.objects.append({ "kind": "shop", "item": "gear", "thing": sp, "x": cx, "y": cy + 34, "price": item_price(sp) })
 				r.objects.append({ "kind": "anvil", "x": cx + 104, "y": cy + 34 })
 				Dice.stock_shop(r, cx, cy)   # 35.1: a die for sale and the DICE CUP
+				Charms.stock_shop(r, cx, cy)   # 37.2: a charm for sale
 				Food.stock_shop(r, cx, cy)   # 36.1: a food for sale
 		"treasure":
 			if randf() < 0.35:
@@ -1269,6 +1275,13 @@ func interact(o: Dictionary) -> void:
 		return Dice.interact(o)   # 35.1 the DICE CUP
 	var p := player
 	# 05b_items.rb: weapons and gear on the floor or for sale.
+	if o["kind"] == "item" and (o["item"] as Dictionary).get("item", "") == "charm":   # 37.2 a charm
+		if not Charms.pick_up(p, o["item"]):
+			return deny(o, "NO ROOM: TAKE A CHARM OFF")
+		o["gone"] = true
+		Snd.play("relic")
+		Fx.burst(o["x"], o["y"], [GameData.RARITY_HEX[o["item"]["rarity"]], "#ffffff"], 12, 50)
+		return
 	if o["kind"] == "item":
 		if o.has("curse"):
 			EventRooms.take_cursed(p, o)
@@ -1287,6 +1300,17 @@ func interact(o: Dictionary) -> void:
 					o2["gone"] = true
 					Fx.burst(o2["x"], o2["y"], ["#8b8f9c", "#4e4a5e"], 10, 50)
 			o.erase("group")
+		return
+	if o["kind"] == "shop" and o["item"] == "charm":   # 37.2
+		if p.gold < o["price"]:
+			return deny(o, "NEED %d GOLD" % o["price"])
+		if p.charms.size() >= Charms.slots(p) and p.backpack.size() >= Player.BACKPACK_SIZE:
+			return deny(o, "NO ROOM: TAKE A CHARM OFF")
+		p.gold -= o["price"]
+		o["gone"] = true
+		Snd.play("coin")
+		Effects.fire("on_buy", { "x": o["x"], "y": o["y"] })
+		Charms.pick_up(p, o["thing"])
 		return
 	if o["kind"] == "shop" and (o["item"] == "weapon" or o["item"] == "gear"):
 		if p.gold < o["price"]:
@@ -1644,6 +1668,14 @@ func equip_from_backpack(i: int) -> void:
 	if i < 0 or i >= p.backpack.size():
 		return
 	var it: Dictionary = p.backpack[i]
+	if it["item"] == "charm":   # 37.2: into a free charm slot
+		if Charms.wear(p, it):
+			p.backpack.remove_at(i)
+			Snd.play("relic")
+		else:
+			toast("CHARMS FULL: PICK ONE IN THE ROW AND USE TO TAKE IT OFF", "grey")
+			Snd.play("deny")
+		return
 	var old = Weapons.equip_weapon(p, it) if it["item"] == "weapon" else Gear.equip_gear(p, it)
 	if old != null:
 		p.backpack[i] = old
@@ -1749,6 +1781,7 @@ func open_choice(source: String, o: Dictionary) -> void:
 		choice = { "relics": ch, "idx": mini(1, ch.size() - 1), "source": source }
 		state = &"choice"
 	Dice.maybe({ "chest": 0.25, "iron": 0.4, "cursed": 0.6, "boss": 1.0 }.get(source, 0.25), o["x"], o["y"] + 10)   # 35.1
+	Charms.maybe({ "chest": 0.2, "iron": 0.3, "cursed": 0.4, "boss": 0.6 }.get(source, 0.2), o["x"] + 20, o["y"] + 16)   # 37.2
 
 ## Offer weight. Original traits keep the original formula exactly. New
 ## traits (design spec section 4): rarity weight times a snowball affinity
@@ -2040,15 +2073,30 @@ func update_inventory() -> void:
 		state = &"pause"
 		Snd.play("select")
 		return
+	var cells := 10 + (Charms.slots(p) if Charms.on() else 0)   # 37.2: the charm row after the belt
+	inv_i = mini(inv_i, cells - 1)
 	if Keys.left():
-		inv_i = (inv_i + 9) % 10
+		inv_i = (inv_i + cells - 1) % cells
 		Snd.play("select")
 	if Keys.right():
-		inv_i = (inv_i + 1) % 10
+		inv_i = (inv_i + 1) % cells
 		Snd.play("select")
 	if Keys.up() or Keys.down():
-		inv_i = (inv_i + 6) % 10 if inv_i < 6 else mini(inv_i - 6, 5)
+		inv_i = mini(inv_i + 6, cells - 1) if inv_i < 6 else mini(inv_i - 6, 5)
 		Snd.play("select")
+	if inv_i >= 10:   # a charm slot: USE takes it off (into the backpack), ROLL drops it
+		var ci := inv_i - 10
+		if Keys.confirm():
+			if ci < p.charms.size() and p.backpack.size() < Player.BACKPACK_SIZE:
+				p.backpack.append(Charms.take_off(p, ci))
+				Snd.play("place")
+			else:
+				Snd.play("deny")
+		elif Keys.roll():
+			if ci < p.charms.size():
+				drop_item(Charms.take_off(p, ci), p.x, p.y + 14)
+				Snd.play("place")
+		return
 	if Keys.confirm():
 		if inv_i < 6:
 			if inv_i < p.backpack.size():
