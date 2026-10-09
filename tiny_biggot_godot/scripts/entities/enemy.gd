@@ -85,6 +85,7 @@ var provoked := false          # 21.5: a moth or a fire-dog has noticed you (or 
 var rally_t := 0.0             # 21.5: running to a call, faster
 var play_cd := 0.0             # 21.5: a fire-dog sits a moment after a catch
 var coins := 0                 # 21.5: what a slime has swallowed
+var greed_hp := 0.0            # 33 fix: a greedy slime's health before it swallowed anything
 var fled := false               # 21.1: it has had its one chance to run
 var ghost_hp := -1.0          # Rogues layer: trailing "damage ghost" on health bars (render only)             # stage-7 mini-bosses: time to the next ring burst
 # Boss scratch

@@ -168,6 +168,24 @@ func _ready() -> void:
 	Combat.kill_enemy(slime)
 	if G.pickups.filter(func(k): return k.kind == "coin").is_empty() and G.player.gold == 0:
 		fail("the burst slime gave nothing back")
+	# His report, 9 Oct: a slime that swallows a pile of coins (here 40, right under it) stops
+	# growing at its full size: at most 2.2 times its health, never more.
+	G.enemies.clear()
+	G.pickups.clear()
+	var big := _foe("slime", 300.0, 150.0)
+	var base := big.max_hp
+	for i in 40:
+		var c := Pickup.new()
+		c.kind = "coin"
+		c.x = 300.0 + (i % 5) * 3.0
+		c.y = 150.0 + (i / 5) * 2.0
+		G.pickups.append(c)
+	_run(600)
+	if big.coins < 20:
+		fail("the slime swallowed only %d of 40 coins" % big.coins)
+	if big.max_hp > base * 2.2 + 0.01:
+		fail("a slime that swallowed %d coins has x%.1f its health (at most x2.2)" % [big.coins, big.max_hp / base])
+	print("[lives] a slime that swallowed %d coins: x%.2f health, size x%.1f" % [big.coins, big.max_hp / base, big.scale])
 	# None of it rolls the run's dice.
 	G.enemies.clear()
 	var a1 := _foe("skeleton", 300.0, 100.0)

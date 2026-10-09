@@ -11,6 +11,7 @@ func _ready() -> void:
 	_test_menu_taps()
 	_test_synergy_loss()
 	_test_background()
+	_test_shots_off_the_edge()
 	print("unit tests: %s" % ("PASSED" if _fails == 0 else "%d FAILED" % _fails))
 	get_tree().quit(1 if _fails > 0 else 0)
 
@@ -145,6 +146,27 @@ func _test_menu_taps() -> void:
 
 ## Losing a synergy takes back what it gave and leaves the hero within the limits: hit points
 ## not above the (lower) maximum, roll charges between 0 and the (fewer) charges there are.
+## 33 (found by a bot probe, 9 Oct): a foe's shot that leaves the room was looked up as a crate past
+## the edge of the tile grid: a script error that stopped the rest of that tick's foe shots. Shots
+## through every edge now just end, and every other shot keeps flying.
+func _test_shots_off_the_edge() -> void:
+	G.hero_index = 0
+	G.new_run()
+	G.enter_room(World.make_room(G.floor_d, "combat", "", "s", { "no_secret": true }))
+	G.enemies.clear()
+	EBullets.clear_all()
+	var edges := [Vector2(TB.SW / 2.0, TB.SH - 2.0), Vector2(TB.SW - 2.0, TB.SH / 2.0), Vector2(TB.SW / 2.0, 1.0), Vector2(1.0, TB.SH / 2.0)]
+	var dirs := [PI / 2, 0.0, -PI / 2, PI]
+	for i in 4:
+		EBullets.add(edges[i].x, edges[i].y, cos(dirs[i]) * 600.0, sin(dirs[i]) * 600.0, "red", 2.5, -1.0, "")
+	EBullets.add(TB.SW / 2.0, TB.SH / 2.0, 0.0, 30.0, "red", 2.5, -1.0, "")   # one in the middle, slow
+	var y0: float = EBullets.by[EBullets.n - 1]
+	for t in 4:
+		EBullets.update(TB.DT)
+	_eq("shots past the edge end", EBullets.n, 1)
+	_eq("the shot in the middle still moves", EBullets.n == 1 and EBullets.by[0] > y0, true)
+	EBullets.clear_all()
+
 func _test_synergy_loss() -> void:
 	for tag in ["bulwark", "shadow"]:
 		var p := Player.new(GameData.heroes()[0])

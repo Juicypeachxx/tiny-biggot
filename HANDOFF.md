@@ -1309,6 +1309,20 @@ Done by another session (the port's), which took over from v31 on claude/dev.
   MINDWARDEN (index 30, THOUGHTSTONE, [0,1,6], branch THE STILL FIELD, special MIND SPIRAL).
   Art: tools/art/stage33_icons.py (recoloured halo icons, the Horizon Ring grid, and the hero and
   staff grids from sprites.py rendered in look D). Test tests/auras_test.tscn (in check.sh).
+- 33.2 THE TAVERN. `Tipsy` (scripts/combat/tipsy.gd): Player.tipsy (stacks) and tipsy_t; each
+  stack x1.06 damage (Weapons.wdmg) and x1.04 rate (Weapons.wrate), compounding; cap 8 +
+  tipsy_cap; a stack off every 12 s x (1 + tipsy_slow); a drink adds n + tipsy_gain. Drinks
+  c_ale / c_stout / c_mead (Consumables, PICKUP_KINDS, world_view PICKUP_SPRITE); Saloon.drink
+  adds 2. SURE STRIKE (gf sure_strike) in Combat.damage_enemy: no crit, x(1 + 1.5 x crit chance);
+  crit_per_str and rate_per_str (the Tavern Knight); heart_dmg in hook_mult (BIG APPETITE).
+  Conditions "tipsy", "very_tipsy" (8+); actions "tipsy", "belt". Traits j_*. Hero THE TAVERN
+  KNIGHT (index 31, TANKARD MAUL, [6,1,0], THE TAPROOM, BAR FIGHT). HUD: TIPSY n beside the belt;
+  the hero sways a little (drawing only). Test tests/tavern_test.tscn (in check.sh).
+- 33.3 Fixes from his report: Lives._greed (greed_hp, growth capped with the size) and
+  EBullets.update (the crate check past the room's edge; unit test _test_shots_off_the_edge).
+  Diagnosis tools kept: tests/elite_probe.tscn (every early foe as an elite with each trait vs a
+  starting hero) and tests/elite_probe2.tscn (the bot plays every hero; elites alive past 40 s).
+  Core replays re-recorded (new content and the slime fix); classic identical.
 
 ## Noted, not yet acted on
 

@@ -225,13 +225,19 @@ static func _greed(e: Enemy, dt: float) -> bool:
 	if bd < e.r + 3.0:
 		G.pickups.erase(best)
 		e.coins += 5 if best.kind == "gem" else 1
+		# His report, 9 Oct ("big green slimes, elite or not, are tanky"): each swallow added 20% of
+		# the slime's health as it was then, so it compounded without end (20 coins: x38), and the
+		# coins its own hits dropped fed it. Now each swallow adds 20% of its health from before it
+		# swallowed anything, and only while it still grows (SLIME_MAX: six swallows, x2.2 at most).
+		if e.greed_hp <= 0.0:
+			e.greed_hp = e.max_hp
 		if e.scale < SLIME_MAX:
 			var s1 := minf(SLIME_MAX, e.scale + 0.1)
 			e.r *= s1 / e.scale
 			e.scale = s1
-		var more := e.max_hp * 0.2
-		e.max_hp += more
-		e.hp += more
+			var more := e.greed_hp * 0.2
+			e.max_hp += more
+			e.hp += more
 		pop(e.x, e.y - e.r - 10, "GULP!", "lime")
 		Snd.play("coin")
 		return true

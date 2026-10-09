@@ -1186,11 +1186,16 @@ a bullet storm. Ideas and play only: every name, sprite and text here is our own
       a visible field round you that can fill the room. Traits: OVERMIND (reach per INT), DEEP
       WELL (INT, aura damage), STILL MIND (halos pulse faster), WIDE THOUGHTS. HORIZON RING: the
       moons grow with your reach and hit hard. A hero built on it: THE MINDWARDEN.
-- [ ] 33.2 THE TAVERN (a STR melee build that needs no crits). Drinks for the belt (ALE, DARK
+- [x] 33.2 THE TAVERN (a STR melee build that needs no crits). Drinks for the belt (ALE, DARK
       STOUT, FIRE MEAD) give TIPSY: a growing multiplier to damage and attack speed that wears
       off. THE TAVERN, a room with a barkeep; shops sell ale. Traits: SURE STRIKE (never crit:
       the crit chance becomes damage), BIG APPETITE, IRON GUT, BAR BRAWLER, LAST ORDERS. A
       hero: THE TAVERN KNIGHT (attack speed and crit per STR).
+- [x] 33.3 His report while 33 was built (9 Oct: "big green slimes, elite or not, are tanky"):
+      a slime grew 20% of its current health per coin it swallowed, without end (and its own hits'
+      coins fed it); now 20% of its first health, six swallows at most (x2.2). Also fixed: a foe
+      shot leaving the room was looked up past the tile grid (a script error that stopped the rest
+      of that tick's foe shots). IPA 33.
 ### Stage 34: build paths II (IPA 34)
 - [ ] 34.1 THE TRIGGER PATH (DEX/INT). LUCKY HITS (a chance per hit, its own trigger). THE
       SPELL SLOT: the weapon in your first backpack slot is cast for free on crits and lucky
