@@ -285,6 +285,16 @@ const NEW_HEROES := [
 	  "special": { "name": "BAR FIGHT", "cd": 9, "col": "#e8b84a",
 		"desc": "A ROUND ON THE HOUSE (+3 TIPSY), THEN A SHOCKWAVE THAT HITS EVERY FOE NEAR YOU FOR 200% AND KNOCKS THEM BACK.",
 		"do": [["tipsy", 3], ["area", 80, 2.0], ["push", 80, 300], ["vfx", "ring", "#e8b84a", 80]] } },
+	# 34.1 (his word, 9 Oct: the DEX/INT build of free casts on crits and lucky hits). Ideas only.
+	{ "id": "trickshot", "name": "THE TRICKSHOT", "sprite": "trickshot_hero", "new": true, "pack": "runechalk",
+	  "blurb": "Never aims twice. Never needs to. Luck is just practice nobody saw.",
+	  "passive": "SLEIGHT: +5% LUCKY HITS. CRITS AND LUCKY HITS CAST THE WEAPON IN YOUR FIRST BACKPACK SLOT. STARTS WITH RUNE CHALK THERE.",
+	  "weapon": "QUICKSILVER CROSSBOW", "hp": 6, "speed": 98, "shot": "bolt", "sound": "bolt", "cost": 250, "trait": "q_charmed",
+	  "stats": { "dmg": 2.2, "rate": 6.0, "shot_speed": 300.0, "life": 0.8, "homing": 0.0, "size": 1.0, "pierce": 0 },
+	  "effects": [["hook", "lucky", 0.05], ["hook", "slot_cast", 1]],
+	  "special": { "name": "TRICK SHOT", "cd": 9, "col": "#7ad86a",
+		"desc": "FOR 3S EVERY HIT IS A LUCKY HIT.",
+		"do": [["lucky_rush", 3.0], ["vfx", "ring", "#7ad86a", 40], ["vfx", "label", "FEELING LUCKY", "#7ad86a"]] } },
 ]
 
 static var _heroes: Array = []

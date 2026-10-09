@@ -1295,6 +1295,7 @@ static func on_hit_effects(e: Enemy, dmg: float, crit: bool, p: Player, b: PBull
 		Effects.fire("on_hit", { "enemy": e, "dmg": dmg, "crit": crit })
 		if crit:
 			Effects.fire("on_crit", { "enemy": e, "dmg": dmg, "crit": true })
+	Lucky.on_hit(e, dmg, crit, p, b)   # 34.1 lucky hits and the spell slot
 
 static func pbullet_hits(b: PBullet, p: Player) -> void:
 	if b.nohit:
@@ -2194,6 +2195,7 @@ static func _update_player_base(p: Player, dt: float) -> void:
 					e.burn_t = maxf(e.burn_t, 1.6)
 	Auras.tick(p, dt)   # 33.1 the halos
 	Tipsy.tick(p, dt)   # 33.2 a stack of TIPSY wears off
+	Lucky.tick(dt)   # 34.1
 	# Static Coil.
 	if p.coil > 0 and G.enemies_active():
 		p.coil_t -= dt

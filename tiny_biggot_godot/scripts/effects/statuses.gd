@@ -40,6 +40,7 @@ static func apply(e: Enemy, name: String, amount: float, hit_dmg: float) -> void
 		"shock":
 			e.shock = mini(SHOCK_MAX, e.shock + maxi(1, int(amount)))
 			e.shock_t = 3.0
+			Lucky.on_shock(e)   # 34.1 STATIC BUILD-UP
 		"gloom":
 			e.gloom = mini(GLOOM_MAX, e.gloom + maxi(1, int(amount)))
 			e.gloom_t = 4.0

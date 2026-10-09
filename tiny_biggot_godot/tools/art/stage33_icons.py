@@ -91,8 +91,26 @@ def stage33_tavern():
     mug("c_stout", "#5a3a22", foam="#d9c8a8")
     mug("c_mead", "#f2c94c", foam="#fff0b0", band="#c87a3a")
 
+def stage34():
+    # WISHBONE: a forked bone.
+    grid("relic_wishbone", [
+        "............",
+        "..o......o..",
+        ".o1o....o1o.",
+        ".o1o....o1o.",
+        "..o1o..o1o..",
+        "..o1o..o1o..",
+        "...o1oo1o...",
+        "....o11o....",
+        "....o12o....",
+        "....o12o....",
+        ".....oo.....",
+        "............",
+    ], {"o": OUT, "1": "#e8dcc8", "2": "#b8a888"})
+
 if __name__ == "__main__":
     stage33()
     stage33_tavern()
-    rendered(["mindwarden_hero", "w_thoughtstone", "tavernknight_hero", "w_tankardmaul"])
+    stage34()
+    rendered(["mindwarden_hero", "w_thoughtstone", "tavernknight_hero", "w_tankardmaul", "trickshot_hero", "w_quickcrossbow"])
     print("stage 33 sprites rendered")

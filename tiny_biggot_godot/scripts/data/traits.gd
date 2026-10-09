@@ -370,6 +370,14 @@ const ROWS := [
 	["j_brawler", "fury", 2, "BAR BRAWLER", "WHILE TIPSY, 15% OF YOUR HITS STUN THE FOE", false, [{ "on": "on_hit", "if": "tipsy", "chance": 0.15, "do": [["status", "stun", 1]] }], "rare", ["fury"], {  }],
 	["j_surestrike", "fury", 1, "SURE STRIKE", "YOU NEVER CRIT. EVERY 1% OF CRIT CHANCE GIVES +1.5% DAMAGE INSTEAD", false, [["hook", "sure_strike", 1]], "rare", ["fury", "edge"], {  }],
 	["j_lastorders", "fury", 1, "LAST ORDERS", "AT 8+ TIPSY, EVERY 4TH ATTACK SENDS OUT A SHOCKWAVE FOR 150%", false, [{ "on": "every_n_shots", "every": 4, "if": "very_tipsy", "do": [["area", 70, 1.5], ["push", 70, 220], ["vfx", "ring", "#e8b84a", 70]] }], "legend", ["fury"], {  }],
+	# 34.1 THE TRIGGER PATH (his word, 9 Oct: a DEX/INT build of high-frequency triggers): lucky hits
+	# and the spell slot (scripts/combat/lucky.gd).
+	["q_charmed", "fortune", 3, "CHARMED LIFE", "+3% LUCKY HITS: A LUCKY HIT STRIKES AGAIN", false, [["hook", "lucky", 0.03]], "common", ["fortune", "edge"], {  }],
+	["q_stars", "edge", 2, "LUCKY STARS", "+1% LUCKY HITS FOR EVERY POINT OF DEX", false, [["hook", "lucky_dex", 0.01]], "rare", ["edge", "fortune"], {  }],
+	["q_spellslinger", "arcane", 1, "SPELLSLINGER", "CRITS AND LUCKY HITS CAST THE WEAPON IN YOUR FIRST BACKPACK SLOT, FOR FREE", false, [["hook", "slot_cast", 1]], "rare", ["arcane", "edge"], {  }],
+	["q_static", "storm", 2, "STATIC BUILD-UP", "20% OF HITS SHOCK. A FOE AT 5 SHOCK DISCHARGES: LIGHTNING TO 4 FOES FOR 150%", false, [["hook", "static_buildup", 1], { "on": "on_hit", "chance": 0.2, "do": [["status", "shock", 1]] }], "uncommon", ["storm"], {  }],
+	["q_quickfingers", "edge", 3, "QUICK FINGERS", "+1 DEX. +1% ATTACK SPEED FOR EVERY POINT OF DEX", false, [["attr", "dex", 1], ["hook", "rate_per_dex", 0.01]], "uncommon", ["edge"], {  }],
+	["q_jackpot", "fortune", 1, "JACKPOT", "EVERY 10TH LUCKY HIT CALLS DOWN 5 LIGHTNING BOLTS FOR 200%", false, [{ "on": "on_lucky", "every": 10, "do": [["bolts", 5, 2.0]] }], "legend", ["fortune", "storm"], {  }],
 ]
 
 const TREE_COSTS := [10, 20, 35, 60]
@@ -410,6 +418,7 @@ const HERO_BRANCH := {
 	"inkling": { "name": "INKCRAFT", "nodes": [["INK BLOTS", "10% MORE OF YOUR HITS LEAVE INK"], ["SKETCHBOOK", "+1 WISP"], ["WET PAGES", "+60% POISON DAMAGE"], ["MASTERPIECE", "EVERY 8S IN A FIGHT, A SKETCHED WISP JOINS YOU FOR 8S"]] },
 	"mindwarden": { "name": "THE STILL FIELD", "nodes": [["FOCUS", "+2 INT"], ["CLEAR SKY", "+20% AURA REACH"], ["ECHOING MIND", "HALOS PULSE 20% FASTER"], ["THE WIDE WORLD", "EVERY HALO PULSE ALSO HITS THE FOES IN IT FOR 40%"]] },
 	"tavernknight": { "name": "THE TAPROOM", "nodes": [["STRONG BREW", "DRINKS GIVE +1 MORE TIPSY"], ["BARREL CHEST", "+1 MAX HEART"], ["SLOW SIPPER", "TIPSY WEARS OFF HALF AS FAST"], ["CLOSING TIME", "EVERY ROOM YOU ENTER POURS YOU AN ALE (+2 TIPSY)"]] },
+	"trickshot": { "name": "SLEIGHT OF HAND", "nodes": [["DEFT", "+2 DEX"], ["STACKED ODDS", "+5% LUCKY HITS"], ["LOADED CAST", "CASTS FROM THE SPELL SLOT HIT 30% HARDER"], ["ACE UP THE SLEEVE", "EVERY 6S IN A FIGHT, A FREE CAST FROM THE SPELL SLOT"]] },
 	"beastmaster": { "name": "THE WILD", "nodes": [["SOFT WORDS", "4% MORE OF YOUR HITS TAME A FOE"], ["PACK LEADER", "+1 WISP"], ["FERAL BOND", "KILLS GIVE +20% DAMAGE FOR 3S"], ["ALPHA", "EVERY 10S IN A FIGHT, THE FOES CLOSE TO YOU ARE TAMED FOR 8S"]] },
 	"sellsword": { "name": "FREE COMPANY", "nodes": [["SPURS", "ROLLS RECHARGE 20% FASTER"], ["SHIELD WALL", "WHEN HIT, ERASE NEARBY SHOTS (EVERY 6S)"], ["WAR PAY", "KILLING AN ELITE PAYS 12 GOLD"], ["THUNDERING CHARGE", "CHARGES HIT TWICE AS HARD AND KILLS REFUND THE ROLL"]] },
 }
@@ -486,6 +495,10 @@ const NODE_EFFECTS := {
 	"BARREL CHEST": [["add", "max_hp", 2], ["add_cap", "hp", 2, "max_hp"]],
 	"SLOW SIPPER": [["hook", "tipsy_slow", 1.0]],
 	"CLOSING TIME": [{ "on": "on_room_enter", "do": [["tipsy", 2]] }],
+	"DEFT": [["attr", "dex", 2]],   # 34.1 the Trickshot
+	"STACKED ODDS": [["hook", "lucky", 0.05]],
+	"LOADED CAST": [["hook", "slot_dmg", 0.3]],
+	"ACE UP THE SLEEVE": [{ "on": "every_n_seconds", "period": 6.0, "if": "fighting", "do": [["slot_cast"]] }],
 	"PACK LEADER": [["add", "familiars", 1]],
 	"FERAL BOND": [{"on": "on_kill", "do": [["buff", "dmg", 0.2, 3.0]]}],
 	"ALPHA": [{"on": "every_n_seconds", "period": 10.0, "if": "fighting", "do": [["charm_area", 50, 8.0]]}],

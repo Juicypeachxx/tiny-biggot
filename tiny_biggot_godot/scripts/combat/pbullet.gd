@@ -51,13 +51,14 @@ var ds := -1             # set with dk: the shot's new-look rule (ShotBatch.spec
 var dw := -1             # set with dk: the rule of the whirl drawn under a spinning weapon, or -1
 var own := false         # fired by the hero's weapon itself (not a proc or a wisp): a blow for tempo and rally
 var merged: PBullet = null   # set on a stand-in: the shot flying that this one merged into (Combat._merge_shot)
+var cast := false        # 34.1: made by a free cast from the spell slot (lucky.gd): it never casts again
 
 func reset() -> void:
 	x = 0.0; y = 0.0; vx = 0.0; vy = 0.0; dmg = 0.0; life = 0.0; max_life = 0.0; r = 2.5
 	pierce = 0; bounce = 0; homing = 0.0; kind = "bolt"; hit = {}; rot = 0.0; age = 0.0; ric = 0
 	back = BACK_NONE; crit = false; bloom = false; poison_add = 0; split = 0.0; grow = 0.0; accel = 0.0
 	icon = ""; tag = ""; nohit = false; pulse_t = 0.0; linger = 0.0; hovering = false; arm = 0.0
-	has_mv = false; mvx = 0.0; mvy = 0.0; chill = false; dk = -1; tgt = null; tgt_n = 0; own = false; merged = null
+	has_mv = false; mvx = 0.0; mvy = 0.0; chill = false; dk = -1; tgt = null; tgt_n = 0; own = false; merged = null; cast = false
 
 ## Ruby b.dup (the hit set is copied separately by the caller, as in Ruby).
 func copy_from(b: PBullet) -> void:
@@ -66,4 +67,4 @@ func copy_from(b: PBullet) -> void:
 	age = b.age; ric = b.ric; back = b.back; crit = b.crit; bloom = b.bloom; poison_add = b.poison_add
 	split = b.split; grow = b.grow; accel = b.accel; icon = b.icon; tag = b.tag; nohit = b.nohit
 	pulse_t = b.pulse_t; linger = b.linger; hovering = b.hovering; arm = b.arm; has_mv = b.has_mv
-	mvx = b.mvx; mvy = b.mvy; chill = b.chill; dk = -1; tgt = null; tgt_n = 0; own = b.own
+	mvx = b.mvx; mvy = b.mvy; chill = b.chill; dk = -1; tgt = null; tgt_n = 0; own = b.own; cast = b.cast

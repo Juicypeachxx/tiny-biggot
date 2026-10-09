@@ -157,6 +157,10 @@ static func run(a: Array, stacks: int, ctx: Dictionary) -> void:
 			Effects.add_buff(p, a[1], a[2] * stacks, a[3])
 		"aura_surge":   # 33.1 ["aura_surge", times, seconds]: the halos' fields reach further for a while
 			Auras.start_surge(a[1], a[2])
+		"slot_cast":   # 34.1 ["slot_cast"]: the spell slot's weapon cast at the foe (or the nearest)
+			Lucky.cast(p, ctx.get("enemy"))
+		"lucky_rush":   # 34.1 ["lucky_rush", seconds]: every hit is a lucky hit for a while
+			Lucky.rush_t = maxf(Lucky.rush_t, a[1])
 		"tipsy":   # 33.2 ["tipsy", n]: a drink's worth of TIPSY
 			Tipsy.add(p, a[1] * stacks)
 		"belt":   # 33.2 ["belt", kind]: a consumable into the belt (on the floor if it is full)

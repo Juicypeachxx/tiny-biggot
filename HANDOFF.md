@@ -1324,6 +1324,20 @@ Done by another session (the port's), which took over from v31 on claude/dev.
   starting hero) and tests/elite_probe2.tscn (the bot plays every hero; elites alive past 40 s).
   Core replays re-recorded (new content and the slime fix); classic identical.
 
+### Stage 34 (9 Oct): build paths II
+- 34.1 THE TRIGGER PATH. `Lucky` (scripts/combat/lucky.gd), called at the end of
+  Combat.on_hit_effects: chance = gf lucky + lucky_dex x DEX (+1 during TRICK SHOT's rush_t); a
+  lucky hit strikes again (damage_enemy, no on_hit) and fires the new trigger on_lucky. gf
+  slot_cast: crits and lucky hits cast the first backpack weapon (CASTABLE kinds or the
+  spellbook) via Combat.player_shoot with p.weapon swapped for the cast; new shots get
+  PBullet.cast (never cast again) and x(1 + slot_dmg); at most 2 casts a tick, 0.12 s apart.
+  STATIC BUILD-UP (gf static_buildup): Statuses "shock" at SHOCK_MAX calls Lucky.on_shock
+  (lightning to 4 foes). rate_per_dex in Weapons.wrate. Actions slot_cast, lucky_rush. Traits q_*
+  (CHARMED LIFE, LUCKY STARS, SPELLSLINGER, STATIC BUILD-UP, QUICK FINGERS, JACKPOT), relic
+  WISHBONE. Hero THE TRICKSHOT (index 32; QUICKSILVER CROSSBOW; [1,6,1]; "pack": runechalk, a
+  new hero field read in Game.new_run; SLEIGHT OF HAND; special TRICK SHOT). Test
+  tests/trigger_test.tscn (in check.sh).
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

@@ -106,6 +106,8 @@ func new_run() -> void:
 	player = Player.new(hero)
 	Effects.reset_run_state()
 	Weapons.equip_weapon(player, Weapons.by_id(Weapons.HERO_WEAPON[hero["id"]]))
+	if hero.has("pack") and GameData.rogues():   # 34.1: a hero who starts with something in the backpack
+		player.backpack.append(Weapons.by_id(hero["pack"]))
 	if DebugArgs.has("weapon"):
 		Weapons.equip_weapon(player, Weapons.by_id(DebugArgs.get_str("weapon")))
 	run_stats = { "kills": 0, "gold": 0, "time": 0.0, "floor": 1, "bosses": 0, "secrets": 0, "rifts": [] }
@@ -277,6 +279,7 @@ func enter_room(r: Room) -> void:
 	Spells.clear()
 	Toys.clear()   # 31
 	Auras.reset()   # 33.1
+	Lucky.reset()   # 34.1
 	Reactions.clear()
 	pickups = room.pickups
 	enemies = []

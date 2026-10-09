@@ -1624,3 +1624,10 @@ S["tavernknight_hero"] = ("main:#8a3030 wood:#c8642a skin:#e0a47a gold:#e8b84a",
 S["w_tankardmaul"] = ("wood:#8a5a32 gold:#e8b84a", [
 "......oooooo", ".....o9988qo", ".....o9877qo", ".....o8777qo", "......oouoo.", ".....ouo....",
 "....ouo.....", "...ouo......", "..ouo.......", ".ouo........", "ouo.........", "oo.........."])
+# 34.1 THE TRICKSHOT: a hooded rogue in green, a scarf over the mouth, quick hands.
+S["trickshot_hero"] = ("main:#2f6b3a second:#7a5236 skin:#e0a47a glow:#c8ff8a", M([
+"...ooo", "..o333", ".o3333", ".o3555", ".o35y5", ".o3aaa", ".o3aaa", "o3o333", "o5o333", ".oo333",
+"..o322", "..o322", "..o2o.", "..ooo."]))
+S["w_quickcrossbow"] = ("wood:#8a5a32 metal:#9aa3b5", [
+"............", ".o........o.", "o9o......o9o", ".o9oooooo9o.", "..oo8uu8oo..", ".....uu.....",
+".....uu.....", ".....uu.....", "....ouuo....", "....ouuo....", ".....oo.....", "............"])

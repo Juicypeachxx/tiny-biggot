@@ -1197,7 +1197,7 @@ a bullet storm. Ideas and play only: every name, sprite and text here is our own
       shot leaving the room was looked up past the tile grid (a script error that stopped the rest
       of that tick's foe shots). IPA 33.
 ### Stage 34: build paths II (IPA 34)
-- [ ] 34.1 THE TRIGGER PATH (DEX/INT). LUCKY HITS (a chance per hit, its own trigger). THE
+- [x] 34.1 THE TRIGGER PATH (DEX/INT). LUCKY HITS (a chance per hit, its own trigger). THE
       SPELL SLOT: the weapon in your first backpack slot is cast for free on crits and lucky
       hits. Traits: SPELLSLINGER, FOUR-LEAF (lucky hits per DEX), STATIC BUILD-UP (shocks stack
       and discharge), QUICK FINGERS. A hero: THE TRICKSHOT.
