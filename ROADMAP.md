@@ -1040,6 +1040,16 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
       (seeded runs now seed every decoration die, so they repeat). Soak: 4 runs of 5 minutes with
       random buttons and spell weapons, no errors. IPA 23.
 
+## Stage 24 (his word, 9 Oct: "Day and night cycle is too dark at night it is hard to play, also
+make armor sets not repetitive like now, it drops only one set until you complete it like bug and
+also when you complete it it still drops frequently")
+- [ ] 24.1 Lighter nights: night floors in the dungeon and the camp at night stay night, but you
+      can see the room and the foes in it (less dark, a wider lantern).
+- [ ] 24.2 Armor sets without the repetition: a started set's missing pieces come far less often
+      (and the shop still offers one); no piece you already own drops again; a set you have
+      whole stops dropping; two drops in a row are not from the same set.
+- [ ] 24.3 Checks, the core replays re-recorded (drops change), IPA 24.
+
 ---
 
 ## Log
