@@ -485,21 +485,61 @@ static func by_id(id: String) -> Dictionary:
 	all()
 	return _by_id[id]
 
+## 24.2 (his word, 9 Oct: "make armor sets not repetitive like now: it drops only one set until you
+## complete it, and when you complete it it still drops frequently"). Expanded game only:
+##   - a started set's missing piece comes now and then: CHASE_BASE + CHASE_STEP a worn piece (x1.6
+##     with MASTER TAILOR), where it was 25% + 10% a piece (13.2); the shop still offers one;
+##   - a piece you own already (worn or in your pack) is rolled again, so a set you have whole stops
+##     dropping;
+##   - two gear drops in a row are never from the same set (rolled again, REROLLS times at most).
+const CHASE_BASE := 0.08
+const CHASE_STEP := 0.04
+const REROLLS := 4
+
 static func random_gear(rarity: String) -> Dictionary:
-	if GameData.rogues() and G.player != null and not G.player.sets.is_empty():
+	var p := G.player
+	var rogues := GameData.rogues() and p != null
+	if rogues and not p.sets.is_empty():
 		var have := 0
-		for id in G.player.sets:
-			if G.player.sets[id] < set_size(id):
-				have = maxi(have, G.player.sets[id])
-		if have > 0 and randf() < (0.25 + 0.1 * have) * (1.6 if G.player.g("tailor") > 0 else 1.0):   # 13.2: the set you started comes looking for you
-			var piece = chase_piece(G.player)
-			if piece != null:
+		for id in p.sets:
+			if p.sets[id] < set_size(id):
+				have = maxi(have, p.sets[id])
+		if have > 0 and randf() < (CHASE_BASE + CHASE_STEP * have) * (1.6 if p.g("tailor") > 0 else 1.0):   # 13.2: the set you started comes looking for you
+			var piece = chase_piece(p)
+			if piece != null and piece["set"] != G.run_stats.get("last_set", ""):
+				_note_drop(piece)
 				return piece
 	var pool := []
 	for g in all():
 		if g["rarity"] == rarity and g["id"] != "hagglerhat" and not BossLoot.is_unique(g["id"]):   # (brazil.gd, boss_loot.gd)
 			pool.append(g)
-	return TB.pick(pool)
+	var got: Dictionary = TB.pick(pool)
+	if rogues:
+		for i in REROLLS:
+			if not _stale(p, got):
+				break
+			got = TB.pick(pool)
+		_note_drop(got)
+	return got
+
+## 24.2: a drop that would repeat: a piece you own, or one of the set the last gear came from.
+static func _stale(p: Player, g: Dictionary) -> bool:
+	if owns(p, g["id"]):
+		return true
+	return g["set"] != null and g["set"] == G.run_stats.get("last_set", "")
+
+static func _note_drop(g: Dictionary) -> void:
+	G.run_stats["last_set"] = g["set"] if g["set"] != null else ""
+
+## Whether the hero wears this piece or carries it in the pack.
+static func owns(p: Player, id: String) -> bool:
+	for sl in p.gear:
+		if p.gear[sl] != null and p.gear[sl]["id"] == id:
+			return true
+	for it in p.backpack:
+		if it != null and it.get("item", "") == "gear" and it["id"] == id:
+			return true
+	return false
 
 ## Item rarity for drops, door rewards and shops (04b roll_item_rarity).
 static func roll_item_rarity(floor_index: int, source: String = "drop") -> String:

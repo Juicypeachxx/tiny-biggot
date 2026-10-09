@@ -1043,11 +1043,20 @@ meta web (the constellation), telegraphed attacks, an anvil, event rooms.
 ## Stage 24 (his word, 9 Oct: "Day and night cycle is too dark at night it is hard to play, also
 make armor sets not repetitive like now, it drops only one set until you complete it like bug and
 also when you complete it it still drops frequently")
-- [ ] 24.1 Lighter nights: night floors in the dungeon and the camp at night stay night, but you
+- [x] 24.1 Lighter nights: night floors in the dungeon and the camp at night stay night, but you
       can see the room and the foes in it (less dark, a wider lantern).
-- [ ] 24.2 Armor sets without the repetition: a started set's missing pieces come far less often
+      Done (weather.gd): the dark over unlit floor 0.8 -> 0.52 on night floors and 0.5 -> 0.34 in
+      the camp at night, a moonlit blue instead of near black, the lantern 80 -> 108 px; the
+      camp's evening and night tints a little lighter (camp_clock.gd). Drawing only.
+- [x] 24.2 Armor sets without the repetition: a started set's missing pieces come far less often
       (and the shop still offers one); no piece you already own drops again; a set you have
       whole stops dropping; two drops in a row are not from the same set.
+      Done (gear.gd random_gear): the chase is 8% + 4% a worn piece (x1.6 with MASTER TAILOR),
+      where it was 25% + 10% a piece; a piece worn or in the pack is rolled again (so a whole set
+      stops dropping); never two gear drops in a row from one set (up to 4 rolls). Measured: with
+      one piece worn its set came 42 times in 400 drops (it was over 1 in 3). tests/sets_test
+      checks all of it. Core replay e re-recorded on purpose (at 148 s the bot now finds a sapper
+      vest where it found a second bastion piece); the rest and the classic replays identical.
 - [ ] 24.3 Checks, the core replays re-recorded (drops change), IPA 24.
 
 ---

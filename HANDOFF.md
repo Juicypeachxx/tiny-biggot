@@ -1155,6 +1155,17 @@ above; soak 4 x 5 min (--monkey, spell weapons) clean. IPA 23 (release ipa-23). 
 iPad (no iPad, no Mac here): how the spells look and feel there, and whether his heavy build now
 holds 60 fps (estimated LOGIC about 12 ms there, down from 16.3) are his to try.
 
+### Stage 24 (his word, 9 Oct: nights too dark; armor sets repetitive)
+24.1 weather.gd: DARK 0.8 -> 0.52, DARK_CAMP 0.5 -> 0.34, LANTERN 80 -> 108, the night colour
+(0.02,0.02,0.07) -> (0.05,0.06,0.16), a moonlit blue; camp_clock.gd paint_tint evening 0.2 -> 0.16,
+night 0.16 -> 0.12. Screenshots before/after: --weather=dark --room=combat and --ui=camp --clock=23.
+24.2 gear.gd random_gear: CHASE_BASE 0.08 + CHASE_STEP 0.04 a worn piece (was 0.25 + 0.1); the
+chase skips a set the last gear came from; the pool's pick is rolled again (REROLLS 4) while it
+is a piece the hero owns (Gear.owns: worn or in the pack) or of the last gear's set
+(G.run_stats["last_set"], kept per run). Rogues only (classic untouched). sets_test: 400 drops
+with one piece worn: its set 42 times, never the worn piece, never two in a row from one set; a set
+worn whole never drops in 300. Replays: classic identical; core e re-recorded on purpose.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

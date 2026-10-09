@@ -28,9 +28,11 @@ const CHANCE := 0.55
 const NEWS := { "rain": ["IT IS RAINING ON THIS FLOOR", "cyan"], "storm": ["A STORM RAGES ON THIS FLOOR", "white"],
 	"fog": ["A FOG HAS ROLLED IN", "bone"], "snow": ["SNOW IS FALLING", "white"], "ash": ["ASH FALLS LIKE SNOW", "orange"],
 	"dark": ["NIGHT HAS FALLEN: KEEP TO THE LIGHT", "gold"] }
-const DARK := 0.8
-const DARK_CAMP := 0.5
-const LANTERN := 80.0
+# 24.1 (his word, 9 Oct: "too dark at night, it is hard to play"): lighter nights, a moonlit blue
+# rather than black, and a wider lantern; it is still night, but the room and its foes can be seen.
+const DARK := 0.52        # (was 0.8)
+const DARK_CAMP := 0.34   # (was 0.5)
+const LANTERN := 108.0    # (was 80)
 const MAX_LIGHTS := 16
 const TORCHES := [Vector2(6 * 16 + 8, 18), Vector2(21 * 16 + 8, 18)]
 const GLOWING := ["wisp", "lamp", "lantern", "torch", "candle", "ember", "cinder", "fire", "imp", "spark", "glimmer"]
@@ -40,7 +42,7 @@ shader_type canvas_item;
 uniform vec4 lights[16];
 uniform int count = 0;
 uniform float dark = 0.0;
-uniform vec4 night : source_color = vec4(0.02, 0.02, 0.07, 1.0);
+uniform vec4 night : source_color = vec4(0.05, 0.06, 0.16, 1.0);
 varying vec2 world;
 void vertex() {
 	world = VERTEX;

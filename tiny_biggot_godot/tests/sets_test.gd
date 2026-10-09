@@ -3,7 +3,9 @@ extends Node
 ##   godot --headless --path . res://tests/sets_test.tscn -- --no-save
 ## Two, three and four pieces each add their step; the fourth brings the set's power and SET
 ## MASTERY, the big moment once (full health, a relic) and the aura; losing a piece takes it all
-## back; a started set comes looking for you (drops and shops); every set line fits the font.
+## back; a started set comes looking for you now and then (drops and shops), never with a piece you
+## own, never two drops in a row from one set, and a whole set stops dropping (24.2); every set
+## line fits the font.
 ## Prints "sets test: PASSED" or a FAIL line per problem.
 
 var fails := 0
@@ -30,12 +32,27 @@ func _ready() -> void:
 	Gear.equip_gear(p, pcs[0])
 	if Gear.chase_piece(p) == null or Gear.chase_piece(p)["set"] != "emberweave":
 		fail("one piece in, no missing piece to chase")
+	# 24.2 (his word, 9 Oct): the started set comes now and then, not drop after drop; never a piece
+	# you own; never two drops in a row from the same set.
 	var chased := 0
-	for i in 200:
-		if Gear.random_gear("common").get("set") == "emberweave":
+	var last := ""
+	var twice := 0
+	for i in 400:
+		var g := Gear.random_gear(["common", "rare", "epic"][i % 3])
+		if g.get("set") == "emberweave":
 			chased += 1
-	if chased < 40:
-		fail("a started set came looking only %d times in 200 drops" % chased)
+		if g["id"] == pcs[0]["id"]:
+			fail("a piece already worn dropped again")
+			break
+		var sid: String = g["set"] if g["set"] != null else ""
+		if sid != "" and sid == last:
+			twice += 1
+		last = sid
+	print("[sets] with one piece worn, its set came %d times in 400 drops" % chased)
+	if chased < 20 or chased > 120:
+		fail("a started set came looking %d times in 400 drops (now and then: 20-120)" % chased)
+	if twice > 0:
+		fail("%d times two drops in a row came from the same set" % twice)
 	Gear.equip_gear(p, pcs[1])
 	Gear.equip_gear(p, pcs[2])
 	if p.set_tier.get("emberweave", 0) != 2 or p.armor < a0 + 1:
@@ -50,6 +67,10 @@ func _ready() -> void:
 		fail("no SET MASTERY (max hp %d, damage %.2f)" % [p.max_hp, p.dmg])
 	if Gear.chase_piece(p) != null:
 		fail("a whole set is still chased")
+	for i in 300:   # 24.2: a set you wear whole stops dropping
+		if Gear.random_gear(["common", "rare", "epic", "legend"][i % 4]).get("set") == "emberweave":
+			fail("a piece of a set worn whole dropped")
+			break
 	# Off and on again: the step goes, then comes back without a second relic.
 	var hp_full := p.max_hp
 	var off: Dictionary = pcs[3]
