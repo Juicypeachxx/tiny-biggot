@@ -262,6 +262,11 @@ timeout 300 "$GODOT" --headless --path . res://tests/toys_test.tscn -- --no-save
 grep -E "toys test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 33.1 the mind field: halos that grow with INT, the surge, the Horizon Ring, the Mindwarden"
+timeout 300 "$GODOT" --headless --path . res://tests/auras_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[auras\]|auras test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== 18.1 the daily trial"
 timeout 300 "$GODOT" --headless --path . res://tests/daily_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "daily test" "$LOG"

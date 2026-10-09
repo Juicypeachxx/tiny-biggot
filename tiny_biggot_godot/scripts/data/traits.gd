@@ -354,6 +354,14 @@ const ROWS := [
 	["n_godslayer", "edge", 1, "GODSLAYER", "ELITES TAKE +60% DAMAGE. EVERY 10TH HIT ON A GUARDIAN CALLS A COMET", false, [["add", "elite_mult", 0.6], { "on": "on_hit", "every": 10, "if": "boss", "do": [["spell", "comet", 2.0]] }], "mythic", ["edge"], {  }],
 	["n_dragonsoul", "pyre", 1, "DRAGON SOUL", "EVERY HIT BURNS. EVERY 5S IN A FIGHT, 3 METEORS AND A FIRE SERPENT", false, [["add", "burn", 1.0], { "on": "every_n_seconds", "period": 5.0, "if": "fighting", "do": [["meteor", 1.5, 28], ["meteor", 1.5, 28], ["meteor", 1.5, 28], ["spell", "serpent", 1.0]] }], "mythic", ["pyre"], {  }],
 	["n_winter", "frost", 1, "ETERNAL WINTER", "EVERY 8S IN A FIGHT, STOP TIME AT A FOE AND CHILL ALL. CHILLED FOES TAKE +50%", false, [{ "on": "every_n_seconds", "period": 8.0, "if": "fighting", "do": [["spell", "clock", 1.5], ["status_area", "chill", 2, 999]] }, ["add", "vs_chill", 0.5]], "mythic", ["frost", "arcane"], {  }],
+	# 33.1 THE MIND FIELD (his word, 9 Oct: an INT aura build; ideas only, our own names): auras and
+	# halos that grow with INT until they fill the room (scripts/combat/auras.gd).
+	["k_innerlight", "arcane", 1, "INNER LIGHT", "A HALO OF YOUR OWN: EVERY SECOND IN A FIGHT, THE FOES IN IT TAKE A HIT. IT GROWS WITH INT", false, [["hook", "halo_mind", 1]], "uncommon", ["arcane"], {  }],
+	["k_widethoughts", "arcane", 3, "WIDE THOUGHTS", "+15% AURA REACH", false, [["hook", "aura_reach", 0.15]], "common", ["arcane"], {  }],
+	["k_stillmind", "arcane", 2, "STILL MIND", "+1 INT. HALOS PULSE 25% FASTER", false, [["attr", "int", 1], ["hook", "aura_speed", 0.25]], "uncommon", ["arcane"], {  }],
+	["k_deepwell", "arcane", 3, "DEEP WELL", "+2 INT. AURAS HIT +3% HARDER FOR EVERY POINT OF INT", false, [["attr", "int", 2], ["hook", "aura_int_dmg", 0.03]], "rare", ["arcane"], {  }],
+	["k_hum", "arcane", 2, "HUMMING FIELD", "EVERY HALO PULSE ALSO HITS THE FOES IN IT FOR 30%", false, [["hook", "aura_strike", 0.3]], "rare", ["arcane"], {  }],
+	["k_overmind", "arcane", 2, "OVERMIND", "EVERY POINT OF INT GIVES +4% AURA REACH", false, [["hook", "aura_int", 0.04]], "legend", ["arcane"], {  }],
 ]
 
 const TREE_COSTS := [10, 20, 35, 60]
@@ -392,6 +400,7 @@ const HERO_BRANCH := {
 	"forsaken": { "name": "SURVIVAL", "nodes": [["ROUGH HANDS", "+1 STR AND +1 DEX"], ["SCROUNGE", "CLEARING A ROOM PAYS 3 GOLD"], ["HARDENED", "EVERY NEW FLOOR GIVES 1 ARMOR"], ["NOTHING LEFT", "BELOW HALF HEALTH: +50% DAMAGE"]] },
 	"clockmaker": { "name": "CLOCKWORK", "nodes": [["MAINSPRING", "ENTERING A ROOM: +30% FIRE RATE FOR 6S"], ["ESCAPEMENT", "EVERY 20TH SHOT CHILLS THE FOES NEAR YOU"], ["BALANCE WHEEL", "+1 MAX HEART"], ["GRAND COMPLICATION", "ROLLING SLOWS EVERY FOE SHOT NEAR YOU (EVERY 6S)"]] },
 	"inkling": { "name": "INKCRAFT", "nodes": [["INK BLOTS", "10% MORE OF YOUR HITS LEAVE INK"], ["SKETCHBOOK", "+1 WISP"], ["WET PAGES", "+60% POISON DAMAGE"], ["MASTERPIECE", "EVERY 8S IN A FIGHT, A SKETCHED WISP JOINS YOU FOR 8S"]] },
+	"mindwarden": { "name": "THE STILL FIELD", "nodes": [["FOCUS", "+2 INT"], ["CLEAR SKY", "+20% AURA REACH"], ["ECHOING MIND", "HALOS PULSE 20% FASTER"], ["THE WIDE WORLD", "EVERY HALO PULSE ALSO HITS THE FOES IN IT FOR 40%"]] },
 	"beastmaster": { "name": "THE WILD", "nodes": [["SOFT WORDS", "4% MORE OF YOUR HITS TAME A FOE"], ["PACK LEADER", "+1 WISP"], ["FERAL BOND", "KILLS GIVE +20% DAMAGE FOR 3S"], ["ALPHA", "EVERY 10S IN A FIGHT, THE FOES CLOSE TO YOU ARE TAMED FOR 8S"]] },
 	"sellsword": { "name": "FREE COMPANY", "nodes": [["SPURS", "ROLLS RECHARGE 20% FASTER"], ["SHIELD WALL", "WHEN HIT, ERASE NEARBY SHOTS (EVERY 6S)"], ["WAR PAY", "KILLING AN ELITE PAYS 12 GOLD"], ["THUNDERING CHARGE", "CHARGES HIT TWICE AS HARD AND KILLS REFUND THE ROLL"]] },
 }
@@ -460,6 +469,10 @@ const NODE_EFFECTS := {
 	"SKETCHBOOK": [["add", "familiars", 1]],
 	"WET PAGES": [["add", "poison_dmg", 0.6]],
 	"MASTERPIECE": [{"on": "every_n_seconds", "period": 8.0, "if": "fighting", "do": [["summon", 8.0]]}],
+	"FOCUS": [["attr", "int", 2]],   # 33.1 the Mindwarden
+	"CLEAR SKY": [["hook", "aura_reach", 0.2]],
+	"ECHOING MIND": [["hook", "aura_speed", 0.2]],
+	"THE WIDE WORLD": [["hook", "aura_strike", 0.4]],
 	"PACK LEADER": [["add", "familiars", 1]],
 	"FERAL BOND": [{"on": "on_kill", "do": [["buff", "dmg", 0.2, 3.0]]}],
 	"ALPHA": [{"on": "every_n_seconds", "period": 10.0, "if": "fighting", "do": [["charm_area", 50, 8.0]]}],

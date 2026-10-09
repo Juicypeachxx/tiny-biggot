@@ -167,9 +167,10 @@ static func nearest_enemy(fx: float, fy: float, max_d: float, skip: Dictionary =
 static func orbital_positions(p: Player) -> Array:
 	var out := []
 	var n := p.orbitals
+	var rad := Auras.orbit_radius(p)   # 33.1 HORIZON RING: out at the field's edge (else 20)
 	for i in n:
 		var a := p.orbit_a + float(i) / n * TAU
-		out.append(Vector2(p.x + cos(a) * 20, p.y - 2 + sin(a) * 20))
+		out.append(Vector2(p.x + cos(a) * rad, p.y - 2 + sin(a) * rad))
 	return out
 
 # ---------- Spawning foes ----------
@@ -402,6 +403,7 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 	G.run_stats["kills"] += 1
 	Bestiary.slain(e.boss if e.is_boss() else e.type)   # 22.3
 	Remains.add(e)   # 21.2: something of it stays on the floor
+	Auras.on_kill(p, e)   # 33.1 BLOOD HAZE
 	Saloon.on_kill(e)
 	EventRooms.on_kill(e)
 	Wanderers.on_kill(e)   # 21.4 a rival gives up
@@ -765,10 +767,11 @@ static func update_enemies(dt: float) -> void:
 		if e.thorn_cd > 0:
 			e.thorn_cd -= dt
 		if p.orbitals > 0:
+			var mr := 5.0 * Auras.moon_scale(p)
 			for o in orbital_positions(p):
-				if TB.dist_xy(o.x, o.y, e.x, e.y) < e.r + 5 and not p.orbit_hit.has(e.uid):
+				if TB.dist_xy(o.x, o.y, e.x, e.y) < e.r + mr and not p.orbit_hit.has(e.uid):
 					p.orbit_hit[e.uid] = 0.35
-					damage_enemy(e, Weapons.wdmg(p) * 0.7, {})
+					damage_enemy(e, Weapons.wdmg(p) * Auras.moon_dmg(p), {})
 	var alive: Array[Enemy] = []
 	for e in G.enemies:
 		if e.hp > 0:
@@ -2180,8 +2183,9 @@ static func _update_player_base(p: Player, dt: float) -> void:
 		if p.aura_t <= 0:
 			p.aura_t = 0.5
 			for e in G.enemies:
-				if e.targetable() and TB.dist(e, p) < 38 + 10 * maxi(p.aura, 1):
+				if e.targetable() and TB.dist(e, p) < (38 + 10 * maxi(p.aura, 1)) * Auras.reach(p):   # 33.1: grows with AURA REACH
 					e.burn_t = maxf(e.burn_t, 1.6)
+	Auras.tick(p, dt)   # 33.1 the halos
 	# Static Coil.
 	if p.coil > 0 and G.enemies_active():
 		p.coil_t -= dt

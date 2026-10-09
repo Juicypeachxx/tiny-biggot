@@ -265,6 +265,16 @@ const NEW_HEROES := [
 	  "special": { "name": "SKETCH", "cd": 11, "col": "#9ab8ff",
 		"desc": "DRAW THREE INK WISPS FOR 10S AND FLOOD THE GROUND ROUND YOU WITH INK: EVERY FOE NEAR YOU IS POISONED.",
 		"do": [["summon", 10.0], ["summon", 10.0], ["summon", 10.0], ["status_area", "poison", 3, 100], ["zone", "ink", 40, 4.0], ["vfx", "ring", "#2a2a4a", 100]] } },
+	# 33.1 (his word, 9 Oct: the INT aura build, "walk to the exit while everything dies"). Ideas only.
+	{ "id": "mindwarden", "name": "THE MINDWARDEN", "sprite": "mindwarden_hero", "new": true,
+	  "blurb": "A quiet mind with a loud field. Things that come too close simply stop.",
+	  "passive": "PSIONIC FIELD: STARTS WITH INNER LIGHT. EVERY POINT OF INT GIVES +2% MORE AURA REACH AND +2% AURA DAMAGE.",
+	  "weapon": "THOUGHTSTONE", "hp": 6, "speed": 90, "shot": "orb", "sound": "shoot", "cost": 260, "trait": "k_innerlight",
+	  "stats": { "dmg": 3.0, "rate": 3.0, "shot_speed": 170.0, "life": 1.0, "homing": 1.5, "size": 1.0, "pierce": 0 },
+	  "effects": [["hook", "aura_int", 0.02], ["hook", "aura_int_dmg", 0.02]],
+	  "special": { "name": "MIND SPIRAL", "cd": 10, "col": "#e86fb4",
+		"desc": "YOUR FIELDS REACH TWICE AS FAR FOR 4S, AND A SPIRAL OF 16 MIND BOLTS FLIES OUT.",
+		"do": [["aura_surge", 2.0, 4.0], ["nova", 16, 0.8, "hex", 2.0], ["vfx", "sigil", "#e86fb4", 70]] } },
 ]
 
 static var _heroes: Array = []

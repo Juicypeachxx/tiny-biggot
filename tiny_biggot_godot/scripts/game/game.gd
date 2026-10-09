@@ -276,6 +276,7 @@ func enter_room(r: Room) -> void:
 	Oddities.clear()
 	Spells.clear()
 	Toys.clear()   # 31
+	Auras.reset()   # 33.1
 	Reactions.clear()
 	pickups = room.pickups
 	enemies = []

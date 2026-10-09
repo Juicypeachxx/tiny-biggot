@@ -1610,3 +1610,10 @@ for _n, _pal, _from in [
 	("portalbow", "main:#a35bd6 wood:#7ff0c8 glow:#ffffff halo:1", "w_dawnbow"),
 ]:
 	S["w_" + _n] = (_pal, S[_from][1])
+# 33.1 (his word, 9 Oct: four build paths) THE MINDWARDEN: a hooded mind, its gem and eyes alight.
+S["mindwarden_hero"] = ("main:#5a3488 glow:#ff8ad8 skin:#e0a47a halo:1", M([
+"....oo", "...o33", "..o333", "..o300", "..o0yy", "..o300", ".o3330", "o3o33x", "o5o333", ".oo333",
+"..o322", "..o322", ".o3222", ".ooooo"]))
+S["w_thoughtstone"] = ("main:#5a3488 glow:#ff8ad8 wood:#8a6a4a halo:1", [
+"........oo..", ".......oyyo.", "......oyxxyo", "......oyxxyo", ".......oyyo.", "......ouoo..",
+".....ouo....", "....ouo.....", "...ouo......", "..ouo.......", ".ouo........", ".oo........."])

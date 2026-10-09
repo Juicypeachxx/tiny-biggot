@@ -1073,6 +1073,7 @@ func _paint_glow(ci: CanvasItem) -> void:
 
 # ---------- z 1950: ability effects ----------
 func _paint_vfx(ci: CanvasItem) -> void:
+	Auras.draw(ci, G.player, G.time)   # 33.1 the halos' fields (always: they show what reaches)
 	if Vfx.enabled:
 		Vfx.draw_over(ci, G.time)
 
@@ -1093,7 +1094,11 @@ func _paint_pbullets(ci: CanvasItem) -> void:
 	var p := G.player
 	var t := G.time
 	for o in Combat.orbital_positions(p):
-		Gfx.at(ci, "orb_moon", o.x - 5, o.y - 5)
+		var ms := Auras.moon_scale(p)   # 33.1 HORIZON RING: bigger moons
+		if ms == 1.0:
+			Gfx.at(ci, "orb_moon", o.x - 5, o.y - 5)
+		else:
+			Gfx.sprite(ci, "orb_moon", o.x, o.y, 5, 5, ms, ms)
 	for f in G.temp_fams:
 		Gfx.sp(ci, "familiar", f["x"], f["y"] + 4, 1, 1, 0.0, false, clampf(f["t"], 0.0, 1.0) if f["t"] < 1 else 1.0,
 			TB.rgba(160, 220, 255, 120))

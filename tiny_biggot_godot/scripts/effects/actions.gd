@@ -155,6 +155,8 @@ static func run(a: Array, stacks: int, ctx: Dictionary) -> void:
 			p.heal(int(a[1]) * stacks)
 		"buff":
 			Effects.add_buff(p, a[1], a[2] * stacks, a[3])
+		"aura_surge":   # 33.1 ["aura_surge", times, seconds]: the halos' fields reach further for a while
+			Auras.start_surge(a[1], a[2])
 		"chain":
 			var e := _target(ctx)
 			if e != null:

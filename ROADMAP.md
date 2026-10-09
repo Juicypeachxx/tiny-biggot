@@ -1181,7 +1181,7 @@ fast rooms, a broken sandbox with ways to bend luck (dice), many classes, and cl
 a bullet storm. Ideas and play only: every name, sprite and text here is our own.
 
 ### Stage 33: build paths I (IPA 33)
-- [ ] 33.1 THE MIND FIELD (an INT aura build: "walk to the exit while everything dies"). AURA
+- [x] 33.1 THE MIND FIELD (an INT aura build: "walk to the exit while everything dies"). AURA
       REACH: every halo and aura grows with INT; the action "halo" (the halo relics move to it);
       a visible field round you that can fill the room. Traits: OVERMIND (reach per INT), DEEP
       WELL (INT, aura damage), STILL MIND (halos pulse faster), WIDE THOUGHTS. HORIZON RING: the

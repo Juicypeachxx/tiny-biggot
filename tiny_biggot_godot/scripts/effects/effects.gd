@@ -56,6 +56,7 @@ const ACTIONS := ["nova", "shoot", "explode", "status", "heal", "buff", "chain",
 	"charm_area", "consume_area", "execute_weakest",   # ROADMAP 4.8 heroes
 	"spell",   # 26: an item casts a spell of the spellbook (spells.gd)
 	"vow",   # 30.1: one more step of an oath's vow (oaths.gd)
+	"aura_surge",   # 33.1: the halos' fields reach further for a while (auras.gd)
 	"toy"]   # 31: an item lets a toy of the toybox loose (toys.gd)
 const STATUSES := ["burn", "poison", "chill", "bleed", "stun", "curse", "mark", "shock", "vulnerable", "weakened", "gloom"]
 const CONDITIONS := ["elite", "boss", "burning", "poisoned", "chilled", "bleeding", "shocked", "cursed",

@@ -1294,6 +1294,22 @@ Done by another session (the port's), which took over from v31 on claude/dev.
   weapons, reactions, hidden rooms); the classic set identical. tools/check.sh: CHECK PASSED.
   VERSION 32 "Steady and Sound", IPA 32.
 
+### Stage 33 (9 Oct): build paths I (his word: four builds "and this is how the game needs to feel")
+- 33.1 THE MIND FIELD. `Auras` (scripts/combat/auras.gd): halos are gf stats `halo_<kind>` (burn,
+  chill, poison, shock, gravity, sun, mind, wither, mist) pulsed by `Auras.tick` (from
+  Combat.update_player, only while foes are up); reach = 1 + (2% + aura_int) per INT +
+  aura_reach (cap x6), times the MIND SPIRAL surge (action "aura_surge"); hits x (1 + aura_dmg +
+  aura_int_dmg per INT); aura_strike makes every pulse hit; aura_speed pulses faster. The six
+  halo relics became stats (they were every_n_seconds procs); new WITHERING VEIL, BLOOD HAZE
+  (bleed; kills in it may heal: Auras.on_kill) and HORIZON RING (moons at the field's edge,
+  bigger and harder: orbit_radius, moon_scale, moon_dmg). The Ember Heart aura grows with reach.
+  Fields drawn by `Auras.draw` in the vfx layer (a faint disc, a rim, turning marks). New stats
+  are gf, so items use ["hook", stat, v] ("add" only works on Player properties). Traits k_*
+  (INNER LIGHT, WIDE THOUGHTS, STILL MIND, DEEP WELL, HUMMING FIELD, OVERMIND). Hero THE
+  MINDWARDEN (index 30, THOUGHTSTONE, [0,1,6], branch THE STILL FIELD, special MIND SPIRAL).
+  Art: tools/art/stage33_icons.py (recoloured halo icons, the Horizon Ring grid, and the hero and
+  staff grids from sprites.py rendered in look D). Test tests/auras_test.tscn (in check.sh).
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).
