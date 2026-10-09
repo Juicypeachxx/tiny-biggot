@@ -384,6 +384,10 @@ const ROWS := [
 	["h_march", "swarm", 2, "QUICK MARCH", "+6% MOVE SPEED. EVERY 1% OF EXTRA MOVE SPEED GIVES YOUR COMPANIONS +2% ATTACK SPEED", false, [["mul", "speed", 1.06], ["hook", "march", 2.0]], "uncommon", ["swarm", "shadow"], {  }],
 	["h_marshal", "swarm", 2, "GRAVE MARSHAL", "+2 COMPANIONS AT ONCE. EVERY FIGHT, A SKELETON CLIMBS OUT BESIDE YOU FOR 20S", false, [["hook", "minion_cap", 2], { "on": "on_room_enter", "do": [["raise", 20.0, 0.8]] }], "rare", ["swarm", "malice"], {  }],
 	["h_beacon", "swarm", 2, "BONE BEACON", "YOUR COMPANIONS DEAL +40% DAMAGE", false, [["hook", "minion_dmg", 0.4]], "rare", ["swarm"], {  }],
+	# 35.1 DICE (his word, 9 Oct: "a broken sandbox" with dice to bend luck; scripts/game/dice.gd).
+	["d_houserules", "fortune", 2, "HOUSE RULES", "+1 ALTER DIE AND +1 BANISH DIE. EVERY DIE YOU USE GIVES 6 GOLD", false, [["add", "alters", 1], ["add", "banishes", 1], { "on": "on_dice", "do": [["gold", 6]] }], "uncommon", ["fortune"], {  }],
+	["d_fixedodds", "fortune", 1, "FIXED ODDS", "EVERY DIE YOU USE HAS A 40% CHANCE TO COME BACK", false, [["hook", "dice_back", 0.4]], "rare", ["fortune"], {  }],
+	["d_highroller", "fortune", 1, "HIGH ROLLER", "EVERY DIE YOU USE: +4% DAMAGE FOR THE REST OF THE RUN (UP TO +60%). +2 REROLL DICE", false, [["add", "rerolls", 2], { "on": "on_dice", "do": [["stack", "dmg", 0.04, 0.6, "highroller"]] }], "legend", ["fortune"], {  }],
 	["h_ranks", "swarm", 1, "ENDLESS RANKS", "A QUARTER OF YOUR KILLS CALL A WISP FOR 6S. COMPANIONS ATTACK 25% FASTER", false, [["hook", "minion_speed", 0.25], { "on": "on_kill", "chance": 0.25, "do": [["summon", 6.0]] }], "legend", ["swarm"], {  }],
 ]
 

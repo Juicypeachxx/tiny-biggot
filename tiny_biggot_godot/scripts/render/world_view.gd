@@ -46,7 +46,8 @@ var _vr := RandomNumberGenerator.new()
 const PICKUP_SPRITE := { "coin": "coin", "heart": "heartPick", "potion": "potion", "gem": "gem", "bomb": "bomb",
 	"key": "key", "armor": "armor", "ember": "ember",
 	"c_fury": "c_fury", "c_smoke": "c_smoke", "c_whet": "c_whet", "c_insight": "c_insight",
-	"c_ale": "c_ale", "c_stout": "c_stout", "c_mead": "c_mead" }
+	"c_ale": "c_ale", "c_stout": "c_stout", "c_mead": "c_mead",
+	"die_reroll": "die_reroll", "die_alter": "die_alter", "die_banish": "die_banish" }
 
 func _ready() -> void:
 	if not DebugArgs.has("no-floor-bake"):
@@ -182,8 +183,14 @@ func _paint_plates(ci: CanvasItem) -> void:
 				elif o["item"] == "relic":
 					name = o["relic"]["name"]
 					rar = o["relic"]["rarity"]
+				elif o["item"] == "die":
+					name = Dice.KINDS[o["die"]][0] + " DIE"   # 35.1
+					rar = "rare"
 			"anvil":
 				name = "ANVIL"
+			"dicecup":
+				name = "DICE CUP"   # 35.1
+				rar = "epic"
 			_:
 				continue
 		if name == "" or TB.dist_xy(p.x, p.y, o["x"], o["y"]) > 110:
@@ -583,6 +590,8 @@ func _paint_lower(ci: CanvasItem) -> void:
 				Wanderers.draw(ci, o, t)   # 21.4
 			"pet_cage":
 				Pets.draw_cage(ci, o, t)
+			"dicecup":
+				Dice.draw(ci, o, t)   # 35.1
 			"x_bowl":
 				Rex.draw_bowl(ci, o, t)
 			"jukebox":
@@ -633,6 +642,8 @@ func _paint_lower(ci: CanvasItem) -> void:
 					name = o["relic"]["sprite"]
 				elif o.has("thing"):
 					name = o["thing"]["sprite"]
+				elif o["item"] == "die":
+					name = Dice.KINDS[o["die"]][1]   # 35.1
 				else:
 					name = { "potion": "potion", "heart": "heartPick", "bomb": "bomb", "key": "key", "armor": "armor" }[o["item"]]
 				Gfx.sp(ci, name, x, y + bob, 2, 2)

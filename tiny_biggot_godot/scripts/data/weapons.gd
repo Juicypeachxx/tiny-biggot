@@ -732,7 +732,7 @@ static func random_weapon(rarity: String, exclude: Variant = null) -> Dictionary
 	var pool := []
 	for w in all():
 		if w["rarity"] == rarity and not (exclude != null and w["id"] == exclude["id"]) and not HERO_WEAPON.values().has(w["id"]) \
-				and not w["id"] in UNIQUE and not BossLoot.is_unique(w["id"]):
+				and not w["id"] in UNIQUE and not BossLoot.is_unique(w["id"]) and not Dice.banned(w["id"]):   # 35.1
 			pool.append(w)
 	if pool.is_empty():
 		for w in all():

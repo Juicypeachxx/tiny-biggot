@@ -126,6 +126,7 @@ static func zones() -> Array:
 		&"inventory":
 			for i in 10:
 				out.append(_z(MenuView.inv_slot_rect(i), func(): G.inv_i = i, G.inv_i == i))
+			_dice(out, MenuView.INV_DICE, MenuView.INV_DICE_Y)   # 35.1
 		&"choice":
 			var n: int = G.choice["relics"].size()
 			var w := 100 if n > 3 else 120
@@ -133,10 +134,12 @@ static func zones() -> Array:
 			var x0 := (sw - (n * w + (n - 1) * gap)) / 2
 			for i in n:
 				out.append(_z(Rect2(x0 + i * (w + gap), 68, w, 144), func(): G.choice["idx"] = i, G.choice["idx"] == i))
+			if GameData.rogues():
+				_dice(out, Dice.ORDER, OverlayView.CHOICE_DICE_Y)   # 35.1
 		&"traits" when TraitView.active():
 			for i in G.tchoice["opts"].size():
 				out.append(_z(TraitView.row_rect(i), func(): G.tchoice["idx"] = i, G.tchoice["idx"] == i))
-			out.append(_act(TraitView.reroll_rect(), func(): send(&"pause")))
+			_dice(out, Dice.ORDER, TraitView.DICE_Y)   # 35.1: REROLL, ALTER, BANISH
 		&"traits":
 			var n: int = G.tchoice["opts"].size()
 			var x0 := (sw - (n * 128 + (n - 1) * 10)) / 2
@@ -145,6 +148,12 @@ static func zones() -> Array:
 			# The REROLL hint line: same as pressing MENU.
 			out.append(_act(Rect2(sw / 2 + 40, 220, 120, 16), func(): send(&"pause")))
 	return out
+
+## 35.1: the dice chips under a pick: a tap throws that die (the same as its key).
+static func _dice(out: Array, kinds: Array, y: float) -> void:
+	for ch in Dice.chips(kinds, y):
+		var a := Dice.chip_action(ch[0])
+		out.append(_act(ch[1], func(): send(a)))
 
 static func _tree_sel(bi: int, ni: int) -> void:
 	G.tree_b = bi

@@ -199,7 +199,12 @@ func draw_prompt(ci: CanvasItem, o: Dictionary) -> void:
 	var title := ""
 	var desc := ""
 	var extra := ""
-	if Saloon.handles(o["kind"]) or EventRooms.handles(o["kind"]) or RiftExtras.handles(o["kind"]) or Pets.handles(o["kind"]) \
+	if Dice.handles(o["kind"]):   # 35.1 the DICE CUP
+		var dl := Dice.prompt(o)
+		title = dl[0]
+		desc = dl[1]
+		extra = dl[2]
+	elif Saloon.handles(o["kind"]) or EventRooms.handles(o["kind"]) or RiftExtras.handles(o["kind"]) or Pets.handles(o["kind"]) \
 			or Rex.handles(o["kind"]) or Wanderers.handles(o["kind"]):
 		var sl := Saloon.prompt(o) if Saloon.handles(o["kind"]) else (EventRooms.prompt(o) if EventRooms.handles(o["kind"]) \
 			else (RiftExtras.prompt(o) if RiftExtras.handles(o["kind"]) else (Pets.prompt(o) if Pets.handles(o["kind"]) \
@@ -244,6 +249,9 @@ func draw_prompt(ci: CanvasItem, o: Dictionary) -> void:
 			if o["item"] == "relic":
 				title = o["relic"]["name"]
 				desc = Live.desc(o["relic"])   # 10.1
+			elif o["item"] == "die":   # 35.1
+				title = Dice.KINDS[o["die"]][0] + " DIE"
+				desc = Dice.KINDS[o["die"]][4]
 			else:
 				title = SHOP_TEXT[o["item"]][0]
 				desc = SHOP_TEXT[o["item"]][1]
@@ -342,6 +350,8 @@ func _choice_geom() -> Array:
 	var gap := 8 if n > 3 else 14
 	return [n, w, gap, (TB.SW - (n * w + (n - 1) * gap)) / 2]
 
+const CHOICE_DICE_Y := 248
+
 func draw_choice(ci: CanvasItem) -> void:
 	var c := G.choice
 	Gfx.text(ci, "CHOOSE A RELIC", TB.SW / 2, 40, "gold", 2, 0.5)
@@ -360,7 +370,12 @@ func draw_choice(ci: CanvasItem) -> void:
 			Gfx.text(ci, nl[j], x + w / 2, y + 72 + j * 8 + oy, "gold", 1, 0.5)
 		Gfx.text(ci, GameData.RARITY_NAME[r["rarity"]], x + w / 2, y + h - 12 + oy, GameData.RARITY_COL[r["rarity"]], 1, 0.5)
 		TraitView.draw_rich(ci, Live.desc(r), x + w / 2, y + 94 + oy, w - 14, 0.5)   # 8.2: keywords in colour
+		var alt: float = c.get("alt", {}).get(i, -99.0)   # 35.1: a relic a die just changed flashes
+		if G.time - alt < 0.35:
+			ci.draw_rect(Rect2(x, y + oy, w, h), Color(1, 1, 1, 0.6 * (1.0 - (G.time - alt) / 0.35)))
 	Gfx.text(ci, "< >  CHOOSE     USE  TAKE", TB.SW / 2, 236, "grey", 1, 0.5)
+	if GameData.rogues():
+		Dice.draw_chips(ci, Dice.ORDER, CHOICE_DICE_Y)   # 35.1: REROLL, ALTER, BANISH
 
 # ---------- Trait pick ----------
 func _traits_x0(n: int) -> int:

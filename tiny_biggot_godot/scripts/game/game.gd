@@ -155,7 +155,8 @@ func new_run() -> void:
 		if not r.is_empty(): add_relic(p, r[0])
 	Trophies.apply(p, hero["id"])   # 7.2: a potion, a relic, a rare relic for 5 / 10 / 20 trophies
 	CampLife.on_new_run(p)   # 19.2: the camp's meal, song and parcel
-	if GameData.rogues():   # 29 (his word, 9 Oct): every run opens with an OATH that shapes it
+	Dice.start(p)   # 35.1: an ALTER and a BANISH die (the 2 REROLL dice were always there)
+	if GameData.rogues() and not DebugArgs.has("no-oath"):   # 29 (his word, 9 Oct): every run opens with an OATH that shapes it
 		p.oath_picks = 1
 		p.pending += 1
 	run_stats["power0"] = Combat.power(p)   # the yardstick of Combat.power_scale
@@ -518,6 +519,8 @@ func _fill_secret(r: Room, cx: float, cy: float, roll: float) -> void:
 		for i in 2:
 			r.pickups.append(_room_pickup("ember", cx - 10 + i * 20, cy - 26))
 		show_banner("A DRAGON'S HOARD", "THE DRAGON IS OUT. TAKE WHAT YOU CAN CARRY")
+	if randf() < 0.5:   # 35.1: a die left behind
+		r.pickups.append(_room_pickup("die_" + Dice.roll_kind(), cx + 30, cy - 22))
 
 ## Events of a MYSTERY room, and the ones a hidden room may hold instead of its old three finds.
 const MYSTERY_EVENTS := ["wheel", "market", "mimic", "armory", "well", "goblin", "mirror", "library", "safehouse", "saloon",
@@ -740,6 +743,7 @@ func setup_objects(r: Room) -> void:
 				if sp != null and sp["id"] != g["id"]:
 					r.objects.append({ "kind": "shop", "item": "gear", "thing": sp, "x": cx, "y": cy + 34, "price": item_price(sp) })
 				r.objects.append({ "kind": "anvil", "x": cx + 104, "y": cy + 34 })
+				Dice.stock_shop(r, cx, cy)   # 35.1: a die for sale and the DICE CUP
 		"treasure":
 			if randf() < 0.35:
 				var it: Dictionary = Weapons.random_weapon(Gear.roll_item_rarity(f, "elite"), player.weapon) if randf() < 0.5 \
@@ -849,6 +853,7 @@ func room_cleared() -> void:
 	room.cleared = true
 	if room.type in ["combat", "elite"]:
 		StatDrops.maybe(0.25, 14.0 * TB.TS, 9.0 * TB.TS)   # 8.3: the middle of the room
+		Dice.maybe(0.06, 14.0 * TB.TS, 9.5 * TB.TS)   # 35.1
 	Saloon.on_room_clear(room)
 	EventRooms.on_room_clear(room)
 	Wanderers.on_room_clear(room)   # 21.4 a ghost, a rival, a lost traveller
@@ -944,6 +949,7 @@ func on_boss_dead(b: Enemy) -> void:
 	Combat.drop_pickup("ember", b.x, b.y)
 	for i in 2:
 		StatDrops.maybe(1.0, b.x, b.y)   # 8.3: a guardian leaves two stat pickups
+		Dice.maybe(1.0, b.x, b.y)   # 35.1: and two dice
 	RiftBosses.clear()
 	Chaos.clear()
 	if GameData.rogues() and room.type != "barn":
@@ -1238,6 +1244,8 @@ func interact(o: Dictionary) -> void:
 		return Pets.interact(o)
 	if Rex.handles(o["kind"]):
 		return Rex.interact(o)
+	if Dice.handles(o["kind"]):
+		return Dice.interact(o)   # 35.1 the DICE CUP
 	var p := player
 	# 05b_items.rb: weapons and gear on the floor or for sale.
 	if o["kind"] == "item":
@@ -1327,6 +1335,7 @@ func interact(o: Dictionary) -> void:
 				"bomb": p.bombs += 1
 				"key": p.keys += 1
 				"armor": p.armor += 1
+				"die": Dice.give(p, o["die"], 1)   # 35.1
 		"altar":
 			if p.hp <= 2:
 				return deny(o, "TOO WEAK")
@@ -1655,7 +1664,8 @@ func roll_rarity(source: String) -> String:
 	return best
 
 ## n relics nobody owns or is already offered in this room (Game.rb roll_relics).
-func roll_relics(n: int, source: String = "chest", in_room: Room = null) -> Array:
+## 35.1: `exclude` (ids) keeps the ones a pick already shows out; banished relics never come.
+func roll_relics(n: int, source: String = "chest", in_room: Room = null, exclude: Array = []) -> Array:
 	var r_room := in_room if in_room != null else room
 	var owned := {}
 	for r in player.relics:
@@ -1667,12 +1677,12 @@ func roll_relics(n: int, source: String = "chest", in_room: Room = null) -> Arra
 				offered[o["relic"]["id"]] = true
 	var pool := []
 	for r in relic_pool():
-		if not owned.has(r["id"]) and not offered.has(r["id"]):
+		if not owned.has(r["id"]) and not offered.has(r["id"]) and not r["id"] in exclude and not Dice.banned(r["id"]):
 			pool.append(r)
 	if pool.size() < n:
 		pool = []
 		for r in relic_pool():
-			if not owned.has(r["id"]):
+			if not owned.has(r["id"]) and not r["id"] in exclude and not Dice.banned(r["id"]):
 				pool.append(r)
 	var out := []
 	for k in n:
@@ -1712,8 +1722,9 @@ func open_choice(source: String, o: Dictionary) -> void:
 		for i in 15:
 			Combat.drop_pickup("coin", o["x"], o["y"])
 	else:
-		choice = { "relics": ch, "idx": mini(1, ch.size() - 1) }
+		choice = { "relics": ch, "idx": mini(1, ch.size() - 1), "source": source }
 		state = &"choice"
+	Dice.maybe({ "chest": 0.25, "iron": 0.4, "cursed": 0.6, "boss": 1.0 }.get(source, 0.25), o["x"], o["y"] + 10)   # 35.1
 
 ## Offer weight. Original traits keep the original formula exactly. New
 ## traits (design spec section 4): rarity weight times a snowball affinity
@@ -1764,19 +1775,12 @@ func offer_traits() -> void:
 	var mode := ""
 	if GameData.rogues():
 		mode = "oath" if p.oath_picks > 0 else ("special" if p.special_picks > 0 else "")
-	var cands := []
-	for t in Traits.all():
-		var w := _special_weight(p, t, mode) if mode != "" else trait_weight(p, t)
-		if w > 0:
-			cands.append([t, w])
+	var cands := trait_cands(p, mode)
 	if cands.is_empty() and mode != "":
 		p.oath_picks = 0
 		p.special_picks = 0
 		mode = ""
-		for t in Traits.all():
-			var w := trait_weight(p, t)
-			if w > 0:
-				cands.append([t, w])
+		cands = trait_cands(p, mode)
 	var opts := []
 	var n_opts := 3
 	if TraitView.active() and p.luck > 0 and randf() < minf(0.9, p.luck * 0.15):
@@ -1813,6 +1817,18 @@ func offer_traits() -> void:
 	for t in opts:
 		TraitBook.note_seen(t)   # 30.2: lit in the trait book
 	state = &"traits"
+
+## The traits a pick can offer now, with their weights: [[trait, weight]...]. 35.1: a banished
+## trait never comes again (Dice).
+func trait_cands(p: Player, mode: String) -> Array:
+	var cands := []
+	for t in Traits.all():
+		if p.banished.has(t["id"]):
+			continue
+		var w := _special_weight(p, t, mode) if mode != "" else trait_weight(p, t)
+		if w > 0:
+			cands.append([t, w])
+	return cands
 
 ## 29: only the practice dummy and target are left in the room.
 func _only_dummies() -> bool:
@@ -1877,6 +1893,8 @@ func update_choice() -> void:
 	menu = choice["idx"]
 	var go := menu_nav(choice["relics"].size(), true)
 	choice["idx"] = menu
+	if Dice.on_choice():   # 35.1: MENU rerolls, HEAL alters the chosen relic, BOMB banishes it
+		return
 	if not go:
 		return
 	var r: Dictionary = choice["relics"][choice["idx"]]
@@ -1892,9 +1910,14 @@ func update_traits() -> void:
 	menu = tchoice["idx"]
 	var go := menu_nav(tchoice["opts"].size(), not TraitView.active())
 	tchoice["idx"] = menu
+	if Dice.on_traits():   # 35.1: HEAL alters the chosen row, BOMB banishes it
+		return
 	if Keys.back():
 		if player.rerolls > 0:
-			player.rerolls -= 1
+			if GameData.rogues():
+				Dice.spend(player, "reroll")   # 35.1: a REROLL die
+			else:
+				player.rerolls -= 1
 			Snd.play("confirm")
 			offer_traits()
 			tchoice["t0"] = time - TraitView.BURST   # a reroll: the rows again, not the starburst
@@ -2010,6 +2033,8 @@ func update_inventory() -> void:
 				Snd.play("deny")
 		else:
 			Consumables.use(p, inv_i - 6)
+	elif Dice.on_inventory():   # 35.1: HEAL alters the chosen backpack item, BOMB banishes it
+		pass
 	elif Keys.roll():
 		if inv_i < 6 and inv_i < p.backpack.size():
 			drop_item(p.backpack[inv_i], p.x, p.y + 14)

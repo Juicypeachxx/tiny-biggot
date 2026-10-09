@@ -73,6 +73,11 @@ const KEYWORDS := {
 	"DEVOUT": ["gold", "ONE ALIGNMENT 2 OR MORE AND THE OTHER THREE 1 OR LESS."],
 	"GLOOM": ["purple", "GLOOM STACKS UP TO 10. EACH STACK: +8% DAMAGE TAKEN. LASTS 4 SECONDS."],
 	"GLOOMED": ["purple", "GLOOM STACKS UP TO 10. EACH STACK: +8% DAMAGE TAKEN. LASTS 4 SECONDS."],
+	# 35.1 DICE (dice.gd)
+	"REROLL": ["gold", "A DIE: EVERY CHOICE OF A PICK CHANGES. AT A SHOP'S DICE CUP, THE WHOLE SHOP."],
+	"ALTER": ["cyan", "A DIE: THE CHOSEN TRAIT, RELIC OR BACKPACK ITEM CHANGES INTO ANOTHER."],
+	"BANISH": ["red", "A DIE: THE CHOSEN ONE IS GONE FOR THE RUN AND ANOTHER TAKES ITS PLACE."],
+	"DICE": ["gold", "REROLL, ALTER AND BANISH DICE BEND YOUR LUCK. USE THEM ON PICKS, ITEMS AND SHOPS."],
 }
 ## The little icon drawn after a keyword (tools/art/mini_icons.py).
 const ICONS := { "DAMAGE": "mi_dmg", "RATE": "mi_rate", "SPEED": "mi_speed", "GOLD": "mi_gold", "HEART": "mi_heart",
@@ -94,9 +99,8 @@ static func ready() -> bool:
 static func row_rect(i: int) -> Rect2:
 	return Rect2(PX + 6, ROW_Y + i * ROW_STEP, PW - 12, ROW_H)
 
-## The reroll's tap zone on the footer line (taps.gd).
-static func reroll_rect() -> Rect2:
-	return Rect2(TB.SW / 2 + 40, FOOT_Y - 4, 140, 14)
+## 35.1: the dice under the rows (Dice.chips; taps.gd).
+const DICE_Y := FOOT_Y + 9
 
 # ---------- Drawing ----------
 static func draw(ci: CanvasItem) -> void:
@@ -136,13 +140,16 @@ static func draw(ci: CanvasItem) -> void:
 			Gfx.text(ci, "FOR A CHANCE OF 4 CHOICES", r.get_center().x, r.position.y + 27, "dim", 1, 0.5)
 		if k < 1.0:
 			_shine(ci, r, k)
+		var alt: float = c.get("alt", {}).get(i, -99.0)   # 35.1: a row a die just changed
+		if G.time - alt < SHINE:
+			_shine(ci, r, (G.time - alt) / SHINE)
 	var oy := ROW_Y
 	if t >= BURST:
 		oy = _odds(ci, p)
 	if t >= BURST + 4 * ROW_GAP and c["idx"] < opts.size():
 		_keywords(ci, opts[c["idx"]], oy + 4)
-	var reroll := "REROLL (%d LEFT)" % p.rerolls if p.rerolls > 0 else "REROLL (%d GOLD)" % G.reroll_cost()
-	Gfx.text(ci, "UP/DOWN  CHOOSE    USE  TAKE    MENU  " + reroll, TB.SW / 2, FOOT_Y, "grey", 1, 0.5)
+	Gfx.text(ci, "UP/DOWN  CHOOSE    USE  TAKE", TB.SW / 2, FOOT_Y - 2, "grey", 1, 0.5)
+	Dice.draw_chips(ci, Dice.ORDER, DICE_Y)   # 35.1: REROLL, ALTER, BANISH
 
 static func _row(ci: CanvasItem, r: Rect2, tr: Dictionary, sel: bool, a: float) -> void:
 	var fam: Dictionary = Traits.FAMILIES[tr["fam"]]

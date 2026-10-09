@@ -1206,12 +1206,55 @@ a bullet storm. Ideas and play only: every name, sprite and text here is our own
       Traits: GRAVE MARSHAL, BONE BEACON, QUICK MARCH, ENDLESS RANKS; MARCHING BOOTS. A hero:
       THE BONECALLER.
 ### Stage 35: the feel (IPA 35)
-- [ ] 35.1 DICE to bend luck: REROLL, BANISH (gone for the run), ALTER (one row or one item
-      changed): found and bought, used on trait picks, relic choices, items and shops.
+- [x] 35.1 DICE to bend luck: REROLL, BANISH (gone for the run), ALTER (one row or one item
+      changed): found and bought, used on trait picks, relic choices, items and shops. A run
+      starts with 2 REROLL, 1 ALTER, 1 BANISH; MENU / HEAL / BOMB or a tap on the dice under a
+      pick; HEAL / BOMB on a backpack item; the shop's DICE CUP restocks it; a die for sale.
+      HOUSE RULES, FIXED ODDS, HIGH ROLLER, GAMBLER'S POUCH, KNUCKLEBONES. Test dice_test.
 - [ ] 35.2 PACE: rooms measured, then faster to start and to finish (spawns, waves, rewards),
       and a power spike in the first rooms.
 - [ ] 35.3 CLARITY in a bullet storm: foe shots always above your own effects with a dark rim,
       your hero always easy to find; nothing toned down.
+
+## Stages 36-39 (his word, 9 Oct: "Ideas for sprites for new stuff, and new stuff to add")
+He sent pictures of a wiki of the game we take ideas from (charms, offhands, body armour, helmets,
+magic weapons, companions, golden food, tipsiness) and notes on alignment, morality, loot
+modifiers, damage scaling and food. Ideas and kinds of things only: every name, sprite and text is
+our own (no names from there, e.g. no "Boozer" or "Emblem of ..."). Nothing that is in the game now
+is removed: new things are added beside it. After Stage 35, in this order:
+
+### Stage 36: food and drink (IPA 36)
+- [ ] 36.1 FOOD: room rewards, shop wares and gifts of some gear; each gives +1 XP and a point of
+      STR, DEX or INT (some two). Ten or so foods, drawn here.
+- [ ] 36.2 GOLDEN FOOD: rare, from the deepest floors (and hidden rooms, blood altars): each a
+      lasting bonus of its own (damage of hits that are not crits, crit chance, attack speed, crit
+      damage, companion damage, trigger damage, lucky hits, +1 to the highest attribute) and +1 XP.
+- [ ] 36.3 DRINKS as buffs: each drink also gives a buff of its own that lasts a number of rooms;
+      how many can be on at once is a stat (3 to start); one more replaces the oldest; CHEESE raises
+      the most; a trait makes them last for good. Today's TIPSY stays as it is.
+
+### Stage 37: offhands and charms (IPA 37)
+- [ ] 37.1 THE OFFHAND: a new slot. Shields (stop a shot now and then), quivers (more arrows),
+      lanterns, tomes, potions, balloons, hearts, bombs: 25 or more, each with its own effect.
+- [ ] 37.2 CHARMS: small cards in a row of charm slots, each a passive; 30 or more.
+
+### Stage 38: alignment and loot (IPA 38)
+- [ ] 38.1 ALIGNMENT REVAMP: GOOD, EVIL, LAWFUL and CHAOTIC do not cancel each other out. They
+      decide the end path (the gates ask for enough of one), the prices of the tavern's and the
+      vendors' wares (cheap when yours matches, dear when it is the opposite), and the bonus of
+      gear that grows with one. Some heroes start GOOD or EVIL. Alignment shops can follow a
+      guardian once that path's gate guardian has been beaten.
+- [ ] 38.2 LOOT: each point of LUCK also gives lucky hits (34.1); new stats MAGIC FIND (rarer
+      items) and TREASURE FIND (more items and gold), on gear and traits, shown with the stats.
+- [ ] 38.3 DAMAGE SCALING GRADES (S to D) with a soft cap: **asked first** (a cap that lowers
+      damage would tone builds down, rule 1). Without his yes, only the grade letters are shown.
+
+### Stage 39: more to find (IPA 39)
+- [ ] 39.1 Helmets and body armour: 30 or more new ones (hats, crowns, masks, hoods, robes, plate).
+- [ ] 39.2 Magic weapons: 20 or more (wands, staves, tomes, scrolls, a lute, an accordion, bells,
+      a harp).
+- [ ] 39.3 Companions: 15 or more small things that each bring a helper (an acorn, a mushroom, a
+      skull, berries...), counted by the companion stats of 34.2.
 
 ---
 

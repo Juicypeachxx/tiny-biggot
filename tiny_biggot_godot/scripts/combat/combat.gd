@@ -536,6 +536,7 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 		Effects.fire("on_kill", { "enemy": e, "x": e.x, "y": e.y, "elite": e.elite })
 	if e.elite and not e.is_boss():
 		StatDrops.maybe(0.15, e.x, e.y)   # 8.3
+		Dice.maybe(0.12, e.x, e.y)   # 35.1
 	if e.elite and not e.is_boss() and randf() < 0.05:
 		G.drop_gear_at(e.x, e.y)
 
@@ -1780,7 +1781,8 @@ static func explode_at(x: float, y: float, dmg: float, skip: Enemy, radius: floa
 # ---------- Pickups ----------
 const PICKUP_KINDS := ["coin", "gem", "heart", "potion", "bomb", "key", "armor", "ember",
 	"c_fury", "c_smoke", "c_whet", "c_insight",   # Rogues-layer belt consumables
-	"c_ale", "c_stout", "c_mead"]   # 33.2 THE TAVERN's drinks
+	"c_ale", "c_stout", "c_mead",   # 33.2 THE TAVERN's drinks
+	"die_reroll", "die_alter", "die_banish"]   # 35.1 DICE (dice.gd)
 
 ## Rogues layer: past this many pickups on the floor, new coins go straight
 ## into your purse (same gold), so long fights with gold-on-hit builds don't
@@ -1852,6 +1854,10 @@ static func update_pickups(dt: float) -> void:
 		if StatDrops.is_kind(k.kind):   # 8.3: stat stacking
 			k.dead = true
 			StatDrops.take(p, k.kind)
+			continue
+		if Dice.is_kind(k.kind):   # 35.1
+			k.dead = true
+			Dice.take(p, k.kind)
 			continue
 		if Consumables.is_kind(k.kind):
 			# Rogues layer: belt consumables wait on the floor while the belt is full.

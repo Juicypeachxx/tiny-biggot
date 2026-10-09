@@ -282,6 +282,11 @@ timeout 300 "$GODOT" --headless --path . res://tests/legion_test.tscn -- --no-sa
 grep -E "^\[legion\]|legion test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 35.1 dice: reroll, alter and banish on picks, the backpack and the shop's dice cup"
+timeout 300 "$GODOT" --headless --path . res://tests/dice_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^dice:|dice test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== 18.1 the daily trial"
 timeout 300 "$GODOT" --headless --path . res://tests/daily_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "daily test" "$LOG"

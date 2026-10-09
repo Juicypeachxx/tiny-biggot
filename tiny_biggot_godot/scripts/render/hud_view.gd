@@ -40,7 +40,7 @@ func _signature() -> Array:
 		var g = p.gear.get(sl)
 		gear.append(g["id"] if g != null else "")
 	return [perf_line, Meta.opts.get("fps", false), p.max_hp, p.hp, p.armor, p.max_potions, p.potions, p.gold,
-		p.dodge_charges, p.charges, roundi(5 * p.charge_t / p.dodge_cd), p.bombs, p.keys, p.embers_found,
+		p.dodge_charges, p.charges, roundi(5 * p.charge_t / p.dodge_cd), p.bombs, p.keys, p.embers_found, p.rerolls, p.alters, p.banishes,
 		G.msg.get("text", ""), G.msg.get("col", ""), p.level, roundf(80.0 * p.xp / GameData.xp_needed(p.level)),
 		p.hero.get("hud", ""), p.heat, p.heat_max, p.tempo, p.tempo_max, G.floor_index, G.loop, f["depth"], f["total"], f["path"].size(),
 		int(G.run_stats.get("time", 0.0)), p.belt.duplicate(), p.relics.size(),
@@ -135,6 +135,9 @@ func _draw() -> void:
 		Gfx.at(self, "ember", x, 19)
 		x += 7
 		Gfx.text(self, p.embers_found, x, 18, "orange")
+		x += TB.text_w(str(p.embers_found)) + 6
+	if GameData.rogues():
+		Dice.draw_hud(self, p, x + 2, 18)   # 35.1: REROLL, ALTER and BANISH dice
 	# Toast.
 	if not G.msg.is_empty():
 		var w := TB.text_w(G.msg["text"]) + 10

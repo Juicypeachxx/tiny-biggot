@@ -161,6 +161,11 @@ static func run(a: Array, stacks: int, ctx: Dictionary) -> void:
 			Lucky.cast(p, ctx.get("enemy"))
 		"lucky_rush":   # 34.1 ["lucky_rush", seconds]: every hit is a lucky hit for a while
 			Lucky.rush_t = maxf(Lucky.rush_t, a[1])
+		"dice":   # 35.1 ["dice", kind or "any", n]: dice to bend luck (dice.gd)
+			for i in int(a[2]) * stacks:
+				var dk: String = Dice.roll_kind() if a[1] == "any" else a[1]
+				Dice.give(p, dk, 1)
+				Fx.float_text(p.x, p.y - 12 - i * 8, "+%s DIE" % Dice.KINDS[dk][0], Dice.KINDS[dk][2])
 		"tipsy":   # 33.2 ["tipsy", n]: a drink's worth of TIPSY
 			Tipsy.add(p, a[1] * stacks)
 		"belt":   # 33.2 ["belt", kind]: a consumable into the belt (on the floor if it is full)

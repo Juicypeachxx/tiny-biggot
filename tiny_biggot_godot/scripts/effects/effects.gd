@@ -45,7 +45,8 @@ const TRIGGERS := ["on_hit", "on_crit", "on_kill", "on_roll", "on_damage_taken",
 	"on_potion", "on_weapon_swap", "on_floor_start",   # last three: new for the step-6 heroes
 	"on_bomb", "on_armor_lost", "on_dodge", "on_overheal", "on_chest", "on_buy",   # ROADMAP 4.7 gear and relics
 	"on_reaction",   # 26: two ailments on a foe reacted (reactions.gd)
-	"on_lucky"]   # 34.1: a lucky hit (lucky.gd)
+	"on_lucky",   # 34.1: a lucky hit (lucky.gd)
+	"on_dice"]   # 35.1: a die used (dice.gd)
 const ACTIONS := ["nova", "shoot", "explode", "status", "heal", "buff", "chain", "lightning", "summon", "gold",
 	"refund_roll", "armor", "drop", "damage", "hurt_self", "xp", "clear_shots", "card", "heat", "scroll",
 	"dash", "channel", "invuln", "status_area", "vfx", "area",
@@ -60,6 +61,7 @@ const ACTIONS := ["nova", "shoot", "explode", "status", "heal", "buff", "chain",
 	"aura_surge",   # 33.1: the halos' fields reach further for a while (auras.gd)
 	"tipsy", "belt",   # 33.2: a drink's worth of TIPSY (tipsy.gd); a consumable into the belt
 	"slot_cast", "lucky_rush",   # 34.1: a free cast from the spell slot; every hit lucky for a while
+	"dice",   # 35.1: ["dice", kind or "any", n]: dice to bend luck (dice.gd)
 	"toy"]   # 31: an item lets a toy of the toybox loose (toys.gd)
 const STATUSES := ["burn", "poison", "chill", "bleed", "stun", "curse", "mark", "shock", "vulnerable", "weakened", "gloom"]
 const CONDITIONS := ["elite", "boss", "burning", "poisoned", "chilled", "bleeding", "shocked", "cursed",

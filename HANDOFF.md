@@ -1348,6 +1348,33 @@ Done by another session (the port's), which took over from v31 on claude/dev.
   Art in tools/art/stage33_icons.py (tint() for the boots). Test tests/legion_test.tscn.
   Core replays re-recorded for Stage 34; classic identical. IPA 34.
 
+### Stage 35 (9 Oct): the feel
+- 35.1 DICE. `Dice` (scripts/game/dice.gd). Counts: REROLL is the old Player.rerolls (still 2 at
+  the start; with none left a reroll costs gold, Game.reroll_cost), plus new Player.alters and
+  banishes (1 each at an expanded run's start, Dice.start) and Player.banished (ids gone for the
+  run). Trait pick: Game.update_traits calls Dice.on_traits (HEAL = alter the chosen row, BOMB =
+  banish it; MENU still rerolls and spends a REROLL die); Game.trait_cands (new, used by
+  offer_traits) skips banished traits. Relic choice: Game.update_choice calls Dice.on_choice
+  (MENU / HEAL / BOMB); Game.roll_relics takes `exclude` ids and skips banished relics; choice
+  stores its "source". Backpack: Dice.on_inventory (HEAL / BOMB on the chosen item;
+  Dice.changed_item: same rarity weapon keeping its anvil +N, or gear for the same slot).
+  Weapons.random_weapon, Gear.random_gear and Gear.chase_piece skip banished ids. Shops (expanded):
+  a die for sale (shop item "die") and the DICE CUP object (Dice.handles / interact / prompt /
+  draw): a REROLL die (or the gold price) restocks every relic, weapon, gear and die on sale.
+  Found: elites 12%, chests 25% (iron 40%, cursed 60%, boss 100%), cleared fights 6%, guardians
+  2, hidden rooms 50% (Dice.maybe, x(1 + gf dice_find)); pickups die_reroll/alter/banish. Under
+  every pick and in the backpack: chips with the dice and their counts (Dice.draw_chips; tap zones
+  in taps.gd send the same actions); HUD shows the three counts (and they are in the HUD's
+  redraw signature). A row a die changed shines (tchoice/choice "alt"). Trigger on_dice, action
+  ["dice", kind|"any", n], gf dice_back (FIXED ODDS). Traits d_* (HOUSE RULES, FIXED ODDS, HIGH
+  ROLLER), relics GAMBLER'S POUCH and KNUCKLEBONES; keywords REROLL, ALTER, BANISH, DICE. Art in
+  tools/art/stage33_icons.py (die()). `--no-oath` (debug): no opening oath pick (pictures).
+  Test tests/dice_test.tscn (in check.sh). Core replays re-recorded; classic identical.
+- 35.2 tool: `--pace-log` (scripts/debug_pace.gd) prints how each fight room's time went
+  (start, fight, waits between waves, tail = the last one or two foes, after = clear to exit)
+  and the times of the level-ups, with the bot. Use --unlock-all, or the bot stops at the hero
+  select after a death with a locked hero.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

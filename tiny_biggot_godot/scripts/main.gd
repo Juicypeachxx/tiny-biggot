@@ -348,6 +348,10 @@ func _physics_process(_delta: float) -> void:
 	overlay.refresh()
 	fade_view.queue_redraw()
 	_ticks += 1
+	if DebugArgs.has("pace-log"):   # 35.2: how the time of each room goes (debug_pace.gd)
+		DebugPace.tick(_ticks)
+		if _ticks % 3600 == 0:
+			DebugPace.summary()
 	if _trace != null and _ticks % 60 == 0:
 		_trace.store_line(Trace.line(_ticks))
 	if DebugArgs.has("weapon-cycle") and G.player != null:

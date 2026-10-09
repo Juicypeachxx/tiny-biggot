@@ -521,8 +521,12 @@ static func random_gear(rarity: String) -> Dictionary:
 				return piece
 	var pool := []
 	for g in all():
-		if g["rarity"] == rarity and g["id"] != "hagglerhat" and not BossLoot.is_unique(g["id"]):   # (brazil.gd, boss_loot.gd)
+		if g["rarity"] == rarity and g["id"] != "hagglerhat" and not BossLoot.is_unique(g["id"]) and not Dice.banned(g["id"]):   # (brazil.gd, boss_loot.gd; 35.1)
 			pool.append(g)
+	if pool.is_empty():   # 35.1: (every one of this rarity banished)
+		for g in all():
+			if g["rarity"] == rarity:
+				pool.append(g)
 	var got: Dictionary = TB.pick(pool)
 	if rogues:
 		for i in REROLLS:
@@ -622,7 +626,7 @@ static func chase_piece(p: Player) -> Variant:
 	for it in p.backpack:
 		if it != null:
 			owned[it["id"]] = true
-	var miss := pieces(best).filter(func(g): return not owned.has(g["id"]))
+	var miss := pieces(best).filter(func(g): return not owned.has(g["id"]) and not Dice.banned(g["id"]))
 	return TB.pick(miss) if not miss.is_empty() else null
 
 ## Whether an item would add to a set the hero has started (the ground and shop show "SET").

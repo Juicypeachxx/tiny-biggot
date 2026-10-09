@@ -748,6 +748,8 @@ const INV_X := 108
 const INV_BP_Y := 170
 const INV_BELT_Y := 206
 const INV_SLOT := 22
+const INV_DICE := ["alter", "banish"]
+const INV_DICE_Y := 273
 
 static func inv_slot_rect(i: int) -> Rect2:
 	if i < 6:
@@ -852,4 +854,6 @@ func draw_inventory(ci: CanvasItem) -> void:
 		Gfx.text(ci, Consumables.KINDS[sel_c]["desc"], INV_X - 4, dy + 9, "white")
 	else:
 		Gfx.text(ci, "EMPTY", INV_X - 4, dy, "dim")
-	Gfx.text(ci, "< > PICK   USE EQUIP / DRINK   ROLL DROP   MENU BACK", TB.SW / 2, 268, "grey", 1, 0.5)
+	Gfx.text(ci, "< > PICK   USE EQUIP / DRINK   ROLL DROP   MENU BACK", TB.SW / 2, 263, "grey", 1, 0.5)
+	if GameData.rogues():
+		Dice.draw_chips(ci, INV_DICE, INV_DICE_Y)   # 35.1: ALTER or BANISH a backpack item

@@ -127,11 +127,76 @@ def stage34_legion():
     recolour("w_gravecaller", "w_bonecenser", 0.28, 0.9, 1.0)      # the censer's glow: grave green
     tint("g_bastion_boots", "g_marchingboots", "#a8703a", 0.75)       # leather brown
 
+def die(dst, face, body, pip="#140f1c"):
+    """35.1 a die, 9x9: a light top edge, a dark bottom one, its pips."""
+    rows = [".ooooooo."] + ["o" + r + "o" for r in face] + [".ooooooo."]
+    grid(dst, rows, {"o": OUT, "1": shade(body, 1.25), "2": body, "3": shade(body, 0.65), "p": pip})
+
+def stage35():
+    die("die_reroll", [   # six pips: every choice changes
+        "1111111",
+        "2p222p2",
+        "2222222",
+        "2p222p2",
+        "2222222",
+        "2p222p2",
+        "3333333",
+    ][:7], "#f2c94c")
+    die("die_alter", [    # three pips on a slant: one changes
+        "1111111",
+        "22222p2",
+        "2222222",
+        "222p222",
+        "2222222",
+        "2p22222",
+        "3333333",
+    ], "#6fd3e0")
+    die("die_banish", [   # pale pips in an X on a dark red die: crossed out for good
+        "1111111",
+        "2p222p2",
+        "22p2p22",
+        "222p222",
+        "22p2p22",
+        "2p222p2",
+        "3333333",
+    ], "#a8302a", pip="#f4ecd8")
+    # GAMBLER'S POUCH: a drawstring pouch with a die peeking out.
+    grid("relic_gamblerspouch", [
+        "....oooo....",
+        "...oyyyyo...",
+        "....o22o....",
+        "...ooqqoo...",
+        "..o122221o..",
+        ".o12222221o.",
+        ".o1222oooo..",
+        ".o122offfo..",
+        ".o122ofpfo..",
+        "..o12offfo..",
+        "...oooooo...",
+        "............",
+    ], {"o": OUT, "1": "#a8705a", "2": "#7a4a2a", "q": "#f2c94c", "y": "#c89a5a", "f": "#6fd3e0", "p": OUT})
+    # KNUCKLEBONES: a bone over a gold die.
+    grid("relic_knucklebones", [
+        ".oo......oo.",
+        "o11oooooo11o",
+        "o1222222221o",
+        "o22oooooo22o",
+        ".oo......oo.",
+        "...ooooooo..",
+        "...o11111o..",
+        "...ogpgggo..",
+        "...ogggggo..",
+        "...ogggpgo..",
+        "...o33333o..",
+        "...ooooooo..",
+    ], {"o": OUT, "1": "#f4ecd8", "2": "#c8b898", "g": "#f2c94c", "3": "#a8802a", "p": OUT})
+
 if __name__ == "__main__":
     stage33()
     stage33_tavern()
     stage34()
     stage34_legion()
+    stage35()
     rendered(["mindwarden_hero", "w_thoughtstone", "tavernknight_hero", "w_tankardmaul", "trickshot_hero", "w_quickcrossbow",
         "bonecaller_hero"])
     print("stage 33 sprites rendered")
