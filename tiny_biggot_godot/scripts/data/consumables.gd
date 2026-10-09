@@ -14,6 +14,10 @@ const KINDS := {
 	"c_ale": { "name": "FROTHY ALE", "desc": "+2 TIPSY: MORE DAMAGE AND ATTACK SPEED", "col": "#e8b84a" },
 	"c_stout": { "name": "DARK STOUT", "desc": "+3 TIPSY AND 1 ARMOR", "col": "#7a5236" },
 	"c_mead": { "name": "HONEY MEAD", "desc": "+2 TIPSY AND HEALS HALF A HEART", "col": "#f2c94c" },
+	# 36.3: three more drinks; every drink also gives a buff for 10 rooms (food.gd).
+	"c_cider": { "name": "APPLE CIDER", "desc": "+2 TIPSY. BUFF: +10% ATTACK SPEED", "col": "#c8d84a" },
+	"c_grog": { "name": "SAILOR'S GROG", "desc": "+3 TIPSY. BUFF: +10% MOVE SPEED", "col": "#8a6a3a" },
+	"c_wine": { "name": "PLUM WINE", "desc": "+2 TIPSY. BUFF: +5% CRIT CHANCE", "col": "#a35bd6" },
 }
 
 static func is_kind(k: String) -> bool:
@@ -55,6 +59,11 @@ static func use(p: Player, i: int) -> void:
 		"c_mead":
 			Tipsy.add(p, 2)
 			p.heal(1)
+		"c_cider", "c_wine":
+			Tipsy.add(p, 2)
+		"c_grog":
+			Tipsy.add(p, 3)
+	Food.drink(p, kind)   # 36.3: its buff for 10 rooms
 	Snd.play("heal")
 	Juice.label(d["name"], d["col"], p.x, p.y - 22)
 	Juice.ring(p.x, p.y, 3, 30, 0.35, d["col"])

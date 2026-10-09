@@ -119,7 +119,7 @@ func lint_proc(where: String, d: Dictionary) -> void:
 			fail("%s: unknown status %s" % [where, a[1]])
 		elif a[0] == "buff" and (not _props.has(a[1]) or _props[a[1]] != TYPE_FLOAT):
 			fail("%s: buff on bad stat %s" % [where, a[1]])
-		elif a[0] == "drop" and not a[1] in Combat.PICKUP_KINDS and a[1] != "stat":   # "stat": a random stat pickup (8.5)
+		elif a[0] == "drop" and not a[1] in Combat.PICKUP_KINDS and not a[1] in ["stat", "food", "golden"] and not Food.is_kind(a[1]):   # "stat": a random stat pickup (8.5)
 			fail("%s: unknown pickup %s" % [where, a[1]])
 
 ## Every shown string must be drawable by the bitmap font (Gfx.FONT_CHARS).

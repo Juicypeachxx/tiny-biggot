@@ -883,6 +883,7 @@ const REWARDS := {
 	"armor": { "name": "ARMOR", "icon": "armor", "col": "cyan" }, "level": { "name": "LEVEL UP", "icon": "icon_level", "col": "lime" },
 	"embers": { "name": "EMBERS", "icon": "ember", "col": "orange" }, "rare": { "name": "IRON CHEST", "icon": "chestIron", "col": "cyan" },
 	"weapon": { "name": "WEAPON", "icon": "icon_weapon", "col": "orange" }, "gear": { "name": "GEAR", "icon": "icon_gear", "col": "cyan" },
+	"food": { "name": "FOOD", "icon": "f_drumstick", "col": "orange" }, "golden": { "name": "GOLDEN FOOD", "icon": "gf_sunfruit", "col": "gold" },
 }
 const ROOM_KINDS := {
 	"combat": { "name": "FIGHT", "icon": "icon_combat", "col": "white" }, "elite": { "name": "ELITE FIGHT", "icon": "icon_elite", "col": "red" },

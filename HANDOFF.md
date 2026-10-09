@@ -1,7 +1,7 @@
 # Handoff: where the work stands
 
-**9 Oct, Stage 35 done (IPA 35 "Dice and Pace"): dice, faster rooms, clearer fights. The full check
-passes.** Next: Stage 36 (food and drink) from his 9 Oct pictures (ROADMAP Stages 36-39), then 37-39.
+**9 Oct, Stage 36 done (IPA 36 "Food and Drink"); Stage 35 (IPA 35 "Dice and Pace") before it,
+with the full check passing.** Next: Stage 37 (offhands and charms), then 38 and 39 (ROADMAP).
 
 **His word, 9 Oct: "Just compile after add, I'll test it."** Until he says otherwise: after adding
 content, only compile (import; a short run that starts the game) and build the IPA. He tests on the
@@ -1400,6 +1400,30 @@ Done by another session (the port's), which took over from v31 on claude/dev.
   just outside. A probe of the fight alone gave the same attack order with 0.55 s and 0.75 s
   spawns. The test now watches 4 s a move, 40 s at least (tests/realms_test.gd _fight). Every
   replay identical. VERSION 35 "Dice and Pace", IPA 35.
+
+### Stage 36 (9 Oct): food and drink (his word: "Ideas for sprites for new stuff, and new stuff to add")
+- `Food` (scripts/game/food.gd), expanded only. FOOD (10, f_*): pickups (Food.is_kind in
+  Combat.update_pickups; drawn in world_view with a short label over them, Food.LABEL; labels
+  that would overlap stack up, Food.labels cleared each frame): Effects (attributes; the WHEEL OF
+  CHEESE is gf drink_slots) and XP = 12% of the next level (golden 35%) x (1 + gf food_xp).
+  Sources: room reward "food" (World.roll_reward via Food.reward_weights, expanded only;
+  GameData.REWARDS icon f_drumstick; Game.give_reward -> Food.reward: 2-3 foods), a shop ware
+  (shop item "food", Food.stock_shop at cx+144, cy+34), elites 10% (Combat.kill_enemy).
+  GOLDEN FOOD (10, gf_*): reward "golden" from floor index 8 (Food.GOLDEN_FLOOR), hidden rooms
+  30% (_fill_secret), the blood altar 30%; each a lasting bonus: new gf hooks nocrit_dmg
+  (Combat.damage_enemy, hits that do not crit; SURE STRIKE hits count) and proc_dmg (Actions.run's
+  w: items' effects), plus lucky, minion_dmg, crit, crit_mult, rate, max_hp, attributes.
+  DRINK BUFFS: every drink (Consumables.use -> Food.drink) also gives a buff of its own
+  (Food.DRINKS: ALE +10% damage, STOUT +15 thorns, MEAD 10% burn, CIDER +10% rate, GROG +10%
+  walk, PLUM WINE +5% crit) for 10 rooms (Food.on_room from Game.enter_room), at most 3 + gf
+  drink_slots (the oldest is pushed out); Player.drinks [kind, rooms, src] and drink_n; effects
+  applied with src "drink:<n>" and taken off with dir -1. Three new drinks c_cider, c_grog,
+  c_wine (Consumables, PICKUP_KINDS, PICKUP_SPRITE). HUD: mugs with rooms left under the belt
+  (in the redraw signature). Traits HOLLOW LEG (gf drink_forever, +1 slot) and GOURMAND (food_xp,
+  food_heal); relics PICNIC BASKET (two foods every floor: action "drop" now takes "food" and
+  "golden") and GOLDEN SPOON (a guardian kill leaves golden food). Art: tools/art/stage36_food.py
+  (ART_OUT= for a preview). Debug: --give=drink:c_ale (its buff) and --give=food:f_bread (on the
+  first room's floor). Test tests/food_test.tscn (in check.sh).
 
 ## Noted, not yet acted on
 

@@ -40,7 +40,7 @@ func _signature() -> Array:
 		var g = p.gear.get(sl)
 		gear.append(g["id"] if g != null else "")
 	return [perf_line, Meta.opts.get("fps", false), p.max_hp, p.hp, p.armor, p.max_potions, p.potions, p.gold,
-		p.dodge_charges, p.charges, roundi(5 * p.charge_t / p.dodge_cd), p.bombs, p.keys, p.embers_found, p.rerolls, p.alters, p.banishes,
+		p.dodge_charges, p.charges, roundi(5 * p.charge_t / p.dodge_cd), p.bombs, p.keys, p.embers_found, p.rerolls, p.alters, p.banishes, p.drinks.duplicate(true),
 		G.msg.get("text", ""), G.msg.get("col", ""), p.level, roundf(80.0 * p.xp / GameData.xp_needed(p.level)),
 		p.hero.get("hud", ""), p.heat, p.heat_max, p.tempo, p.tempo_max, G.floor_index, G.loop, f["depth"], f["total"], f["path"].size(),
 		int(G.run_stats.get("time", 0.0)), p.belt.duplicate(), p.relics.size(),
@@ -201,6 +201,8 @@ func _draw() -> void:
 		if p.tipsy >= 1.0:   # 33.2 THE TAVERN: how tipsy, beside the belt
 			var r4 := belt_rect(Consumables.BELT_SIZE - 1)
 			Gfx.text(self, "TIPSY %d" % int(p.tipsy), r4.end.x + 4, r4.position.y + 4, "gold" if p.tipsy >= Tipsy.VERY else "orange")
+		if not p.drinks.is_empty():   # 36.3: the drink buffs on, with their rooms left, under the belt
+			Food.draw_hud(self, p, belt_rect(0).position.x, belt_rect(0).end.y + 3)
 	# Relic strip (last 24).
 	var rel: Array = p.relics.slice(maxi(0, p.relics.size() - 24))
 	for i in rel.size():

@@ -66,6 +66,7 @@ var tree_n := 0
 var tree_from: StringName = &""
 var embers: Array = []         # title-screen ember motes
 var _wave_delay := 0.0
+var _give_food: Array = []     # --give=food:... (debug pictures)
 var _spawned := false
 
 func _ready() -> void:
@@ -183,6 +184,12 @@ func _debug_give(p: Player) -> void:
 		if parts.size() == 2 and parts[0] == "pack" and Weapons._by_id.has(parts[1]):
 			p.backpack.append(Weapons.by_id(parts[1]))
 			continue
+		if parts.size() == 2 and parts[0] == "drink" and Food.DRINKS.has(parts[1]):
+			Food.drink(p, parts[1])   # 36.3: a drink's buff (pictures)
+			continue
+		if parts.size() == 2 and parts[0] == "food" and Food.is_kind(parts[1]):
+			_give_food.append(parts[1])   # 36: food on the first room's floor (pictures; start_floor)
+			continue
 		var table := { "relic": Relics, "weapon": Weapons, "gear": Gear, "trait": Traits }
 		if parts.size() != 2 or not table.has(parts[0]):
 			continue
@@ -251,6 +258,11 @@ func start_floor() -> void:
 	else:
 		enter_room(World.make_room(floor_d, "start", "", ""))
 	Effects.fire("on_floor_start")
+	for i in _give_food.size():   # (--give=food:..., pictures)
+		var k := Combat.drop_pickup(_give_food[i], 5.0 * TB.TS + i * 24.0, 6.0 * TB.TS)
+		k.vx = 0.0
+		k.vy = 0.0
+	_give_food.clear()
 	state = &"play"
 	Barks.hero("floor", true)   # 21.1: a word on arriving
 	RunSave.save()   # 6.3: the run can be continued from here
@@ -333,6 +345,8 @@ func enter_room(r: Room) -> void:
 	locked = false
 	_spawned = false
 	Pace.on_enter()   # 35.2
+	if GameData.rogues():
+		Food.on_room(p)   # 36.3: the drink buffs have a room less
 	match "" if room.cleared else room.type:   # a cleared room on the floor map stays cleared
 		"combat", "elite":
 			locked = true
@@ -522,6 +536,8 @@ func _fill_secret(r: Room, cx: float, cy: float, roll: float) -> void:
 		show_banner("A DRAGON'S HOARD", "THE DRAGON IS OUT. TAKE WHAT YOU CAN CARRY")
 	if randf() < 0.5:   # 35.1: a die left behind
 		r.pickups.append(_room_pickup("die_" + Dice.roll_kind(), cx + 30, cy - 22))
+	if randf() < 0.3:   # 36.2: golden food
+		r.pickups.append(_room_pickup(Food.roll_golden(), cx - 30, cy - 22))
 
 ## Events of a MYSTERY room, and the ones a hidden room may hold instead of its old three finds.
 const MYSTERY_EVENTS := ["wheel", "market", "mimic", "armory", "well", "goblin", "mirror", "library", "safehouse", "saloon",
@@ -745,6 +761,7 @@ func setup_objects(r: Room) -> void:
 					r.objects.append({ "kind": "shop", "item": "gear", "thing": sp, "x": cx, "y": cy + 34, "price": item_price(sp) })
 				r.objects.append({ "kind": "anvil", "x": cx + 104, "y": cy + 34 })
 				Dice.stock_shop(r, cx, cy)   # 35.1: a die for sale and the DICE CUP
+				Food.stock_shop(r, cx, cy)   # 36.1: a food for sale
 		"treasure":
 			if randf() < 0.35:
 				var it: Dictionary = Weapons.random_weapon(Gear.roll_item_rarity(f, "elite"), player.weapon) if randf() < 0.5 \
@@ -848,6 +865,8 @@ func give_reward(kind: String) -> void:
 			Combat.gain_xp(player, GameData.xp_needed(player.level) - player.xp)
 		"embers":
 			for i in 3: Combat.drop_pickup("ember", cx, cy)
+		"food", "golden":
+			Food.reward(kind, cx, cy)   # 36.1 / 36.2
 
 func room_cleared() -> void:
 	locked = false
@@ -1338,6 +1357,7 @@ func interact(o: Dictionary) -> void:
 				"key": p.keys += 1
 				"armor": p.armor += 1
 				"die": Dice.give(p, o["die"], 1)   # 35.1
+				"food": Food.take(p, o["food"])   # 36.1
 		"altar":
 			if p.hp <= 2:
 				return deny(o, "TOO WEAK")
@@ -1350,6 +1370,8 @@ func interact(o: Dictionary) -> void:
 			if not r.is_empty():
 				add_relic(p, r[0])
 				show_banner(r[0]["name"], r[0]["desc"])
+			if GameData.rogues() and randf() < 0.3:   # 36.2: the altar may leave golden food too
+				Combat.drop_pickup(Food.roll_golden(), o["x"], o["y"] + 14)
 		"fountain":
 			o["used"] = true
 			p.heal(p.max_hp)

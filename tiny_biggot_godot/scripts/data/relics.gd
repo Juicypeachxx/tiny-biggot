@@ -216,6 +216,9 @@ const ROWS := [
 	# 35.1 DICE (scripts/game/dice.gd).
 	["gamblerspouch", "rare", "GAMBLER'S POUCH", "+1 REROLL, ALTER AND BANISH DIE. DICE TURN UP TWICE AS OFTEN", [["grant", "rerolls", 1], ["grant", "alters", 1], ["grant", "banishes", 1], ["hook", "dice_find", 1]], ["fortune"], "relic_gamblerspouch"],
 	["knucklebones", "epic", "KNUCKLEBONES", "EVERY FLOOR STARTS WITH A FREE DIE. EVERY DIE YOU USE HEALS HALF A HEART", [{ "on": "on_floor_start", "do": [["dice", "any", 1]] }, { "on": "on_dice", "do": [["heal", 1]] }], ["fortune", "blood"], "relic_knucklebones"],
+	# Stage 36 FOOD AND DRINK (scripts/game/food.gd).
+	["picnicbasket", "common", "PICNIC BASKET", "EVERY FLOOR STARTS WITH TWO FOODS BESIDE YOU", [{ "on": "on_floor_start", "do": [["drop", "food"], ["drop", "food"]] }], ["bulwark"], "relic_picnicbasket"],
+	["goldenspoon", "epic", "GOLDEN SPOON", "EVERY GUARDIAN YOU KILL LEAVES A GOLDEN FOOD", [{ "on": "on_kill", "if": "boss", "do": [["drop", "golden"]] }], ["fortune"], "relic_goldenspoon"],
 	["wishbone", "rare", "WISHBONE", "+6% LUCKY HITS: A LUCKY HIT STRIKES AGAIN", [["hook", "lucky", 0.06]], ["fortune", "edge"], "relic_wishbone"],
 	["wyrmscale", "epic", "WYRM SCALE", "+1 ARMOR. WHEN ARMOR TAKES A HIT, 12 FIREBALLS BURST FROM YOU", [["add", "armor", 1], { "on": "on_armor_lost", "do": [["nova", 12, 1.0, "fire"]] }], ["bulwark", "pyre"]],
 	["drawholster", "rare", "QUICKDRAW HOLSTER", "SWAPPING WEAPONS GIVES +100% CRIT FOR 2S", [{ "on": "on_weapon_swap", "do": [["buff", "crit", 1.0, 2.0]] }], ["edge"]],

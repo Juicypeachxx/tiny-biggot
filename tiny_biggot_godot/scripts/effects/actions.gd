@@ -131,7 +131,7 @@ static func _did(k: String) -> void:
 
 static func run(a: Array, stacks: int, ctx: Dictionary) -> void:
 	var p := G.player
-	var w := Weapons.wdmg(p)
+	var w := Weapons.wdmg(p) * (1.0 + p.g("proc_dmg"))   # 36.2 STAR JELLY: items' effects hit harder
 	ran[a[0]] = ran.get(a[0], 0) + 1
 	match a[0]:
 		"nova":
@@ -199,7 +199,8 @@ static func run(a: Array, stacks: int, ctx: Dictionary) -> void:
 				p.gf[a[4]] = have + add
 		"drop":
 			var at := _pos(ctx)
-			Combat.drop_pickup(StatDrops.roll() if a[1] == "stat" else a[1], at.x, at.y)   # "stat": a random stat pickup (8.5)
+			var kind: String = StatDrops.roll() if a[1] == "stat" else (Food.roll() if a[1] == "food" else (Food.roll_golden() if a[1] == "golden" else a[1]))
+			Combat.drop_pickup(kind, at.x, at.y)   # "stat": a random stat pickup (8.5); "food", "golden" (36)
 		"damage":
 			var e := _target(ctx)
 			if e != null:

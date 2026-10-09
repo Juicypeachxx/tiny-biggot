@@ -47,7 +47,8 @@ const PICKUP_SPRITE := { "coin": "coin", "heart": "heartPick", "potion": "potion
 	"key": "key", "armor": "armor", "ember": "ember",
 	"c_fury": "c_fury", "c_smoke": "c_smoke", "c_whet": "c_whet", "c_insight": "c_insight",
 	"c_ale": "c_ale", "c_stout": "c_stout", "c_mead": "c_mead",
-	"die_reroll": "die_reroll", "die_alter": "die_alter", "die_banish": "die_banish" }
+	"die_reroll": "die_reroll", "die_alter": "die_alter", "die_banish": "die_banish",
+	"c_cider": "c_cider", "c_grog": "c_grog", "c_wine": "c_wine" }
 
 func _ready() -> void:
 	if not DebugArgs.has("no-floor-bake"):
@@ -186,6 +187,9 @@ func _paint_plates(ci: CanvasItem) -> void:
 				elif o["item"] == "die":
 					name = Dice.KINDS[o["die"]][0] + " DIE"   # 35.1
 					rar = "rare"
+				elif o["item"] == "food":
+					name = Food.info(o["food"])[0]   # 36.1
+					sub = Food.info(o["food"])[1]
 			"anvil":
 				name = "ANVIL"
 			"dicecup":
@@ -644,6 +648,8 @@ func _paint_lower(ci: CanvasItem) -> void:
 					name = o["thing"]["sprite"]
 				elif o["item"] == "die":
 					name = Dice.KINDS[o["die"]][1]   # 35.1
+				elif o["item"] == "food":
+					name = o["food"]   # 36.1
 				else:
 					name = { "potion": "potion", "heart": "heartPick", "bomb": "bomb", "key": "key", "armor": "armor" }[o["item"]]
 				Gfx.sp(ci, name, x, y + bob, 2, 2)
@@ -691,11 +697,18 @@ func _paint_lower(ci: CanvasItem) -> void:
 	if not G.locked:
 		_paint_exit_signs(ci, room, t)
 	# Pickups and bombs (z 9).
+	Food.labels.clear()
 	for k: Pickup in G.pickups:
 		var wob := 0.0 if k.kind == "coin" else roundf(sin(t * 4))
 		if StatDrops.is_kind(k.kind):   # 8.3: its icon, a glint and its label over it
 			Gfx.sp(ci, StatDrops.KINDS[k.kind][1], k.x, k.y + 3 - k.z - wob)
 			StatDrops.draw_label(ci, k, wob)
+			continue
+		if Food.is_kind(k.kind):   # 36: food with what it gives over it (golden food: its name)
+			Gfx.sp(ci, k.kind, k.x, k.y + 3 - k.z - wob)
+			Food.draw_label(ci, k, wob)
+			if Food.golden(k.kind):
+				Juice.glint(ci, k.x + _vr.randi_range(-3, 3), k.y - k.z - wob - 2)
 			continue
 		Gfx.sp(ci, PICKUP_SPRITE[k.kind], k.x, k.y + 3 - k.z - wob)
 		if k.kind in ["coin", "gem"]:

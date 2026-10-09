@@ -252,6 +252,9 @@ func draw_prompt(ci: CanvasItem, o: Dictionary) -> void:
 			elif o["item"] == "die":   # 35.1
 				title = Dice.KINDS[o["die"]][0] + " DIE"
 				desc = Dice.KINDS[o["die"]][4]
+			elif o["item"] == "food":   # 36.1
+				title = Food.info(o["food"])[0]
+				desc = Food.info(o["food"])[1] + " AND A LITTLE XP"
 			else:
 				title = SHOP_TEXT[o["item"]][0]
 				desc = SHOP_TEXT[o["item"]][1]

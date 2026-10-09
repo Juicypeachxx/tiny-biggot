@@ -45,6 +45,23 @@ func _tick(n: int) -> void:
 			G.choice = {}
 			G.player.pending = 0
 
+## How far the hero walks right in 6 ticks from an open spot (px/s).
+func _walk(p: Player) -> float:
+	var at := World.free_spot(G.room, null, 0)
+	for k in 20:   # an open stretch to the right
+		if not World.hits_solid(G.room, at.x + 16, at.y, p.r, World.M_PLAYER):
+			break
+		at = World.free_spot(G.room, null, 0)
+	p.x = at.x
+	p.y = at.y
+	Input.action_press(&"move_right")
+	_tick(1)
+	var x0 := p.x
+	_tick(6)
+	Input.action_release(&"move_right")
+	_tick(2)
+	return (p.x - x0) / (6 * TB.DT)
+
 func _foes() -> Array:
 	return G.enemies.filter(func(e): return e.hp > 0 and not e.type in ["dummy", "target"])
 
@@ -108,25 +125,17 @@ func _ready() -> void:
 		fail("the room did not clear")
 	if Pace.finishing or not Pace.rushing or absf(Pace.speed_mult() - Pace.RUSH_SPEED) > 0.001:
 		fail("no CLEAR RUSH (x%.2f)" % Pace.speed_mult())
-	var x0 := p.x
-	Input.action_press(&"move_right")
-	_tick(30)
-	Input.action_release(&"move_right")
-	var ran := p.x - x0
+	var ran := _walk(p)
 	if not G.room.objects.any(func(o): return o["kind"] == "chest"):
 		fail("the first fight left no FIRST SPOILS chest")
 	# The second fight: an item on the floor.
 	_fight()
 	if Pace.rushing:
 		fail("CLEAR RUSH should end in the next room")
-	p.x = x0
 	G.locked = false
-	Input.action_press(&"move_right")
-	_tick(30)
-	Input.action_release(&"move_right")
-	var walked := p.x - x0
-	if ran < walked * 1.25:
-		fail("the rush did not speed the walk (%.0f px with it, %.0f without)" % [ran, walked])
+	var walked := _walk(p)
+	if absf(ran / walked - Pace.RUSH_SPEED) > 0.05:
+		fail("the rush did not speed the walk (%.0f px/s with it, %.0f without)" % [ran, walked])
 	G.locked = true
 	G.room.waves_left = 1
 	_tick(60)
@@ -135,7 +144,7 @@ func _ready() -> void:
 	_tick(2)
 	if not G.room.objects.any(func(o): return o["kind"] == "item"):
 		fail("the second fight left no item")
-	print("[pace] the rush walked %.0f px in 0.5 s, plain %.0f; %s" % [ran, walked, Pace.stats])
+	print("[pace] the rush walks %.0f px/s, plain %.0f; %s" % [ran, walked, Pace.stats])
 
 	# Classic: none of it.
 	GameData.force_classic = true

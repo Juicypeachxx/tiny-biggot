@@ -353,6 +353,8 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 		# New stat: crit chance past 100% can crit a second time.
 		if p.overcrit > 0 and p.crit > 1.0 and randf() < minf(p.crit - 1.0, 1.0):
 			dmg *= p.crit_mult * (1 + p.overcrit)
+	if not crit and p.g("nocrit_dmg") > 0:   # 36.2 GILDED LOAF: hits that do not crit
+		dmg *= 1.0 + p.g("nocrit_dmg")
 	if p.rage > 0 and p.hp <= 2: dmg *= 1 + p.rage
 	if e.elite and p.elite_mult > 0: dmg *= 1 + p.elite_mult
 	if e.burn_t > 0 and p.vs_burn > 0: dmg *= 1 + p.vs_burn
@@ -537,6 +539,7 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 	if e.elite and not e.is_boss():
 		StatDrops.maybe(0.15, e.x, e.y)   # 8.3
 		Dice.maybe(0.12, e.x, e.y)   # 35.1
+		Food.maybe(0.1, e.x, e.y)   # 36.1
 	if e.elite and not e.is_boss() and randf() < 0.05:
 		G.drop_gear_at(e.x, e.y)
 
@@ -1782,7 +1785,8 @@ static func explode_at(x: float, y: float, dmg: float, skip: Enemy, radius: floa
 const PICKUP_KINDS := ["coin", "gem", "heart", "potion", "bomb", "key", "armor", "ember",
 	"c_fury", "c_smoke", "c_whet", "c_insight",   # Rogues-layer belt consumables
 	"c_ale", "c_stout", "c_mead",   # 33.2 THE TAVERN's drinks
-	"die_reroll", "die_alter", "die_banish"]   # 35.1 DICE (dice.gd)
+	"die_reroll", "die_alter", "die_banish",   # 35.1 DICE (dice.gd)
+	"c_cider", "c_grog", "c_wine"]   # 36.3 more drinks (food.gd has the foods: Food.is_kind)
 
 ## Rogues layer: past this many pickups on the floor, new coins go straight
 ## into your purse (same gold), so long fights with gold-on-hit builds don't
@@ -1858,6 +1862,10 @@ static func update_pickups(dt: float) -> void:
 		if Dice.is_kind(k.kind):   # 35.1
 			k.dead = true
 			Dice.take(p, k.kind)
+			continue
+		if Food.is_kind(k.kind):   # 36.1 food, 36.2 golden food
+			k.dead = true
+			Food.take(p, k.kind)
 			continue
 		if Consumables.is_kind(k.kind):
 			# Rogues layer: belt consumables wait on the floor while the belt is full.

@@ -1228,15 +1228,19 @@ modifiers, damage scaling and food. Ideas and kinds of things only: every name, 
 our own (no names from there, e.g. no "Boozer" or "Emblem of ..."). Nothing that is in the game now
 is removed: new things are added beside it. After Stage 35, in this order:
 
-### Stage 36: food and drink (IPA 36)
-- [ ] 36.1 FOOD: room rewards, shop wares and gifts of some gear; each gives +1 XP and a point of
-      STR, DEX or INT (some two). Ten or so foods, drawn here.
-- [ ] 36.2 GOLDEN FOOD: rare, from the deepest floors (and hidden rooms, blood altars): each a
+### Stage 36: food and drink (IPA 36, "Food and Drink", built 9 Oct)
+- [x] 36.1 FOOD: room rewards, shop wares and gifts of some gear; each gives +1 XP and a point of
+      STR, DEX or INT (some two). Ten or so foods, drawn here. Ten foods (the cheese: one more
+      drink buff); a food room reward, one in every shop, elites now and then; PICNIC BASKET,
+      GOURMAND.
+- [x] 36.2 GOLDEN FOOD: rare, from the deepest floors (and hidden rooms, blood altars): each a
       lasting bonus of its own (damage of hits that are not crits, crit chance, attack speed, crit
       damage, companion damage, trigger damage, lucky hits, +1 to the highest attribute) and +1 XP.
-- [ ] 36.3 DRINKS as buffs: each drink also gives a buff of its own that lasts a number of rooms;
+      Ten, from floor 9 on; GOLDEN SPOON (guardians leave one).
+- [x] 36.3 DRINKS as buffs: each drink also gives a buff of its own that lasts a number of rooms;
       how many can be on at once is a stat (3 to start); one more replaces the oldest; CHEESE raises
-      the most; a trait makes them last for good. Today's TIPSY stays as it is.
+      the most; a trait makes them last for good. Today's TIPSY stays as it is. 10 rooms each; three
+      new drinks (CIDER, GROG, PLUM WINE); HOLLOW LEG; the buffs show under the belt.
 
 ### Stage 37: offhands and charms (IPA 37)
 - [ ] 37.1 THE OFFHAND: a new slot. Shields (stop a shot now and then), quivers (more arrows),

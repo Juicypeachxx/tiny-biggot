@@ -292,6 +292,11 @@ timeout 300 "$GODOT" --headless --path . res://tests/pace_test.tscn -- --no-save
 grep -E "^\[pace\]|pace test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 36 food and drink: food, golden food, drink buffs, HOLLOW LEG"
+timeout 300 "$GODOT" --headless --path . res://tests/food_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[food\]|food test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== 18.1 the daily trial"
 timeout 300 "$GODOT" --headless --path . res://tests/daily_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "daily test" "$LOG"
