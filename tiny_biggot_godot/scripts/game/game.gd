@@ -1672,6 +1672,8 @@ func trait_weight(p: Player, t: Dictionary) -> int:
 
 func _new_trait_weight(p: Player, t: Dictionary) -> int:
 	var fam: int = p.fam.get(t["fam"], 0)
+	if t["rarity"] == "mythic":   # 26: the rarest of all: from level 6, never helped by a family
+		return 0 if p.level < 6 else 1
 	if (t["cap"] or t["rarity"] == "legend") and fam < 3:
 		return 0
 	if t["rarity"] == "cursed" and p.level < 3:

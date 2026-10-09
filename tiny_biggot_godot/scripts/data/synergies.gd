@@ -70,6 +70,16 @@ const COMBO_DATA := [
 	{ "id": "t_blackplague", "hidden": true, "name": "BLACK PLAGUE", "desc": "30% OF HITS ON POISONED FOES CURSE THEM", "needs": ["trait:x_plague", "trait:z_hexback"], "effects": [{ "on": "on_hit", "if": "poisoned", "chance": 0.3, "do": [["status", "curse", 1]] }] },
 	{ "id": "t_luckystrike", "hidden": true, "name": "LUCKY STRIKE", "desc": "GOLDEN TOUCH HAPPENS TWICE AS OFTEN AND EVERY ROOM PAYS 3 GOLD", "needs": ["trait:z_midas", "trait:z_dice"], "effects": [{ "on": "on_hit", "chance": 0.03, "do": [["transmute", 6]] }, { "on": "on_room_enter", "do": [["gold", 3]] }] },
 	{ "id": "bubblebath", "name": "BUBBLE BATH", "desc": "YOUR SHOTS SPLIT IN TWO WHEN THEY HIT", "needs": ["weapon:bubblewand", "gear:partyhat"], "effects": [["hook", "split", 2]] },
+	# Stage 26 (his word, 9 Oct): synergies of the new traits, weapons and reactions.
+	{ "id": "t_steamengine", "hidden": true, "name": "STEAM ENGINE", "desc": "EVERY REACTION ALSO CALLS LIGHTNING", "needs": ["weapon:steamblade", "trait:y_alchemist"], "effects": [{ "on": "on_reaction", "do": [["lightning", 1.5]] }] },
+	{ "id": "t_plaguestorm", "hidden": true, "name": "PLAGUE STORM", "desc": "EVERY 10TH HIT ON A POISONED FOE CALLS A STORM CLOUD", "needs": ["trait:y_plague", "trait:l_stormherd"], "effects": [{ "on": "on_hit", "if": "poisoned", "every": 10, "do": [["spell", "cloud", 1.0]] }] },
+	{ "id": "t_bladedance", "hidden": true, "name": "DANCE OF BLADES", "desc": "20% OF CRITS CONJURE A SPECTRAL BLADE", "needs": ["trait:l_bladestorm", "trait:y_echoedge"], "effects": [{ "on": "on_crit", "chance": 0.2, "cd": 0.3, "do": [["spell", "blade", 0.8]] }] },
+	{ "id": "t_starforge", "hidden": true, "name": "STARFORGE", "desc": "EVERY 4S IN A FIGHT, A COMET CROSSES THE ROOM", "needs": ["trait:l_starcaller", "trait:y_meteors"], "effects": [{ "on": "every_n_seconds", "period": 4.0, "if": "fighting", "do": [["spell", "comet", 2.0]] }] },
+	{ "id": "t_abyss", "hidden": true, "name": "THE ABYSS", "desc": "15% OF KILLS OPEN A BLACK HOLE", "needs": ["trait:l_voidheart", "weapon:moonwell"], "effects": [{ "on": "on_kill", "chance": 0.15, "do": [["spell", "void", 1.5]] }] },
+	{ "id": "t_frozenhour", "hidden": true, "name": "FROZEN HOUR", "desc": "ROLLING STOPS TIME AROUND THE NEAREST FOE", "needs": ["trait:m_chronomancer", "trait:y_frostwake"], "effects": [{ "on": "on_roll", "cd": 3.0, "do": [["spell", "clock", 1.5]] }] },
+	{ "id": "t_wyrmfire", "hidden": true, "name": "WYRMFIRE", "desc": "EVERY 3RD ATTACK ALSO SENDS A FIRE SERPENT", "needs": ["trait:m_serpentking", "weapon:hydrarod"], "effects": [{ "on": "every_n_shots", "every": 3, "do": [["spell", "serpent", 1.0]] }] },
+	{ "id": "t_handofgod", "hidden": true, "name": "HAND OF GOD", "desc": "CRITS CALL LIGHTNING (EVERY 0.4S)", "needs": ["trait:m_ascendant", "trait:y_stormheart"], "effects": [{ "on": "on_crit", "cd": 0.4, "do": [["lightning", 1.2]] }] },
+	{ "id": "t_reactor", "hidden": true, "name": "REACTOR", "desc": "A REACTION HEALS HALF A HEART (AT MOST EVERY 5S)", "needs": ["trait:y_alchemist", "trait:y_catalyst"], "effects": [{ "on": "on_reaction", "cd": 5.0, "do": [["heal", 1]] }] },
 ]
 
 static var TAG_SYNERGIES: Array = TAG_SYNERGY_DATA.duplicate(true)

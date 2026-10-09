@@ -1178,6 +1178,14 @@ Reactions: scripts/combat/reactions.gd (check() from damage_enemy after a blow t
 alive; clear() in G.enter_room; hooks react_dmg, react_fast). Rows: traits y_* at the end of
 Traits.ROWS; weapons after "chaoscodex". Icons: recolours at the end of tools/art/sprites.py.
 
+### Stage 26 (9 Oct): spells as item effects, reactions as a trigger, mythic traits, synergies
+Only compiled at his word (import; two 30 s bot runs giving the new traits: no errors). NEXT
+SESSION FIRST: tools/check.sh and tools/replay.sh record (as for Stage 25). New: Actions "spell"
+["spell", kind, dmg_mult] -> Spells.cast(kind, p, x, y, dmg, skip_uid) (spells.gd, end); trigger
+"on_reaction" fired by Reactions.check with { enemy, x, y, dmg }; hook react_avatar (reactions twice
+as fast again); Traits.RARITY["mythic"] and Game._new_trait_weight (mythic: weight 1 from level 6).
+Rows: traits l_* and m_* after y_catalyst; synergies t_steamengine..t_reactor at the end.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

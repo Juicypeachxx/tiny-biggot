@@ -40,7 +40,7 @@ static func check(e: Enemy) -> void:
 	elif shock and burn: r = "overload"
 	if r == "" or _next.get(e.uid, 0.0) > G.time:
 		return
-	_next[e.uid] = G.time + COOLDOWN * (0.5 if p.g("react_fast") > 0 else 1.0)
+	_next[e.uid] = G.time + COOLDOWN * (0.5 if p.g("react_fast") > 0 else 1.0) * (0.5 if p.g("react_avatar") > 0 else 1.0)
 	stats[r] = stats.get(r, 0) + 1
 	var base := Weapons.wdmg(p) * (1.0 + p.g("react_dmg"))
 	var w: Array = NAMES[r]
@@ -68,3 +68,5 @@ static func check(e: Enemy) -> void:
 			Combat.damage_enemy(e, base * 3.5, { "no_crit": true, "col": "red", "silent": true })
 		"overload":
 			Combat.lightning(e, base)
+	if not p.procs.is_empty():
+		Effects.fire("on_reaction", { "enemy": e, "x": e.x, "y": e.y, "dmg": base })   # 26: traits and synergies that feed on it

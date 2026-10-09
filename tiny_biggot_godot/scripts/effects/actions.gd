@@ -222,6 +222,13 @@ static func run(a: Array, stacks: int, ctx: Dictionary) -> void:
 					Combat.damage_enemy(e, w * a[2] * stacks, { "no_crit": true, "col": "orange", "silent": true })
 		"invuln":
 			p.invuln = maxf(p.invuln, float(a[1]))
+		"spell":
+			# 26: ["spell", kind, dmg_mult]: a spell of the spellbook cast at the foe (or ahead of you):
+			# void, comet, glyph, blade, clock, prism, cloud, serpent, pinball (Spells.cast).
+			if GameData.rogues():
+				var se := _target(ctx)
+				var at := Vector2(se.x, se.y) if se != null else Vector2(p.x + cos(p.aim_a) * 70.0, p.y + sin(p.aim_a) * 70.0)
+				Spells.cast(String(a[1]), p, at.x, at.y, w * float(a[2]) * stacks, se.uid if se != null else -1)
 		"status_area":
 			for e in G.enemies:
 				if e.targetable() and TB.dist(e, p) <= a[3]:

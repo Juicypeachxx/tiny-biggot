@@ -1079,6 +1079,20 @@ just compile" and "add new effect system")
       next session runs tools/check.sh (content_test lints every new row) and re-records the core
       replays on purpose (new items and reactions change the fights). IPA 25.
 
+## Stage 26 (his word, 9 Oct: "Add more super cool synergy and legendary and mythic traits, with super
+cool effects, add new effects and synergies")
+- [x] 26.1 New effects: the "spell" action (an item casts a spell of the spellbook at a foe:
+      void, comet, glyph, blade, clock, prism, cloud, serpent, pinball; Spells.cast) and the
+      "on_reaction" trigger (reactions.gd fires it). A new rarity, MYTHIC (red), above legendary:
+      offered from level 6 only, never helped by a family.
+- [x] 26.2 Six legendary traits (BLADESTORM, STARCALLER, STORMHERD, RUNELORD, VOIDHEART, CHAIN
+      REACTION), six MYTHIC (ASCENDANT, WORLDBREAKER, CHRONOMANCER, PRISMATIC SOUL, ELEMENTAL
+      AVATAR, SERPENT KING) and nine hidden synergies (STEAM ENGINE, PLAGUE STORM, DANCE OF BLADES,
+      STARFORGE, THE ABYSS, FROZEN HOUR, WYRMFIRE, HAND OF GOD, REACTOR).
+- [ ] 26.3 Only compiled (import; 30 s runs with the new traits given, no errors). Next session:
+      tools/check.sh first (content_test lints the new rows), the core replays re-recorded on
+      purpose. IPA 26.
+
 ---
 
 ## Log

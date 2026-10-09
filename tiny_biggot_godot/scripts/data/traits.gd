@@ -71,6 +71,7 @@ const RARITY := {
 	"legend": { "name": "LEGENDARY", "col": "gold", "hex": "#f2c94c", "w": 1 },
 	"cursed": { "name": "CURSED", "col": "purple", "hex": "#a35bd6", "w": 1 },
 	"super": { "name": "SUPER", "col": "pink", "hex": "#e86fb4", "w": 1 },   # 8.4: big, run-shaping picks
+	"mythic": { "name": "MYTHIC", "col": "red", "hex": "#ff3a4a", "w": 1 },   # 26: the rarest of all, from level 6
 }
 ## 8.5 (his ask, 6 Oct: "make some common super traits to refresh runs"): these SUPER traits are
 ## offered often (weight 4) from level 2; the rest stay rare (weight 1) from level 4.
@@ -279,6 +280,20 @@ const ROWS := [
 	["y_cometroll", "pyre", 1, "COMET ROLL", "ROLLING CALLS A METEOR ON A FOE", false, [{ "on": "on_roll", "cd": 0.8, "do": [["meteor", 1.5, 26]] }], "rare", ["pyre"], {  }],
 	["y_alchemist", "arcane", 1, "ALCHEMIST'S EYE", "REACTIONS HIT TWICE AS HARD (TWO AILMENTS ON A FOE REACT)", false, [["hook", "react_dmg", 1.0]], "rare", ["arcane"], {  }],
 	["y_catalyst", "venom", 1, "CATALYST", "REACTIONS COME BACK TWICE AS FAST. 20% OF HITS BURN", false, [["hook", "react_fast", 1], ["add", "burn", 0.2]], "rare", ["venom"], {  }],
+	# Stage 26 (his word, 9 Oct: "more super cool synergy and legendary and mythic traits"): legendary and MYTHIC
+	# traits that cast the spellbook's spells (Actions "spell") or feed on reactions ("on_reaction").
+	["l_bladestorm", "edge", 1, "BLADESTORM", "HALF OF YOUR KILLS CONJURE A SPECTRAL BLADE THAT FIGHTS FOR 4S", false, [{ "on": "on_kill", "chance": 0.5, "do": [["spell", "blade", 0.8]] }], "legend", ["edge", "arcane"], {  }],
+	["l_starcaller", "arcane", 1, "STARCALLER", "EVERY 5TH CRIT CALLS A COMET THROUGH THE FOE", false, [{ "on": "on_crit", "every": 5, "do": [["spell", "comet", 2.0]] }], "legend", ["arcane", "pyre"], {  }],
+	["l_stormherd", "storm", 1, "STORMHERD", "EVERY 8S IN A FIGHT, A STORM CLOUD FOLLOWS YOUR FOES", false, [{ "on": "every_n_seconds", "period": 8.0, "if": "fighting", "do": [["spell", "cloud", 1.0]] }], "legend", ["storm"], {  }],
+	["l_runelord", "malice", 1, "RUNELORD", "EVERY 4TH HIT DRAWS A RUNE UNDER THE FOE THAT ERUPTS", false, [{ "on": "on_hit", "every": 4, "cd": 0.3, "do": [["spell", "glyph", 1.5]] }], "legend", ["malice", "arcane"], {  }],
+	["l_voidheart", "shadow", 1, "VOIDHEART", "WHEN HIT, A BLACK HOLE OPENS ON THE NEAREST FOE", false, [{ "on": "on_damage_taken", "cd": 2.0, "do": [["spell", "void", 2.0]] }], "legend", ["shadow"], {  }],
+	["l_chainreact", "pyre", 1, "CHAIN REACTION", "EVERY REACTION SETS OFF A BLAST FOR 150% AROUND THE FOE", false, [{ "on": "on_reaction", "do": [["explode", 40, 1.5]] }], "legend", ["pyre", "venom"], {  }],
+	["m_ascendant", "core", 1, "ASCENDANT", "EVERY 15S IN A FIGHT: 4S OF GODHOOD. +100% DAMAGE AND FIRE RATE, AND NOTHING HURTS YOU", false, [{ "on": "every_n_seconds", "period": 15.0, "if": "fighting", "do": [["buff", "dmg", 1.0, 4.0], ["buff", "rate", 1.0, 4.0], ["invuln", 4.0], ["vfx", "ring", "#fff07a", 160]] }], "mythic", ["arcane", "fury"], {  }],
+	["m_worldbreaker", "demolition", 1, "WORLDBREAKER", "EVERY 4TH KILL CALLS A COMET AND OPENS A BLACK HOLE", false, [{ "on": "on_kill", "every": 4, "do": [["spell", "comet", 3.0], ["spell", "void", 2.5]] }], "mythic", ["demolition", "shadow"], {  }],
+	["m_chronomancer", "arcane", 1, "CHRONOMANCER", "EVERY 9S IN A FIGHT, TIME STOPS AROUND THE NEAREST FOE", false, [{ "on": "every_n_seconds", "period": 9.0, "if": "fighting", "do": [["spell", "clock", 2.0]] }], "mythic", ["arcane", "frost"], {  }],
+	["m_prismsoul", "arcane", 1, "PRISMATIC SOUL", "15% OF HITS BURST INTO RED, BLUE AND GREEN BOLTS THAT SPLIT AGAIN", false, [{ "on": "on_hit", "chance": 0.15, "cd": 0.15, "do": [["spell", "prism", 0.8]] }], "mythic", ["arcane"], {  }],
+	["m_elemental", "core", 1, "ELEMENTAL AVATAR", "REACTIONS COME BACK 4X AS FAST AND HIT 3X AS HARD. 20% OF HITS ADD A RANDOM AILMENT", false, [["hook", "react_fast", 1], ["hook", "react_dmg", 2.0], ["hook", "react_avatar", 1], { "on": "on_hit", "chance": 0.2, "do": [["rand_status", 2]] }], "mythic", ["pyre", "frost", "venom"], {  }],
+	["m_serpentking", "venom", 1, "SERPENT KING", "EVERY 6S IN A FIGHT, A FIRE SERPENT HUNTS YOUR FOES", false, [{ "on": "every_n_seconds", "period": 6.0, "if": "fighting", "do": [["spell", "serpent", 1.2]] }], "mythic", ["venom", "pyre"], {  }],
 ]
 
 const TREE_COSTS := [10, 20, 35, 60]

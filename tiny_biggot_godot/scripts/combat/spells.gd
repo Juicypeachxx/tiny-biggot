@@ -998,3 +998,47 @@ static func draw_sheep(ci: CanvasItem, e: Enemy, t: float, foot: float) -> bool:
 	if fmod(t + e.uid * 0.37, 2.0) < 0.5:
 		Gfx.text(ci, "BAA", e.x, foot - 18.0, "white", 1, 0.5)
 	return true
+
+## 26: a spell cast by an item (Actions "spell", traits and synergies), at a foe's spot (x, y) or
+## from the hero toward it, for dmg; skip: the foe it was cast on (prism bolts fly out of it).
+static func cast(kind: String, p: Player, x: float, y: float, dmg: float, skip: int = -1) -> void:
+	var a := TB.ang_xy(p.x, p.y, x, y)
+	match kind:
+		"void":
+			_add(voids, { "x": x, "y": y, "vx": 0.0, "vy": 0.0, "t": 0.0, "life": 0.0, "dmg": dmg, "r": 44.0, "hole": true,
+				"hold": HOLE_TIME * 0.8, "tick": 0.0, "held": {}, "eaten": 0, "devour": false, "crit": false, "col": "#a35bd6" })
+			Snd.play("portal")
+		"comet":
+			var dir := Vector2.from_angle(PI / 2 + randf_range(-0.7, 0.7))
+			_add(comets, { "x0": x - dir.x * 420.0, "y0": y - dir.y * 420.0, "x1": x + dir.x * 140.0, "y1": y + dir.y * 140.0,
+				"tx": x, "ty": y, "kb": 420.0 / 560.0, "t": -0.3, "dur": 0.32, "dmg": dmg, "hit": {}, "burst": false,
+				"w": 10.0, "hx": x - dir.x * 420.0, "hy": y - dir.y * 420.0, "crit": false, "col": "orange" }, MAX_COMETS * 3)
+		"glyph":
+			_add(glyphs, { "x": x, "y": y, "r": 26.0, "t": 0.0, "delay": 0.5, "dmg": dmg, "great": false, "n": 1, "twice": false,
+				"pillar": 0.0, "crit": false, "col": "pink" })
+		"blade":
+			if blades.size() >= MAX_BLADES:
+				blades.pop_front()
+			blades.append({ "x": p.x + cos(a) * 14.0, "y": p.y - 6.0 + sin(a) * 8.0, "a": a, "t": 0.0, "life": 4.0, "dmg": dmg,
+				"cd": 0.15, "waves": false, "crit": false, "col": "white", "i": blades.size() })
+		"clock":
+			_add(clocks, { "x": x, "y": y, "r": 56.0, "t": 0.0, "life": 2.0, "dmg": dmg, "frozen": {}, "shots": [], "reverse": false,
+				"crit": false }, 3)
+			Snd.play("bell")
+		"prism":
+			var cs := ["red", "blue", "green"]
+			for i in 3:
+				var pa := a + (i - 1) * 0.9
+				_add(prisms, { "x": x, "y": y, "vx": cos(pa) * 220.0, "vy": sin(pa) * 220.0, "t": 0.0, "life": 0.6, "dmg": dmg,
+					"gen": 1, "maxgen": 2, "c": cs[i], "hit": { skip: true } if skip >= 0 else {}, "crit": false }, MAX_PRISMS)
+		"cloud":
+			if clouds.size() >= MAX_CLOUDS:
+				clouds.pop_front()
+			clouds.append({ "x": x, "y": y - 34.0, "t": 0.0, "life": 4.0, "dmg": dmg, "cd": 0.3, "rain": 0.0, "tornado": false, "crit": false })
+		"serpent":
+			_add(serpents, { "x": p.x, "y": p.y - 3.0, "a": a, "t": 0.0, "life": 3.0, "dmg": dmg, "trail": [], "next": {},
+				"coil": false, "coil_uid": -1, "coil_t": 0.0, "coiled": {}, "crush": 0.0, "fire_t": 0.0, "crit": false, "col": "orange" }, 8)
+		"pinball":
+			_add(pins, { "x": p.x, "y": p.y - 3.0, "vx": cos(a) * 300.0, "vy": sin(a) * 300.0, "t": 0.0, "life": 2.0, "dmg": dmg,
+				"bounces": 0, "max": 6, "last": -1, "stars": false, "trail": [], "crit": false, "col": "gold" })
+

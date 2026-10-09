@@ -43,7 +43,8 @@ const BUFF_CAP := 64
 const TRIGGERS := ["on_hit", "on_crit", "on_kill", "on_roll", "on_damage_taken", "on_heal", "on_room_enter",
 	"on_room_clear", "on_level_up", "on_shoot", "every_n_shots", "every_n_seconds", "while_low_hp", "while_align", "on_pickup",
 	"on_potion", "on_weapon_swap", "on_floor_start",   # last three: new for the step-6 heroes
-	"on_bomb", "on_armor_lost", "on_dodge", "on_overheal", "on_chest", "on_buy"]   # ROADMAP 4.7 gear and relics
+	"on_bomb", "on_armor_lost", "on_dodge", "on_overheal", "on_chest", "on_buy",   # ROADMAP 4.7 gear and relics
+	"on_reaction"]   # 26: two ailments on a foe reacted (reactions.gd)
 const ACTIONS := ["nova", "shoot", "explode", "status", "heal", "buff", "chain", "lightning", "summon", "gold",
 	"refund_roll", "armor", "drop", "damage", "hurt_self", "xp", "clear_shots", "card", "heat", "scroll",
 	"dash", "channel", "invuln", "status_area", "vfx", "area",
@@ -52,7 +53,8 @@ const ACTIONS := ["nova", "shoot", "explode", "status", "heal", "buff", "chain",
 	"plant", "puppet", "charm", "warm",   # ROADMAP 4.6 weapons (arsenal.gd, summons.gd)
 	"turret", "raise", "reflect", "spread", "consume", "give", "slow_shots", "overkill",   # ROADMAP 4.7
 	"stack",   # 8.4: a lasting bonus that grows up to a cap
-	"charm_area", "consume_area", "execute_weakest"]   # ROADMAP 4.8 heroes
+	"charm_area", "consume_area", "execute_weakest",   # ROADMAP 4.8 heroes
+	"spell"]   # 26: an item casts a spell of the spellbook (spells.gd)
 const STATUSES := ["burn", "poison", "chill", "bleed", "stun", "curse", "mark", "shock", "vulnerable", "weakened", "gloom"]
 const CONDITIONS := ["elite", "boss", "burning", "poisoned", "chilled", "bleeding", "shocked", "cursed",
 	"low_hp", "full_hp", "moving", "still", "crit", "danger", "fighting", "hot", "rich", "armored", "flight",
