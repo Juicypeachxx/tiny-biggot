@@ -1175,6 +1175,39 @@ cool effects, add new effects and synergies")
 - [x] 32.4 The full check passes, the core replays re-recorded (Stages 24-31 changed every fight
       on purpose; the classic ones identical), IPA 32. Then his new additions.
 
+## Stages 33-35 (his word, 9 Oct: four builds to add "and this is how the game needs to feel")
+He sent four well-loved builds of the game we take ideas from, and what makes it feel good:
+fast rooms, a broken sandbox with ways to bend luck (dice), many classes, and clear pictures in
+a bullet storm. Ideas and play only: every name, sprite and text here is our own.
+
+### Stage 33: build paths I (IPA 33)
+- [ ] 33.1 THE MIND FIELD (an INT aura build: "walk to the exit while everything dies"). AURA
+      REACH: every halo and aura grows with INT; the action "halo" (the halo relics move to it);
+      a visible field round you that can fill the room. Traits: OVERMIND (reach per INT), DEEP
+      WELL (INT, aura damage), STILL MIND (halos pulse faster), WIDE THOUGHTS. HORIZON RING: the
+      moons grow with your reach and hit hard. A hero built on it: THE MINDWARDEN.
+- [ ] 33.2 THE TAVERN (a STR melee build that needs no crits). Drinks for the belt (ALE, DARK
+      STOUT, FIRE MEAD) give TIPSY: a growing multiplier to damage and attack speed that wears
+      off. THE TAVERN, a room with a barkeep; shops sell ale. Traits: SURE STRIKE (never crit:
+      the crit chance becomes damage), BIG APPETITE, IRON GUT, BAR BRAWLER, LAST ORDERS. A
+      hero: THE TAVERN KNIGHT (attack speed and crit per STR).
+### Stage 34: build paths II (IPA 34)
+- [ ] 34.1 THE TRIGGER PATH (DEX/INT). LUCKY HITS (a chance per hit, its own trigger). THE
+      SPELL SLOT: the weapon in your first backpack slot is cast for free on crits and lucky
+      hits. Traits: SPELLSLINGER, FOUR-LEAF (lucky hits per DEX), STATIC BUILD-UP (shocks stack
+      and discharge), QUICK FINGERS. A hero: THE TRICKSHOT.
+- [ ] 34.2 THE LEGION PATH (companions). Companion cap, damage and speed for every kind of
+      helper (wisps, thralls, turrets, pets, swarms); move speed turns into their attack speed.
+      Traits: GRAVE MARSHAL, BONE BEACON, QUICK MARCH, ENDLESS RANKS; MARCHING BOOTS. A hero:
+      THE BONECALLER.
+### Stage 35: the feel (IPA 35)
+- [ ] 35.1 DICE to bend luck: REROLL, BANISH (gone for the run), ALTER (one row or one item
+      changed): found and bought, used on trait picks, relic choices, items and shops.
+- [ ] 35.2 PACE: rooms measured, then faster to start and to finish (spawns, waves, rewards),
+      and a power spike in the first rooms.
+- [ ] 35.3 CLARITY in a bullet storm: foe shots always above your own effects with a dark rim,
+      your hero always easy to find; nothing toned down.
+
 ---
 
 ## Log
