@@ -152,6 +152,9 @@ func new_run() -> void:
 		if not r.is_empty(): add_relic(p, r[0])
 	Trophies.apply(p, hero["id"])   # 7.2: a potion, a relic, a rare relic for 5 / 10 / 20 trophies
 	CampLife.on_new_run(p)   # 19.2: the camp's meal, song and parcel
+	if GameData.rogues():   # 29 (his word, 9 Oct): every run opens with an OATH that shapes it
+		p.oath_picks = 1
+		p.pending += 1
 	run_stats["power0"] = Combat.power(p)   # the yardstick of Combat.power_scale
 	_debug_give(p)
 	Meta.meta["runs"] += 1
@@ -464,6 +467,52 @@ func _leave_on_map(dir: String, c: Dictionary) -> void:
 	var nr := FloorMap.step(dir)
 	start_fade(func(): enter_room(nr))
 
+## 29 (his word, 9 Oct: "there are still some empty hidden rooms"): what a hidden room of the
+## expanded game holds. A third an event (with a little loot beside it, so the room is not bare
+## once it is done); a relic on a pedestal, or a free iron chest when no relic is left to give
+## (an empty pedestal was the empty room); the cursed chest; embers and gems by an iron chest; THE
+## GOLDEN GRIMOIRE (one of three rare traits); or A DRAGON'S HOARD.
+func _fill_secret(r: Room, cx: float, cy: float, roll: float) -> void:
+	if roll < 0.34:
+		_setup_event(r, TB.pick(SECRET_EVENTS))
+		for i in 5:
+			r.pickups.append(_room_pickup("coin", cx + TB.rint(-80, 80), cy + TB.rint(34, 46)))
+		r.pickups.append(_room_pickup("gem", cx + 64, cy + 40))
+	elif roll < 0.48:
+		var rel := roll_relics(1, "secret", r)
+		if rel.is_empty():
+			r.objects.append({ "kind": "ichest", "x": cx, "y": cy, "free": true })
+		else:
+			r.objects.append({ "kind": "pedestal", "relic": rel[0], "x": cx, "y": cy })
+		for i in 3:
+			r.pickups.append(_room_pickup("gem", cx - 24 + i * 24, cy + 30))
+	elif roll < 0.60:
+		r.objects.append({ "kind": "cchest", "x": cx, "y": cy })
+		for i in 6:
+			r.pickups.append(_room_pickup("coin", cx + TB.rint(-50, 50), cy + TB.rint(20, 40)))
+		r.pickups.append(_room_pickup("ember", cx, cy - 30))
+	elif roll < 0.72:
+		for i in 3:
+			r.pickups.append(_room_pickup("ember", cx - 20 + i * 20, cy))
+		for i in 3:
+			r.pickups.append(_room_pickup("gem", cx - 20 + i * 20, cy + 20))
+		r.objects.append({ "kind": "ichest", "x": cx, "y": cy - 30, "free": true })
+	elif roll < 0.86:
+		r.objects.append({ "kind": "grimoire", "x": cx, "y": cy })
+		for i in 4:
+			r.pickups.append(_room_pickup("coin", cx + TB.rint(-60, 60), cy + TB.rint(26, 40)))
+		show_banner("A FORGOTTEN STUDY", "A GOLDEN GRIMOIRE LIES OPEN")
+	else:
+		r.objects.append({ "kind": "chest", "x": cx - 44, "y": cy })
+		r.objects.append({ "kind": "ichest", "x": cx + 44, "y": cy, "free": true })
+		for i in 16:
+			r.pickups.append(_room_pickup("coin", cx + TB.rint(-90, 90), cy + TB.rint(-20, 44)))
+		for i in 3:
+			r.pickups.append(_room_pickup("gem", cx - 24 + i * 24, cy + 30))
+		for i in 2:
+			r.pickups.append(_room_pickup("ember", cx - 10 + i * 20, cy - 26))
+		show_banner("A DRAGON'S HOARD", "THE DRAGON IS OUT. TAKE WHAT YOU CAN CARRY")
+
 ## Events of a MYSTERY room, and the ones a hidden room may hold instead of its old three finds.
 const MYSTERY_EVENTS := ["wheel", "market", "mimic", "armory", "well", "goblin", "mirror", "library", "safehouse", "saloon",
 	"pit", "chopshop", "fortune", "courier", "gallery"]
@@ -501,6 +550,8 @@ func _setup_event(r: Room, ev: String) -> void:
 			var rel := roll_relics(3, "iron", r)
 			for i in rel.size():
 				r.objects.append({ "kind": "bloodshop", "relic": rel[i], "x": cx - 44 + i * 44, "y": cy + 6 })
+			if rel.is_empty() and GameData.rogues():   # 29: nothing left to sell: the stall's own strongbox
+				r.objects.append({ "kind": "ichest", "x": cx, "y": cy + 6, "free": true })
 		"mimic":
 			var left := randf() < 0.5
 			r.objects.append({ "kind": "chest" if left else "mimicchest", "x": cx - 28, "y": cy })
@@ -550,7 +601,10 @@ func event_fight_cleared() -> void:
 			show_banner("THE MIMIC IS DEAD", "IT HAD SWALLOWED AN IRON CHEST")
 		"mirror":
 			var rel := roll_relics(1, "iron", room)
-			room.objects.append({ "kind": "pedestal", "relic": rel[0] if not rel.is_empty() else null, "x": cx, "y": cy + 26 })
+			if rel.is_empty() and GameData.rogues():   # 29: no relic left to give: an iron chest, never an empty pedestal
+				room.objects.append({ "kind": "ichest", "x": cx, "y": cy + 26, "free": true })
+			else:
+				room.objects.append({ "kind": "pedestal", "relic": rel[0] if not rel.is_empty() else null, "x": cx, "y": cy + 26 })
 			show_banner("YOUR SHADOW YIELDS", "IT LEAVES A GIFT BEHIND")
 	Snd.play("unlock")
 
@@ -624,9 +678,8 @@ func setup_objects(r: Room) -> void:
 		"secret":
 			Story.hide_page(r, cx, cy)   # 12.3: Chapter II's torn pages
 			var roll := randf()
-			if GameData.rogues() and randf() < 0.5:
-				# Rogues layer: half the hidden rooms hold an event instead.
-				_setup_event(r, TB.pick(SECRET_EVENTS))
+			if GameData.rogues():
+				_fill_secret(r, cx, cy, roll)   # 29: never an empty one
 			elif roll < 0.45:
 				var rel := roll_relics(1, "secret", r)
 				r.objects.append({ "kind": "pedestal", "relic": rel[0] if not rel.is_empty() else null, "x": cx, "y": cy })
@@ -639,8 +692,6 @@ func setup_objects(r: Room) -> void:
 					r.pickups.append(_room_pickup("ember", cx - 20 + i * 20, cy))
 				for i in 3:
 					r.pickups.append(_room_pickup("gem", cx - 20 + i * 20, cy + 20))
-				if GameData.rogues():   # his ask (6 Oct): no hidden room that feels empty
-					r.objects.append({ "kind": "ichest", "x": cx, "y": cy - 30, "free": true })
 		"challenge":
 			r.objects.append({ "kind": "bell", "x": cx, "y": cy })
 		"camp":
@@ -1440,6 +1491,13 @@ func interact(o: Dictionary) -> void:
 			dyn_dirty = true
 			Snd.play("portal")
 			show_banner("YOUR SHADOW STEPS OUT", "BEAT IT FOR ITS GIFT")
+		"grimoire":   # 29: a hidden room's book of traits
+			o["used"] = true
+			p.special_picks += 1
+			p.pending += 1
+			Snd.play("relic")
+			Fx.burst(o["x"], o["y"], ["#f2c94c", "#e86fb4", "#ffffff"], 20, 70)
+			toast("THE GRIMOIRE OPENS: CHOOSE A RARE TRAIT", "gold")
 		"tome":
 			if p.hp <= 1:
 				return deny(o, "TOO WEAK")
@@ -1665,13 +1723,15 @@ func trait_weight(p: Player, t: Dictionary) -> int:
 	var fam: int = p.fam.get(t["fam"], 0)
 	if t["cap"]:
 		return 0 if fam < 3 else 6
-	var w := 3
+	var w := 1 if GameData.rogues() else 3   # 29: the plain originals come up less often in the expanded game
 	if t["fam"] != "core":
 		w += mini(fam, 4) * 2
 	return w
 
 func _new_trait_weight(p: Player, t: Dictionary) -> int:
 	var fam: int = p.fam.get(t["fam"], 0)
+	if t["rarity"] == "oath":   # 29: only through an oath pick (the start of a run) or a grimoire
+		return 0
 	if t["rarity"] == "mythic":   # 26: the rarest of all: from level 6, never helped by a family
 		return 0 if p.level < 6 else 1
 	if (t["cap"] or t["rarity"] == "legend") and fam < 3:
@@ -1680,8 +1740,8 @@ func _new_trait_weight(p: Player, t: Dictionary) -> int:
 		return 0
 	if t["rarity"] == "super":   # 8.4 / 8.5: common ones often from level 2, the rest rarely from level 4
 		if t["id"] in Traits.COMMON_SUPER:
-			return 0 if p.level < 2 else 4
-		return 0 if p.level < 4 else 1
+			return 4
+		return 0 if p.level < 3 else 2   # 29: from level 3 (was 4), twice as often
 	var tagpts := 0
 	for tag in t["tags"]:
 		tagpts += p.tag_counts.get(tag, 0)
@@ -1694,11 +1754,23 @@ func reroll_cost() -> int:
 
 func offer_traits() -> void:
 	var p := player
+	# 29: the run's OATH, or a grimoire's pick of rare traits; with none left to offer, an ordinary pick.
+	var mode := ""
+	if GameData.rogues():
+		mode = "oath" if p.oath_picks > 0 else ("special" if p.special_picks > 0 else "")
 	var cands := []
 	for t in Traits.all():
-		var w := trait_weight(p, t)
+		var w := _special_weight(p, t, mode) if mode != "" else trait_weight(p, t)
 		if w > 0:
 			cands.append([t, w])
+	if cands.is_empty() and mode != "":
+		p.oath_picks = 0
+		p.special_picks = 0
+		mode = ""
+		for t in Traits.all():
+			var w := trait_weight(p, t)
+			if w > 0:
+				cands.append([t, w])
 	var opts := []
 	var n_opts := 3
 	if TraitView.active() and p.luck > 0 and randf() < minf(0.9, p.luck * 0.15):
@@ -1706,26 +1778,60 @@ func offer_traits() -> void:
 	for k in n_opts:
 		if cands.is_empty():
 			break
+		# 29: the first row of an ordinary pick is a rare-or-better trait when one can be offered.
+		var pool := cands
+		if k == 0 and mode == "" and GameData.rogues():
+			var sp := cands.filter(func(pair): return pair[0]["new"] and pair[0]["rarity"] in Traits.SPOTLIGHT)
+			if not sp.is_empty():
+				pool = sp
 		var tot := 0
-		for c in cands:
+		for c in pool:
 			tot += c[1]
 		var x := randf() * tot
 		var idx := 0
-		for i in cands.size():
-			x -= cands[i][1]
+		for i in pool.size():
+			x -= pool[i][1]
 			if x < 0:
 				idx = i
 				break
-		opts.append(cands[idx][0])
-		cands.remove_at(idx)
+		var got: Dictionary = pool[idx][0]
+		opts.append(got)
+		for i in cands.size():
+			if cands[i][0]["id"] == got["id"]:
+				cands.remove_at(i)
+				break
 	if opts.is_empty():
 		p.pending = 0
 		return
-	tchoice = { "opts": opts, "idx": 0 if TraitView.active() else mini(1, opts.size() - 1), "t0": time }
+	tchoice = { "opts": opts, "idx": 0 if TraitView.active() else mini(1, opts.size() - 1), "t0": time, "mode": mode }
 	state = &"traits"
+
+## 29: only the practice dummy and target are left in the room.
+func _only_dummies() -> bool:
+	for e in enemies:
+		if not e.type in ["dummy", "target"]:
+			return false
+	return true
+
+## 29: weights of an OATH pick (the oaths alone) and of a grimoire's pick (rare or better, oaths
+## too, no family or level needed but a mythic's level 6; no cursed trait).
+func _special_weight(p: Player, t: Dictionary, mode: String) -> int:
+	if not t["new"] or p.traits.get(t["id"], 0) >= t["max"]:
+		return 0
+	if mode == "oath":
+		return 1 if t["rarity"] == "oath" else 0
+	match t["rarity"]:
+		"rare": return 3
+		"super", "legend", "oath": return 2
+		"mythic": return 1 if p.level >= 6 else 0
+	return 0
 
 func take_trait(t: Dictionary) -> void:
 	var p := player
+	if tchoice.get("opts", []).has(t):   # 29: an oath or a grimoire's pick is spent
+		match tchoice.get("mode", ""):
+			"oath": p.oath_picks = maxi(0, p.oath_picks - 1)
+			"special": p.special_picks = maxi(0, p.special_picks - 1)
 	p.traits[t["id"]] = p.traits.get(t["id"], 0) + 1
 	Traits.apply(t["id"], p)
 	Attributes.on_trait(p, t["fam"])
@@ -2323,8 +2429,9 @@ func update_play(dt: float) -> void:
 			win_timer = null
 			on_win()
 			return
-	# Level-ups wait until the room is safe.
-	if p.pending > 0 and not locked and enemies.is_empty():
+	# Level-ups wait until the room is safe (29: the start room's practice dummy and target do not
+	# count in the expanded game, so the run's OATH comes at once).
+	if p.pending > 0 and not locked and (enemies.is_empty() or GameData.rogues() and _only_dummies()):
 		offer_traits()
 		return
 	prompt = null

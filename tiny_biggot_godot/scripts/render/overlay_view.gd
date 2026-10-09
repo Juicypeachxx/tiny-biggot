@@ -284,6 +284,9 @@ func draw_prompt(ci: CanvasItem, o: Dictionary) -> void:
 		"tome":
 			title = "FORBIDDEN TOME"
 			desc = "READ IT: GAIN A LEVEL, LOSE HALF A HEART"
+		"grimoire":
+			title = "GOLDEN GRIMOIRE"
+			desc = "READ IT: CHOOSE ONE OF THREE RARE TRAITS"
 		"bed":
 			title = "A SAFE BED"
 			desc = "SLEEP: HEAL 2 HEARTS"

@@ -72,7 +72,11 @@ const RARITY := {
 	"cursed": { "name": "CURSED", "col": "purple", "hex": "#a35bd6", "w": 1 },
 	"super": { "name": "SUPER", "col": "pink", "hex": "#e86fb4", "w": 1 },   # 8.4: big, run-shaping picks
 	"mythic": { "name": "MYTHIC", "col": "red", "hex": "#ff3a4a", "w": 1 },   # 26: the rarest of all, from level 6
+	"oath": { "name": "OATH", "col": "orange", "hex": "#ff9b3a", "w": 1 },   # 29: the pick that opens every run
 }
+## 29 (his word, 9 Oct: "at the start of the game there are only basic traits"): one row of every
+## pick of the expanded game is one of these, when one can be offered.
+const SPOTLIGHT := ["rare", "legend", "super", "mythic", "cursed"]
 ## 8.5 (his ask, 6 Oct: "make some common super traits to refresh runs"): these SUPER traits are
 ## offered often (weight 4) from level 2; the rest stay rare (weight 1) from level 4.
 const COMMON_SUPER := ["x_twin", "x_reflex", "x_surge", "x_hoarder", "x_heart", "x_crown", "x_tailwind", "x_legion"]
@@ -294,6 +298,62 @@ const ROWS := [
 	["m_prismsoul", "arcane", 1, "PRISMATIC SOUL", "15% OF HITS BURST INTO RED, BLUE AND GREEN BOLTS THAT SPLIT AGAIN", false, [{ "on": "on_hit", "chance": 0.15, "cd": 0.15, "do": [["spell", "prism", 0.8]] }], "mythic", ["arcane"], {  }],
 	["m_elemental", "core", 1, "ELEMENTAL AVATAR", "REACTIONS COME BACK 4X AS FAST AND HIT 3X AS HARD. 20% OF HITS ADD A RANDOM AILMENT", false, [["hook", "react_fast", 1], ["hook", "react_dmg", 2.0], ["hook", "react_avatar", 1], { "on": "on_hit", "chance": 0.2, "do": [["rand_status", 2]] }], "mythic", ["pyre", "frost", "venom"], {  }],
 	["m_serpentking", "venom", 1, "SERPENT KING", "EVERY 6S IN A FIGHT, A FIRE SERPENT HUNTS YOUR FOES", false, [{ "on": "every_n_seconds", "period": 6.0, "if": "fighting", "do": [["spell", "serpent", 1.2]] }], "mythic", ["venom", "pyre"], {  }],
+	# Stage 29 (his word, 9 Oct: "make so much new and cool traits so every run could feel different").
+	# OATHS open every run (G.offer_traits: one of three, before the first room); the rest join the picks.
+	["o_flame", "pyre", 1, "OATH OF FLAME", "EVERY HIT BURNS. BURNING FOES TAKE +30% DAMAGE", false, [["add", "burn", 1.0], ["add", "vs_burn", 0.3]], "oath", ["pyre"], {  }],
+	["o_frost", "frost", 1, "OATH OF FROST", "EVERY HIT CHILLS. CHILLED FOES TAKE +30% DAMAGE", false, [["add", "chill", 1.0], ["add", "vs_chill", 0.3]], "oath", ["frost"], {  }],
+	["o_venom", "venom", 1, "OATH OF VENOM", "HITS ADD 2 POISON. POISON DEALS +60% DAMAGE", false, [["add", "poison", 2], ["add", "poison_dmg", 0.6]], "oath", ["venom"], {  }],
+	["o_thunder", "storm", 1, "OATH OF THUNDER", "EVERY 3RD HIT CALLS LIGHTNING ON THE FOE. CRITS SHOCK", false, [{ "on": "on_hit", "every": 3, "cd": 0.15, "do": [["lightning", 0.8]] }, { "on": "on_crit", "do": [["status", "shock", 1]] }], "oath", ["storm"], {  }],
+	["o_blood", "blood", 1, "OATH OF BLOOD", "+40% DAMAGE. -1 MAX HEART. 8% OF KILLS HEAL HALF A HEART", false, [["mul", "dmg", 1.4], ["add_floor", "max_hp", -2, 2], ["clamp_max", "hp", "max_hp"], { "on": "on_kill", "chance": 0.08, "do": [["heal", 1]] }], "oath", ["blood", "fury"], {  }],
+	["o_swarm", "swarm", 1, "OATH OF THE SWARM", "+2 WISPS. EVERY ROOM BEGINS WITH 3 MORE FOR 15S", false, [["add", "familiars", 2], { "on": "on_room_enter", "do": [["summon", 15.0], ["summon", 15.0], ["summon", 15.0]] }], "oath", ["swarm"], {  }],
+	["o_steel", "bulwark", 1, "OATH OF STEEL", "+2 MAX HEARTS, +20 THORNS. EVERY FLOOR BEGINS WITH 4 ARMOR", false, [["add", "max_hp", 4], ["add_cap", "hp", 4, "max_hp"], ["add", "thorns", 20], { "on": "on_floor_start", "do": [["armor", 4]] }], "oath", ["bulwark"], {  }],
+	["o_shadow", "shadow", 1, "OATH OF SHADOWS", "+2 ROLL CHARGES. EVERY ROLL FIRES A RING OF 10 SHOTS", false, [["add", "dodge_charges", 2], ["add", "charges", 2], { "on": "on_roll", "cd": 0.3, "do": [["nova", 10, 0.8, "spark"]] }], "oath", ["shadow"], {  }],
+	["o_archmage", "arcane", 1, "OATH OF THE ARCHMAGE", "EVERY 6TH ATTACK CALLS A COMET, EVERY 10TH A RUNE, EVERY 15TH A SPECTRAL BLADE", false, [{ "on": "every_n_shots", "every": 6, "do": [["spell", "comet", 1.5]] }, { "on": "every_n_shots", "every": 10, "do": [["spell", "glyph", 1.2]] }, { "on": "every_n_shots", "every": 15, "do": [["spell", "blade", 0.8]] }], "oath", ["arcane"], {  }],
+	["o_greed", "fortune", 1, "OATH OF GREED", "+1% DAMAGE FOR EVERY 10 GOLD HELD. 25% OF KILLS DROP A COIN", false, [["set", "miser", true], { "on": "on_kill", "chance": 0.25, "do": [["drop", "coin"]] }], "oath", ["fortune"], {  }],
+	["o_duelist", "edge", 1, "OATH OF THE DUELIST", "+20% CRIT, CRITS DEAL +0.5X. EVERY 4TH CRIT STRIKES AGAIN", false, [["add", "crit", 0.2], ["add", "crit_mult", 0.5], { "on": "on_crit", "every": 4, "cd": 0.1, "do": [["damage", 1.0]] }], "oath", ["edge"], {  }],
+	["o_rage", "fury", 1, "OATH OF RAGE", "KILLS GIVE +5% DAMAGE FOR 5S, STACKING. WHEN HIT, +30% FIRE RATE FOR 3S", false, [{ "on": "on_kill", "do": [["buff", "dmg", 0.05, 5.0]] }, { "on": "on_damage_taken", "do": [["buff", "rate", 0.3, 3.0]] }], "oath", ["fury"], {  }],
+	["o_ruin", "demolition", 1, "OATH OF RUIN", "30% OF KILLS EXPLODE FOR 60% AROUND THE FOE. +2 BOMBS", false, [{ "on": "on_kill", "chance": 0.3, "do": [["explode", 34, 0.6]] }, ["add", "bombs", 2]], "oath", ["demolition"], {  }],
+	["o_hexer", "malice", 1, "OATH OF THE HEXER", "20% OF HITS CURSE. KILLING A CURSED FOE CURSES EVERY FOE NEAR YOU", false, [{ "on": "on_hit", "chance": 0.2, "do": [["status", "curse", 1]] }, { "on": "on_kill", "if": "cursed", "do": [["status_area", "curse", 2, 90], ["vfx", "ring", "#7a3a8c", 90]] }], "oath", ["malice"], {  }],
+	["o_grave", "swarm", 1, "OATH OF THE GRAVE", "25% OF KILLS RAISE A SKELETON THAT FIGHTS FOR YOU FOR 10S", false, [{ "on": "on_kill", "chance": 0.25, "do": [["raise", 10.0, 1.0]] }], "oath", ["swarm", "malice"], {  }],
+	["o_engineer", "core", 1, "OATH OF THE ENGINEER", "EVERY 10S IN A FIGHT, A TURRET JOINS YOU FOR 10S", false, [{ "on": "every_n_seconds", "period": 10.0, "if": "fighting", "do": [["turret", "random", 10.0, 1.0]] }], "oath", ["demolition"], {  }],
+	["o_hourglass", "arcane", 1, "OATH OF THE HOURGLASS", "EVERY 10S IN A FIGHT, TIME STOPS AROUND A FOE. ROLLS RECHARGE 25% FASTER", false, [{ "on": "every_n_seconds", "period": 10.0, "if": "fighting", "do": [["spell", "clock", 1.5]] }, ["mul", "dodge_cd", 0.75]], "oath", ["arcane", "frost"], {  }],
+	["o_chaos", "fortune", 1, "OATH OF CHAOS", "EVERY ROOM, SOMETHING RANDOM HAPPENS. SO DOES EVERY 15TH HIT", false, [{ "on": "on_room_enter", "do": [["chaos"]] }, { "on": "on_hit", "every": 15, "cd": 1.0, "do": [["chaos"]] }], "oath", ["fortune"], {  }],
+	["o_dawn", "core", 1, "OATH OF DAWN", "+1 MAX HEART. EVERY 8S IN A FIGHT, A RING OF 16 SHOTS OF LIGHT", false, [["add", "max_hp", 2], ["add_cap", "hp", 2, "max_hp"], { "on": "every_n_seconds", "period": 8.0, "if": "fighting", "do": [["nova", 16, 1.0, "spark"]] }], "oath", ["arcane", "bulwark"], {  }],
+	["n_sparkplug", "storm", 3, "SPARKPLUG", "10% OF HITS SHOCK", false, [{ "on": "on_hit", "chance": 0.1, "do": [["status", "shock", 1]] }], "common", ["storm"], {  }],
+	["n_serrated", "blood", 3, "SERRATED EDGE", "10% OF HITS MAKE THE FOE BLEED", false, [{ "on": "on_hit", "chance": 0.1, "do": [["status", "bleed", 1]] }], "common", ["blood"], {  }],
+	["n_coinflip", "fortune", 2, "COIN FLIP", "15% OF KILLS DROP A COIN", false, [{ "on": "on_kill", "chance": 0.15, "do": [["drop", "coin"]] }], "common", ["fortune"], {  }],
+	["n_stride", "shadow", 3, "LONG STRIDE", "+6% SPEED. ROLLING GIVES +15% DAMAGE FOR 2S", false, [["mul", "speed", 1.06], { "on": "on_roll", "do": [["buff", "dmg", 0.15, 2.0]] }], "common", ["shadow"], {  }],
+	["n_kindled", "pyre", 3, "KINDLED STEEL", "HITS ON BURNING FOES DEAL A 15% BONUS HIT", false, [{ "on": "on_hit", "cd": 0.05, "if": "burning", "do": [["damage", 0.15]] }], "common", ["pyre"], {  }],
+	["n_coldsnap", "frost", 3, "WINTER BITE", "KILLS CHILL THE FOES NEAR YOU", false, [{ "on": "on_kill", "cd": 0.5, "do": [["status_area", "chill", 1, 80]] }], "common", ["frost"], {  }],
+	["n_trickshot", "edge", 2, "TRICK SHOT", "SHOTS BOUNCE OFF WALLS. +5% CRIT", false, [["add", "bounce", 1], ["add", "crit", 0.05]], "uncommon", ["edge"], {  }],
+	["n_satellite", "arcane", 2, "LITTLE MOON", "AN ORB CIRCLES YOU AND BLOCKS SHOTS", false, [["add", "orbitals", 1]], "uncommon", ["arcane", "bulwark"], {  }],
+	["n_vampire", "blood", 2, "VAMPIRIC TOUCH", "3% OF CRITS HEAL HALF A HEART", false, [{ "on": "on_crit", "chance": 0.03, "do": [["heal", 1]] }], "uncommon", ["blood", "edge"], {  }],
+	["n_shockwave", "bulwark", 2, "SHOCKWAVE", "WHEN HIT, FOES NEAR YOU ARE THROWN BACK AND STUNNED", false, [{ "on": "on_damage_taken", "cd": 1.0, "do": [["push", 110, 300], ["status_area", "stun", 1, 110], ["vfx", "ring", "#f4ecd8", 110]] }], "uncommon", ["bulwark"], {  }],
+	["n_huntmark", "edge", 2, "TARGET PRACTICE", "EVERY 5TH HIT MARKS THE FOE", false, [{ "on": "on_hit", "every": 5, "do": [["status", "mark", 1]] }], "uncommon", ["edge"], {  }],
+	["n_aftershock", "demolition", 2, "AFTERSHOCK", "EVERY 8TH HIT SETS OFF A SMALL BLAST FOR 80%", false, [{ "on": "on_hit", "every": 8, "cd": 0.1, "do": [["explode", 28, 0.8]] }], "uncommon", ["demolition"], {  }],
+	["n_glacial", "frost", 1, "GLACIAL ARMOR", "WHEN HIT, CHILL EVERY FOE NEAR YOU AND GAIN 1 ARMOR (EVERY 5S)", false, [{ "on": "on_damage_taken", "cd": 5.0, "do": [["status_area", "chill", 2, 120], ["armor", 1]] }], "uncommon", ["frost", "bulwark"], {  }],
+	["n_emberdance", "pyre", 2, "EMBER DANCE", "ROLLING BURNS EVERY FOE NEAR YOU", false, [{ "on": "on_roll", "cd": 0.8, "do": [["status_area", "burn", 1, 90], ["vfx", "ring", "#e8873a", 90]] }], "uncommon", ["pyre", "shadow"], {  }],
+	["n_ricochet", "storm", 2, "PINGBACK", "SHOTS JUMP TO ANOTHER FOE AFTER A HIT", false, [["add", "ricochet", 1]], "uncommon", ["storm", "edge"], {  }],
+	["n_forked", "venom", 1, "FORKED TONGUE", "EVERY 4TH HIT ON A POISONED FOE ARCS TO ANOTHER FOE", false, [{ "on": "on_hit", "every": 4, "if": "poisoned", "do": [["chain", 0.5]] }], "rare", ["venom", "storm"], {  }],
+	["n_horizon", "shadow", 1, "DARK STAR", "EVERY 10TH KILL OPENS A BLACK HOLE ON A FOE", false, [{ "on": "on_kill", "every": 10, "do": [["spell", "void", 2.0]] }], "rare", ["shadow", "arcane"], {  }],
+	["n_pinball", "arcane", 1, "PINBALL WIZARD", "EVERY 7TH ATTACK LAUNCHES A BOUNCING ORB", false, [{ "on": "every_n_shots", "every": 7, "do": [["spell", "pinball", 1.0]] }], "rare", ["arcane"], {  }],
+	["n_sentry", "core", 1, "SENTRY POST", "EVERY 15S IN A FIGHT, A TESLA TURRET JOINS YOU FOR 12S", false, [{ "on": "every_n_seconds", "period": 15.0, "if": "fighting", "do": [["turret", "tesla", 12.0, 1.0]] }], "rare", ["demolition", "storm"], {  }],
+	["n_reaper", "malice", 1, "REAPER'S TOLL", "EVERY 6S IN A FIGHT, THE MOST WOUNDED FOE TAKES 300%. BELOW 15% IT DIES", false, [{ "on": "every_n_seconds", "period": 6.0, "if": "fighting", "do": [["execute_weakest", 3.0, 0.15]] }], "rare", ["malice", "edge"], {  }],
+	["n_parry", "bulwark", 1, "PARRY", "ROLLING TURNS THE FOES' SHOTS NEAR YOU INTO YOURS", false, [{ "on": "on_roll", "cd": 1.0, "do": [["reflect", 80, 1.0]] }], "rare", ["bulwark", "shadow"], {  }],
+	["n_silvertongue", "fortune", 1, "SWEET TALK", "EVERY 12S IN A FIGHT, FOES NEAR YOU FIGHT FOR YOU FOR 4S", false, [{ "on": "every_n_seconds", "period": 12.0, "if": "fighting", "do": [["charm_area", 90, 4.0]] }], "rare", ["fortune", "malice"], {  }],
+	["n_hailstorm", "frost", 1, "HAILSTORM", "EVERY 7S IN A FIGHT, 12 SHARDS BURST FROM YOU AND FOES NEAR YOU ARE CHILLED", false, [{ "on": "every_n_seconds", "period": 7.0, "if": "fighting", "do": [["nova", 12, 0.8, "spark"], ["status_area", "chill", 2, 140]] }], "rare", ["frost"], {  }],
+	["n_tempest", "storm", 1, "EYE OF THE TEMPEST", "EVERY 3S IN A FIGHT, LIGHTNING STRIKES 2 FOES", false, [{ "on": "every_n_seconds", "period": 3.0, "if": "fighting", "do": [["bolts", 2, 1.2]] }], "legend", ["storm"], {  }],
+	["n_vipers", "venom", 1, "NEST OF VIPERS", "EVERY 4TH KILL RELEASES A FIRE SERPENT", false, [{ "on": "on_kill", "every": 4, "do": [["spell", "serpent", 1.0]] }], "legend", ["venom", "pyre"], {  }],
+	["n_rainbow", "edge", 1, "RAINBOW EDGE", "CRITS SPLIT INTO RED, BLUE AND GREEN BOLTS (EVERY 1S)", false, [{ "on": "on_crit", "cd": 1.0, "do": [["spell", "prism", 0.8]] }], "legend", ["edge", "arcane"], {  }],
+	["n_runeward", "bulwark", 1, "RUNE WARD", "WHEN HIT, A RUNE ERUPTS UNDER A FOE. EVERY FLOOR BEGINS WITH 2 ARMOR", false, [{ "on": "on_damage_taken", "cd": 1.5, "do": [["spell", "glyph", 2.0]] }, { "on": "on_floor_start", "do": [["armor", 2]] }], "legend", ["bulwark", "arcane"], {  }],
+	["n_overlord", "swarm", 1, "OVERLORD", "+3 WISPS. WISPS DEAL +50% DAMAGE", false, [["add", "familiars", 3], ["add", "fam_dmg", 0.5]], "super", ["swarm"], {  }],
+	["n_bulletsea", "arcane", 1, "SEA OF BULLETS", "+2 PROJECTILES. -10% DAMAGE", false, [["add", "count", 2], ["mul", "dmg", 0.9]], "super", ["arcane"], {  }],
+	["n_clover", "fortune", 1, "FOUR-LEAF CLOVER", "+3 LUCK. CHESTS GIVE 2 MORE GEMS", false, [["add", "luck", 3], { "on": "on_chest", "do": [["drop", "gem"], ["drop", "gem"]] }], "super", ["fortune"], {  }],
+	["n_giantblood", "bulwark", 1, "GIANT'S BLOOD", "+3 MAX HEARTS. SHOTS 30% BIGGER", false, [["add", "max_hp", 6], ["add_cap", "hp", 6, "max_hp"], ["mul", "size", 1.3]], "super", ["bulwark", "fury"], {  }],
+	["n_sentence", "malice", 1, "DEATH SENTENCE", "ELITES TAKE +35% DAMAGE. KILLING AN ELITE HEALS A HEART", false, [["add", "elite_mult", 0.35], { "on": "on_kill", "if": "elite", "do": [["heal", 2]] }], "super", ["malice", "edge"], {  }],
+	["n_godslayer", "edge", 1, "GODSLAYER", "ELITES TAKE +60% DAMAGE. EVERY 10TH HIT ON A GUARDIAN CALLS A COMET", false, [["add", "elite_mult", 0.6], { "on": "on_hit", "every": 10, "if": "boss", "do": [["spell", "comet", 2.0]] }], "mythic", ["edge"], {  }],
+	["n_dragonsoul", "pyre", 1, "DRAGON SOUL", "EVERY HIT BURNS. EVERY 5S IN A FIGHT, 3 METEORS AND A FIRE SERPENT", false, [["add", "burn", 1.0], { "on": "every_n_seconds", "period": 5.0, "if": "fighting", "do": [["meteor", 1.5, 28], ["meteor", 1.5, 28], ["meteor", 1.5, 28], ["spell", "serpent", 1.0]] }], "mythic", ["pyre"], {  }],
+	["n_winter", "frost", 1, "ETERNAL WINTER", "EVERY 8S IN A FIGHT, STOP TIME AT A FOE AND CHILL ALL. CHILLED FOES TAKE +50%", false, [{ "on": "every_n_seconds", "period": 8.0, "if": "fighting", "do": [["spell", "clock", 1.5], ["status_area", "chill", 2, 999]] }, ["add", "vs_chill", 0.5]], "mythic", ["frost", "arcane"], {  }],
 ]
 
 const TREE_COSTS := [10, 20, 35, 60]

@@ -1116,6 +1116,25 @@ cool effects, add new effects and synergies")
       the version has no line at the top of the list. IPA 28. From now on: every `[ipa]` commit
       adds its version's line at the top.
 
+## Stage 29 (his word, 9 Oct: "There are still some empty hidden rooms, also make better trait listing when I pick up trait at start of the game there are only basic traits, make so much new and cool traits so every run could feel different")
+- [x] 29.1 Hidden rooms (expanded game, `G._fill_secret`): never an empty pedestal (no relic left:
+      a free iron chest; the same for the mirror's gift and an empty blood market); a little loot
+      beside every find; two new kinds: THE GOLDEN GRIMOIRE (read it: one of three rare traits)
+      and A DRAGON'S HOARD (two chests, 16 coins, gems, embers).
+- [x] 29.2 Better trait picks (expanded game): every run opens with an OATH pick (three of 19
+      run-shaping traits, before the first room: the start room's dummy and target no longer hold
+      a pick back); the first row of every pick is rare or better when one can be offered
+      (`Traits.SPOTLIGHT`); the plain original traits weigh 1 instead of 3; SUPER traits from
+      level 3 (was 4) and twice as often.
+- [x] 29.3 54 new traits: 19 OATHS (FLAME, FROST, VENOM, THUNDER, BLOOD, THE SWARM, STEEL, SHADOWS,
+      THE ARCHMAGE, GREED, THE DUELIST, RAGE, RUIN, THE HEXER, THE GRAVE, THE ENGINEER, THE
+      HOURGLASS, CHAOS, DAWN) and 35 more, common to mythic.
+- [ ] 29.4 Only compiled at his word (import; a 30 s bot run; a 30 s run with all 54 new traits
+      at once; twelve hidden rooms; pictures of the oath pick and a hoard: no errors). IPA 29.
+      Next session: the full check (content_test lints the new rows and their texts) and the core
+      replays re-recorded (the oath pick, the offers and the hidden rooms change every run).
+      Classic is untouched (all of it behind `GameData.rogues()`).
+
 ---
 
 ## Log

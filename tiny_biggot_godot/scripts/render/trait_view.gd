@@ -114,8 +114,12 @@ static func draw(ci: CanvasItem) -> void:
 	for k in 14:
 		var hx := COL_X + k * 12.0
 		ci.draw_line(Vector2(hx, ROW_Y + fh - 12), Vector2(minf(hx + fh - 16, COL_X + COL_W), ROW_Y + fh - 12 - minf(fh - 16, COL_X + COL_W - hx)), Color(0.5, 0.5, 0.6, 0.12), 1.0)
-	Gfx.panel(ci, TB.SW / 2 - 62, ROW_Y - 22, 124, 15, "#f4ecd8", "#0c0b12")
-	Gfx.text(ci, "CHOOSE A TRAIT", TB.SW / 2, ROW_Y - 18, "white", 1, 0.5)
+	# 29: the run's opening OATH, and a grimoire's pick, have their own titles.
+	var mode: String = c.get("mode", "")
+	var title: String = { "oath": "SWEAR AN OATH FOR THIS RUN", "special": "THE GRIMOIRE: A RARE TRAIT" }.get(mode, "CHOOSE A TRAIT")
+	var tw := maxi(124, TB.text_w(title) + 16)
+	Gfx.panel(ci, TB.SW / 2 - tw / 2, ROW_Y - 22, tw, 15, "#ff9b3a" if mode == "oath" else "#f4ecd8", "#0c0b12")
+	Gfx.text(ci, title, TB.SW / 2, ROW_Y - 18, "orange" if mode == "oath" else ("gold" if mode == "special" else "white"), 1, 0.5)
 	Gfx.text(ci, "LEVEL %d" % p.level + ("  (+%d MORE)" % (p.pending - 1) if p.pending > 1 else ""), PX + 2, ROW_Y - 18, "lime")
 	var opts: Array = c["opts"]
 	for i in 4:
@@ -146,9 +150,10 @@ static func _row(ci: CanvasItem, r: Rect2, tr: Dictionary, sel: bool, a: float) 
 	Gfx.panel(ci, r.position.x, r.position.y, r.size.x, r.size.y, border, "#14121c" if sel else "#0c0b12")
 	# The icon box (8.5: bigger, in the family's colour; pink for a SUPER trait).
 	var sup: bool = tr["rarity"] == "super"
+	var box: String = "#e86fb4" if sup else ("#ff9b3a" if tr["rarity"] == "oath" else fam["hex"])   # 29: an OATH's box in orange
 	var ib := Rect2(r.position.x + 6, r.position.y + 7, 36, 36)
-	Gfx.panel(ci, ib.position.x, ib.position.y, ib.size.x, ib.size.y, "#e86fb4" if sup else fam["hex"], "#0c0b12")
-	ci.draw_rect(Rect2(ib.position.x + 2, ib.position.y + 2, ib.size.x - 4, ib.size.y - 4), TB.c("#e86fb4" if sup else fam["hex"]), false, 1.0)
+	Gfx.panel(ci, ib.position.x, ib.position.y, ib.size.x, ib.size.y, box, "#0c0b12")
+	ci.draw_rect(Rect2(ib.position.x + 2, ib.position.y + 2, ib.size.x - 4, ib.size.y - 4), TB.c(box), false, 1.0)
 	Gfx.sp(ci, FAM_ICON.get(tr["fam"], "fam_core"), ib.get_center().x, ib.end.y - 5, 2, 2, 0.0, false, a)
 	var tx := r.position.x + 48
 	Gfx.text(ci, ("SUPER " if sup and not tr["name"].begins_with("SUPER") else "") + tr["name"], tx, r.position.y + 5, "pink" if sup else fam["col"], 1, 0.0, true, a)

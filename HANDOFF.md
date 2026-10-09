@@ -1205,7 +1205,23 @@ or is not the top one, sets NAME and IPA (TinyBiggot-<V>-<Name>.ipa); the publis
 release "Tiny Biggot Rogues <V>: <Name>" with the tweaks as notes, then renames every older
 `ipa-*` release whose title lacks its name (tweaks put over its old notes from their "Version"
 line; done once, already named ones are skipped). The rename loop was tried here with a stand-in
-gh. No rule changed: replays untouched.
+gh. No rule changed: replays untouched. IPA 28 built; all 39 releases named.
+
+### Stage 29 (9 Oct): oaths, better picks, 54 traits, full hidden rooms
+- Hidden rooms: `G._fill_secret(r, cx, cy, roll)` (expanded game; classic keeps its old fill and
+  dice). The object `grimoire` (drawn as the tome, a white glow; prompt GOLDEN GRIMOIRE) gives
+  `p.special_picks += 1; p.pending += 1`.
+- Picks: `Player.oath_picks` / `special_picks` (saved with the run like every player value).
+  `G.offer_traits` has a mode ("oath", "special", ""), kept in `tchoice["mode"]`;
+  `G._special_weight` weighs those picks; `take_trait` spends the pick when the trait came from
+  the offer. `new_run` gives the oath (expanded game). The pick gate in `update_play` ignores the
+  start room's dummy and target (`_only_dummies`, expanded game). TraitView titles: SWEAR AN OATH
+  FOR THIS RUN / THE GRIMOIRE: A RARE TRAIT; an oath's box is orange. Rarity "oath" in
+  Traits.RARITY (weight 0 in ordinary picks).
+- Rows: after "m_serpentking" in Traits.ROWS (o_* oaths, n_* the rest).
+- Not run (his word): tools/check.sh. Watch for tests that start a run and expect no pick
+  pending (a new run of the expanded game now has one: the oath), `--ui=traits` (shows the oath
+  pick first), and content_test's text-fit check on the new rows.
 
 ## Noted, not yet acted on
 

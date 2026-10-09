@@ -507,7 +507,7 @@ func _paint_lower(ci: CanvasItem) -> void:
 				if not o.get("used", false):
 					var zm := 2.0 + sin(t * 3) * 0.08
 					Gfx.sp(ci, "riftdoor", x, y + 8, zm, zm)
-			"tome":
+			"tome", "grimoire":
 				Gfx.sp(ci, "tome", x, y + 6 + (0.0 if o.get("used", false) else bob), 2, 2)
 			"bed":
 				Gfx.sp(ci, "bed", x, y + 8, 2, 2)
@@ -653,7 +653,7 @@ func _paint_shadows(ci: CanvasItem, room: Room) -> void:
 		if o.get("gone", false):
 			continue
 		match o["kind"]:
-			"chest", "ichest", "cchest", "mimicchest", "tome", "jukebox": shadow(ci, o["x"], o["y"] + 4, 12)
+			"chest", "ichest", "cchest", "mimicchest", "tome", "grimoire", "jukebox": shadow(ci, o["x"], o["y"] + 4, 12)
 			"idol", "campfire", "altar", "fountain", "wheel", "well", "bloodstall", "bed": shadow(ci, o["x"], o["y"] + 4, 14)
 			"bell": shadow(ci, o["x"], o["y"] + 4, 10)
 			"s_merchant", "s_broker", "e_pitboss", "e_mechanic", "e_teller", "e_courier", "e_attendant", "w_merchant", "e_pawn", "e_hustler", "n_archivist", "n_inkling", "n_bookbinder": \
@@ -945,6 +945,8 @@ func _paint_glow(ci: CanvasItem) -> void:
 				if not o.get("opened", false): Gfx.at(ci, "glow_white", x - 24, y - 24)
 			"mirror", "tome":
 				if not o.get("used", false): Gfx.at(ci, "glow_purple", x - 30, y - 30)
+			"grimoire":   # 29: gold, not the tome's purple
+				if not o.get("used", false): Gfx.at(ci, "glow_white", x - 24, y - 24)
 			"cchest":
 				if not o.get("opened", false): Gfx.at(ci, "glow_purple", x - 30, y - 30)
 			"campfire":

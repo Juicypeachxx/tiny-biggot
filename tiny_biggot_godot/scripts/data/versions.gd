@@ -8,6 +8,7 @@ extends RefCounted
 ## with no quote or | inside, and add the new version's line at the top in its [ipa] commit.
 
 const LIST := [
+	"29|Oaths and Secrets|Every run opens with an OATH: pick one of three run-shaping traits, from 19; Every trait pick has a rare or better trait in it, and plain traits come up less; 35 new traits, from SPARKPLUG to the mythic DRAGON SOUL; Hidden rooms are never empty: THE GOLDEN GRIMOIRE (a rare trait), A DRAGON'S HOARD, and loot beside every find",
 	"28|Version Names|Every version has a name and its tweaks: on the title screen, on its download page and in the name of the IPA file",
 	"27|Mythic Armory|A MYTHIC rarity above legendary: guardians, elites and deep drops can give one; Seven mythic armor pieces, one for every slot, like CROWN OF THE STORM KING and HEART OF THE PHOENIX; Six mythic weapons, like WORLD-ENDER and BOW OF THE DAWN GOD; Six more weapons: STARSHELL MORTAR, FROSTFOAM GUN, DECK OF RUNES, SPECTRAL REPEATER, VIPER'S BOW, HAMMER OF THE VOID",
 	"26|Mythic Traits|Six legendary traits and six MYTHIC traits; Items can cast spells from the spellbook; Reactions set off traits and synergies; Nine new hidden synergies",

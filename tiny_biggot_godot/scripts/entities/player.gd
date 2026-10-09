@@ -193,6 +193,8 @@ var phoenix_used := false
 # Effect system (effects/effects.gd). Empty for original content.
 var procs: Array = []           # active triggers { def, src, stacks, count, cd, timer, active }
 var proc_index := {}            # trigger -> its procs, in the order of procs (Effects.fire); emptied when procs change
+var oath_picks := 0             # 29: trait picks still to come that offer OATHS (one at the start of every run)
+var special_picks := 0          # 29: trait picks still to come that offer only rare-or-better traits (the grimoire)
 var buffs: Array = []           # timed additive-% buffs { stat, v, t }
 var stat_pct := {}              # stat -> sum of additive-% modifiers
 var tag_counts := {}            # synergy tag -> points from new-content items
