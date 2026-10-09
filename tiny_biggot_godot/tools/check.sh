@@ -267,6 +267,11 @@ timeout 300 "$GODOT" --headless --path . res://tests/auras_test.tscn -- --no-sav
 grep -E "^\[auras\]|auras test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 33.2 the tavern: tipsy, the drinks, sure strike, last orders, the Tavern Knight"
+timeout 300 "$GODOT" --headless --path . res://tests/tavern_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[tavern\]|tavern test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== 18.1 the daily trial"
 timeout 300 "$GODOT" --headless --path . res://tests/daily_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "daily test" "$LOG"

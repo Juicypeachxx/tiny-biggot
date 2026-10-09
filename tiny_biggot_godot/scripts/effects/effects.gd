@@ -57,13 +57,15 @@ const ACTIONS := ["nova", "shoot", "explode", "status", "heal", "buff", "chain",
 	"spell",   # 26: an item casts a spell of the spellbook (spells.gd)
 	"vow",   # 30.1: one more step of an oath's vow (oaths.gd)
 	"aura_surge",   # 33.1: the halos' fields reach further for a while (auras.gd)
+	"tipsy", "belt",   # 33.2: a drink's worth of TIPSY (tipsy.gd); a consumable into the belt
 	"toy"]   # 31: an item lets a toy of the toybox loose (toys.gd)
 const STATUSES := ["burn", "poison", "chill", "bleed", "stun", "curse", "mark", "shock", "vulnerable", "weakened", "gloom"]
 const CONDITIONS := ["elite", "boss", "burning", "poisoned", "chilled", "bleeding", "shocked", "cursed",
 	"low_hp", "full_hp", "moving", "still", "crit", "danger", "fighting", "hot", "rich", "armored", "flight",
 	"close", "far", "fresh", "last_foe", "crowd", "unhurt", "coin",   # ROADMAP 4.7
 	"lead_good", "lead_evil", "lead_law", "lead_chaos", "devout",   # 8.1 alignments
-	"gloomy"]   # 11.2
+	"gloomy",   # 11.2
+	"tipsy", "very_tipsy"]   # 33.2 THE TAVERN
 
 static var depth := 0
 static var budget := BUDGET
@@ -205,6 +207,8 @@ static func _cond(c: String, ctx: Dictionary) -> bool:
 	var e: Enemy = ctx.get("enemy")
 	match c:
 		"elite": return e != null and e.elite
+		"tipsy": return p.tipsy >= 1.0   # 33.2
+		"very_tipsy": return p.tipsy >= Tipsy.VERY
 		"boss": return e != null and e.is_boss()
 		"burning": return e != null and e.burn_t > 0
 		"poisoned": return e != null and e.poison > 0

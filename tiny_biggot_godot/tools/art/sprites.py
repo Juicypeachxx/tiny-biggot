@@ -1617,3 +1617,10 @@ S["mindwarden_hero"] = ("main:#5a3488 glow:#ff8ad8 skin:#e0a47a halo:1", M([
 S["w_thoughtstone"] = ("main:#5a3488 glow:#ff8ad8 wood:#8a6a4a halo:1", [
 "........oo..", ".......oyyo.", "......oyxxyo", "......oyxxyo", ".......oyyo.", "......ouoo..",
 ".....ouo....", "....ouo.....", "...ouo......", "..ouo.......", ".ouo........", ".oo........."])
+# 33.2 THE TAVERN KNIGHT: a stocky knight, helm, a big red beard, a gold buckle, and his maul.
+S["tavernknight_hero"] = ("main:#8a3030 wood:#c8642a skin:#e0a47a gold:#e8b84a", M([
+"..oooo", ".o9888", "o98888", "o80000", ".o5505", ".ouuuu", "o3ouuv", "o3o33q", "o5o333", ".oo333",
+"..o322", "..o222", "..o2o.", "..ooo."]))
+S["w_tankardmaul"] = ("wood:#8a5a32 gold:#e8b84a", [
+"......oooooo", ".....o9988qo", ".....o9877qo", ".....o8777qo", "......oouoo.", ".....ouo....",
+"....ouo.....", "...ouo......", "..ouo.......", ".ouo........", "ouo.........", "oo.........."])

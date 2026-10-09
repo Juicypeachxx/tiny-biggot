@@ -275,6 +275,16 @@ const NEW_HEROES := [
 	  "special": { "name": "MIND SPIRAL", "cd": 10, "col": "#e86fb4",
 		"desc": "YOUR FIELDS REACH TWICE AS FAR FOR 4S, AND A SPIRAL OF 16 MIND BOLTS FLIES OUT.",
 		"do": [["aura_surge", 2.0, 4.0], ["nova", 16, 0.8, "hex", 2.0], ["vfx", "sigil", "#e86fb4", 70]] } },
+	# 33.2 (his word, 9 Oct: the STR melee build that needs no crits). Ideas only.
+	{ "id": "tavernknight", "name": "THE TAVERN KNIGHT", "sprite": "tavernknight_hero", "new": true,
+	  "blurb": "Knighted for holding a bridge. Has been holding a tankard ever since.",
+	  "passive": "BREWHOUSE: EVERY POINT OF STR GIVES +1% ATTACK SPEED AND +0.5% CRIT. EVERY FLOOR STARTS WITH AN ALE IN YOUR BELT.",
+	  "weapon": "TANKARD MAUL", "hp": 8, "speed": 84, "shot": "hatchet", "sound": "hatchet", "cost": 240, "trait": "j_regular",
+	  "stats": { "dmg": 11.0, "rate": 1.7, "shot_speed": 0.0, "life": 0.0, "homing": 0.0, "size": 1.2, "pierce": 99 },
+	  "effects": [["hook", "rate_per_str", 0.01], ["hook", "crit_per_str", 0.005], { "on": "on_floor_start", "do": [["belt", "c_ale"]] }],
+	  "special": { "name": "BAR FIGHT", "cd": 9, "col": "#e8b84a",
+		"desc": "A ROUND ON THE HOUSE (+3 TIPSY), THEN A SHOCKWAVE THAT HITS EVERY FOE NEAR YOU FOR 200% AND KNOCKS THEM BACK.",
+		"do": [["tipsy", 3], ["area", 80, 2.0], ["push", 80, 300], ["vfx", "ring", "#e8b84a", 80]] } },
 ]
 
 static var _heroes: Array = []

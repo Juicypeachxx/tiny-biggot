@@ -55,9 +55,6 @@ def stage33():
         "....oooo....",
     ], {"o": OUT, "1": "#e86fb4", "2": "#a35bd6", "m": "#d9d0b4", "M": "#f4ecd8"})
 
-if __name__ == "__main__":
-    stage33()
-    print("stage 33 icons written")
 
 def rendered(names):
     """Grids from sprites.py in the game's look (render.py, look D), written to assets/graphics."""
@@ -67,6 +64,35 @@ def rendered(names):
     for n in names:
         ns["sprite"](n, ns["VIBES"]["D"]).save(G + n + ".png")
 
+def shade(hexc, k):
+    c = hexc.lstrip("#"); r, g, b = (int(c[i:i + 2], 16) for i in (0, 2, 4))
+    return "#%02x%02x%02x" % tuple(max(0, min(255, round(v * k))) for v in (r, g, b))
+
+def mug(dst, body, foam="#f4ecd8", band="#8a6a4a"):
+    """A drink for the belt: a tankard with its handle, 10x11, foam on top."""
+    rows = [
+        "..oooooo..",
+        ".offfffo..",
+        ".offFFfoo.",
+        ".o122221oo",
+        ".o1bbbb1o.o"[:10],
+        ".o122221o.",
+        ".o122221oo",
+        ".o1bbbb1oo",
+        ".o122221o.",
+        ".o111111o.",
+        "..oooooo..",
+    ]
+    rows[4] = ".o1bbbb1oo"
+    grid(dst, rows, {"o": OUT, "1": shade(body, 0.6), "2": body, "b": band, "f": foam, "F": shade(foam, 0.85)})
+
+def stage33_tavern():
+    mug("c_ale", "#e8b84a")
+    mug("c_stout", "#5a3a22", foam="#d9c8a8")
+    mug("c_mead", "#f2c94c", foam="#fff0b0", band="#c87a3a")
+
 if __name__ == "__main__":
-    rendered(["mindwarden_hero", "w_thoughtstone"])
+    stage33()
+    stage33_tavern()
+    rendered(["mindwarden_hero", "w_thoughtstone", "tavernknight_hero", "w_tankardmaul"])
     print("stage 33 sprites rendered")

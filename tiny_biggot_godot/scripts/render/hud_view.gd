@@ -195,6 +195,9 @@ func _draw() -> void:
 				Gfx.sp(self, p.belt[i], r.get_center().x, r.end.y - 1)
 			else:
 				Gfx.text(self, str(i + 1), r.position.x + 4, r.position.y + 3, "dim")
+		if p.tipsy >= 1.0:   # 33.2 THE TAVERN: how tipsy, beside the belt
+			var r4 := belt_rect(Consumables.BELT_SIZE - 1)
+			Gfx.text(self, "TIPSY %d" % int(p.tipsy), r4.end.x + 4, r4.position.y + 4, "gold" if p.tipsy >= Tipsy.VERY else "orange")
 	# Relic strip (last 24).
 	var rel: Array = p.relics.slice(maxi(0, p.relics.size() - 24))
 	for i in rel.size():

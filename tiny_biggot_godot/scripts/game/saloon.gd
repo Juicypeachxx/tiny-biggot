@@ -152,6 +152,7 @@ static func _bartender() -> Variant:
 
 ## A drink's boost and its catch.
 static func drink(p: Player, id: String) -> void:
+	Tipsy.add(p, 2)   # 33.2 THE TAVERN: every drink at the bar makes you TIPSY too
 	match id:
 		"firewater":
 			Effects.add_buff(p, "dmg", 0.4, DRINK_TIME)

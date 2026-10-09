@@ -155,7 +155,7 @@ const HERO_WEAPON := { "hexer": "hexwand", "poacher": "repeater", "brute": "pith
 	"beekeeper": "hivesmoker", "tinkerer": "rivetgun", "clockmaker": "gearwound", "minstrel": "lute", "jester": "jugglepins", "berserker": "greataxe", "forsaken": "rustyshiv", "boneweaver": "bonestaff", "mirrorknight": "brightblade",
 	"plaguesaint": "censerflail", "frostwitch": "iciclewand", "demolitionist": "blastmortar", "executioner": "headsmansaxe",
 	"pilgrim": "pilgrimstaff", "beastmaster": "beastspear", "inkling": "inkquill",
-	"mindwarden": "thoughtstone" }
+	"mindwarden": "thoughtstone", "tavernknight": "tankardmaul" }
 
 ## [id, name, kind, rarity, tags, shape, overrides, stats, hooks, desc, effects] (Ruby wpn()).
 ## The first ORIGINAL_COUNT rows are the original weapons; later rows are new
@@ -551,6 +551,7 @@ const ROWS := [
 	["rivetgun", "RIVET GUN", "bolt", "rare", ["swarm"], "pistol", { "dmg": 3.8, "rate": 4.5 }, [], [], "FIRES HOT RIVETS FAST.", [], "w_repeater"],
 	["inkquill", "INKWELL QUILL", "orb", "rare", ["venom", "arcane"], "staff", { "dmg": 3.4, "rate": 3.4, "homing": 0.5 }, [["poison", 1]], [], "BOLTS OF INK THAT CURVE TOWARD FOES AND POISON THEM.", [], "w_inkspout"],   # 18.2 the Inkling
 	["thoughtstone", "THOUGHTSTONE", "orb", "rare", ["arcane"], "orbstaff", { "dmg": 3.0, "rate": 3.0, "homing": 1.5 }, [], [], "BOLTS OF THOUGHT THAT CURVE TOWARD FOES.", [], "w_thoughtstone"],   # 33.1 the Mindwarden
+	["tankardmaul", "TANKARD MAUL", "slash", "rare", ["fury"], "sword", { "dmg": 11.0, "rate": 1.7 }, [], [], "A HEAVY MAUL WITH A TANKARD FOR A HEAD. WIDE, SLOW, LOUD.", [], "w_tankardmaul"],   # 33.2 the Tavern Knight
 	["bonestaff", "BONE STAFF", "orb", "rare", ["malice"], "staff", { "dmg": 4.0, "rate": 2.6, "homing": 1.0 }, [["curse", 0.05]], [], "HEX BOLTS THAT SEEK THE LIVING.", [], "w_hexwand"],
 	["brightblade", "BRIGHT BLADE", "slash", "rare", ["bulwark", "arcane"], "sword", { "dmg": 7.0, "rate": 2.4 }, [], [], "A BLADE POLISHED UNTIL IT SHINES LIKE A MIRROR.", [], "w_sabre"],
 	["censerflail", "CENSER FLAIL", "whip", "rare", ["venom", "malice"], "whip", { "dmg": 5.0, "rate": 2.2 }, [["poison", 1]], [], "A SWINGING CENSER OF SICKLY SMOKE.", [], "w_bramblewhip"],
@@ -765,13 +766,15 @@ static func synergy_mult(p: Player) -> float:
 				break
 	return 1 + minf(0.08 * ranks, 0.64) + 0.12 * pieces
 
-static func wdmg(p: Player) -> float: return p.weapon["dmg"] * p.dmg * synergy_mult(p) * Attributes.mult(p) * WeaponInfo.upgrade_mult(p.weapon)
+static func wdmg(p: Player) -> float: return p.weapon["dmg"] * p.dmg * synergy_mult(p) * Attributes.mult(p) * WeaponInfo.upgrade_mult(p.weapon) * Tipsy.dmg_mult(p)
 static func wrate(p: Player) -> float:
 	var r: float = p.weapon["rate"] * p.rate
 	if p.weapon["kind"] == "gatling":
 		r *= 1 + 2 * p.spin
 	if p.haste_t > 0:
 		r *= 1.2
+	if p.tipsy > 0 or p.g("rate_per_str") > 0:   # 33.2 THE TAVERN: tipsy, and the Tavern Knight's STR
+		r *= Tipsy.rate_mult(p) * (1.0 + p.g("rate_per_str") * p.a_str)
 	return r
 static func wspd(p: Player) -> float: return p.weapon["speed"] * p.shot_speed
 static func wlife(p: Player) -> float: return p.weapon["life"] * p.life

@@ -10,6 +10,10 @@ const KINDS := {
 	"c_smoke": { "name": "SMOKE VIAL", "desc": "ERASE NEARBY SHOTS AND BE UNTOUCHABLE FOR 1.5S", "col": "#d9d0b4" },
 	"c_whet": { "name": "WHETSTONE", "desc": "+1 LEVEL TO YOUR WEAPON", "col": "#8b8f9c" },
 	"c_insight": { "name": "ELIXIR OF INSIGHT", "desc": "+1 TO A RANDOM ATTRIBUTE", "col": "#4d9be6" },
+	# 33.2 THE TAVERN: drinks make you TIPSY (tipsy.gd).
+	"c_ale": { "name": "FROTHY ALE", "desc": "+2 TIPSY: MORE DAMAGE AND ATTACK SPEED", "col": "#e8b84a" },
+	"c_stout": { "name": "DARK STOUT", "desc": "+3 TIPSY AND 1 ARMOR", "col": "#7a5236" },
+	"c_mead": { "name": "HONEY MEAD", "desc": "+2 TIPSY AND HEALS HALF A HEART", "col": "#f2c94c" },
 }
 
 static func is_kind(k: String) -> bool:
@@ -43,6 +47,14 @@ static func use(p: Player, i: int) -> void:
 			WeaponInfo.upgrade(p, 1)
 		"c_insight":
 			Attributes.add(p, Attributes.ATTRS[randi() % 3], 1)
+		"c_ale":
+			Tipsy.add(p, 2)
+		"c_stout":
+			Tipsy.add(p, 3)
+			p.armor += 1
+		"c_mead":
+			Tipsy.add(p, 2)
+			p.heal(1)
 	Snd.play("heal")
 	Juice.label(d["name"], d["col"], p.x, p.y - 22)
 	Juice.ring(p.x, p.y, 3, 30, 0.35, d["col"])

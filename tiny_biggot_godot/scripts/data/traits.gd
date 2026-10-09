@@ -362,6 +362,14 @@ const ROWS := [
 	["k_deepwell", "arcane", 3, "DEEP WELL", "+2 INT. AURAS HIT +3% HARDER FOR EVERY POINT OF INT", false, [["attr", "int", 2], ["hook", "aura_int_dmg", 0.03]], "rare", ["arcane"], {  }],
 	["k_hum", "arcane", 2, "HUMMING FIELD", "EVERY HALO PULSE ALSO HITS THE FOES IN IT FOR 30%", false, [["hook", "aura_strike", 0.3]], "rare", ["arcane"], {  }],
 	["k_overmind", "arcane", 2, "OVERMIND", "EVERY POINT OF INT GIVES +4% AURA REACH", false, [["hook", "aura_int", 0.04]], "legend", ["arcane"], {  }],
+	# 33.2 THE TAVERN (his word, 9 Oct: a STR melee build that needs no crits): drinks make you TIPSY
+	# (scripts/combat/tipsy.gd).
+	["j_regular", "fury", 2, "REGULAR", "A CLEARED ROOM HAS A 25% CHANCE TO LEAVE AN ALE", false, [{ "on": "on_room_clear", "chance": 0.25, "do": [["drop", "c_ale"]] }], "common", ["fury"], {  }],
+	["j_irongut", "fury", 2, "IRON GUT", "DRINKS GIVE +1 MORE TIPSY. TIPSY GOES 4 HIGHER", false, [["hook", "tipsy_gain", 1], ["hook", "tipsy_cap", 4]], "uncommon", ["fury"], {  }],
+	["j_appetite", "bulwark", 3, "BIG APPETITE", "+1 MAX HEART. +4% DAMAGE FOR EVERY MAX HEART ABOVE 3", false, [["add", "max_hp", 2], ["add_cap", "hp", 2, "max_hp"], ["hook", "heart_dmg", 0.04]], "uncommon", ["bulwark", "fury"], {  }],
+	["j_brawler", "fury", 2, "BAR BRAWLER", "WHILE TIPSY, 15% OF YOUR HITS STUN THE FOE", false, [{ "on": "on_hit", "if": "tipsy", "chance": 0.15, "do": [["status", "stun", 1]] }], "rare", ["fury"], {  }],
+	["j_surestrike", "fury", 1, "SURE STRIKE", "YOU NEVER CRIT. EVERY 1% OF CRIT CHANCE GIVES +1.5% DAMAGE INSTEAD", false, [["hook", "sure_strike", 1]], "rare", ["fury", "edge"], {  }],
+	["j_lastorders", "fury", 1, "LAST ORDERS", "AT 8+ TIPSY, EVERY 4TH ATTACK SENDS OUT A SHOCKWAVE FOR 150%", false, [{ "on": "every_n_shots", "every": 4, "if": "very_tipsy", "do": [["area", 70, 1.5], ["push", 70, 220], ["vfx", "ring", "#e8b84a", 70]] }], "legend", ["fury"], {  }],
 ]
 
 const TREE_COSTS := [10, 20, 35, 60]
@@ -401,6 +409,7 @@ const HERO_BRANCH := {
 	"clockmaker": { "name": "CLOCKWORK", "nodes": [["MAINSPRING", "ENTERING A ROOM: +30% FIRE RATE FOR 6S"], ["ESCAPEMENT", "EVERY 20TH SHOT CHILLS THE FOES NEAR YOU"], ["BALANCE WHEEL", "+1 MAX HEART"], ["GRAND COMPLICATION", "ROLLING SLOWS EVERY FOE SHOT NEAR YOU (EVERY 6S)"]] },
 	"inkling": { "name": "INKCRAFT", "nodes": [["INK BLOTS", "10% MORE OF YOUR HITS LEAVE INK"], ["SKETCHBOOK", "+1 WISP"], ["WET PAGES", "+60% POISON DAMAGE"], ["MASTERPIECE", "EVERY 8S IN A FIGHT, A SKETCHED WISP JOINS YOU FOR 8S"]] },
 	"mindwarden": { "name": "THE STILL FIELD", "nodes": [["FOCUS", "+2 INT"], ["CLEAR SKY", "+20% AURA REACH"], ["ECHOING MIND", "HALOS PULSE 20% FASTER"], ["THE WIDE WORLD", "EVERY HALO PULSE ALSO HITS THE FOES IN IT FOR 40%"]] },
+	"tavernknight": { "name": "THE TAPROOM", "nodes": [["STRONG BREW", "DRINKS GIVE +1 MORE TIPSY"], ["BARREL CHEST", "+1 MAX HEART"], ["SLOW SIPPER", "TIPSY WEARS OFF HALF AS FAST"], ["CLOSING TIME", "EVERY ROOM YOU ENTER POURS YOU AN ALE (+2 TIPSY)"]] },
 	"beastmaster": { "name": "THE WILD", "nodes": [["SOFT WORDS", "4% MORE OF YOUR HITS TAME A FOE"], ["PACK LEADER", "+1 WISP"], ["FERAL BOND", "KILLS GIVE +20% DAMAGE FOR 3S"], ["ALPHA", "EVERY 10S IN A FIGHT, THE FOES CLOSE TO YOU ARE TAMED FOR 8S"]] },
 	"sellsword": { "name": "FREE COMPANY", "nodes": [["SPURS", "ROLLS RECHARGE 20% FASTER"], ["SHIELD WALL", "WHEN HIT, ERASE NEARBY SHOTS (EVERY 6S)"], ["WAR PAY", "KILLING AN ELITE PAYS 12 GOLD"], ["THUNDERING CHARGE", "CHARGES HIT TWICE AS HARD AND KILLS REFUND THE ROLL"]] },
 }
@@ -473,6 +482,10 @@ const NODE_EFFECTS := {
 	"CLEAR SKY": [["hook", "aura_reach", 0.2]],
 	"ECHOING MIND": [["hook", "aura_speed", 0.2]],
 	"THE WIDE WORLD": [["hook", "aura_strike", 0.4]],
+	"STRONG BREW": [["hook", "tipsy_gain", 1]],   # 33.2 the Tavern Knight
+	"BARREL CHEST": [["add", "max_hp", 2], ["add_cap", "hp", 2, "max_hp"]],
+	"SLOW SIPPER": [["hook", "tipsy_slow", 1.0]],
+	"CLOSING TIME": [{ "on": "on_room_enter", "do": [["tipsy", 2]] }],
 	"PACK LEADER": [["add", "familiars", 1]],
 	"FERAL BOND": [{"on": "on_kill", "do": [["buff", "dmg", 0.2, 3.0]]}],
 	"ALPHA": [{"on": "every_n_seconds", "period": 10.0, "if": "fighting", "do": [["charm_area", 50, 8.0]]}],

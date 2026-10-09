@@ -45,7 +45,8 @@ var _vr := RandomNumberGenerator.new()
 
 const PICKUP_SPRITE := { "coin": "coin", "heart": "heartPick", "potion": "potion", "gem": "gem", "bomb": "bomb",
 	"key": "key", "armor": "armor", "ember": "ember",
-	"c_fury": "c_fury", "c_smoke": "c_smoke", "c_whet": "c_whet", "c_insight": "c_insight" }
+	"c_fury": "c_fury", "c_smoke": "c_smoke", "c_whet": "c_whet", "c_insight": "c_insight",
+	"c_ale": "c_ale", "c_stout": "c_stout", "c_mead": "c_mead" }
 
 func _ready() -> void:
 	if not DebugArgs.has("no-floor-bake"):
@@ -784,7 +785,7 @@ func _draw_player(ci: CanvasItem, p: Player, t: float) -> void:
 		zx = 0.9 if rising else 1.1
 		zy = 1.15 if rising else 0.9
 		py = p.y + 6 - p.air
-	Gfx.sp(ci, name, p.x, py, zx, zy, 0.0, p.face < 0)
+	Gfx.sp(ci, name, p.x, py, zx, zy, Tipsy.sway(p, t), p.face < 0)   # 33.2: a tipsy hero sways
 	# Equipped gear is painted over the hero (visual only).
 	HeroGear.draw(ci, p, p.x, py, zx, zy, p.face < 0)
 	if not behind:

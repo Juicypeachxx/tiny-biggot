@@ -292,6 +292,8 @@ static func hook_mult(p: Player, e: Enemy) -> float:
 	if e.elite: m += p.g("elite_dmg")
 	if e.is_boss(): m += p.g("boss_dmg")
 	m += p.g("armor_dmg") * mini(p.armor, 6)
+	if p.g("heart_dmg") > 0:   # 33.2 BIG APPETITE: for every max heart above 3
+		m += p.g("heart_dmg") * maxi(0, p.max_hp / 2 - 3)
 	m += p.g("gold_dmg") * held_gold(p) / 100.0
 	m += p.g("relic_dmg") * p.relics.size()
 	# 8.4 traits that grow with the run (traits.gd, the 8.4 rows).
@@ -341,7 +343,11 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 		Lives.pop(e.x, e.y - e.r - 20, "SNEAK ATTACK!", "gold")
 	if GameData.rogues():
 		dmg *= 0.85 + 0.3 * randf()   # Rogues layer: every hit rolls within +-15%
-	if o.get("force_crit", false) or (not o.get("no_crit", false) and randf() < p.crit + (p.g("chill_crit") if e.chill_t > 0 else 0.0)):
+	var crit_chance := p.crit + (p.g("chill_crit") if e.chill_t > 0 else 0.0) + p.g("crit_per_str") * p.a_str
+	var sure := p.g("sure_strike") > 0   # 33.2 SURE STRIKE: never a crit; the chance becomes damage
+	if sure:
+		dmg *= 1.0 + 1.5 * maxf(0.0, crit_chance)
+	if not sure and (o.get("force_crit", false) or (not o.get("no_crit", false) and randf() < crit_chance)):
 		dmg *= p.crit_mult
 		crit = true
 		# New stat: crit chance past 100% can crit a second time.
@@ -1772,7 +1778,8 @@ static func explode_at(x: float, y: float, dmg: float, skip: Enemy, radius: floa
 
 # ---------- Pickups ----------
 const PICKUP_KINDS := ["coin", "gem", "heart", "potion", "bomb", "key", "armor", "ember",
-	"c_fury", "c_smoke", "c_whet", "c_insight"]   # last four: Rogues-layer belt consumables
+	"c_fury", "c_smoke", "c_whet", "c_insight",   # Rogues-layer belt consumables
+	"c_ale", "c_stout", "c_mead"]   # 33.2 THE TAVERN's drinks
 
 ## Rogues layer: past this many pickups on the floor, new coins go straight
 ## into your purse (same gold), so long fights with gold-on-hit builds don't
@@ -2186,6 +2193,7 @@ static func _update_player_base(p: Player, dt: float) -> void:
 				if e.targetable() and TB.dist(e, p) < (38 + 10 * maxi(p.aura, 1)) * Auras.reach(p):   # 33.1: grows with AURA REACH
 					e.burn_t = maxf(e.burn_t, 1.6)
 	Auras.tick(p, dt)   # 33.1 the halos
+	Tipsy.tick(p, dt)   # 33.2 a stack of TIPSY wears off
 	# Static Coil.
 	if p.coil > 0 and G.enemies_active():
 		p.coil_t -= dt

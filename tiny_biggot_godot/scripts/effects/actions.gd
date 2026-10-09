@@ -157,6 +157,11 @@ static func run(a: Array, stacks: int, ctx: Dictionary) -> void:
 			Effects.add_buff(p, a[1], a[2] * stacks, a[3])
 		"aura_surge":   # 33.1 ["aura_surge", times, seconds]: the halos' fields reach further for a while
 			Auras.start_surge(a[1], a[2])
+		"tipsy":   # 33.2 ["tipsy", n]: a drink's worth of TIPSY
+			Tipsy.add(p, a[1] * stacks)
+		"belt":   # 33.2 ["belt", kind]: a consumable into the belt (on the floor if it is full)
+			if not Consumables.take(p, a[1]):
+				Combat.drop_pickup(a[1], p.x, p.y)
 		"chain":
 			var e := _target(ctx)
 			if e != null:
