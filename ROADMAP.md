@@ -1251,14 +1251,17 @@ is removed: new things are added beside it. After Stage 35, in this order:
       (our own look: tokens on a string), 3 slots (COLLECTOR, CHARM BRACELET: more), a row in the
       backpack screen; from chests, elites and shops.
 
-### Stage 38: alignment and loot (IPA 38)
-- [ ] 38.1 ALIGNMENT REVAMP: GOOD, EVIL, LAWFUL and CHAOTIC do not cancel each other out. They
+### Stage 38: alignment and loot (IPA 38, "Alignment and Loot", built 9 Oct; 38.3 waits for his word)
+- [x] 38.1 ALIGNMENT REVAMP: GOOD, EVIL, LAWFUL and CHAOTIC do not cancel each other out. They
       decide the end path (the gates ask for enough of one), the prices of the tavern's and the
       vendors' wares (cheap when yours matches, dear when it is the opposite), and the bonus of
       gear that grows with one. Some heroes start GOOD or EVIL. Alignment shops can follow a
-      guardian once that path's gate guardian has been beaten.
-- [ ] 38.2 LOOT: each point of LUCK also gives lucky hits (34.1); new stats MAGIC FIND (rarer
+      guardian once that path's gate guardian has been beaten. 3 GOOD or 3 EVIL choose the soul
+      gate (it never blocks: without them the items decide, as before); vendors x0.7 / x1.4;
+      23 heroes start aligned; a WAYSHRINE after every guardian; four growing pieces.
+- [x] 38.2 LOOT: each point of LUCK also gives lucky hits (34.1); new stats MAGIC FIND (rarer
       items) and TREASURE FIND (more items and gold), on gear and traits, shown with the stats.
+      +2% lucky hits a LUCK; PROSPECTOR, JEWELER'S LOUPE, DOWSING ROD.
 - [ ] 38.3 DAMAGE SCALING GRADES (S to D) with a soft cap: **asked first** (a cap that lowers
       damage would tone builds down, rule 1). Without his yes, only the grade letters are shown.
 

@@ -307,6 +307,11 @@ timeout 300 "$GODOT" --headless --path . res://tests/charms_test.tscn -- --no-sa
 grep -E "^\[charms\]|charms test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 38 alignment and loot: start, prices, the soul gate, wayshrines, growing gear, luck, magic and treasure find"
+timeout 300 "$GODOT" --headless --path . res://tests/alignloot_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[alignloot\]|alignloot test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== 18.1 the daily trial"
 timeout 300 "$GODOT" --headless --path . res://tests/daily_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "daily test" "$LOG"

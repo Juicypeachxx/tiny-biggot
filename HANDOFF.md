@@ -1,8 +1,8 @@
 # Handoff: where the work stands
 
-**9 Oct, Stage 37 done (IPA 37 "Offhands and Charms"), after 36 "Food and Drink" and 35 "Dice and
-Pace" (the full check passed at 35).** Next: Stage 38 (alignment and loot; 38.3 waits for his word),
-then 39 (ROADMAP).
+**9 Oct, Stage 38 done (IPA 38 "Alignment and Loot"; 38.3 waits for his word), after 37 "Offhands
+and Charms", 36 "Food and Drink" and 35 "Dice and Pace" (the full check passed at 35).** Next:
+Stage 39 (more helmets, armour, magic weapons, companions).
 
 **His word, 9 Oct: "Just compile after add, I'll test it."** Until he says otherwise: after adding
 content, only compile (import; a short run that starts the game) and build the IPA. He tests on the
@@ -1448,6 +1448,30 @@ Done by another session (the port's), which took over from v31 on claude/dev.
   wears it (all taken: a toast), USE on a worn one takes it off into the backpack, ROLL drops it.
   Item card line "CHARM - WORN IN A CHARM SLOT (n/m)", "PRESS USE TO WEAR". Dice ALTER/BANISH
   work on backpack charms. Debug --give=charm:<id>. Test tests/charms_test.tscn (in check.sh).
+
+### Stage 38 (9 Oct): alignment and loot (his notes)
+- 38.1 Alignment revamp (scripts/game/alignments.gd, the part under "38.1"): the four counts
+  never cancelled each other (8.1 kept them apart) and still do not. New: Alignments.path: 3+
+  GOOD over EVIL opens Heaven, 3+ EVIL over GOOD opens Hell, else the items decide (Soul.realm
+  asks it first). Vendor prices: Game.price(v, al) and item_price(item, al) x price_mult (x0.7
+  when yours matches, more of it than its opposite; x1.4 when the opposite leads you); vendors:
+  saloon barkeep CHAOTIC, saloon merchant GOOD, pit boss CHAOTIC, mechanic and attendant LAWFUL,
+  pawnbroker's sealed box and cup man EVIL, lost merchant GOOD (the regular shop has none);
+  their prompts end with price_note "(EVIL: CHEAPER)". HERO_START: 23 heroes start with 1-2 of
+  one. WAYSHRINE after every guardian (Game.on_boss_dead -> Alignments.wayshrine): offerings
+  "alwayshrine" (drawn like the rest-stop shrines with a price), LAWFUL and CHAOTIC always, GOOD
+  once Meta heaven_wins > 0, EVIL once hell_wins > 0; buying refreshes a soul gate in the room.
+  Gear SAINT'S SIGIL (dmg_per_good, Weapons.wdmg), DEVIL'S BARGAIN (crit_per_evil,
+  Combat.damage_enemy), MAGISTRATE'S SEAL (rate_per_law, Weapons.wrate), MADCAP'S BELLS
+  (proc_per_chaos, Actions.run's w).
+- 38.2 Loot (scripts/game/loot.gd): LUCK +2% lucky hits a point (Lucky.LUCK_LUCKY); gf
+  magic_find multiplies the weights above common in Gear.roll_item_rarity; gf treasure_find is
+  the chance of one more item (weapon 40%, gear 40%, charm 20%) from a cleared fight
+  (room_cleared) or an opened chest (open_choice), over 100% one for sure. Shown as MAGIC FIND
+  and TREASURE in the backpack screen's stats. PROSPECTOR (trait), JEWELER'S LOUPE (relic),
+  DOWSING ROD (offhand). Art tools/art/stage38_icons.py. Test tests/alignloot_test.tscn.
+- 38.3 (a soft cap on attribute damage) is NOT done: it would lower damage of big builds (rule
+  1). Asked him; until he says yes, nothing changes there.
 
 ## Noted, not yet acted on
 

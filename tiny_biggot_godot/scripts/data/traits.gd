@@ -390,6 +390,8 @@ const ROWS := [
 	["d_highroller", "fortune", 1, "HIGH ROLLER", "EVERY DIE YOU USE: +4% DAMAGE FOR THE REST OF THE RUN (UP TO +60%). +2 REROLL DICE", false, [["add", "rerolls", 2], { "on": "on_dice", "do": [["stack", "dmg", 0.04, 0.6, "highroller"]] }], "legend", ["fortune"], {  }],
 	# Stage 36 FOOD AND DRINK (his word, 9 Oct; scripts/game/food.gd).
 	# 37.2 CHARMS (scripts/data/charms.gd).
+	# 38.2 LOOT (loot.gd).
+	["l_prospector", "fortune", 2, "PROSPECTOR", "+20% TREASURE FIND: A CHANCE OF ONE MORE ITEM FROM CLEARED FIGHTS AND CHESTS", false, [["hook", "treasure_find", 0.2]], "uncommon", ["fortune"], {  }],
 	["c_collector", "fortune", 2, "COLLECTOR", "+1 CHARM SLOT. +3% LUCKY HITS", false, [["hook", "charm_slots", 1], ["hook", "lucky", 0.03]], "uncommon", ["fortune"], {  }],
 	["j_hollowleg", "fury", 1, "HOLLOW LEG", "YOUR DRINK BUFFS NEVER WEAR OFF. +1 DRINK BUFF AT ONCE", false, [["hook", "drink_forever", 1], ["hook", "drink_slots", 1]], "rare", ["fury"], {  }],
 	["j_gourmand", "bulwark", 2, "GOURMAND", "FOOD GIVES TWICE THE XP AND HEALS HALF A HEART", false, [["hook", "food_xp", 1.0], ["hook", "food_heal", 1]], "uncommon", ["bulwark"], {  }],

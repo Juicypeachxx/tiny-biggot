@@ -241,6 +241,10 @@ func draw_prompt(ci: CanvasItem, o: Dictionary) -> void:
 		"alshrine":
 			title = Alignments.NAMES[o["al"]] + " SHRINE"
 			desc = "+1 %s. ONE SHRINE PER REST STOP" % Alignments.NAMES[o["al"]]
+		"alwayshrine":   # 38.1
+			title = "WAYSHRINE: " + Alignments.NAMES[o["al"]]
+			desc = "+1 %s (YOU HAVE %d). 3 GOOD OR 3 EVIL CHOOSE YOUR SOUL'S PATH" % [Alignments.NAMES[o["al"]], Alignments.value(G.player, o["al"])]
+			extra = "PAY %d GOLD" % o["price"]
 		"campfire":
 			title = "CAMPFIRE"
 			desc = "REST: HEAL HALF YOUR HEARTS, REFILL ROLLS"
@@ -323,6 +327,8 @@ func draw_prompt(ci: CanvasItem, o: Dictionary) -> void:
 		"soulgate":
 			title = "THE SOUL GATE: " + ("HEAVEN" if o["realm"] == "heaven" else "HELL")
 			desc = "YOUR SOUL LEANS TO THE %s (LIGHT %d, DARK %d). ITS RULER WAITS" % ["LIGHT" if o["realm"] == "heaven" else "DARK", o["light"], o["dark"]]
+			if Alignments.path(G.player) != "":   # 38.1: alignment decided it
+				desc = "YOUR %s CHOOSES THE PATH. ITS RULER WAITS" % ("GOOD" if o["realm"] == "heaven" else "EVIL")
 		"pageportal":
 			title = "THE UNWRITTEN PAGE"
 			desc = "THE LAST BOSS OF ALL"

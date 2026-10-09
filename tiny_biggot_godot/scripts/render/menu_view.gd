@@ -792,6 +792,9 @@ func draw_inventory(ci: CanvasItem) -> void:
 		["GOLD", str(p.gold), "gold"],
 		["KILLS", str(G.run_stats.get("kills", 0)), "grey"],
 	]
+	if GameData.rogues():   # 38.2 the loot stats
+		rows.insert(rows.size() - 3, ["MAGIC FIND", "+%d%%" % roundi(p.g("magic_find") * 100), "lime"])
+		rows.insert(rows.size() - 3, ["TREASURE", "+%d%%" % roundi(p.g("treasure_find") * 100), "lime"])
 	for r in rows:
 		_stat_row(ci, y, r[0], r[1], r[2])
 		y += 9

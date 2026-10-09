@@ -34,5 +34,8 @@ static func weigh(p: Player) -> Array:
 	return [light, dark]
 
 static func realm(p: Player) -> String:
+	var by_al := Alignments.path(p)   # 38.1: 3 or more GOOD or EVIL decides
+	if by_al != "":
+		return by_al
 	var w := weigh(p)
 	return "heaven" if w[0] >= w[1] else "hell"

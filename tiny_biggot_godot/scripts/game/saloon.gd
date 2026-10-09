@@ -72,8 +72,8 @@ static func setup(r: Room) -> void:
 	var w := Weapons.random_weapon(Gear.roll_item_rarity(f), G.player.weapon) if randf() < 0.5 \
 		else Gear.random_gear(Gear.roll_item_rarity(f))
 	r.objects.append({ "kind": "shop", "item": "weapon" if w.get("item", "") == "weapon" else "gear", "thing": w,
-		"x": 5.0 * ts, "y": 13.8 * ts, "price": G.item_price(w) })
-	r.objects.append({ "kind": "shop", "item": "potion", "x": 8.0 * ts, "y": 13.8 * ts, "price": G.price(18 + f * 3) })
+		"x": 5.0 * ts, "y": 13.8 * ts, "price": G.item_price(w, "good") })
+	r.objects.append({ "kind": "shop", "item": "potion", "x": 8.0 * ts, "y": 13.8 * ts, "price": G.price(18 + f * 3, "good") })
 	r.objects.append({ "kind": "s_drunk", "x": 22.6 * ts, "y": 12.0 * ts, "talks": 0, "key": randf() < 0.35 })
 	r.objects.append({ "kind": "s_broker", "x": 17.0 * ts, "y": 14.0 * ts })
 
@@ -82,7 +82,7 @@ static func handles(kind: String) -> bool:
 	return kind in KINDS
 
 static func drink_price() -> int:
-	return G.price(14 + G.floor_index * 3)
+	return G.price(14 + G.floor_index * 3, "chaos")   # 38.1: the barkeep is CHAOTIC
 
 static func interact(o: Dictionary) -> void:
 	var p := G.player
@@ -256,7 +256,7 @@ static func prompt(o: Dictionary) -> Array:
 		"s_drink":
 			var d: Array = DRINKS[o["drink"]]
 			var bar = _bartender()
-			var cost := "ON THE HOUSE" if bar != null and bar["free"] else "PAY %d GOLD" % drink_price()
+			var cost := "ON THE HOUSE" if bar != null and bar["free"] else "PAY %d GOLD" % drink_price() + Alignments.price_note(G.player, "chaos")
 			return [d[0], d[2] + " FOR 45S. BUT " + d[3], cost]
 		"s_merchant":
 			return ["THE MERCHANT", "HIS GOODS ARE ON THE FLOOR BELOW HIM", "TALK"]

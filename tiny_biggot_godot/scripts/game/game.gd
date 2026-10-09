@@ -128,6 +128,7 @@ func new_run() -> void:
 		for ni in owned[bi]:
 			Traits.apply_node(tree[bi]["nodes"][ni][0], p)
 	Attributes.start(p)
+	Alignments.start(p)   # 38.1: some heroes start GOOD, EVIL, LAWFUL or CHAOTIC
 	# Step 6 heroes: a passive (effect-system data) and a starting trait.
 	if hero.has("effects") and (hero.get("new", false) or GameData.rogues()):   # 20.1: the originals' passives are expanded-only
 		Effects.apply(p, hero["effects"], 1, "hero:" + hero["id"])
@@ -880,6 +881,7 @@ func room_cleared() -> void:
 	if room.type in ["combat", "elite"]:
 		StatDrops.maybe(0.25, 14.0 * TB.TS, 9.0 * TB.TS)   # 8.3: the middle of the room
 		Dice.maybe(0.06, 14.0 * TB.TS, 9.5 * TB.TS)   # 35.1
+		Loot.treasure(14.0 * TB.TS + 30, 9.5 * TB.TS)   # 38.2 TREASURE FIND
 	Saloon.on_room_clear(room)
 	EventRooms.on_room_clear(room)
 	Wanderers.on_room_clear(room)   # 21.4 a ghost, a rival, a lost traveller
@@ -981,6 +983,7 @@ func on_boss_dead(b: Enemy) -> void:
 	Chaos.clear()
 	if GameData.rogues() and room.type != "barn":
 		_boss_reward(b)
+		Alignments.wayshrine(room)   # 38.1: buy an alignment
 	BossLoot.drop(b)   # its own item (expanded game)
 	if Daily.is_on("giants"):
 		for rel in roll_relics(2, "boss"):   # 18.1 BIG GAME
@@ -1416,6 +1419,8 @@ func interact(o: Dictionary) -> void:
 			toast(WeaponInfo.display_name(p.weapon), "gold")
 		"alshrine":
 			Alignments.take_shrine(room, o)
+		"alwayshrine":
+			Alignments.buy(room, o)   # 38.1
 		"campfire":
 			o["used"] = true
 			p.heal(ceili(p.max_hp / 2.0))
@@ -1634,16 +1639,19 @@ func interact(o: Dictionary) -> void:
 			_enter_realm("seam", 3)
 
 # ---------- Relics, items and traits ----------
-func price(v: float) -> int:
+## 38.1: `al` is a vendor's alignment (Alignments.price_mult: cheaper when yours matches).
+func price(v: float, al: String = "") -> int:
+	if al != "":
+		v *= Alignments.price_mult(player, al)
 	if Daily.is_on("gold"):
 		v *= 1.5   # 18.1 GOLD RUSH
 	if dread >= 3:
 		v *= 1 + 0.08 * dread
 	return maxi(1, roundi(v * (1 - player.shop_disc)))
 
-func item_price(item: Dictionary) -> int:
+func item_price(item: Dictionary, al: String = "") -> int:
 	var base: int = { "common": 26, "rare": 44, "epic": 68, "legend": 96, "mythic": 140 }[item["rarity"]]
-	return price(base + floor_index * 8)
+	return price(base + floor_index * 8, al)
 
 func drop_item(item: Dictionary, x: float, y: float) -> void:
 	room.objects.append({ "kind": "item", "item": item, "x": clampf(x, 3 * TB.TS, 25 * TB.TS),
@@ -1782,6 +1790,7 @@ func open_choice(source: String, o: Dictionary) -> void:
 		state = &"choice"
 	Dice.maybe({ "chest": 0.25, "iron": 0.4, "cursed": 0.6, "boss": 1.0 }.get(source, 0.25), o["x"], o["y"] + 10)   # 35.1
 	Charms.maybe({ "chest": 0.2, "iron": 0.3, "cursed": 0.4, "boss": 0.6 }.get(source, 0.2), o["x"] + 20, o["y"] + 16)   # 37.2
+	Loot.treasure(o["x"] - 22, o["y"] + 16)   # 38.2 TREASURE FIND
 
 ## Offer weight. Original traits keep the original formula exactly. New
 ## traits (design spec section 4): rarity weight times a snowball affinity

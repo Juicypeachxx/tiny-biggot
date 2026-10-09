@@ -19,9 +19,12 @@ func _ready() -> void:
 	G.hero_index = 0
 	G.new_run()
 	var p := G.player
+	var want = Alignments.HERO_START.get(p.hero["id"])   # 38.1: some heroes start with a leaning
 	for k in Alignments.KEYS:
-		if Alignments.value(p, k) != 0:
-			fail("a new run starts with %s %d" % [k, Alignments.value(p, k)])
+		var expect: int = want[1] if want != null and want[0] == k else 0
+		if Alignments.value(p, k) != expect:
+			fail("a new run starts with %s %d, not %d" % [k, Alignments.value(p, k), expect])
+		p.set("al_" + k, 0)   # (the checks below start from nothing)
 	p.al_good = 2
 	if not Alignments.leads(p, "good") or not Alignments.devout(p):
 		fail("GOOD 2 alone does not lead or is not devout")

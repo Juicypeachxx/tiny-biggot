@@ -768,7 +768,7 @@ static func synergy_mult(p: Player) -> float:
 				break
 	return 1 + minf(0.08 * ranks, 0.64) + 0.12 * pieces
 
-static func wdmg(p: Player) -> float: return p.weapon["dmg"] * p.dmg * synergy_mult(p) * Attributes.mult(p) * WeaponInfo.upgrade_mult(p.weapon) * Tipsy.dmg_mult(p) * Pace.dmg_mult()
+static func wdmg(p: Player) -> float: return p.weapon["dmg"] * p.dmg * synergy_mult(p) * Attributes.mult(p) * WeaponInfo.upgrade_mult(p.weapon) * Tipsy.dmg_mult(p) * Pace.dmg_mult() * (1.0 + p.g("dmg_per_good") * p.al_good)
 static func wrate(p: Player) -> float:
 	var r: float = p.weapon["rate"] * p.rate
 	if p.weapon["kind"] == "gatling":
@@ -779,6 +779,8 @@ static func wrate(p: Player) -> float:
 		r *= Tipsy.rate_mult(p) * (1.0 + p.g("rate_per_str") * p.a_str)
 	if p.g("rate_per_dex") > 0:   # 34.1 QUICK FINGERS
 		r *= 1.0 + p.g("rate_per_dex") * p.a_dex
+	if p.g("rate_per_law") > 0:   # 38.1 MAGISTRATE'S SEAL
+		r *= 1.0 + p.g("rate_per_law") * p.al_law
 	return r
 static func wspd(p: Player) -> float: return p.weapon["speed"] * p.shot_speed
 static func wlife(p: Player) -> float: return p.weapon["life"] * p.life

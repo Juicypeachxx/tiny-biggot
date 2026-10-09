@@ -218,6 +218,7 @@ const ROWS := [
 	["knucklebones", "epic", "KNUCKLEBONES", "EVERY FLOOR STARTS WITH A FREE DIE. EVERY DIE YOU USE HEALS HALF A HEART", [{ "on": "on_floor_start", "do": [["dice", "any", 1]] }, { "on": "on_dice", "do": [["heal", 1]] }], ["fortune", "blood"], "relic_knucklebones"],
 	# Stage 36 FOOD AND DRINK (scripts/game/food.gd).
 	# 37.2 CHARMS (scripts/data/charms.gd).
+	["jewelersloupe", "rare", "JEWELER'S LOUPE", "+30% MAGIC FIND: RARER ITEMS. +1 LUCK", [["hook", "magic_find", 0.3], ["add", "luck", 1]], ["fortune"], "relic_jewelersloupe"],
 	["charmbracelet", "rare", "CHARM BRACELET", "+2 CHARM SLOTS", [["hook", "charm_slots", 2]], ["fortune"], "relic_charmbracelet"],
 	["picnicbasket", "common", "PICNIC BASKET", "EVERY FLOOR STARTS WITH TWO FOODS BESIDE YOU", [{ "on": "on_floor_start", "do": [["drop", "food"], ["drop", "food"]] }], ["bulwark"], "relic_picnicbasket"],
 	["goldenspoon", "epic", "GOLDEN SPOON", "EVERY GUARDIAN YOU KILL LEAVES A GOLDEN FOOD", [{ "on": "on_kill", "if": "boss", "do": [["drop", "golden"]] }], ["fortune"], "relic_goldenspoon"],

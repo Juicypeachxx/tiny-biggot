@@ -488,6 +488,13 @@ const ROWS := [
 	["o_graveskull", "GRAVE SKULL", "offhand", "epic", ["malice", "swarm"], null, "offhand", [], [], "15% OF YOUR KILLS RAISE A SKELETON FOR 15S.", [{ "on": "on_kill", "chance": 0.15, "do": [["raise", 15.0, 0.8]] }], "o_graveskull"],
 	["o_templebell", "TEMPLE BELL", "offhand", "rare", ["bulwark"], null, "offhand", [], [], "EVERY 8S IN A FIGHT, FOES NEAR YOU ARE STUNNED.", [{ "on": "every_n_seconds", "period": 8.0, "if": "fighting", "do": [["status_area", "stun", 1, 70], ["vfx", "ring", "#f2c94c", 70]] }], "o_templebell"],
 	["o_lute", "TRAVELLER'S LUTE", "offhand", "rare", ["fortune"], null, "offhand", [], [], "EVERY 10S IN A FIGHT, A SONG: +25% DAMAGE FOR 4S.", [{ "on": "every_n_seconds", "period": 10.0, "if": "fighting", "do": [["buff", "dmg", 0.25, 4.0], ["vfx", "ring", "#e86fb4", 40]] }], "o_lute"],
+	# 38.1 ALIGNMENT: gear that grows with one (alignments.gd).
+	["saintsigil", "SAINT'S SIGIL", "neck", "epic", ["bulwark"], null, "amulet", [], [["dmg_per_good", 0.05]], "+5% DAMAGE FOR EVERY POINT OF GOOD.", [], "g_saintsigil"],
+	["devilsbargain", "DEVIL'S BARGAIN", "ring", "epic", ["malice"], null, "ring", [], [["crit_per_evil", 0.03]], "+3% CRIT CHANCE FOR EVERY POINT OF EVIL.", [], "g_devilsbargain"],
+	["magistrateseal", "MAGISTRATE'S SEAL", "trinket", "epic", ["bulwark"], null, "charm", [], [["rate_per_law", 0.04]], "+4% FIRE RATE FOR EVERY POINT OF LAWFUL.", [], "g_magistrateseal"],
+	["madcapbells", "MADCAP'S BELLS", "head", "epic", ["fury"], null, "hat", [], [["proc_per_chaos", 0.08]], "+8% DAMAGE OF YOUR ITEMS' EFFECTS FOR EVERY POINT OF CHAOTIC.", [], "g_madcapbells"],
+	# 38.2 LOOT: magic find and treasure find.
+	["o_dowsingrod", "DOWSING ROD", "offhand", "rare", ["fortune"], null, "offhand", [], [["treasure_find", 0.25], ["magic_find", 0.15]], "+25% TREASURE FIND: MORE ITEMS. +15% MAGIC FIND: RARER ITEMS.", [], "o_dowsingrod"],
 	["firststar", "SHARD OF THE FIRST STAR", "trinket", "mythic", ["arcane", "pyre"], null, "charm", [["crit", 0.15]], [], "+15% CRIT. EVERY 4TH CRIT CALLS A COMET THROUGH THE FOE.", [{ "on": "on_crit", "every": 4, "do": [["spell", "comet", 2.5]] }]],
 ]
 
@@ -595,6 +602,10 @@ static func roll_item_rarity(floor_index: int, source: String = "drop") -> Strin
 		w = { "common": 0, "rare": 50, "epic": 38, "legend": 12 }
 	if GameData.rogues():   # 27 (his word, 9 Oct): MYTHIC weapons and armor, rarest of all: guardians, elites, deep floors
 		w["mythic"] = 8 if source == "boss" else (3 if source == "elite" else maxi(0, f - 5))
+		var mf: float = G.player.g("magic_find") if G.player != null else 0.0
+		if mf > 0:   # 38.2 MAGIC FIND: everything above common comes more often
+			for k in ["rare", "epic", "legend", "mythic"]:
+				w[k] = w[k] * (1.0 + mf)
 	return TB.weighted(w)
 
 ## "+25% DAMAGE" style line for a stat tuple, or "" when it is not shown.

@@ -194,7 +194,7 @@ static func interact(o: Dictionary) -> void:
 			if o["waves"] > 0:
 				G.toast("FIGHT FIRST, TALK LATER", "white")
 				return
-			var bet := G.price(20 + f * 5)
+			var bet := G.price(20 + f * 5, "chaos")
 			if p.gold < bet:
 				o["talks"] += 1
 				return G.deny(o, "NEED %d GOLD TO BET" % bet)
@@ -213,7 +213,7 @@ static func interact(o: Dictionary) -> void:
 				o["talks"] += 1
 				G.toast(MECHANIC_LINES[0], "white")
 				return
-			var cost := G.price(30 + f * 6)
+			var cost := G.price(30 + f * 6, "law")
 			if p.gold < cost:
 				return G.deny(o, "NEED %d GOLD" % cost)
 			p.gold -= cost
@@ -252,7 +252,7 @@ static func interact(o: Dictionary) -> void:
 				return
 			if o["done"]:
 				return G.deny(o, "ONE ROUND A CUSTOMER")
-			var cost := G.price(10 + f * 2)
+			var cost := G.price(10 + f * 2, "law")
 			if p.gold < cost:
 				return G.deny(o, "NEED %d GOLD" % cost)
 			p.gold -= cost
@@ -367,7 +367,7 @@ static func interact(o: Dictionary) -> void:
 				G.toast("SOLD %s FOR %d GOLD" % [it["name"], price], "gold")
 				Snd.play("coin")
 			elif o["boxes"] > 0:
-				var cost := G.price(40 + f * 4)
+				var cost := G.price(40 + f * 4, "evil")
 				if p.gold < cost:
 					return G.deny(o, "NEED %d GOLD FOR A SEALED BOX" % cost)
 				p.gold -= cost
@@ -383,7 +383,7 @@ static func interact(o: Dictionary) -> void:
 				return
 			if o.get("done", false):
 				return G.deny(o, "ONE GAME A CUSTOMER")
-			var bet := G.price(15 + f * 4)
+			var bet := G.price(15 + f * 4, "evil")
 			if p.gold < bet:
 				return G.deny(o, "NEED %d GOLD TO PLAY" % bet)
 			p.gold -= bet
@@ -746,7 +746,7 @@ static func on_room_clear(room: Room) -> void:
 	elif not met.has("merchant" + floor_key) and randf() < 0.06:
 		met["merchant" + floor_key] = true
 		var sells: String = TB.pick(["potion", "key", "bomb", "armor"])
-		_place(room, { "kind": "w_merchant", "sells": sells, "price": G.price(14 + G.floor_index * 3) })
+		_place(room, { "kind": "w_merchant", "sells": sells, "price": G.price(14 + G.floor_index * 3, "good") })
 		G.toast("A LOST MERCHANT WANDERS IN", "white")
 
 ## Somewhere on open floor, away from every door and from the hero, near a side wall.
@@ -780,11 +780,11 @@ static func prompt(o: Dictionary) -> Array:
 	var f := G.floor_index
 	match o["kind"]:
 		"e_pitboss":
-			return ["THE PIT BOSS", "BET ON YOURSELF: SURVIVE 3 WAVES, WIN 3 TIMES THE BET", "BET %d GOLD" % G.price(20 + f * 5)]
+			return ["THE PIT BOSS", "BET ON YOURSELF: SURVIVE 3 WAVES, WIN 3 TIMES THE BET", "BET %d GOLD" % G.price(20 + f * 5, "chaos") + Alignments.price_note(G.player, "chaos")]
 		"e_mechanic":
 			if G.player.weapon != null and G.player.weapon.has("mod"):
 				return ["THE MECHANIC", "YOUR WEAPON ALREADY CARRIES A MOD", "TALK"]
-			return ["THE MECHANIC", "A RANDOM MOD FOR YOUR WEAPON, FOR GOOD", "PAY %d GOLD" % G.price(30 + f * 6)]
+			return ["THE MECHANIC", "A RANDOM MOD FOR YOUR WEAPON, FOR GOOD", "PAY %d GOLD" % G.price(30 + f * 6, "law") + Alignments.price_note(G.player, "law")]
 		"e_teller":
 			return ["THE FORTUNE TELLER", "EACH CARD IS A BLESSING WITH A CURSE", "TALK"]
 		"e_card":
@@ -792,7 +792,7 @@ static func prompt(o: Dictionary) -> Array:
 		"e_courier":
 			return ["THE COURIER", "CARRY A PARCEL THROUGH 3 ROOMS IN 100S: A RELIC", "TAKE IT"]
 		"e_attendant":
-			return ["THE ATTENDANT", "20S OF TARGETS. 4: GOLD, 8: GEAR, 12: A RELIC", "PAY %d GOLD" % G.price(10 + f * 2)]
+			return ["THE ATTENDANT", "20S OF TARGETS. 4: GOLD, 8: GEAR, 12: A RELIC", "PAY %d GOLD" % G.price(10 + f * 2, "law") + Alignments.price_note(G.player, "law")]
 		"e_beacon":
 			return ["A SIGNAL BEACON", "LIGHT IT, THEN STAND IN ITS LIGHT FOR 45S", "LIGHT IT"]
 		"e_statue":
@@ -835,9 +835,9 @@ static func prompt(o: Dictionary) -> Array:
 			for it in p2.backpack:
 				if it != null:
 					return ["THE PAWNBROKER", "HE WANTS YOUR " + it["name"], "SELL FOR %d GOLD" % G.price(PAWN_PRICE.get(it["rarity"], 15))]
-			return ["THE PAWNBROKER", "A SEALED BOX: A RANDOM PIECE", "BUY FOR %d GOLD" % G.price(40 + f * 4)]
+			return ["THE PAWNBROKER", "A SEALED BOX: A RANDOM PIECE", "BUY FOR %d GOLD" % G.price(40 + f * 4, "evil") + Alignments.price_note(G.player, "evil")]
 		"e_hustler":
-			return ["THE CUP MAN", "FIND THE BALL, WIN THREE TIMES THE BET", "BET %d GOLD" % G.price(15 + f * 4)]
+			return ["THE CUP MAN", "FIND THE BALL, WIN THREE TIMES THE BET", "BET %d GOLD" % G.price(15 + f * 4, "evil") + Alignments.price_note(G.player, "evil")]
 		"e_cup":
 			return ["A CUP", "IS THE BALL UNDER THIS ONE?", "LIFT IT"]
 		"e_gong":
@@ -845,7 +845,7 @@ static func prompt(o: Dictionary) -> Array:
 		"w_drunk":
 			return ["THE DRUNK FROM THE SALOON", "HE WAVES A BOTTLE AT YOU", "SAY HELLO"]
 		"w_merchant":
-			return ["A LOST MERCHANT", "ONE " + str(o["sells"]).to_upper() + " FOR SALE", "PAY %d GOLD" % o["price"]]
+			return ["A LOST MERCHANT", "ONE " + str(o["sells"]).to_upper() + " FOR SALE", "PAY %d GOLD" % o["price"] + Alignments.price_note(G.player, "good")]
 	return ["", "", ""]
 
 # ---------- Drawing ----------

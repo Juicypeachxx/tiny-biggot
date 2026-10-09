@@ -131,7 +131,7 @@ static func _did(k: String) -> void:
 
 static func run(a: Array, stacks: int, ctx: Dictionary) -> void:
 	var p := G.player
-	var w := Weapons.wdmg(p) * (1.0 + p.g("proc_dmg"))   # 36.2 STAR JELLY: items' effects hit harder
+	var w := Weapons.wdmg(p) * (1.0 + p.g("proc_dmg") + p.g("proc_per_chaos") * p.al_chaos)   # 36.2 STAR JELLY, 38.1 MADCAP'S BELLS: items' effects hit harder
 	ran[a[0]] = ran.get(a[0], 0) + 1
 	match a[0]:
 		"nova":

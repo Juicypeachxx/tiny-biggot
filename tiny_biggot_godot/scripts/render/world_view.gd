@@ -612,11 +612,14 @@ func _paint_lower(ci: CanvasItem) -> void:
 				Gfx.sp(ci, "idol", x, y + 4)
 			"campfire":
 				Gfx.sp(ci, "campfire", x, y + 4)
-			"alshrine":   # 8.1: a stone plinth with its alignment's sign above it
+			"alshrine", "alwayshrine":   # 8.1: a stone plinth with its alignment's sign above it (38.1: a WAYSHRINE, for gold)
 				ci.draw_rect(Rect2(x - 7, y - 2, 14, 7), TB.c("#3a3448"))
-				ci.draw_rect(Rect2(x - 6, y - 2, 12, 1), TB.c("#6a6280"))
+				ci.draw_rect(Rect2(x - 6, y - 2, 12, 1), TB.c("#6a6280" if o["kind"] == "alshrine" else Alignments.HEX[o["al"]]))
 				var used: bool = o.get("used", false)
 				Gfx.sp(ci, Alignments.ICON[o["al"]], x, y - 4 + (0.0 if used else sin(t * 3 + x) * 1.5), 1, 1, 0.0, false, 0.35 if used else 1.0)
+				if o["kind"] == "alwayshrine" and not used:
+					var pl := "%dG" % o["price"]
+					Gfx.text(ci, pl, roundf(x - TB.text_w(pl) / 2), roundf(y + 7), "gold" if G.player.gold >= o["price"] else "red")
 			"bell":
 				Gfx.sp(ci, "bell", x, y + 4, 1, 1, deg(sin(t * 10) * 8) if o.get("used", false) else 0.0)
 			"lockdoor":

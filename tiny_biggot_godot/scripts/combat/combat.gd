@@ -343,7 +343,7 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 		Lives.pop(e.x, e.y - e.r - 20, "SNEAK ATTACK!", "gold")
 	if GameData.rogues():
 		dmg *= 0.85 + 0.3 * randf()   # Rogues layer: every hit rolls within +-15%
-	var crit_chance := p.crit + (p.g("chill_crit") if e.chill_t > 0 else 0.0) + p.g("crit_per_str") * p.a_str
+	var crit_chance := p.crit + (p.g("chill_crit") if e.chill_t > 0 else 0.0) + p.g("crit_per_str") * p.a_str + p.g("crit_per_evil") * p.al_evil   # (38.1 DEVIL'S BARGAIN)
 	var sure := p.g("sure_strike") > 0   # 33.2 SURE STRIKE: never a crit; the chance becomes damage
 	if sure:
 		dmg *= 1.0 + 1.5 * maxf(0.0, crit_chance)
