@@ -1489,3 +1489,27 @@ S["w_wildsurge"] = ("main:#ff5a3a second:#4d8be6 skin:#6fd84a gold:#f2c94c wood:
 S["w_chaoscodex"] = ("main:#5a1a4a second:#4d8be6 skin:#6fd84a gold:#f2c94c bone:#f4ecd8 glow:#ff3a6a", [
 "...3....b...", ".q....5.....", "....y...q.3.", "..b...3.....", "......y..5..", ".oo......oo.",
 "olloo..oollo", "ol00lool00lo", "olllloollllo", "o2222oo2222o", ".oooo..oooo.", "............"])
+
+# ---- Stage 25 (his word, 9 Oct): new magic and melee weapons, recoloured from the shapes above.
+for _n, _pal, _from in [
+	("moonwell", "main:#2a3a6a wood:#3a2a4a glow:#9fe0ff", "w_pocketvoid"),
+	("hydrarod", "main:#8cd85a wood:#4a3a2a glow:#ff6a3a", "w_emberwyrm"),
+	("skyfall", "main:#8a6a4a gold:#f2c94c glow:#ff8a3a halo:1", "w_cometscepter"),
+	("stormsigil", "main:#c8e0ff glow:#fff07a", "w_runechalk"),
+	("timewarp", "main:#c8f0ff gold:#8fd8ff glow:#2a4a8a", "w_stopwatch"),
+	("rainbowstaff", "main:#ff5a3a second:#6fd84a skin:#4d8be6 gold:#f2c94c glow:#ffffff halo:1", "w_kaleidoscope"),
+	("skybreaker", "main:#5a6a8a glow:#fff07a", "w_tempestcore"),
+	("luckystar", "main:#f2c94c gold:#e8873a glow:#ffffff", "w_pinballwand"),
+	("stormfire", "main:#6b4a2a glow:#ffb040 halo:1", "w_archstaff"),
+	("thunderfang", "main:#c8d8ff metal:#e8f0ff glow:#fff07a halo:1", "w_wyrmfang"),
+	("frostbrand", "main:#9fd8f0 metal:#c8f0ff glow:#ffffff", "w_wyrmfang"),
+	("voidscythe", "main:#5c3483 metal:#a35bd6 glow:#e8c8ff", "w_greataxe"),
+	("emberpike", "main:#e8873a glow:#fff07a halo:1", "w_seraphlance"),
+	("quakehammer", "main:#8a6a4a metal:#6a5a4a", "w_greataxe"),
+	("serpentlash", "main:#6fd84a wood:#3a5a2a glow:#d8443c", "w_emberwyrm"),
+	("twinfangs", "main:#d8443c metal:#e8e8f0", "w_rustyshiv"),
+	("giantsbane", "main:#c8a060 metal:#8a7a6a", "w_greataxe"),
+	("steamblade", "main:#e8c8b0 metal:#f4ecd8 glow:#ff8a5a", "w_dancingsteel"),
+]:
+	S["w_" + _n] = (_pal, S[_from][1])
+

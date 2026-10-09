@@ -1168,6 +1168,16 @@ worn whole never drops in 300. Replays: classic identical; core e re-recorded on
 IPA 24 built WITHOUT the full check (his word: skip it, low credits). Run tools/check.sh first
 next session.
 
+### Stage 25 (9 Oct): reactions, fourteen traits, nine magic and nine melee weapons
+Built at his word WITHOUT tests ("dont test just compile"): only --import, bake_atlas (atlas test
+passed) and 20 s bot runs with steamblade, serpentlash and stormfire (no errors). NEXT SESSION FIRST:
+run tools/check.sh (content_test lints the new rows; spells_test and sets_test still apply) and
+re-record the core replays with tools/replay.sh record (new weapons, traits and reactions change
+the fights, on purpose); the classic replays must stay identical (all new code is rogues-only).
+Reactions: scripts/combat/reactions.gd (check() from damage_enemy after a blow that leaves the foe
+alive; clear() in G.enter_room; hooks react_dmg, react_fast). Rows: traits y_* at the end of
+Traits.ROWS; weapons after "chaoscodex". Icons: recolours at the end of tools/art/sprites.py.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

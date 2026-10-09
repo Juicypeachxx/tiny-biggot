@@ -388,6 +388,8 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	if e.hp <= 0:
 		e.over = -e.hp
 		kill_enemy(e, o)
+	elif GameData.rogues() and e.type != "dummy":
+		Reactions.check(e)   # 25: two ailments that meet react (reactions.gd)
 	return crit
 
 static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:

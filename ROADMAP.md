@@ -1062,6 +1062,23 @@ also when you complete it it still drops frequently")
       without it. Run: sets, weather, camp clock and ambience tests, and all replays (classic
       identical, core e re-recorded on purpose). The next session should run tools/check.sh first.
 
+## Stage 25 (his word, 9 Oct: "add more cool traits and magic weapons also melee weapons, dont test
+just compile" and "add new effect system")
+- [x] 25.1 REACTIONS (scripts/combat/reactions.gd): two ailments on a foe react, once every 2 s a
+      foe: burn+chill MELT (300%), burn+poison TOXIC BLAST (200% around), chill+shock SHATTER (200%
+      around, stun), poison+curse WITHER (vulnerable, weakened), bleed+curse HEMORRHAGE (350%),
+      shock+burn OVERLOAD (lightning). Checked after every blow in Combat.damage_enemy.
+- [x] 25.2 Fourteen traits (y_*: STORM HEART, RED HARVEST, FROSTWAKE, ECHOING EDGE, METEOR SHOWER,
+      MIRROR SKIN, PLAGUE BEARER, WILD CARD, BLOOD FRENZY, DREAD LORD, THORNHIDE, COMET ROLL, and
+      for reactions ALCHEMIST'S EYE and CATALYST). Nine magic weapons (MOONWELL, HYDRA'S ROD,
+      SKYFALL STAFF, STORM SIGIL, TIMEWARP SCEPTER, RAINBOW STAFF, SKYBREAKER ORB, LUCKY STAR,
+      STORMFIRE ROD) and nine melee (THUNDERFANG, FROSTBRAND, VOID SCYTHE, EMBER PIKE, QUAKE HAMMER,
+      SERPENT LASH, TWIN FANGS, GIANTSBANE, STEAMFORGED BLADE); several carry two ailments that
+      react. Icons recoloured from existing shapes (tools/art/sprites.py), atlas baked.
+- [ ] 25.3 At his word only compiled (import, atlas test, 20 s runs with three of the weapons): the
+      next session runs tools/check.sh (content_test lints every new row) and re-records the core
+      replays on purpose (new items and reactions change the fights). IPA 25.
+
 ---
 
 ## Log

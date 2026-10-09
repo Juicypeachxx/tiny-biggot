@@ -271,6 +271,7 @@ func enter_room(r: Room) -> void:
 	Summons.clear()
 	Oddities.clear()
 	Spells.clear()
+	Reactions.clear()
 	pickups = room.pickups
 	enemies = []
 	for b in pbullets:

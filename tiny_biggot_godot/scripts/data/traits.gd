@@ -264,6 +264,21 @@ const ROWS := [
 	["x_tailor", "bulwark", 1, "MASTER TAILOR", "SET PIECES COME TO YOU FAR MORE OFTEN. +8% DAMAGE PER SET PIECE WORN", false, [["hook", "tailor", 1], ["hook", "wardrobe_dmg", 0.08]], "super", ["bulwark"], {  }],
 	["x_halo", "arcane", 1, "HALO OF BLADES", "EVERY 2S IN A FIGHT, A SPINNING RING OF 8 BLADES", false, [{ "on": "every_n_seconds", "period": 2.0, "if": "fighting", "do": [["nova", 8, 0.7, "spark", 3.0]] }], "super", ["arcane"], {  }],
 	["g_goldblood", "fortune", 1, "GOLDEN BLOOD", "+1% DAMAGE FOR EVERY 10 GOLD HELD. CRITS PAY 1 GOLD", false, [["set", "miser", true], { "on": "on_crit", "do": [["gold", 1]] }], "legend", ["fortune", "edge"], {  }],
+	# Stage 25 (his word, 9 Oct: "add more cool traits"), and two for REACTIONS (reactions.gd).
+	["y_stormheart", "storm", 1, "STORM HEART", "EVERY 4TH CRIT CALLS 4 LIGHTNING STRIKES", false, [{ "on": "on_crit", "every": 4, "do": [["bolts", 4, 1.0]] }], "rare", ["storm"], {  }],
+	["y_redharvest", "blood", 2, "RED HARVEST", "12% OF KILLS HEAL HALF A HEART", false, [{ "on": "on_kill", "chance": 0.12, "do": [["heal", 1]] }], "uncommon", ["blood"], {  }],
+	["y_frostwake", "frost", 2, "FROSTWAKE", "ROLLING CHILLS EVERY FOE AROUND YOU", false, [{ "on": "on_roll", "cd": 1.0, "do": [["status_area", "chill", 2, 110], ["vfx", "ring", "#6fd3e0", 110]] }], "uncommon", ["frost"], {  }],
+	["y_echoedge", "edge", 1, "ECHOING EDGE", "EVERY 3RD HIT STRIKES AGAIN FOR 80%", false, [{ "on": "on_hit", "every": 3, "do": [["damage", 0.8]] }], "rare", ["edge"], {  }],
+	["y_meteors", "arcane", 1, "METEOR SHOWER", "EVERY 6S IN A FIGHT, 3 METEORS FALL ON FOES", false, [{ "on": "every_n_seconds", "period": 6.0, "if": "fighting", "do": [["meteor", 1.5, 28], ["meteor", 1.5, 28], ["meteor", 1.5, 28]] }], "super", ["arcane"], {  }],
+	["y_mirrorskin", "bulwark", 1, "MIRROR SKIN", "WHEN HIT, 20 SHOTS BURST OUT OF YOU", false, [{ "on": "on_damage_taken", "do": [["nova", 20, 1.0, "spark"]] }], "rare", ["bulwark"], {  }],
+	["y_plague", "venom", 2, "PLAGUE BEARER", "25% OF KILLS POISON THE FOES AROUND", false, [{ "on": "on_kill", "chance": 0.25, "do": [["status_area", "poison", 3, 70], ["vfx", "ring", "#b8e05a", 70]] }], "uncommon", ["venom"], {  }],
+	["y_wildcard", "fortune", 1, "WILD CARD", "EVERY 20TH HIT, SOMETHING RANDOM HAPPENS", false, [{ "on": "on_hit", "every": 20, "cd": 1.5, "do": [["chaos"]] }], "rare", ["fortune"], {  }],
+	["y_frenzy", "fury", 2, "BLOOD FRENZY", "KILLS GIVE +4% FIRE RATE FOR 4S, STACKING", false, [{ "on": "on_kill", "do": [["buff", "rate", 0.04, 4.0]] }], "uncommon", ["fury"], {  }],
+	["y_dreadlord", "malice", 1, "DREAD LORD", "EVERY 10S IN A FIGHT, CURSE AND WEAKEN EVERY FOE", false, [{ "on": "every_n_seconds", "period": 10.0, "if": "fighting", "do": [["status_area", "curse", 2, 400], ["status_area", "weakened", 2, 400], ["vfx", "ring", "#7a3a8c", 160]] }], "super", ["malice"], {  }],
+	["y_thornhide", "bulwark", 2, "THORNHIDE", "WHEN HIT, +1 ARMOR (AT MOST EVERY 6S)", false, [{ "on": "on_damage_taken", "cd": 6.0, "do": [["armor", 1]] }], "uncommon", ["bulwark"], {  }],
+	["y_cometroll", "pyre", 1, "COMET ROLL", "ROLLING CALLS A METEOR ON A FOE", false, [{ "on": "on_roll", "cd": 0.8, "do": [["meteor", 1.5, 26]] }], "rare", ["pyre"], {  }],
+	["y_alchemist", "arcane", 1, "ALCHEMIST'S EYE", "REACTIONS HIT TWICE AS HARD (TWO AILMENTS ON A FOE REACT)", false, [["hook", "react_dmg", 1.0]], "rare", ["arcane"], {  }],
+	["y_catalyst", "venom", 1, "CATALYST", "REACTIONS COME BACK TWICE AS FAST. 20% OF HITS BURN", false, [["hook", "react_fast", 1], ["add", "burn", 0.2]], "rare", ["venom"], {  }],
 ]
 
 const TREE_COSTS := [10, 20, 35, 60]

@@ -620,6 +620,26 @@ const ROWS := [
 	["orrery", "STARBOUND ORRERY", "pinball", "epic", ["arcane", "storm"], "orb", { "dmg": 2.5, "rate": 1.0, "stars": true, "max": 10 }, [], [], "A PINBALL THAT BOUNCES 10 TIMES, AND EVERY BOUNCE THROWS A SEEKING STAR."],
 	["wildsurge", "WAND OF WILD SURGE", "wild", "rare", ["arcane", "fortune"], "wand", { "dmg": 5.0, "rate": 1.1 }, [], [], "EVERY CAST A DIFFERENT SPELL: FIREBALL, ICE, LIGHTNING, MIASMA, GOLD, A SHEEP, A HEAL, A VOID OR A SMITE."],
 	["chaoscodex", "THE CHAOS CODEX", "wild", "legend", ["arcane", "malice"], "tome", { "dmg": 7.0, "rate": 1.1, "double": true }, [], [], "WILD MAGIC: TWO DIFFERENT SPELLS AT ONCE, EVERY CAST."],
+	# Stage 25 (his word, 9 Oct: "add more cool traits and magic weapons also melee weapons"): several carry two
+	# ailments at once, which react (reactions.gd).
+	["moonwell", "MOONWELL", "singularity", "epic", ["shadow", "storm"], "orbstaff", { "dmg": 6.0, "rate": 0.9, "devour": true }, [], [["nth_zap", 3]], "A BLACK HOLE THAT EATS ENEMY SHOTS. EVERY 3RD CAST ALSO CALLS LIGHTNING."],
+	["hydrarod", "HYDRA'S ROD", "serpent", "legend", ["pyre", "venom"], "staff", { "dmg": 3.5, "rate": 0.8 }, [], [], "A SERPENT OF FIRE WHOSE BITES ALSO POISON: FIRE AND POISON MEET IN A TOXIC BLAST.", [{ "on": "on_hit", "chance": 0.3, "do": [["status", "poison", 2]] }]],
+	["skyfall", "SKYFALL STAFF", "comet", "epic", ["pyre", "demolition"], "staff", { "dmg": 9.0, "rate": 0.7 }, [], [], "COMETS, AND EVERY 4TH CAST ALSO DROPS A METEOR ON A FOE.", [{ "on": "every_n_shots", "every": 4, "do": [["meteor", 2.0, 30]] }]],
+	["stormsigil", "STORM SIGIL", "glyph", "rare", ["storm", "arcane"], "wand", { "dmg": 6.0, "rate": 1.3 }, [], [["nth_zap", 2]], "RUNES THAT ERUPT, AND EVERY 2ND CALLS LIGHTNING TOO."],
+	["timewarp", "TIMEWARP SCEPTER", "chrono", "epic", ["frost", "arcane"], "wand", { "dmg": 5.0, "rate": 0.55, "radius": 64 }, [], [], "STOPPED TIME, AND ITS BLOW CHILLS HALF THE TIME.", [{ "on": "on_hit", "chance": 0.5, "do": [["status", "chill", 2]] }]],
+	["rainbowstaff", "RAINBOW STAFF", "prism", "legend", ["arcane", "pyre"], "orb", { "dmg": 5.5, "rate": 1.7, "fractal": true }, [["crit", 0.1]], [], "PRISM BOLTS THAT SPLIT THREE TIMES. +10% CRIT. THEIR BURN AND CHILL MELT FOES."],
+	["skybreaker", "SKYBREAKER ORB", "cloud", "legend", ["storm", "frost"], "orb", { "dmg": 5.5, "rate": 0.5, "tornado": true }, [], [["nth_zap", 2]], "STORM CLOUDS WITH TORNADOES; EVERY 2ND CAST CALLS LIGHTNING. 25% SHOCK: ICE AND SHOCK SHATTER FOES.", [{ "on": "on_hit", "chance": 0.25, "do": [["status", "shock", 1]] }]],
+	["luckystar", "LUCKY STAR", "pinball", "rare", ["fortune", "arcane"], "orb", { "dmg": 2.5, "rate": 1.1, "max": 8 }, [], [], "A PINBALL OF LIGHT THAT BOUNCES 8 TIMES. 20% OF ITS KILLS DROP A COIN.", [{ "on": "on_kill", "chance": 0.2, "do": [["drop", "coin"]] }]],
+	["stormfire", "STORMFIRE ROD", "orb", "epic", ["pyre", "storm"], "staff", { "dmg": 5.5, "rate": 2.6 }, [["burn", 0.3]], [], "BURNING BOLTS, AND 30% SHOCK: FIRE AND SHOCK OVERLOAD INTO LIGHTNING.", [{ "on": "on_hit", "chance": 0.3, "do": [["status", "shock", 1]] }]],
+	["thunderfang", "THUNDERFANG", "slash", "epic", ["storm", "edge"], "sword", { "dmg": 9.0, "rate": 2.2 }, [], [["nth_zap", 3]], "A SWORD OF STORM. EVERY 3RD SWING CALLS LIGHTNING."],
+	["frostbrand", "FROSTBRAND", "slash", "rare", ["frost", "edge"], "sword", { "dmg": 8.0, "rate": 2.0 }, [["chill", 0.4]], [], "40% OF CUTS CHILL. 30% OF KILLS CHILL THE FOES AROUND.", [{ "on": "on_kill", "chance": 0.3, "do": [["status_area", "chill", 2, 60], ["vfx", "ring", "#6fd3e0", 60]] }]],
+	["voidscythe", "VOID SCYTHE", "slash", "legend", ["shadow", "malice"], "sword", { "dmg": 12.0, "rate": 1.6, "arc": 160 }, [["curse", 0.25]], [], "A WIDE REAPING ARC. 25% OF CUTS CURSE. 15% PULL THE FOES AROUND IN.", [{ "on": "on_hit", "chance": 0.15, "cd": 0.5, "do": [["pull", 90, 200]] }]],
+	["emberpike", "EMBER PIKE", "thrust", "rare", ["pyre"], "spear", { "dmg": 7.0, "rate": 2.2 }, [["burn", 0.3]], [["nth_nova", 5]], "A BURNING SPEAR. 30% OF THRUSTS BURN. EVERY 5TH BURSTS INTO A RING."],
+	["quakehammer", "QUAKE HAMMER", "slam", "legend", ["fury", "demolition"], "hammer", { "dmg": 14.0, "rate": 0.8 }, [], [], "HOLD TO SLAM. EVERY 5TH HIT ERUPTS FOR 200%.", [{ "on": "on_hit", "every": 5, "do": [["explode", 60, 2.0]] }]],
+	["serpentlash", "SERPENT LASH", "whip", "rare", ["venom", "malice"], "whip", { "dmg": 5.5, "rate": 2.2 }, [["poison", 1], ["curse", 0.2]], [], "A LASH THAT POISONS, AND 20% CURSE: POISON AND CURSE WITHER FOES."],
+	["twinfangs", "TWIN FANGS", "stab", "epic", ["edge", "blood"], "dagger", { "dmg": 4.5, "rate": 4.5 }, [["crit", 0.15]], [], "+15% CRIT. 25% OF CRITS OPEN A BLEEDING WOUND.", [{ "on": "on_crit", "chance": 0.25, "do": [["status", "bleed", 1]] }]],
+	["giantsbane", "GIANTSBANE", "bat", "epic", ["fury"], "club", { "dmg": 11.0, "rate": 1.1 }, [], [["boss_dmg", 0.5], ["elite_dmg", 0.5]], "KNOCKS FOES FLYING. +50% DAMAGE TO ELITES AND GUARDIANS."],
+	["steamblade", "STEAMFORGED BLADE", "slash", "legend", ["pyre", "frost"], "sword", { "dmg": 10.0, "rate": 2.0 }, [["burn", 0.3], ["chill", 0.3]], [], "IT BURNS AND IT CHILLS: FIRE AND ICE MELT FOES FOR 300%."],
 ]
 
 static var _by_id := {}
