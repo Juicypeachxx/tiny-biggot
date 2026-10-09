@@ -1262,7 +1262,8 @@ is removed: new things are added beside it. After Stage 35, in this order:
 - [x] 38.2 LOOT: each point of LUCK also gives lucky hits (34.1); new stats MAGIC FIND (rarer
       items) and TREASURE FIND (more items and gold), on gear and traits, shown with the stats.
       +2% lucky hits a LUCK; PROSPECTOR, JEWELER'S LOUPE, DOWSING ROD.
-- [ ] 38.3 DAMAGE SCALING GRADES (S to D) with a soft cap: **asked first** (a cap that lowers
+- [x] 38.3 DAMAGE SCALING GRADES (S to D) with a soft cap: **asked first** (10 Oct: no preference;
+      done in 40.0 as +5% a point with no cap, nothing lowered). (a cap that lowers
       damage would tone builds down, rule 1). Without his yes, only the grade letters are shown.
 
 ### Stage 39: more to find (IPA 39, "More to Find", built 9 Oct; IPA 39.4 "Bosses Fall")
@@ -1285,6 +1286,46 @@ is removed: new things are added beside it. After Stage 35, in this order:
       else. Blows on such a foe took nothing off but counted as damage dealt, which makes every
       foe after it tougher (power_scale): no longer. A foe's quick hits add up in one number
       instead of a block of gold numbers. IPA 39.4.
+
+### His word, 10 Oct (night): every trait from his pictures, and infusions
+He sent 18 pictures of trait lists (STR, DEX, INT, Super Hero, Esper, Cyborg) and infusions: "include
+all listed traits and pictures of traits" (how they look: a square pixel picture in the trait's
+colour) and "Also add infusion mechanics". 146 traits and 14 infusions, each transcribed with what
+it becomes here in **TRAITS_PLAN.md**. Our own names and pictures (rule 3). Asked what was next
+before this, he had no preference: the +5% numbers of his notes go in with Stage 40, the alignment
+shops after the traits.
+
+### Stage 40: the trait look and the STRENGTH traits (IPA 40)
+- [ ] 40.0 His notes' numbers: +5% damage per STR, DEX or INT point (times the weapon's grade; it
+      was 3%), no soft cap (38.3: never his yes, it would lower big builds); +5% lucky hits per
+      LUCK (was 2%).
+- [ ] 40.1 The look: every trait row's box in its group's colour (STR pink-red, DEX green, INT
+      blue, SUPER red), and a trait with a picture of its own shows it there.
+- [ ] 40.2 Shared mechanics the STR list needs: POWER, the hit kinds (crushing, ruthless), the
+      named buffs (courage, berserk, rage, burning passion), instability, puncture, crush.
+- [ ] 40.3 The 38 STRENGTH traits of TRAITS_PLAN.md, each with its picture.
+
+### Stage 41: the DEXTERITY traits (IPA 41)
+- [ ] 41.1 What the DEX list needs: lethal and sneaky hits, tailwind, morale, fatigue, rupture,
+      fields of frost and venom, repeats.
+- [ ] 41.2 The 39 DEXTERITY traits, each with its picture.
+
+### Stage 42: the INTELLIGENCE traits (IPA 42)
+- [ ] 42.1 What the INT list needs: cursed hits, fragility, scorch, frostbite, zap, tick speed,
+      the special's charge as mana.
+- [ ] 42.2 The 38 INTELLIGENCE traits, each with its picture.
+
+### Stage 43: SUPER, PSYCHIC and AUGMENT traits (IPA 43)
+- [ ] 43.1 15 SUPER traits for every hero (rare).
+- [ ] 43.2 11 PSYCHIC traits, the Mindwarden's own; 5 AUGMENT traits, the Tinkerer's own.
+
+### Stage 44: INFUSIONS (IPA 44)
+- [ ] 44.1 14 infusions: belt items that add an element to the weapon for 10 rooms or for good;
+      TRANSCENDENCE and TIME DILATION work with them.
+
+### Stage 45: alignment shops (IPA 45)
+- [ ] 45.1 After a guardian, a GOOD, EVIL or LAWFUL shop can appear (each opens once that path's
+      ruler is beaten), selling items that grow with its alignment (his notes, 9 Oct).
 
 ---
 

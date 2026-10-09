@@ -1,9 +1,9 @@
 # Handoff: where the work stands
 
-**9 Oct, Stage 39 done (IPA 39 "More to Find", then IPA 39.4 "Bosses Fall": his video of an
-unkillable stunned mini-boss), after 38 "Alignment and Loot" (38.3 waits for his word), 37
-"Offhands and Charms", 36 "Food and Drink" and 35 "Dice and Pace" (the full check passed at 35).**
-Next: his word on 38.3, then whatever he asks for after testing on the iPad.
+**10 Oct: his trait pictures.** 146 traits and 14 infusions to add (TRAITS_PLAN.md), in
+Stages 40 to 44 (STR, DEX, INT, SUPER/PSYCHIC/AUGMENT, infusions), then 45 the alignment shops.
+Done before: 39.4 "Bosses Fall" (IPA 39.4), Stage 39 "More to Find", 38 "Alignment and Loot", 37,
+36, 35 (the full check passed at 35). Next: Stage 40.
 
 **His word, 9 Oct: "Just compile after add, I'll test it."** Until he says otherwise: after adding
 content, only compile (import; a short run that starts the game) and build the IPA. He tests on the
