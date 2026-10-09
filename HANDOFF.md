@@ -1,5 +1,9 @@
 # Handoff: where the work stands
 
+**His word, 9 Oct: "Just compile after add, I'll test it."** Until he says otherwise: after adding
+content, only compile (import; a short run that starts the game) and build the IPA. He tests on the
+iPad. The full check and the core replay re-recording wait until he asks or something breaks.
+
 Kept up to date at every push, so that a session that is cut off (it has
 happened twice to usage limits) loses nothing. `CLAUDE.md` has the rules and
 `ROADMAP.md` the plan, step by step; this file is the detail of what was done.
