@@ -1057,7 +1057,10 @@ also when you complete it it still drops frequently")
       one piece worn its set came 42 times in 400 drops (it was over 1 in 3). tests/sets_test
       checks all of it. Core replay e re-recorded on purpose (at 148 s the bot now finds a sapper
       vest where it found a second bastion piece); the rest and the classic replays identical.
-- [ ] 24.3 Checks, the core replays re-recorded (drops change), IPA 24.
+- [x] 24.3 Checks, the core replays re-recorded (drops change), IPA 24.
+      Done: he asked to skip the full check to save his credits (9 Oct), so IPA 24 was built
+      without it. Run: sets, weather, camp clock and ambience tests, and all replays (classic
+      identical, core e re-recorded on purpose). The next session should run tools/check.sh first.
 
 ---
 

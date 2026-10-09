@@ -1165,6 +1165,8 @@ is a piece the hero owns (Gear.owns: worn or in the pack) or of the last gear's 
 (G.run_stats["last_set"], kept per run). Rogues only (classic untouched). sets_test: 400 drops
 with one piece worn: its set 42 times, never the worn piece, never two in a row from one set; a set
 worn whole never drops in 300. Replays: classic identical; core e re-recorded on purpose.
+IPA 24 built WITHOUT the full check (his word: skip it, low credits). Run tools/check.sh first
+next session.
 
 ## Noted, not yet acted on
 
