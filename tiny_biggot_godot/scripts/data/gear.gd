@@ -449,6 +449,14 @@ const ROWS := [
 	["void_grip", "VOID REGALIA GRIP", "hands", "legend", ["shadow"], "voidregalia", "gloves", [["rate", 1.1]], [], "IT HOLDS WHAT IS NOT THERE.", [], "g_void_grip"],
 	["void_star", "VOID REGALIA STAR", "neck", "legend", ["shadow"], "voidregalia", "amulet", [["crit", 0.08]], [], "A STAR THAT WENT OUT.", [], "g_void_star"],
 	["void_band", "VOID REGALIA BAND", "ring", "legend", ["shadow"], "voidregalia", "ring", [["dmg", 1.1]], [], "IT HUMS BELOW HEARING.", [], "g_void_band"],
+	# Stage 27 (his word, 9 Oct): MYTHIC armor, one for every slot.
+	["stormcrown", "CROWN OF THE STORM KING", "head", "mythic", ["storm", "arcane"], null, "crown", [["dmg", 1.2]], [], "+20% DAMAGE. EVERY 6S IN A FIGHT, A STORM CLOUD FOLLOWS YOUR FOES.", [{ "on": "every_n_seconds", "period": 6.0, "if": "fighting", "do": [["spell", "cloud", 1.2]] }]],
+	["eternalaegis", "AEGIS OF ETERNITY", "body", "mythic", ["bulwark", "arcane"], null, "plate", [["armor", 3], ["max_hp", 4]], [], "+3 ARMOR, +2 MAX HEARTS. WHEN HIT, TIME STOPS AROUND THE NEAREST FOE (EVERY 4S).", [{ "on": "on_damage_taken", "cd": 4.0, "do": [["spell", "clock", 1.5]] }]],
+	["voidstriders", "STRIDERS OF THE VOID", "feet", "mythic", ["shadow"], null, "boots", [["speed", 1.3]], [], "+30% SPEED. ROLLING OPENS A BLACK HOLE ON THE NEAREST FOE (EVERY 2S).", [{ "on": "on_roll", "cd": 2.0, "do": [["spell", "void", 2.0]] }]],
+	["makergauntlets", "GAUNTLETS OF THE MAKER", "hands", "mythic", ["edge", "arcane"], null, "gloves", [["rate", 1.3]], [], "+30% FIRE RATE. EVERY 5TH ATTACK CONJURES A SPECTRAL BLADE.", [{ "on": "every_n_shots", "every": 5, "do": [["spell", "blade", 1.0]] }]],
+	["elementring", "RING OF ALL ELEMENTS", "ring", "mythic", ["pyre", "frost", "venom"], null, "ring", [], [["react_dmg", 1.0]], "25% OF HITS ADD A RANDOM AILMENT. REACTIONS HIT TWICE AS HARD.", [{ "on": "on_hit", "chance": 0.25, "do": [["rand_status", 2]] }]],
+	["phoenixheart", "HEART OF THE PHOENIX", "amulet", "mythic", ["pyre", "blood"], null, "amulet", [["max_hp", 4]], [], "+2 MAX HEARTS. 10% OF KILLS HEAL HALF A HEART. EVERY 8S IN A FIGHT, A FIRE SERPENT.", [{ "on": "on_kill", "chance": 0.1, "do": [["heal", 1]] }, { "on": "every_n_seconds", "period": 8.0, "if": "fighting", "do": [["spell", "serpent", 1.5]] }]],
+	["firststar", "SHARD OF THE FIRST STAR", "trinket", "mythic", ["arcane", "pyre"], null, "charm", [["crit", 0.15]], [], "+15% CRIT. EVERY 4TH CRIT CALLS A COMET THROUGH THE FOE.", [{ "on": "on_crit", "every": 4, "do": [["spell", "comet", 2.5]] }]],
 ]
 
 ## Readable lines for stat tuples.
@@ -549,6 +557,8 @@ static func roll_item_rarity(floor_index: int, source: String = "drop") -> Strin
 		w = { "common": 0, "rare": 30, "epic": 45, "legend": 25 }
 	if source == "elite":
 		w = { "common": 0, "rare": 50, "epic": 38, "legend": 12 }
+	if GameData.rogues():   # 27 (his word, 9 Oct): MYTHIC weapons and armor, rarest of all: guardians, elites, deep floors
+		w["mythic"] = 8 if source == "boss" else (3 if source == "elite" else maxi(0, f - 5))
 	return TB.weighted(w)
 
 ## "+25% DAMAGE" style line for a stat tuple, or "" when it is not shown.

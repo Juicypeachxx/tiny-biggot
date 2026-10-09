@@ -37,7 +37,7 @@ const GLYPHS := {
 	"star": ["THE STAR", "law", "+10% CRIT. +10% FIRE RATE", [["add", "crit", 0.1], ["mul", "rate", 1.1]]],
 	"skull": ["THE SKULL", "evil", "+30% DAMAGE, BUT -1 MAX HEART", [["mul", "dmg", 1.3], ["add_floor", "max_hp", -2, 2], ["clamp_max", "hp", "max_hp"]]],
 }
-const PAWN_PRICE := { "common": 12, "uncommon": 18, "rare": 28, "epic": 45, "legend": 80 }
+const PAWN_PRICE := { "common": 12, "uncommon": 18, "rare": 28, "epic": 45, "legend": 80, "mythic": 120 }
 const LIGHTNING_TIME := 30.0
 const EVENTS := ["pit", "chopshop", "fortune", "courier", "gallery"]
 const SPECIAL := ["beacon", "vault", "cursed"]

@@ -1190,6 +1190,12 @@ SESSION FIRST: tools/check.sh and tools/replay.sh record (as for Stage 25). New:
 as fast again); Traits.RARITY["mythic"] and Game._new_trait_weight (mythic: weight 1 from level 6).
 Rows: traits l_* and m_* after y_catalyst; synergies t_steamengine..t_reactor at the end.
 
+### Stage 27 (9 Oct): MYTHIC items
+"mythic" rarity: GameData.RARITY_COL/HEX/NAME, Game.item_price (140), EventRooms.PAWN_PRICE (120),
+Gear.roll_item_rarity (rogues: boss 8, elite 3, drops max(0, floor - 5)), Attributes.scaling and
+world_view's hand glow treat it as legend. Rows: weapons after "steamblade", gear at the end of
+Gear.ROWS. Only compiled (see the top of this file); the full check and replay re-record wait.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

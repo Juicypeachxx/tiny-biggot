@@ -352,9 +352,9 @@ static func unlocks() -> Array:
 					_unlocks.append({ "id": "hero_" + h["id"], "name": h["name"], "desc": "A NEW HERO: " + h["weapon"], "cost": h["cost"] })
 	return _unlocks
 
-const RARITY_COL := { "common": "grey", "rare": "cyan", "epic": "purple", "legend": "gold" }
-const RARITY_HEX := { "common": "#8b8f9c", "rare": "#4d9be6", "epic": "#a35bd6", "legend": "#f2c94c" }
-const RARITY_NAME := { "common": "COMMON", "rare": "RARE", "epic": "EPIC", "legend": "LEGENDARY" }
+const RARITY_COL := { "common": "grey", "rare": "cyan", "epic": "purple", "legend": "gold", "mythic": "red" }
+const RARITY_HEX := { "common": "#8b8f9c", "rare": "#4d9be6", "epic": "#a35bd6", "legend": "#f2c94c", "mythic": "#ff3a4a" }
+const RARITY_NAME := { "common": "COMMON", "rare": "RARE", "epic": "EPIC", "legend": "LEGENDARY", "mythic": "MYTHIC" }   # 27: mythic items
 
 ## ai names map to EnemyAI.ai_* functions.
 const ENEMIES := {

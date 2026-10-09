@@ -744,7 +744,7 @@ func _draw_weapon(ci: CanvasItem, p: Player) -> void:
 	# Aiming left is the mirror image of aiming right: the flipped sprite turns the other
 	# way round. (The first port turned it the same way, so a weapon aimed up-left pointed down-left.)
 	var rot := (p.aim_a - PI) + PI / 4 if left else p.aim_a - PI / 4
-	if GameData.rogues() and p.weapon.get("rarity", "") == "legend":
+	if GameData.rogues() and p.weapon.get("rarity", "") in ["legend", "mythic"]:
 		# Rogues layer: legendary weapons glow in their theme's colour.
 		var th := WeaponFx.theme_of(WeaponFx.weapon_tag(p.weapon))
 		var gc := TB.c(th["cols"][0] if not th.is_empty() else "#f2c94c")

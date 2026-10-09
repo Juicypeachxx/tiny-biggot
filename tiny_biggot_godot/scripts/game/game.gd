@@ -1521,7 +1521,7 @@ func price(v: float) -> int:
 	return maxi(1, roundi(v * (1 - player.shop_disc)))
 
 func item_price(item: Dictionary) -> int:
-	var base: int = { "common": 26, "rare": 44, "epic": 68, "legend": 96 }[item["rarity"]]
+	var base: int = { "common": 26, "rare": 44, "epic": 68, "legend": 96, "mythic": 140 }[item["rarity"]]
 	return price(base + floor_index * 8)
 
 func drop_item(item: Dictionary, x: float, y: float) -> void:

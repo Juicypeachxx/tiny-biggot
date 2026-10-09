@@ -62,7 +62,7 @@ static func scaling(w: Dictionary) -> Dictionary:
 	for t in w["tags"]:
 		if TAG_ATTR.has(t):
 			g[TAG_ATTR[t]] = _up(g[TAG_ATTR[t]])
-	if w["rarity"] == "legend":
+	if w["rarity"] in ["legend", "mythic"]:
 		var best := "str"
 		for a in ATTRS:
 			if COEF[g[a]] > COEF[g[best]]:

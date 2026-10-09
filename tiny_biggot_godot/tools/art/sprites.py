@@ -1513,3 +1513,32 @@ for _n, _pal, _from in [
 ]:
 	S["w_" + _n] = (_pal, S[_from][1])
 
+# ---- Stage 27 (his word, 9 Oct): MYTHIC weapons and armor (red-gold glow), more weapons; recolours, one new boot.
+S["g_voidstriders"] = ("main:#3a2a5a second:#a35bd6 glow:#e8c8ff halo:1", [
+"............", "............", "...oooo.....", "...o23o.....", "...o23o.....", "...o23o.....",
+"...o23oooo..", "...o2333yoo.", "..o2222222o.", "..oaaaaaaaao", "..oooooooooo", "............"])
+for _n, _pal, _from in [
+	("worldender", "main:#8a2a33 metal:#c8a060 glow:#ff3a4a halo:1", "w_steamcannon"),
+	("dawnbow", "main:#f2c94c wood:#fff07a glow:#ffffff halo:1", "w_repeater"),
+	("eternityedge", "main:#c8f0ff metal:#ffffff glow:#ff3a4a halo:1", "w_wyrmfang"),
+	("abyssstaff", "main:#1a1028 wood:#5c3483 glow:#ff3a4a halo:1", "w_eventhorizon"),
+	("dragonlance", "main:#d8443c glow:#ffd040 halo:1", "w_seraphlance"),
+	("thunderking", "main:#2b4f8a gold:#f2c94c glow:#fff07a halo:1", "w_archstaff"),
+	("starshell", "main:#8a6a4a metal:#c8a060 glow:#ff8a3a", "w_tickbomb"),
+	("frostfoam", "main:#9fd8f0 metal:#c8f0ff glow:#ffffff", "w_cogthrower"),
+	("runedeck", "main:#3a1a5a bone:#f4ecd8 glow:#ff6fc8", "w_chaoscodex"),
+	("spectralrepeater", "main:#c8f0ff metal:#e8f4ff glow:#7ff0ff", "w_escapement"),
+	("viperbow", "main:#4fae46 wood:#2f6b3a glow:#b8e05a", "w_repeater"),
+	("voidhammer", "main:#3a2a5a metal:#a35bd6", "w_greataxe"),
+]:
+	S["w_" + _n] = (_pal, S[_from][1])
+for _n, _pal, _from in [
+	("stormcrown", "main:#f2c94c second:#2b4f8a glow:#fff07a halo:1", "g_admiralhat"),
+	("eternalaegis", "main:#c8d8f0 glow:#ff3a4a halo:1", "g_golemplate"),
+	("makergauntlets", "main:#c8a060 glow:#ff3a4a", "g_fiendchains"),
+	("elementring", "main:#ff5a3a glow:#6fd84a halo:1", "g_binderthread"),
+	("phoenixheart", "main:#e8873a glow:#ff3a4a halo:1", "g_phoenixplume"),
+	("firststar", "main:#fff07a glow:#ffffff halo:1", "g_shelversarm"),
+]:
+	S["g_" + _n] = (_pal, S[_from][1])
+

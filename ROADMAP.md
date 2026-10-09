@@ -1093,6 +1093,19 @@ cool effects, add new effects and synergies")
       tools/check.sh first (content_test lints the new rows), the core replays re-recorded on
       purpose. IPA 26.
 
+## Stage 27 (his word, 9 Oct: "can we add mythic armors and other weapons")
+- [x] 27.1 A MYTHIC item rarity (red, above legendary): guardians drop one 8 times in 100, elites 3,
+      ordinary drops from floor 7 (1, 2, 3... deeper); prices, pawn, names and colours know it;
+      mythic weapons glow in the hand and grade S like legends. Expanded game only.
+- [x] 27.2 Seven MYTHIC armor pieces, one a slot (CROWN OF THE STORM KING, AEGIS OF ETERNITY,
+      STRIDERS OF THE VOID, GAUNTLETS OF THE MAKER, RING OF ALL ELEMENTS, HEART OF THE PHOENIX,
+      SHARD OF THE FIRST STAR), six MYTHIC weapons (WORLD-ENDER, BOW OF THE DAWN GOD, ETERNITY'S
+      EDGE, STAFF OF THE ABYSS, DRAGONLORD'S LANCE, SCEPTER OF THE THUNDER KING) and six more of
+      other kinds (STARSHELL MORTAR, FROSTFOAM GUN, DECK OF RUNES, SPECTRAL REPEATER, VIPER'S BOW,
+      HAMMER OF THE VOID), most casting the spellbook's spells. Icons: recolours and one new boot.
+- [ ] 27.3 Only compiled at his word (import, atlas test, two 30 s runs: no errors). He tests on the
+      iPad. IPA 27.
+
 ---
 
 ## Log
