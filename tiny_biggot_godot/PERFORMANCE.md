@@ -113,3 +113,32 @@ after the 17.1 fixes:
 Fixes: a pond's still parts (bank, water, pads, reeds, dock, lantern posts) are drawn once with
 the room's background; pots, kegs and coin heaps are drawn with the doors (redrawn only when one
 breaks); a chaos chain's links are rects (they batch) instead of an arc per link.
+
+## 32.2 Speed check after Stages 24-31 (9 Oct)
+
+What breaks a batch in Godot 4.6 GL Compatibility (measured, 200 shapes each): rects, lines and
+4-point primitives batch (1 draw call); every circle, polygon or polyline is a call of its own;
+switching between rects and lines/primitives starts a new batch each time.
+
+| Scene (desktop, --perf medians) | before | after |
+|---|---|---|
+| Heavy build fight (`--heavy --floor=8 --room=combat`), draw calls | 461 | 212 |
+| Ordinary fight (floor 4, bot), draw calls | 79 | 54 |
+| Arsenal weapon with +999 projectiles, logic ms a tick (worst tick) | 3.66 (50) | 1.15 (12) |
+
+Fixes:
+- THE FLOOR BAKE (world_view `_bake`, `_floor`): the room's tiles and the remains and scorch
+  marks of fallen foes are drawn into a 448x288 picture, again only when one changes (dyn_dirty)
+  or on a room change. The tiles inside it are their own picture drawn on entering the room, as
+  the bg layer was. Pixel for pixel the same: 3601 frames of a seeded run compared byte for byte
+  with `--no-floor-bake`.
+- `Combat._volley_full`: a volley that fills the shot cap part-way merges the rest at once.
+
+Tools: `--calls-probe[=TICK]` freezes the scene at TICK and prints the draw calls each world layer
+costs; `tests/shot_stress_profile.tscn -- --weapon=ID [--extra=999] [--heavy] [--foes=N]`;
+`tests/heavy_profile.tscn` now lists its slowest ticks by section.
+
+Left as it is: in the heavy profile (40 random relics against 14 sturdy foes) a tick where 10+
+shots land at once costs 14-17 ms here, nearly all of it the build's own on-hit procs (chains,
+explosions, on_hit and on_crit effects). That is the chaos itself; the proc budget already
+bounds it.

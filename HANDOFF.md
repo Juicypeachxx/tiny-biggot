@@ -1252,6 +1252,40 @@ gh. No rule changed: replays untouched. IPA 28 built; all 39 releases named.
   scratchpad's icons script: `all_for("D")`, then copy `w_*.png` to assets/graphics, import,
   bake). New test `tests/toys_test.tscn` in check.sh.
 
+### Stage 32 (9 Oct): performance and stability check (his word: "now do performance and stability check and update it")
+Done by another session (the port's), which took over from v31 on claude/dev.
+- 32.1 The full check after Stages 24-31 (they were only compiled) found 18 failures; all fixed.
+  Item data: HEART OF THE PHOENIX had slot "amulet" (unknown: never wearable), now "neck";
+  SKYBREAKER ORB's text had a ';'; the Stage 31 weapon id `voodoodoll` clashed with the trinket
+  of that id: the weapon is now `stitcheddoll` (icon renamed, tools/art/sprites.py too, atlas
+  baked); the Stage 26 trait STARCALLER shared a weapon's name: COMET CALLER. Rules: common SUPER
+  traits come from level 2 again (Stage 29 dropped that gate by accident). Trait cards: a found
+  hidden combo whose partner is a weapon (Stage 26) names the weapon and shows COMBO READY while
+  you hold it (trait_view). Tests: the Stage 29 OATH pick that opens every run stopped seven
+  older tests (they waited on the pick screen); they now start past it, and combos_test accepts
+  a trait paired with a weapon.
+- 32.2 Speed. (a) `Combat._volley_full`: a volley with very many projectiles (the arsenal test's
+  +999) that fills the shot cap part-way merges the rest at once (they merged one by one, each
+  making a stand-in object: 700 in one tick, a 50 ms stall). Dice still rolled, so the same
+  game. Arsenal +999: 3.7 -> 1.2 ms a tick, worst 50 -> 12 ms. (b) THE FLOOR BAKE (world_view
+  `_bake`, `_floor`): the tiles and the remains and scorch marks are drawn into a 448x288
+  picture, again only on dyn_dirty or a room change, and the bg layer shows it. In GL
+  Compatibility every circle or polygon is a draw call of its own and each change between rects
+  and lines/primitives breaks a batch (measured: 200 rects or lines = 1 call, 200 circles = 200);
+  remains are circles, lines and dots, ~255 of a heavy fight's ~465 calls. The tiles are their
+  own picture inside the bake, drawn once on entering the room, as bg was (some of what _paint_bg
+  reads changes in a fight: redrawing it later changed pixels). Median draw calls: heavy fight
+  461 -> 212, ordinary fight 79 -> 54; 3601 frames of a seeded run byte for byte identical with
+  and without (`--no-floor-bake`). Tools: `--calls-probe[=TICK]` (freezes the scene, prints the
+  draw calls each world layer costs), `tests/shot_stress_profile.tscn`, heavy_profile lists its
+  slowest ticks by section. Heavy profile (40 relics, 14 sturdy foes): 6.2-6.9 ms a tick here;
+  its slow ticks (14-17 ms) are the build's own on-hit procs when 10+ shots land at once (chains,
+  explosions, on_hit/on_crit effects): the chaos itself, left as it is.
+  The sprite atlas is 1024x4096 but only 56% used (power-of-two height): room for ~1500 more.
+- 32.3 Stability: tools/dev/soak.sh now runs every hero (30); 49 runs (5 min each, all heroes,
+  11 rift worlds, classic, plain drawing, loops 1-3, weapon cycling) with 0 errors. Monkey soak:
+  see the log below.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

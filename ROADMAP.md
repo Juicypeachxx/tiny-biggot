@@ -1075,7 +1075,7 @@ just compile" and "add new effect system")
       STORMFIRE ROD) and nine melee (THUNDERFANG, FROSTBRAND, VOID SCYTHE, EMBER PIKE, QUAKE HAMMER,
       SERPENT LASH, TWIN FANGS, GIANTSBANE, STEAMFORGED BLADE); several carry two ailments that
       react. Icons recoloured from existing shapes (tools/art/sprites.py), atlas baked.
-- [ ] 25.3 At his word only compiled (import, atlas test, 20 s runs with three of the weapons): the
+- [x] 25.3 At his word only compiled (import, atlas test, 20 s runs with three of the weapons): the
       next session runs tools/check.sh (content_test lints every new row) and re-records the core
       replays on purpose (new items and reactions change the fights). IPA 25.
 
@@ -1089,7 +1089,7 @@ cool effects, add new effects and synergies")
       REACTION), six MYTHIC (ASCENDANT, WORLDBREAKER, CHRONOMANCER, PRISMATIC SOUL, ELEMENTAL
       AVATAR, SERPENT KING) and nine hidden synergies (STEAM ENGINE, PLAGUE STORM, DANCE OF BLADES,
       STARFORGE, THE ABYSS, FROZEN HOUR, WYRMFIRE, HAND OF GOD, REACTOR).
-- [ ] 26.3 Only compiled (import; 30 s runs with the new traits given, no errors). Next session:
+- [x] 26.3 Only compiled (import; 30 s runs with the new traits given, no errors). Next session:
       tools/check.sh first (content_test lints the new rows), the core replays re-recorded on
       purpose. IPA 26.
 
@@ -1103,7 +1103,7 @@ cool effects, add new effects and synergies")
       EDGE, STAFF OF THE ABYSS, DRAGONLORD'S LANCE, SCEPTER OF THE THUNDER KING) and six more of
       other kinds (STARSHELL MORTAR, FROSTFOAM GUN, DECK OF RUNES, SPECTRAL REPEATER, VIPER'S BOW,
       HAMMER OF THE VOID), most casting the spellbook's spells. Icons: recolours and one new boot.
-- [ ] 27.3 Only compiled at his word (import, atlas test, two 30 s runs: no errors). He tests on the
+- [x] 27.3 Only compiled at his word (import, atlas test, two 30 s runs: no errors). He tests on the
       iPad. IPA 27.
 
 ## Stage 28 (his word, 9 Oct: "Can vo name versions of the game with latest tweaks and version number")
@@ -1129,7 +1129,7 @@ cool effects, add new effects and synergies")
 - [x] 29.3 54 new traits: 19 OATHS (FLAME, FROST, VENOM, THUNDER, BLOOD, THE SWARM, STEEL, SHADOWS,
       THE ARCHMAGE, GREED, THE DUELIST, RAGE, RUIN, THE HEXER, THE GRAVE, THE ENGINEER, THE
       HOURGLASS, CHAOS, DAWN) and 35 more, common to mythic.
-- [ ] 29.4 Only compiled at his word (import; a 30 s bot run; a 30 s run with all 54 new traits
+- [x] 29.4 Only compiled at his word (import; a 30 s bot run; a 30 s run with all 54 new traits
       at once; twelve hidden rooms; pictures of the oath pick and a hoard: no errors). IPA 29.
       Next session: the full check (content_test lints the new rows and their texts) and the core
       replays re-recorded (the oath pick, the offers and the hidden rooms change every run).
@@ -1145,7 +1145,7 @@ cool effects, add new effects and synergies")
 - [x] 30.2 THE TRAIT BOOK: the codex's fourth page, TRAITS. All 256 traits and oaths, rarest first,
       lit once a pick has shown them; how often each was taken; the chosen one's text, and an
       oath's vow and awakening. Keys and taps. `--ui=traitbook`.
-- [ ] 30.3 Compiled; oaths test passed; 30 s bot runs; pictures of the trait book and the vow
+- [x] 30.3 Compiled; oaths test passed; 30 s bot runs; pictures of the trait book and the vow
       lines. IPA 30. The full check and the core replay re-record still wait (see 29.4).
 
 ## Stage 31 (his word, 9 Oct: "Can you add more fun and crazy weapons with cool effects and new effects 20+")
@@ -1160,9 +1160,20 @@ cool effects, add new effects and synergies")
       ones on old kinds that let toys loose (THE FISH SLAPPER, RUBBER CHICKEN, CONFETTI CANNON,
       PINATA STICK, BOTTLED TWISTER, BLACKSMITH'S REVENGE, PARTY HORN, CURSED CROSSBOW, BOW OF
       ELSEWHERE, BUZZ BLADE). 26 icons (19 drawn, 7 recoloured), atlas baked.
-- [ ] 31.3 Compiled; atlas test passed; new test `tests/toys_test.tscn` (in check.sh) passed: all
+- [x] 31.3 Compiled; atlas test passed; new test `tests/toys_test.tscn` (in check.sh) passed: all
       26 fired in a live fight, every kind did its thing; pictures of four in a fight. IPA 31.
       The full check and the core replay re-record still wait (see 29.4).
+
+## Stage 32 (his word, 9 Oct: "now do performance and stability check and update it, then we will work on some new additions")
+- [x] 32.1 The full check after Stages 24-31 (25.3-31.3 waited for it): 18 failures, all fixed
+      (item data, a lost rule gate, combo cards with a weapon partner, tests behind the oath pick).
+- [x] 32.2 Speed: big volleys at the shot cap merge at once (a 50 ms stall gone); THE FLOOR BAKE:
+      tiles, remains and scorch marks drawn into one picture, so they no longer cost draw calls
+      every frame (heavy fight 461 -> 212, ordinary 79 -> 54; the picture byte for byte the same).
+- [x] 32.3 Stability: the soak over all 30 heroes, the rift worlds, classic and loops (49 runs, no
+      error); the monkey soak (random buttons) over the menus and the new content.
+- [ ] 32.4 The full check passes, the core replays re-recorded (Stages 24-31 changed every fight
+      on purpose; the classic ones identical), IPA 32. Then his new additions.
 
 ---
 

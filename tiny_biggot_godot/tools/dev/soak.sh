@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Long soaks without a screen (ROADMAP 3.3): every hero (on floors 0-10 in turn; ten with a pet), all 11 rift
+# Long soaks without a screen (ROADMAP 3.3): every hero (on floors 0-10 in turn; ten with a pet; $HEROES, default 30), all 11 rift
 # worlds, --classic, FAST DRAWING and FANCY EFFECTS off, loops 1-3. Each run is TICKS of game
 # time (default 36000 = 10 minutes) with the bot and --god, --weapon-cycle=1 in about half.
 # Then one run of OBJ_TICKS (default 108000 = 30 minutes) prints the object count every minute.
@@ -16,7 +16,7 @@ rm -rf "$OUT"; mkdir -p "$OUT"
 
 runs=()
 pets=(biscuit zappy cindertail bramble glimmer gulp gloop hoots snip kaboomba)
-for h in $(seq 0 13); do
+for h in $(seq 0 $((${HEROES:-30} - 1))); do   # 32.3: every hero (30 after Stage 31)
   wc=""; [ $((h % 2)) -eq 1 ] && wc="--weapon-cycle=1"
   pet=""; [ $h -lt 10 ] && pet="--pet=${pets[$h]}:$((h % 3 + 1))"
   runs+=("hero$h --hero=$h --floor=$((h % 11)) --seed=$((h + 1)) $wc $pet")
