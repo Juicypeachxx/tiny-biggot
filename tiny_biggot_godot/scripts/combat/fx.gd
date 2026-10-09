@@ -39,6 +39,8 @@ static func _ensure() -> void:
 
 static func clear() -> void:
 	n = 0
+	for t in texts:
+		t["life"] = 0.0   # (a foe's newest number, Fx.hit_text, is gone with them)
 	texts.clear()
 
 static func particle(x: float, y: float, vx: float, vy: float, life: float, col: String,
@@ -69,6 +71,23 @@ static func burst(x: float, y: float, cols: Array, count: int = 8, speed: float 
 ## big: crits are drawn at double size with a small pop (drawing only).
 static func float_text(x: float, y: float, text: Variant, col: String = "white", big: bool = false) -> void:
 	texts.append({ "x": x + TB.rint(-3, 3), "y": y, "text": str(text), "col": col, "life": 0.7, "big": big })
+
+## 39.4 (his video, 9 Oct 18:20: a guardian hit some 200 times a second wore a block of gold numbers
+## piled on one spot). Expanded game: a foe's hits of one colour in the first MERGE_T seconds of its
+## newest number add up in that number, which then floats off as before; the next hit starts a new
+## one. Every hit still counts and shows. The nudge is rolled all the same, so the game's dice roll
+## exactly as before.
+const MERGE_T := 0.3
+static func hit_text(e: Enemy, x: float, y: float, dmg: float, col: String, big: bool) -> void:
+	var nudge := TB.rint(-3, 3)
+	var t = e.num
+	if t != null and t["col"] == col and t["big"] == big and t["life"] > 0.7 - MERGE_T:
+		t["sum"] += dmg
+		t["text"] = TB.fmt_dmg(t["sum"])
+		return
+	t = { "x": x + nudge, "y": y, "text": TB.fmt_dmg(dmg), "col": col, "life": 0.7, "big": big, "sum": dmg }
+	texts.append(t)
+	e.num = t
 
 static func update(dt: float) -> void:
 	# Local references: reading a static member costs far more than a local in GDScript.
@@ -108,6 +127,8 @@ static func update(dt: float) -> void:
 		else:
 			i += 1
 	if texts.size() > TEXT_MAX:
+		for k in texts.size() - TEXT_MAX:
+			texts[k]["life"] = 0.0   # (so no foe adds to a number no longer shown)
 		texts = texts.slice(texts.size() - TEXT_MAX)
 
 static func _drop_oldest(k: int) -> void:

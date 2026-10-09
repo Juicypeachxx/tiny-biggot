@@ -368,8 +368,10 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	if e.guard_t > 0 or e.d.has("rule"):
 		dmg = EnemyAI2.adjust_damage(e, dmg)   # shields, a deacon's guard, a dizzy dervish
 	var gate := Stages.gate(e)   # read before the blow: a dead boss has no stage left
-	if GameData.rogues() and e.type != "dummy":
-		G.run_stats["dealt"] = G.run_stats.get("dealt", 0.0) + minf(dmg, e.max_hp * 2.0)   # Combat.power: what you really deal
+	if GameData.rogues() and e.type != "dummy" and not (gate > 0.0 and e.hp <= gate):
+		# Combat.power: what you really deal. 39.4: not a blow on a foe held at its stage line, which
+		# takes nothing off (his video, 9 Oct: such blows made every foe after it tougher).
+		G.run_stats["dealt"] = G.run_stats.get("dealt", 0.0) + minf(dmg, e.max_hp * 2.0)
 	e.hp -= Armor.soak(e, dmg, gate, Armor.weak_hit(e, o, crit))
 	Lives.on_hurt(e)   # 21.5: a call for help
 	e.mend_t = 0.0   # a mending elite waits again (elite_traits.gd)   # boss armor: most of a blow wears the plate down (armor.gd)
@@ -381,7 +383,10 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	if o.has("kx") and not e.is_boss():
 		e.kx += o["kx"]
 		e.ky += o["ky"]
-	Fx.float_text(e.x, e.y - e.r - 6, TB.fmt_dmg(dmg), "gold" if crit else o.get("col", "white"), crit)
+	if GameData.rogues():
+		Fx.hit_text(e, e.x, e.y - e.r - 6, dmg, "gold" if crit else o.get("col", "white"), crit)   # 39.4: hits add up
+	else:
+		Fx.float_text(e.x, e.y - e.r - 6, TB.fmt_dmg(dmg), "gold" if crit else o.get("col", "white"), crit)
 	if not o.get("silent", false):
 		Snd.play("hit")
 	if crit:
@@ -745,7 +750,8 @@ static func update_enemies(dt: float) -> void:
 				Fx.hide = Vfx.enabled   # Vfx draws orbiting stars instead
 				Fx.particle(e.x + cos(G.time * 8) * 6, e.y - e.r - 6, 0, 0, 0.05, "#f2c94c")
 				Fx.hide = false
-			continue
+			if not Stages.held(e):
+				continue   # 39.4: held at its stage line, it breaks into the next stage stunned or not
 		if Stages.tick(e, ddt):
 			continue   # a stage break (stages.gd): it shakes in place
 		e.t -= ddt

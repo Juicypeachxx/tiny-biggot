@@ -1265,7 +1265,7 @@ is removed: new things are added beside it. After Stage 35, in this order:
 - [ ] 38.3 DAMAGE SCALING GRADES (S to D) with a soft cap: **asked first** (a cap that lowers
       damage would tone builds down, rule 1). Without his yes, only the grade letters are shown.
 
-### Stage 39: more to find (IPA 39, "More to Find", built 9 Oct)
+### Stage 39: more to find (IPA 39, "More to Find", built 9 Oct; IPA 39.4 "Bosses Fall")
 - [x] 39.1 Helmets and body armour: 30 or more new ones (hats, crowns, masks, hoods, robes, plate).
       16 helmets (a pumpkin, a frog hood, a bee veil, a chef's hat, a miner's lamp...) and 16 body
       armours (plate, robes, a wolf pelt, an apron, a feather cloak...), each with its own picture.
@@ -1276,6 +1276,15 @@ is removed: new things are added beside it. After Stage 35, in this order:
       skull, berries...), counted by the companion stats of 34.2. 15: wisps, a beetle moon, a
       frost or gun turret, a skeleton, two ravens every fight, bees from kills, a berry sprite that
       heals, a dragon egg that breathes fire, and three that make every helper stronger or more.
+- [x] 39.4 His report (9 Oct, video 18:20: "There is a problem again, please fix scaling and bugs";
+      THE IRON CAPTAIN stayed at two thirds of its health while he hit it some 200 times a second).
+      A foe with stages stops at the line of its next stage until it breaks into it, and the break
+      was part of its turn, which a stun skips: stunned on every hit, it never broke and never
+      died (floor guardians and rift guardians too). Now a foe held at its stage line, or breaking
+      into the next stage, takes its turn stunned or not; stuns keep all their power everywhere
+      else. Blows on such a foe took nothing off but counted as damage dealt, which makes every
+      foe after it tougher (power_scale): no longer. A foe's quick hits add up in one number
+      instead of a block of gold numbers. IPA 39.4.
 
 ---
 

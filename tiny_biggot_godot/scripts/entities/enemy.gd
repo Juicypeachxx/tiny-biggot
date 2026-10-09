@@ -121,6 +121,7 @@ var stage := 1                 # a guardian's stage, 1-3 (BossAI.STAGE_PLANS; ex
 var pulse_t := 0.0             # stage 3: the next desperation pulse
 var break_t := 0.0             # a mini-boss or rift guardian between stages: unhurt, no AI (stages.gd)                # damage past its death (the "overkill" action, ROADMAP 4.7)
 var parts: Array = []          # what it carries: an anchor, a bell, the hydra's heads
+var num = null                 # 39.4: its newest damage number, which adds up the next hits (Fx.hit_text)
 
 func _init() -> void:
 	uid = _next_uid

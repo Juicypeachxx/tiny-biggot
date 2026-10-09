@@ -34,6 +34,21 @@ static func gate(e: Enemy) -> float:
 		return e.max_hp * 0.24 if e.stage <= 1 else 0.0
 	return e.max_hp * (0.66 if e.stage <= 1 else (0.33 if e.stage == 2 else 0.0))
 
+## 39.4 (his video, 9 Oct 18:20: THE IRON CAPTAIN, stunned without a break by a build that stuns
+## many times a second, stayed at two thirds of its health for good). A stun skips a foe's turn, and
+## breaking into its next stage was part of that turn. So a foe held at the line of its next stage,
+## or in the middle of breaking into it (a guardian's stage break, a rift guardian's second phase),
+## takes its turn stunned or not. Stuns keep all their power everywhere else.
+static func held(e: Enemy) -> bool:
+	if not GameData.rogues() or e.type == "dummy" or e.hp <= 0:
+		return false
+	if e.break_t > 0:
+		return true
+	if e.is_boss() and (e.state == &"stagebreak" or (e.state == &"phase" and RiftBosses.handles(e))):
+		return true
+	var line := gate(e)
+	return line > 0.0 and e.hp <= line
+
 ## Which of a guardian's looks to draw (his ask, 6 Oct: it evolves with its stages, <sprite>_s2 and
 ## _s3, tools/art/render.py EVOLVE): 1, 2 or 3. Rift guardians show their second look from their
 ## second phase. The Holy Cow risen stays at its worst.

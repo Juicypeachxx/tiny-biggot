@@ -83,6 +83,14 @@ func sync() -> void:
 			_lift[slot] = 4.0 if sc == 2 else 0.0
 			_amp[slot] = 5.0 if sc == 2 else 3.0
 			_active.append(slot)
+			t["drawn"] = t["text"]
+		elif t["text"] != t.get("drawn", t["text"]):
+			# 39.4: a number that adds up a foe's hits (Fx.hit_text) has new glyphs.
+			var sc := 2 if t.get("big", false) else 1
+			RenderingServer.canvas_item_clear(_items[slot])
+			_draw_glyphs(_items[slot], str(t["text"]).to_upper(), t["col"], sc)
+			_hw[slot] = (TB.text_w(t["text"], sc) + 1) / 2
+			t["drawn"] = t["text"]
 		_seen[slot] = _tick
 		var life: float = t["life"]
 		# Pop: numbers jump up a few pixels in their first 0.12 s, then drift.

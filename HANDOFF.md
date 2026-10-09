@@ -1,8 +1,9 @@
 # Handoff: where the work stands
 
-**9 Oct, Stage 39 done (IPA 39 "More to Find"), after 38 "Alignment and Loot" (38.3 waits for
-his word), 37 "Offhands and Charms", 36 "Food and Drink" and 35 "Dice and Pace" (the full check
-passed at 35).** Next: his word on 38.3, then whatever he asks for after testing on the iPad.
+**9 Oct, Stage 39 done (IPA 39 "More to Find", then IPA 39.4 "Bosses Fall": his video of an
+unkillable stunned mini-boss), after 38 "Alignment and Loot" (38.3 waits for his word), 37
+"Offhands and Charms", 36 "Food and Drink" and 35 "Dice and Pace" (the full check passed at 35).**
+Next: his word on 38.3, then whatever he asks for after testing on the iPad.
 
 **His word, 9 Oct: "Just compile after add, I'll test it."** Until he says otherwise: after adding
 content, only compile (import; a short run that starts the game) and build the IPA. He tests on the
@@ -1489,6 +1490,27 @@ Done by another session (the port's), which took over from v31 on claude/dev.
   minion_speed (legion.gd). New condition "fight_room" (Effects._cond: G.locked): on_room_enter
   runs before a fight's foes are out, so "fighting" was always false there.
 - Art tools/art/stage39_items.py (68 pictures, 12 px each). Test tests/stage39_test.tscn.
+
+### 39.4 (9 Oct): bosses fall (his video, 18:20)
+- What the video showed: floor 8, THE IRON CAPTAIN (Ashen Warfront's mini-boss) at 66% for the
+  whole clip, a block of gold numbers on it, his build ~25 shots a second x 8, crit 314%, many
+  stuns (FREEZE!, CHIME STAFF...). "WORST 4634" on the speed line: the clip's first half second
+  is a still frame (the phone's recording banner), so that was the recording starting, not the game.
+- Cause: Stages.gate holds a staged foe at its next stage line until it breaks into that stage;
+  the break runs in its turn (Stages.tick for minis and rift guardians, BossAI.update_boss for
+  floor guardians, RiftBosses.update for a rift guardian's second phase), and
+  Combat.update_enemies skipped the turn of a stunned foe. Stunned on every hit: never broke.
+- Fix: Stages.held(e) (held at its line, or in a stage break, or a rift guardian's "phase"):
+  update_enemies lets such a foe take its turn while stunned. Classic: held() is false.
+- Combat.damage_enemy no longer adds a blow on a foe held at its line to run_stats "dealt" (it took
+  nothing off, yet fed Combat.power and so power_scale: every foe after it got tougher).
+- Fx.hit_text (expanded game): a foe's hits of one colour in the first 0.3 s of its newest number
+  add up in it (Enemy.num); FloatTexts redraws a number whose text changed. The nudge roll is
+  made as before, so the game's dice are unchanged; classic keeps Fx.float_text.
+- Test tests/stunlock_test.tscn (in check.sh): four staged foes stunned every tick and hit hard
+  all die (4.6 to 7.4 s), a stun still holds a foe above its line, held blows count nothing, and
+  100 hits in a moment make one number. Classic replays identical; core replays already differed
+  (new content since 36, re-recording waits for his word).
 
 ## Noted, not yet acted on
 
