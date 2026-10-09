@@ -1509,8 +1509,8 @@ Done by another session (the port's), which took over from v31 on claude/dev.
   made as before, so the game's dice are unchanged; classic keeps Fx.float_text.
 - Test tests/stunlock_test.tscn (in check.sh): four staged foes stunned every tick and hit hard
   all die (4.6 to 7.4 s), a stun still holds a foe above its line, held blows count nothing, and
-  100 hits in a moment make one number. Classic replays identical; core replays already differed
-  (new content since 36, re-recording waits for his word).
+  100 hits in a moment make one number. Classic replays identical. Core replays re-recorded on
+  purpose after the 39.4 build (Stage 39's new items and this fix; they matched at 38).
 
 ## Noted, not yet acted on
 
