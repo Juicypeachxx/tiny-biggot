@@ -550,6 +550,28 @@ const ROWS := [
 	["hivesmoker", "HIVE SMOKER", "flame", "rare", ["swarm", "venom"], "handcannon", { "dmg": 1.4, "rate": 9.0 }, [["poison", 1]], [], "PUFFS SMOKE THAT SOOTHES BEES AND CHOKES EVERYTHING ELSE.", [], "w_firespitter"],
 	["rivetgun", "RIVET GUN", "bolt", "rare", ["swarm"], "pistol", { "dmg": 3.8, "rate": 4.5 }, [], [], "FIRES HOT RIVETS FAST.", [], "w_repeater"],
 	["inkquill", "INKWELL QUILL", "orb", "rare", ["venom", "arcane"], "staff", { "dmg": 3.4, "rate": 3.4, "homing": 0.5 }, [["poison", 1]], [], "BOLTS OF INK THAT CURVE TOWARD FOES AND POISON THEM.", [], "w_inkspout"],   # 18.2 the Inkling
+	# 39.2 MAGIC WEAPONS (his word, 9 Oct: pictures of wands, staves, tomes, scrolls and instruments; our own).
+	["acornwand", "ACORN WAND", "orb", "common", ["swarm"], "wand", { "dmg": 3.4, "rate": 3.4 }, [], [], "BOLTS OF SEED. 10% OF HITS SPROUT A THORN SPRITE THAT FIGHTS FOR 8S.", [{ "on": "on_hit", "chance": 0.1, "cd": 1.0, "do": [["summon", 8.0]] }], "w_acornwand"],
+	["rowanwand", "ROWAN WAND", "orb", "common", ["edge"], "wand", { "dmg": 2.6, "rate": 5.0, "homing": 0.6 }, [], [["mark", 0.15]], "QUICK BOLTS THAT MARK FOES: MARKED FOES TAKE +15% DAMAGE.", [], "w_rowanwand"],
+	["thornwand", "BRIAR WAND", "orb", "rare", ["blood"], "wand", { "dmg": 3.6, "rate": 3.4 }, [], [], "THORNY BOLTS. 20% OF HITS BLEED.", [{ "on": "on_hit", "chance": 0.2, "do": [["status", "bleed", 1]] }], "w_thornwand"],
+	["swamprod", "SWAMP ROD", "zap", "common", ["venom"], "wand", {}, [], [], "ZAPS OF BOG GAS. 25% OF HITS POISON.", [{ "on": "on_hit", "chance": 0.25, "do": [["status", "poison", 1]] }], "w_swamprod"],
+	["rimewand", "RIME WAND", "rail", "rare", ["frost"], "wand", { "scaling": { "str": "-", "dex": "C", "int": "A" } }, [["chill", 0.25]], [], "PIERCING SHARDS OF ICE THAT CHILL.", [], "w_rimewand"],
+	["bloodrod", "BLOODSTONE ROD", "zap", "rare", ["blood"], "skullstaff", {}, [], [["leech", 0.008]], "RED ZAPS. NOW AND THEN A HIT HEALS YOU.", [], "w_bloodrod"],
+	["chimestaff", "CHIME STAFF", "pulse", "rare", ["arcane"], "orbstaff", {}, [], [], "RINGING PULSES. 12% OF HITS STUN.", [{ "on": "on_hit", "chance": 0.12, "do": [["status", "stun", 1]] }], "w_chimestaff"],
+	["tidescepter", "TIDE SCEPTER", "wave", "rare", ["frost"], "staff", {}, [["chill", 0.2]], [], "ROLLING WAVES OF COLD WATER THAT CHILL.", [], "w_tidescepter"],
+	["stargazer", "STARGAZER STAFF", "orb", "epic", ["arcane"], "orbstaff", { "dmg": 4.4, "rate": 3.0, "homing": 3.0 }, [], [], "HOMING STARS. EVERY 8TH CAST CALLS DOWN A COMET FOR 300%.", [{ "on": "every_n_shots", "every": 8, "do": [["meteor", 3.0, 40]] }], "w_stargazer"],
+	["sunorb", "SUNSTONE ORB", "orb", "epic", ["pyre"], "orbstaff", { "dmg": 4.6, "rate": 2.8, "size": 1.4 }, [["burn", 0.3]], [], "BIG SUN BOLTS THAT OFTEN BURN.", [], "w_sunorb"],
+	["crystalball", "CRYSTAL BALL", "orb", "epic", ["fortune", "arcane"], "orbstaff", { "dmg": 5.0, "rate": 2.4, "homing": 4.0, "size": 1.3 }, [["luck", 1]], [], "GREAT HOMING ORBS. +1 LUCK.", [], "w_crystalball"],
+	["voidstaff", "STAFF OF THE VOID", "beam", "legend", ["shadow"], "skullstaff", { "dmg": 1.8, "pierce": 99 }, [], [], "A BEAM THROUGH EVERY FOE. EVERY 2S IN A FIGHT, FOES NEAR YOU ARE DRAWN IN.", [{ "on": "every_n_seconds", "period": 2.0, "if": "fighting", "do": [["pull", 120, 160]] }], "w_voidstaff"],
+	["mooncandle", "MOON CANDLE", "flame", "rare", ["frost", "arcane"], "orbstaff", {}, [["chill", 0.2]], [], "A COLD BLUE FLAME THAT CHILLS.", [], "w_mooncandle"],
+	["galeharp", "HARP OF GALES", "wave", "epic", ["storm"], "rune", { "dmg": 4.0 }, [], [], "SONG WAVES. 15% OF HITS BLOW THE FOES AROUND YOU AWAY.", [{ "on": "on_hit", "chance": 0.15, "cd": 0.5, "do": [["push", 60, 260]] }], "w_galeharp"],
+	["squeezebox", "SQUEEZEBOX", "nova", "rare", ["fortune"], "rune", {}, [], [], "EVERY SQUEEZE A RING OF NOTES. 10% OF HITS MAKE FOES VULNERABLE.", [{ "on": "on_hit", "chance": 0.1, "do": [["status", "vulnerable", 1]] }], "w_squeezebox"],
+	["duskbell", "BELL OF DUSK", "pulse", "rare", ["malice"], "rune", {}, [], [], "DARK PEALS. 15% OF HITS CURSE.", [{ "on": "on_hit", "chance": 0.15, "do": [["status", "curse", 1]] }], "w_duskbell"],
+	["glasslute", "GLASS LUTE", "wave", "epic", ["arcane"], "rune", {}, [["ricochet", 2]], [], "SONG WAVES THAT BOUNCE OFF WALLS TWICE.", [], "w_glasslute"],
+	["dawnbeads", "BEADS OF DAWN", "nova", "rare", ["bulwark"], "rune", {}, [], [], "RINGS OF LIGHT. EVERY 10TH KILL HEALS HALF A HEART.", [{ "on": "on_kill", "every": 10, "do": [["heal", 1]] }], "w_dawnbeads"],
+	["emberscroll", "SCROLL OF EMBERS", "flame", "common", ["pyre"], "rune", {}, [["burn", 0.25]], [], "A SCROLL THAT BREATHES FIRE.", [], "w_emberscroll"],
+	["sparkscroll", "SCROLL OF SPARKS", "zap", "common", ["storm"], "rune", {}, [["chain", 0.3]], [], "A SCROLL OF SPARKS THAT ARC TO FOES NEARBY.", [], "w_sparkscroll"],
+	["mothbook", "BOOK OF MOTHS", "swarm", "rare", ["venom", "swarm"], "rune", {}, [], [], "A SWARM OF MOTHS. 20% OF HITS POISON.", [{ "on": "on_hit", "chance": 0.2, "do": [["status", "poison", 1]] }], "w_mothbook"],
 	["thoughtstone", "THOUGHTSTONE", "orb", "rare", ["arcane"], "orbstaff", { "dmg": 3.0, "rate": 3.0, "homing": 1.5 }, [], [], "BOLTS OF THOUGHT THAT CURVE TOWARD FOES.", [], "w_thoughtstone"],   # 33.1 the Mindwarden
 	["tankardmaul", "TANKARD MAUL", "slash", "rare", ["fury"], "sword", { "dmg": 11.0, "rate": 1.7 }, [], [], "A HEAVY MAUL WITH A TANKARD FOR A HEAD. WIDE, SLOW, LOUD.", [], "w_tankardmaul"],   # 33.2 the Tavern Knight
 	["quickcrossbow", "QUICKSILVER CROSSBOW", "bolt", "rare", ["edge"], "repeater", { "dmg": 2.2, "rate": 6.0 }, [], [], "LIGHT BOLTS, VERY FAST.", [], "w_quickcrossbow"],   # 34.1 the Trickshot

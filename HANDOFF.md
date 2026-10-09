@@ -1,8 +1,8 @@
 # Handoff: where the work stands
 
-**9 Oct, Stage 38 done (IPA 38 "Alignment and Loot"; 38.3 waits for his word), after 37 "Offhands
-and Charms", 36 "Food and Drink" and 35 "Dice and Pace" (the full check passed at 35).** Next:
-Stage 39 (more helmets, armour, magic weapons, companions).
+**9 Oct, Stage 39 done (IPA 39 "More to Find"), after 38 "Alignment and Loot" (38.3 waits for
+his word), 37 "Offhands and Charms", 36 "Food and Drink" and 35 "Dice and Pace" (the full check
+passed at 35).** Next: his word on 38.3, then whatever he asks for after testing on the iPad.
 
 **His word, 9 Oct: "Just compile after add, I'll test it."** Until he says otherwise: after adding
 content, only compile (import; a short run that starts the game) and build the IPA. He tests on the
@@ -1472,6 +1472,23 @@ Done by another session (the port's), which took over from v31 on claude/dev.
   DOWSING ROD (offhand). Art tools/art/stage38_icons.py. Test tests/alignloot_test.tscn.
 - 38.3 (a soft cap on attribute damage) is NOT done: it would lower damage of big builds (rule
   1). Asked him; until he says yes, nothing changes there.
+
+### Stage 39 (9 Oct): more to find (his pictures)
+- 39.1 32 helmets and body armours (scripts/data/gear.gd, the rows under "39.1", before
+  "firststar"): 16 head, 16 body, plain gear rows (stats, hooks, attr effects, a few procs).
+  Four first ids clashed with older pieces (hornedhelm, travelcloak, monkrobe, berserkerhide):
+  renamed BULL HELM, WANDERER'S CAPE, SAFFRON ROBE, WOLF PELT; the old ones and their pictures
+  are as they were.
+- 39.2 21 magic weapons (scripts/data/weapons.gd, under "39.2", before "thoughtstone"): kinds
+  orb, zap, rail, pulse, wave, beam, flame, nova and swarm; every one scales with INT first (the
+  RIME WAND, a rail, has an explicit "scaling" so it is not DEX). Two ids clashed and were renamed
+  RIME WAND and BEADS OF DAWN (the old ICICLE WAND and PRAYER BEADS are untouched).
+- 39.3 15 companions (scripts/data/relics.gd, under "39.3", before "jewelersloupe"): wisps
+  (familiars, fam_dmg), a moon, item turrets and a raised skeleton and two ravens on entering a
+  fight, bees from kills, a healing sprite, a fire-breathing egg, and minion_cap, minion_dmg,
+  minion_speed (legion.gd). New condition "fight_room" (Effects._cond: G.locked): on_room_enter
+  runs before a fight's foes are out, so "fighting" was always false there.
+- Art tools/art/stage39_items.py (68 pictures, 12 px each). Test tests/stage39_test.tscn.
 
 ## Noted, not yet acted on
 

@@ -218,6 +218,23 @@ const ROWS := [
 	["knucklebones", "epic", "KNUCKLEBONES", "EVERY FLOOR STARTS WITH A FREE DIE. EVERY DIE YOU USE HEALS HALF A HEART", [{ "on": "on_floor_start", "do": [["dice", "any", 1]] }, { "on": "on_dice", "do": [["heal", 1]] }], ["fortune", "blood"], "relic_knucklebones"],
 	# Stage 36 FOOD AND DRINK (scripts/game/food.gd).
 	# 37.2 CHARMS (scripts/data/charms.gd).
+	# 39.3 COMPANIONS (his word, 9 Oct: pictures of small companions; our own): each brings a helper,
+	# grown by the companion stats of 34.2 (legion.gd).
+	["acornpal", "common", "SQUIRREL ACORN", "+1 WISP: A SQUIRREL SPIRIT FLIES WITH YOU AND SHOOTS", [["add", "familiars", 1]], ["swarm"], "relic_acornpal"],
+	["glowshroom", "rare", "GLOW MUSHROOM", "EVERY FIGHT, A FROST TURRET GROWS BESIDE YOU FOR 20S", [{ "on": "on_room_enter", "if": "fight_room", "do": [["turret", "frost", 20.0, 1.0]] }], ["swarm", "frost"], "relic_glowshroom"],
+	["tinyskull", "rare", "TINY SKULL", "EVERY FIGHT, A SKELETON CLIMBS OUT BESIDE YOU FOR 25S", [{ "on": "on_room_enter", "if": "fight_room", "do": [["raise", 25.0, 0.8]] }], ["swarm", "malice"], "relic_tinyskull"],
+	["berrysprite", "common", "BERRY SPRITE", "EVERY 25S IN A FIGHT, A SPRITE BRINGS YOU HALF A HEART", [{ "on": "every_n_seconds", "period": 25.0, "if": "fighting", "do": [["heal", 1]] }], ["swarm"], "relic_berrysprite"],
+	["beetleshell", "common", "BEETLE SHELL", "+1 MOON: A BEETLE CIRCLES YOU AND STOPS SHOTS", [["add", "orbitals", 1]], ["bulwark"], "relic_beetleshell"],
+	["ravenfeather", "rare", "RAVEN FEATHER", "EVERY FIGHT, TWO RAVEN SPIRITS FIGHT BESIDE YOU FOR 12S", [{ "on": "on_room_enter", "if": "fight_room", "do": [["summon", 12.0], ["summon", 12.0]] }], ["swarm", "shadow"], "relic_ravenfeather"],
+	["beejar", "rare", "JAR OF BEES", "A QUARTER OF YOUR KILLS LET OUT A BEE FOR 6S", [{ "on": "on_kill", "chance": 0.25, "do": [["summon", 6.0]] }], ["swarm"], "relic_beejar"],
+	["luckyfrog", "common", "LUCKY FROG", "+1 LUCK. YOUR COMPANIONS DEAL +15% DAMAGE", [["add", "luck", 1], ["hook", "minion_dmg", 0.15]], ["fortune", "swarm"], "relic_luckyfrog"],
+	["ghostlamp", "epic", "GHOST LAMP", "+2 WISPS. WISPS DEAL +20% DAMAGE", [["add", "familiars", 2], ["add", "fam_dmg", 0.2]], ["swarm", "arcane"], "relic_ghostlamp"],
+	["clockmouse", "rare", "CLOCKWORK MOUSE", "EVERY FIGHT, A GUN TURRET FOLLOWS YOU IN FOR 20S", [{ "on": "on_room_enter", "if": "fight_room", "do": [["turret", "gun", 20.0, 1.0]] }], ["swarm", "edge"], "relic_clockmouse"],
+	["dragonegg", "legend", "DRAGON EGG", "EVERY 6S IN A FIGHT, A WHELP BREATHES FIRE: FOES NEAR YOU BURN", [{ "on": "every_n_seconds", "period": 6.0, "if": "fighting", "do": [["status_area", "burn", 2, 90], ["vfx", "ring", "#e8873a", 90]] }], ["pyre", "swarm"], "relic_dragonegg"],
+	["snailshell", "common", "SNAIL SHELL", "EVERY FLOOR STARTS WITH +1 ARMOR. +1 COMPANION AT ONCE", [{ "on": "on_floor_start", "do": [["armor", 1]] }, ["hook", "minion_cap", 1]], ["bulwark", "swarm"], "relic_snailshell"],
+	["fireflyjar", "common", "FIREFLY JAR", "+1 WISP. +10% BURN CHANCE", [["add", "familiars", 1], ["add", "burn", 0.1]], ["pyre", "swarm"], "relic_fireflyjar"],
+	["wiseowl", "rare", "WISE OWL", "+1 WISP. +1 INT. WISPS DEAL +10% DAMAGE", [["add", "familiars", 1], ["attr", "int", 1], ["add", "fam_dmg", 0.1]], ["arcane", "swarm"], "relic_wiseowl"],
+	["hermitcrab", "rare", "HERMIT CRAB", "+1 COMPANION AT ONCE. COMPANIONS ATTACK 20% FASTER", [["hook", "minion_cap", 1], ["hook", "minion_speed", 0.2]], ["swarm", "bulwark"], "relic_hermitcrab"],
 	["jewelersloupe", "rare", "JEWELER'S LOUPE", "+30% MAGIC FIND: RARER ITEMS. +1 LUCK", [["hook", "magic_find", 0.3], ["add", "luck", 1]], ["fortune"], "relic_jewelersloupe"],
 	["charmbracelet", "rare", "CHARM BRACELET", "+2 CHARM SLOTS", [["hook", "charm_slots", 2]], ["fortune"], "relic_charmbracelet"],
 	["picnicbasket", "common", "PICNIC BASKET", "EVERY FLOOR STARTS WITH TWO FOODS BESIDE YOU", [{ "on": "on_floor_start", "do": [["drop", "food"], ["drop", "food"]] }], ["bulwark"], "relic_picnicbasket"],

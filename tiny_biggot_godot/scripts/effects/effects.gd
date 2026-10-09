@@ -69,7 +69,8 @@ const CONDITIONS := ["elite", "boss", "burning", "poisoned", "chilled", "bleedin
 	"close", "far", "fresh", "last_foe", "crowd", "unhurt", "coin",   # ROADMAP 4.7
 	"lead_good", "lead_evil", "lead_law", "lead_chaos", "devout",   # 8.1 alignments
 	"gloomy",   # 11.2
-	"tipsy", "very_tipsy"]   # 33.2 THE TAVERN
+	"tipsy", "very_tipsy",   # 33.2 THE TAVERN
+	"fight_room"]   # 39.3: this room is a fight (its foes may not be out yet: on_room_enter)
 
 static var depth := 0
 static var budget := BUDGET
@@ -227,6 +228,7 @@ static func _cond(c: String, ctx: Dictionary) -> bool:
 		"crit": return ctx.get("crit", false)
 		"danger": return EBullets.any_near(p.x, p.y, 30.0)   # a shot is close: perfect dodge
 		"fighting": return G.enemies_active()
+		"fight_room": return G.locked   # 39.3: a fight's door shuts as you come in, before its foes are out
 		"hot": return p.heat >= 3
 		"rich": return Combat.held_gold(p) >= 100
 		"armored": return p.armor > 0

@@ -1265,12 +1265,17 @@ is removed: new things are added beside it. After Stage 35, in this order:
 - [ ] 38.3 DAMAGE SCALING GRADES (S to D) with a soft cap: **asked first** (a cap that lowers
       damage would tone builds down, rule 1). Without his yes, only the grade letters are shown.
 
-### Stage 39: more to find (IPA 39)
-- [ ] 39.1 Helmets and body armour: 30 or more new ones (hats, crowns, masks, hoods, robes, plate).
-- [ ] 39.2 Magic weapons: 20 or more (wands, staves, tomes, scrolls, a lute, an accordion, bells,
-      a harp).
-- [ ] 39.3 Companions: 15 or more small things that each bring a helper (an acorn, a mushroom, a
-      skull, berries...), counted by the companion stats of 34.2.
+### Stage 39: more to find (IPA 39, "More to Find", built 9 Oct)
+- [x] 39.1 Helmets and body armour: 30 or more new ones (hats, crowns, masks, hoods, robes, plate).
+      16 helmets (a pumpkin, a frog hood, a bee veil, a chef's hat, a miner's lamp...) and 16 body
+      armours (plate, robes, a wolf pelt, an apron, a feather cloak...), each with its own picture.
+- [x] 39.2 Magic weapons: 20 or more (wands, staves, tomes, scrolls, a lute, an accordion, bells,
+      a harp). 21: wands, rods, staves, an orb, a crystal ball, a candle, a harp, a squeezebox, a
+      bell, a glass lute, beads, two scrolls and a book of moths; all scale with INT first.
+- [x] 39.3 Companions: 15 or more small things that each bring a helper (an acorn, a mushroom, a
+      skull, berries...), counted by the companion stats of 34.2. 15: wisps, a beetle moon, a
+      frost or gun turret, a skeleton, two ravens every fight, bees from kills, a berry sprite that
+      heals, a dragon egg that breathes fire, and three that make every helper stronger or more.
 
 ---
 
