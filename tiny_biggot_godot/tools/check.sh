@@ -257,6 +257,11 @@ timeout 300 "$GODOT" --headless --path . res://tests/oaths_test.tscn -- --no-sav
 grep -E "oaths test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 31 the toybox: every new weapon fired in a live fight, each kind doing its thing"
+timeout 300 "$GODOT" --headless --path . res://tests/toys_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "toys test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== 18.1 the daily trial"
 timeout 300 "$GODOT" --headless --path . res://tests/daily_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "daily test" "$LOG"

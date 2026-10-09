@@ -1236,6 +1236,22 @@ gh. No rule changed: replays untouched. IPA 28 built; all 39 releases named.
   by G.take_trait), made on first use with get_or_add. `G.traitbook_i`.
 - New test `tests/oaths_test.tscn`, in check.sh after the heavy build test. It passes.
 
+### Stage 31 (9 Oct): the toybox
+- `Toys` (scripts/combat/toys.gd), built like `Spells`: `handles`/`fire` (Combat.player_shoot),
+  `tick` (Hazards.update), `clear` (G.enter_room), `draw_floor`/`draw_over` (world_view), `cast`
+  (the action "toy": shark, twister, disco, portal, saw, pin, anvil), POWER (Weapons.weapon_dps).
+  Kinds in Weapons.ARCH / ARCH_DESC, WeaponInfo.MAGIC (twister, disco, voodoo) and KIND_TYPE,
+  Attributes.KIND. Twists are keys on the row (frenzy, sharks, party, twin, rift, magnet, doom,
+  piano).
+- Voodoo: `Combat.damage_enemy` calls `Toys.shared(e, dmg)` while any foe is pinned (guarded
+  against recursion; the shares skip crits and the damage multipliers). Pins only exist in the
+  expanded game, so classic never reaches it.
+- Twisters move held foes (not guardians, minis, champions) only onto walkable floor
+  (`World.M_WALKER`). Anvils remove enemy shots near them with `EBullets.take_near`.
+- Rows: after "voidhammer" in Weapons.ROWS. Icons: end of tools/art/sprites.py (render with the
+  scratchpad's icons script: `all_for("D")`, then copy `w_*.png` to assets/graphics, import,
+  bake). New test `tests/toys_test.tscn` in check.sh.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

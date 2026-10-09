@@ -367,6 +367,8 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	if gate > 0 and e.hp < gate:
 		e.hp = gate   # a boss never skips a stage (Stages.gate); other foes keep their overkill
 	e.flash = 0.08
+	if not Toys.pinned.is_empty():
+		Toys.shared(e, dmg)   # 31: a voodoo pin shares the blow with every other pinned foe (toys.gd)
 	if o.has("kx") and not e.is_boss():
 		e.kx += o["kx"]
 		e.ky += o["ky"]
@@ -978,6 +980,8 @@ static func player_shoot(p: Player, a: float, echo_ok: bool = true) -> void:
 			attack_zap(p, a, forced)
 		_ when Spells.handles(w["kind"]):
 			made = Spells.fire(p, a, forced)   # 23.1 the spellbook (spells.gd)
+		_ when Toys.handles(w["kind"]):
+			made = Toys.fire(p, a, forced)   # 31 the toybox (toys.gd)
 		_ when Oddities.handles(w["kind"]):
 			made = Oddities.fire(p, a, forced)   # odd guns and tricks (oddities.gd)
 		_ when Summons.handles(w["kind"]):

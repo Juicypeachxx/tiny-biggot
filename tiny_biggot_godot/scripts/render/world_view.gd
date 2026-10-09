@@ -457,6 +457,7 @@ func _paint_lower(ci: CanvasItem) -> void:
 	Summons.draw_floor(ci, t)
 	Oddities.draw_floor(ci, t)
 	Spells.draw_floor(ci, t)
+	Toys.draw_floor(ci, t)   # 31 the toybox
 	var fancy := Vfx.enabled
 	if fancy:
 		Vfx.draw_floor(ci, t)
@@ -860,6 +861,7 @@ func _paint_fx(ci: CanvasItem) -> void:
 	Summons.draw_over(ci, G.time)
 	Oddities.draw_over(ci, G.time)
 	Spells.draw_over(ci, G.time)
+	Toys.draw_over(ci, G.time)   # 31 the toybox
 
 # ---------- z 1900: additive glows ----------
 ## Small markers: a pink chevron over exposed foes (they take +25% damage), and

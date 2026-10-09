@@ -102,6 +102,15 @@ const ARCH := {
 	"cloud": { "name": "STORM CLOUD", "dmg": 4.0, "rate": 0.45, "speed": 0, "life": 4.0, "size": 1.0, "pierce": 0, "count": 1, "spread": 0, "homing": 0.0, "range": 320 },
 	"pinball": { "name": "PINBALL", "dmg": 3.0, "rate": 1.2, "speed": 300, "life": 2.0, "size": 1.0, "pierce": 99, "count": 1, "spread": 0, "homing": 0.0 },
 	"wild": { "name": "WILD MAGIC", "dmg": 6.0, "rate": 1.1, "speed": 0, "life": 0, "size": 1.0, "pierce": 0, "count": 1, "spread": 0, "homing": 0.0, "range": 260 },
+	# Stage 31 THE TOYBOX (scripts/combat/toys.gd). "life" is how long a toy lasts, "radius" its reach, "range" how far.
+	"shark": { "name": "LAND SHARK", "dmg": 6.0, "rate": 0.8, "speed": 180, "life": 7.0, "size": 1.0, "pierce": 0, "count": 1, "spread": 0, "homing": 0.0, "range": 320 },
+	"twister": { "name": "TWISTER", "dmg": 5.0, "rate": 0.5, "speed": 70, "life": 2.6, "size": 1.0, "pierce": 99, "count": 1, "spread": 0, "homing": 0.0, "radius": 22 },
+	"disco": { "name": "DISCO BALL", "dmg": 4.0, "rate": 0.9, "speed": 0, "life": 3.0, "size": 1.0, "pierce": 99, "count": 1, "spread": 0, "homing": 0.0, "radius": 140 },
+	"yoyo": { "name": "YO-YO", "dmg": 5.0, "rate": 1.6, "speed": 320, "life": 0.45, "size": 1.0, "pierce": 99, "count": 1, "spread": 0, "homing": 0.0, "range": 144 },
+	"portal": { "name": "PORTAL", "dmg": 6.0, "rate": 1.4, "speed": 300, "life": 0.6, "size": 1.0, "pierce": 1, "count": 1, "spread": 0, "homing": 0.0, "range": 260 },
+	"saw": { "name": "SAW TRAP", "dmg": 4.0, "rate": 1.2, "speed": 240, "life": 6.0, "size": 1.0, "pierce": 99, "count": 1, "spread": 0, "homing": 0.0 },
+	"voodoo": { "name": "VOODOO PIN", "dmg": 5.0, "rate": 1.8, "speed": 300, "life": 0.9, "size": 1.0, "pierce": 0, "count": 1, "spread": 0, "homing": 0.0 },
+	"anvil": { "name": "ANVIL DROP", "dmg": 14.0, "rate": 0.6, "speed": 0, "life": 5.0, "size": 1.0, "pierce": 99, "count": 1, "spread": 0, "homing": 0.0, "range": 260 },
 }
 const ARCH_DESC := {
 	"bolt": "FIRES FAST BOLTS", "orb": "HOMING BOLTS", "spin": "SPINNING THROWS THAT PIERCE", "shot": "A SPREAD OF SHOT",
@@ -130,6 +139,10 @@ const ARCH_DESC := {
 	"comet": "CALLS A COMET ACROSS THE ROOM", "glyph": "A RUNE UNDER THE FOE ERUPTS", "blades": "CONJURES BLADES THAT FIGHT BY THEMSELVES",
 	"chrono": "A CIRCLE WHERE TIME STOPS", "prism": "A CRYSTAL BOLT THAT SPLITS IN THREE", "cloud": "A STORM CLOUD THAT FOLLOWS FOES",
 	"pinball": "A BALL OF LIGHT THAT BOUNCES FOE TO FOE", "wild": "A DIFFERENT SPELL EVERY CAST",
+	"shark": "A FIN THAT SWIMS UNDER THE FLOOR AND BITES", "twister": "A TWISTER THAT CARRIES FOES AND FLINGS THEM",
+	"disco": "A MIRROR BALL THAT MAKES FOES DANCE", "yoyo": "OUT AND BACK ON A STRING THAT CUTS",
+	"portal": "SHOTS COME OUT OF A PORTAL BEHIND THE FOE", "saw": "SAW BLADES THAT DIG IN AS TRAPS",
+	"voodoo": "PINNED FOES SHARE THEIR PAIN", "anvil": "AN ANVIL FROM THE SKY THAT STAYS AS COVER",
 }
 const BULLET_KIND := { "bolt": "bolt", "orb": "hex", "spin": "spin", "shot": "clod", "flask": "flask", "boomer": "boomer",
 	"flame": "fire", "disc": "disc", "pulse": "pulse", "nova": "spark", "mine": "mine", "rail": "rail", "burst": "bolt",
@@ -653,6 +666,34 @@ const ROWS := [
 	["spectralrepeater", "SPECTRAL REPEATER", "gatling", "legend", ["edge", "arcane"], "minigun", { "dmg": 2.0, "rate": 6.0 }, [], [], "A CHATTERING GUN THAT SPEEDS UP. EVERY 25TH SHOT CONJURES A SPECTRAL BLADE.", [{ "on": "every_n_shots", "every": 25, "do": [["spell", "blade", 1.0]] }]],
 	["viperbow", "VIPER'S BOW", "bolt", "epic", ["venom"], "bow", { "dmg": 4.0, "rate": 4.0 }, [["poison", 1]], [], "POISONED ARROWS. 10% OF HITS LET LOOSE A FIRE SERPENT (AT MOST EVERY SECOND).", [{ "on": "on_hit", "chance": 0.1, "cd": 1.0, "do": [["spell", "serpent", 0.6]] }]],
 	["voidhammer", "HAMMER OF THE VOID", "slam", "legend", ["shadow", "fury"], "hammer", { "dmg": 16.0, "rate": 0.8 }, [], [], "HOLD TO SLAM. EVERY 4TH HIT OPENS A BLACK HOLE.", [{ "on": "on_hit", "every": 4, "do": [["spell", "void", 1.5]] }]],
+	# Stage 31 THE TOYBOX (his word, 9 Oct: "add more fun and crazy weapons with cool effects and new effects 20+"):
+	# a weapon of each new kind (toys.gd), one with each twist, and crazy ones that let toys loose (the action "toy").
+	["landshark", "LAND SHARK LAUNCHER", "shark", "rare", ["fury", "edge"], "launcher", { "dmg": 6.0, "rate": 0.8 }, [], [], "A FIN SWIMS UNDER THE FLOOR TO A FOE, LEAPS OUT AND BITES. 3 BITES.", []],
+	["twisterfan", "TWISTER FAN", "twister", "rare", ["storm"], "orbstaff", { "dmg": 5.0, "rate": 0.5 }, [], [], "A TWISTER THAT LIFTS FOES, SPINS THEM ROUND AND SLAMS THEM DOWN.", []],
+	["discostaff", "DISCO STAFF", "disco", "rare", ["arcane"], "orb", { "dmg": 4.0, "rate": 0.9 }, [], [], "A MIRROR BALL OVER YOU. ITS BEAMS HURT FOES AND MAKE THEM DANCE.", []],
+	["steelyoyo", "STEEL YO-YO", "yoyo", "rare", ["edge"], "fists", { "dmg": 5.0, "rate": 1.6 }, [], [], "OUT AND BACK ON A STRING THAT CUTS. IT SPINS AT THE FAR END.", []],
+	["portalgun", "PORTAL PISTOL", "portal", "rare", ["arcane", "edge"], "pistol", { "dmg": 6.0, "rate": 1.4 }, [], [], "SHOTS GO INTO A PORTAL AND COME OUT BEHIND THE FOE FOR +50%.", []],
+	["sawlauncher", "SAW LAUNCHER", "saw", "rare", ["edge", "demolition"], "chakram", { "dmg": 4.0, "rate": 1.2 }, [], [], "SAW BLADES BOUNCE ONCE, THEN DIG IN AS SPINNING TRAPS.", []],
+	["voodoodoll", "STITCHED DOLL", "voodoo", "rare", ["malice"], "rune", { "dmg": 5.0, "rate": 1.8 }, [], [], "PINS STICK IN FOES. A PINNED FOE TAKES 35% OF WHAT ANY OTHER PINNED FOE TAKES.", []],
+	["skyanvil", "SKY ANVIL", "anvil", "rare", ["demolition", "bulwark"], "hammer", { "dmg": 14.0, "rate": 0.6 }, [], [], "AN ANVIL FALLS ON THE FOE AND STUNS IT, THEN STAYS 5S AS COVER FROM SHOTS.", []],
+	["megalodon", "MEGALODON", "shark", "legend", ["fury", "blood"], "cannon", { "dmg": 7.0, "rate": 0.8, "frenzy": true }, [["bleed", 1]], [], "A GREAT SHARK: 6 BITES, EACH 15% HARDER. CRITS MAKE FOES BLEED.", []],
+	["sharknado", "SHARKNADO", "twister", "mythic", ["storm", "fury"], "staff", { "dmg": 7.0, "rate": 0.55, "life": 3.2, "sharks": true }, [], [], "A TWISTER FULL OF SHARKS. THEY DROP OUT ON YOUR FOES AS IT SPINS.", []],
+	["discoinferno", "DISCO INFERNO", "disco", "legend", ["arcane", "pyre"], "orb", { "dmg": 4.5, "rate": 1.0, "party": true }, [["burn", 0.4]], [], "TWICE THE BEAMS, SPINNING FASTER. 40% OF HITS BURN.", []],
+	["twinyoyos", "TWIN YO-YOS", "yoyo", "epic", ["edge", "shadow"], "fists", { "dmg": 5.0, "rate": 1.7, "twin": true }, [["crit", 0.1]], [], "TWO YO-YOS AT ONCE. +10% CRIT.", []],
+	["gatecannon", "GATEWAY CANNON", "portal", "legend", ["arcane", "shadow"], "handcannon", { "dmg": 7.0, "rate": 1.2, "rift": true }, [], [], "THE FAR PORTAL STAYS OPEN AND FIRES 3 TIMES.", []],
+	["hungrysaws", "HUNGRY SAWS", "saw", "epic", ["edge", "fury"], "chakram", { "dmg": 4.5, "rate": 1.3, "magnet": true }, [], [], "SAW TRAPS THAT CREEP TOWARD YOUR FOES.", []],
+	["doomdoll", "DOOM DOLL", "voodoo", "legend", ["malice", "blood"], "skullstaff", { "dmg": 6.0, "rate": 1.8, "doom": true }, [], [], "PINNED FOES ARE CURSED AND SHARE 60% OF THEIR PAIN.", []],
+	["grandpiano", "GRAND PIANO", "anvil", "legend", ["demolition", "arcane"], "tome", { "dmg": 18.0, "rate": 0.55, "piano": true }, [], [], "A GRAND PIANO FROM THE SKY: A WIDER CRUSH, AND 8 NOTES FLY OUT.", []],
+	["fishslapper", "THE FISH SLAPPER", "slash", "epic", ["fury", "frost"], "sword", { "dmg": 9.0, "rate": 2.0 }, [["chill", 0.2]], [], "A FROZEN FISH. EVERY 6TH SLAP CALLS A LAND SHARK. 20% OF HITS CHILL.", [{ "on": "every_n_shots", "every": 6, "do": [["toy", "shark", 1.0]] }]],
+	["rubberchicken", "RUBBER CHICKEN", "bat", "epic", ["fortune", "fury"], "axe", { "dmg": 8.0, "rate": 1.6 }, [], [], "SQUEAK! KNOCKS FOES FLYING. 20% OF HITS STUN THE FOE.", [{ "on": "on_hit", "chance": 0.2, "cd": 0.2, "do": [["status", "stun", 1], ["vfx", "label", "SQUEAK!", "#f2c94c"]] }]],
+	["confetticannon", "CONFETTI CANNON", "shot", "rare", ["fortune", "arcane"], "blunderbuss", { "dmg": 2.5, "rate": 1.5 }, [], [], "A SPRAY OF CONFETTI. KILLS POP INTO 6 MORE BITS.", [{ "on": "on_kill", "do": [["nova", 6, 0.5, "spark"]] }]],
+	["pinatastick", "PINATA STICK", "bat", "rare", ["fortune"], "staff", { "dmg": 7.0, "rate": 1.5 }, [], [], "8% OF HITS SHAKE A COIN OUT OF THE FOE. 5% OF KILLS DROP A HEART.", [{ "on": "on_hit", "chance": 0.08, "do": [["drop", "coin"]] }, { "on": "on_kill", "chance": 0.05, "do": [["drop", "heart"]] }]],
+	["stormjar", "BOTTLED TWISTER", "flask", "epic", ["storm"], "flaskw", { "dmg": 7.0, "rate": 1.0 }, [], [], "BURSTING JARS. EVERY 4TH THROW LETS A TWISTER OUT.", [{ "on": "every_n_shots", "every": 4, "do": [["toy", "twister", 0.9]] }]],
+	["smithsrevenge", "BLACKSMITH'S REVENGE", "slam", "legend", ["demolition", "bulwark"], "hammer", { "dmg": 16.0, "rate": 0.8 }, [], [], "HOLD TO SLAM. EVERY SLAM CALLS 3 ANVILS DOWN ON FOES.", [{ "on": "on_shoot", "do": [["toy", "anvil", 0.8], ["toy", "anvil", 0.8], ["toy", "anvil", 0.8]] }]],
+	["partyhorn", "PARTY HORN", "wave", "rare", ["arcane", "fortune"], "sprayer", { "dmg": 5.0, "rate": 1.2 }, [], [], "A BLAST OF NOISE. EVERY 5TH TOOT DROPS A DISCO BALL OVER YOU.", [{ "on": "every_n_shots", "every": 5, "do": [["toy", "disco", 0.7]] }]],
+	["cursedcrossbow", "CURSED CROSSBOW", "bolt", "epic", ["malice", "edge"], "crossbow", { "dmg": 6.0, "rate": 2.2 }, [], [], "BOLTS THAT PIN: 15% OF HITS STICK A VOODOO PIN IN THE FOE.", [{ "on": "on_hit", "chance": 0.15, "do": [["toy", "pin", 1.0]] }]],
+	["portalbow", "BOW OF ELSEWHERE", "bolt", "legend", ["arcane", "shadow"], "bow", { "dmg": 6.0, "rate": 2.4, "pierce": 1 }, [["crit", 0.1]], [], "ARROWS. EVERY 3RD ONE ALSO COMES OUT OF A PORTAL BEHIND THE FOE.", [{ "on": "every_n_shots", "every": 3, "do": [["toy", "portal", 0.8]] }]],
+	["buzzblade", "BUZZ BLADE", "slash", "rare", ["edge", "demolition"], "greatsword", { "dmg": 10.0, "rate": 1.6 }, [], [], "A SPINNING BLADE. EVERY 4TH SWING LEAVES A SAW TRAP ON THE FOE.", [{ "on": "every_n_shots", "every": 4, "do": [["toy", "saw", 0.8]] }]],
 ]
 
 static var _by_id := {}
@@ -701,6 +742,7 @@ static func weapon_dps(w: Dictionary) -> float:
 	if w["kind"] == "gatling": base *= 2
 	if w["kind"] == "boomer": base *= 2
 	if Spells.handles(w["kind"]): base *= Spells.POWER[w["kind"]]   # 23.1: a spell hits many times a cast
+	if Toys.handles(w["kind"]): base *= Toys.POWER[w["kind"]]   # 31: so does a toy
 	return base
 
 # ---------- Weapon-based stats (04b_items.rb) ----------

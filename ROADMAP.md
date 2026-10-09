@@ -1148,6 +1148,22 @@ cool effects, add new effects and synergies")
 - [ ] 30.3 Compiled; oaths test passed; 30 s bot runs; pictures of the trait book and the vow
       lines. IPA 30. The full check and the core replay re-record still wait (see 29.4).
 
+## Stage 31 (his word, 9 Oct: "Can you add more fun and crazy weapons with cool effects and new effects 20+")
+- [x] 31.1 THE TOYBOX (`scripts/combat/toys.gd`): eight new kinds of weapon, each a new effect:
+      shark (a fin under the floor that bites 3 foes), twister (lifts and carries foes, flings them
+      down), disco (a mirror ball whose beams hurt and make foes dance), yoyo (a cutting string),
+      portal (shots come out behind the foe, +50%), saw (blades that dig in as traps), voodoo
+      (pinned foes share 35% of each other's harm) and anvil (a crush from the sky, then cover that
+      stops shots). Twists: frenzy, sharks, party, twin, rift, magnet, doom, piano. The action
+      ["toy", kind, mult] lets items loose them too.
+- [x] 31.2 26 weapons: one of each kind, one with each twist (SHARKNADO is mythic), and ten crazy
+      ones on old kinds that let toys loose (THE FISH SLAPPER, RUBBER CHICKEN, CONFETTI CANNON,
+      PINATA STICK, BOTTLED TWISTER, BLACKSMITH'S REVENGE, PARTY HORN, CURSED CROSSBOW, BOW OF
+      ELSEWHERE, BUZZ BLADE). 26 icons (19 drawn, 7 recoloured), atlas baked.
+- [ ] 31.3 Compiled; atlas test passed; new test `tests/toys_test.tscn` (in check.sh) passed: all
+      26 fired in a live fight, every kind did its thing; pictures of four in a fight. IPA 31.
+      The full check and the core replay re-record still wait (see 29.4).
+
 ---
 
 ## Log

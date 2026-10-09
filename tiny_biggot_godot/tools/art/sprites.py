@@ -1542,3 +1542,71 @@ for _n, _pal, _from in [
 ]:
 	S["g_" + _n] = (_pal, S[_from][1])
 
+# Stage 31 THE TOYBOX: the new weapons' icons (12x12).
+S["w_landshark"] = ("main:#6a7c8c second:#3a8ad0", [
+"............", "......o.....", ".....o3o....", "....o33o....", "...o332o....", "..o3322o....",
+".o33222o....", "o3322222ooo.", "oooooooooooo", "cbacbacbacba", ".bacbacbacb.", "............"])
+S["w_twisterfan"] = ("main:#c8ccd8", [
+"oooooooooooo", "o3333333333o", ".oo222222oo.", "..o333333o..", "...o2222o...", "...o3333o...",
+"....o22o....", "....o33o....", ".....o2o....", ".....o3o....", "......o.....", "............"])
+S["w_discostaff"] = ("metal:#c8d0e0 wood:#8a5a3a glow:#ff6fc8", [
+"....oooo....", "...o9898o...", "..o898989o..", "..o989x98o..", "..o898989o..", "...o9898o...",
+"....oooo....", ".....ou.....", ".....ou.....", ".....ou.....", ".....ou.....", ".....oo....."])
+S["w_steelyoyo"] = ("metal:#c8d0e0 glow:#ff4a5a", [
+"o...........", ".o..........", "..o.........", "...o........", "....o.......", ".....oooo...",
+"....o7889o..", "...o789998o.", "...o78x987o.", "...o789998o.", "....o7889o..", ".....oooo..."])
+S["w_portalgun"] = ("second:#a35bd6 metal:#b8c0d0 glow:#7ff0c8", [
+"............", "..oooo......", ".oa..ao.....", "oa.xx.ao....", "oa.xx.aooooo", ".oa..ao7888o",
+"..oooo78888o", "......ooo8oo", "........o8o.", "........o8o.", "........ooo.", "............"])
+S["w_sawlauncher"] = ("metal:#c8d0e0", [
+".....oo.....", "..o.o99o.o..", ".o9o9889o9o.", "..o888888o..", ".o88800888o.", "o9880..0889o",
+"o9880..0889o", ".o88800888o.", "..o888888o..", ".o9o9889o9o.", "..o.o99o.o..", ".....oo....."])
+S["w_voodoodoll"] = ("main:#b08a5a bone:#e8dcc8 metal:#e0e0e8", [
+"....oooo....", "...o3333o...", "..o303303o..", "..o333333o..", "...o3ll3o.9.", "..oo3333oo9.",
+".o33333333o.", ".o3o3333o3o.", "..oo3ll3oo..", "...o3oo3o...", "...o3o.o3o..", "...oo...oo.."])
+S["w_skyanvil"] = ("metal:#8b8f9c", [
+"............", "............", "oooooooooooo", "o9999999998o", "o8888888888o", ".oo88888ooo.",
+"...o888o....", "...o777o....", "..o77777o...", ".o7777777o..", ".ooooooooo..", "............"])
+S["w_megalodon"] = ("main:#5a6a7a bone:#f4ecd8 halo:1 glow:#d8443c", [
+"............", "...ooooooo..", "..o3333333o.", ".o33033333oo", "o3333333oljo", "o333333o....",
+"o333333o....", "o3333333oljo", ".o33333333oo", "..o3333333o.", "...ooooooo..", "............"])
+S["w_sharknado"] = ("main:#c8ccd8 second:#5a6a7a halo:1 glow:#7ff0ff", [
+"oooooooooooo", "o3323333233o", ".oo2o22o2oo.", "..o3o33o3o..", "...o2o22o...", "...o3333o.o.",
+"....o22o.oao", "....o33ooaao", ".....o2ooaao", ".....o3o.oo.", "......o.....", "............"])
+S["w_twinyoyos"] = ("metal:#c8d0e0 glow:#7ff0ff", [
+"o..........o", ".o........o.", "..o......o..", "..o......o..", ".ooo....ooo.", "o787o..o787o",
+"o8x8o..o8x8o", "o787o..o787o", ".ooo....ooo.", "............", "............", "............"])
+S["w_grandpiano"] = ("bone:#f4ecd8 halo:1 glow:#f2c94c", [
+"............", ".oooooo.....", "o000000oo...", "o00000000o..", "o000000000o.", "oooooooooooo",
+"olololololol", "oooooooooooo", ".o.......o..", ".o.......o..", ".oo......oo.", "............"])
+S["w_fishslapper"] = ("main:#6fb0d0 glow:#c8f0ff", [
+"............", "............", "........o...", "..oooo.o3o..", ".o3333o333o.", "o3033333333o",
+"o3333333333o", ".o3333o333o.", "..oooo.o3o..", "........o...", "............", "............"])
+S["w_rubberchicken"] = ("main:#f2d84a second:#d8443c gold:#e8873a", [
+"..ooo.......", ".oaao.......", ".o30o.......", "oqqoo.......", ".o3o........", ".o33o.......",
+"..o33o......", "..o333oooo..", "...o333333o.", "....o3333o..", ".....oooo...", "............"])
+S["w_confetticannon"] = ("metal:#b8a070 wood:#8a5a3a second:#e86fb4 main:#6fd84a glow:#6fc8ff", [
+"x..a....3...", "..3..x..a...", "a...3...x...", "oooo........", "o777ooooooo.", "o7888888887o",
+"o7888888887o", "o777ooouuuoo", "oooo..ouuuo.", "......ouuo..", "......ooo...", "............"])
+S["w_pinatastick"] = ("main:#f2c94c second:#e86fb4 wood:#8a5a3a", [
+"....oooo....", "...oa3c3o...", "..oa3c3a3o..", "..o3c3a3co..", "..oc3a3c3o..", "...o3c3ao...",
+"....oooo....", ".....ou.....", ".....ou.....", ".....ou.....", ".....ou.....", ".....oo....."])
+S["w_stormjar"] = ("wood:#8a5a3a metal:#e8f0f8 glow:#c8e8ff halo:1", [
+"...oooooo...", "...ouuuuo...", "..oooooooo..", ".oyyyyyyyyo.", ".oy999999yo.", ".oyy9999yyo.",
+".oyyy99yyyo.", ".oyyy99yyyo.", ".oyyyy9yyyo.", ".oyyyyyyyyo.", "..oooooooo..", "............"])
+S["w_smithsrevenge"] = ("metal:#8b8f9c wood:#8a5a3a halo:1 glow:#ff8a3a", [
+"............", ".ooooooooo..", ".o9999999o..", ".o8888888o..", ".ooooouooo..", ".....ouo....",
+".....ouo....", ".....ouo....", ".....ouo....", ".....ouo....", ".....ooo....", "............"])
+S["w_partyhorn"] = ("main:#f2c94c second:#e86fb4 glow:#6fc8ff", [
+"............", "o...........", "oo..........", "oaoo........", "oa3aoo......", "oa3a3aoo....",
+"oa3a3a3aooo.", "oa3a3aoo..ox", "oa3aoo....x.", "oaoo......x.", "oo..........", "o..........."])
+for _n, _pal, _from in [
+	("discoinferno", "metal:#ffb050 wood:#8a3a2a glow:#ff4a2a halo:1", "w_discostaff"),
+	("gatecannon", "second:#5a2a7a metal:#4e4a5e glow:#d86fff halo:1", "w_portalgun"),
+	("hungrysaws", "metal:#e8a0a0", "w_sawlauncher"),
+	("buzzblade", "metal:#f2c94c", "w_sawlauncher"),
+	("doomdoll", "main:#5a3a6a bone:#d8443c metal:#f2c94c halo:1 glow:#a35bd6", "w_voodoodoll"),
+	("cursedcrossbow", "main:#4a2a5a glow:#a35bd6", "w_repeater"),
+	("portalbow", "main:#a35bd6 wood:#7ff0c8 glow:#ffffff halo:1", "w_dawnbow"),
+]:
+	S["w_" + _n] = (_pal, S[_from][1])

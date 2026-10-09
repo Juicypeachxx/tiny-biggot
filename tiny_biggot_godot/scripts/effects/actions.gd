@@ -222,6 +222,15 @@ static func run(a: Array, stacks: int, ctx: Dictionary) -> void:
 					Combat.damage_enemy(e, w * a[2] * stacks, { "no_crit": true, "col": "orange", "silent": true })
 		"invuln":
 			p.invuln = maxf(p.invuln, float(a[1]))
+		"toy":
+			# 31: ["toy", kind, dmg_mult]: a toy of the toybox at the foe (an anvil with no foe in hand: a random one):
+			# shark, twister, disco, portal, saw, pin, anvil (Toys.cast).
+			if GameData.rogues():
+				var te: Enemy = ctx.get("enemy")
+				if te == null or te.hp <= 0:
+					te = _random_foe() if String(a[1]) == "anvil" else _target(ctx)
+				var at := Vector2(te.x, te.y) if te != null else Vector2(p.x + cos(p.aim_a) * 70.0, p.y + sin(p.aim_a) * 70.0)
+				Toys.cast(String(a[1]), p, at.x, at.y, w * float(a[2]) * stacks, te.uid if te != null else -1)
 		"vow":   # 30.1: ["vow", oath id]: one more step of that oath's vow; at its goal the oath awakens (oaths.gd)
 			Oaths.progress(p, String(a[1]), stacks)
 		"spell":

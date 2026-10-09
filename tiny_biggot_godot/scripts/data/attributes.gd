@@ -28,6 +28,9 @@ const KIND := {
 	"singularity": ["-", "-", "S"], "serpent": ["-", "D", "A"], "comet": ["-", "-", "S"], "glyph": ["-", "-", "S"],
 	"blades": ["-", "B", "A"], "chrono": ["-", "-", "S"], "prism": ["-", "C", "A"], "cloud": ["-", "-", "A"],
 	"pinball": ["-", "B", "A"], "wild": ["-", "C", "A"],
+	# 31 the toybox
+	"shark": ["B", "B", "-"], "twister": ["-", "C", "A"], "disco": ["-", "C", "A"], "yoyo": ["B", "A", "-"],
+	"portal": ["-", "A", "B"], "saw": ["B", "A", "-"], "voodoo": ["-", "-", "S"], "anvil": ["A", "-", "C"],
 }
 ## Tags shift one attribute up a grade.
 const TAG_ATTR := { "fury": "str", "bulwark": "str", "blood": "str", "demolition": "str",

@@ -8,6 +8,7 @@ extends RefCounted
 ## with no quote or | inside, and add the new version's line at the top in its [ipa] commit.
 
 const LIST := [
+	"31|The Toybox|26 new weapons; 8 new kinds of weapon: LAND SHARKS that swim under the floor and bite, TWISTERS that carry foes and slam them down, a DISCO BALL that makes foes dance, YO-YOS on a cutting string, PORTALS that shoot foes in the back, SAW TRAPS, VOODOO PINS that make pinned foes share their pain, and ANVILS from the sky that stay as cover; SHARKNADO (mythic), MEGALODON, GRAND PIANO, DISCO INFERNO, THE FISH SLAPPER, RUBBER CHICKEN and more; Items can let these toys loose too",
 	"30|Oath Vows|Every oath has a vow, like KILL 120 BURNING FOES; keep it and the oath AWAKENS with a second power for the rest of the run; The vow's count shows under the map; THE TRAIT BOOK: a fourth codex page with every trait and oath, lit once you have seen it",
 	"29|Oaths and Secrets|Every run opens with an OATH: pick one of three run-shaping traits, from 19; Every trait pick has a rare or better trait in it, and plain traits come up less; 35 new traits, from SPARKPLUG to the mythic DRAGON SOUL; Hidden rooms are never empty: THE GOLDEN GRIMOIRE (a rare trait), A DRAGON'S HOARD, and loot beside every find",
 	"28|Version Names|Every version has a name and its tweaks: on the title screen, on its download page and in the name of the IPA file",
