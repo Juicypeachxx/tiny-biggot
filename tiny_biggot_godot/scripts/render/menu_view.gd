@@ -158,6 +158,7 @@ func draw_title(ci: CanvasItem) -> void:
 	Gfx.at(ci, "ember", TB.SW / 2 - TB.text_w(line) / 2 - 8, 250)
 	Gfx.text(ci, line, TB.SW / 2, 251, "grey", 1, 0.5)
 	Gfx.text(ci, "PRESS USE TO SELECT", TB.SW / 2, 268, "dim", 1, 0.5)
+	Gfx.text(ci, Versions.label(), TB.SW - 4, 277, "dim", 1, 1)   # 28: the version and its name (versions.gd)
 	Rex.draw_title(ci, t)   # someone is asleep in the corner
 
 # ---------- Hero select ----------

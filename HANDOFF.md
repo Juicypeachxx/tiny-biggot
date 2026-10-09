@@ -1196,6 +1196,17 @@ Gear.roll_item_rarity (rogues: boss 8, elite 3, drops max(0, floor - 5)), Attrib
 world_view's hand glow treat it as legend. Rows: weapons after "steamblade", gear at the end of
 Gear.ROWS. Only compiled (see the top of this file); the full check and replay re-record wait.
 
+### Stage 28 (9 Oct): version names
+`scripts/data/versions.gd` (class Versions): one line a version, newest first,
+"number|Name|tweak; tweak" (no quote or | inside). The title screen draws `Versions.label()` in its
+bottom right corner (menu_view.gd, dim). `tools/versions.sh name|notes|newest|all` reads the list
+with plain awk; the IPA workflow uses it: the version step stops the build if VERSION has no line
+or is not the top one, sets NAME and IPA (TinyBiggot-<V>-<Name>.ipa); the publish step titles the
+release "Tiny Biggot Rogues <V>: <Name>" with the tweaks as notes, then renames every older
+`ipa-*` release whose title lacks its name (tweaks put over its old notes from their "Version"
+line; done once, already named ones are skipped). The rename loop was tried here with a stand-in
+gh. No rule changed: replays untouched.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

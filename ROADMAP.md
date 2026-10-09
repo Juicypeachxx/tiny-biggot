@@ -1106,6 +1106,16 @@ cool effects, add new effects and synergies")
 - [ ] 27.3 Only compiled at his word (import, atlas test, two 30 s runs: no errors). He tests on the
       iPad. IPA 27.
 
+## Stage 28 (his word, 9 Oct: "Can vo name versions of the game with latest tweaks and version number")
+- [x] 28.1 Every version has a name and its tweaks, kept in `scripts/data/versions.gd` (one line a
+      version, newest first: number|Name|tweak; tweak). The title screen shows the newest in its
+      bottom right corner (V28 VERSION NAMES). The IPA build reads the line of the version in
+      VERSION (`tools/versions.sh`): the release is titled "Tiny Biggot Rogues 28: Version Names",
+      its notes list the tweaks, the file is `TinyBiggot-28-Version-Names.ipa`, and every older
+      release (4.14 to 27) is retitled and given its tweaks the same way. The build stops at once if
+      the version has no line at the top of the list. IPA 28. From now on: every `[ipa]` commit
+      adds its version's line at the top.
+
 ---
 
 ## Log

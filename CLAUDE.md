@@ -96,11 +96,15 @@ model: `GAOLBIRD.md`. Rooms, events and rift bosses: `RIFTS.md`, `BIOMES.md`. Pe
 ## Building the IPA
 
 Push a commit whose message contains `[ipa]`. GitHub builds the app on a Mac
-in about a minute and a half and publishes `TinyBiggot-<version>.ipa` twice:
+in about a minute and a half and publishes `TinyBiggot-<version>-<Name>.ipa` twice:
 as the release `ipa-<version>` (kept, one per step, so he can go back) and as
 `ipa-latest`. **The version is the file `VERSION`** at the top of the repo:
 set it to the roadmap step the build ends (e.g. `5.1`) in the `[ipa]` commit.
-The app shows it in SideStore. Do this once at the end of a step, not on
+The app shows it in SideStore. **Every version has a name** (his ask, 9 Oct): in
+the same commit add its line at the top of `scripts/data/versions.gd`
+(`number|Name|tweak; tweak`). The title screen shows it, the release and the
+file take its name (`TinyBiggot-28-Version-Names.ipa`), and the build stops if
+the line is missing. Do this once at the end of a step, not on
 every commit. Follow it with `gh run list` and `gh run watch <id>`.
 
 ## Git
