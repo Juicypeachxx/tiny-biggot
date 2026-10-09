@@ -86,7 +86,7 @@ static func zones() -> Array:
 				out.append(_z(Rect2(30, 42 + j * 16 - 3, sw - 60, 15), func(): G.shrine_i = i, sel == i))
 		&"codex":
 			for k in MenuView.CODEX_TABS.size():   # 22.3: a tap on a page's name opens it
-				out.append(_act(Rect2(MenuView.CODEX_TAB_X[k] - 56, 4, 112, 20), func(): G.codex_tab = k))
+				out.append(_act(Rect2(MenuView.CODEX_TAB_X[k] - 50, 4, 100, 20), func(): G.codex_tab = k))
 			if G.codex_tab == 1:
 				var bn := Bestiary.entries().size()
 				var bx0 := (sw - Bestiary.COLS * 30) / 2 + 4
@@ -95,6 +95,12 @@ static func zones() -> Array:
 					var row := i / Bestiary.COLS - bfirst
 					if row >= 0 and row < Bestiary.ROWS:
 						out.append(_act(Rect2(bx0 + (i % Bestiary.COLS) * 30 - 5, 42 + row * 22 - 5, 26, 22), func(): G.bestiary_i = i))
+			if G.codex_tab == 3:   # 30.2: a tap on a trait chooses it
+				var tfirst := TraitBook.first_row_for(G.traitbook_i)
+				for i in TraitBook.entries().size():
+					var row := i / TraitBook.COLS - tfirst
+					if row >= 0 and row < TraitBook.ROWS:
+						out.append(_act(TraitBook.cell_rect(i, tfirst).grow_individual(2, 1, 2, 0), func(): G.traitbook_i = i))
 			if G.codex_tab != 0:
 				return out
 			var n := Relics.all().size()

@@ -222,6 +222,8 @@ static func run(a: Array, stacks: int, ctx: Dictionary) -> void:
 					Combat.damage_enemy(e, w * a[2] * stacks, { "no_crit": true, "col": "orange", "silent": true })
 		"invuln":
 			p.invuln = maxf(p.invuln, float(a[1]))
+		"vow":   # 30.1: ["vow", oath id]: one more step of that oath's vow; at its goal the oath awakens (oaths.gd)
+			Oaths.progress(p, String(a[1]), stacks)
 		"spell":
 			# 26: ["spell", kind, dmg_mult]: a spell of the spellbook cast at the foe (or ahead of you):
 			# void, comet, glyph, blade, clock, prism, cloud, serpent, pinball (Spells.cast).

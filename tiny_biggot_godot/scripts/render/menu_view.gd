@@ -281,8 +281,8 @@ func draw_shrine(ci: CanvasItem) -> void:
 
 # ---------- Relic codex ----------
 ## 22.3: the codex's pages, named along the top (tap one, or ROLL for the next).
-const CODEX_TABS := ["RELICS", "BESTIARY", "PAST RUNS"]
-const CODEX_TAB_X := [104, 224, 344]
+const CODEX_TABS := ["RELICS", "BESTIARY", "PAST RUNS", "TRAITS"]   # 30.2: the trait book
+const CODEX_TAB_X := [56, 160, 280, 392]
 func draw_codex(ci: CanvasItem) -> void:
 	for k in CODEX_TABS.size():
 		Gfx.text(ci, CODEX_TABS[k], CODEX_TAB_X[k], 10, "gold" if G.codex_tab == k else "dim", 2, 0.5)
@@ -293,6 +293,9 @@ func draw_codex(ci: CanvasItem) -> void:
 			return
 		2:
 			Bestiary.draw_runs(ci)
+			return
+		3:
+			TraitBook.draw(ci, G.traitbook_i)
 			return
 	var rel := Relics.all()
 	var found_d: Dictionary = Meta.meta["found"]

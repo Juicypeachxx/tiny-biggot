@@ -172,6 +172,12 @@ func _draw() -> void:
 	Gfx.text(self, "%d/%d" % [G.floor_index + 1, GameData.floors().size()] + ("  LOOP %d" % (G.loop + 1) if G.loop > 0 else ""),
 		TB.SW / 2, 12, "gold" if G.loop > 0 else "grey", 1, 0.5)
 	_minimap()
+	# 30.1: each sworn oath's vow, under the map (orange while it counts, gold once awakened).
+	if not p.vows.is_empty():
+		var vy := 50
+		for ln in Oaths.hud_lines(p):
+			Gfx.text(self, ln[0], TB.SW - 6, vy, ln[1], 1, 1)
+			vy += 9
 	# The saloon's bounty, while one is on (under the floor name).
 	var bounty := Saloon.hud_line()
 	if bounty != "":

@@ -54,7 +54,8 @@ const ACTIONS := ["nova", "shoot", "explode", "status", "heal", "buff", "chain",
 	"turret", "raise", "reflect", "spread", "consume", "give", "slow_shots", "overkill",   # ROADMAP 4.7
 	"stack",   # 8.4: a lasting bonus that grows up to a cap
 	"charm_area", "consume_area", "execute_weakest",   # ROADMAP 4.8 heroes
-	"spell"]   # 26: an item casts a spell of the spellbook (spells.gd)
+	"spell",   # 26: an item casts a spell of the spellbook (spells.gd)
+	"vow"]   # 30.1: one more step of an oath's vow (oaths.gd)
 const STATUSES := ["burn", "poison", "chill", "bleed", "stun", "curse", "mark", "shock", "vulnerable", "weakened", "gloom"]
 const CONDITIONS := ["elite", "boss", "burning", "poisoned", "chilled", "bleeding", "shocked", "cursed",
 	"low_hp", "full_hp", "moving", "still", "crit", "danger", "fighting", "hot", "rich", "armored", "flight",

@@ -1135,6 +1135,19 @@ cool effects, add new effects and synergies")
       replays re-recorded (the oath pick, the offers and the hidden rooms change every run).
       Classic is untouched (all of it behind `GameData.rogues()`).
 
+## Stage 30 (his word, 9 Oct: "2,3", from the list after Stage 29: oaths that grow, a trait book)
+- [x] 30.1 OATH VOWS (`scripts/data/oaths.gd`): every one of the 19 oaths carries a vow (KILL 120
+      BURNING FOES, ROLL 150 TIMES, CALL 60 COMETS, KILL 12 ELITES, CLEAR 10 ROOMS...). Keep it and
+      the oath AWAKENS: a second power for the rest of the run, a banner. The vow shows on the
+      oath pick and under the map while it counts (gold once awakened). Test
+      `tests/oaths_test.tscn` (in check.sh): each oath sworn, its vow kept, awakened once, 3 s of
+      fight with the new powers.
+- [x] 30.2 THE TRAIT BOOK: the codex's fourth page, TRAITS. All 256 traits and oaths, rarest first,
+      lit once a pick has shown them; how often each was taken; the chosen one's text, and an
+      oath's vow and awakening. Keys and taps. `--ui=traitbook`.
+- [ ] 30.3 Compiled; oaths test passed; 30 s bot runs; pictures of the trait book and the vow
+      lines. IPA 30. The full check and the core replay re-record still wait (see 29.4).
+
 ---
 
 ## Log

@@ -235,9 +235,16 @@ func _ready() -> void:
 			G.state = StringName(DebugArgs.get_str("ui"))
 			G.opt_from = &"title"
 			G.menu = 0
-		"codex", "bestiary", "runs":   # 22.3: the codex on a page (with a few foes met and runs logged for the picture)
+		"codex", "bestiary", "runs", "traitbook":   # 22.3: the codex on a page (with a few foes met and runs logged for the picture)
 			G.state = &"codex"
-			G.codex_tab = ["codex", "bestiary", "runs"].find(DebugArgs.get_str("ui"))
+			G.codex_tab = ["codex", "bestiary", "runs", "traitbook"].find(DebugArgs.get_str("ui"))
+			if G.codex_tab == 3:   # 30.2: a few traits seen and taken, an oath chosen
+				for t in Traits.all().slice(0, 40):
+					TraitBook.note_seen(t)
+				for id in ["o_flame", "o_archmage", "n_tempest", "x_twin"]:
+					TraitBook.note_seen(Traits.by_id(id))
+					TraitBook.note_taken(Traits.by_id(id))
+				G.traitbook_i = TraitBook.entries().find(Traits.by_id("o_archmage"))
 			for k in ["skeleton", "bat", "slime", "mushroom", "colossus", "imp", "ghost"]:
 				Bestiary.seen(k)
 			Bestiary.slain("skeleton")

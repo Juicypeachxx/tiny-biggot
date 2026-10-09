@@ -55,7 +55,8 @@ var wardrobe_from: StringName = &"title"   # 14.2: where the WARDROBE page goes 
 var wardrobe_i := 0
 var opt_from: StringName = &"title"
 var codex_i := 0
-var codex_tab := 0   # 22.3: 0 relics, 1 the bestiary, 2 past runs
+var codex_tab := 0   # 22.3: 0 relics, 1 the bestiary, 2 past runs, 3 the trait book (30.2)
+var traitbook_i := 0   # 30.2: the trait chosen in the trait book
 var bestiary_i := 0
 var inv_i := 0                 # Rogues layer: inventory cursor (0-5 backpack, 6-9 belt)
 var shrine_i := 0
@@ -1804,6 +1805,8 @@ func offer_traits() -> void:
 		p.pending = 0
 		return
 	tchoice = { "opts": opts, "idx": 0 if TraitView.active() else mini(1, opts.size() - 1), "t0": time, "mode": mode }
+	for t in opts:
+		TraitBook.note_seen(t)   # 30.2: lit in the trait book
 	state = &"traits"
 
 ## 29: only the practice dummy and target are left in the room.
@@ -1834,6 +1837,9 @@ func take_trait(t: Dictionary) -> void:
 			"special": p.special_picks = maxi(0, p.special_picks - 1)
 	p.traits[t["id"]] = p.traits.get(t["id"], 0) + 1
 	Traits.apply(t["id"], p)
+	TraitBook.note_taken(t)   # 30.2
+	if t["rarity"] == "oath":
+		Oaths.sworn(p, t["id"])   # 30.1: its vow starts counting
 	Attributes.on_trait(p, t["fam"])
 	p.charges = mini(p.charges, p.dodge_charges)
 	var fam: String = t["fam"]
@@ -2250,12 +2256,14 @@ func update_shrine() -> void:
 
 func update_codex() -> void:
 	if Keys.roll():
-		codex_tab = (codex_tab + 1) % 3   # 22.3: the next page
+		codex_tab = (codex_tab + 1) % MenuView.CODEX_TABS.size()   # 22.3: the next page
 		Snd.play("select")
 	if codex_tab == 0:
 		codex_i = _grid_nav(codex_i, Relics.all().size(), CODEX_COLS)
 	elif codex_tab == 1:
 		bestiary_i = _grid_nav(bestiary_i, Bestiary.entries().size(), Bestiary.COLS)
+	elif codex_tab == 3:
+		traitbook_i = _grid_nav(traitbook_i, TraitBook.entries().size(), TraitBook.COLS)
 	if Keys.back() or Keys.confirm():
 		state = &"title"
 		menu = title_index("CODEX")

@@ -1223,6 +1223,19 @@ gh. No rule changed: replays untouched. IPA 28 built; all 39 releases named.
   pending (a new run of the expanded game now has one: the oath), `--ui=traits` (shows the oath
   pick first), and content_test's text-fit check on the new rows.
 
+### Stage 30 (9 Oct): oath vows, the trait book
+- `Oaths.VOWS` (scripts/data/oaths.gd): id -> [goal, vow, HUD label, count proc, awakened text,
+  awakened effects]. `G.take_trait` calls `Oaths.sworn` for an oath: `p.vows[id] = 0` and a count
+  proc (src "vow:<id>") whose "do" is the new action ["vow", id] (Effects.ACTIONS, actions.gd)
+  -> `Oaths.progress`. At the goal: `p.vows_done[id]`, the awakened effects applied (src
+  "vow:<id>:awake"), banner OATH AWAKENED!. Counts that follow the oath's own strikes copy its
+  proc's trigger, "every", "cd" and "period" so the two keep step. HUD lines under the map
+  (hud_view, y 50). Pick rows show "VOW: ... TO AWAKEN IT" (trait_view).
+- `TraitBook` (scripts/render/trait_book.gd): codex tab 3 (MenuView.CODEX_TABS, tab x moved to fit
+  four; taps 100 wide). Meta "traits_seen" (set by G.offer_traits) and "traits_taken" (count, set
+  by G.take_trait), made on first use with get_or_add. `G.traitbook_i`.
+- New test `tests/oaths_test.tscn`, in check.sh after the heavy build test. It passes.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

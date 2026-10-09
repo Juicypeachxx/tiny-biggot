@@ -168,7 +168,10 @@ static func _row(ci: CanvasItem, r: Rect2, tr: Dictionary, sel: bool, a: float) 
 	# 14.3: a hidden combo already found with this trait: which trait it pairs with.
 	var bottom := r.end.y - 9
 	var partners := Effects.found_partners(tr["id"])
-	if not partners.is_empty():
+	if tr["rarity"] == "oath" and Oaths.VOWS.has(tr["id"]):   # 30.1: the oath's vow, under its text
+		Gfx.text(ci, "VOW: " + Oaths.vow_text(tr["id"]) + " TO AWAKEN IT", tx, r.end.y - 9, "orange", 1, 0.0, true, a)
+		bottom -= 8
+	elif not partners.is_empty():
 		var pr: Array = partners[0]
 		var ready: bool = G.player.traits.has(pr[0])
 		var pname: String = Traits.by_id(pr[0])["name"] if Traits.has(pr[0]) else pr[0].to_upper()
