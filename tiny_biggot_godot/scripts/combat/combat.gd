@@ -271,6 +271,7 @@ static func player_damage_mult(p: Player) -> float:
 	if p.cap("sanguine"): m *= 1 + 0.04 * p.room_kills
 	if p.post_roll and p.post_roll_t > 0: m *= 1.5
 	if p.full_hp_dmg > 0 and p.hp >= p.max_hp: m *= 1 + p.full_hp_dmg
+	m *= Might.dmg_mult(p)   # 40.2 POWER, RAGE, HEAVY STRIDE (1.0 in classic)
 	return m
 
 ## Gold as the things that grow with it see it: BOTTOMLESS PURSE (8.4) counts as 1000 at least.
@@ -342,37 +343,45 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 		Lives.wake(e)
 		Lives.pop(e.x, e.y - e.r - 20, "SNEAK ATTACK!", "gold")
 	if GameData.rogues():
-		dmg *= 0.85 + 0.3 * randf()   # Rogues layer: every hit rolls within +-15%
+		dmg *= Might.roll(p)   # Rogues layer: every hit rolls within +-15% (40.2 PACK HUNTER: twice, the lower)
 	var crit_chance := p.crit + (p.g("chill_crit") if e.chill_t > 0 else 0.0) + p.g("crit_per_str") * p.a_str + p.g("crit_per_evil") * p.al_evil   # (38.1 DEVIL'S BARGAIN)
+	crit_chance += Might.crit_chance(p)   # 40.2 SCAR TISSUE
 	var sure := p.g("sure_strike") > 0   # 33.2 SURE STRIKE: never a crit; the chance becomes damage
 	if sure:
 		dmg *= 1.0 + 1.5 * maxf(0.0, crit_chance)
-	if not sure and (o.get("force_crit", false) or (not o.get("no_crit", false) and randf() < crit_chance)):
-		dmg *= p.crit_mult
+	if not sure and not Might.no_crit(p) and (o.get("force_crit", false) or (not o.get("no_crit", false) and randf() < crit_chance)):
+		dmg *= p.crit_mult + Might.crit_add(p)   # 40.2 SAVAGERY
 		crit = true
 		# New stat: crit chance past 100% can crit a second time.
 		if p.overcrit > 0 and p.crit > 1.0 and randf() < minf(p.crit - 1.0, 1.0):
 			dmg *= p.crit_mult * (1 + p.overcrit)
 	if not crit and p.g("nocrit_dmg") > 0:   # 36.2 GILDED LOAF: hits that do not crit
 		dmg *= 1.0 + p.g("nocrit_dmg")
+	if not crit and Might.pride_t > 0:   # 40.2 PRIDE
+		dmg *= 1.4
+	var crushing: bool = not o.get("silent", false) and Might.crushing(p)   # 40.2 crushing hits
+	if crushing:
+		dmg *= 1.5
 	if p.rage > 0 and p.hp <= 2: dmg *= 1 + p.rage
 	if e.elite and p.elite_mult > 0: dmg *= 1 + p.elite_mult
 	if e.burn_t > 0 and p.vs_burn > 0: dmg *= 1 + p.vs_burn
 	if e.chill_t > 0 and p.vs_chill > 0: dmg *= 1 + p.vs_chill
 	if p.corrode > 0 and e.poison > 0: dmg *= 1 + p.corrode * e.poison
-	if e.curse_t > 0: dmg *= 1.25
+	if e.curse_t > 0: dmg *= 1.0 + 0.25 * Might.ailment_mult(p)   # (40.2 MIGHT MAKES RIGHT)
 	if o.get("boom", false) and p.boom_elite and e.elite: dmg *= 2
-	if not o.get("no_mult", false): dmg *= player_damage_mult(p) * hook_mult(p, e)
+	if not o.get("no_mult", false): dmg *= player_damage_mult(p) * hook_mult(p, e) * Might.foe_mult(p, e)
 	if e.vuln_t > 0 or e.shock > 0 or e.gloom > 0:
 		dmg *= Statuses.dmg_mult(e)
-	if e.guard_t > 0 or e.d.has("rule"):
+	if (e.guard_t > 0 or e.d.has("rule")) and not Might.ruthless(p, e):   # (40.2 TOE TO TOE goes through)
 		dmg = EnemyAI2.adjust_damage(e, dmg)   # shields, a deacon's guard, a dizzy dervish
 	var gate := Stages.gate(e)   # read before the blow: a dead boss has no stage left
 	if GameData.rogues() and e.type != "dummy" and not (gate > 0.0 and e.hp <= gate):
 		# Combat.power: what you really deal. 39.4: not a blow on a foe held at its stage line, which
 		# takes nothing off (his video, 9 Oct: such blows made every foe after it tougher).
 		G.run_stats["dealt"] = G.run_stats.get("dealt", 0.0) + minf(dmg, e.max_hp * 2.0)
-	e.hp -= Armor.soak(e, dmg, gate, Armor.weak_hit(e, o, crit))
+	e.hp -= Armor.soak(e, dmg, gate, Armor.weak_hit(e, o, crit) or crushing)
+	if crushing:
+		Might.crushed(p, e)   # 40.2 BONE BREAKER
 	Lives.on_hurt(e)   # 21.5: a call for help
 	e.mend_t = 0.0   # a mending elite waits again (elite_traits.gd)   # boss armor: most of a blow wears the plate down (armor.gd)
 	if gate > 0 and e.hp < gate:
@@ -394,6 +403,7 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 		if p.crit_heal > 0 and e.type != "dummy" and randf() < p.crit_heal:
 			p.heal(1)
 		if p.bleed > 0:
+			Might.add_stack(p, e, "bleed")
 			e.bleed_t = 3.0
 			e.bleed_dps = dmg * 0.25 * p.bleed
 	if e.hp > 0 and p.cap("shatter") and e.chill_t > 0 and not e.is_boss() and e.hp < e.max_hp * 0.3:
@@ -702,6 +712,10 @@ static func update_enemies(dt: float) -> void:
 			continue
 		var slow := p.chill_slow if e.chill_t > 0 else 1.0
 		e.chill_t = maxf(0.0, e.chill_t - dt)
+		if e.puncture > 0 or e.dot_cd > 0:
+			Might.tick_foe(e, dt)   # 40.2
+		if e.taunt_cd > 0:
+			e.taunt_cd -= dt
 		if e.curse_t > 0:
 			e.curse_t -= dt
 		if e.bleed_t > 0:
@@ -709,7 +723,7 @@ static func update_enemies(dt: float) -> void:
 			e.bleed_tick -= dt
 			if e.bleed_tick <= 0:
 				e.bleed_tick = 0.5
-				damage_enemy(e, e.bleed_dps * 0.5, { "no_crit": true, "col": "red", "silent": true, "no_mult": true })
+				damage_enemy(e, e.bleed_dps * 0.5 * Might.ailment_mult(p) * Might.stack_mult(p, e.bleed_n), { "no_crit": true, "col": "red", "silent": true, "no_mult": true })
 			if randf() < 0.25:
 				Fx.particle(e.x + TB.rint(-3, 3), e.y, 0, 30, 0.3, "#8a2a33")
 			if e.hp <= 0:
@@ -719,7 +733,7 @@ static func update_enemies(dt: float) -> void:
 			e.burn_tick -= dt
 			if e.burn_tick <= 0:
 				e.burn_tick = 0.5
-				damage_enemy(e, (1 + Weapons.wdmg(p) * 0.2) * (1 + p.burn_dmg), { "no_crit": true, "col": "orange", "silent": true })
+				damage_enemy(e, (1 + Weapons.wdmg(p) * 0.2) * (1 + p.burn_dmg) * Might.ailment_mult(p) * Might.stack_mult(p, e.burn_n), { "no_crit": true, "col": "orange", "silent": true })
 				if p.burn_leap > 0 and randf() < p.burn_leap:
 					for o2 in G.enemies:
 						if o2 != e and o2.hp > 0 and o2.burn_t <= 0 and TB.dist(o2, e) < 50:
@@ -733,7 +747,7 @@ static func update_enemies(dt: float) -> void:
 			if e.poison_t <= 0:
 				e.poison_t = 0.3 if p.poison_fast else 0.6
 				var venom: int = p.fam_bonus.get("venom", 0)
-				damage_enemy(e, e.poison * 1.2 * (1 + p.poison_dmg), { "no_crit": venom < 3, "col": "lime", "silent": true })
+				damage_enemy(e, e.poison * 1.2 * (1 + p.poison_dmg) * Might.ailment_mult(p), { "no_crit": venom < 3, "col": "lime", "silent": true })
 				e.poison = maxf(0.0, e.poison - 0.25)
 		if e.hp <= 0:
 			continue
@@ -791,6 +805,8 @@ static func update_enemies(dt: float) -> void:
 				if TB.dist_xy(o.x, o.y, e.x, e.y) < e.r + mr and not p.orbit_hit.has(e.uid):
 					p.orbit_hit[e.uid] = 0.35
 					damage_enemy(e, Weapons.wdmg(p) * Auras.moon_dmg(p), {})
+					if p.g("moon_gloom") > 0 and e.hp > 0:
+						Statuses.apply(e, "gloom", 10, 0)   # 40.2 SHADOW VEIL: all its gloom at once
 	var alive: Array[Enemy] = []
 	for e in G.enemies:
 		if e.hp > 0:
@@ -1084,6 +1100,7 @@ static func player_shoot(p: Player, a: float, echo_ok: bool = true) -> void:
 	if not w["kind"] in ["slash", "thrust", "whip", "beam", "zap", "wave", "slam", "dash", "combo", "hook", "javelin", "recall", "orbit", "deck", "turret", "thrall", "command", "swarm", "flail",
 			"camera", "ray", "bat", "stab", "blower", "dome"]:
 		Fx.particle(p.x + cos(a) * 8, p.y - 2 + sin(a) * 8, 0, 0, 0.06, "#fffbe0", 3)
+	Might.on_attack(p)   # 40.2 OPENING
 	if not p.procs.is_empty():
 		Effects.fire("on_shoot", { "x": p.x, "y": p.y })
 		Effects.fire("every_n_shots", { "x": p.x, "y": p.y })
@@ -1264,6 +1281,7 @@ static func on_hit_effects(e: Enemy, dmg: float, crit: bool, p: Player, b: PBull
 		if p.rally_t > 0:
 			Rally.on_blow(p, 1)
 	if p.burn > 0 and randf() < p.burn:
+		Might.add_stack(p, e, "burn")
 		e.burn_t = 3.0 + p.burn_time
 	if (b != null and b.chill) or (p.chill > 0 and randf() < p.chill):
 		if e.chill_t <= 0:
@@ -1309,6 +1327,8 @@ static func on_hit_effects(e: Enemy, dmg: float, crit: bool, p: Player, b: PBull
 		if crit:
 			Effects.fire("on_crit", { "enemy": e, "dmg": dmg, "crit": true })
 	Lucky.on_hit(e, dmg, crit, p, b)   # 34.1 lucky hits and the spell slot
+	if b == null or b.own:
+		Might.on_hit(p, e, dmg, crit)   # 40.2 the STRENGTH traits' marks on a foe
 
 static func pbullet_hits(b: PBullet, p: Player) -> void:
 	if b.nohit:
@@ -2055,6 +2075,8 @@ static func update_familiars(p: Player, dt: float) -> void:
 # ---------- The player's combat turn (update_player, merged) ----------
 static func update_player(p: Player, dt: float) -> void:
 	var rolling_before := p.dodge_t > 0
+	if Might.rage > 0 or Might.pride_t > 0:
+		Might.tick(p, dt)   # 40.2 RAGE fades, PRIDE runs out
 	# Gatling spin-up while there is something to shoot.
 	if p.weapon["kind"] == "gatling":
 		p.spin = minf(1.0, p.spin + dt * 0.5) if G.enemies_active() else maxf(0.0, p.spin - dt)
@@ -2103,6 +2125,7 @@ static func on_roll_start(p: Player) -> void:
 		G.bombs.append({ "x": p.x, "y": p.y, "t": 0.7, "safe": true })
 	Arsenal.on_roll(p)
 	Charged.on_roll(p)
+	Might.on_roll(p)   # 40.2 ROLLING THUNDER
 	if not p.procs.is_empty():
 		Effects.fire("on_roll", { "x": p.x, "y": p.y })
 

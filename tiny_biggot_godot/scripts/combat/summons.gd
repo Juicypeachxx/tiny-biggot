@@ -483,6 +483,7 @@ static func charm(e: Enemy, secs: float) -> void:
 	if e.charm_t <= 0:
 		_stat("charm")
 		Fx.float_text(e.x, e.y - e.r - 10, "TAMED", "pink")
+		Might.taunted(e)   # 40.2 PRIDE
 	e.charm_t = maxf(e.charm_t, secs)
 	e.puppet_t = 0.0
 

@@ -13,7 +13,7 @@ extends RefCounted
 const CASTABLE := ["bolt", "orb", "spin", "shot", "flask", "boomer", "flame", "disc", "pulse", "nova", "burst",
 	"gatling", "rail", "zap", "beam"]
 const CAST_CD := 0.12
-const LUCK_LUCKY := 0.02   # 38.2: every point of LUCK, +2% lucky hits
+const LUCK_LUCKY := 0.05   # 38.2, 40.0 (his notes: +5%): every point of LUCK, +5% lucky hits
 const MAX_CASTS_A_TICK := 2
 
 static var stats := {}        # lucky, casts, discharges (tests)
@@ -36,7 +36,7 @@ static func tick(dt: float) -> void:
 static func chance(p: Player) -> float:
 	if not GameData.rogues():
 		return 0.0
-	return p.g("lucky") + p.g("lucky_dex") * p.a_dex + LUCK_LUCKY * p.luck + (1.0 if rush_t > 0 else 0.0)
+	return p.g("lucky") + p.g("lucky_dex") * p.a_dex + LUCK_LUCKY * p.luck + p.g("lucky_heart") * p.max_hp / 2.0 + (1.0 if rush_t > 0 else 0.0)   # (40.2 BIG HEART)
 
 ## The weapon in the first backpack slot, if it can be cast.
 static func slot_weapon(p: Player) -> Variant:

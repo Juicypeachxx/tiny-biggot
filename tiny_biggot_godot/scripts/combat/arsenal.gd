@@ -753,6 +753,7 @@ static func puppet(e: Enemy, secs: float) -> void:
 	if e.puppet_t <= 0:
 		_stat("puppet")
 		Fx.float_text(e.x, e.y - e.r - 10, "PUPPET", "purple")
+		Might.taunted(e)   # 40.2 PRIDE
 	e.puppet_t = maxf(e.puppet_t, secs)
 
 ## A puppet's turn (Combat.update_enemies, instead of its own AI).

@@ -52,7 +52,7 @@ const KEYWORDS := {
 	"WEAKENED": ["purple", "WEAKENED FOES DEAL LESS DAMAGE."],
 	"MARK": ["pink", "A MARKED FOE TAKES EXTRA DAMAGE FROM YOUR NEXT HITS."],
 	"ECHO": ["pink", "AN ECHO CASTS A SHOT A SECOND TIME, FOR FREE."],
-	"LUCK": ["lime", "LUCK MAKES RARE THINGS LESS RARE, AND CAN ADD A FOURTH TRAIT TO CHOOSE FROM."],
+	"LUCK": ["lime", "LUCK MAKES RARE THINGS LESS RARE, CAN ADD A FOURTH TRAIT TO CHOOSE FROM, AND EACH POINT GIVES +5% LUCKY HITS."],
 	"FAMILIAR": ["cyan", "A COMPANION THAT FIGHTS AT YOUR SIDE."],
 	# 8.2 (his ask, 6 Oct: "make info of perks and stats and all info of the game ... easier to understand
 	# the build"): the stats and the alignments in their colour, each with its little icon (ICONS).
@@ -63,9 +63,9 @@ const KEYWORDS := {
 	"HEART": ["red", "YOUR HEALTH. EACH HEART TAKES TWO HITS."],
 	"HEARTS": ["red", "YOUR HEALTH. EACH HEART TAKES TWO HITS."],
 	"POTION": ["pink", "DRINK IT TO HEAL. REFILLS AT SOME SHRINES AND SHOPS."],
-	"STR": ["red", "STRENGTH: RAISES THE DAMAGE OF WEAPONS THAT SCALE WITH IT. EVERY 5 POINTS: +1 MAX HEART."],
-	"DEX": ["lime", "DEXTERITY: RAISES THE DAMAGE OF WEAPONS THAT SCALE WITH IT. EACH POINT: +1% CRIT."],
-	"INT": ["cyan", "INTELLIGENCE: RAISES THE DAMAGE OF WEAPONS THAT SCALE WITH IT. EACH POINT: +2% BURN, POISON AND LIGHTNING DAMAGE."],
+	"STR": ["red", "STRENGTH: EACH POINT +5% DAMAGE TO WEAPONS THAT SCALE WITH IT (TIMES THEIR GRADE). EVERY 5 POINTS: +1 MAX HEART."],
+	"DEX": ["lime", "DEXTERITY: EACH POINT +5% DAMAGE TO WEAPONS THAT SCALE WITH IT (TIMES THEIR GRADE) AND +1% CRIT."],
+	"INT": ["cyan", "INTELLIGENCE: EACH POINT +5% DAMAGE TO WEAPONS THAT SCALE WITH IT (TIMES THEIR GRADE) AND +2% BURN, POISON AND LIGHTNING DAMAGE."],
 	"GOOD": ["gold", "AN ALIGNMENT. SOME STARS AND PERKS HOLD WHILE IT LEADS (2 OR MORE, NONE HIGHER)."],
 	"EVIL": ["red", "AN ALIGNMENT. SOME STARS AND PERKS HOLD WHILE IT LEADS (2 OR MORE, NONE HIGHER)."],
 	"LAWFUL": ["cyan", "AN ALIGNMENT. SOME STARS AND PERKS HOLD WHILE IT LEADS (2 OR MORE, NONE HIGHER)."],
@@ -86,6 +86,14 @@ const ICONS := { "DAMAGE": "mi_dmg", "RATE": "mi_rate", "SPEED": "mi_speed", "GO
 const FAM_ICON := { "core": "fam_core", "pyre": "fam_pyre", "frost": "fam_frost", "venom": "fam_venom", "storm": "fam_storm",
 	"blood": "fam_blood", "bulwark": "fam_bulwark", "shadow": "fam_shadow", "arcane": "fam_arcane", "fortune": "fam_fortune",
 	"demolition": "fam_demolition", "swarm": "fam_swarm", "edge": "fam_edge", "fury": "fam_fury", "malice": "fam_malice" }
+
+## 40.1: a trait's group (str, dex, int by its family; super) and its colours.
+const GROUP_HEX := { "str": "#ff3b6b", "dex": "#3cf06e", "int": "#36b4ff", "super": "#ff3a2e" }
+const GROUP_COL := { "str": "pink", "dex": "green", "int": "cyan", "super": "red" }
+static func group(tr: Dictionary) -> String:
+	if tr.get("rarity", "") == "super":
+		return "super"
+	return Attributes.FAMILY_ATTR.get(tr["fam"], "")
 
 static func active() -> bool:
 	return GameData.rogues()
@@ -157,13 +165,20 @@ static func _row(ci: CanvasItem, r: Rect2, tr: Dictionary, sel: bool, a: float) 
 	Gfx.panel(ci, r.position.x, r.position.y, r.size.x, r.size.y, border, "#14121c" if sel else "#0c0b12")
 	# The icon box (8.5: bigger, in the family's colour; pink for a SUPER trait).
 	var sup: bool = tr["rarity"] == "super"
-	var box: String = "#e86fb4" if sup else ("#ff9b3a" if tr["rarity"] == "oath" else fam["hex"])   # 29: an OATH's box in orange
+	# 40.1 (his pictures, 10 Oct): box, picture and name in the trait's group colour (STR pink-red,
+	# DEX green, INT blue, SUPER red); an OATH's box stays orange (29).
+	var grp: String = group(tr)
+	var box: String = "#ff9b3a" if tr["rarity"] == "oath" else GROUP_HEX.get(grp, fam["hex"])
 	var ib := Rect2(r.position.x + 6, r.position.y + 7, 36, 36)
 	Gfx.panel(ci, ib.position.x, ib.position.y, ib.size.x, ib.size.y, box, "#0c0b12")
 	ci.draw_rect(Rect2(ib.position.x + 2, ib.position.y + 2, ib.size.x - 4, ib.size.y - 4), TB.c(box), false, 1.0)
-	Gfx.sp(ci, FAM_ICON.get(tr["fam"], "fam_core"), ib.get_center().x, ib.end.y - 5, 2, 2, 0.0, false, a)
+	var pic: String = "tr_" + tr["id"]
+	if Img.has(pic):   # its own picture, one flat colour like the others
+		Gfx.sp(ci, pic, ib.get_center().x, ib.end.y - 2, 2, 2, 0.0, false, a, TB.c(box))
+	else:
+		Gfx.sp(ci, FAM_ICON.get(tr["fam"], "fam_core"), ib.get_center().x, ib.end.y - 5, 2, 2, 0.0, false, a)
 	var tx := r.position.x + 48
-	Gfx.text(ci, ("SUPER " if sup and not tr["name"].begins_with("SUPER") else "") + tr["name"], tx, r.position.y + 5, "pink" if sup else fam["col"], 1, 0.0, true, a)
+	Gfx.text(ci, ("SUPER " if sup and not tr["name"].begins_with("SUPER") else "") + tr["name"], tx, r.position.y + 5, GROUP_COL.get(grp, fam["col"]), 1, 0.0, true, a)
 	var rank: int = G.player.traits.get(tr["id"], 0)
 	var pips := ""
 	for k in tr["max"]:

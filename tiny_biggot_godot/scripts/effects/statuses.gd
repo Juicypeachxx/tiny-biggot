@@ -25,6 +25,10 @@ static func apply(e: Enemy, name: String, amount: float, hit_dmg: float) -> void
 			Vfx.puff(e.x, e.y, "void")
 		elif name == "poison" and e.poison <= 0:
 			Vfx.puff(e.x, e.y, "venom")
+	if Might.casting and p.g("merciless") > 0:
+		amount *= 2.0   # 40.2 MERCILESS: what your special inflicts is twice as strong
+	if name == "burn" or name == "bleed":
+		Might.add_stack(p, e, name)   # 40.2 BLOOD AND ASH
 	match name:
 		"burn": e.burn_t = maxf(e.burn_t, (3.0 + p.burn_time) * maxf(1.0, amount))
 		"poison": e.poison = minf(12, e.poison + amount)

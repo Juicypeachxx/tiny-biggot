@@ -33,6 +33,7 @@ extends RefCounted
 ##   --clock=H                    21.6: the camp at hour H (0-23) instead of the iPad's clock
 ##   --wanderer                   21.4: a cleared fight room with a rival and their chest, a lost traveller and a ghost
 ##   --pet=ID[:LEVEL]             start with a pet (scripts/entities/pets.gd), level 1 to 3
+##   --trait-opts=ID,ID,ID        with --ui=traits: the traits offered (pictures)
 ##   --spawn=TYPE                 put one foe of that type (GameData.ENEMIES) in the middle of the room
 ##   --neon                       turn the NEON LOOK option on (10.5)
 ##   --give=relic:ID,gear:ID,...  start with these items (relic, gear, trait at max rank, weapon)

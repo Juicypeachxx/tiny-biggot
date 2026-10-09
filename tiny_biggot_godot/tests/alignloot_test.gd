@@ -108,8 +108,8 @@ func _ready() -> void:
 	# LUCK gives lucky hits.
 	var l0 := Lucky.chance(p)
 	p.luck += 5
-	if absf(Lucky.chance(p) - l0 - 0.1) > 0.001:
-		fail("5 LUCK gave %.3f lucky hits, not 0.10" % (Lucky.chance(p) - l0))
+	if absf(Lucky.chance(p) - l0 - 0.25) > 0.001:
+		fail("5 LUCK gave %.3f lucky hits, not 0.25" % (Lucky.chance(p) - l0))
 	# MAGIC FIND: fewer commons.
 	var commons := [0, 0]
 	for k in 2:

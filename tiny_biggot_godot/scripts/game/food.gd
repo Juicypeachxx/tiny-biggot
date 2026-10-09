@@ -159,7 +159,10 @@ static func drink(p: Player, kind: String) -> void:
 	p.drink_n += 1
 	var src := "drink:%d" % p.drink_n
 	Effects.apply(p, DRINKS[kind][2], 1, src)
-	p.drinks.append([kind, ROOMS, src])
+	var twice := p.g("drink_double") > 0   # 40.2 DOUBLE MEASURE: every buff counts twice
+	if twice:
+		Effects.apply(p, DRINKS[kind][2], 1, src + "x")
+	p.drinks.append([kind, ROOMS, src, twice])
 	stats["drinks"] = stats.get("drinks", 0) + 1
 	Fx.float_text(p.x, p.y - 28, DRINKS[kind][1], "gold")
 
@@ -178,6 +181,8 @@ static func on_room(p: Player) -> void:
 static func _wear_off(p: Player, i: int, pushed: bool) -> void:
 	var d: Array = p.drinks[i]
 	Effects.apply(p, DRINKS[d[0]][2], -1, d[2])
+	if d.size() > 3 and d[3]:
+		Effects.apply(p, DRINKS[d[0]][2], -1, d[2] + "x")
 	p.drinks.remove_at(i)
 	stats["worn"] = stats.get("worn", 0) + 1
 	G.toast(("%s PUSHED OUT" if pushed else "THE %s WORE OFF") % DRINKS[d[0]][0], "grey")

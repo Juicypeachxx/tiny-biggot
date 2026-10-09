@@ -122,6 +122,13 @@ var pulse_t := 0.0             # stage 3: the next desperation pulse
 var break_t := 0.0             # a mini-boss or rift guardian between stages: unhurt, no AI (stages.gd)                # damage past its death (the "overkill" action, ROADMAP 4.7)
 var parts: Array = []          # what it carries: an anchor, a bell, the hydra's heads
 var num = null                 # 39.4: its newest damage number, which adds up the next hits (Fx.hit_text)
+var puncture := 0              # 40.2 SHARP END: stacks, +4% damage taken each (might.gd)
+var punct_t := 0.0
+var instab := 0                # 40.2 BLUNT FORCE: at 5 it reels
+var burn_n := 0                # 40.2 BLOOD AND ASH: stacks of its burn and its bleed
+var bleed_n := 0
+var dot_cd := 0.0              # 40.2 OPEN WOUNDS: its ailments ticked by a hit at most this often
+var taunt_cd := 0.0            # 40.2 LOOMING THREAT: taunted again only after this
 
 func _init() -> void:
 	uid = _next_uid

@@ -12,7 +12,7 @@ extends RefCounted
 const ATTRS := ["str", "dex", "int"]
 const NAMES := { "str": "STR", "dex": "DEX", "int": "INT" }
 const COLS := { "str": "red", "dex": "lime", "int": "cyan" }
-const PER_POINT := 0.03
+const PER_POINT := 0.05   # 40.0 (his notes, 9 Oct: +5% a point; it was 3%; no soft cap)
 const GRADES := ["S", "A", "B", "C", "D", "E", "-"]
 const COEF := { "S": 1.0, "A": 0.8, "B": 0.6, "C": 0.4, "D": 0.25, "E": 0.1, "-": 0.0 }
 
@@ -80,10 +80,18 @@ static func _up(grade: String) -> String:
 	return GRADES[maxi(0, GRADES.find(grade) - 1)]
 
 static func value(p: Player, a: String) -> int:
-	match a:
-		"str": return p.a_str
-		"dex": return p.a_dex
-	return p.a_int
+	var v: int = p.a_str if a == "str" else (p.a_dex if a == "dex" else p.a_int)
+	if p.g("focus_str") > 0 or p.g("focus_dex") > 0 or p.g("focus_int") > 0:
+		v = int(round(v * focus(p, a)))
+	return v
+
+## 40.2 BRAWN (and its DEX and INT sisters): the focused attribute counts double, the others half.
+static func focus(p: Player, a: String) -> float:
+	var m := 1.0
+	for k in ATTRS:
+		if p.g("focus_" + k) > 0:
+			m *= 2.0 if k == a else 0.5
+	return m
 
 ## Weapon damage multiplier from attributes (1.0 when off).
 static func mult(p: Player) -> float:
@@ -98,6 +106,8 @@ static func mult_for(p: Player, w: Dictionary) -> float:
 	var m := 0.0
 	for a in ATTRS:
 		m += COEF[g[a]] * value(p, a)
+	if p.g("heavy_draw") > 0 and Might.ranged(w):
+		m += COEF[g["dex"]] * 0.5 * value(p, "str")   # 40.2 STRONG ARM: half your STR as DEX for bows and guns
 	return 1.0 + PER_POINT * m
 
 static func add(p: Player, a: String, n: int) -> void:

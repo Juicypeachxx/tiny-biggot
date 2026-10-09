@@ -32,7 +32,7 @@ static func charge(p: Player) -> float:
 static func update(p: Player, dt: float) -> void:
 	if not has_special(p):
 		return
-	p.special_cd = maxf(0.0, p.special_cd - dt)
+	p.special_cd = maxf(0.0, p.special_cd - dt * Might.special_rate(p))   # 40.2 (1.0 in classic)
 	if not p.channel.is_empty():
 		var c: Dictionary = p.channel
 		c["t"] -= dt
@@ -54,8 +54,7 @@ static func use(p: Player) -> void:
 	p.special_cd = float(sp["cd"])
 	Snd.play("unlock")
 	Juice.ability(p.x, p.y, sp["name"], sp.get("col", "#f2c94c"))
-	for a in sp["do"]:
-		Actions.run(a, 1, {})
+	Might.cast(p, sp["do"])   # 40.2: its actions, then on_special (MERCILESS while they run)
 
 static func start_dash(p: Player, a: Array) -> void:
 	var dir := Vector2(cos(p.aim_a), sin(p.aim_a))

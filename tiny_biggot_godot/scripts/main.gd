@@ -165,6 +165,9 @@ func _ready() -> void:
 				G.take_trait(Traits.by_id("z_thunderstep"))
 				G.state = &"traits"
 				G.tchoice["opts"] = [Traits.by_id("z_static"), Traits.by_id("z_scorch"), Traits.by_id("z_bankshot")]
+			if DebugArgs.get_str("trait-opts") != "":   # 40.1 pictures: --trait-opts=id,id,id
+				G.state = &"traits"
+				G.tchoice["opts"] = Array(DebugArgs.get_str("trait-opts").split(",")).map(func(id): return Traits.by_id(id))
 		"hud": pass
 		"stars":   # the constellation; with --unlock-all, a few stars already taken
 			G.state = &"title"

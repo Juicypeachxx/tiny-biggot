@@ -322,6 +322,11 @@ timeout 600 "$GODOT" --headless --path . res://tests/stunlock_test.tscn -- --no-
 grep -E "^\[stunlock\]|stunlock test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 40 the STRENGTH traits: pictures, power, rage, crushing hits, puncture, the special, drinks twice; +5% a stat point"
+timeout 600 "$GODOT" --headless --path . res://tests/stage40_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[stage40\]|stage40 test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== 18.1 the daily trial"
 timeout 300 "$GODOT" --headless --path . res://tests/daily_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "daily test" "$LOG"

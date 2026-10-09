@@ -3,7 +3,7 @@ extends RefCounted
 ## 38.2 LOOT (his word, 9 Oct, from notes on another game: luck, magic find, treasure find; our own
 ## numbers). Expanded game only.
 ##   LUCK           as before (rarer relics, a fourth trait row), and now +2% lucky hits a point
-##                  (Lucky.LUCK_LUCKY).
+##                  (Lucky.LUCK_LUCKY, +5% a point).
 ##   MAGIC FIND     gf magic_find: weapons and armour above common come that much more often
 ##                  (Gear.roll_item_rarity).
 ##   TREASURE FIND  gf treasure_find: the chance that a cleared fight or an opened chest leaves one

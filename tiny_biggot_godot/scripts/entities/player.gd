@@ -284,7 +284,7 @@ func update_move(dt: float) -> Vector2:
 	post_roll_t = maxf(0.0, post_roll_t - dt)
 	var raging := blood_rage and hp <= max_hp / 2
 	if charges < dodge_charges:
-		charge_t += dt
+		charge_t += dt * Might.roll_rate(self)   # 40.2 ROLLING THUNDER, HEAVY STRIDE (1.0 in classic)
 		if charge_t >= dodge_cd:
 			charge_t = 0.0
 			charges += 1
@@ -308,7 +308,7 @@ func update_move(dt: float) -> Vector2:
 		trail.append({ "x": x, "y": y, "life": 0.18, "face": face })
 		Combat.while_rolling(self, dt)
 	else:
-		var spd := speed * (1.2 if raging else 1.0) * Pace.speed_mult()   # 35.2 FINISH THEM, CLEAR RUSH
+		var spd := speed * (1.2 if raging else 1.0) * Pace.speed_mult() * Might.speed_mult(self)   # 35.2 FINISH THEM, CLEAR RUSH; 40.2 HEAVY STRIDE
 		vx = mv.x * spd
 		vy = mv.y * spd
 	moving = Vector2(vx, vy).length() > 5
