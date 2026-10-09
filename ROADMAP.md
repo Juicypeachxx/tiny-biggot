@@ -1216,8 +1216,10 @@ a bullet storm. Ideas and play only: every name, sprite and text here is our own
       was the last one or two foes. Now: the next wave comes with 2 foes left, foes appear
       faster, FINISH THEM (the last foes marked, +30% damage), CLEAR RUSH (+35% walk to the
       door), FIRST SPOILS (a chest after the first fight, an item after the second).
-- [ ] 35.3 CLARITY in a bullet storm: foe shots always above your own effects with a dark rim,
-      your hero always easy to find; nothing toned down.
+- [x] 35.3 CLARITY in a bullet storm: foe shots always above your own effects with a dark rim,
+      your hero always easy to find; nothing toned down. Foe shots, aiming lines, beams and
+      warning rings are drawn last (over your shots, sparks and numbers), with a soft dark rim;
+      the hero is drawn over its own effects with a light ring at its feet. Draw calls +2.
 
 ## Stages 36-39 (his word, 9 Oct: "Ideas for sprites for new stuff, and new stuff to add")
 He sent pictures of a wiki of the game we take ideas from (charms, offhands, body armour, helmets,

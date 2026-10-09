@@ -222,11 +222,11 @@ static var _fhh := PackedFloat32Array()
 
 static func _textures() -> void:
 	for name in SPRITES:
-		var old := Img.t("orb_" + name)
+		var old := Img.t("orbr_" + name)   # 35.3: with a soft dark rim (tools/art/shot_rims.py)
 		_otex.append(old)
 		_ohw.append(old.get_width() / 2)
 		_ohh.append(old.get_height() / 2)
-		var strip := Img.t("eb_" + name)
+		var strip := Img.t("ebr_" + name)
 		var w := strip.get_width() / 4
 		var h := strip.get_height()
 		_fhw.append(w / 2)

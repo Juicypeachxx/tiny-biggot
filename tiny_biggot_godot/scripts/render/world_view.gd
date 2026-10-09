@@ -29,7 +29,7 @@ var glow: DrawLayer      # z 1900  additive glows
 var vfx: DrawLayer       # z 1950  ability effects (Vfx): blasts, lightning, marks on afflicted foes
 var pbul: DrawLayer      # z 2000  player shots, moons, wisps
 var bars: DrawLayer      # z 2050  foe health bars
-var ebul: DrawLayer      # z 2100  enemy shots
+var ebul: DrawLayer      # last of all (35.3 CLARITY): foe warnings and foe shots over everything of yours
 var parts: DrawLayer     # z 2200  particles
 var swing: DrawLayer     # z 2250  melee arcs, thrusts, rays
 var top: DrawLayer       # z 2300  aim reticle
@@ -89,7 +89,6 @@ func _ready() -> void:
 	_shots = ShotBatch.new()
 	pbul.add_child(_shots)
 	bars = _layer(_paint_bars)
-	ebul = _layer(EBullets.draw)
 	parts = _layer(_paint_parts)
 	swing = _layer(_paint_swings)
 	top = _layer(_paint_top)
@@ -105,6 +104,7 @@ func _ready() -> void:
 	texts.add_child(_floats)
 	_labels = DrawLayer.new(_paint_labels)
 	texts.add_child(_labels)
+	ebul = _layer(_paint_foe)   # 35.3: over your shots, effects, sparks and numbers
 	G.room_changed.connect(_on_room_changed)
 
 ## 22.1: on a night floor, what warns of danger shows over the dark (the floor layer leaves it out).
@@ -769,17 +769,35 @@ func _paint_ents(ci: CanvasItem) -> void:
 	for e in list:
 		if e == p:
 			Pets.draw(ci, p, t)
-			_draw_player(ci, p, t)
+			_draw_trail(ci, p)   # (35.3: the hero itself is drawn in the top layer, over your effects)
 		else:
 			_draw_enemy(ci, e, t)
 	Juice.draw_pops(ci)
 
-func _draw_player(ci: CanvasItem, p: Player, t: float) -> void:
+func _draw_trail(ci: CanvasItem, p: Player) -> void:
 	var name: String = p.hero["sprite"]
 	for tr in p.trail:
 		# Roll and dash ghosts are white; the Gaolbird's tempo ghosts carry their own colour.
 		Gfx.sp(ci, name, tr["x"], tr["y"] + 6 - tr.get("air", 0.0), 1.0, 1.0, 0.0, tr["face"] < 0,
 			clampf(tr["life"] * 2.5, 0.0, 1.0), tr.get("col", Color(1, 1, 1, 1)))
+
+## 35.3 CLARITY: a light ring round the hero's feet, over the floor and your effects (brighter
+## when the screen is busy), so the hero is easy to find in a storm of shots.
+func _draw_hero_mark(ci: CanvasItem, p: Player, t: float) -> void:
+	var busy := Fx.n + G.pbullets.size() + EBullets.n > 90
+	var a := (0.85 if busy else 0.55) + 0.12 * sin(t * 4.0)
+	var at := Vector2(roundf(p.x), roundf(p.y) + 6.0)
+	var dark := PackedVector2Array()
+	var light := PackedVector2Array()
+	for i in 25:
+		var k := i * TAU / 24.0
+		dark.append(at + Vector2(roundf(cos(k) * 10.0), roundf(sin(k) * 5.0)))
+		light.append(at + Vector2(roundf(cos(k) * 9.0), roundf(sin(k) * 4.0)))
+	ci.draw_polyline(dark, Color(0.08, 0.06, 0.11, a * 0.8), 1.0)
+	ci.draw_polyline(light, Color(0.91, 0.96, 1.0, a), 1.0)
+
+func _draw_player(ci: CanvasItem, p: Player, t: float) -> void:
+	var name: String = p.hero["sprite"]
 	var airborne := p.leap_max > 0
 	if p.invuln > 0 and floori(t * 20) % 2 == 1 and p.dodge_t <= 0 and not airborne:
 		return
@@ -913,16 +931,12 @@ func _paint_fx(ci: CanvasItem) -> void:
 					Gfx.bar(ci, TB.c("#ffffff"), e.x + 2 * sin(ba), e.y - 4 - 2 * cos(ba), 520, 4, ba)
 				else:
 					Gfx.bar(ci, TB.ca("#a35bd6", 180 if floori(t * 16) % 2 == 1 else 80), e.x, e.y - 4, 520, 2, ba)
-	if fancy:
-		Afx.draw_marks(ci, t)
 	Juice.draw_rings(ci)
 	Juice.draw_magic(ci, G.player, G.time)
 	_paint_marks(ci, G.player, G.time)
-	Hazards.draw_marks(ci, G.time)
 	Hazards.draw_traffic(ci, G.time)
 	Hazards.draw_gusts(ci, G.time)
 	RiftExtras.draw_hazards(ci, G.time)
-	EnemyAI2.draw_marks(ci, G.time)
 	RiftBosses.draw_over(ci, G.time)
 	Chaos.draw_over(ci, G.time)
 	Pets.draw_over(ci, G.player, G.time)
@@ -1325,10 +1339,25 @@ func _paint_swings(ci: CanvasItem) -> void:
 				Gfx.bar(ci, Color.WHITE, w["x"], w["y"], w["len"], 1, w["a"])
 
 # ---------- z 2300: aim reticle ----------
+## 35.3 CLARITY (his word, 9 Oct: "perfect visual clarity in bullet hell"): what a foe is about to
+## do and what it has shot, drawn last of the world, over everything of yours (your shots,
+## effects, sparks and numbers): the aiming lines and beams, the warning rings, then the shots.
+func _paint_foe(ci: CanvasItem) -> void:
+	var t := G.time
+	if Vfx.enabled:
+		Afx.draw_marks(ci, t)
+	Hazards.draw_marks(ci, t)
+	EnemyAI2.draw_marks(ci, t)
+	EBullets.draw(ci)
+
 func _paint_top(ci: CanvasItem) -> void:
 	RoomDress.paint_over(ci)   # 17.3: lightning
 	Pace.draw(ci, G.time)   # 35.2 FINISH THEM: the last foes marked
 	var p := G.player
+	if p != null:
+		# 35.3 CLARITY: the hero over your own shots, effects and sparks (foe shots stay above it).
+		_draw_hero_mark(ci, p, G.time)
+		_draw_player(ci, p, G.time)
 	if G.enemies_active() or Keys.aim() != null:
 		var ax := p.x + cos(p.aim_a) * 16
 		var ay := p.y - 2 + sin(p.aim_a) * 16

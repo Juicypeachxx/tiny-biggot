@@ -1384,6 +1384,16 @@ Done by another session (the port's), which took over from v31 on claude/dev.
   rare-or-better weapon or gear piece; not in rift rooms). A/B with --smart-bot, 3 heroes x 6 min,
   same seeds: rooms 43 -> 47, fight 14.5 -> 11.8 s, tail 4.8 -> 2.7 s a room (single runs:
   rough). Test tests/pace_test.tscn (in check.sh). Core replays re-recorded; classic identical.
+- 35.3 CLARITY (drawing only). world_view: the foe layer `ebul` (painter `_paint_foe`) is now the
+  last world layer, after texts: Afx.draw_marks (aiming lines, beams), Hazards.draw_marks
+  (warning rings) and EnemyAI2.draw_marks moved there from _paint_fx, then EBullets.draw. So foe
+  warnings and shots are over your shots, vfx, glows, sparks, swings, the vignette, the fog and
+  the floating numbers. The hero's body (`_draw_player`) is drawn in the top layer (over your own
+  effects; the trail ghosts and the pet stay in ents), with `_draw_hero_mark`: a light ring with
+  a dark edge at the feet (brighter when Fx.n + shots > 90). Foe shots use rimmed copies
+  ebr_<kind> / orbr_<kind> (tools/art/shot_rims.py: a soft dark rim, #140f1c at 150/255, one
+  pixel outside each frame's outline; the originals stay). Draw calls in a busy bench fight:
+  59 -> 61. Pictures compared before/after (the hero shows through its own effect cloud).
 
 ## Noted, not yet acted on
 
