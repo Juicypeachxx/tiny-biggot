@@ -1211,8 +1211,11 @@ a bullet storm. Ideas and play only: every name, sprite and text here is our own
       starts with 2 REROLL, 1 ALTER, 1 BANISH; MENU / HEAL / BOMB or a tap on the dice under a
       pick; HEAL / BOMB on a backpack item; the shop's DICE CUP restocks it; a die for sale.
       HOUSE RULES, FIXED ODDS, HIGH ROLLER, GAMBLER'S POUCH, KNUCKLEBONES. Test dice_test.
-- [ ] 35.2 PACE: rooms measured, then faster to start and to finish (spawns, waves, rewards),
-      and a power spike in the first rooms.
+- [x] 35.2 PACE: rooms measured, then faster to start and to finish (spawns, waves, rewards),
+      and a power spike in the first rooms. Measured with the bot (--pace-log): the slow part
+      was the last one or two foes. Now: the next wave comes with 2 foes left, foes appear
+      faster, FINISH THEM (the last foes marked, +30% damage), CLEAR RUSH (+35% walk to the
+      door), FIRST SPOILS (a chest after the first fight, an item after the second).
 - [ ] 35.3 CLARITY in a bullet storm: foe shots always above your own effects with a dark rim,
       your hero always easy to find; nothing toned down.
 

@@ -886,7 +886,7 @@ func _paint_fx(ci: CanvasItem) -> void:
 	var accent := TB.c(GameData.floors()[G.floor_index]["accent_hex"])
 	for e: Enemy in G.enemies:
 		if e.spawn_t > 0:
-			var k := 1 - e.spawn_t / 0.75
+			var k := 1 - e.spawn_t / Pace.spawn_time()
 			var r := 10 - k * 6
 			for i in 8:
 				var a := i / 8.0 * TAU + t * 3
@@ -1327,6 +1327,7 @@ func _paint_swings(ci: CanvasItem) -> void:
 # ---------- z 2300: aim reticle ----------
 func _paint_top(ci: CanvasItem) -> void:
 	RoomDress.paint_over(ci)   # 17.3: lightning
+	Pace.draw(ci, G.time)   # 35.2 FINISH THEM: the last foes marked
 	var p := G.player
 	if G.enemies_active() or Keys.aim() != null:
 		var ax := p.x + cos(p.aim_a) * 16

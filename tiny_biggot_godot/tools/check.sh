@@ -287,6 +287,11 @@ timeout 300 "$GODOT" --headless --path . res://tests/dice_test.tscn -- --no-save
 grep -E "^dice:|dice test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 35.2 pace: quicker waves, FINISH THEM, CLEAR RUSH, the first spoils"
+timeout 300 "$GODOT" --headless --path . res://tests/pace_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[pace\]|pace test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== 18.1 the daily trial"
 timeout 300 "$GODOT" --headless --path . res://tests/daily_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "daily test" "$LOG"

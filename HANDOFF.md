@@ -1370,10 +1370,20 @@ Done by another session (the port's), which took over from v31 on claude/dev.
   ROLLER), relics GAMBLER'S POUCH and KNUCKLEBONES; keywords REROLL, ALTER, BANISH, DICE. Art in
   tools/art/stage33_icons.py (die()). `--no-oath` (debug): no opening oath pick (pictures).
   Test tests/dice_test.tscn (in check.sh). Core replays re-recorded; classic identical.
-- 35.2 tool: `--pace-log` (scripts/debug_pace.gd) prints how each fight room's time went
-  (start, fight, waits between waves, tail = the last one or two foes, after = clear to exit)
-  and the times of the level-ups, with the bot. Use --unlock-all, or the bot stops at the hero
-  select after a death with a locked hero.
+- 35.2 PACE. Measured first: `--pace-log` (scripts/debug_pace.gd) prints how each fight room's
+  time went (start, fight, waits between waves, tail = the last one or two foes, after = clear
+  to exit) and the times of the level-ups, with the bot (use --unlock-all, or the bot stops at
+  the hero select after a death with a locked hero). Before: start 0.5 s, waits ~0.1 s, tail
+  1.6-4.3 s a room (up to 19 s in elite rooms), after ~2 s. `Pace` (scripts/game/pace.gd),
+  expanded only: wave gate 2 foes (Game.update_play; was 1) and gap 0.35 s (was 0.6); spawn
+  time 0.55 s (Combat.spawn_enemy and the rising ring in world_view; was 0.75); FINISH THEM
+  (Pace.tick from update_play: last wave at 1-2 foes for 2 s: Weapons.wdmg x1.3, Player walk
+  x1.15 via Pace.speed_mult, red arrows over them drawn in the top layer, a toast); CLEAR RUSH
+  (Pace.on_clear from room_cleared: walk x1.35 until the room changes, Pace.on_enter); FIRST
+  SPOILS (run_stats "fights": the first cleared fight of a run leaves an old chest, the second a
+  rare-or-better weapon or gear piece; not in rift rooms). A/B with --smart-bot, 3 heroes x 6 min,
+  same seeds: rooms 43 -> 47, fight 14.5 -> 11.8 s, tail 4.8 -> 2.7 s a room (single runs:
+  rough). Test tests/pace_test.tscn (in check.sh). Core replays re-recorded; classic identical.
 
 ## Noted, not yet acted on
 

@@ -332,6 +332,7 @@ func enter_room(r: Room) -> void:
 			d.hp = 1e6
 	locked = false
 	_spawned = false
+	Pace.on_enter()   # 35.2
 	match "" if room.cleared else room.type:   # a cleared room on the floor map stays cleared
 		"combat", "elite":
 			locked = true
@@ -903,6 +904,7 @@ func room_cleared() -> void:
 		dyn_dirty = true
 		room_changed.emit()
 		show_banner("FLAWLESS!", "NOT A SCRATCH: A HIDDEN DOOR OPENS")
+	Pace.on_clear(room)   # 35.2 CLEAR RUSH and the FIRST SPOILS
 	if p.g("room_armor") > 0:
 		p.armor += int(p.g("room_armor"))
 	if p.g("room_gold") > 0:
@@ -2430,14 +2432,17 @@ func update_play(dt: float) -> void:
 		return
 	if room.type in ["combat", "elite", "challenge"] and locked:
 		var alive := enemies.size()
-		if room.waves_left > 0 and alive <= (1 if _spawned else 0):
+		# 35.2 PACE: the next wave when the one before is down to its last 2 (Pace.wave_gate).
+		if room.waves_left > 0 and alive <= (Pace.wave_gate() if _spawned else 0):
 			_wave_delay -= dt
 			if _wave_delay <= 0:
 				spawn_wave(room.type == "challenge")
 				_spawned = true
-				_wave_delay = 0.6
+				_wave_delay = Pace.wave_gap()
 		elif alive == 0 and room.waves_left <= 0:
 			room_cleared()
+		elif room.type != "challenge":
+			Pace.tick(dt, alive, room.waves_left)   # 35.2 FINISH THEM
 	if room.event_fight and locked and enemies.is_empty():
 		event_fight_cleared()
 	if room.type == "boss" and locked and boss == null and boss_delay != null:
