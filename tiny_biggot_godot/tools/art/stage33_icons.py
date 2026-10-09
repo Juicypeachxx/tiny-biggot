@@ -23,6 +23,21 @@ def recolour(src, dst, hue, sat=1.0, val=1.0):
             px[x, y] = (round(rr * 255), round(gg * 255), round(bb * 255), a)
     im.save(G + dst + ".png")
 
+def tint(src, dst, hexc, k=0.6):
+    """Leans every non-outline pixel toward a colour, keeping its light and dark."""
+    c = hexc.lstrip("#"); tr, tg, tb = (int(c[i:i + 2], 16) for i in (0, 2, 4))
+    im = Image.open(G + src + ".png").convert("RGBA")
+    px = im.load()
+    for y in range(im.height):
+        for x in range(im.width):
+            r, g, b, a = px[x, y]
+            v = (r + g + b) / 3
+            if a == 0 or v < 40:
+                continue
+            m = v / 160.0
+            px[x, y] = tuple(min(255, round((1 - k) * o + k * t * m)) for o, t in ((r, tr), (g, tg), (b, tb))) + (a,)
+    im.save(G + dst + ".png")
+
 def grid(dst, rows, pal):
     h = len(rows); w = max(len(r) for r in rows)
     im = Image.new("RGBA", (w, h), (0, 0, 0, 0))
@@ -108,9 +123,15 @@ def stage34():
         "............",
     ], {"o": OUT, "1": "#e8dcc8", "2": "#b8a888"})
 
+def stage34_legion():
+    recolour("w_gravecaller", "w_bonecenser", 0.28, 0.9, 1.0)      # the censer's glow: grave green
+    tint("g_bastion_boots", "g_marchingboots", "#a8703a", 0.75)       # leather brown
+
 if __name__ == "__main__":
     stage33()
     stage33_tavern()
     stage34()
-    rendered(["mindwarden_hero", "w_thoughtstone", "tavernknight_hero", "w_tankardmaul", "trickshot_hero", "w_quickcrossbow"])
+    stage34_legion()
+    rendered(["mindwarden_hero", "w_thoughtstone", "tavernknight_hero", "w_tankardmaul", "trickshot_hero", "w_quickcrossbow",
+        "bonecaller_hero"])
     print("stage 33 sprites rendered")

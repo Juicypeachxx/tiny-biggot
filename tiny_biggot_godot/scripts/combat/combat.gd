@@ -2008,7 +2008,7 @@ static func update_familiars(p: Player, dt: float) -> void:
 		if f["t"] > 0:
 			keep.append(f)
 	G.temp_fams = keep
-	var all: Array = fam.slice(0, mini(p.familiars, Effects.SUMMON_CAP)) + G.temp_fams
+	var all: Array = fam.slice(0, mini(p.familiars, Effects.SUMMON_CAP + Legion.cap_bonus(p))) + G.temp_fams   # 34.2
 	for i in all.size():
 		var f: Dictionary = all[i]
 		var a := G.time * 1.6 + i * TAU / maxi(1, all.size())
@@ -2023,11 +2023,11 @@ static func update_familiars(p: Player, dt: float) -> void:
 		var t := nearest_enemy(f["x"], f["y"], 220)
 		if t == null:
 			continue
-		f["cd"] = 0.7 / p.fam_rate
+		f["cd"] = 0.7 / (p.fam_rate * Legion.speed(p))   # 34.2 THE LEGION PATH
 		var a2 := TB.ang_xy(f["x"], f["y"], t.x, t.y)
 		for k in p.fam_multi:
 			var aa := a2 + (k - (p.fam_multi - 1) / 2.0) * 0.18
-			_raw_shot(f["x"], f["y"], aa, 220, maxf(2.0, Weapons.wdmg(p) * 0.45) * (1 + p.fam_dmg), 0.9, 2.0, 0, "spark", {}, 3.0)
+			_raw_shot(f["x"], f["y"], aa, 220, maxf(2.0, Weapons.wdmg(p) * 0.45) * (1 + p.fam_dmg) * Legion.dmg_mult(p), 0.9, 2.0, 0, "spark", {}, 3.0)
 
 # ---------- The player's combat turn (update_player, merged) ----------
 static func update_player(p: Player, dt: float) -> void:

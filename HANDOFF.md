@@ -1337,6 +1337,16 @@ Done by another session (the port's), which took over from v31 on claude/dev.
   WISHBONE. Hero THE TRICKSHOT (index 32; QUICKSILVER CROSSBOW; [1,6,1]; "pack": runechalk, a
   new hero field read in Game.new_run; SLEIGHT OF HAND; special TRICK SHOT). Test
   tests/trigger_test.tscn (in check.sh).
+- 34.2 THE LEGION PATH. `Legion` (scripts/combat/legion.gd): gf minion_dmg, minion_speed, march
+  (x % of extra move speed: p.speed against hero["speed"]) and minion_cap. Wisps:
+  Combat.update_familiars (cap, cd, damage); Actions "summon" (cap). Thralls and turrets:
+  Summons._tick_turrets / _tick_thralls take the damage once (Legion.boost, the "lg" key) and
+  count cd down x Legion.speed; item_raise, item_turret and on_kill caps + minion_cap. Pets:
+  Pets.update cd and damage. Traits h_* (BONE CALL, QUICK MARCH, GRAVE MARSHAL, BONE BEACON,
+  ENDLESS RANKS), gear MARCHING BOOTS. Hero THE BONECALLER (index 33; BONE CENSER, a "thrall"
+  weapon; [1,1,5]; THE BONEYARD; special ARMY OF BONES; every room entered raises 2 skeletons).
+  Art in tools/art/stage33_icons.py (tint() for the boots). Test tests/legion_test.tscn.
+  Core replays re-recorded for Stage 34; classic identical. IPA 34.
 
 ## Noted, not yet acted on
 

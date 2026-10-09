@@ -277,6 +277,11 @@ timeout 300 "$GODOT" --headless --path . res://tests/trigger_test.tscn -- --no-s
 grep -E "^\[trigger\]|trigger test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 34.2 the legion path: companion damage, speed and cap for every helper, the Bonecaller"
+timeout 300 "$GODOT" --headless --path . res://tests/legion_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[legion\]|legion test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== 18.1 the daily trial"
 timeout 300 "$GODOT" --headless --path . res://tests/daily_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "daily test" "$LOG"

@@ -159,7 +159,7 @@ static func update(p: Player, dt: float) -> void:
 	if not active(p):
 		return
 	t -= dt
-	cd -= dt
+	cd -= dt * Legion.speed(p)   # 34.2 THE LEGION PATH: pets are companions too
 	_mark -= dt
 	var keep := []
 	for b in bolts:
@@ -209,7 +209,7 @@ static func _foe() -> Enemy:
 	return tgt.get_ref() if tgt != null else null
 
 static func _hit(p: Player, e: Enemy, mult: float, col: String = "cyan") -> void:
-	Combat.damage_enemy(e, Weapons.wdmg(p) * mult, { "col": col })
+	Combat.damage_enemy(e, Weapons.wdmg(p) * mult * Legion.dmg_mult(p), { "col": col })
 
 static func _biscuit(p: Player, dt: float) -> void:
 	match st:

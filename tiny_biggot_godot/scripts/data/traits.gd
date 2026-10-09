@@ -378,6 +378,13 @@ const ROWS := [
 	["q_static", "storm", 2, "STATIC BUILD-UP", "20% OF HITS SHOCK. A FOE AT 5 SHOCK DISCHARGES: LIGHTNING TO 4 FOES FOR 150%", false, [["hook", "static_buildup", 1], { "on": "on_hit", "chance": 0.2, "do": [["status", "shock", 1]] }], "uncommon", ["storm"], {  }],
 	["q_quickfingers", "edge", 3, "QUICK FINGERS", "+1 DEX. +1% ATTACK SPEED FOR EVERY POINT OF DEX", false, [["attr", "dex", 1], ["hook", "rate_per_dex", 0.01]], "uncommon", ["edge"], {  }],
 	["q_jackpot", "fortune", 1, "JACKPOT", "EVERY 10TH LUCKY HIT CALLS DOWN 5 LIGHTNING BOLTS FOR 200%", false, [{ "on": "on_lucky", "every": 10, "do": [["bolts", 5, 2.0]] }], "legend", ["fortune", "storm"], {  }],
+	# 34.2 THE LEGION PATH (his word, 9 Oct: a companion build): one set of numbers for every helper
+	# (scripts/combat/legion.gd).
+	["h_bonecall", "swarm", 3, "BONE CALL", "+10% COMPANION DAMAGE AND ATTACK SPEED", false, [["hook", "minion_dmg", 0.1], ["hook", "minion_speed", 0.1]], "common", ["swarm"], {  }],
+	["h_march", "swarm", 2, "QUICK MARCH", "+6% MOVE SPEED. EVERY 1% OF EXTRA MOVE SPEED GIVES YOUR COMPANIONS +2% ATTACK SPEED", false, [["mul", "speed", 1.06], ["hook", "march", 2.0]], "uncommon", ["swarm", "shadow"], {  }],
+	["h_marshal", "swarm", 2, "GRAVE MARSHAL", "+2 COMPANIONS AT ONCE. EVERY FIGHT, A SKELETON CLIMBS OUT BESIDE YOU FOR 20S", false, [["hook", "minion_cap", 2], { "on": "on_room_enter", "do": [["raise", 20.0, 0.8]] }], "rare", ["swarm", "malice"], {  }],
+	["h_beacon", "swarm", 2, "BONE BEACON", "YOUR COMPANIONS DEAL +40% DAMAGE", false, [["hook", "minion_dmg", 0.4]], "rare", ["swarm"], {  }],
+	["h_ranks", "swarm", 1, "ENDLESS RANKS", "A QUARTER OF YOUR KILLS CALL A WISP FOR 6S. COMPANIONS ATTACK 25% FASTER", false, [["hook", "minion_speed", 0.25], { "on": "on_kill", "chance": 0.25, "do": [["summon", 6.0]] }], "legend", ["swarm"], {  }],
 ]
 
 const TREE_COSTS := [10, 20, 35, 60]
@@ -419,6 +426,7 @@ const HERO_BRANCH := {
 	"mindwarden": { "name": "THE STILL FIELD", "nodes": [["FOCUS", "+2 INT"], ["CLEAR SKY", "+20% AURA REACH"], ["ECHOING MIND", "HALOS PULSE 20% FASTER"], ["THE WIDE WORLD", "EVERY HALO PULSE ALSO HITS THE FOES IN IT FOR 40%"]] },
 	"tavernknight": { "name": "THE TAPROOM", "nodes": [["STRONG BREW", "DRINKS GIVE +1 MORE TIPSY"], ["BARREL CHEST", "+1 MAX HEART"], ["SLOW SIPPER", "TIPSY WEARS OFF HALF AS FAST"], ["CLOSING TIME", "EVERY ROOM YOU ENTER POURS YOU AN ALE (+2 TIPSY)"]] },
 	"trickshot": { "name": "SLEIGHT OF HAND", "nodes": [["DEFT", "+2 DEX"], ["STACKED ODDS", "+5% LUCKY HITS"], ["LOADED CAST", "CASTS FROM THE SPELL SLOT HIT 30% HARDER"], ["ACE UP THE SLEEVE", "EVERY 6S IN A FIGHT, A FREE CAST FROM THE SPELL SLOT"]] },
+	"bonecaller": { "name": "THE BONEYARD", "nodes": [["MARROW", "+1 INT. +10% COMPANION DAMAGE"], ["BRISK BONES", "+20% COMPANION ATTACK SPEED"], ["GRAVE DUST", "+8% MOVE SPEED"], ["THE LONG MARCH", "EVERY 1% OF EXTRA MOVE SPEED GIVES COMPANIONS +1% MORE ATTACK SPEED"]] },
 	"beastmaster": { "name": "THE WILD", "nodes": [["SOFT WORDS", "4% MORE OF YOUR HITS TAME A FOE"], ["PACK LEADER", "+1 WISP"], ["FERAL BOND", "KILLS GIVE +20% DAMAGE FOR 3S"], ["ALPHA", "EVERY 10S IN A FIGHT, THE FOES CLOSE TO YOU ARE TAMED FOR 8S"]] },
 	"sellsword": { "name": "FREE COMPANY", "nodes": [["SPURS", "ROLLS RECHARGE 20% FASTER"], ["SHIELD WALL", "WHEN HIT, ERASE NEARBY SHOTS (EVERY 6S)"], ["WAR PAY", "KILLING AN ELITE PAYS 12 GOLD"], ["THUNDERING CHARGE", "CHARGES HIT TWICE AS HARD AND KILLS REFUND THE ROLL"]] },
 }
@@ -499,6 +507,10 @@ const NODE_EFFECTS := {
 	"STACKED ODDS": [["hook", "lucky", 0.05]],
 	"LOADED CAST": [["hook", "slot_dmg", 0.3]],
 	"ACE UP THE SLEEVE": [{ "on": "every_n_seconds", "period": 6.0, "if": "fighting", "do": [["slot_cast"]] }],
+	"MARROW": [["attr", "int", 1], ["hook", "minion_dmg", 0.1]],   # 34.2 the Bonecaller
+	"BRISK BONES": [["hook", "minion_speed", 0.2]],
+	"GRAVE DUST": [["mul", "speed", 1.08]],
+	"THE LONG MARCH": [["hook", "march", 1.0]],
 	"PACK LEADER": [["add", "familiars", 1]],
 	"FERAL BOND": [{"on": "on_kill", "do": [["buff", "dmg", 0.2, 3.0]]}],
 	"ALPHA": [{"on": "every_n_seconds", "period": 10.0, "if": "fighting", "do": [["charm_area", 50, 8.0]]}],

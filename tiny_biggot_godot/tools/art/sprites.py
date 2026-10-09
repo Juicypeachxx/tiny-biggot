@@ -1631,3 +1631,7 @@ S["trickshot_hero"] = ("main:#2f6b3a second:#7a5236 skin:#e0a47a glow:#c8ff8a", 
 S["w_quickcrossbow"] = ("wood:#8a5a32 metal:#9aa3b5", [
 "............", ".o........o.", "o9o......o9o", ".o9oooooo9o.", "..oo8uu8oo..", ".....uu.....",
 ".....uu.....", ".....uu.....", "....ouuo....", "....ouuo....", ".....oo.....", "............"])
+# 34.2 THE BONECALLER: a grey hood, a bone-white skull face with green eyes, a bone at the belt.
+S["bonecaller_hero"] = ("main:#4e4a5e bone:#e8dcc8 glow:#9aff6a halo:1", M([
+"...ooo", "..o333", ".o3333", ".o3lll", ".o3ly0", ".o3lll", "..o3kk", "o3o333", "olo333", ".oo333",
+"..o322", "..o322", ".o3222", ".ooooo"]))

@@ -1201,7 +1201,7 @@ a bullet storm. Ideas and play only: every name, sprite and text here is our own
       SPELL SLOT: the weapon in your first backpack slot is cast for free on crits and lucky
       hits. Traits: SPELLSLINGER, FOUR-LEAF (lucky hits per DEX), STATIC BUILD-UP (shocks stack
       and discharge), QUICK FINGERS. A hero: THE TRICKSHOT.
-- [ ] 34.2 THE LEGION PATH (companions). Companion cap, damage and speed for every kind of
+- [x] 34.2 THE LEGION PATH (companions). Companion cap, damage and speed for every kind of
       helper (wisps, thralls, turrets, pets, swarms); move speed turns into their attack speed.
       Traits: GRAVE MARSHAL, BONE BEACON, QUICK MARCH, ENDLESS RANKS; MARCHING BOOTS. A hero:
       THE BONECALLER.

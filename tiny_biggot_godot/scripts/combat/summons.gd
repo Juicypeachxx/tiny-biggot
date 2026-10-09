@@ -456,7 +456,7 @@ static func item_turret(k: String, secs: float, dmg: float) -> void:
 	if k == "random":
 		k = TB.pick(["gun", "flame", "tesla", "frost", "saw", "mend"])
 	var mine := turrets.filter(func(o): return o.get("item", false))
-	if mine.size() >= 2:
+	if mine.size() >= 2 + Legion.cap_bonus(p) / 2:   # 34.2 GRAVE MARSHAL
 		turrets.erase(mine[0])
 	var at := RiftBosses._inside(Vector2(p.x + randf_range(-12.0, 12.0), p.y + 8.0))
 	turrets.append({ "x": at.x, "y": at.y, "k": k, "t": secs, "cd": 0.3, "a": p.aim_a, "dmg": dmg, "hit": {},
@@ -468,7 +468,7 @@ static func item_turret(k: String, secs: float, dmg: float) -> void:
 ## ROADMAP 4.7 ("raise" action): a skeleton climbs out at (x, y) and fights for secs; items keep four.
 static func item_raise(x: float, y: float, secs: float, dmg: float) -> void:
 	var mine := thralls.filter(func(o): return o.get("item", false))
-	if mine.size() >= 4:
+	if mine.size() >= 4 + Legion.cap_bonus(G.player):   # 34.2 GRAVE MARSHAL
 		thralls.erase(mine[0])
 	var at := RiftBosses._inside(Vector2(x, y))
 	thralls.append({ "k": "bones", "x": at.x, "y": at.y, "t": secs, "cd": 0.6, "dmg": dmg, "size": 1, "face": 1, "rise": 0.4,
@@ -517,7 +517,7 @@ static func on_kill(e: Enemy) -> void:
 	if p == null or p.weapon == null or p.weapon.get("thrall", "") != "bones" or e.type == "dummy" or e.is_boss():
 		return
 	var bones := thralls.filter(func(o): return o["k"] == "bones")
-	if bones.size() >= MAX_BONES:
+	if bones.size() >= MAX_BONES + Legion.cap_bonus(p):   # 34.2 GRAVE MARSHAL
 		thralls.erase(bones[0])
 	var n := Weapons.wcount(p)
 	thralls.append({ "k": "bones", "x": e.x, "y": e.y, "t": 12.0, "cd": 0.6, "dmg": Weapons.wdmg(p) * 0.8 * (1.0 + 0.35 * (n - 1)),
@@ -598,13 +598,15 @@ static func _tick_cards(p: Player, dt: float) -> void:
 
 static func _tick_turrets(p: Player, dt: float) -> void:
 	var keep := []
+	var sp := Legion.speed(p)   # 34.2 THE LEGION PATH
 	var coils := []
 	for o in turrets:
 		o["t"] -= dt
 		if o["t"] <= 0:
 			continue
 		keep.append(o)
-		o["cd"] -= dt
+		Legion.boost(p, o)
+		o["cd"] -= dt * sp
 		var x: float = o["x"]
 		var y: float = o["y"]
 		var dmg: float = o["dmg"]
@@ -708,13 +710,15 @@ static func _step(o: Dictionary, dx: float, dy: float, room: Room) -> void:
 
 static func _tick_thralls(p: Player, room: Room, dt: float) -> void:
 	var keep := []
+	var sp := Legion.speed(p)   # 34.2 THE LEGION PATH
 	for o in thralls:
 		o["t"] -= dt
 		if o["t"] <= 0:
 			if o["k"] == "bones":
 				Vfx.puff(o["x"], o["y"], "void")
 			continue
-		o["cd"] -= dt
+		Legion.boost(p, o)
+		o["cd"] -= dt * sp
 		var x: float = o["x"]
 		var y: float = o["y"]
 		match o["k"]:

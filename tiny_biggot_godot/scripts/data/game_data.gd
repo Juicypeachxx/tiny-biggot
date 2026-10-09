@@ -295,6 +295,17 @@ const NEW_HEROES := [
 	  "special": { "name": "TRICK SHOT", "cd": 9, "col": "#7ad86a",
 		"desc": "FOR 3S EVERY HIT IS A LUCKY HIT.",
 		"do": [["lucky_rush", 3.0], ["vfx", "ring", "#7ad86a", 40], ["vfx", "label", "FEELING LUCKY", "#7ad86a"]] } },
+	# 34.2 (his word, 9 Oct: the companion build, "an aggressive, hyper-fast blender"). Ideas only.
+	{ "id": "bonecaller", "name": "THE BONECALLER", "sprite": "bonecaller_hero", "new": true,
+	  "blurb": "Keeps the old bones busy. They seem to like it.",
+	  "passive": "BONE LEGION: +2 COMPANIONS AT ONCE, +20% COMPANION DAMAGE, EXTRA MOVE SPEED SPEEDS THEM UP. EVERY FIGHT OPENS WITH 2 SKELETONS.",
+	  "weapon": "BONE CENSER", "hp": 6, "speed": 92, "shot": "orb", "sound": "shoot", "cost": 250, "trait": "h_bonecall",
+	  "stats": { "dmg": 4.0, "rate": 2.0, "shot_speed": 160.0, "life": 1.0, "homing": 1.0, "size": 1.0, "pierce": 0 },
+	  "effects": [["hook", "minion_cap", 2], ["hook", "minion_dmg", 0.2], ["hook", "march", 1.0],
+		{ "on": "on_room_enter", "do": [["raise", 20.0, 0.8], ["raise", 20.0, 0.8]] }],
+	  "special": { "name": "ARMY OF BONES", "cd": 12, "col": "#d9d0b4",
+		"desc": "FOUR SKELETONS CLIMB OUT AROUND YOU AND TWO WISPS JOIN YOU, ALL FOR 10S.",
+		"do": [["raise", 10.0, 1.0], ["raise", 10.0, 1.0], ["raise", 10.0, 1.0], ["raise", 10.0, 1.0], ["summon", 10.0], ["summon", 10.0], ["vfx", "ring", "#d9d0b4", 60]] } },
 ]
 
 static var _heroes: Array = []

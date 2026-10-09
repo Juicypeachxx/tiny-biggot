@@ -456,6 +456,8 @@ const ROWS := [
 	["makergauntlets", "GAUNTLETS OF THE MAKER", "hands", "mythic", ["edge", "arcane"], null, "gloves", [["rate", 1.3]], [], "+30% FIRE RATE. EVERY 5TH ATTACK CONJURES A SPECTRAL BLADE.", [{ "on": "every_n_shots", "every": 5, "do": [["spell", "blade", 1.0]] }]],
 	["elementring", "RING OF ALL ELEMENTS", "ring", "mythic", ["pyre", "frost", "venom"], null, "ring", [], [["react_dmg", 1.0]], "25% OF HITS ADD A RANDOM AILMENT. REACTIONS HIT TWICE AS HARD.", [{ "on": "on_hit", "chance": 0.25, "do": [["rand_status", 2]] }]],
 	["phoenixheart", "HEART OF THE PHOENIX", "neck", "mythic", ["pyre", "blood"], null, "amulet", [["max_hp", 4]], [], "+2 MAX HEARTS. 10% OF KILLS HEAL HALF A HEART. EVERY 8S IN A FIGHT, A FIRE SERPENT.", [{ "on": "on_kill", "chance": 0.1, "do": [["heal", 1]] }, { "on": "every_n_seconds", "period": 8.0, "if": "fighting", "do": [["spell", "serpent", 1.5]] }]],
+	# 34.2 THE LEGION PATH: haste turns into the companions' speed.
+	["marchingboots", "MARCHING BOOTS", "feet", "rare", ["swarm"], null, "boots", [["speed", 1.1]], [["march", 2]], "+10% MOVE SPEED. EVERY 1% OF EXTRA MOVE SPEED GIVES YOUR COMPANIONS +2% ATTACK SPEED.", [], "g_marchingboots"],
 	["firststar", "SHARD OF THE FIRST STAR", "trinket", "mythic", ["arcane", "pyre"], null, "charm", [["crit", 0.15]], [], "+15% CRIT. EVERY 4TH CRIT CALLS A COMET THROUGH THE FOE.", [{ "on": "on_crit", "every": 4, "do": [["spell", "comet", 2.5]] }]],
 ]
 

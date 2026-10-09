@@ -175,7 +175,7 @@ static func run(a: Array, stacks: int, ctx: Dictionary) -> void:
 			if e != null:
 				Combat.lightning(e, w * a[1] * stacks)
 		"summon":
-			if mini(p.familiars, Effects.SUMMON_CAP) + G.temp_fams.size() < Effects.SUMMON_CAP:
+			if mini(p.familiars, Effects.SUMMON_CAP) + G.temp_fams.size() < Effects.SUMMON_CAP + Legion.cap_bonus(p):   # 34.2
 				G.temp_fams.append({ "x": p.x, "y": p.y, "cd": 0.2, "t": float(a[1]) })
 		"gold":
 			p.gold += int(a[1]) * stacks
