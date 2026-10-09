@@ -27,11 +27,13 @@ func _ready() -> void:
 			G.room.set_tile(c, r, World.T_FLOOR)
 	G.locked = true
 	G.state = &"play"
+	if DebugArgs.has("heavy"):
+		G._debug_heavy(p)   # 40 relics, 40 trait ranks, legendary gear
 	Weapons.equip_weapon(p, Weapons.by_id(id))
 	p.count += extra
 	var hold := Vector2(14.0 * TB.TS, 13.0 * TB.TS)
-	for i in 4:
-		var e := Combat.spawn_enemy("skeleton", hold.x - 60.0 + i * 40.0, hold.y - 90.0 - (i % 2) * 20.0, false, true)
+	for i in DebugArgs.get_int("foes", 4):
+		var e := Combat.spawn_enemy("skeleton", hold.x - 60.0 + (i % 4) * 40.0 + (i / 4) * 9.0, hold.y - 90.0 - (i % 2) * 20.0 - (i / 4) * 14.0, false, true)
 		e.speed = 0.0
 		e.max_hp = 1e7
 		e.hp = 1e7

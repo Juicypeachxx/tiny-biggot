@@ -45,6 +45,8 @@ extends RefCounted
 ##   --objects                    print the engine's object count once a minute of game time (leak soaks)
 ##   --no-warmup                  skip the launch warm-up (scripts/render/warmup.gd)
 ##   --no-bake                    pack the sprite atlas at start-up instead of loading a ready-made one
+##   --no-floor-bake              draw the floor and the remains of fallen foes directly each frame (32.2), not baked into one picture
+##   --calls-probe[=TICK]         at TICK (900) freeze the scene and print the draw calls each world layer costs (32.2)
 ##   --no-atlas                   no sprite atlas at all: every graphic is its own texture
 
 static var _args := {}

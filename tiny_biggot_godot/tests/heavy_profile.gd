@@ -46,8 +46,12 @@ func _ready() -> void:
 		p.invuln = 1.0
 		Keys.tick()
 		var t0 := Time.get_ticks_usec()
+		tick_secs = {}
 		_one(p)
-		total += Time.get_ticks_usec() - t0
+		var tus := Time.get_ticks_usec() - t0
+		total += tus
+		if tus > 10000:
+			worst_ticks.append([tus, tick_secs.duplicate(), tick])
 		if G.state != &"play":
 			G.state = &"play"
 			G.tchoice = {}
@@ -63,12 +67,25 @@ func _ready() -> void:
 	keys.sort_custom(func(a, b): return secs[a] > secs[b])
 	for k in keys:
 		print("  %-16s %.3f ms/tick" % [k, secs[k] / 1800000.0])
+	worst_ticks.sort_custom(func(a, b): return a[0] > b[0])
+	print("[profile] ticks over 10 ms: %d" % worst_ticks.size())
+	for wt in worst_ticks.slice(0, 6):
+		var parts := []
+		for k in wt[1]:
+			if wt[1][k] > 700:
+				parts.append("%s %.1f" % [k, wt[1][k] / 1000.0])
+		print("  tick %d: %.1f ms (%s)" % [wt[2], wt[0] / 1000.0, ", ".join(parts)])
 	get_tree().quit()
+
+var tick_secs := {}
+var worst_ticks := []   # [us, {section: us}]
 
 func _t(name: String, c: Callable) -> void:
 	var t0 := Time.get_ticks_usec()
 	c.call()
-	secs[name] = secs.get(name, 0) + Time.get_ticks_usec() - t0
+	var us := Time.get_ticks_usec() - t0
+	secs[name] = secs.get(name, 0) + us
+	tick_secs[name] = us
 
 func _one(p: Player) -> void:
 	var dt := TB.DT

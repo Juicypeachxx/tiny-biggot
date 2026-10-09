@@ -288,6 +288,35 @@ func _process(_delta: float) -> void:
 			print("[hitch] tick %d: %.1f ms" % [_ticks, (now - _frame_us) / 1000.0])
 	_frame_us = now
 
+## 32.2 --calls-probe: from tick 900, hides the world's drawing layers one at a time (12 ticks
+## each, after 4 to settle) and prints how many draw calls each one was costing. Diagnosis only.
+var _probe_i := -1
+var _probe_base := 0
+var _probe_out := []
+func _calls_probe() -> void:
+	var nodes: Array = world.get_children().filter(func(n): return n is CanvasItem)
+	var step := 12
+	var k := _ticks - DebugArgs.get_int("calls-probe", 900)
+	if k < 0:
+		return
+	var idx := k / step - 1   # -1: the baseline
+	var calls := int(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME))
+	if k % step == step - 1:
+		if idx < 0:
+			_probe_base = calls
+		elif idx < nodes.size():
+			_probe_out.append([_probe_base - calls, String(nodes[idx].name) + ":" + (nodes[idx].painter.get_method() if nodes[idx] is DrawLayer and nodes[idx].painter.is_valid() else nodes[idx].get_class())])
+		if idx >= 0 and idx < nodes.size():
+			nodes[idx].visible = true
+		var nxt := idx + 1
+		if nxt < nodes.size():
+			nodes[nxt].visible = false
+		elif nxt == nodes.size():
+			_probe_out.sort_custom(func(a, b): return a[0] > b[0])
+			print("[calls] baseline %d draw calls; saved by hiding each layer:" % _probe_base)
+			for o in _probe_out:
+				print("  %4d  %s" % o)
+
 func _physics_process(_delta: float) -> void:
 	if bot != null:
 		bot.tick()
@@ -297,7 +326,10 @@ func _physics_process(_delta: float) -> void:
 	var t0 := Time.get_ticks_usec()
 	if DebugArgs.has("bench"):
 		_bench_feed()
-	G.update(TB.DT)
+	if not (DebugArgs.has("calls-probe") and _ticks >= DebugArgs.get_int("calls-probe", 900)):
+		G.update(TB.DT)   # the probe freezes the scene so every layer is measured on the same picture
+	if DebugArgs.has("calls-probe"):
+		_calls_probe()
 	var us := Time.get_ticks_usec() - t0
 	if _hitch_us > 0 and us > _hitch_us:
 		print("[hitch] tick %d: the rules took %.1f ms (%s)" % [_ticks, us / 1000.0, G.state])

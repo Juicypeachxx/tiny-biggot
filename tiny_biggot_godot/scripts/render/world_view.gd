@@ -11,6 +11,16 @@ extends Node2D
 
 var bg: DrawLayer        # z 0     room tiles (static per room)
 var dyn: DrawLayer       # z 1     doors, crates, cracked walls (redrawn on dyn_dirty)
+## 32.2 the floor bake: the room's tiles and the remains and scorch marks of fallen foes are drawn
+## once into a picture of the screen's size, again only when one of them changes, and the bg layer
+## shows that picture. Remains are made of small circles, lines and dots, and each circle (and
+## each change between those kinds) cost a draw call every frame: 40 remains and 20 scorch marks
+## were about 250 of a heavy fight's 465 draw calls. The picture is drawn the same way at the same
+## size, under everything else, so the screen is pixel for pixel the same. --no-floor-bake: as before.
+var _bake: SubViewport
+var _bake_layer: DrawLayer
+var _floor: SubViewport      # the room's tiles alone, drawn once on entering it (as the bg layer was)
+var _floor_layer: DrawLayer
 var lower: DrawLayer     # z 2-9   torches, hint, shadows, zones, objects, signs, pickups, bombs, mines
 var ents: DrawLayer      # z 100+y player, foes and the held weapon, sorted by y
 var dark: DrawLayer      # 22.1     the dark of a night floor (Weather), cut open by the lights
@@ -38,7 +48,33 @@ const PICKUP_SPRITE := { "coin": "coin", "heart": "heartPick", "potion": "potion
 	"c_fury": "c_fury", "c_smoke": "c_smoke", "c_whet": "c_whet", "c_insight": "c_insight" }
 
 func _ready() -> void:
-	bg = _layer(_paint_bg)
+	if not DebugArgs.has("no-floor-bake"):
+		_bake = SubViewport.new()
+		_bake.size = Vector2i(TB.SW, TB.SH)
+		_bake.transparent_bg = false
+		_bake.disable_3d = true
+		_bake.canvas_item_default_texture_filter = Viewport.DEFAULT_CANVAS_ITEM_TEXTURE_FILTER_NEAREST
+		_bake.snap_2d_transforms_to_pixel = true
+		_bake.snap_2d_vertices_to_pixel = true
+		_bake.render_target_update_mode = SubViewport.UPDATE_DISABLED
+		add_child(_bake)
+		# The tiles are kept as they were drawn on entering the room (the bg layer was drawn only
+		# then, and some of what it reads changes during a fight), in a picture of their own inside
+		# the bake: a viewport inside another is always drawn first.
+		_floor = SubViewport.new()
+		_floor.size = _bake.size
+		_floor.transparent_bg = false
+		_floor.disable_3d = true
+		_floor.canvas_item_default_texture_filter = Viewport.DEFAULT_CANVAS_ITEM_TEXTURE_FILTER_NEAREST
+		_floor.snap_2d_transforms_to_pixel = true
+		_floor.snap_2d_vertices_to_pixel = true
+		_floor.render_target_update_mode = SubViewport.UPDATE_DISABLED
+		_bake.add_child(_floor)
+		_floor_layer = DrawLayer.new(_paint_bg)
+		_floor.add_child(_floor_layer)
+		_bake_layer = DrawLayer.new(_paint_floor)
+		_bake.add_child(_bake_layer)
+	bg = _layer(_paint_bg_layer)
 	dyn = _layer(_paint_dyn)
 	lower = _layer(_paint_lower)
 	ents = _layer(_paint_ents)
@@ -175,6 +211,27 @@ func _layer(p: Callable, additive: bool = false) -> DrawLayer:
 func _on_room_changed() -> void:
 	bg.queue_redraw()
 	dyn.queue_redraw()
+	if _floor != null:
+		_floor_layer.queue_redraw()
+		_floor.render_target_update_mode = SubViewport.UPDATE_ONCE
+	_rebake()
+
+## The floor bake (see _bake): the tiles as drawn on entering the room, then the remains, as bg
+## and dyn drew them before.
+func _paint_floor(ci: CanvasItem) -> void:
+	ci.draw_texture(_floor.get_texture(), Vector2.ZERO)
+	Remains.paint(ci, G.room)
+
+func _paint_bg_layer(ci: CanvasItem) -> void:
+	if _bake != null:
+		ci.draw_texture(_bake.get_texture(), Vector2.ZERO)
+	else:
+		_paint_bg(ci)
+
+func _rebake() -> void:
+	if _bake != null:
+		_bake_layer.queue_redraw()
+		_bake.render_target_update_mode = SubViewport.UPDATE_ONCE
 
 ## Called once per logic tick.
 func refresh() -> void:
@@ -189,6 +246,7 @@ func refresh() -> void:
 	if G.dyn_dirty:
 		G.dyn_dirty = false
 		dyn.queue_redraw()
+		_rebake()   # a remain or scorch mark came, faded or went
 	if Vfx.enabled and BiomeDeco.on(G.room):
 		BiomeDeco.tick(TB.DT)
 	if G.state == &"play":
@@ -351,7 +409,8 @@ func _paint_dyn(ci: CanvasItem) -> void:
 	var room := G.room
 	if room == null:
 		return
-	Remains.paint(ci, room)   # 21.2: scorch marks and what fallen foes left
+	if _bake == null:
+		Remains.paint(ci, room)   # 21.2: scorch marks and what fallen foes left (else in the floor bake)
 	RoomDress.paint_dyn(ci, room)   # 17.1: pots, kegs, coin heaps
 	var ts := TB.TS
 	var dark := TB.c("#0d0a12")
