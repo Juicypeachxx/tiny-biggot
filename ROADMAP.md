@@ -1172,7 +1172,7 @@ cool effects, add new effects and synergies")
       every frame (heavy fight 461 -> 212, ordinary 79 -> 54; the picture byte for byte the same).
 - [x] 32.3 Stability: the soak over all 30 heroes, the rift worlds, classic and loops (49 runs, no
       error); the monkey soak (random buttons) over the menus and the new content.
-- [ ] 32.4 The full check passes, the core replays re-recorded (Stages 24-31 changed every fight
+- [x] 32.4 The full check passes, the core replays re-recorded (Stages 24-31 changed every fight
       on purpose; the classic ones identical), IPA 32. Then his new additions.
 
 ---

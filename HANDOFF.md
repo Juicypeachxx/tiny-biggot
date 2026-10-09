@@ -1,5 +1,8 @@
 # Handoff: where the work stands
 
+**9 Oct, Stage 32: the full check passes again (all of Stages 24-31 checked, the core replays
+re-recorded).** Next: his new additions.
+
 **His word, 9 Oct: "Just compile after add, I'll test it."** Until he says otherwise: after adding
 content, only compile (import; a short run that starts the game) and build the IPA. He tests on the
 iPad. The full check and the core replay re-recording wait until he asks or something breaks.
@@ -1283,8 +1286,13 @@ Done by another session (the port's), which took over from v31 on claude/dev.
   explosions, on_hit/on_crit effects): the chaos itself, left as it is.
   The sprite atlas is 1024x4096 but only 56% used (power-of-two height): room for ~1500 more.
 - 32.3 Stability: tools/dev/soak.sh now runs every hero (30); 49 runs (5 min each, all heroes,
-  11 rift worlds, classic, plain drawing, loops 1-3, weapon cycling) with 0 errors. Monkey soak:
-  see the log below.
+  11 rift worlds, classic, plain drawing, loops 1-3, weapon cycling) with 0 errors. Monkey soak
+  (tools/dev/monkey.sh 40 4): 16 runs, 0 errors; objects 3748 -> 4372 over 40 minutes in steps
+  with long flat stretches (pools and caches filling as new content shows up), nodes and
+  resources flat: no leak.
+- 32.4 Core replays re-recorded on purpose (Stages 24-31 change every fight: oaths, traits,
+  weapons, reactions, hidden rooms); the classic set identical. tools/check.sh: CHECK PASSED.
+  VERSION 32 "Steady and Sound", IPA 32.
 
 ## Noted, not yet acted on
 
