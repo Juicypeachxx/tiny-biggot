@@ -67,7 +67,7 @@ const ACTIONS := ["nova", "shoot", "explode", "status", "heal", "buff", "chain",
 	"fan_shots", "pocket_cast", "trigger",   # 42.1: shards or a thistle; a backpack weapon fires; a moment's procs (arcana.gd)
 	"drink_random", "attrs",   # 43.1: random drinks; +n STR, DEX and INT (marvels.gd)
 	"toy"]   # 31: an item lets a toy of the toybox loose (toys.gd)
-const STATUSES := ["burn", "poison", "chill", "bleed", "stun", "curse", "mark", "shock", "vulnerable", "weakened", "gloom"]
+const STATUSES := ["burn", "poison", "chill", "bleed", "stun", "curse", "mark", "shock", "vulnerable", "weakened", "gloom", "shatter"]   # (47.2 shatter)
 const CONDITIONS := ["elite", "boss", "burning", "poisoned", "chilled", "bleeding", "shocked", "cursed",
 	"low_hp", "full_hp", "moving", "still", "crit", "danger", "fighting", "hot", "rich", "armored", "flight",
 	"close", "far", "fresh", "last_foe", "crowd", "unhurt", "coin",   # ROADMAP 4.7
