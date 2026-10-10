@@ -1696,6 +1696,8 @@ feel out of match": effects first (43.7a), then pictures (43.7b).
   a flask under a halo (BLESSED DEW), sparkles (PIXIE SAP); tr_dex_temper an endless loop over a
   drop. Test tests/infusions_test.tscn (in check.sh); a shop's things are listed to check the
   stall stands clear of them (it stood on the armor at first).
+- The full check passed but for the camp build test: the quest board's two random quests could be
+  one already met (the meal eaten earlier in the test); the test now sets all three.
 
 ## Noted, not yet acted on
 

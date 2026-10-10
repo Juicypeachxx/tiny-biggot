@@ -130,7 +130,9 @@ func _ready() -> void:
 	if Meta.meta.has("meal") or Meta.meta.has("meal2") or Meta.meta.has("lend") or Meta.meta.has("next_gear"):
 		fail("the camp's gifts were not used up")
 	# Quests: three on the board; a goal met pays on the tally and is replaced.
-	Meta.meta["quests"] = [{ "id": "kills150", "hero": "", "base": 0 }]
+	# (44: the other two are set too: a random one could be met already, the meal eaten above)
+	Meta.meta["quests"] = [{ "id": "kills150", "hero": "", "base": 0 }, { "id": "floor12", "hero": "", "base": 0 },
+		{ "id": "relics15", "hero": "", "base": 0 }]
 	if Quests.active().size() != Quests.SLOTS:
 		fail("%d quests on the board, not %d" % [Quests.active().size(), Quests.SLOTS])
 	G.run_stats["kills"] = 200

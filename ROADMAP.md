@@ -28,7 +28,7 @@ changed one), and carry on from there. What he says last outranks this file.
    its own picture.
    His word after IPA 43.7 (10 Oct): "Ok go 44 and 45, and 46": the three stages straight on, each
    with its own IPA, without waiting for his try in between.
-3. Stage 44: the 14 INFUSIONS, and the traits that work with them (IPA 44).
+3. Stage 44: the 14 INFUSIONS, and the traits that work with them: done, IPA 44 "Infusions" (10 Oct).
 4. Stage 45: the GOOD, EVIL and LAWFUL shops (IPA 45).
 5. Stage 46, later (his word): WEAPON ENCHANTMENTS from his pictures (ENCHANTMENTS_PLAN.md).
 Each stage waits for him to try the last IPA. Details of each step are further down.
