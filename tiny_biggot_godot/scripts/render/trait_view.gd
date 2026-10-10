@@ -95,6 +95,34 @@ static func group(tr: Dictionary) -> String:
 		return "super"
 	return Attributes.FAMILY_ATTR.get(tr["fam"], "")
 
+## 41.3 (his ask, 10 Oct: "add cubes around the trait sprites", like his wiki pictures): a trait's
+## picture inside a square frame of its colour, a black gap between them. 20 px a side at z 1: a
+## 1 px frame, a 1 px gap, the 16 px picture (a trait without one: its family's glyph). Drawn on
+## the pick rows (_row), the TRAITS page (trait_page.gd) and the trait book (trait_book.gd).
+static func cube_hex(tr: Dictionary) -> String:
+	if tr["rarity"] == "oath":
+		return "#ff9b3a"   # 29: an OATH stays orange
+	return GROUP_HEX.get(group(tr), Traits.FAMILIES[tr["fam"]]["hex"])
+
+static func cube(ci: CanvasItem, x: float, y: float, tr: Dictionary, z: int = 2, a: float = 1.0, sel: bool = false, known: bool = true) -> void:
+	var s := 20.0 * z
+	var dark := Color(0.03, 0.03, 0.05, a)
+	var col := TB.c(cube_hex(tr) if known else "#3a3650")
+	if sel:
+		ci.draw_rect(Rect2(x - 3, y - 3, s + 6, s + 6), Color(TB.c("#f2c94c"), a))
+	ci.draw_rect(Rect2(x - 1, y - 1, s + 2, s + 2), dark)
+	ci.draw_rect(Rect2(x, y, s, s), Color(col, a))
+	ci.draw_rect(Rect2(x + z, y + z, s - 2 * z, s - 2 * z), dark)
+	if not known:
+		return
+	var pic: String = "tr_" + tr["id"]
+	if Img.has(pic):   # its own picture, one flat colour
+		Gfx.sp(ci, pic, x + s / 2, y + 18 * z, z, z, 0.0, false, a, col)
+	else:   # the 10 px family glyph, a size up, in the same colour
+		var fi: String = FAM_ICON.get(tr["fam"], "fam_core")
+		var fz := z * 3 / 2
+		Gfx.sp(ci, fi, x + s / 2, y + s / 2 + 5 * fz, fz, fz, 0.0, false, a, col)
+
 static func active() -> bool:
 	return GameData.rogues()
 
@@ -168,15 +196,7 @@ static func _row(ci: CanvasItem, r: Rect2, tr: Dictionary, sel: bool, a: float) 
 	# 40.1 (his pictures, 10 Oct): box, picture and name in the trait's group colour (STR pink-red,
 	# DEX green, INT blue, SUPER red); an OATH's box stays orange (29).
 	var grp: String = group(tr)
-	var box: String = "#ff9b3a" if tr["rarity"] == "oath" else GROUP_HEX.get(grp, fam["hex"])
-	var ib := Rect2(r.position.x + 6, r.position.y + 7, 36, 36)
-	Gfx.panel(ci, ib.position.x, ib.position.y, ib.size.x, ib.size.y, box, "#0c0b12")
-	ci.draw_rect(Rect2(ib.position.x + 2, ib.position.y + 2, ib.size.x - 4, ib.size.y - 4), TB.c(box), false, 1.0)
-	var pic: String = "tr_" + tr["id"]
-	if Img.has(pic):   # its own picture, one flat colour like the others
-		Gfx.sp(ci, pic, ib.get_center().x, ib.end.y - 2, 2, 2, 0.0, false, a, TB.c(box))
-	else:
-		Gfx.sp(ci, FAM_ICON.get(tr["fam"], "fam_core"), ib.get_center().x, ib.end.y - 5, 2, 2, 0.0, false, a)
+	cube(ci, r.position.x + 4, r.position.y + 5, tr, 2, a)   # 41.3: in its cube
 	var tx := r.position.x + 48
 	Gfx.text(ci, ("SUPER " if sup and not tr["name"].begins_with("SUPER") else "") + tr["name"], tx, r.position.y + 5, GROUP_COL.get(grp, fam["col"]), 1, 0.0, true, a)
 	var rank: int = G.player.traits.get(tr["id"], 0)

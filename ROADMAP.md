@@ -1312,6 +1312,12 @@ shops after the traits.
       the INT list (TRICKERY needs them).
 - [x] 41.2 38 DEXTERITY traits, each with its picture. The 39th (infusion buffs for good) comes
       with the infusions in Stage 44.
+- [x] 41.3 His ask (10 Oct): "Also add cubes around the trait sprites". Like his wiki pictures,
+      every trait picture sits in a square frame of its colour with a black gap around it
+      (TraitView.cube): on the level-up rows, in the trait book, and on the pause menu's TRAITS
+      page, which now shows every trait you have as a cube (arrows or a tap choose one; its text,
+      its family's bonuses, synergies and combos beside it; scripts/render/trait_page.gd).
+      --classic keeps the old text page.
 
 ### Stage 42: the INTELLIGENCE traits (IPA 42)
 - [ ] 42.1 What the INT list needs: cursed hits, fragility, scorch, frostbite, zap, tick speed,

@@ -89,6 +89,7 @@ static func _detail(ci: CanvasItem, t: Dictionary) -> void:
 	Gfx.panel(ci, 24, y0, TB.SW - 48, 254 - y0, "#4e4a5e", "#17121e")
 	var rar: Dictionary = Traits.RARITY[t["rarity"]]
 	var kind: String = rar["name"] + "  " + Traits.FAMILIES[t["fam"]]["name"]
+	TraitView.cube(ci, TB.SW - 76, y0 + 18, t, 2, 1.0, false, seen(t["id"]))   # 41.3: its cube
 	if not seen(t["id"]):
 		Gfx.text(ci, "UNDISCOVERED", TB.SW / 2, y0 + 12, "grey", 2, 0.5)
 		Gfx.text(ci, kind, TB.SW / 2, y0 + 34, rar["col"], 1, 0.5)
@@ -97,7 +98,7 @@ static func _detail(ci: CanvasItem, t: Dictionary) -> void:
 	Gfx.text(ci, t["name"], 32, y0 + 6, rar["col"], 1)
 	Gfx.text(ci, kind + ("  MAX %d" % t["max"] if t["max"] > 1 else ""), TB.SW - 32, y0 + 6, "tan", 1, 1)
 	var y := y0 + 18
-	var w := TB.SW - 72
+	var w := TB.SW - 124   # beside the cube
 	for part in TraitView.bullets(t["desc"]):
 		for line in TraitView.rich_lines(part, w):
 			TraitView.draw_line(ci, line, 36, y)

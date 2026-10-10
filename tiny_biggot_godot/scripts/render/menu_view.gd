@@ -60,7 +60,7 @@ func _paint_base(ci: CanvasItem) -> void:
 		&"fishing":
 			Fishing.draw_panel(ci)   # 15.1: over the world
 		&"traitlist":
-			_shade(ci, 220)
+			_shade(ci, 246 if GameData.rogues() else 220)   # 41.3: the cubes on a darker page
 			draw_traitlist(ci)
 		&"gearpage":
 			_shade(ci, 222)
@@ -418,6 +418,9 @@ func draw_pause(ci: CanvasItem) -> void:
 
 # ---------- Traits page ----------
 func draw_traitlist(ci: CanvasItem) -> void:
+	if GameData.rogues():   # 41.3: the traits as cubes (trait_page.gd)
+		TraitPage.draw(ci)
+		return
 	var p := G.player
 	Gfx.text(ci, "TRAITS  -  LEVEL %d" % p.level, TB.SW / 2, 12, "gold", 2, 0.5)
 	var y := 32

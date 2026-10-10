@@ -54,6 +54,14 @@ static func zones() -> Array:
 			out.append(_act(Rect2(sw / 2 - 90, 262, 180, 16), func(): send(&"pause")))
 		&"board":
 			out.append(_act(Rect2(0, 0, sw, TB.SH), func(): send(&"pause")))
+		&"traitlist":   # 41.3: a tap on a cube chooses it; anywhere else goes back (any_tap)
+			if GameData.rogues():
+				var tn := TraitPage.owned().size()
+				var tfirst := TraitPage.first_row(G.traitlist_i, tn)
+				for i in tn:
+					var row := i / TraitPage.COLS - tfirst
+					if row >= 0 and row < TraitPage.ROWS:
+						out.append(_act(TraitPage.cell_rect(i, tfirst).grow(3), func(): G.traitlist_i = i))
 		&"armory":   # 19.2: rows, page arrows, a jump to the relics
 			var top := CampLife.arm_top()
 			for j in mini(CampLife.ARM_ROWS, CampLife.arm_list.size() - top):

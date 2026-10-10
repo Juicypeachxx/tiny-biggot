@@ -57,6 +57,7 @@ var opt_from: StringName = &"title"
 var codex_i := 0
 var codex_tab := 0   # 22.3: 0 relics, 1 the bestiary, 2 past runs, 3 the trait book (30.2)
 var traitbook_i := 0   # 30.2: the trait chosen in the trait book
+var traitlist_i := 0   # 41.3: the cube chosen on the pause menu's TRAITS page (trait_page.gd)
 var bestiary_i := 0
 var inv_i := 0                 # Rogues layer: inventory cursor (0-5 backpack, 6-9 belt)
 var shrine_i := 0
@@ -2061,6 +2062,8 @@ func update(dt: float) -> void:
 		&"fishing": Fishing.update(dt)   # 15.1
 		&"inventory": update_inventory()
 		&"relics", &"traitlist", &"gearpage":
+			if state == &"traitlist" and GameData.rogues():   # 41.3: the arrows choose a cube
+				traitlist_i = _grid_nav(clampi(traitlist_i, 0, maxi(0, TraitPage.owned().size() - 1)), maxi(1, TraitPage.owned().size()), TraitPage.COLS)
 			if Keys.any():
 				state = &"pause"
 				Snd.play("select")
@@ -2140,7 +2143,9 @@ func update_pause() -> void:
 			"GEAR":
 				state = &"inventory" if GameData.rogues() else &"gearpage"
 				inv_i = 0
-			"TRAITS": state = &"traitlist"
+			"TRAITS":
+				state = &"traitlist"
+				traitlist_i = 0
 			"RELICS": state = &"relics"
 			"WARDROBE": open_wardrobe(&"pause")
 			"OPTIONS":

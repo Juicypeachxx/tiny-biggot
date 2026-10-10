@@ -193,6 +193,28 @@ func _ready() -> void:
 			G.choice = {}
 	print("[stage41] all 38: stats %s, actions lob %d" % [Finesse.stats, Actions.did.get("lob", 0)])
 
+	# 41.3 THE TRAITS PAGE: every trait you have is a cube; a tap on one chooses it; it scrolls.
+	p = _start()
+	for t in mine.slice(0, 30):
+		p.traits[t["id"]] = 1
+	G.state = &"traitlist"
+	var list := TraitPage.owned()
+	if list.size() != 30:
+		fail("the TRAITS page holds %d cubes, not 30" % list.size())
+	G.traitlist_i = 0
+	var cubes := Taps.zones().filter(func(z): return z.has("act"))
+	if cubes.size() != TraitPage.COLS * TraitPage.ROWS:
+		fail("%d cubes to tap, not %d" % [cubes.size(), TraitPage.COLS * TraitPage.ROWS])
+	else:
+		Taps.activate(cubes[7])
+		if G.traitlist_i != 7:
+			fail("a tap on cube 7 chose %d" % G.traitlist_i)
+	if TraitPage.first_row(29, 30) != 1 or TraitPage.first_row(0, 30) != 0:
+		fail("the cubes do not scroll to the chosen one")
+	if not Taps.any_tap():
+		fail("a tap beside the cubes no longer goes back")
+	G.state = &"play"
+
 	# Classic: none of it.
 	GameData.force_classic = true
 	var c := _start()

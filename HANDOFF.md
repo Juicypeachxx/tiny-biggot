@@ -1546,6 +1546,13 @@ Done by another session (the port's), which took over from v31 on claude/dev.
   for point_blank, Actions w x 1.1^plus (proc_per_plus), Might.buff_mult adds buff_power.
 - 38 dex_ traits (names checked), pictures tools/art/stage41_traits.py, test
   tests/stage41_test.tscn (in check.sh); the content test knows the pet op.
+- 41.3 (his ask: "cubes around the trait sprites"): TraitView.cube(ci, x, y, tr, z, a, sel, known)
+  draws a trait's picture (or its family glyph, a size up) in a square frame of its colour, 20 px a
+  side at z 1 (1 px frame, 1 px gap, 16 px picture). Used by TraitView._row (40 px), TraitBook's
+  detail panel and the new TraitPage (scripts/render/trait_page.gd): the pause menu's TRAITS page
+  in the expanded game, a 6 x 4 grid of cubes that scrolls by rows (G.traitlist_i; game.gd's
+  _grid_nav; taps.gd act zones, a tap elsewhere still goes back). Classic keeps the old text page.
+- Core replays re-recorded on purpose for the new traits (e6361b1); classic identical.
 
 ## Noted, not yet acted on
 
