@@ -17,6 +17,14 @@ in it.
 middle of a step, do that first, write it into this file (a new step, or a
 changed one), and carry on from there. What he says last outranks this file.
 
+**Next up (his ask, 10 Oct: "add what will you do next on to do list"):**
+1. Stage 42 the INTELLIGENCE traits: built; IPA 42 once the replays are recorded.
+2. Stage 43: 15 SUPER traits for every hero, 11 PSYCHIC traits for the Mindwarden, 5 AUGMENT
+   traits for the Tinkerer (IPA 43).
+3. Stage 44: the 14 INFUSIONS, and the traits that work with them (IPA 44).
+4. Stage 45: the GOOD, EVIL and LAWFUL shops (IPA 45).
+Each stage waits for him to try the last IPA. Details of each step are further down.
+
 | Stage | What | State |
 |---|---|---|
 | 1 | The IPA installs and runs on the iPad | **Done** (he confirmed, 5 Oct) |
