@@ -1672,6 +1672,31 @@ feel out of match": effects first (43.7a), then pictures (43.7b).
   BRAWLER had about 8 hits in 10 s because LAST ORDERS throws the foes out of reach (a coin toss
   for a 15% stun; the foes are now put back in reach each frame).
 
+### Stage 44 (10 Oct): INFUSIONS (his pictures; "Ok go 44 and 45, and 46")
+- scripts/game/infusions.gd (class Infusions): KINDS id -> [name, element, least, most, rooms (0 =
+  for good), weight, colour]; ELEMENTS -> [number colour, ailment, word]. Player.infusions =
+  [[kind, rooms left, stacks]]. infuse (PIXIE SAP picks one of SAPS; the same kind again: one
+  more stack, rooms start over; SLOTS 5, one more pushes out the oldest sap, else the oldest),
+  on_room (Game.enter_room; gf infuse_forever: never), stretch (Marvels.on_special, SLOW TIME),
+  on_hit (Combat.on_hit_effects for the weapon's own hits: one damage_enemy for all of them,
+  silent and no crit, x (1 + 0.25 floor) x (1 + gf infuse_dmg) x stacks, holy x2 on a cursed
+  foe or a type in UNHOLY; each element's ailment 25%), maybe (Game.open_choice: chests 20-50%),
+  stock_shop (a stall at cx + 72, cy + 34, between the gear and the anvil), draw_hud (after the
+  drinks under the belt: rooms left or *).
+- Consumables: is_kind and the new data(k) know infusions (their card text comes from
+  Infusions.card); use() steeps the weapon; random_kind (bosses, elites 15%) is an infusion a
+  third of the time. The shop item "infusion" (Game.interact: into the belt, BELT FULL denied);
+  world_view draws an infusion pickup as its own picture. Debug --give=infuse:ID.
+- PBullet.own is now set on every weapon shot (it was only for the Gaolbird and the rally hero):
+  Might.on_hit (rage, puncture, reel, keen edge, threat, open wounds) runs for ranged weapon hits
+  too, as the STR traits' texts say; and the infusions ride on them.
+- ENDLESS INFUSION (dex_temper, edge, rare): gf infuse_forever and infuse_dmg 0.25. SLOW TIME's
+  text: drinks AND INFUSIONS. Keyword INFUSIONS. stage41_test wants 39 DEX traits.
+- Art tools/art/stage44_infusions.py: vials (saps), pouches (spices), glowing chunks (ambers),
+  a flask under a halo (BLESSED DEW), sparkles (PIXIE SAP); tr_dex_temper an endless loop over a
+  drop. Test tests/infusions_test.tscn (in check.sh); a shop's things are listed to check the
+  stall stands clear of them (it stood on the armor at first).
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

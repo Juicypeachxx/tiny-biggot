@@ -1414,8 +1414,16 @@ family's glyph.
       core replays re-recorded on purpose; the full check passes. IPA 43.7 "Old Traits Reborn".
 
 ### Stage 44: INFUSIONS (IPA 44)
-- [ ] 44.1 14 infusions: belt items that add an element to the weapon for 10 rooms or for good;
+- [x] 44.1 14 infusions: belt items that add an element to the weapon for 10 rooms or for good;
       the DEX list's infusion trait (for good) and TIME DILATION work with them.
+      Done (scripts/game/infusions.gd): 7 SAPS for 10 rooms (fire, cold, lightning, nature,
+      poison, PIXIE SAP that turns into one, BLESSED DEW holy), 4 SPICES and 3 AMBERS for good.
+      Every weapon hit deals the element too (it grows with the floor and with all that makes
+      hits stronger) and a quarter of the time its ailment; holy hits the cursed and the unholy
+      twice as hard. The same again stacks; 5 at once. From bosses and elites, chests and a shop
+      stall; shown under the belt. ENDLESS INFUSION (DEX): they never wear off, +25%. SLOW TIME
+      stretches them. Every weapon shot now counts as the weapon's own (STR traits' on-hit marks
+      work with bows and guns too, as their texts say).
 
 ### His word, 10 Oct: weapon enchantments, "Learn from that, we will add this later"
 Five pictures of a wiki's "Weapon Enchantments" page: one modifier per weapon, negative, positive,
