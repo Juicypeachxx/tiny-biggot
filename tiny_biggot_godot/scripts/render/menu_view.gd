@@ -213,94 +213,94 @@ static func title_y(i: int) -> int:
 	return TITLE_Y0 + i * title_dy()
 
 # ---------- Hero select ----------
-## Hero strip geometry, shared with the tap zones (taps.gd): up to six panels
-## are shown and the strip scrolls to keep the selected hero in view.
-## Returns [first index, shown count, x of the first panel].
-const HERO_W := 68
-const HERO_GAP := 4
-const HERO_VIS := 6
-static func hero_window() -> Array:
-	var n := GameData.heroes().size()
-	var vis := mini(n, HERO_VIS)
-	var first := clampi(GameData.hero_order().find(G.hero_index) - 2, 0, n - vis)
-	return [first, vis, (TB.SW - (vis * HERO_W + (vis - 1) * HERO_GAP)) / 2]
+## 47.4 (his word, 10 Oct: "we can work on character select menu to be better"): every hero at
+## once in a grid of two rows along the top, in the hero screen's order (free heroes first, then
+## the ones bought at the shrine); a tap shows one, a tap on the shown one begins, LEFT and RIGHT
+## walk the same order. Below, the chosen hero large beside its card (six panels at a time, with
+## arrows to scroll, before). The geometry is shared with the tap zones (taps.gd).
+const HERO_ROWS := 2
+const HERO_Y0 := 26
+const HERO_CH := 27
+const CARD_Y := 84
+const CARD_H := 146
+
+static func hero_cols() -> int:
+	return ceili(GameData.heroes().size() / float(HERO_ROWS))
+
+## The j-th hero of GameData.hero_order()'s cell.
+static func hero_cell(j: int) -> Rect2:
+	var cols := hero_cols()
+	var cw := mini(26, (TB.SW - 16) / cols)
+	var x0 := (TB.SW - cols * cw) / 2
+	return Rect2(x0 + (j % cols) * cw, HERO_Y0 + (j / cols) * HERO_CH, cw - 2, HERO_CH - 2)
 
 func draw_hero(ci: CanvasItem) -> void:
 	var t := G.time
-	Gfx.text(ci, "THE ENDLESS DESCENT" if G.endless_next else "CHOOSE YOUR DELVER", TB.SW / 2, 10, "purple" if G.endless_next else "gold", 2, 0.5)
-	var n := GameData.heroes().size()
-	var w := HERO_W
-	var win := hero_window()
-	var x0: int = win[2]
+	Gfx.text(ci, "THE ENDLESS DESCENT" if G.endless_next else "CHOOSE YOUR DELVER", TB.SW / 2, 8, "purple" if G.endless_next else "gold", 2, 0.5)
 	var order := GameData.hero_order()   # free heroes first, then the ones bought at the shrine
-	for j in win[1]:
-		var i: int = order[win[0] + j]
-		var h: Dictionary = GameData.heroes()[i]
-		var x: int = x0 + j * (w + HERO_GAP)
-		var y := 30
-		var sel := G.hero_index == i
-		var open := G.hero_unlocked(h)
-		Gfx.panel(ci, x, y, w, 66, "#e8873a" if sel else "#4e4a5e", "#221a2c" if sel else "#17121e")
-		if sel and open:
-			_glows.append(["glow_torch", x + w / 2 - 36, y - 4])
-		_sprite(h["sprite"], x + w / 2, y + 48 + (-2 if sel and floori(t * 4) % 2 == 1 else 0), 3, false, 1.0,
-			Color(0, 0, 0, 0) if open else TB.rgba(20, 15, 28, 255))
-		Gfx.text(ci, h["name"].replace("THE ", "") if open else "LOCKED", x + w / 2, y + 54, "gold" if sel else ("tan" if open else "dim"), 1, 0.5)
-		if h.get("new", false):
-			Gfx.text(ci, "NEW", x + w - 4, y + 4, "lime", 1, 1)
-	# Scroll arrows when there are more heroes than fit.
-	if win[0] > 0:
-		Gfx.text(ci, "<", 6, 58, "orange", 2)
-	if win[0] + win[1] < n:
-		Gfx.text(ci, ">", TB.SW - 12, 58, "orange", 2)
-	Gfx.text(ci, "%d / %d" % [order.find(G.hero_index) + 1, n], TB.SW / 2, 98, "dim", 1, 0.5)
+	for j in order.size():
+		var i: int = order[j]
+		var hh: Dictionary = GameData.heroes()[i]
+		var r := hero_cell(j)
+		var on := G.hero_index == i
+		var open := G.hero_unlocked(hh)
+		Gfx.panel(ci, r.position.x, r.position.y, r.size.x, r.size.y, "#e8873a" if on else ("#4e4a5e" if open else "#2a2838"), "#2c2036" if on else "#17121e")
+		_sprite(hh["sprite"], r.get_center().x, r.end.y - 3 + (-1 if on and floori(t * 4) % 2 == 1 else 0), 1, false, 1.0,
+			Color(0, 0, 0, 0) if open else TB.rgba(62, 56, 78, 255))   # (locked: a grey shape)
+		if hh.get("new", false) and open:
+			Gfx.px(ci, TB.c("#8fd14f"), r.end.x - 4, r.position.y + 2, 2)   # new: a green dot
+	# The chosen hero: large on the left of its card, its words on the right.
 	var h: Dictionary = GameData.heroes()[G.hero_index]
 	var open := G.hero_unlocked(h)
-	Gfx.panel(ci, 40, 104, TB.SW - 80, 126, "#4e4a5e", "#17121e")   # tall enough for a three-line passive and a skill
-	Gfx.text(ci, h["name"], TB.SW / 2, 112, "gold" if open else "dim", 2, 0.5)
-	Gfx.text(ci, h["weapon"], TB.SW / 2, 128, "grey", 1, 0.5)
+	Gfx.panel(ci, 16, CARD_Y, TB.SW - 32, CARD_H, "#e8873a" if open else "#4e4a5e", "#17121e")
+	var px := 58
+	if open:
+		_glows.append(["glow_torch", px - 36, CARD_Y + 8])
+	_sprite(h["sprite"], px, CARD_Y + 66 + (-2 if floori(t * 3) % 2 == 1 else 0), 3, false, 1.0,
+		Color(0, 0, 0, 0) if open else TB.rgba(20, 15, 28, 255))
 	for k in h["hp"] / 2:
-		Gfx.at(ci, "heart_full", roundf(TB.SW / 2 - (h["hp"] / 2) * 4.5 + k * 9), 138)
-	var bl := Gfx.wrap_text(h["blurb"], TB.SW - 120)
-	for j in bl.size():
-		Gfx.text(ci, bl[j], TB.SW / 2, 152 + j * 9, "white", 1, 0.5)
+		Gfx.at(ci, "heart_full", roundf(px - (h["hp"] / 2) * 4.5 + k * 9), CARD_Y + 74)
+	Gfx.text(ci, "%d / %d" % [order.find(G.hero_index) + 1, order.size()], px, CARD_Y + 88, "dim", 1, 0.5)
+	if h.get("new", false):
+		Gfx.text(ci, "NEW", px, CARD_Y + 98, "lime", 1, 0.5)
+	var x := 104
+	var ww := TB.SW - 32 - (x - 16) - 10
+	Gfx.text(ci, h["name"] if open else h["name"] + "  (LOCKED)", x, CARD_Y + 6, "gold" if open else "dim", 2)
+	Gfx.text(ci, h["weapon"], x, CARD_Y + 20, "grey")
+	var y := CARD_Y + 31
+	for l in Gfx.wrap_text(h["blurb"], ww):
+		Gfx.text(ci, l, x, y, "white")
+		y += 9
+	y += 2
+	if h.has("passive"):   # new heroes: their passive, their skill, their starting trait
+		for l in Gfx.wrap_text(h["passive"], ww):
+			Gfx.text(ci, l, x, y, "cyan")
+			y += 8
+		y += 2
+	if h.has("special"):   # 20.1: the originals have a skill (and no starting trait)
+		for l in Gfx.wrap_text("SKILL - " + h["special"]["name"] + ": " + h["special"]["desc"], ww):
+			Gfx.text(ci, l, x, y, "orange")
+			y += 8
+		y += 2
+	if h.has("trait"):
+		Gfx.text(ci, "STARTING TRAIT: " + Traits.by_id(h["trait"])["name"], x, y, "lime")
+		y += 10
 	var hw := Weapons.by_id(Weapons.HERO_WEAPON[h["id"]])
-	var sy := 176
-	if h.has("passive"):
-		# New heroes: their passive ability, then the starting trait.
-		var pl := Gfx.wrap_text(h["passive"], TB.SW - 100)
-		for j in pl.size():
-			Gfx.text(ci, pl[j], TB.SW / 2, 152 + bl.size() * 9 + 2 + j * 8, "cyan", 1, 0.5)
-		sy = 152 + bl.size() * 9 + 4 + pl.size() * 8
-		if h.has("special"):
-			var spl := Gfx.wrap_text("SKILL - " + h["special"]["name"] + ": " + h["special"]["desc"], TB.SW - 100)
-			for j in spl.size():
-				Gfx.text(ci, spl[j], TB.SW / 2, sy + j * 8, "orange", 1, 0.5)
-			sy += spl.size() * 8 + 2
-		if h.has("trait"):   # 20.1: the originals have a passive and a skill, but no starting trait
-			Gfx.text(ci, "STARTING TRAIT: " + Traits.by_id(h["trait"])["name"], TB.SW / 2, sy, "lime", 1, 0.5)
-			sy += 10
-	elif h.has("special"):   # 20.1: the other originals: their skill only
-		sy = 152 + bl.size() * 9 + 2
-		var spl := Gfx.wrap_text("SKILL - " + h["special"]["name"] + ": " + h["special"]["desc"], TB.SW - 100)
-		for j in spl.size():
-			Gfx.text(ci, spl[j], TB.SW / 2, sy + j * 8, "orange", 1, 0.5)
-		sy += spl.size() * 8 + 2
-	Gfx.text(ci, "STARTS WITH %s   DAMAGE %s   RATE %.1f/S   SPEED %d" % [hw["name"], _fmt_num(hw["dmg"]), hw["rate"], h["speed"]],
-		TB.SW / 2, sy, "tan", 1, 0.5)
+	Gfx.text(ci, "STARTS WITH %s   DAMAGE %s   RATE %.1f/S   SPEED %d" % [hw["name"], _fmt_num(hw["dmg"]), hw["rate"], h["speed"]], x, y, "tan")
+	y += 10
 	if open and GameData.rogues():
-		Gfx.text(ci, Trophies.line(h["id"]), TB.SW / 2, sy + 10, "gold", 1, 0.5)   # 7.2
+		Gfx.text(ci, Trophies.line(h["id"]), x, y, "gold")   # 7.2
 	if not open:
-		Gfx.text(ci, "UNLOCK AT THE EMBER SHRINE FOR %d EMBERS" % h["cost"], TB.SW / 2, maxi(196, sy + 11), "orange", 1, 0.5)
+		Gfx.text(ci, "UNLOCK AT THE EMBER SHRINE FOR %d EMBERS" % h["cost"], x, y, "orange")
 	var mx: int = Meta.meta.get("dread_max", 0)
 	if mx > 0:
 		var d := mini(Meta.meta.get("dread", 0), mx)
-		# Under the hero panel, so it never sits on a new hero's passive and skill text.
+		# Under the hero's card, so it never sits on a new hero's passive and skill text.
 		Gfx.text(ci, "DREAD %d: %s" % [d, GameData.DREAD_DESC[d]], TB.SW / 2, 236, "red" if d > 0 else "grey", 1, 0.5)
 		Gfx.text(ci, "UP/DOWN CHANGES DREAD.  MORE DREAD, MORE EMBERS", TB.SW / 2, 246, "dim", 1, 0.5)
 	else:
 		Gfx.text(ci, "WIN A RUN TO UNLOCK DREAD LEVELS", TB.SW / 2, 240, "dim", 1, 0.5)
-	Gfx.text(ci, "< >  CHOOSE     USE  BEGIN     ROLL  SKILL TREE     MENU  BACK", TB.SW / 2, 262, "grey", 1, 0.5)
+	Gfx.text(ci, "TAP A HERO, TAP AGAIN TO BEGIN     < >  CHOOSE     USE  BEGIN     ROLL  SKILL TREE     MENU  BACK", TB.SW / 2, 262, "grey", 1, 0.5)
 
 # ---------- Ember shrine ----------
 func draw_shrine(ci: CanvasItem) -> void:
@@ -400,7 +400,7 @@ func draw_howto(ci: CanvasItem) -> void:
 		["", "MAP: RED BOSS, GOLD CHEST, GREEN SHOP, PURPLE SHRINE."],
 		["RELICS", "STACK RELICS TO BUILD YOUR RUN."],
 		["", "SPEND GOLD IN SHOPS. PAY BLOOD AT ALTARS."],
-		["", ""],
+		["GOURD", "HEAL SIPS YOUR GOURD FIRST. IT FILLS AT REST STOPS AND GUARDIANS."] if GameData.rogues() else ["", ""],   # 47.1
 		["TOUCH", "STICK MOVES. AIM BUTTONS AIM BY HAND."],
 		["", "AUTO-AIM SHOOTS THE NEAREST FOE FOR YOU."],
 		["", "ROLL DODGES. USE BUYS AND OPENS. HEAL DRINKS. BOMB BLASTS."],

@@ -5,7 +5,9 @@ extends Node
 ## heart to heal; it fills again at the floor's rest stop (once a floor) and when a guardian falls;
 ## WAYFARER'S CORK and HONEY STOPPER. SHATTER (shatter.gd): stacks to 5, +5% damage taken a stack
 ## (CRACKED GEODE twice), gone 4 s after the last; blunt weapons' blows, bombs and the SPLITTING
-## WEDGE bring it; a shattered foe really takes more. Classic has neither.
+## WEDGE bring it; a shattered foe really takes more. Classic has neither. The reworked title menu
+## and hero select (47.3, 47.4): every row and every hero can be tapped, nothing overlaps, each
+## selects its own, and the heroes by the title's fire are yours.
 ## Prints "stage47 test: PASSED" or a FAIL line per problem.
 
 var fails := 0
@@ -156,24 +158,22 @@ func _ready() -> void:
 	Combat.update_bombs(TB.DT)
 	if f3.shatter != Shatter.BOMB:
 		fail("a bomb left %d shatter (want %d)" % [f3.shatter, Shatter.BOMB])
-	# SPLITTING WEDGE in a live fight (a ranged hero, its shots are not blunt).
+	# SPLITTING WEDGE: 15% of any weapon's hits (a ranged hero's, not blunt).
 	p = _start(1)
-	Meta.opts["autofire"] = true
 	_relic(p, "splitwedge")
-	Shatter.stats["stacks"] = 0
-	for i in 4:
-		_foe(p, "slime", -40.0 + i * 25.0).y = p.y - 40.0
-	for i in 300:
-		p.hp = p.max_hp
-		Keys.tick()
-		G.update(TB.DT)
-		if G.state != &"play":
-			G.state = &"play"
-			G.tchoice = {}
-			G.choice = {}
-	if Shatter.stats.get("stacks", 0) <= 0:
-		fail("5 s of fighting with the SPLITTING WEDGE: nothing shattered (weapon %s)" % p.weapon["id"])
-	print("[stage47] a bomb shatters; 5 s with the SPLITTING WEDGE: %d stacks" % Shatter.stats.get("stacks", 0))
+	var f5 := _foe(p)
+	var wedge := 0
+	for i in 600:
+		f5.shatter = 0
+		Combat.on_hit_effects(f5, 1.0, false, p, null)
+		if f5.shatter > 0:
+			wedge += 1
+	if Might.blunt(p.weapon) or wedge < 600 * 0.15 * 0.5 or wedge > 600 * 0.15 * 1.6:
+		fail("SPLITTING WEDGE: %d of 600 hits shattered (want about 90; weapon %s)" % [wedge, p.weapon["id"]])
+	print("[stage47] a bomb shatters; the SPLITTING WEDGE: %d of 600 hits" % wedge)
+
+	# ---- The title menu and the hero select (47.3, 47.4).
+	_menus()
 
 	# ---- Classic: neither.
 	GameData.force_classic = true
@@ -197,3 +197,53 @@ func _ready() -> void:
 
 	print("stage47 test: PASSED" if fails == 0 else "stage47 test: %d FAILED" % fails)
 	get_tree().quit()
+
+func _sel_zones() -> Array:
+	return Taps.zones().filter(func(z): return z.has("sel"))
+
+func _no_overlap(where: String, zs: Array) -> void:
+	for a in zs.size():
+		var ra: Rect2 = zs[a]["rect"]
+		if ra.position.x < 0 or ra.position.y < 0 or ra.end.x > TB.SW or ra.end.y > TB.SH:
+			fail("%s: zone %d off the screen: %s" % [where, a, ra])
+		for b in range(a + 1, zs.size()):
+			if ra.intersects(zs[b]["rect"]):
+				fail("%s: zones %d and %d overlap" % [where, a, b])
+
+func _menus() -> void:
+	var saved_state: StringName = G.state
+	var saved_hero := G.hero_index
+	G.state = &"title"
+	var items := G.title_items()
+	var zs := _sel_zones()
+	if zs.size() != items.size():
+		fail("title: %d tap rows for %d items" % [zs.size(), items.size()])
+	_no_overlap("title", zs)
+	for i in zs.size():
+		G.menu = -1
+		zs[i]["sel"].call()
+		if G.menu != i:
+			fail("title: the row of %s selects %d" % [items[i], G.menu])
+		if MenuView.title_dy() < 13:
+			fail("title: rows %d apart (too tight)" % MenuView.title_dy())
+	for h in MenuView.title_heroes():
+		if not G.hero_unlocked(h):
+			fail("title: %s by the fire is locked" % h["name"])
+	if MenuView.title_heroes().size() > 3:
+		fail("title: %d heroes by the fire" % MenuView.title_heroes().size())
+	G.state = &"hero"
+	var order := GameData.hero_order()
+	zs = _sel_zones()
+	if zs.size() != order.size():
+		fail("hero select: %d tap cells for %d heroes" % [zs.size(), order.size()])
+	_no_overlap("hero select", zs)
+	for j in zs.size():
+		zs[j]["sel"].call()
+		if G.hero_index != order[j]:
+			fail("hero select: cell %d selects hero %d (want %d)" % [j, G.hero_index, order[j]])
+		var r: Rect2 = zs[j]["rect"]
+		if r.end.y > MenuView.CARD_Y:
+			fail("hero select: cell %d runs into the hero's card" % j)
+	print("[stage47] title: %d rows %d apart; hero select: %d heroes in a grid, each tap picks its own" % [items.size(), MenuView.title_dy(), order.size()])
+	G.hero_index = saved_hero
+	G.state = saved_state

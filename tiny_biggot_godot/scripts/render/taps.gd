@@ -83,15 +83,9 @@ static func zones() -> Array:
 				out.append(_z(Rect2(60, MenuView.KEYS_Y0 + i * MenuView.KEYS_DY - 3, sw - 120, MenuView.KEYS_DY - 1), func(): G.menu = i, G.menu == i, true))
 		&"hero":
 			var order := GameData.hero_order()   # the hero screen's own order: free heroes first
-			var n := order.size()
-			var win := MenuView.hero_window()
-			for j in win[1]:
-				var i: int = order[win[0] + j]
-				out.append(_z(Rect2(win[2] + j * (MenuView.HERO_W + MenuView.HERO_GAP), 30, MenuView.HERO_W, 66),
-					func(): G.hero_index = i, G.hero_index == i))
-			# Scroll arrows at the screen edges.
-			out.append(_act(Rect2(0, 30, win[2], 66), func(): G.hero_index = order[maxi(0, order.find(G.hero_index) - 1)]))
-			out.append(_act(Rect2(sw - win[2], 30, win[2], 66), func(): G.hero_index = order[mini(n - 1, order.find(G.hero_index) + 1)]))
+			for j in order.size():   # (47.4: every hero in a grid; a tap shows one, a second begins)
+				var i: int = order[j]
+				out.append(_z(MenuView.hero_cell(j), func(): G.hero_index = i, G.hero_index == i))
 		&"shrine":
 			var sel: int = G.shrine_i
 			var ul := GameData.unlocks()
