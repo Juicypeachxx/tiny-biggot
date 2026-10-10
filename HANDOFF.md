@@ -3,8 +3,8 @@
 **10 Oct: his trait pictures.** 146 traits and 14 infusions to add (TRAITS_PLAN.md), in
 Stages 40 to 44 (STR, DEX, INT, SUPER/PSYCHIC/AUGMENT, infusions), then 45 the alignment shops.
 Stage 40 done (IPA 40 "Strength Traits"), Stage 41 done (IPA 41 "Dexterity Traits"), and his
-"How traits work" text as 41.5 (IPA 41.5 "How Traits Work": a limit of 12 traits, his pick).
-Next: Stage 42, the INT traits.
+"How traits work" text as 41.5 (IPA 41.5 "How Traits Work": a limit of 12 traits, his pick),
+Stage 42 done (IPA 42 "Intelligence Traits"). Next: Stage 43, SUPER, PSYCHIC and AUGMENT traits.
 Done before: 39.4 "Bosses Fall" (IPA 39.4), Stage 39 "More to Find", 38 "Alignment and Loot", 37,
 36, 35 (the full check passed at 35). Next: Stage 40.
 
@@ -1578,6 +1578,29 @@ Done by another session (the port's), which took over from v31 on claude/dev.
   ranged.
 - --ui=tome / --ui=tomefloor (--trait-opts=ID) for pictures. Test tests/traitrules_test.tscn (in
   check.sh).
+
+### Stage 42 (10 Oct): the INTELLIGENCE traits (his pictures)
+- scripts/combat/arcana.gd (class Arcana), expanded game only, reset with Might and Finesse:
+  power_add (dreamer x the special's charge, hungry x armor; in Might.power), dmg_mult
+  (menagerie; in Might.dmg_mult), helper_mult (inspire, mind_beacon, menagerie, pack_mind; in
+  Legion.dmg_mult), special_add (insight per INT rank; in Finesse.special_power), tick_add
+  (entropy, bell_curve, slip_t; in Finesse.tick_rate), crit_add (anatomy on a bleeding foe),
+  foe_mult (cursed hits: cursed_hit, x2 curse_x2; curse_dmg; sneaky hits: trickery per common
+  gear piece, x1.6, "SNEAKY"; no dice for silent hits or builds without them), focus_mult
+  (elem_focus: x2 burn/chill/shock while Might.casting or Auras.pulsing), on_status (end of
+  Statuses.apply: poison_bleed, poison_vuln, elem_wheel burn>chill>shock>burn; _busy stops
+  chains), on_lightning + tick (thunder_twice: once more after 0.5 s; Arcana.later), orbit_mult
+  (wide_orbit x2 radius; moon hits leave foes vulnerable), orbit_speed (bell_curve), blast_mult
+  (ignition: explode_at x1.5 and burns), on_attack (third_echo: the attack after every 3rd
+  repeats), on_special (time_slip: 10 s; from Might.cast), fan (action fan_shots: frost shards
+  chill, a venom thistle poisons and pierces), pocket (action pocket_cast: a random castable
+  backpack weapon via Lucky.cast(p, e, pick)). Action trigger fires a moment's procs (VISION).
+- Elsewhere: Auras pulse_<kind> (a field's own pulse speed), Lucky.chance x (1 + lucky_mult),
+  lucky_extra strikes, Might.buff_mult + buff_int x INT, Finesse.helpers counts the minion cap.
+- 38 int_ traits (names checked against everything), pictures tools/art/stage42_traits.py,
+  keywords POWER, LUCKY, SNEAKY, MOON(S), FIELD(S), HELPERS. TraitRules.NEEDS "special" for
+  CINDER RAIN, TIME SLIP, DAYDREAM, UNRAVELING, DEEP THOUGHT, MIND BEACON.
+- Test tests/stage42_test.tscn (in check.sh).
 
 ## Noted, not yet acted on
 

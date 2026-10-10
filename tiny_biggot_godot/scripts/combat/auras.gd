@@ -24,6 +24,7 @@ static var _t := {}           # kind -> time to its next pulse
 static var surge := 1.0       # MIND SPIRAL: the fields grow this much for a while
 static var surge_t := 0.0
 static var stats := {}        # kind -> pulses (tests)
+static var pulsing := false   # 42.1: a pulse is landing (FOCUSED ELEMENTS)
 
 static func reset() -> void:
 	_t.clear()
@@ -72,7 +73,7 @@ static func tick(p: Player, dt: float) -> void:
 	var speed := 1.0 + p.g("aura_speed")
 	for h in hs:
 		var k: String = h[0]
-		var t: float = _t.get(k, 0.0) - dt * speed
+		var t: float = _t.get(k, 0.0) - dt * speed * (1.0 + p.g("pulse_" + k))   # (42.1 EMBER and STORM MANTLE: 4 a second)
 		if t <= 0:
 			t += KINDS[k][1]
 			_pulse(p, k, h[1])
@@ -91,6 +92,7 @@ static func _pulse(p: Player, kind: String, n: int) -> void:
 	hit = hit * n + p.g("aura_strike")
 	if kind == "gravity":
 		Actions.run(["pull", r, 160], n, {})
+	pulsing = true
 	for e in G.enemies.duplicate():
 		if not e.targetable() or TB.dist(e, p) > r + e.r:
 			continue
@@ -108,6 +110,7 @@ static func _pulse(p: Player, kind: String, n: int) -> void:
 			dmg += w * 0.6 * n
 		if dmg > 0:
 			Combat.damage_enemy(e, dmg, { "no_crit": true, "col": "pink" if kind == "mind" else "orange", "silent": true })
+	pulsing = false
 	Juice.ring(p.x, p.y, maxf(4.0, r * 0.2), r, 0.35, col)
 
 ## A foe that dies inside the BLOOD HAZE may heal you (Combat.kill_enemy).
@@ -119,9 +122,8 @@ static func on_kill(p: Player, e: Enemy) -> void:
 
 ## HORIZON RING: where the moons circle, how big they are and how hard they hit.
 static func orbit_radius(p: Player) -> float:
-	if p.g("horizon") <= 0:
-		return 20.0
-	return clampf(20.0 + 26.0 * (reach(p) - 1.0) + 8.0, 28.0, 150.0)
+	var r := 20.0 if p.g("horizon") <= 0 else clampf(20.0 + 26.0 * (reach(p) - 1.0) + 8.0, 28.0, 150.0)
+	return r * Arcana.orbit_mult(p)   # 42.1 WIDE ORBIT
 
 static func moon_scale(p: Player) -> float:
 	if p.g("horizon") <= 0:

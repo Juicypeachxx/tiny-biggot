@@ -64,6 +64,7 @@ const ACTIONS := ["nova", "shoot", "explode", "status", "heal", "buff", "chain",
 	"tipsy", "belt",   # 33.2: a drink's worth of TIPSY (tipsy.gd); a consumable into the belt
 	"slot_cast", "lucky_rush",   # 34.1: a free cast from the spell slot; every hit lucky for a while
 	"dice",   # 35.1: ["dice", kind or "any", n]: dice to bend luck (dice.gd)
+	"fan_shots", "pocket_cast", "trigger",   # 42.1: shards or a thistle; a backpack weapon fires; a moment's procs (arcana.gd)
 	"toy"]   # 31: an item lets a toy of the toybox loose (toys.gd)
 const STATUSES := ["burn", "poison", "chill", "bleed", "stun", "curse", "mark", "shock", "vulnerable", "weakened", "gloom"]
 const CONDITIONS := ["elite", "boss", "burning", "poisoned", "chilled", "bleeding", "shocked", "cursed",

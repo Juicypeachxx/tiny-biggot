@@ -159,6 +159,13 @@ static func run(a: Array, stacks: int, ctx: Dictionary) -> void:
 			Effects.add_buff(p, a[1], a[2] * stacks, a[3])
 		"aura_surge":   # 33.1 ["aura_surge", times, seconds]: the halos' fields reach further for a while
 			Auras.start_surge(a[1], a[2])
+		"fan_shots":   # 42.1 ["fan_shots", n, dmg_mult, family]: ICE VOLLEY, THISTLE THROW (arcana.gd)
+			Arcana.fan(p, mini(int(a[1]) * stacks, 12), w * a[2], a[3])
+		"pocket_cast":   # 42.1 ["pocket_cast"]: SPARE WAND, a weapon from the backpack fires
+			Arcana.pocket(p)
+		"trigger":   # 42.1 ["trigger", on_x]: sets off what that moment sets off (VISION: on_special)
+			if not p.procs.is_empty():
+				Effects.fire(a[1], { "x": p.x, "y": p.y })
 		"slot_cast":   # 34.1 ["slot_cast"]: the spell slot's weapon cast at the foe (or the nearest)
 			Lucky.cast(p, ctx.get("enemy"))
 		"lucky_rush":   # 34.1 ["lucky_rush", seconds]: every hit is a lucky hit for a while

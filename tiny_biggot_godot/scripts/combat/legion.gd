@@ -14,7 +14,7 @@ extends RefCounted
 static func dmg_mult(p: Player) -> float:
 	if p == null or not GameData.rogues():
 		return 1.0
-	return (1.0 + p.g("minion_dmg")) * Finesse.helper_mult(p)   # (41.1 BOSOM BUDDY)
+	return (1.0 + p.g("minion_dmg")) * Finesse.helper_mult(p) * Arcana.helper_mult(p)   # (41.1 BOSOM BUDDY; 42.1)
 
 static func speed(p: Player) -> float:
 	if p == null or not GameData.rogues():

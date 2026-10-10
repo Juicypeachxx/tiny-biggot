@@ -332,6 +332,11 @@ timeout 600 "$GODOT" --headless --path . res://tests/stage41_test.tscn -- --no-s
 grep -E "^\[stage41\]|stage41 test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 42 the INTELLIGENCE traits: pictures, cursed and sneaky hits, the element wheel, fields, the special's charge, moons, helpers"
+timeout 600 "$GODOT" --headless --path . res://tests/stage42_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[stage42\]|stage42 test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== 41.5 how traits work: a limit of 12, stat points, traits that need a shield or a weapon kind, trait tomes"
 timeout 300 "$GODOT" --headless --path . res://tests/traitrules_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "traitrules test" "$LOG"

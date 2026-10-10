@@ -100,7 +100,7 @@ static func power(p: Player) -> float:
 		pw += p.g("war_charge") * mini(3, int(floor(lead / 0.1 + 0.0001)))
 	if p.g("crowd") > 0:
 		pw += minf(100.0, p.g("crowd") * crowd(p))
-	return pw
+	return pw + Arcana.power_add(p)   # 42.1 DAYDREAM, HUNGRY MIND
 
 ## Combat.player_damage_mult.
 static func dmg_mult(p: Player) -> float:
@@ -111,7 +111,7 @@ static func dmg_mult(p: Player) -> float:
 		m *= 1.0 + 0.01 * rage
 	if p.g("stride") > 0:
 		m *= 1.0 + p.g("stride") * gear_count(p)
-	return m
+	return m * Arcana.dmg_mult(p)   # 42.1 MENAGERIE
 
 ## Combat.damage_enemy: what a hit on this foe gains.
 static func foe_mult(p: Player, e: Enemy) -> float:
@@ -208,9 +208,9 @@ static func speed_mult(p: Player) -> float:
 
 ## Effects.add_buff: TOWERING PRESENCE, per gear piece worn.
 static func buff_mult(p: Player) -> float:
-	if not on() or (p.g("presence") <= 0 and p.g("buff_power") <= 0):
+	if not on() or (p.g("presence") <= 0 and p.g("buff_power") <= 0 and p.g("buff_int") <= 0):
 		return 1.0
-	return 1.0 + p.g("presence") * gear_count(p) + p.g("buff_power")   # (41.1 GOOD DOG: buff_power)
+	return 1.0 + p.g("presence") * gear_count(p) + p.g("buff_power") + p.g("buff_int") * p.a_int   # (41.1 GOOD DOG: buff_power; 42.1 COMMANDING MIND)
 
 # ---------- the weapon's rate and damage ----------
 ## STEADY HAND: fire rate bonuses count half, and raise the damage twice over. GIANT'S GRIP: a
@@ -332,5 +332,6 @@ static func cast(p: Player, actions: Array) -> void:
 	for a in actions:
 		Actions.run(a, 1, {})
 	casting = false
+	Arcana.on_special(p)   # 42.1 TIME SLIP
 	if not p.procs.is_empty():
 		Effects.fire("on_special", { "x": p.x, "y": p.y })

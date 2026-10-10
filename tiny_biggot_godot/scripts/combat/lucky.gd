@@ -36,7 +36,8 @@ static func tick(dt: float) -> void:
 static func chance(p: Player) -> float:
 	if not GameData.rogues():
 		return 0.0
-	return p.g("lucky") + p.g("lucky_dex") * p.a_dex + LUCK_LUCKY * p.luck + p.g("lucky_heart") * p.max_hp / 2.0 + (1.0 if rush_t > 0 else 0.0)   # (40.2 BIG HEART)
+	var c: float = p.g("lucky") + p.g("lucky_dex") * p.a_dex + LUCK_LUCKY * p.luck + p.g("lucky_heart") * p.max_hp / 2.0 + (1.0 if rush_t > 0 else 0.0)   # (40.2 BIG HEART)
+	return c * (1.0 + p.g("lucky_mult"))   # 42.1 WUNDERKIND
 
 ## The weapon in the first backpack slot, if it can be cast.
 static func slot_weapon(p: Player) -> Variant:
@@ -57,20 +58,21 @@ static func on_hit(e: Enemy, dmg: float, crit: bool, p: Player, b: PBullet) -> v
 	var lucky := c > 0.0 and randf() < c
 	if lucky:
 		stats["lucky"] = stats.get("lucky", 0) + 1
-		if e.hp > 0:
-			_depth += 1
-			Combat.damage_enemy(e, dmg, { "no_crit": true, "col": "lime", "silent": true, "lucky": true })
-			_depth -= 1
+		_depth += 1
+		for k in 1 + int(p.g("lucky_extra")):   # 42.1 STAR READER: it strikes more times
+			if e.hp > 0:
+				Combat.damage_enemy(e, dmg, { "no_crit": true, "col": "lime", "silent": true, "lucky": true })
+		_depth -= 1
 		Fx.burst(e.x, e.y - 6, ["#7ad86a", "#f2c94c"], 4, 50, 0.25)
 		Effects.fire("on_lucky", { "enemy": e, "dmg": dmg })
 	if (crit or lucky) and p.g("slot_cast") > 0:
 		cast(p, e)
 
 ## Casts the spell slot's weapon at a foe (or the nearest one) for free.
-static func cast(p: Player, e: Enemy = null) -> bool:
+static func cast(p: Player, e: Enemy = null, pick = null) -> bool:   # (42.1 SPARE WAND: pick, a backpack weapon)
 	if _cd > 0 or _casts >= MAX_CASTS_A_TICK or _depth > 0:
 		return false
-	var w = slot_weapon(p)
+	var w = pick if pick != null else slot_weapon(p)
 	if w == null:
 		return false
 	if e == null or e.hp <= 0:

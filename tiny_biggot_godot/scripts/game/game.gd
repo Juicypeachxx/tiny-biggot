@@ -164,6 +164,7 @@ func new_run() -> void:
 	Block.reset()   # 37.1
 	Might.reset()   # 40.2
 	Finesse.reset()   # 41.1
+	Arcana.reset()   # 42.1
 	if GameData.rogues() and not DebugArgs.has("no-oath"):   # 29 (his word, 9 Oct): every run opens with an OATH that shapes it
 		p.oath_picks = 1
 		p.pending += 1

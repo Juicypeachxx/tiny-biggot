@@ -28,6 +28,7 @@ static func apply(e: Enemy, name: String, amount: float, hit_dmg: float) -> void
 	if Might.casting and p.g("merciless") > 0:
 		amount *= 2.0   # 40.2 MERCILESS: what your special inflicts is twice as strong
 	amount *= Finesse.status_mult(p)   # 41.1 HABIT: right after a repeat
+	amount *= Arcana.focus_mult(p, name)   # 42.1 FOCUSED ELEMENTS
 	if name == "burn" or name == "bleed":
 		Might.add_stack(p, e, name)   # 40.2 BLOOD AND ASH
 	match name:
@@ -53,6 +54,7 @@ static func apply(e: Enemy, name: String, amount: float, hit_dmg: float) -> void
 		"weakened": e.weak_t = maxf(e.weak_t, 3.0 * amount)
 		_:
 			push_error("Statuses: unknown status " + name)
+	Arcana.on_status(p, e, name, hit_dmg)   # 42.1 THORN BLOOM, EATING ACID, ELEMENT WHEEL
 
 ## Damage multiplier from the new statuses (1.0 when none are active).
 static func dmg_mult(e: Enemy) -> float:

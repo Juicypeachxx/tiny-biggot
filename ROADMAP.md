@@ -1342,10 +1342,15 @@ his dice do. The heroes' own traits are Stage 43 (PSYCHIC the Mindwarden's, AUGM
       Found on the way: flails, spinning and slamming weapons counted as bows for the Stage 40-41
       traits (Might.ranged); fixed.
 
-### Stage 42: the INTELLIGENCE traits (IPA 42)
-- [ ] 42.1 What the INT list needs: cursed hits, fragility, scorch, frostbite, zap, tick speed,
-      the special's charge as mana.
-- [ ] 42.2 The 38 INTELLIGENCE traits, each with its picture.
+### Stage 42: the INTELLIGENCE traits (IPA 42, "Intelligence Traits", built 10 Oct)
+- [x] 42.1 What the INT list needs (scripts/combat/arcana.gd): cursed hits, sneaky hits (TRICKERY
+      at last), fragility (= vulnerable, from poison), scorch / frostbite / zap (the special's and
+      the fields' fire, frost and lightning twice as strong), the element wheel, tick speed (from
+      special recharge, lucky hit chance, 10 s after the special), the special's charge as mana
+      (power, helpers' damage), lightning that strikes twice, blasts that burn, moons twice as far,
+      fields 4 times a second, shards and thistles, a backpack weapon that fires on its own.
+- [x] 42.2 The 38 INTELLIGENCE traits, each with its picture. The six that work through the
+      special only come to a hero who has one (41.5 conditions).
 
 ### Stage 43: SUPER, PSYCHIC and AUGMENT traits (IPA 43)
 - [ ] 43.1 15 SUPER traits for every hero (rare).

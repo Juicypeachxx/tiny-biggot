@@ -49,7 +49,7 @@ static func speed_lead(p: Player) -> float:
 	return maxf(0.0, p.speed / maxf(1.0, float(p.hero.get("speed", p.speed))) - 1.0)
 
 static func helpers(p: Player) -> int:
-	return mini(p.familiars, Effects.SUMMON_CAP) + G.temp_fams.size() + Summons.thralls.size() + Summons.turrets.size()
+	return mini(p.familiars, Effects.SUMMON_CAP + Legion.cap_bonus(p)) + G.temp_fams.size() + Summons.thralls.size() + Summons.turrets.size()
 
 # ---------- distances ----------
 static func close(p: Player, e: Enemy) -> bool:
@@ -84,7 +84,7 @@ static func recharge_add(p: Player) -> float:
 static func special_power(p: Player) -> float:
 	if not on():
 		return 1.0
-	return 1.0 + p.g("special_power") + p.g("special_per_roll") * p.dodge_charges
+	return 1.0 + p.g("special_power") + p.g("special_per_roll") * p.dodge_charges + Arcana.special_add(p)   # (42.1 DEEP THOUGHT)
 
 ## Legion.dmg_mult: BOSOM BUDDY.
 static func helper_mult(p: Player) -> float:
@@ -108,7 +108,7 @@ static func tick_rate(p: Player) -> float:
 	var r := 1.0 + p.g("tick_haste")
 	if p.g("clockwork") > 0:
 		r += maxf(0.0, p.rate * rate_mult(p) - 1.0)
-	return r
+	return r + Arcana.tick_add(p)   # 42.1 UNRAVELING, BELL CURVE, TIME SLIP
 
 # ---------- crits and lethal hits ----------
 static func crit_chance(p: Player, e: Enemy) -> float:

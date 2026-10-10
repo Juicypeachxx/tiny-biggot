@@ -350,7 +350,7 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	if sure:
 		dmg *= 1.0 + 1.5 * maxf(0.0, crit_chance)
 	if not sure and not Might.no_crit(p) and (o.get("force_crit", false) or Finesse.sure_crit(o) or (not o.get("no_crit", false) and randf() < crit_chance)):
-		dmg *= p.crit_mult + Might.crit_add(p) + Finesse.crit_add(p, e)   # 40.2 SAVAGERY; 41.1 SPARK BRAND, LOADED LUCK
+		dmg *= p.crit_mult + Might.crit_add(p) + Finesse.crit_add(p, e) + Arcana.crit_add(p, e)   # 40.2 SAVAGERY; 41.1 SPARK BRAND, LOADED LUCK; 42.1 SURGEON'S EYE
 		crit = true
 		# New stat: crit chance past 100% can crit a second time.
 		if p.overcrit > 0 and p.crit > 1.0 and randf() < minf(p.crit - 1.0, 1.0):
@@ -369,7 +369,7 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	if p.corrode > 0 and e.poison > 0: dmg *= 1 + p.corrode * e.poison
 	if e.curse_t > 0: dmg *= 1.0 + 0.25 * Might.ailment_mult(p)   # (40.2 MIGHT MAKES RIGHT)
 	if o.get("boom", false) and p.boom_elite and e.elite: dmg *= 2
-	if not o.get("no_mult", false): dmg *= player_damage_mult(p) * hook_mult(p, e) * Might.foe_mult(p, e) * Finesse.foe_mult(p, e, o)
+	if not o.get("no_mult", false): dmg *= player_damage_mult(p) * hook_mult(p, e) * Might.foe_mult(p, e) * Finesse.foe_mult(p, e, o) * Arcana.foe_mult(p, e, o)   # (42.1 cursed and sneaky hits)
 	if Might.casting: dmg *= Finesse.special_power(p)   # 41.1 STILL BREATH: the special's own blows
 	if e.vuln_t > 0 or e.shock > 0 or e.gloom > 0:
 		dmg *= Statuses.dmg_mult(e)
@@ -813,6 +813,8 @@ static func update_enemies(dt: float) -> void:
 						e.bleed_dps = minf(e.bleed_dps * 1.15, md * 2.0)
 					if p.g("moon_gloom") > 0 and e.hp > 0:
 						Statuses.apply(e, "gloom", 10, 0)   # 40.2 SHADOW VEIL: all its gloom at once
+					if p.g("wide_orbit") > 0 and e.hp > 0:
+						Statuses.apply(e, "vulnerable", 1, 0)   # 42.1 WIDE ORBIT
 	var alive: Array[Enemy] = []
 	for e in G.enemies:
 		if e.hp > 0:
@@ -1108,6 +1110,7 @@ static func player_shoot(p: Player, a: float, echo_ok: bool = true) -> void:
 		Fx.particle(p.x + cos(a) * 8, p.y - 2 + sin(a) * 8, 0, 0, 0.06, "#fffbe0", 3)
 	Might.on_attack(p)   # 40.2 OPENING
 	Finesse.on_attack(p)   # 41.1 COUNTING COUP, ONE STEP AHEAD
+	Arcana.on_attack(p)   # 42.1 THIRD ECHO
 	if not p.procs.is_empty():
 		Effects.fire("on_shoot", { "x": p.x, "y": p.y })
 		Effects.fire("every_n_shots", { "x": p.x, "y": p.y })
@@ -1758,6 +1761,7 @@ static func lightning(e: Enemy, dmg: float) -> void:
 			continue
 		if TB.dist_xy(o.x, o.y, x, y) < 24 + o.r:
 			damage_enemy(o, dmg * 1.5 * (1 + p.storm_dmg), { "no_crit": true, "col": "cyan", "silent": true })
+	Arcana.on_lightning(p, e, dmg)   # 42.1 THUNDER TWICE
 
 static func hit_crate(room: Room, c: int, r: int, dmg: float) -> void:
 	if room.tile(c, r) != World.T_CRATE:
@@ -1810,12 +1814,16 @@ static func explode_at(x: float, y: float, dmg: float, skip: Enemy, radius: floa
 	Fx.burst(x, y, [col, "#f2c94c", "#fffbe0"] if col != "" else ["#e8873a", "#f2c94c", "#d8443c"],
 		8 + roundi(radius / 4), 70 + radius, 0.3)
 	Vfx.blast(x, y, radius, col)
+	var hot := Arcana.blast_mult(G.player)   # 42.1 BLAZING BLASTS
+	dmg *= hot
 	for e in G.enemies.duplicate():
 		if e == skip or e.hp <= 0:
 			continue
 		if TB.dist_xy(e.x, e.y, x, y) >= radius + e.r:
 			continue
 		damage_enemy(e, dmg, { "no_crit": true, "col": "orange", "silent": true, "boom": boom or from_bomb, "bomb": from_bomb })
+		if hot > 1.0 and e.hp > 0:
+			Statuses.apply(e, "burn", 1, dmg)
 		if e.hp > 0 and G.player != null and G.player.g("boom_vuln") > 0:
 			Statuses.apply(e, "vulnerable", 1, 0)   # 41.1 SHRAPNEL SENSE
 
@@ -2088,6 +2096,8 @@ static func update_player(p: Player, dt: float) -> void:
 		Might.tick(p, dt)   # 40.2 RAGE fades, PRIDE runs out
 	if Finesse.repeat_t > 0 or p.g("swagger") > 0:
 		Finesse.tick(p, dt)   # 41.1 HABIT, SHOWBOAT
+	if Arcana.slip_t > 0 or not Arcana.later.is_empty():
+		Arcana.tick(p, dt)   # 42.1 TIME SLIP, THUNDER TWICE
 	# Gatling spin-up while there is something to shoot.
 	if p.weapon["kind"] == "gatling":
 		p.spin = minf(1.0, p.spin + dt * 0.5) if G.enemies_active() else maxf(0.0, p.spin - dt)
@@ -2241,7 +2251,7 @@ static func _update_player_base(p: Player, dt: float) -> void:
 				Effects.fire("on_bomb", { "x": p.x, "y": p.y + 2 })
 		else:
 			Snd.play("deny")
-	p.orbit_a += dt * 3.2
+	p.orbit_a += dt * 3.2 * Arcana.orbit_speed(p)   # (42.1 BELL CURVE)
 	for k in p.orbit_hit.keys():
 		p.orbit_hit[k] -= dt
 		if p.orbit_hit[k] <= 0:

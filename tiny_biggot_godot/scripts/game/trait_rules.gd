@@ -22,6 +22,9 @@ const NEEDS := {
 	"str_keenedge": "slash",      # BLEEDING EDGE: slashing hits
 	"str_bluntforce": "blunt",    # BLUNT FORCE: blunt hits
 	"dex_alacrity": "dexw",       # NIMBLE GRIP: a weapon that scales with DEX
+	# 42.2: the INT traits that work through the hero's special
+	"int_apocalypse": "special", "int_chrono": "special", "int_dreamer": "special", "int_entropy": "special",
+	"int_insight": "special", "int_beacon": "special",
 }
 ## A stat point row: [attribute, name, a family of its colour].
 const STATS := [["str", "+1 STRENGTH", "fury"], ["dex", "+1 DEXTERITY", "edge"], ["int", "+1 INTELLIGENCE", "arcane"]]
@@ -52,6 +55,7 @@ static func meets(p: Player, id: String) -> bool:
 		"slash": return Might.cut(w) == "SLASHING"
 		"blunt": return Might.blunt(w)
 		"dexw": return w != null and Attributes.scaling(w)["dex"] != "-"
+		"special": return Abilities.has_special(p)
 	return true
 
 ## G.trait_weight and the grimoire's weights: may a pick show this trait now? Your own traits may
