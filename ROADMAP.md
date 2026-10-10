@@ -18,7 +18,7 @@ middle of a step, do that first, write it into this file (a new step, or a
 changed one), and carry on from there. What he says last outranks this file.
 
 **Next up (his ask, 10 Oct: "add what will you do next on to do list"):**
-1. Stage 42 the INTELLIGENCE traits: built; IPA 42 once the replays are recorded.
+1. Stage 42 the INTELLIGENCE traits: done, IPA 42 built (10 Oct). He tries it next.
 2. Stage 43: 15 SUPER traits for every hero, 11 PSYCHIC traits for the Mindwarden, 5 AUGMENT
    traits for the Tinkerer (IPA 43).
 3. Stage 44: the 14 INFUSIONS, and the traits that work with them (IPA 44).
