@@ -5,8 +5,8 @@ Stages 40 to 44 (STR, DEX, INT, SUPER/PSYCHIC/AUGMENT, infusions), then 45 the a
 Stage 40 done (IPA 40 "Strength Traits"), Stage 41 done (IPA 41 "Dexterity Traits"), and his
 "How traits work" text as 41.5 (IPA 41.5 "How Traits Work": a limit of 12 traits, his pick),
 Stage 42 done (IPA 42 "Intelligence Traits"), Stage 43 done (IPA 43 "Super Traits"), 43.5 done
-(IPA 43.5 "Steady Ground"). Now: 43.7, the old traits made like the new ones (43.7a, their
-effects, done; 43.7b, their pictures, in progress).
+(IPA 43.5 "Steady Ground"), 43.7 done (IPA 43.7 "Old Traits Reborn": the 286 old traits each
+gain one more effect and their own picture). Next: Stage 44, the INFUSIONS, after his try of 43.7.
 Done before: 39.4 "Bosses Fall" (IPA 39.4), Stage 39 "More to Find", 38 "Alignment and Loot", 37,
 36, 35 (the full check passed at 35). Next: Stage 40.
 

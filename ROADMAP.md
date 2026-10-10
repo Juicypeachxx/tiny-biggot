@@ -23,8 +23,9 @@ changed one), and carry on from there. What he says last outranks this file.
    traits for the Tinkerer (IPA 43). His word (10 Oct): "Do next stage then stability test and
    bug fix": straight on, without waiting for his try of 42.
 2b. Stage 43.5: a stability test and bug fixes: done, IPA 43.5 "Steady Ground" built (10 Oct).
-2c. Stage 43.7: the 286 OLD traits made like the new ones: their own pictures, the new look and
-   text, and their effects brought up to the new traits (his word, 10 Oct) (IPA 43.7).
+2c. Stage 43.7: the 286 OLD traits made like the new ones: done, IPA 43.7 "Old Traits Reborn"
+   (10 Oct): each keeps all it did and gains one more effect from the new mechanics, and each has
+   its own picture.
 3. Stage 44: the 14 INFUSIONS, and the traits that work with them (IPA 44).
 4. Stage 45: the GOOD, EVIL and LAWFUL shops (IPA 45).
 5. Stage 46, later (his word): WEAPON ENCHANTMENTS from his pictures (ENCHANTMENTS_PLAN.md).
@@ -1405,8 +1406,10 @@ family's glyph.
       Done: 286 pictures (tools/art/stage43_7_traits.py, five batches, each looked at and the
       unclear ones redrawn), in the atlas. The text: the added sentence is in the new style; the
       old sentences keep their words (the 72 originals' words are the classic game's).
-- [ ] 43.7c The 72 originals change in the expanded game only: --classic keeps them exactly as they
+- [x] 43.7c The 72 originals change in the expanded game only: --classic keeps them exactly as they
       were (rule 4; the classic replays stay identical).
+      Done: the six classic replays identical, the effects test ALL MATCH (2424 applications), the
+      core replays re-recorded on purpose; the full check passes. IPA 43.7 "Old Traits Reborn".
 
 ### Stage 44: INFUSIONS (IPA 44)
 - [ ] 44.1 14 infusions: belt items that add an element to the weapon for 10 rooms or for good;
