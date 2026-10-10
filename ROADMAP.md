@@ -23,6 +23,8 @@ changed one), and carry on from there. What he says last outranks this file.
    traits for the Tinkerer (IPA 43). His word (10 Oct): "Do next stage then stability test and
    bug fix": straight on, without waiting for his try of 42.
 2b. Stage 43.5: a stability test and bug fixes (IPA 43.5).
+2c. Stage 43.7: the 286 OLD traits made like the new ones: their own pictures, the new look and
+   text, and their effects brought up to the new traits (his word, 10 Oct) (IPA 43.7).
 3. Stage 44: the 14 INFUSIONS, and the traits that work with them (IPA 44).
 4. Stage 45: the GOOD, EVIL and LAWFUL shops (IPA 45).
 5. Stage 46, later (his word): WEAPON ENCHANTMENTS from his pictures (ENCHANTMENTS_PLAN.md).
@@ -1371,6 +1373,18 @@ his dice do. The heroes' own traits are Stage 43 (PSYCHIC the Mindwarden's, AUGM
 - [ ] 43.5a The full check (tools/check.sh); long bot soaks with every hero on several seeds, the
       menu monkey, the timing test; every script error, stuck screen or slow fight found is fixed.
 - [ ] 43.5b A note of what was found and fixed, for him.
+
+### Stage 43.7: the old traits made like the new ones (IPA 43.7; his word, 10 Oct)
+His words: "revamp all old traits to be like our new traits" and "Also update effects of old traits
+to match new". 286 traits came before Stage 40 (72 originals, 214 added since) and none has a
+picture of its own: they show their family's glyph.
+- [ ] 43.7a Every old trait gets its own 16 x 16 picture in its cube (by family, in batches), and
+      its text in the new style (short sentences, keywords).
+- [ ] 43.7b Their effects brought up to the new traits: the new mechanics where they fit (power,
+      crushing, lethal, cursed and sneaky hits, fields, the special), numbers that keep up with the
+      new traits. Nothing weaker than now (rule 1).
+- [ ] 43.7c The 72 originals change in the expanded game only: --classic keeps them exactly as they
+      were (rule 4; the classic replays stay identical).
 
 ### Stage 44: INFUSIONS (IPA 44)
 - [ ] 44.1 14 infusions: belt items that add an element to the weapon for 10 rooms or for good;
