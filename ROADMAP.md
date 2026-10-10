@@ -38,6 +38,8 @@ changed one), and carry on from there. What he says last outranks this file.
    "Stage 47 first": THE GOURD and SHATTER, with its own IPA, then wait for his try.
    His word, during it (10 Oct): "Also we need to rework the menu it looks all confused and heroes
    stacked in front, also we can work on character select menu to be better": in Stage 47 too.
+   Stage 47 built (10 Oct); IPA 47 "Gourd and Shatter" after the full check. Next: his try of it,
+   then his pick of 48 to 51.
 Each stage waits for him to try the last IPA. Details of each step are further down.
 
 | Stage | What | State |
@@ -1451,12 +1453,23 @@ ones come in too (rule 1). Planned as Stage 46, after the alignment shops.
 ### His list, 10 Oct (after IPA 46): core gameplay, combat and equipment
 He pasted a list of Tiny Rogues' core gameplay. Most of it is here already (GAMEPLAY_PLAN.md has
 each point); the rest, proposed in the order it would be felt most, with names of our own:
-- [ ] Stage 47: THE GOURD (a refillable healing flask; potions stay) and SHATTER (an armour-break
+- [x] Stage 47: THE GOURD (a refillable healing flask; potions stay) and SHATTER (an armour-break
       ailment for every foe).
-  - [ ] 47.3 The title menu reworked (his word: "it looks all confused and heroes stacked in
+  - [x] 47.1 THE GOURD (scripts/game/gourd.gd): HEAL sips it before any potion (2 hearts, only
+        with a heart to heal; a sip counts as a potion for what you carry); it fills at the
+        floor's rest stop (once a floor) and when a guardian falls; on the HUD before the potions.
+        Relics: WAYFARER'S CORK (+1 sip), HONEY STOPPER (+1 heart a sip).
+  - [x] 47.2 SHATTER (scripts/combat/shatter.gd): stacks to 5, +5% damage taken a stack, gone 4 s
+        after the last; blunt weapons' blows (15%), bombs (2 stacks), SPLITTING WEDGE (15% of
+        hits), CRACKED GEODE (twice as strong); shards drawn in a shattered foe.
+  - [x] 47.3 The title menu reworked (his word: "it looks all confused and heroes stacked in
         front"): the nine items packed with no room between them, the four heroes standing on
-        top of the list, the stats line touching it.
-  - [ ] 47.4 A better hero select: all 34 heroes to see and tap at once, not 6 at a time.
+        top of the list, the stats line touching it. Done: the menu in its own panel on the left,
+        rows 16 apart; the logo above; the hero you play and two companions by a campfire on the
+        right.
+  - [x] 47.4 A better hero select: all 34 heroes to see and tap at once, not 6 at a time. Done:
+        a grid of two rows along the top (tap to see, tap again to begin), the chosen hero large
+        beside its card.
 - [ ] Stage 48: items that grow with curses carried and foes slain, ROOM DRAUGHTS, a HONING STONE.
 - [ ] Stage 49: RADIANT, NECROTIC, DARK, ENERGY and SOUND as weapon damage types, and weapons for them.
 - [ ] Stage 50: run modes: THE NARROW WAY (no map), OMENS (pickable challenges after a win; the

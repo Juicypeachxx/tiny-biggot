@@ -9,7 +9,10 @@ Stage 42 done (IPA 42 "Intelligence Traits"), Stage 43 done (IPA 43 "Super Trait
 gain one more effect and their own picture). Then his "Ok go 44 and 45, and 46": Stage 44 done
 (IPA 44 "Infusions"), Stage 45 done (IPA 45 "Alignment Shops"), Stage 46 done (IPA 46 "Weapon
 Enchantments"; the full check passed). Then his list of another game's core gameplay
-(GAMEPLAY_PLAN.md): most of it is here; Stages 47 to 51 proposed in ROADMAP.md, waiting for his pick.
+(GAMEPLAY_PLAN.md): most of it is here; Stages 47 to 51 proposed in ROADMAP.md. His pick: Stage 47
+(THE GOURD, SHATTER), and during it the title menu and the hero select reworked (his word): built,
+its test passes; the core replays, the full check and IPA 47 "Gourd and Shatter" still to come.
+Then: his try of it, and his pick of Stages 48 to 51.
 Done before: 39.4 "Bosses Fall" (IPA 39.4), Stage 39 "More to Find", 38 "Alignment and Loot", 37,
 36, 35 (the full check passed at 35). Next: Stage 40.
 
@@ -1771,6 +1774,38 @@ feel out of match": effects first (43.7a), then pictures (43.7b).
   restored exactly), effects (ALL MATCH 2424), the six classic replays identical, the eight core
   ones re-recorded (content added on purpose) and identical on a second run, and the full check
   (84 sections, covering Stage 45 too): CHECK PASSED. Not tested: the iPad itself.
+
+### Stage 47 (10 Oct): THE GOURD, SHATTER, the title menu and the hero select (his list; his word)
+- scripts/game/gourd.gd (class Gourd): Player.gourd (sips left) and gourd_max (its own sips, 1 from
+  Gourd.start in Game.new_run; 0 in classic). max_sips = gourd_max + gf gourd_sips; a sip heals
+  SIP_HEAL (4 half-hearts) + gf gourd_heal. Player.try_heal: Gourd.sip first (with a heart to
+  heal; ELIXIR's 3 s and on_potion as a potion's), then the potion as before. fill: on_room (a
+  "rest" room, once a floor: floor_d gourd_rest) and Game.on_boss_dead. HUD: Gourd.draw_hud before
+  the potions (the static HUD's signature has gourd and max_sips). HOW TO PLAY's empty row says it.
+- scripts/combat/shatter.gd (class Shatter): Enemy.shatter (stacks, MAX 5) and shatter_t (TIME 4 s);
+  Statuses.apply "shatter" -> add; dmg_mult x(1 + PER 0.05 x (1 + gf shatter_x) x stacks); tick;
+  Combat.damage_enemy and update_enemies check shatter too; Combat.afflicted counts it (an
+  ailment: status_dmg, CRUEL). Sources: Combat.on_hit_effects -> Shatter.on_hit (Might.blunt
+  weapons' own blows, BLUNT 15%; 52 of 512 weapons are blunt), Combat.update_bombs ->
+  Shatter.blast (BOMB 2 stacks, 1 for a cluster's), procs ["status", "shatter", 1]. Drawn in
+  world_view._draw_enemy: a shard a stack (SPOTS around the body).
+- Relics (relics.gd, "47.1 ... 47.2"): wayfarercork (rare, bulwark), honeystopper (common,
+  bulwark), splitwedge (rare, demolition), crackedgeode (epic, demolition). Art
+  tools/art/stage47_gourd_shatter.py (the HUD gourd 7 x 9, four relics 12 x 12).
+- Title (menu_view.draw_title): TITLE_X/TITLE_W/TITLE_Y0, title_dy (16 up to 9 rows, 15 with
+  CONTINUE), title_y(i); the menu in a panel on the left; the logo above; _title_camp: a campfire
+  at CAMP_X/CAMP_Y with title_heroes() (the hero you play, then the next two unlocked in
+  hero_order) at 3x on a lit oval, the played hero's name under it. taps.gd follows title_y.
+- Hero select (menu_view.draw_hero): every hero in hero_cell(j) (two rows of ceil(n / 2) along
+  the top, up to 26 px a cell), locked ones as grey shapes, a green dot on new ones you own; the
+  card below (CARD_Y 84, CARD_H 146): the hero at 3x with hearts and "n / 34" on the left, its
+  words left-aligned on the right. taps.gd: one two-tap zone a cell (hero_window and the scroll
+  arrows are gone).
+- Test tests/stage47_test.tscn (in check.sh): the gourd (a sip before a potion, not at full
+  health, the rest stop once a floor, a guardian, the relics), shatter (stacks, x1.25 at 5 over
+  2000 rolled hits, gone after 4 s, CRACKED GEODE, a maul about 15%, a blade never, a bomb, the
+  wedge about 15%), every title row and hero cell tapped (no overlap, each picks its own), classic
+  none.
 
 ## Noted, not yet acted on
 
