@@ -930,6 +930,8 @@ func _draw_enemy(ci: CanvasItem, e: Enemy, t: float) -> void:
 				0.52 - 0.13 * k, Color(1.0, 0.54, 0.54, 0.7))
 	if not Spells.draw_sheep(ci, e, t, foot - e.z):   # 23.1: wild magic made it a sheep
 		Gfx.sp(ci, name, e.x, foot + bob - e.z, sc * sx, sc * sy, 0.0, e.face < 0, 46 / 255.0 if e.hidden else 1.0, tint)
+	if e.shatter > 0 and not e.hidden:
+		Shatter.draw(ci, e, foot + bob - e.z)   # 47.2: its shards
 	if e.asleep or e.coins > 0:
 		Lives.draw(ci, e, t, foot + bob - e.z)   # 21.5: Zz; a slime's swallowed coins
 	if not e.parts.is_empty():

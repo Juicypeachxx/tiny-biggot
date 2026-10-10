@@ -59,6 +59,8 @@ var shock := 0
 var shock_t := 0.0
 var gloom := 0                 # 11.2: GLOOM stacks (statuses.gd)
 var gloom_t := 0.0
+var shatter := 0               # 47.2: SHATTER stacks (scripts/combat/shatter.gd)
+var shatter_t := 0.0
 var vuln_t := 0.0
 var weak_t := 0.0
 # AI scratch

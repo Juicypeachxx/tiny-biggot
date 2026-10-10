@@ -161,6 +161,7 @@ func new_run() -> void:
 	Trophies.apply(p, hero["id"])   # 7.2: a potion, a relic, a rare relic for 5 / 10 / 20 trophies
 	CampLife.on_new_run(p)   # 19.2: the camp's meal, song and parcel
 	Dice.start(p)   # 35.1: an ALTER and a BANISH die (the 2 REROLL dice were always there)
+	Gourd.start(p)   # 47.1: THE GOURD, full
 	Block.reset()   # 37.1
 	Might.reset()   # 40.2
 	Finesse.reset()   # 41.1
@@ -370,6 +371,7 @@ func enter_room(r: Room) -> void:
 	if GameData.rogues():
 		Food.on_room(p)   # 36.3: the drink buffs have a room less
 		Infusions.on_room(p)   # 44: and the saps
+		Gourd.on_room(p, room)   # 47.1: the rest stop fills the gourd
 	match "" if room.cleared else room.type:   # a cleared room on the floor map stays cleared
 		"combat", "elite":
 			locked = true
@@ -985,6 +987,7 @@ func on_boss_dead(b: Enemy) -> void:
 	run_stats["bosses"] += 1
 	Meta.meta["bosses"] += 1
 	var p := player
+	Gourd.fill(p)   # 47.1: a guardian's fall fills the gourd
 	if p.oath:
 		p.max_hp += 2
 		p.hp += 2

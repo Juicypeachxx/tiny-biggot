@@ -39,7 +39,7 @@ func _signature() -> Array:
 	for sl in Gear.slots():
 		var g = p.gear.get(sl)
 		gear.append(g["id"] if g != null else "")
-	return [perf_line, Meta.opts.get("fps", false), p.max_hp, p.hp, p.armor, p.max_potions, p.potions, p.gold,
+	return [perf_line, Meta.opts.get("fps", false), p.max_hp, p.hp, p.armor, p.max_potions, p.potions, p.gold, p.gourd, Gourd.max_sips(p),
 		p.dodge_charges, p.charges, roundi(5 * p.charge_t / p.dodge_cd), p.bombs, p.keys, p.embers_found, p.rerolls, p.alters, p.banishes, p.drinks.duplicate(true),
 		G.msg.get("text", ""), G.msg.get("col", ""), p.level, roundf(80.0 * p.xp / GameData.xp_needed(p.level)),
 		p.hero.get("hud", ""), p.heat, p.heat_max, p.tempo, p.tempo_max, G.floor_index, G.loop, f["depth"], f["total"], f["path"].size(),
@@ -109,6 +109,7 @@ func _draw() -> void:
 			Gfx.at(self, "heart_armor", ax + i * 9, 6)
 	# Potions, gold, roll charges, bombs, keys, embers.
 	var x := 5
+	x = int(Gourd.draw_hud(self, p, x, 17))   # 47.1: THE GOURD's sips first
 	for i in p.max_potions:
 		Gfx.at(self, "potion", x + 1, 18, 1.0 if i < p.potions else 64 / 255.0)
 		x += 9

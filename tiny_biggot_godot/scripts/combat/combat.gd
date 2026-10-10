@@ -279,7 +279,7 @@ static func held_gold(p: Player) -> int:
 	return maxi(p.gold, 1000) if p.g("purse") > 0 else p.gold
 
 static func afflicted(e: Enemy) -> bool:
-	return e.burn_t > 0 or e.chill_t > 0 or e.poison > 0 or e.bleed_t > 0 or e.stun_t > 0 or e.curse_t > 0
+	return e.burn_t > 0 or e.chill_t > 0 or e.poison > 0 or e.bleed_t > 0 or e.stun_t > 0 or e.curse_t > 0 or e.shatter > 0
 
 ## Damage bonuses from item abilities (04b hook_mult).
 static func hook_mult(p: Player, e: Enemy) -> float:
@@ -371,7 +371,7 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	if o.get("boom", false) and p.boom_elite and e.elite: dmg *= 2
 	if not o.get("no_mult", false): dmg *= player_damage_mult(p) * hook_mult(p, e) * Might.foe_mult(p, e) * Finesse.foe_mult(p, e, o) * Arcana.foe_mult(p, e, o) * Marvels.foe_mult(p, e) * Enchant.foe_mult(p, e)   # (42.1 cursed and sneaky hits; 43.1 CRYO CORE; 46 enchantments)
 	if Might.casting: dmg *= Finesse.special_power(p)   # 41.1 STILL BREATH: the special's own blows
-	if e.vuln_t > 0 or e.shock > 0 or e.gloom > 0:
+	if e.vuln_t > 0 or e.shock > 0 or e.gloom > 0 or e.shatter > 0:
 		dmg *= Statuses.dmg_mult(e)
 	if (e.guard_t > 0 or e.d.has("rule")) and not Might.ruthless(p, e):   # (40.2 TOE TO TOE goes through)
 		dmg = EnemyAI2.adjust_damage(e, dmg)   # shields, a deacon's guard, a dizzy dervish
@@ -756,7 +756,7 @@ static func update_enemies(dt: float) -> void:
 		if e.hp <= 0:
 			continue
 		var ddt := dt * slow
-		if e.vuln_t > 0 or e.weak_t > 0 or e.shock_t > 0 or e.gloom_t > 0:
+		if e.vuln_t > 0 or e.weak_t > 0 or e.shock_t > 0 or e.gloom_t > 0 or e.shatter_t > 0:
 			if e.weak_t > 0:
 				ddt *= 0.7
 			Statuses.tick(e, dt)
@@ -1311,6 +1311,7 @@ static func on_hit_effects(e: Enemy, dmg: float, crit: bool, p: Player, b: PBull
 		e.mark_v = p.g("mark")
 	if p.g("shred") > 0:
 		e.shred = minf(5 * p.g("shred"), e.shred + p.g("shred"))
+	Shatter.on_hit(p, e, b)   # 47.2: a blunt weapon's blow may shatter
 	if p.g("leech") > 0 and randf() < p.g("leech"):
 		p.heal(1)
 	if p.g("gold_hit") > 0 and randf() < p.g("gold_hit"):
@@ -1993,6 +1994,7 @@ static func update_bombs(dt: float) -> void:
 		Snd.play("boom")
 		G.add_shake(2 if mini else 5)
 		explode_at(b["x"], b["y"], maxf(10.0, Weapons.wdmg(p) * 3) * p.bomb_mult * (0.5 if mini else 1.0), null, rad, "", true, true)
+		Shatter.blast(b["x"], b["y"], rad, 1 if mini else Shatter.BOMB)   # 47.2: and shatters what it hits
 		Fx.burst(b["x"], b["y"], ["#e8873a", "#f2c94c", "#4e4a5e"], 10 if mini else 24, 110, 0.5, 2)
 		if not b["safe"] and TB.dist_xy(p.x, p.y, b["x"], b["y"]) < 22:
 			hurt_player(1, "your own bomb", true)

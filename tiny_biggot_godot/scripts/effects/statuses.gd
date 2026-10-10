@@ -9,6 +9,7 @@ extends RefCounted
 ##   vulnerable  (3 s): +25% damage taken
 ##   weakened    (3 s): moves, shoots and acts 30% slower
 ##   gloom       (11.2, his trailer clips) stacks up to 10 (4 s): +8% damage taken per stack
+##   shatter     (47.2, armour break) stacks up to 5 (4 s): +5% damage taken per stack (shatter.gd)
 
 const SHOCK_MAX := 5
 const GLOOM_MAX := 10
@@ -51,6 +52,7 @@ static func apply(e: Enemy, name: String, amount: float, hit_dmg: float) -> void
 		"gloom":
 			e.gloom = mini(GLOOM_MAX, e.gloom + maxi(1, int(amount)))
 			e.gloom_t = 4.0
+		"shatter": Shatter.add(e, int(amount))   # 47.2
 		"vulnerable": e.vuln_t = maxf(e.vuln_t, 3.0 * amount)
 		"weakened": e.weak_t = maxf(e.weak_t, 3.0 * amount)
 		_:
@@ -73,6 +75,8 @@ static func dmg_mult(e: Enemy) -> float:
 		m *= 1 + 0.06 * e.shock
 	if e.gloom > 0:
 		m *= 1 + 0.08 * e.gloom
+	if e.shatter > 0:
+		m *= Shatter.mult(e)   # 47.2
 	return m
 
 ## Ticks the new statuses. Called only while one is active.
@@ -89,3 +93,7 @@ static func tick(e: Enemy, dt: float) -> void:
 		e.gloom_t -= dt
 		if e.gloom_t <= 0:
 			e.gloom = 0
+	if e.shatter_t > 0:
+		e.shatter_t -= dt
+		if e.shatter_t <= 0:
+			e.shatter = 0

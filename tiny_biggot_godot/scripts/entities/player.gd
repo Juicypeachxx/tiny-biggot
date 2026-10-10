@@ -16,6 +16,8 @@ var hp := 6
 var max_hp := 6
 var potions := 1
 var max_potions := 2
+var gourd := 0                   # 47.1 THE GOURD: sips left (scripts/game/gourd.gd; 0 in classic)
+var gourd_max := 0               # its own sips (relics add gf gourd_sips)
 var gold := 0
 var gold_frac := 0.0
 var relics: Array = []
@@ -356,7 +358,11 @@ func start_roll(mv: Vector2) -> void:
 func try_heal() -> void:
 	if not Keys.heal():
 		return
-	if potions > 0 and hp < max_hp:
+	if Gourd.sip(self):   # 47.1: THE GOURD first (it fills again); a sip counts as a potion
+		if elixir:
+			invuln = maxf(invuln, 3.0)
+		Effects.fire("on_potion")
+	elif potions > 0 and hp < max_hp:
 		potions -= 1
 		heal(potion_heal)
 		if elixir:

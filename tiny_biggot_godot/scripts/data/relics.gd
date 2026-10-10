@@ -260,6 +260,11 @@ const ROWS := [
 	["duesledger", "rare", "LEDGER OF DUES", "+2% CRIT CHANCE FOR EVERY POINT OF LAWFUL", [["hook", "crit_per_law", 0.02]], ["edge"]],
 	["ironwrit", "rare", "IRON WRIT", "ROLLS RECHARGE 3% FASTER FOR EVERY POINT OF LAWFUL", [["hook", "roll_per_law", 0.03]], ["edge"]],
 	["spyglass", "rare", "SPYGLASS", "+15% RANGE. 15% OF HITS ON FAR FOES STRIKE AGAIN FOR 100%", [["mul", "life", 1.15], { "on": "on_hit", "if": "far", "chance": 0.15, "do": [["damage", 1.0]] }], ["edge"]],
+	# 47.1 THE GOURD and 47.2 SHATTER (his list of another game's core gameplay, 10 Oct; gourd.gd, shatter.gd).
+	["wayfarercork", "rare", "WAYFARER'S CORK", "THE GOURD HOLDS ONE MORE SIP", [["hook", "gourd_sips", 1], ["add", "gourd", 1]], ["bulwark"]],
+	["honeystopper", "common", "HONEY STOPPER", "SIPS FROM THE GOURD HEAL ONE MORE HEART", [["hook", "gourd_heal", 2]], ["bulwark"]],
+	["splitwedge", "rare", "SPLITTING WEDGE", "15% OF HITS SHATTER: +5% DAMAGE TAKEN A STACK, UP TO 5", [{ "on": "on_hit", "chance": 0.15, "do": [["status", "shatter", 1]] }], ["demolition"]],
+	["crackedgeode", "epic", "CRACKED GEODE", "SHATTER IS TWICE AS STRONG: +10% DAMAGE TAKEN A STACK", [["hook", "shatter_x", 1]], ["demolition"]],
 ]
 const BASE_COUNT := 34
 const CACHE_1 := ["tallow", "skeletonkey", "quiver", "filings", "gravedust", "mothwing", "bitterroot", "tinwhistle", "chalk", "rustynail"]
