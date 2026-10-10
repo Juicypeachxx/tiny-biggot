@@ -376,7 +376,7 @@ const ROWS := [
 	["q_charmed", "fortune", 3, "CHARMED LIFE", "+3% LUCKY HITS: A LUCKY HIT STRIKES AGAIN", false, [["hook", "lucky", 0.03]], "common", ["fortune", "edge"], {  }],
 	["q_stars", "edge", 2, "LUCKY STARS", "+1% LUCKY HITS FOR EVERY POINT OF DEX", false, [["hook", "lucky_dex", 0.01]], "rare", ["edge", "fortune"], {  }],
 	["q_spellslinger", "arcane", 1, "SPELLSLINGER", "CRITS AND LUCKY HITS CAST THE WEAPON IN YOUR FIRST BACKPACK SLOT, FOR FREE", false, [["hook", "slot_cast", 1]], "rare", ["arcane", "edge"], {  }],
-	["q_static", "storm", 2, "STATIC BUILD-UP", "20% OF HITS SHOCK. A FOE AT 5 SHOCK DISCHARGES: LIGHTNING TO 4 FOES FOR 150%", false, [["hook", "static_buildup", 1], { "on": "on_hit", "chance": 0.2, "do": [["status", "shock", 1]] }], "uncommon", ["storm"], {  }],
+	["q_static", "storm", 2, "STATIC BUILD-UP", "20% OF HITS SHOCK. A FOE AT FULL SHOCK DISCHARGES: LIGHTNING TO 4 FOES FOR 150%", false, [["hook", "static_buildup", 1], { "on": "on_hit", "chance": 0.2, "do": [["status", "shock", 1]] }], "uncommon", ["storm"], {  }],
 	["q_quickfingers", "edge", 3, "QUICK FINGERS", "+1 DEX. +1% ATTACK SPEED FOR EVERY POINT OF DEX", false, [["attr", "dex", 1], ["hook", "rate_per_dex", 0.01]], "uncommon", ["edge"], {  }],
 	["q_jackpot", "fortune", 1, "JACKPOT", "EVERY 10TH LUCKY HIT CALLS DOWN 5 LIGHTNING BOLTS FOR 200%", false, [{ "on": "on_lucky", "every": 10, "do": [["bolts", 5, 2.0]] }], "legend", ["fortune", "storm"], {  }],
 	# 34.2 THE LEGION PATH (his word, 9 Oct: a companion build): one set of numbers for every helper

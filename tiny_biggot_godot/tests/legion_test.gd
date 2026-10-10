@@ -98,7 +98,12 @@ func _ready() -> void:
 	if plain <= 0 or strong < plain * 1.6 or quick < plain * 1.5:
 		fail("wisps: %.0f plain, %.0f with +100%% damage, %.0f with +100%% speed" % [plain, strong, quick])
 	notes.append("3 wisps for 6 s: %.0f damage plain, %.0f with +100%% companion damage, %.0f with +100%% speed" % [plain, strong, quick])
-	# Skeletons: GRAVE MARSHAL's cap and BONE BEACON's damage.
+	# Skeletons: GRAVE MARSHAL's cap and BONE BEACON's damage. (43.7: their own effects alone; the
+	# helper damage their revamp added is the revamp test's.)
+	var more_marshal: Array = Traits.by_id("h_marshal")["more"]
+	var more_beacon: Array = Traits.by_id("h_beacon")["more"]
+	Traits.by_id("h_marshal")["more"] = []
+	Traits.by_id("h_beacon")["more"] = []
 	p = _start()
 	Meta.opts["autofire"] = false
 	for i in 9:
@@ -117,6 +122,8 @@ func _ready() -> void:
 	var boosted: Array = Summons.thralls.filter(func(o): return o.get("lg", false) and absf(o["dmg"] - 5.0 * 1.4) < 1e-6)
 	if boosted.is_empty():
 		fail("BONE BEACON: no skeleton deals +40%% (%s)" % [Summons.thralls.map(func(o): return o["dmg"])])
+	Traits.by_id("h_marshal")["more"] = more_marshal
+	Traits.by_id("h_beacon")["more"] = more_beacon
 	Meta.opts["autofire"] = true
 	# The Bonecaller.
 	p = _start("bonecaller")

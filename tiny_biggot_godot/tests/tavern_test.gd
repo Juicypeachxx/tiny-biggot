@@ -127,12 +127,17 @@ func _ready() -> void:
 		foes.append(_foe(p.x - 30.0 + i * 20.0, p.y - 26.0))
 	Actions.ran.clear()
 	var stunned := false
+	var homes := foes.map(func(f): return Vector2(f.x, f.y))
 	for i in 600:
 		_tick(1)
 		p.tipsy = maxf(p.tipsy, 9.0)
-		for f in foes:
-			if f.stun_t > 0:
+		for j in foes.size():
+			if foes[j].stun_t > 0:
 				stunned = true
+			# 43.7: back in reach after LAST ORDERS' shockwaves throw them, so BAR BRAWLER gets 10 s of
+			# hits (thrown out, a few hits were all it had: its 15% stun was a coin toss).
+			foes[j].x = homes[j].x
+			foes[j].y = homes[j].y
 	if not stunned:
 		fail("BAR BRAWLER: no foe stunned in 10 s while tipsy")
 	if Actions.ran.get("area", 0) < 3:

@@ -97,7 +97,7 @@ const MORE := {
 	"n_sparkplug": ["A FOE CAN HOLD 1 MORE SHOCK.", [["hook", "shock_max", 1]]],
 	"n_ricochet": ["+5% CHANCE YOUR HITS ARC TO A FOE NEARBY.", [["add", "chain", 0.05]]],
 	"n_tempest": ["EVERY LIGHTNING STRIKE STRIKES AGAIN HALF A SECOND LATER.", [["hook", "thunder_twice", 1]]],
-	"q_static": ["A FOE CAN HOLD 1 MORE SHOCK.", [["hook", "shock_max", 1]]],
+	"q_static": ["+5% CHANCE YOUR HITS ARC TO A FOE NEARBY.", [["add", "chain", 0.05]]],
 	# blood
 	"keenedge": ["CRITS ON A BLEEDING FOE DEAL +25% CRIT DAMAGE.", [["hook", "anatomy", 0.25]]],
 	"carnage": ["+3% CHANCE YOUR HITS MAKE FOES BLEED.", [{ "on": "on_hit", "chance": 0.03, "do": [["status", "bleed", 1]] }]],

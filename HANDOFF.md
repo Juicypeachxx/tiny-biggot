@@ -1663,6 +1663,14 @@ feel out of match": effects first (43.7a), then pictures (43.7b).
   Baked into the atlas (2442 of 2443 graphics, 1024 x 4096); tests/atlas_test passes. Seen on the
   level-up card (--ui=traits --trait-opts=might,o_rage,n_dragonsoul and others): pictures and
   texts fit. The core replays were re-recorded for 43.7a (classic identical).
+- The full check found four things. STATIC BUILD-UP's add-on raised the shock a foe holds, which
+  moved its own discharge from 5 to 6: its add-on is now a chance to arc, and its text says
+  "AT FULL SHOCK" (other traits can raise the cap, as PSYCHIC LIGHTNING always could). Three tests
+  measured an old effect with the add-ons mixed in: the live test wanted "(+X% NOW)" at the very
+  end (it is now after the old text, on purpose), the legion test BONE BEACON's exact +40% (it now
+  sets GRAVE MARSHAL's and BONE BEACON's add-ons aside for that), and the tavern test's BAR
+  BRAWLER had about 8 hits in 10 s because LAST ORDERS throws the foes out of reach (a coin toss
+  for a 15% stun; the foes are now put back in reach each frame).
 
 ## Noted, not yet acted on
 
