@@ -1374,9 +1374,17 @@ his dice do. The heroes' own traits are Stage 43 (PSYCHIC the Mindwarden's, AUGM
       squares); 5 AUGMENT cores only for the Tinkerer (steel squares). Each with its picture.
 
 ### Stage 43.5: stability test and bug fixes (IPA 43.5; his word, 10 Oct)
-- [ ] 43.5a The full check (tools/check.sh); long bot soaks with every hero on several seeds, the
+- [x] 43.5a The full check (tools/check.sh); long bot soaks with every hero on several seeds, the
       menu monkey, the timing test; every script error, stuck screen or slow fight found is fixed.
-- [ ] 43.5b A note of what was found and fixed, for him.
+      Soak: 53 runs (all 34 heroes, 11 rift worlds, classic, plain drawing, loops 1-3) of 10
+      minutes, no error, no leak in 30 minutes (nodes and resources flat). Four runs sat long in
+      one room: a level-1 hero started deep (loop 3 floor 10, floor 9, 11, a rift) kills slowly;
+      not a bug. Monkey: 16 runs (an hour from the title, 15 of 6 minutes in new content) clean,
+      and the trait tome screen and a 12-trait pick under random buttons clean. The full check
+      found 2 failures, fixed: the rooms test's keg blast missed a foe the layout had moved (the
+      test now places the kegs beside the foe), and two Stage 39 relics were named like older
+      weapons (DRAGON EGG is WHELP'S CRADLE, FIREFLY JAR is JAR OF EMBERFLIES).
+- [x] 43.5b A note of what was found and fixed, for him (the 43.5 version line).
 
 ### Stage 43.7: the old traits made like the new ones (IPA 43.7; his word, 10 Oct)
 His words: "revamp all old traits to be like our new traits" and "Also update effects of old traits

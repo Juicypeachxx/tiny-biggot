@@ -1620,6 +1620,16 @@ Done by another session (the port's), which took over from v31 on claude/dev.
 - 31 traits (sup_ 15 rarity super, psy_ 11, aug_ 5; names checked), pictures
   tools/art/stage43_traits.py (the AUGMENT cores share a hexagon), test tests/stage43_test.tscn.
 
+### Stage 43.5 (10 Oct): stability test and bug fixes (his word)
+- tools/dev/soak.sh with HEROES=34 JOBS=3 (53 runs, 10 minutes each, plus a 30-minute object
+  count): clean. A small checker (scratchpad stuck.py, not in the repo) flags a run whose bot sat
+  in one room 4 minutes: the four it found were level-1 heroes started deep (they kill slowly).
+- tools/dev/monkey.sh 60 6: 16 runs clean; the tome screen (--ui=tome) and a 12-trait pick under
+  --monkey clean.
+- tools/check.sh: the rooms test placed a foe where the seed's layout has a wall (spawn_enemy moves
+  it), fixed in the test; two relics renamed (arsenal test: names unique). The full check had not
+  run since Stage 35 (his word of 9 Oct: compile only); it runs again now.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).
