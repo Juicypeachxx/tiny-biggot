@@ -8,7 +8,8 @@ Stage 42 done (IPA 42 "Intelligence Traits"), Stage 43 done (IPA 43 "Super Trait
 (IPA 43.5 "Steady Ground"), 43.7 done (IPA 43.7 "Old Traits Reborn": the 286 old traits each
 gain one more effect and their own picture). Then his "Ok go 44 and 45, and 46": Stage 44 done
 (IPA 44 "Infusions"), Stage 45 done (IPA 45 "Alignment Shops"), Stage 46 done (IPA 46 "Weapon
-Enchantments"; the full check passed). Next: his try of them on the iPad.
+Enchantments"; the full check passed). Then his list of another game's core gameplay
+(GAMEPLAY_PLAN.md): most of it is here; Stages 47 to 51 proposed in ROADMAP.md, waiting for his pick.
 Done before: 39.4 "Bosses Fall" (IPA 39.4), Stage 39 "More to Find", 38 "Alignment and Loot", 37,
 36, 35 (the full check passed at 35). Next: Stage 40.
 

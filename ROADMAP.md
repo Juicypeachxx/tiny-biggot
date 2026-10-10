@@ -33,7 +33,8 @@ changed one), and carry on from there. What he says last outranks this file.
 5. Stage 46: WEAPON ENCHANTMENTS from his pictures: done, IPA 46 "Weapon Enchantments" (10 Oct).
    All 46 with names of our own (ENCHANTMENTS_PLAN.md has the list), THE ENCHANTER in the shops,
    THE WYRM'S BREATH, and the runesmith, the back room and the silver branch.
-6. Next: his try of 44, 45 and 46 on the iPad, and what he asks for after it.
+6. His list, 10 Oct (after IPA 46): another game's core gameplay, combat and equipment. What we
+   have and what is new: GAMEPLAY_PLAN.md. Proposed Stages 47 to 51 (below); waiting for his pick.
 Each stage waits for him to try the last IPA. Details of each step are further down.
 
 | Stage | What | State |
@@ -1443,6 +1444,17 @@ ones come in too (rule 1). Planned as Stage 46, after the alignment shops.
       its alignment you have); three of its four wares: nine new relics, shop-only (POWER, healing,
       armour, cursed hits, a kill's heal, crit, rolls, all for every point of the alignment) and
       the growing piece of 38.1; prices by your alignment.
+
+### His list, 10 Oct (after IPA 46): core gameplay, combat and equipment
+He pasted a list of Tiny Rogues' core gameplay. Most of it is here already (GAMEPLAY_PLAN.md has
+each point); the rest, proposed in the order it would be felt most, with names of our own:
+- [ ] Stage 47: THE GOURD (a refillable healing flask; potions stay) and SHATTER (an armour-break
+      ailment for every foe).
+- [ ] Stage 48: items that grow with curses carried and foes slain, ROOM DRAUGHTS, a HONING STONE.
+- [ ] Stage 49: RADIANT, NECROTIC, DARK, ENERGY and SOUND as weapon damage types, and weapons for them.
+- [ ] Stage 50: run modes: THE NARROW WAY (no map), OMENS (pickable challenges after a win; the
+      constellation grows past 30), IRON VOW (after 5 wins: one life).
+- [ ] Stage 51: SPIRIT and LUCK as attributes; each attribute also raises a pool.
 
 ### Stage 46: weapon enchantments (IPA 46; his word: "Ok go 44 and 45, and 46")
 - [x] 46.1 An enchantment slot on weapons (one at most): the item card, the name, the name plate,
