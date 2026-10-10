@@ -4,8 +4,9 @@
 Stages 40 to 44 (STR, DEX, INT, SUPER/PSYCHIC/AUGMENT, infusions), then 45 the alignment shops.
 Stage 40 done (IPA 40 "Strength Traits"), Stage 41 done (IPA 41 "Dexterity Traits"), and his
 "How traits work" text as 41.5 (IPA 41.5 "How Traits Work": a limit of 12 traits, his pick),
-Stage 42 done (IPA 42 "Intelligence Traits"), Stage 43 done (IPA 43 "Super Traits"). Next: 43.5, a
-stability test and bug fixes (his word), then 43.7, the old traits made like the new ones.
+Stage 42 done (IPA 42 "Intelligence Traits"), Stage 43 done (IPA 43 "Super Traits"), 43.5 done
+(IPA 43.5 "Steady Ground"). Now: 43.7, the old traits made like the new ones (43.7a, their
+effects, done; 43.7b, their pictures, in progress).
 Done before: 39.4 "Bosses Fall" (IPA 39.4), Stage 39 "More to Find", 38 "Alignment and Loot", 37,
 36, 35 (the full check passed at 35). Next: Stage 40.
 
@@ -1629,6 +1630,34 @@ Done by another session (the port's), which took over from v31 on claude/dev.
 - tools/check.sh: the rooms test placed a foe where the seed's layout has a wall (spawn_enemy moves
   it), fixed in the test; two relics renamed (arsenal test: names unique). The full check had not
   run since Stage 35 (his word of 9 Oct: compile only); it runs again now.
+
+### Stage 43.7 (10 Oct): the old traits made like the new ones (his word)
+His words: "revamp all old traits to be like our new traits", "Also update effects of old traits
+to match new", then "dont update just picture update mechanic to match latest traits soo they wont
+feel out of match": effects first (43.7a), then pictures (43.7b).
+- 43.7a: scripts/data/trait_revamp.gd (class TraitRevamp), const MORE: id -> [sentence, effects]
+  for all 286 traits from before Stage 40. Traits.all() keeps the old text as t["base_desc"], the
+  sentence as t["more_text"], the effects as t["more"], and t["desc"] = base + ". " + sentence;
+  under --classic none of that (the first 72 rows, as they were). Traits.apply applies t["more"]
+  with src "trait+:"+id when GameData.rogues() (so force_classic, the effects test, sees the old
+  effects only: ALL MATCH). TraitRules.remove takes it back rank by rank. Live.desc puts the
+  "(+X% NOW)" value after the old text, before the added sentence. t.get("more", []) everywhere a
+  hand-built trait dict may come in (the content test builds some).
+- The add-ons use the hooks of Might, Finesse, Arcana and Marvels (crush, lethal, power, lucky,
+  echo, roll_haste, minion_dmg/cap, menagerie, hungry, anatomy, chill_crit, cursed_hit,
+  curse_dmg, ignition, shock_max, shock_critdmg, thunder_twice, elem_wheel, elem_focus, halo_*,
+  tick_haste, toxin_crit, poison_vuln/bleed, burn_pct, trickery, lucky_heart, dice_mind, ...),
+  a few procs (on_hit poison or bleed, on_room_clear die or stack, on_shoot ice shards, on_roll
+  burns) and stats (crit, crit_mult, chain, storm, thorns, rerolls, attributes). Multi-rank
+  traits got one that grows with every rank; oaths a one-line one; OATH OF BLOOD's text joined
+  "+40% DAMAGE, -1 MAX HEART" so its add-on fits.
+- tests/revamp_test.tscn (in check.sh): every old trait has one; every text fits its level-up row
+  (4 lines, an oath's 3); each of the 286 taken to its last rank and given up twice, with and
+  without its add-on (it changes something, and nothing of it stays); 14 fights of 20 old traits
+  at their last rank; classic MIGHT gives no crushing hits. A fight with all 286 at once is slow
+  (60 ms a frame), with or without the add-ons: no run can hold more than 12.
+- 43.7b (in progress): tools/art/stage43_7_traits.py, a 16 x 16 picture for each, drawn in batches
+  by family (ART_OUT and SHEET to preview). Batch 1 (core, pyre, frost) drawn, not yet in the game.
 
 ## Noted, not yet acted on
 

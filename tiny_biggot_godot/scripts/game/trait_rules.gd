@@ -99,6 +99,8 @@ static func remove(p: Player, id: String) -> void:
 		if t["tiers"].has(r):
 			Effects.apply(p, _undoable(t["tiers"][r]), -1, "trait:%s:%d" % [id, r])
 		Effects.apply(p, _undoable(t["effects"]), -1, "trait:" + id)
+		if GameData.rogues() and not t.get("more", []).is_empty():   # 43.7 (TraitRevamp)
+			Effects.apply(p, _undoable(t["more"]), -1, "trait+:" + id)
 	p.traits.erase(id)
 	var fam: String = t["fam"]
 	var plus: int = Traits.PLUS[id][1] if Traits.PLUS.has(id) else 0

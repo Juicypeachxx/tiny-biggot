@@ -57,4 +57,6 @@ static func _hook(key: String, v: float, p: Player) -> float:
 
 ## A trait's or item's text with its live value.
 static func desc(t: Dictionary) -> String:
+	if t.has("more_text"):   # 43.7: the value now belongs to the old text, before its added sentence
+		return t["base_desc"] + now(t.get("effects", []), G.player) + ". " + t["more_text"]
 	return t["desc"] + now(t.get("effects", []), G.player)

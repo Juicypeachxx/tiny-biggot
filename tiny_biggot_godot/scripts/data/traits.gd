@@ -305,7 +305,7 @@ const ROWS := [
 	["o_frost", "frost", 1, "OATH OF FROST", "EVERY HIT CHILLS. CHILLED FOES TAKE +30% DAMAGE", false, [["add", "chill", 1.0], ["add", "vs_chill", 0.3]], "oath", ["frost"], {  }],
 	["o_venom", "venom", 1, "OATH OF VENOM", "HITS ADD 2 POISON. POISON DEALS +60% DAMAGE", false, [["add", "poison", 2], ["add", "poison_dmg", 0.6]], "oath", ["venom"], {  }],
 	["o_thunder", "storm", 1, "OATH OF THUNDER", "EVERY 3RD HIT CALLS LIGHTNING ON THE FOE. CRITS SHOCK", false, [{ "on": "on_hit", "every": 3, "cd": 0.15, "do": [["lightning", 0.8]] }, { "on": "on_crit", "do": [["status", "shock", 1]] }], "oath", ["storm"], {  }],
-	["o_blood", "blood", 1, "OATH OF BLOOD", "+40% DAMAGE. -1 MAX HEART. 8% OF KILLS HEAL HALF A HEART", false, [["mul", "dmg", 1.4], ["add_floor", "max_hp", -2, 2], ["clamp_max", "hp", "max_hp"], { "on": "on_kill", "chance": 0.08, "do": [["heal", 1]] }], "oath", ["blood", "fury"], {  }],
+	["o_blood", "blood", 1, "OATH OF BLOOD", "+40% DAMAGE, -1 MAX HEART. 8% OF KILLS HEAL HALF A HEART", false, [["mul", "dmg", 1.4], ["add_floor", "max_hp", -2, 2], ["clamp_max", "hp", "max_hp"], { "on": "on_kill", "chance": 0.08, "do": [["heal", 1]] }], "oath", ["blood", "fury"], {  }],
 	["o_swarm", "swarm", 1, "OATH OF THE SWARM", "+2 WISPS. EVERY ROOM BEGINS WITH 3 MORE FOR 15S", false, [["add", "familiars", 2], { "on": "on_room_enter", "do": [["summon", 15.0], ["summon", 15.0], ["summon", 15.0]] }], "oath", ["swarm"], {  }],
 	["o_steel", "bulwark", 1, "OATH OF STEEL", "+2 MAX HEARTS, +20 THORNS. EVERY FLOOR BEGINS WITH 4 ARMOR", false, [["add", "max_hp", 4], ["add_cap", "hp", 4, "max_hp"], ["add", "thorns", 20], { "on": "on_floor_start", "do": [["armor", 4]] }], "oath", ["bulwark"], {  }],
 	["o_shadow", "shadow", 1, "OATH OF SHADOWS", "+2 ROLL CHARGES. EVERY ROLL FIRES A RING OF 10 SHOTS", false, [["add", "dodge_charges", 2], ["add", "charges", 2], { "on": "on_roll", "cd": 0.3, "do": [["nova", 10, 0.8, "spark"]] }], "oath", ["shadow"], {  }],
@@ -761,7 +761,14 @@ static func all() -> Array:
 				"effects": row[6], "new": i >= ORIGINAL_COUNT,
 				"rarity": row[7] if row.size() > 7 else ("legend" if row[5] else "common"),
 				"tags": row[8] if row.size() > 8 else [row[1]],
-				"tiers": row[9] if row.size() > 9 else {} }
+				"tiers": row[9] if row.size() > 9 else {}, "more": [] }
+			# 43.7: an old trait's one more effect and its sentence (TraitRevamp), expanded game only.
+			if not DebugArgs.has("classic") and TraitRevamp.MORE.has(t["id"]):
+				var more: Array = TraitRevamp.MORE[t["id"]]
+				t["base_desc"] = String(t["desc"]).trim_suffix(".")
+				t["more_text"] = more[0]
+				t["desc"] = t["base_desc"] + ". " + more[0]
+				t["more"] = more[1]
 			_list.append(t)
 			_by_id[t["id"]] = t
 	return _list
@@ -778,10 +785,12 @@ static func tree_for(hero_id: String) -> Array:
 	return SKILL_BRANCHES + [HERO_BRANCH[hero_id]]
 
 ## One rank of a trait. tier_effects (new traits) add extra effects when a
-## given rank is reached, e.g. { 3: [...] }.
+## given rank is reached, e.g. { 3: [...] }. An old trait's "more" (43.7) comes with every rank.
 static func apply(id: String, p: Player) -> void:
 	var t := by_id(id)
 	Effects.apply(p, t["effects"], 1, "trait:" + id)
+	if GameData.rogues() and not t.get("more", []).is_empty():   # 43.7 (TraitRevamp)
+		Effects.apply(p, t["more"], 1, "trait+:" + id)
 	var rank: int = p.traits.get(id, 0)
 	if t["tiers"].has(rank):
 		Effects.apply(p, t["tiers"][rank], 1, "trait:%s:%d" % [id, rank])

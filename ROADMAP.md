@@ -1392,9 +1392,14 @@ to match new", then: "dont update just picture update mechanic to match latest t
 wont feel out of match": the mechanics matter most, so they come first. 286 traits came before
 Stage 40 (72 originals, 214 added since) and none has a picture of its own: they show their
 family's glyph.
-- [ ] 43.7a Their effects brought up to the new traits: the new mechanics where they fit (power,
+- [x] 43.7a Their effects brought up to the new traits: the new mechanics where they fit (power,
       crushing, lethal, cursed and sneaky hits, fields, the special), numbers that keep up with the
       new traits, so none feels out of place beside them. Nothing weaker than now (rule 1).
+      Done: every old trait keeps all it did and gains one more effect and one more sentence
+      (scripts/data/trait_revamp.gd), with every rank. A trait with more than one rank got one that
+      grows with each rank; an oath's is one line (its vow takes a line of its card). IDLE HANDS,
+      BOTTOMLESS PURSE and ELEMENTAL STORM, which do what LAZY GENIUS, ENDLESS WEALTH and WEATHER
+      WITCH do, got add-ons the newer ones do not have. tests/revamp_test.tscn.
 - [ ] 43.7b Every old trait gets its own 16 x 16 picture in its cube (by family, in batches), and
       its text in the new style (short sentences, keywords).
 - [ ] 43.7c The 72 originals change in the expanded game only: --classic keeps them exactly as they

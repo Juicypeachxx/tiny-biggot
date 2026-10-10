@@ -342,6 +342,11 @@ timeout 600 "$GODOT" --headless --path . res://tests/stage43_test.tscn -- --no-s
 grep -E "^\[stage43\]|stage43 test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 43.7 the old traits revamped: one more effect each, its text fits, taken and given up, classic untouched"
+timeout 600 "$GODOT" --headless --path . res://tests/revamp_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[revamp\]|revamp test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== 41.5 how traits work: a limit of 12, stat points, traits that need a shield or a weapon kind, trait tomes"
 timeout 300 "$GODOT" --headless --path . res://tests/traitrules_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "traitrules test" "$LOG"

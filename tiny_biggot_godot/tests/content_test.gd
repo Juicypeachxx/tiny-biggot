@@ -150,6 +150,7 @@ func lint() -> void:
 		lint_effects("trait " + t["id"], t["effects"], false)
 		for k in t["tiers"]:
 			lint_effects("trait %s tier %s" % [t["id"], k], t["tiers"][k], false)
+		lint_effects("trait %s more" % t["id"], t.get("more", []), false)   # 43.7
 		if not families.has(t["fam"]):
 			fail("trait %s: unknown family %s" % [t["id"], t["fam"]])
 		_rarity("trait " + t["id"], t["rarity"], Traits.RARITY)
