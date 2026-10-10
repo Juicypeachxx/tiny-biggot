@@ -345,7 +345,7 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	if GameData.rogues():
 		dmg *= Might.roll(p)   # Rogues layer: every hit rolls within +-15% (40.2 PACK HUNTER: twice, the lower)
 	var crit_chance := p.crit + (p.g("chill_crit") if e.chill_t > 0 else 0.0) + p.g("crit_per_str") * p.a_str + p.g("crit_per_evil") * p.al_evil   # (38.1 DEVIL'S BARGAIN)
-	crit_chance += Might.crit_chance(p) + Finesse.crit_chance(p, e)   # 40.2 SCAR TISSUE; 41.1 VENOM SIGHT, BULLSEYE
+	crit_chance += Might.crit_chance(p) + Finesse.crit_chance(p, e) + Marvels.crit_chance(p)   # 40.2 SCAR TISSUE; 41.1 VENOM SIGHT, BULLSEYE; 43.1
 	var sure := p.g("sure_strike") > 0   # 33.2 SURE STRIKE: never a crit; the chance becomes damage
 	if sure:
 		dmg *= 1.0 + 1.5 * maxf(0.0, crit_chance)
@@ -369,7 +369,7 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	if p.corrode > 0 and e.poison > 0: dmg *= 1 + p.corrode * e.poison
 	if e.curse_t > 0: dmg *= 1.0 + 0.25 * Might.ailment_mult(p)   # (40.2 MIGHT MAKES RIGHT)
 	if o.get("boom", false) and p.boom_elite and e.elite: dmg *= 2
-	if not o.get("no_mult", false): dmg *= player_damage_mult(p) * hook_mult(p, e) * Might.foe_mult(p, e) * Finesse.foe_mult(p, e, o) * Arcana.foe_mult(p, e, o)   # (42.1 cursed and sneaky hits)
+	if not o.get("no_mult", false): dmg *= player_damage_mult(p) * hook_mult(p, e) * Might.foe_mult(p, e) * Finesse.foe_mult(p, e, o) * Arcana.foe_mult(p, e, o) * Marvels.foe_mult(p, e)   # (42.1 cursed and sneaky hits; 43.1 CRYO CORE)
 	if Might.casting: dmg *= Finesse.special_power(p)   # 41.1 STILL BREATH: the special's own blows
 	if e.vuln_t > 0 or e.shock > 0 or e.gloom > 0:
 		dmg *= Statuses.dmg_mult(e)
@@ -721,7 +721,7 @@ static func update_enemies(dt: float) -> void:
 			e.curse_t -= dt
 		if e.bleed_t > 0:
 			e.bleed_t -= dt
-			e.bleed_tick -= dt * Finesse.tick_rate(p)   # 41.1 TICKING CLOCK
+			e.bleed_tick -= dt * Finesse.tick_rate(p) * Marvels.bleed_rate(p)   # 41.1 TICKING CLOCK; 43.1 KITCHEN KNIVES
 			if e.bleed_tick <= 0:
 				e.bleed_tick = 0.5
 				Finesse.on_bleed_tick(p, e)   # 41.1 TAINTED BLOOD
@@ -735,7 +735,7 @@ static func update_enemies(dt: float) -> void:
 			e.burn_tick -= dt * Finesse.tick_rate(p)
 			if e.burn_tick <= 0:
 				e.burn_tick = 0.5
-				damage_enemy(e, (1 + Weapons.wdmg(p) * 0.2) * (1 + p.burn_dmg) * Might.ailment_mult(p) * Might.stack_mult(p, e.burn_n), { "no_crit": true, "col": "orange", "silent": true })
+				damage_enemy(e, (1 + Weapons.wdmg(p) * 0.2) * (1 + p.burn_dmg) * Might.ailment_mult(p) * Might.stack_mult(p, e.burn_n) + Marvels.burn_extra(p, e), { "no_crit": true, "col": "orange", "silent": true })   # (43.1 INNER FIRE)
 				if p.burn_leap > 0 and randf() < p.burn_leap:
 					for o2 in G.enemies:
 						if o2 != e and o2.hp > 0 and o2.burn_t <= 0 and TB.dist(o2, e) < 50:
@@ -2098,6 +2098,8 @@ static func update_player(p: Player, dt: float) -> void:
 		Finesse.tick(p, dt)   # 41.1 HABIT, SHOWBOAT
 	if Arcana.slip_t > 0 or not Arcana.later.is_empty():
 		Arcana.tick(p, dt)   # 42.1 TIME SLIP, THUNDER TWICE
+	if Marvels.laser_t > 0:
+		Marvels.tick(p, dt)   # 43.1 BEAM CORE
 	# Gatling spin-up while there is something to shoot.
 	if p.weapon["kind"] == "gatling":
 		p.spin = minf(1.0, p.spin + dt * 0.5) if G.enemies_active() else maxf(0.0, p.spin - dt)

@@ -25,7 +25,10 @@ const NEEDS := {
 	# 42.2: the INT traits that work through the hero's special
 	"int_apocalypse": "special", "int_chrono": "special", "int_dreamer": "special", "int_entropy": "special",
 	"int_insight": "special", "int_beacon": "special",
+	"sup_engine": "special",   # 43.2 ARCANE ENGINE
 }
+## 43.2: the heroes' own traits (his pictures: Esper's and Cyborg's lists).
+const HERO_ONLY := { "psy_": "mindwarden", "aug_": "tinkerer" }
 ## A stat point row: [attribute, name, a family of its colour].
 const STATS := [["str", "+1 STRENGTH", "fury"], ["dex", "+1 DEXTERITY", "edge"], ["int", "+1 INTELLIGENCE", "arcane"]]
 ## The ops remove() can take back; the others are one-off gifts and stay.
@@ -47,6 +50,9 @@ static func full(p: Player) -> bool:
 
 ## Does the hero have what this trait needs to work?
 static func meets(p: Player, id: String) -> bool:
+	for pre in HERO_ONLY:
+		if id.begins_with(pre) and p.hero.get("id", "") != HERO_ONLY[pre]:
+			return false
 	var w = p.weapon
 	match NEEDS.get(id, ""):
 		"shield": return Block.on(p)

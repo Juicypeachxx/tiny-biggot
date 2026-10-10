@@ -84,7 +84,7 @@ static func recharge_add(p: Player) -> float:
 static func special_power(p: Player) -> float:
 	if not on():
 		return 1.0
-	return 1.0 + p.g("special_power") + p.g("special_per_roll") * p.dodge_charges + Arcana.special_add(p)   # (42.1 DEEP THOUGHT)
+	return 1.0 + p.g("special_power") + p.g("special_per_roll") * p.dodge_charges + Arcana.special_add(p) + Marvels.special_add(p)   # (42.1 DEEP THOUGHT; 43.1)
 
 ## Legion.dmg_mult: BOSOM BUDDY.
 static func helper_mult(p: Player) -> float:
@@ -108,7 +108,7 @@ static func tick_rate(p: Player) -> float:
 	var r := 1.0 + p.g("tick_haste")
 	if p.g("clockwork") > 0:
 		r += maxf(0.0, p.rate * rate_mult(p) - 1.0)
-	return r + Arcana.tick_add(p)   # 42.1 UNRAVELING, BELL CURVE, TIME SLIP
+	return r + Arcana.tick_add(p) + Marvels.tick_add(p)   # 42.1 UNRAVELING, BELL CURVE, TIME SLIP; 43.1 MIND STORM
 
 # ---------- crits and lethal hits ----------
 static func crit_chance(p: Player, e: Enemy) -> float:

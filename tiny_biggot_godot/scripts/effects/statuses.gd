@@ -44,7 +44,7 @@ static func apply(e: Enemy, name: String, amount: float, hit_dmg: float) -> void
 			e.mark_t = 3.0
 			e.mark_v = maxf(e.mark_v, 0.15 * amount)
 		"shock":
-			e.shock = mini(SHOCK_MAX, e.shock + maxi(1, int(amount)))
+			e.shock = mini(shock_cap(), e.shock + maxi(1, int(amount)))
 			e.shock_t = 3.0
 			Lucky.on_shock(e)   # 34.1 STATIC BUILD-UP
 		"gloom":
@@ -55,6 +55,13 @@ static func apply(e: Enemy, name: String, amount: float, hit_dmg: float) -> void
 		_:
 			push_error("Statuses: unknown status " + name)
 	Arcana.on_status(p, e, name, hit_dmg)   # 42.1 THORN BLOOM, EATING ACID, ELEMENT WHEEL
+
+## 43.1 MIND LIGHTNING: the most shock a foe can hold.
+static func shock_cap() -> int:
+	var p := G.player
+	if p == null or not GameData.rogues():
+		return SHOCK_MAX
+	return SHOCK_MAX + int(p.g("shock_max"))
 
 ## Damage multiplier from the new statuses (1.0 when none are active).
 static func dmg_mult(e: Enemy) -> float:

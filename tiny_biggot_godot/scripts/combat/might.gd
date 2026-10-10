@@ -111,7 +111,7 @@ static func dmg_mult(p: Player) -> float:
 		m *= 1.0 + 0.01 * rage
 	if p.g("stride") > 0:
 		m *= 1.0 + p.g("stride") * gear_count(p)
-	return m * Arcana.dmg_mult(p)   # 42.1 MENAGERIE
+	return m * Arcana.dmg_mult(p) * Marvels.dmg_mult(p)   # 42.1 MENAGERIE; 43.1 IDLE HANDS, MIND LINK
 
 ## Combat.damage_enemy: what a hit on this foe gains.
 static func foe_mult(p: Player, e: Enemy) -> float:
@@ -333,5 +333,6 @@ static func cast(p: Player, actions: Array) -> void:
 		Actions.run(a, 1, {})
 	casting = false
 	Arcana.on_special(p)   # 42.1 TIME SLIP
+	Marvels.on_special(p)   # 43.1 BEAM CORE, SLOW TIME
 	if not p.procs.is_empty():
 		Effects.fire("on_special", { "x": p.x, "y": p.y })

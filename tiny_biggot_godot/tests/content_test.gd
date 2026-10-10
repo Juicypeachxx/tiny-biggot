@@ -72,7 +72,7 @@ func fail(msg: String) -> void:
 
 # ---------- 1. Lint ----------
 const REVERSIBLE := ["add", "mul", "pct", "hook", "grant", "attr"]
-const ONE_SHOT := ["add", "mul", "pct", "set", "add_cap", "add_floor", "clamp_max", "at_least", "copy", "nth", "hook", "grant", "attr", "upgrade", "pet"]
+const ONE_SHOT := ["add", "mul", "pct", "set", "add_cap", "add_floor", "clamp_max", "at_least", "copy", "nth", "hook", "grant", "attr", "upgrade", "pet", "drinks"]
 
 func lint_effects(where: String, effects: Array, reversible: bool) -> void:
 	for e in effects:
@@ -89,7 +89,7 @@ func lint_effects(where: String, effects: Array, reversible: bool) -> void:
 			fail("%s: op %s cannot be undone but this item can be removed" % [where, op])
 		if op == "hook":
 			continue
-		if op == "upgrade":
+		if op == "upgrade" or op == "drinks":   # (43.1 BOTTOMLESS TANKARD: n random drinks)
 			continue
 		if op == "pet":   # 41.1 GOOD DOG: a pet id
 			if not Pets.PETS.has(e[1]):

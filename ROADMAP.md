@@ -18,8 +18,8 @@ middle of a step, do that first, write it into this file (a new step, or a
 changed one), and carry on from there. What he says last outranks this file.
 
 **Next up (his ask, 10 Oct: "add what will you do next on to do list"):**
-1. Stage 42 the INTELLIGENCE traits: done, IPA 42 built (10 Oct). He tries it next.
-2. Stage 43: 15 SUPER traits for every hero, 11 PSYCHIC traits for the Mindwarden, 5 AUGMENT
+1. Stage 42 the INTELLIGENCE traits: done, IPA 42 built (10 Oct).
+2. Stage 43 (done, IPA 43): 15 SUPER traits for every hero, 11 PSYCHIC traits for the Mindwarden, 5 AUGMENT
    traits for the Tinkerer (IPA 43). His word (10 Oct): "Do next stage then stability test and
    bug fix": straight on, without waiting for his try of 42.
 2b. Stage 43.5: a stability test and bug fixes (IPA 43.5).
@@ -1365,9 +1365,13 @@ his dice do. The heroes' own traits are Stage 43 (PSYCHIC the Mindwarden's, AUGM
 - [x] 42.2 The 38 INTELLIGENCE traits, each with its picture. The six that work through the
       special only come to a hero who has one (41.5 conditions).
 
-### Stage 43: SUPER, PSYCHIC and AUGMENT traits (IPA 43)
-- [ ] 43.1 15 SUPER traits for every hero (rare).
-- [ ] 43.2 11 PSYCHIC traits, the Mindwarden's own; 5 AUGMENT traits, the Tinkerer's own.
+### Stage 43: SUPER, PSYCHIC and AUGMENT traits (IPA 43, "Super Traits", built 10 Oct)
+- [x] 43.1 What they need (scripts/combat/marvels.gd): damage per empty gear slot, a mind link with
+      helpers, puppets, faster ticks standing still, knives that speed bleeds, burns that take a
+      share of health, more shock a foe can hold, the special's cores (a beam, chill, power,
+      lucky hits), more special power each time it is used, a revive every floor, drinks.
+- [x] 43.2 15 SUPER traits for every hero (rare); 11 PSYCHIC traits only for the Mindwarden (pink
+      squares); 5 AUGMENT cores only for the Tinkerer (steel squares). Each with its picture.
 
 ### Stage 43.5: stability test and bug fixes (IPA 43.5; his word, 10 Oct)
 - [ ] 43.5a The full check (tools/check.sh); long bot soaks with every hero on several seeds, the
@@ -1376,13 +1380,15 @@ his dice do. The heroes' own traits are Stage 43 (PSYCHIC the Mindwarden's, AUGM
 
 ### Stage 43.7: the old traits made like the new ones (IPA 43.7; his word, 10 Oct)
 His words: "revamp all old traits to be like our new traits" and "Also update effects of old traits
-to match new". 286 traits came before Stage 40 (72 originals, 214 added since) and none has a
-picture of its own: they show their family's glyph.
-- [ ] 43.7a Every old trait gets its own 16 x 16 picture in its cube (by family, in batches), and
-      its text in the new style (short sentences, keywords).
-- [ ] 43.7b Their effects brought up to the new traits: the new mechanics where they fit (power,
+to match new", then: "dont update just picture update mechanic to match latest traits soo they
+wont feel out of match": the mechanics matter most, so they come first. 286 traits came before
+Stage 40 (72 originals, 214 added since) and none has a picture of its own: they show their
+family's glyph.
+- [ ] 43.7a Their effects brought up to the new traits: the new mechanics where they fit (power,
       crushing, lethal, cursed and sneaky hits, fields, the special), numbers that keep up with the
-      new traits. Nothing weaker than now (rule 1).
+      new traits, so none feels out of place beside them. Nothing weaker than now (rule 1).
+- [ ] 43.7b Every old trait gets its own 16 x 16 picture in its cube (by family, in batches), and
+      its text in the new style (short sentences, keywords).
 - [ ] 43.7c The 72 originals change in the expanded game only: --classic keeps them exactly as they
       were (rule 4; the classic replays stay identical).
 

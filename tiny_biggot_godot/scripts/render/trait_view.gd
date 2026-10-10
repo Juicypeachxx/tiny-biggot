@@ -97,9 +97,14 @@ const FAM_ICON := { "core": "fam_core", "pyre": "fam_pyre", "frost": "fam_frost"
 	"demolition": "fam_demolition", "swarm": "fam_swarm", "edge": "fam_edge", "fury": "fam_fury", "malice": "fam_malice" }
 
 ## 40.1: a trait's group (str, dex, int by its family; super) and its colours.
-const GROUP_HEX := { "str": "#ff3b6b", "dex": "#3cf06e", "int": "#36b4ff", "super": "#ff3a2e" }
-const GROUP_COL := { "str": "pink", "dex": "green", "int": "cyan", "super": "red" }
+## 43.2: PSYCHIC (the Mindwarden's own) pink, AUGMENT (the Tinkerer's own) steel grey.
+const GROUP_HEX := { "str": "#ff3b6b", "dex": "#3cf06e", "int": "#36b4ff", "super": "#ff3a2e", "psy": "#e889c8", "aug": "#a9b4c2" }
+const GROUP_COL := { "str": "pink", "dex": "green", "int": "cyan", "super": "red", "psy": "pink", "aug": "grey" }
 static func group(tr: Dictionary) -> String:
+	if tr["id"].begins_with("psy_"):
+		return "psy"
+	if tr["id"].begins_with("aug_"):
+		return "aug"
 	if tr.get("rarity", "") == "super":
 		return "super"
 	return Attributes.FAMILY_ATTR.get(tr["fam"], "")

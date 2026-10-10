@@ -4,7 +4,8 @@
 Stages 40 to 44 (STR, DEX, INT, SUPER/PSYCHIC/AUGMENT, infusions), then 45 the alignment shops.
 Stage 40 done (IPA 40 "Strength Traits"), Stage 41 done (IPA 41 "Dexterity Traits"), and his
 "How traits work" text as 41.5 (IPA 41.5 "How Traits Work": a limit of 12 traits, his pick),
-Stage 42 done (IPA 42 "Intelligence Traits"). Next: Stage 43, SUPER, PSYCHIC and AUGMENT traits.
+Stage 42 done (IPA 42 "Intelligence Traits"), Stage 43 done (IPA 43 "Super Traits"). Next: 43.5, a
+stability test and bug fixes (his word), then 43.7, the old traits made like the new ones.
 Done before: 39.4 "Bosses Fall" (IPA 39.4), Stage 39 "More to Find", 38 "Alignment and Loot", 37,
 36, 35 (the full check passed at 35). Next: Stage 40.
 
@@ -1601,6 +1602,23 @@ Done by another session (the port's), which took over from v31 on claude/dev.
   keywords POWER, LUCKY, SNEAKY, MOON(S), FIELD(S), HELPERS. TraitRules.NEEDS "special" for
   CINDER RAIN, TIME SLIP, DAYDREAM, UNRAVELING, DEEP THOUGHT, MIND BEACON.
 - Test tests/stage42_test.tscn (in check.sh).
+
+### Stage 43 (10 Oct): SUPER, PSYCHIC and AUGMENT traits (his pictures)
+- scripts/combat/marvels.gd (class Marvels), expanded game only, reset with the others: dmg_mult
+  (idle_hands x empty Gear.slots, up to +250%; mind_link: a quarter of Legion's bonus; in
+  Might.dmg_mult), helper_mult (mind_link x5 with exactly one helper, marionette x0.3; in
+  Legion.dmg_mult), crit_chance (ranged_crit with a bow or gun), foe_mult (cryo_core: the special's
+  blows chill, x1.5), special_add (dilation +10% a special used up to +200%, power_core: power/100;
+  in Finesse.special_power), tick_add (still_ticks standing still), bleed_rate (bleed_moon: +10% a
+  moon), burn_extra (burn_pct of max health a burn tick, a fifth from bosses), lucky_add
+  (dice_mind x Player.dice_used), on_special (laser_core: a rail shot at the nearest foe every
+  0.4 s for 8 s; dilation: drinks a room longer), on_floor (revive_floor: revive at least 1).
+- Elsewhere: Statuses.shock_cap() (shock_max), op "drinks" (n random drinks, one-shot), actions
+  drink_random and attrs, hurt_self skipped with no_curse, TraitRules.HERO_ONLY (psy_ the
+  Mindwarden, aug_ the Tinkerer), TraitView groups psy (pink) and aug (steel), Traits.PLUS for the
+  three that count as 6 ranks.
+- 31 traits (sup_ 15 rarity super, psy_ 11, aug_ 5; names checked), pictures
+  tools/art/stage43_traits.py (the AUGMENT cores share a hexagon), test tests/stage43_test.tscn.
 
 ## Noted, not yet acted on
 

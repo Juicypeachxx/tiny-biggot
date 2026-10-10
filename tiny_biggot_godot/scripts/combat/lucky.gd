@@ -37,7 +37,7 @@ static func chance(p: Player) -> float:
 	if not GameData.rogues():
 		return 0.0
 	var c: float = p.g("lucky") + p.g("lucky_dex") * p.a_dex + LUCK_LUCKY * p.luck + p.g("lucky_heart") * p.max_hp / 2.0 + (1.0 if rush_t > 0 else 0.0)   # (40.2 BIG HEART)
-	return c * (1.0 + p.g("lucky_mult"))   # 42.1 WUNDERKIND
+	return (c + Marvels.lucky_add(p)) * (1.0 + p.g("lucky_mult"))   # 42.1 WUNDERKIND; 43.1 DICE MIND
 
 ## The weapon in the first backpack slot, if it can be cast.
 static func slot_weapon(p: Player) -> Variant:
@@ -105,7 +105,7 @@ static func cast(p: Player, e: Enemy = null, pick = null) -> bool:   # (42.1 SPA
 ## Statuses.apply after a shock: STATIC BUILD-UP discharges a full foe.
 static func on_shock(e: Enemy) -> void:
 	var p := G.player
-	if p == null or p.g("static_buildup") <= 0 or e.shock < Statuses.SHOCK_MAX or _depth > 0:
+	if p == null or p.g("static_buildup") <= 0 or e.shock < Statuses.shock_cap() or _depth > 0:
 		return
 	e.shock = 0
 	stats["discharges"] = stats.get("discharges", 0) + 1

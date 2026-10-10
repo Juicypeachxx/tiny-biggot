@@ -165,6 +165,7 @@ func new_run() -> void:
 	Might.reset()   # 40.2
 	Finesse.reset()   # 41.1
 	Arcana.reset()   # 42.1
+	Marvels.reset()   # 43.1
 	if GameData.rogues() and not DebugArgs.has("no-oath"):   # 29 (his word, 9 Oct): every run opens with an OATH that shapes it
 		p.oath_picks = 1
 		p.pending += 1
@@ -270,6 +271,7 @@ func start_floor() -> void:
 	else:
 		enter_room(World.make_room(floor_d, "start", "", ""))
 	Effects.fire("on_floor_start")
+	Marvels.on_floor(player)   # 43.1 SAINT AND SINNER
 	for i in _give_food.size():   # (--give=food:..., pictures)
 		var k := Combat.drop_pickup(_give_food[i], 5.0 * TB.TS + i * 24.0, 6.0 * TB.TS)
 		k.vx = 0.0

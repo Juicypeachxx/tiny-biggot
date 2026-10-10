@@ -81,7 +81,8 @@ const SPOTLIGHT := ["rare", "legend", "super", "mythic", "cursed"]
 ## offered often (weight 4) from level 2; the rest stay rare (weight 1) from level 4.
 const COMMON_SUPER := ["x_twin", "x_reflex", "x_surge", "x_hoarder", "x_heart", "x_crown", "x_tailwind", "x_legion"]
 ## 8.4: a SUPER trait that counts as more ranks of a family (its bonuses come with them).
-const PLUS := { "x_titan": ["bulwark", 3], "x_quick": ["shadow", 3], "x_genius": ["arcane", 3] }
+const PLUS := { "x_titan": ["bulwark", 3], "x_quick": ["shadow", 3], "x_genius": ["arcane", 3],
+	"sup_reflexes": ["shadow", 6], "sup_smarts": ["arcane", 6], "sup_strength": ["fury", 6] }   # (43.2)
 
 const ORIGINAL_COUNT := 72
 const ROWS := [
@@ -518,6 +519,40 @@ const ROWS := [
 	["int_trickery", "malice", 1, "CHEAP TRICKS", "+20% SNEAKY HIT CHANCE FOR EVERY COMMON PIECE OF GEAR YOU WEAR. A SNEAKY HIT DEALS +60%.", false, [["hook", "trickery", 0.2]], "rare", ["malice", "shadow"], {  }],
 	["int_vision", "arcane", 1, "VISION", "EVERY 30TH ATTACK SETS OFF EVERYTHING YOUR SPECIAL SETS OFF AND GIVES +100% DAMAGE FOR 8S.", false, [{ "on": "every_n_shots", "every": 30, "do": [["trigger", "on_special"], ["buff", "dmg", 1.0, 8]] }], "rare", ["arcane"], {  }],
 	["int_zoo", "swarm", 1, "MENAGERIE", "YOU AND YOUR HELPERS DEAL +5% DAMAGE FOR EVERY HELPER YOU HAVE.", false, [["hook", "menagerie", 0.05]], "uncommon", ["swarm"], {  }],
+	# 43.2 (his pictures, 10 Oct: a wiki's Super Hero, Esper and Cyborg traits; ideas only, our own names
+	# and pictures, TRAITS_PLAN.md; scripts/combat/marvels.gd, tools/art/stage43_traits.py). SUPER: every
+	# hero; PSYCHIC (psy_): the Mindwarden's own; AUGMENT (aug_): the Tinkerer's own (TraitRules.HERO_ONLY).
+	["sup_protection", "bulwark", 1, "IRONCLAD SOUL", "+5 ARMOR NOW, AND +1 ARMOR AFTER EVERY ROOM.", false, [["grant", "armor", 5], ["add", "armor_regen", 1]], "super", ["bulwark"], {  }],
+	["sup_fortune", "fortune", 1, "BORN LUCKY", "+5 LUCK. +25% GOLD. +2 KEYS.", false, [["add", "luck", 5], ["mul", "gold_mult", 1.25], ["grant", "keys", 2]], "super", ["fortune"], {  }],
+	["sup_reflexes", "shadow", 1, "BLURRED MOTION", "+20 DEX. COUNTS AS 6 MORE SHADOW RANKS.", false, [["attr", "dex", 20]], "super", ["shadow"], {  }],
+	["sup_health", "bulwark", 1, "EVERLASTING", "+3 MAX HEARTS. YOUR HEARTS FILL UP AGAIN AFTER EVERY FIGHT.", false, [["add", "max_hp", 6], { "on": "on_room_clear", "do": [["heal", 40]] }], "super", ["bulwark"], {  }],
+	["sup_rich", "fortune", 1, "ENDLESS WEALTH", "+100 GOLD. EVERYTHING THAT GROWS WITH YOUR GOLD COUNTS IT AS AT LEAST 1000.", false, [["grant", "gold", 100], ["hook", "purse", 1]], "super", ["fortune"], {  }],
+	["sup_smarts", "arcane", 1, "BRAINSTORM", "+20 INT. COUNTS AS 6 MORE ARCANE RANKS.", false, [["attr", "int", 20]], "super", ["arcane"], {  }],
+	["sup_speed", "shadow", 1, "WINDRUNNER", "+75% MOVE SPEED AND +20% FIRE RATE.", false, [["mul", "speed", 1.75], ["mul", "rate", 1.2]], "super", ["shadow"], {  }],
+	["sup_stamina", "shadow", 1, "TIRELESS", "+3 ROLLS. YOUR ROLLS RECHARGE TWICE AS FAST.", false, [["add", "dodge_charges", 3], ["mul", "dodge_cd", 0.5]], "super", ["shadow"], {  }],
+	["sup_strength", "fury", 1, "MOUNTAIN MOVER", "+20 STR. COUNTS AS 6 MORE FURY RANKS.", false, [["attr", "str", 20]], "super", ["fury"], {  }],
+	["sup_charged", "storm", 1, "STORMBORN", "EVERY ROLL STRIKES UP TO 12 FOES WITH LIGHTNING. IN A FIGHT, LIGHTNING STRIKES A FOE EVERY 0.67S.", false, [{ "on": "on_roll", "do": [["bolts", 12, 1.0]] }, { "on": "every_n_seconds", "period": 0.67, "if": "fighting", "do": [["bolts", 1, 0.8]] }], "super", ["storm"], {  }],
+	["sup_devoted", "core", 1, "SAINT AND SINNER", "+4 GOOD, EVIL, LAWFUL AND CHAOTIC. ONCE EVERY FLOOR YOU RISE AGAIN FROM DEATH. CURSES CANNOT HURT YOU.", false, [["add", "al_good", 4], ["add", "al_evil", 4], ["add", "al_law", 4], ["add", "al_chaos", 4], ["grant", "revive", 1], ["hook", "revive_floor", 1], ["hook", "no_curse", 1]], "super", ["fortune"], {  }],
+	["sup_drunkard", "fury", 1, "BOTTOMLESS TANKARD", "+30 TIPSY CAP, +2 DRINK SLOTS. YOU DOWN 4 RANDOM DRINKS NOW, AND ANOTHER AT THE START OF EVERY FLOOR.", false, [["hook", "tipsy_cap", 30], ["hook", "drink_slots", 2], ["drinks", "", 4], { "on": "on_floor_start", "do": [["drink_random", 1]] }], "super", ["fury"], {  }],
+	["sup_friendly", "swarm", 1, "BELOVED", "+3 WISPS AND ROOM FOR 3 MORE HELPERS. YOUR HELPERS DEAL +100% DAMAGE.", false, [["add", "familiars", 3], ["hook", "minion_cap", 3], ["hook", "minion_dmg", 1.0]], "super", ["swarm"], {  }],
+	["sup_lazy", "malice", 1, "LAZY GENIUS", "+25% DAMAGE FOR EVERY EMPTY GEAR SLOT (UP TO +250%). IN A FIGHT, EVERY FOE WITHERS EVERY HALF SECOND: CURSED AND VULNERABLE.", false, [["hook", "idle_hands", 0.25], { "on": "every_n_seconds", "period": 0.5, "if": "fighting", "do": [["status_area", "curse", 1, 500], ["status_area", "vulnerable", 1, 500]] }], "super", ["malice"], {  }],
+	["sup_engine", "arcane", 1, "ARCANE ENGINE", "YOUR SPECIAL RECHARGES 3 TIMES AS FAST. EVERY TIME YOU USE IT: +1 STR, DEX AND INT.", false, [["hook", "special_haste", 2.0], { "on": "on_special", "do": [["attrs", 1]] }], "super", ["arcane"], {  }],
+	["psy_energy", "malice", 1, "UNMAKING FIELD", "+30 POWER. A FIELD AROUND YOU UNMAKES FOES: IT CURSES THEM AND LEAVES THEM VULNERABLE.", false, [["hook", "power", 30], ["hook", "halo_wither", 1]], "rare", ["malice", "arcane"], {  }],
+	["psy_lightning", "storm", 1, "MIND LIGHTNING", "A FOE CAN HOLD 4 MORE SHOCK. EVERY 3RD ATTACK, A PSI BOLT STRIKES A FOE (150%).", false, [["hook", "shock_max", 4], { "on": "every_n_shots", "every": 3, "do": [["lightning", 1.5]] }], "uncommon", ["storm"], {  }],
+	["psy_knives", "malice", 1, "KITCHEN KNIVES", "+3 MOONS: KNIVES THAT MAKE FOES BLEED. EVERY MOON MAKES BLEEDS TICK 10% FASTER.", false, [["add", "orbitals", 3], ["hook", "moon_rupture", 1], ["hook", "bleed_moon", 1]], "uncommon", ["malice", "blood"], {  }],
+	["psy_link", "swarm", 1, "MIND LINK", "A QUARTER OF YOUR HELPERS' DAMAGE BONUS IS YOURS TOO. WITH EXACTLY ONE HELPER, IT DEALS +400%.", false, [["hook", "mind_link", 0.25]], "rare", ["swarm"], {  }],
+	["psy_rifle", "edge", 1, "HAND-ME-DOWNS", "+20% CRIT CHANCE WITH BOWS AND GUNS. +2 WISPS. +75% CRIT DAMAGE.", false, [["hook", "ranged_crit", 0.2], ["add", "familiars", 2], ["add", "crit_mult", 0.75]], "uncommon", ["edge", "swarm"], {  }],
+	["psy_bombard", "arcane", 1, "MIND STORM", "STANDING STILL, YOUR BURNS, POISONS AND BLEEDS TICK 50% FASTER. EVERY 2S IN A FIGHT, 5 PSI BOLTS STRIKE RANDOM FOES (100% EACH).", false, [["hook", "still_ticks", 0.5], { "on": "every_n_seconds", "period": 2.0, "if": "fighting", "do": [["bolts", 5, 1.0]] }], "rare", ["arcane", "storm"], {  }],
+	["psy_combust", "pyre", 1, "INNER FIRE", "EVERY BURN TICK ALSO TAKES 1% OF A FOE'S HEALTH (LESS FROM BOSSES). 10% OF YOUR HITS BURST INTO FLAME (100%).", false, [["hook", "burn_pct", 0.01], { "on": "on_hit", "chance": 0.1, "cd": 0.15, "do": [["explode", 24, 1.0], ["status", "burn", 1]] }], "rare", ["pyre"], {  }],
+	["psy_complexion", "frost", 1, "WEATHER WITCH", "IN A FIGHT, EVERY FOE BURNS EVERY 8S, CHILLS EVERY 4S, IS SHOCKED EVERY 2S AND POISONED EVERY SECOND.", false, [{ "on": "every_n_seconds", "period": 8.0, "if": "fighting", "do": [["status_area", "burn", 1, 500]] }, { "on": "every_n_seconds", "period": 4.0, "if": "fighting", "do": [["status_area", "chill", 1, 500]] }, { "on": "every_n_seconds", "period": 2.0, "if": "fighting", "do": [["status_area", "shock", 1, 500]] }, { "on": "every_n_seconds", "period": 1.0, "if": "fighting", "do": [["status_area", "poison", 1, 500]] }], "rare", ["frost", "pyre", "storm", "venom"], {  }],
+	["psy_marionettes", "swarm", 1, "PUPPET STRINGS", "+2 WISPS AND ROOM FOR 2 MORE HELPERS, BUT YOUR HELPERS DEAL ONLY 30% OF THEIR DAMAGE.", false, [["add", "familiars", 2], ["hook", "minion_cap", 2], ["hook", "marionette", 1]], "uncommon", ["swarm"], {  }],
+	["psy_randomness", "fortune", 1, "DICE MIND", "EVERY ROOM YOU CLEAR HANDS YOU A RANDOM DIE. EVERY DIE YOU HAVE USED THIS RUN: +2.5% LUCKY HIT CHANCE.", false, [{ "on": "on_room_clear", "do": [["dice", "any", 1]] }, ["hook", "dice_mind", 0.025]], "rare", ["fortune"], {  }],
+	["psy_dilation", "arcane", 1, "SLOW TIME", "EVERY TIME YOU USE YOUR SPECIAL: +10% SPECIAL POWER FOR THE REST OF THE RUN (UP TO +200%), AND YOUR DRINKS LAST A ROOM LONGER.", false, [["hook", "dilation", 1]], "legend", ["arcane"], {  }],
+	["aug_freeze", "frost", 1, "CRYO CORE", "YOUR SPECIAL'S BLOWS CHILL AND DEAL +50% DAMAGE.", false, [["hook", "cryo_core", 0.5]], "uncommon", ["frost"], {  }],
+	["aug_laser", "storm", 1, "BEAM CORE", "USING YOUR SPECIAL FIRES A BEAM AT A FOE EVERY 0.4S FOR 8S (80% EACH).", false, [["hook", "laser_core", 1]], "rare", ["storm"], {  }],
+	["aug_lucky", "fortune", 1, "CHANCE CORE", "USING YOUR SPECIAL MAKES EVERY HIT LUCKY FOR 8S.", false, [{ "on": "on_special", "do": [["lucky_rush", 8]] }], "uncommon", ["fortune"], {  }],
+	["aug_mana", "arcane", 6, "FLUX CORE", "+20% SPECIAL RECHARGE A RANK (UP TO +120%).", false, [["hook", "special_haste", 0.2]], "common", ["arcane"], {  }],
+	["aug_power", "demolition", 1, "OVERDRIVE CORE", "+10 POWER. YOUR POWER ALSO RAISES YOUR SPECIAL'S DAMAGE, 1% A POINT.", false, [["hook", "power", 10], ["hook", "power_core", 1]], "rare", ["demolition"], {  }],
 ]
 
 const TREE_COSTS := [10, 20, 35, 60]

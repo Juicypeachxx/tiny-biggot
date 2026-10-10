@@ -65,6 +65,7 @@ const ACTIONS := ["nova", "shoot", "explode", "status", "heal", "buff", "chain",
 	"slot_cast", "lucky_rush",   # 34.1: a free cast from the spell slot; every hit lucky for a while
 	"dice",   # 35.1: ["dice", kind or "any", n]: dice to bend luck (dice.gd)
 	"fan_shots", "pocket_cast", "trigger",   # 42.1: shards or a thistle; a backpack weapon fires; a moment's procs (arcana.gd)
+	"drink_random", "attrs",   # 43.1: random drinks; +n STR, DEX and INT (marvels.gd)
 	"toy"]   # 31: an item lets a toy of the toybox loose (toys.gd)
 const STATUSES := ["burn", "poison", "chill", "bleed", "stun", "curse", "mark", "shock", "vulnerable", "weakened", "gloom"]
 const CONDITIONS := ["elite", "boss", "burning", "poisoned", "chilled", "bleeding", "shocked", "cursed",
@@ -121,6 +122,11 @@ static func apply(p: Player, effects: Array, dir: int = 1, src: String = "") -> 
 				Attributes.add(p, Attributes.highest(p) if stat == "highest" else stat, int(e[2]) * dir)
 			"hook":
 				p.gf[stat] = p.gf.get(stat, 0.0) + e[2] * dir
+			"drinks":
+				# 43.1 BOTTOMLESS TANKARD: ["drinks", "", n]: n random drinks at once (one-shot).
+				if dir > 0 and GameData.rogues() and (first or src == ""):
+					for i in int(e[2]):
+						Food.drink(p, Food.DRINKS.keys().pick_random())
 			"pet":
 				# 41.1 GOOD DOG: ["pet", id, 0]: that pet joins you, or yours grows a level (one-shot).
 				if dir > 0 and GameData.rogues():

@@ -16,7 +16,7 @@ const STEP_Y := 48
 const COL_X := 304
 const COL_W := 134
 const DETAIL_Y := 224
-const GROUPS := ["str", "dex", "int", "super", ""]
+const GROUPS := ["str", "dex", "int", "super", "psy", "aug", ""]
 
 ## The traits you have, in their colour groups, then by family and name.
 static func owned() -> Array:

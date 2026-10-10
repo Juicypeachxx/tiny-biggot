@@ -337,6 +337,11 @@ timeout 600 "$GODOT" --headless --path . res://tests/stage42_test.tscn -- --no-s
 grep -E "^\[stage42\]|stage42 test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 43 the SUPER, PSYCHIC and AUGMENT traits: pictures, the heroes' own, empty slots, mind link, the special's cores"
+timeout 600 "$GODOT" --headless --path . res://tests/stage43_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[stage43\]|stage43 test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== 41.5 how traits work: a limit of 12, stat points, traits that need a shield or a weapon kind, trait tomes"
 timeout 300 "$GODOT" --headless --path . res://tests/traitrules_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "traitrules test" "$LOG"

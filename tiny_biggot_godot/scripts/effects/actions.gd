@@ -159,6 +159,12 @@ static func run(a: Array, stacks: int, ctx: Dictionary) -> void:
 			Effects.add_buff(p, a[1], a[2] * stacks, a[3])
 		"aura_surge":   # 33.1 ["aura_surge", times, seconds]: the halos' fields reach further for a while
 			Auras.start_surge(a[1], a[2])
+		"drink_random":   # 43.1 ["drink_random", n]: BOTTOMLESS TANKARD
+			for i in mini(int(a[1]) * stacks, 6):
+				Food.drink(p, Food.DRINKS.keys().pick_random())
+		"attrs":   # 43.1 ["attrs", n]: +n STR, DEX and INT (ARCANE ENGINE)
+			for at in ["str", "dex", "int"]:
+				Attributes.add(p, at, int(a[1]) * stacks)
 		"fan_shots":   # 42.1 ["fan_shots", n, dmg_mult, family]: ICE VOLLEY, THISTLE THROW (arcana.gd)
 			Arcana.fan(p, mini(int(a[1]) * stacks, 12), w * a[2], a[3])
 		"pocket_cast":   # 42.1 ["pocket_cast"]: SPARE WAND, a weapon from the backpack fires
@@ -215,9 +221,10 @@ static func run(a: Array, stacks: int, ctx: Dictionary) -> void:
 			if e != null:
 				Combat.damage_enemy(e, w * a[1] * stacks, { "no_crit": true, "col": "pink", "silent": true })
 		"hurt_self":
-			p.hp = maxi(1, p.hp - int(a[1]) * stacks)
-			Fx.burst(p.x, p.y, ["#a35bd6", "#5c3483"], 6, 40)
-			Vfx.puff(p.x, p.y, "void")
+			if p.g("no_curse") <= 0:   # (43.1 SAINT AND SINNER: a curse's harm passes you by)
+				p.hp = maxi(1, p.hp - int(a[1]) * stacks)
+				Fx.burst(p.x, p.y, ["#a35bd6", "#5c3483"], 6, 40)
+				Vfx.puff(p.x, p.y, "void")
 		"clear_shots":
 			EBullets.kill_radius(p.x, p.y, a[1])
 		"card":
