@@ -23,6 +23,7 @@ changed one), and carry on from there. What he says last outranks this file.
    traits for the Tinkerer (IPA 43).
 3. Stage 44: the 14 INFUSIONS, and the traits that work with them (IPA 44).
 4. Stage 45: the GOOD, EVIL and LAWFUL shops (IPA 45).
+5. Stage 46, later (his word): WEAPON ENCHANTMENTS from his pictures (ENCHANTMENTS_PLAN.md).
 Each stage waits for him to try the last IPA. Details of each step are further down.
 
 | Stage | What | State |
@@ -1368,9 +1369,23 @@ his dice do. The heroes' own traits are Stage 43 (PSYCHIC the Mindwarden's, AUGM
 - [ ] 44.1 14 infusions: belt items that add an element to the weapon for 10 rooms or for good;
       the DEX list's infusion trait (for good) and TIME DILATION work with them.
 
+### His word, 10 Oct: weapon enchantments, "Learn from that, we will add this later"
+Five pictures of a wiki's "Weapon Enchantments" page: one modifier per weapon, negative, positive,
+legendary, special (from certain events and shops) and some that game removed. All transcribed, with
+what each becomes here, in **ENCHANTMENTS_PLAN.md**. Our own names when built (rule 3); the removed
+ones come in too (rule 1). Planned as Stage 46, after the alignment shops.
+
 ### Stage 45: alignment shops (IPA 45)
 - [ ] 45.1 After a guardian, a GOOD, EVIL or LAWFUL shop can appear (each opens once that path's
       ruler is beaten), selling items that grow with its alignment (his notes, 9 Oct).
+
+### Stage 46: weapon enchantments (IPA 46; later, his word)
+- [ ] 46.1 An enchantment slot on weapons (one at most): the item card, the name, the name plate,
+      saving; flat element damage on hits; foe kinds for the slayer enchantments.
+- [ ] 46.2 The enchantments of ENCHANTMENTS_PLAN.md (negative, positive, legendary, the four
+      removed there), on dropped weapons and at an enchanter in the expanded shops.
+- [ ] 46.3 The special ones from their places: a smiths' hideout, a black-market dealer, a dragon
+      room with four breaths, a fairy-tale branch.
 
 ---
 
