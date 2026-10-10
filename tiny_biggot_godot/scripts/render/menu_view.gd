@@ -132,44 +132,87 @@ static func _fmt_num(v: float) -> String:
 	return str(roundi(v)) if v == roundf(v) else "%.1f" % v
 
 # ---------- Title ----------
+## 47.3 (his word, 10 Oct: "rework the menu it looks all confused and heroes stacked in front"):
+## the menu stands in its own panel on the left with room between its rows, the logo above, and
+## on the right the hero you play rests by a campfire with two companions (a row of every
+## unlocked hero stood in front of the list before, squeezed tighter with every hero bought).
+const TITLE_X := 120      # the menu column's centre (taps.gd)
+const TITLE_W := 188      # its panel's width
+const TITLE_Y0 := 106     # the first row
+const CAMP_X := 334       # the campfire on the right
+const CAMP_Y := 196
+
 func draw_title(ci: CanvasItem) -> void:
 	var t := G.time
 	var wob := roundf(sin(t * 2) * 2)
 	var l1 := Img.t("logo_cinder")
 	var l2 := Img.t("logo_crypt")
-	Gfx.at(ci, "logo_cinder", (TB.SW - l1.get_width()) / 2, 18 + wob)
-	Gfx.at(ci, "logo_crypt", (TB.SW - l2.get_width()) / 2, 58 + wob)
+	Gfx.at(ci, "logo_cinder", (TB.SW - l1.get_width()) / 2, 8 + wob)
+	Gfx.at(ci, "logo_crypt", (TB.SW - l2.get_width()) / 2, 44 + wob)
 	# Design spec section 1: the game is now "Tiny Biggot Rogues".
-	Gfx.text(ci, "ROGUES", (TB.SW + l2.get_width()) / 2 + 6, 58 + l2.get_height() - 12 + wob, "red", 2)
-	var shown := []
-	for hi in GameData.hero_order():
-		var h: Dictionary = GameData.heroes()[hi]
-		if G.hero_unlocked(h):
-			shown.append(h)
-	# 36 px apart, closer once the whole roster is unlocked so the row stays on screen.
-	var gap := mini(36, (TB.SW - 48) / maxi(1, shown.size() - 1))
-	for i in shown.size():
-		_sprite(shown[i]["sprite"], TB.SW / 2 - (shown.size() - 1) * gap / 2 + i * gap, 128 + (-1 if floori(t * 3 + i) % 2 == 1 else 0),
-			2, i >= shown.size() / 2)
+	Gfx.text(ci, "ROGUES", (TB.SW + l2.get_width()) / 2 + 6, 44 + l2.get_height() - 12 + wob, "red", 2)
+	# The menu, in its panel.
 	var items := G.title_items()
+	var dy := title_dy()
+	var top := TITLE_Y0 - 10
+	Gfx.panel(ci, TITLE_X - TITLE_W / 2, top, TITLE_W, title_y(items.size() - 1) + dy + 2 - top, "#4e4a5e", "#17121e")
 	for i in items.size():
-		_menu_item(ci, items[i], TB.SW / 2, 142 + i * title_dy(), i, 2, 170)
+		_menu_item(ci, items[i], TITLE_X, title_y(i), i, 2, TITLE_W - 12)
+	_title_camp(ci, t)
 	var m := Meta.meta
 	var line := "EMBERS %d    RUNS %d    WINS %d    DEEPEST FLOOR %d" % [m["embers"], m["runs"], m["wins"], m["best"]]
 	if m.get("best_loop", 0) > 0:
 		line += "    BEST LOOP %d" % (m["best_loop"] + 1)
-	Gfx.at(ci, "ember", TB.SW / 2 - TB.text_w(line) / 2 - 8, 250)
-	Gfx.text(ci, line, TB.SW / 2, 251, "grey", 1, 0.5)
-	Gfx.text(ci, "PRESS USE TO SELECT", TB.SW / 2, 268, "dim", 1, 0.5)
+	Gfx.at(ci, "ember", TB.SW / 2 + 20 - TB.text_w(line) / 2 - 8, 262)
+	Gfx.text(ci, line, TB.SW / 2 + 20, 263, "grey", 1, 0.5)
+	Gfx.text(ci, "TAP OR PRESS USE TO SELECT", TB.SW / 2 + 20, 274, "dim", 1, 0.5)
 	Gfx.text(ci, Versions.label(), TB.SW - 4, 277, "dim", 1, 1)   # 28: the version and its name (versions.gd)
 	Rex.draw_title(ci, t)   # someone is asleep in the corner
 
-# ---------- Hero select ----------
-## Title menu row spacing (taps.gd uses it too): a little tighter with the constellation's row.
+## The campfire on the right: the hero you play and the next two you have, around the fire.
+func _title_camp(ci: CanvasItem, t: float) -> void:
+	var cx := CAMP_X
+	var cy := CAMP_Y
+	for k in 15:   # the ground the camp stands on: a flat oval, lit on its far rim
+		var dy := k * 2 - 14
+		var hw := roundf(88.0 * sqrt(maxf(0.0, 1.0 - pow(dy / 15.0, 2))))
+		ci.draw_rect(Rect2(cx - hw, cy + 8 + dy, hw * 2, 2), TB.c("#2a2238" if k < 2 else "#1e1828"))
+	_glows.append(["glow_torch", cx - 36, cy - 58])
+	_glows.append(["glow_torch", cx - 36, cy - 50])
+	var heroes := title_heroes()
+	var spots := [Vector2(cx - 56, cy + 6), Vector2(cx + 56, cy + 6), Vector2(cx, cy - 22)]   # yours left of the fire, then right, then behind it
+	for k in range(heroes.size() - 1, -1, -1):   # (the one behind is drawn first)
+		var s: Vector2 = spots[k]
+		_sprite(heroes[k]["sprite"], s.x, s.y + (-1 if floori(t * 2 + k) % 2 == 1 else 0), 3, s.x > cx)   # (facing the fire)
+	_sprite("campfire", cx, cy + 8 + (0 if floori(t * 6) % 2 == 0 else -1), 3)
+	if not heroes.is_empty():
+		Gfx.text(ci, heroes[0]["name"], cx - 56, cy + 12, "tan", 1, 0.5)   # the hero you play
+	for k in 3:   # sparks over the fire
+		var ph := fmod(t * 0.9 + k * 0.33, 1.0)
+		Gfx.px(ci, TB.c("#f2c94c" if k % 2 == 0 else "#e8873a"), roundf(cx - 3 + k * 3 + sin(t * 3 + k) * 2), roundf(cy - 18 - ph * 22))
+
+## The heroes by the title's fire: the one you play, then the next two you have (hero order).
+static func title_heroes() -> Array:
+	var order := GameData.hero_order()
+	var out := []
+	var start := maxi(0, order.find(G.hero_index))
+	for j in order.size():
+		var h: Dictionary = GameData.heroes()[order[(start + j) % order.size()]]
+		if G.hero_unlocked(h):
+			out.append(h)
+		if out.size() == 3:
+			break
+	return out
+
+## Title menu row spacing and place (taps.gd uses them too).
 static func title_dy() -> int:
 	var n := G.title_items().size()
-	return 17 if n <= 6 else (15 if n == 7 else (13 if n == 8 else (12 if n == 9 else 11)))   # 8 with CONTINUE (6.3), 9 with the WARDROBE (14.2)
+	return 16 if n <= 9 else (15 if n == 10 else 13)   # 9 with the WARDROBE (14.2), 10 with CONTINUE (6.3)
 
+static func title_y(i: int) -> int:
+	return TITLE_Y0 + i * title_dy()
+
+# ---------- Hero select ----------
 ## Hero strip geometry, shared with the tap zones (taps.gd): up to six panels
 ## are shown and the strip scrolls to keep the selected hero in view.
 ## Returns [first index, shown count, x of the first panel].

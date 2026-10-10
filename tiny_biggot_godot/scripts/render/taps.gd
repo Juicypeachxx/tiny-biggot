@@ -28,8 +28,9 @@ static func zones() -> Array:
 	match G.state:
 		&"title":
 			var dy := MenuView.title_dy()
-			for i in G.title_items().size():
-				out.append(_z(Rect2(sw / 2 - 85, 142 + i * dy - 4, 170, dy), func(): G.menu = i, G.menu == i, true))
+			for i in G.title_items().size():   # (47.3: the menu's panel on the left)
+				out.append(_z(Rect2(MenuView.TITLE_X - MenuView.TITLE_W / 2 + 4, MenuView.title_y(i) - 4, MenuView.TITLE_W - 8, dy),
+					func(): G.menu = i, G.menu == i, true))
 			out.append(_act(Rex.title_rect(), func(): Rex.poke()))   # the sleeping dog in the corner
 		&"options", &"pause":
 			var opts := G.state == &"options"
