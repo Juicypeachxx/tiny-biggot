@@ -160,6 +160,7 @@ func new_run() -> void:
 	Dice.start(p)   # 35.1: an ALTER and a BANISH die (the 2 REROLL dice were always there)
 	Block.reset()   # 37.1
 	Might.reset()   # 40.2
+	Finesse.reset()   # 41.1
 	if GameData.rogues() and not DebugArgs.has("no-oath"):   # 29 (his word, 9 Oct): every run opens with an OATH that shapes it
 		p.oath_picks = 1
 		p.pending += 1

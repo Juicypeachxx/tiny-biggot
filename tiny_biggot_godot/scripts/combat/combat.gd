@@ -345,12 +345,12 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	if GameData.rogues():
 		dmg *= Might.roll(p)   # Rogues layer: every hit rolls within +-15% (40.2 PACK HUNTER: twice, the lower)
 	var crit_chance := p.crit + (p.g("chill_crit") if e.chill_t > 0 else 0.0) + p.g("crit_per_str") * p.a_str + p.g("crit_per_evil") * p.al_evil   # (38.1 DEVIL'S BARGAIN)
-	crit_chance += Might.crit_chance(p)   # 40.2 SCAR TISSUE
+	crit_chance += Might.crit_chance(p) + Finesse.crit_chance(p, e)   # 40.2 SCAR TISSUE; 41.1 VENOM SIGHT, BULLSEYE
 	var sure := p.g("sure_strike") > 0   # 33.2 SURE STRIKE: never a crit; the chance becomes damage
 	if sure:
 		dmg *= 1.0 + 1.5 * maxf(0.0, crit_chance)
-	if not sure and not Might.no_crit(p) and (o.get("force_crit", false) or (not o.get("no_crit", false) and randf() < crit_chance)):
-		dmg *= p.crit_mult + Might.crit_add(p)   # 40.2 SAVAGERY
+	if not sure and not Might.no_crit(p) and (o.get("force_crit", false) or Finesse.sure_crit(o) or (not o.get("no_crit", false) and randf() < crit_chance)):
+		dmg *= p.crit_mult + Might.crit_add(p) + Finesse.crit_add(p, e)   # 40.2 SAVAGERY; 41.1 SPARK BRAND, LOADED LUCK
 		crit = true
 		# New stat: crit chance past 100% can crit a second time.
 		if p.overcrit > 0 and p.crit > 1.0 and randf() < minf(p.crit - 1.0, 1.0):
@@ -359,7 +359,7 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 		dmg *= 1.0 + p.g("nocrit_dmg")
 	if not crit and Might.pride_t > 0:   # 40.2 PRIDE
 		dmg *= 1.4
-	var crushing: bool = not o.get("silent", false) and Might.crushing(p)   # 40.2 crushing hits
+	var crushing: bool = not o.get("silent", false) and Might.crushing(p, e)   # 40.2 crushing hits
 	if crushing:
 		dmg *= 1.5
 	if p.rage > 0 and p.hp <= 2: dmg *= 1 + p.rage
@@ -369,7 +369,8 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	if p.corrode > 0 and e.poison > 0: dmg *= 1 + p.corrode * e.poison
 	if e.curse_t > 0: dmg *= 1.0 + 0.25 * Might.ailment_mult(p)   # (40.2 MIGHT MAKES RIGHT)
 	if o.get("boom", false) and p.boom_elite and e.elite: dmg *= 2
-	if not o.get("no_mult", false): dmg *= player_damage_mult(p) * hook_mult(p, e) * Might.foe_mult(p, e)
+	if not o.get("no_mult", false): dmg *= player_damage_mult(p) * hook_mult(p, e) * Might.foe_mult(p, e) * Finesse.foe_mult(p, e, o)
+	if Might.casting: dmg *= Finesse.special_power(p)   # 41.1 STILL BREATH: the special's own blows
 	if e.vuln_t > 0 or e.shock > 0 or e.gloom > 0:
 		dmg *= Statuses.dmg_mult(e)
 	if (e.guard_t > 0 or e.d.has("rule")) and not Might.ruthless(p, e):   # (40.2 TOE TO TOE goes through)
@@ -720,9 +721,10 @@ static func update_enemies(dt: float) -> void:
 			e.curse_t -= dt
 		if e.bleed_t > 0:
 			e.bleed_t -= dt
-			e.bleed_tick -= dt
+			e.bleed_tick -= dt * Finesse.tick_rate(p)   # 41.1 TICKING CLOCK
 			if e.bleed_tick <= 0:
 				e.bleed_tick = 0.5
+				Finesse.on_bleed_tick(p, e)   # 41.1 TAINTED BLOOD
 				damage_enemy(e, e.bleed_dps * 0.5 * Might.ailment_mult(p) * Might.stack_mult(p, e.bleed_n), { "no_crit": true, "col": "red", "silent": true, "no_mult": true })
 			if randf() < 0.25:
 				Fx.particle(e.x + TB.rint(-3, 3), e.y, 0, 30, 0.3, "#8a2a33")
@@ -730,7 +732,7 @@ static func update_enemies(dt: float) -> void:
 				continue
 		if e.burn_t > 0:
 			e.burn_t -= dt
-			e.burn_tick -= dt
+			e.burn_tick -= dt * Finesse.tick_rate(p)
 			if e.burn_tick <= 0:
 				e.burn_tick = 0.5
 				damage_enemy(e, (1 + Weapons.wdmg(p) * 0.2) * (1 + p.burn_dmg) * Might.ailment_mult(p) * Might.stack_mult(p, e.burn_n), { "no_crit": true, "col": "orange", "silent": true })
@@ -743,7 +745,7 @@ static func update_enemies(dt: float) -> void:
 			if randf() < 0.3:
 				Fx.particle(e.x + TB.rint(-4, 4), e.y - 4, 0, -25, 0.3, TB.pick(["#e8873a", "#f2c94c"]))
 		if e.poison > 0:
-			e.poison_t -= dt
+			e.poison_t -= dt * Finesse.tick_rate(p)
 			if e.poison_t <= 0:
 				e.poison_t = 0.3 if p.poison_fast else 0.6
 				var venom: int = p.fam_bonus.get("venom", 0)
@@ -805,6 +807,10 @@ static func update_enemies(dt: float) -> void:
 				if TB.dist_xy(o.x, o.y, e.x, e.y) < e.r + mr and not p.orbit_hit.has(e.uid):
 					p.orbit_hit[e.uid] = 0.35
 					damage_enemy(e, Weapons.wdmg(p) * Auras.moon_dmg(p), {})
+					if p.g("moon_rupture") > 0 and e.hp > 0:   # 41.1 WHIRLING BLADES: a tear that grows
+						var md := Weapons.wdmg(p) * Auras.moon_dmg(p)
+						Statuses.apply(e, "bleed", 1, md)
+						e.bleed_dps = minf(e.bleed_dps * 1.15, md * 2.0)
 					if p.g("moon_gloom") > 0 and e.hp > 0:
 						Statuses.apply(e, "gloom", 10, 0)   # 40.2 SHADOW VEIL: all its gloom at once
 	var alive: Array[Enemy] = []
@@ -1101,6 +1107,7 @@ static func player_shoot(p: Player, a: float, echo_ok: bool = true) -> void:
 			"camera", "ray", "bat", "stab", "blower", "dome"]:
 		Fx.particle(p.x + cos(a) * 8, p.y - 2 + sin(a) * 8, 0, 0, 0.06, "#fffbe0", 3)
 	Might.on_attack(p)   # 40.2 OPENING
+	Finesse.on_attack(p)   # 41.1 COUNTING COUP, ONE STEP AHEAD
 	if not p.procs.is_empty():
 		Effects.fire("on_shoot", { "x": p.x, "y": p.y })
 		Effects.fire("every_n_shots", { "x": p.x, "y": p.y })
@@ -1809,6 +1816,8 @@ static func explode_at(x: float, y: float, dmg: float, skip: Enemy, radius: floa
 		if TB.dist_xy(e.x, e.y, x, y) >= radius + e.r:
 			continue
 		damage_enemy(e, dmg, { "no_crit": true, "col": "orange", "silent": true, "boom": boom or from_bomb, "bomb": from_bomb })
+		if e.hp > 0 and G.player != null and G.player.g("boom_vuln") > 0:
+			Statuses.apply(e, "vulnerable", 1, 0)   # 41.1 SHRAPNEL SENSE
 
 # ---------- Pickups ----------
 const PICKUP_KINDS := ["coin", "gem", "heart", "potion", "bomb", "key", "armor", "ember",
@@ -2077,6 +2086,8 @@ static func update_player(p: Player, dt: float) -> void:
 	var rolling_before := p.dodge_t > 0
 	if Might.rage > 0 or Might.pride_t > 0:
 		Might.tick(p, dt)   # 40.2 RAGE fades, PRIDE runs out
+	if Finesse.repeat_t > 0 or p.g("swagger") > 0:
+		Finesse.tick(p, dt)   # 41.1 HABIT, SHOWBOAT
 	# Gatling spin-up while there is something to shoot.
 	if p.weapon["kind"] == "gatling":
 		p.spin = minf(1.0, p.spin + dt * 0.5) if G.enemies_active() else maxf(0.0, p.spin - dt)
@@ -2126,6 +2137,7 @@ static func on_roll_start(p: Player) -> void:
 	Arsenal.on_roll(p)
 	Charged.on_roll(p)
 	Might.on_roll(p)   # 40.2 ROLLING THUNDER
+	Finesse.on_roll(p)   # 41.1 CLEAN GETAWAY, ONE STEP AHEAD
 	if not p.procs.is_empty():
 		Effects.fire("on_roll", { "x": p.x, "y": p.y })
 
@@ -2204,7 +2216,10 @@ static func _update_player_base(p: Player, dt: float) -> void:
 					for b in burst:
 						(b.merged if b.merged != null else b).own = true
 			else:
+				Finesse.shot_mult = v.get("mult", 1.0)   # 41.1 ONE STEP AHEAD: its repeats hit twice as hard
 				player_shoot(p, p.aim_a)
+				Finesse.shot_mult = 1.0
+			Finesse.on_repeat()   # 41.1 HABIT
 		i += 1
 	var keep := []
 	for v in p.volleys:

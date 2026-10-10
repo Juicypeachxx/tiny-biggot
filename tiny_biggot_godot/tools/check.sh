@@ -327,6 +327,11 @@ timeout 600 "$GODOT" --headless --path . res://tests/stage40_test.tscn -- --no-s
 grep -E "^\[stage40\]|stage40 test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 41 the DEXTERITY traits: pictures, lethal hits, close range, fields, helpers, tally crits, repeats, tick speed"
+timeout 600 "$GODOT" --headless --path . res://tests/stage41_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[stage41\]|stage41 test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== 18.1 the daily trial"
 timeout 300 "$GODOT" --headless --path . res://tests/daily_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "daily test" "$LOG"

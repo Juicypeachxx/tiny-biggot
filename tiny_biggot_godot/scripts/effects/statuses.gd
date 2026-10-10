@@ -27,6 +27,7 @@ static func apply(e: Enemy, name: String, amount: float, hit_dmg: float) -> void
 			Vfx.puff(e.x, e.y, "venom")
 	if Might.casting and p.g("merciless") > 0:
 		amount *= 2.0   # 40.2 MERCILESS: what your special inflicts is twice as strong
+	amount *= Finesse.status_mult(p)   # 41.1 HABIT: right after a repeat
 	if name == "burn" or name == "bleed":
 		Might.add_stack(p, e, name)   # 40.2 BLOOD AND ASH
 	match name:

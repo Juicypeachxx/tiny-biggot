@@ -59,7 +59,7 @@ static func on_hit(e: Enemy, dmg: float, crit: bool, p: Player, b: PBullet) -> v
 		stats["lucky"] = stats.get("lucky", 0) + 1
 		if e.hp > 0:
 			_depth += 1
-			Combat.damage_enemy(e, dmg, { "no_crit": true, "col": "lime", "silent": true })
+			Combat.damage_enemy(e, dmg, { "no_crit": true, "col": "lime", "silent": true, "lucky": true })
 			_depth -= 1
 		Fx.burst(e.x, e.y - 6, ["#7ad86a", "#f2c94c"], 4, 50, 0.25)
 		Effects.fire("on_lucky", { "enemy": e, "dmg": dmg })

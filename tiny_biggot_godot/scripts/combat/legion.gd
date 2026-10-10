@@ -14,13 +14,13 @@ extends RefCounted
 static func dmg_mult(p: Player) -> float:
 	if p == null or not GameData.rogues():
 		return 1.0
-	return 1.0 + p.g("minion_dmg")
+	return (1.0 + p.g("minion_dmg")) * Finesse.helper_mult(p)   # (41.1 BOSOM BUDDY)
 
 static func speed(p: Player) -> float:
 	if p == null or not GameData.rogues():
 		return 1.0
 	var haste := maxf(0.0, p.speed / maxf(1.0, float(p.hero.get("speed", p.speed))) - 1.0)
-	return 1.0 + p.g("minion_speed") + p.g("march") * haste
+	return 1.0 + p.g("minion_speed") + p.g("march") * haste + Finesse.helper_speed(p)   # (41.1 FIELD MARSHAL)
 
 static func cap_bonus(p: Player) -> int:
 	if p == null or not GameData.rogues():

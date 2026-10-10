@@ -57,6 +57,7 @@ const ACTIONS := ["nova", "shoot", "explode", "status", "heal", "buff", "chain",
 	"turret", "raise", "reflect", "spread", "consume", "give", "slow_shots", "overkill",   # ROADMAP 4.7
 	"stack",   # 8.4: a lasting bonus that grows up to a cap
 	"charm_area", "consume_area", "execute_weakest",   # ROADMAP 4.8 heroes
+	"lob", "status_weakest",   # 41.1: a grenade at a foe; a status on the weakest foe (actions.gd)
 	"spell",   # 26: an item casts a spell of the spellbook (spells.gd)
 	"vow",   # 30.1: one more step of an oath's vow (oaths.gd)
 	"aura_surge",   # 33.1: the halos' fields reach further for a while (auras.gd)
@@ -119,6 +120,13 @@ static func apply(p: Player, effects: Array, dir: int = 1, src: String = "") -> 
 				Attributes.add(p, Attributes.highest(p) if stat == "highest" else stat, int(e[2]) * dir)
 			"hook":
 				p.gf[stat] = p.gf.get(stat, 0.0) + e[2] * dir
+			"pet":
+				# 41.1 GOOD DOG: ["pet", id, 0]: that pet joins you, or yours grows a level (one-shot).
+				if dir > 0 and GameData.rogues():
+					if p.pet == "":
+						Pets.give(p, stat, 1)
+					else:
+						p.pet_lv = mini(3, p.pet_lv + 1)
 			"set":
 				_set_raw(p, stat, e[2])
 			"add_cap":
@@ -235,7 +243,7 @@ static func _cond(c: String, ctx: Dictionary) -> bool:
 		"armored": return p.armor > 0
 		"flight": return Tempo.full(p)   # the Gaolbird at full tempo
 		# ROADMAP 4.7
-		"close": return e != null and TB.dist(e, p) < 50.0 + e.r
+		"close": return e != null and Finesse.close(p, e)   # (41.1 NO DISTANCE)
 		"far": return e != null and TB.dist(e, p) > 120.0
 		"fresh": return e != null and e.struck <= 1   # this hit is the first one it took
 		"last_foe": return e != null and foes_left() <= 1

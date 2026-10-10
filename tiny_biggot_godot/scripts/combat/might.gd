@@ -127,7 +127,7 @@ static func foe_mult(p: Player, e: Enemy) -> float:
 	return m
 
 static func close(p: Player, e: Enemy) -> bool:
-	return TB.dist(e, p) < 50.0 + e.r
+	return Finesse.close(p, e)   # (41.1 NO DISTANCE: bows and guns always count as close)
 
 ## TOE TO TOE: a close blow goes through a foe's guard.
 static func ruthless(p: Player, e: Enemy) -> bool:
@@ -147,11 +147,13 @@ static func no_crit(p: Player) -> bool:
 	return on() and p.g("resolute") > 0
 
 ## Is this blow a crushing hit? (Rolls only when a chance is there.)
-static func crushing(p: Player) -> bool:
+static func crushing(p: Player, e: Enemy = null) -> bool:
 	if not on():
 		return false
 	if p.g("resolute") > 0:
 		return true
+	if p.g("point_blank") > 0 and e != null and ranged(p.weapon) and Finesse.close(p, e):
+		return true   # 41.1 MUZZLE FLASH
 	if crush_left > 0:
 		crush_left -= 1
 		return true
@@ -189,12 +191,12 @@ static func add_stack(p: Player, e: Enemy, kind: String) -> void:
 static func roll_rate(p: Player) -> float:
 	if not on():
 		return 1.0
-	return 1.0 + p.g("roll_haste") + p.g("stride") * gear_count(p)
+	return 1.0 + p.g("roll_haste") + p.g("stride") * gear_count(p) + Finesse.recharge_add(p)
 
 static func special_rate(p: Player) -> float:
 	if not on():
 		return 1.0
-	var r := 1.0 + p.g("special_haste") + p.g("special_str") * str_ranks(p)
+	var r := 1.0 + p.g("special_haste") + p.g("special_str") * str_ranks(p) + Finesse.recharge_add(p)
 	if p.g("honest") > 0:
 		r += roll_rate(p) - 1.0
 	return r
@@ -206,9 +208,9 @@ static func speed_mult(p: Player) -> float:
 
 ## Effects.add_buff: TOWERING PRESENCE, per gear piece worn.
 static func buff_mult(p: Player) -> float:
-	if not on() or p.g("presence") <= 0:
+	if not on() or (p.g("presence") <= 0 and p.g("buff_power") <= 0):
 		return 1.0
-	return 1.0 + p.g("presence") * gear_count(p)
+	return 1.0 + p.g("presence") * gear_count(p) + p.g("buff_power")   # (41.1 GOOD DOG: buff_power)
 
 # ---------- the weapon's rate and damage ----------
 ## STEADY HAND: fire rate bonuses count half, and raise the damage twice over. GIANT'S GRIP: a

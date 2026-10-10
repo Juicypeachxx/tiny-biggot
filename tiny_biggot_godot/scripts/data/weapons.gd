@@ -790,9 +790,9 @@ static func synergy_mult(p: Player) -> float:
 				break
 	return 1 + minf(0.08 * ranks, 0.64) + 0.12 * pieces
 
-static func wdmg(p: Player) -> float: return p.weapon["dmg"] * p.dmg * synergy_mult(p) * Attributes.mult(p) * WeaponInfo.upgrade_mult(p.weapon) * Tipsy.dmg_mult(p) * Pace.dmg_mult() * (1.0 + p.g("dmg_per_good") * p.al_good) * Might.wdmg_mult(p)
+static func wdmg(p: Player) -> float: return p.weapon["dmg"] * p.dmg * synergy_mult(p) * Attributes.mult(p) * WeaponInfo.upgrade_mult(p.weapon) * Tipsy.dmg_mult(p) * Pace.dmg_mult() * (1.0 + p.g("dmg_per_good") * p.al_good) * Might.wdmg_mult(p) * Finesse.shot_mult
 static func wrate(p: Player) -> float:
-	var r: float = p.weapon["rate"] * p.rate * Might.rate_mult(p)   # 40.2 STEADY HAND, GIANT'S GRIP (1.0 in classic)
+	var r: float = p.weapon["rate"] * p.rate * Might.rate_mult(p) * Finesse.rate_mult(p)   # (41.1 FLEET FOOTWORK, NIMBLE GRIP, FIELD MARSHAL, SPELL EDGE)   # 40.2 STEADY HAND, GIANT'S GRIP (1.0 in classic)
 	if p.weapon["kind"] == "gatling":
 		r *= 1 + 2 * p.spin
 	if p.haste_t > 0:

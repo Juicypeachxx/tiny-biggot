@@ -132,6 +132,8 @@ static func _did(k: String) -> void:
 static func run(a: Array, stacks: int, ctx: Dictionary) -> void:
 	var p := G.player
 	var w := Weapons.wdmg(p) * (1.0 + p.g("proc_dmg") + p.g("proc_per_chaos") * p.al_chaos)   # 36.2 STAR JELLY, 38.1 MADCAP'S BELLS: items' effects hit harder
+	if p.g("proc_per_plus") > 0 and p.weapon != null:
+		w *= pow(1.0 + p.g("proc_per_plus"), WeaponInfo.plus(p.weapon))   # 41.1 WELL OILED: per weapon level
 	ran[a[0]] = ran.get(a[0], 0) + 1
 	match a[0]:
 		"nova":
@@ -445,6 +447,22 @@ static func run(a: Array, stacks: int, ctx: Dictionary) -> void:
 			for e in G.enemies.duplicate():
 				if e.targetable() and e.hp > 0 and TB.dist(e, p) <= float(a[1]) + e.r:
 					run(["consume", a[2]], stacks, { "enemy": e })
+		"lob":
+			# 41.1 ["lob", dmg_mult, radius]: a grenade lands on a foe (one in reach, else the nearest).
+			var t := Combat.nearest_enemy(p.x, p.y, 220)
+			if t != null:
+				Combat.explode_at(t.x, t.y, w * float(a[1]) * stacks, null, float(a[2]), "#e8873a", true)
+				Juice.ring(t.x, t.y, 4, float(a[2]), 0.25, "#e8873a")
+				_did("lob")
+		"status_weakest":
+			# 41.1 ["status_weakest", status, n]: the most wounded foe in the room gets the status.
+			var low: Enemy = null
+			for e in G.enemies:
+				if e.targetable() and e.hp > 0 and e.type != "dummy" and (low == null or e.hp / e.max_hp < low.hp / low.max_hp):
+					low = e
+			if low != null:
+				Statuses.apply(low, a[1], float(a[2]), 0)
+				_did("status_weakest")
 		"execute_weakest":
 			# ["execute_weakest", dmg_mult, below]: the most wounded foe in the room takes dmg_mult; below
 			# that share of its health (not a guardian), it dies.
