@@ -64,18 +64,20 @@ func _ready() -> void:
 	G.enter_room(World.make_room(G.floor_d, "combat", "", "s", { "no_secret": true }))
 	G.enemies.clear()
 	G.room.objects = G.room.objects.filter(func(o): return o["kind"] != "e_keg")
-	var k1 := { "kind": "e_keg", "x": 150.0, "y": 150.0, "used": true }
-	var k2 := { "kind": "e_keg", "x": 190.0, "y": 150.0, "used": true }
+	G.god = false
+	# 43.5: the foe stands where the room has space (spawn_enemy moves it off a blocked tile, and the
+	# room's layout changes with the seed), so the kegs and the hero go beside wherever it is.
+	var foe := Combat.spawn_enemy("skeleton", 165.0, 150.0, false, true)
+	var k1 := { "kind": "e_keg", "x": foe.x - 15.0, "y": foe.y, "used": true }
+	var k2 := { "kind": "e_keg", "x": foe.x + 25.0, "y": foe.y, "used": true }
 	G.room.objects.append(k1)
 	G.room.objects.append(k2)
-	G.god = false
-	var foe := Combat.spawn_enemy("skeleton", 165.0, 150.0, false, true)
 	var hp0 := foe.hp
-	G.player.x = 160.0
-	G.player.y = 170.0
+	G.player.x = foe.x - 5.0
+	G.player.y = foe.y + 20.0
 	var php: int = G.player.hp
 	G.pbullets.clear()
-	_shot(150.0, 146.0)
+	_shot(k1["x"], k1["y"] - 4.0)
 	RoomDress.tick_objects(G.room)
 	G.pbullets.clear()
 	if not k1.has("fuse") or k1.get("gone", false):
