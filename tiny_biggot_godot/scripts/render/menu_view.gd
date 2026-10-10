@@ -502,7 +502,7 @@ func draw_gearpage(ci: CanvasItem) -> void:
 	var w: Dictionary = p.weapon
 	Gfx.panel(ci, 16, 30, TB.SW - 32, 64, GameData.RARITY_HEX[w["rarity"]], "#17121e")
 	ci.draw_texture_rect(Img.t(w["sprite"]), Rect2(24, 38, 24, 24), false)
-	Gfx.text(ci, w["name"], 56, 36, GameData.RARITY_COL[w["rarity"]], 2)
+	Gfx.text(ci, Enchant.prefix(w) + w["name"], 56, 36, GameData.RARITY_COL[w["rarity"]], 2)   # (46.1: its enchantment's name first)
 	Gfx.text(ci, GameData.RARITY_NAME[w["rarity"]] + " " + Weapons.ARCH[w["kind"]]["name"] + " - " + Weapons.ARCH_DESC[w["kind"]], 56, 50, "grey")
 	Gfx.text(ci, "DAMAGE %.1f  RATE %.1f/S  SHOTS %d  SYNERGY +%d%%" % [Weapons.wdmg(p), Weapons.wrate(p), Weapons.wcount(p),
 		roundi((Weapons.synergy_mult(p) - 1) * 100)], 56, 60, "lime")
@@ -523,6 +523,8 @@ func draw_gearpage(ci: CanvasItem) -> void:
 	var dl := TraitView.rich_lines(w["desc"], TB.SW - 90)   # 8.2: keywords in colour
 	if not dl.is_empty():
 		TraitView.draw_line(ci, dl[0], 56, 80)
+	if Enchant.of(w) != "":   # 46.1: what its enchantment does
+		Gfx.text(ci, Enchant.what(w), 56, 87, Enchant.GROUP_COL[Enchant.KINDS[Enchant.of(w)][1]])
 	var gs := Gear.slots()
 	var compact := gs.size() > 4   # step 8: eight slots in shorter panels
 	for i in gs.size():

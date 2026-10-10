@@ -30,7 +30,11 @@ changed one), and carry on from there. What he says last outranks this file.
    with its own IPA, without waiting for his try in between.
 3. Stage 44: the 14 INFUSIONS, and the traits that work with them: done, IPA 44 "Infusions" (10 Oct).
 4. Stage 45: the GOOD, EVIL and LAWFUL shops: done, IPA 45 "Alignment Shops" (10 Oct).
-5. Stage 46, later (his word): WEAPON ENCHANTMENTS from his pictures (ENCHANTMENTS_PLAN.md).
+5. Stage 46: WEAPON ENCHANTMENTS from his pictures: built (10 Oct); IPA 46 "Weapon Enchantments"
+   after the full check.
+   All 46 with names of our own (ENCHANTMENTS_PLAN.md has the list), THE ENCHANTER in the shops,
+   THE WYRM'S BREATH, and the runesmith, the back room and the silver branch.
+6. Next: his try of 44, 45 and 46 on the iPad, and what he asks for after it.
 Each stage waits for him to try the last IPA. Details of each step are further down.
 
 | Stage | What | State |
@@ -1441,13 +1445,24 @@ ones come in too (rule 1). Planned as Stage 46, after the alignment shops.
       armour, cursed hits, a kill's heal, crit, rolls, all for every point of the alignment) and
       the growing piece of 38.1; prices by your alignment.
 
-### Stage 46: weapon enchantments (IPA 46; later, his word)
-- [ ] 46.1 An enchantment slot on weapons (one at most): the item card, the name, the name plate,
+### Stage 46: weapon enchantments (IPA 46; his word: "Ok go 44 and 45, and 46")
+- [x] 46.1 An enchantment slot on weapons (one at most): the item card, the name, the name plate,
       saving; flat element damage on hits; foe kinds for the slayer enchantments.
-- [ ] 46.2 The enchantments of ENCHANTMENTS_PLAN.md (negative, positive, legendary, the four
+      Done (scripts/game/enchant.gd): w["ench"] on the weapon's own copy; the name starts with it,
+      the item card, the equipment page and the swap card say what it does, an enchanted weapon
+      glints; its effects come and go with the weapon (Weapons.equip_weapon); a saved run keeps
+      it. Element ones hit with the infusions (two new elements: necrotic, dark). Foe kinds:
+      wyrms and worms, imps and fiends.
+- [x] 46.2 The enchantments of ENCHANTMENTS_PLAN.md (negative, positive, legendary, the four
       removed there), on dropped weapons and at an enchanter in the expanded shops.
-- [ ] 46.3 The special ones from their places: a smiths' hideout, a black-market dealer, a dragon
+      Done: 5 flawed, 19 enchanted, 10 legendary, 4 old lore. A dropped weapon has one 10%
+      (common) to 40% (mythic) of the time; THE ENCHANTER (a lectern between the dice cup and the
+      weapon) rolls one onto the weapon you hold.
+- [x] 46.3 The special ones from their places: a smiths' hideout, a black-market dealer, a dragon
       room with four breaths, a fairy-tale branch.
+      Done: THE WYRM'S BREATH (a fourth special room: four stone wyrm heads, one breath a visit,
+      one time in five it chars the weapon), THE CHOP SHOP's runesmith, THE PAWN SHOP's back room,
+      THE FROG POND's silver branch. Classic: none of it, and its special rooms are the same three.
 
 ---
 

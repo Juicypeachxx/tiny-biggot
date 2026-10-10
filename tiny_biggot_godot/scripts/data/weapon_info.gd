@@ -54,10 +54,10 @@ static func damage_type(w: Dictionary) -> String:
 	return KIND_TYPE.get(w["kind"], "PHYSICAL")
 
 static func plus(w: Dictionary) -> int:
-	return w.get("plus", 0)
+	return w.get("plus", 0) + Enchant.plus(w)   # (46 GLEAMING, STARLIT)
 
 static func display_name(w: Dictionary) -> String:
-	return w["name"] + (" +%d" % plus(w) if plus(w) > 0 else "")
+	return Enchant.prefix(w) + w["name"] + (" +%d" % plus(w) if plus(w) > 0 else "")   # (46: its enchantment first)
 
 static func upgrade_mult(w: Dictionary) -> float:
 	if not GameData.rogues():
@@ -75,7 +75,7 @@ static func upgrade(p: Player, n: int) -> int:
 	return p.weapon["plus"]
 
 static func anvil_cost(p: Player) -> int:
-	return 25 + 15 * plus(p.weapon)
+	return 25 + 15 * int(p.weapon.get("plus", 0))
 
 ## Damage per hit this weapon would deal for the player (before crits),
 ## and the low/high of the +-15% roll.

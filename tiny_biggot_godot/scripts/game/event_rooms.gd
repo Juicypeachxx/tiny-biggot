@@ -13,6 +13,8 @@ extends RefCounted
 ##   beacon    THE SIGNAL BEACON: light it, then stand in its circle for 45 s while foes pour in
 ##   vault     THE PLATE VAULT: a statue shows four colours; step on the plates in that order
 ##   cursed    THE CURSED ARMORY: three strong weapons, each with a curse that stays for the run
+##   breath    46.1 THE WYRM'S BREATH: four stones, each breathes one rare enchantment onto your weapon;
+##             one breath per visit, and one time in five it chars it (enchant.gd; expanded game only)
 ## Wanderers (after a fight is won, in the cleared room, away from the doors):
 ##   the drunk from a saloon you visited, on a later floor: a gift, once per floor
 ##   a lost merchant: one thing for sale
@@ -42,6 +44,11 @@ const LIGHTNING_TIME := 30.0
 const EVENTS := ["pit", "chopshop", "fortune", "courier", "gallery"]
 const SPECIAL := ["beacon", "vault", "cursed"]
 
+## The special rooms a MYSTERY door may hide (46.1: THE WYRM'S BREATH in the expanded game; classic
+## draws from the same three as before).
+static func specials() -> Array:
+	return SPECIAL + ["breath"] if GameData.rogues() else SPECIAL
+
 const TITLE := {
 	"pit": ["THE FIGHTING PIT", "BET ON YOURSELF"],
 	"chopshop": ["THE CHOP SHOP", "NO QUESTIONS ABOUT WHERE THE PARTS CAME FROM"],
@@ -51,6 +58,7 @@ const TITLE := {
 	"beacon": ["THE SIGNAL BEACON", "LIGHT IT AND HOLD THE LINE"],
 	"vault": ["THE PLATE VAULT", "THE STATUE KNOWS THE ORDER"],
 	"cursed": ["THE CURSED ARMORY", "FINE WEAPONS. BAD LUCK"],
+	"breath": ["THE WYRM'S BREATH", "FOUR STONES. ONE BREATH IS YOURS"],
 	"frog": ["THE FROG POND", "IT LOOKS AT YOU EXPECTANTLY"],
 	"fishing": ["THE FISHING HOLE", "QUIET WATER. SOMETHING BIG LIVES HERE"],
 	"ritual": ["THE RITUAL CIRCLE", "WHICH SIGN WILL YOU STAND ON?"],
@@ -121,6 +129,7 @@ static func setup(r: Room, ev: String) -> void:
 		"chopshop":
 			r.objects.append({ "kind": "e_decor", "sprite": "tool_lift", "x": cx, "y": cy - 20, "used": true })
 			r.objects.append({ "kind": "e_mechanic", "x": cx + 36, "y": cy + 4, "talks": 0 })
+			Enchant.place_special(r, "e_runesmith", cx - 40, cy + 4)   # 46.1: RUNESMITHED
 		"fortune":
 			r.objects.append({ "kind": "e_teller", "x": cx, "y": cy - 26, "talks": 0 })
 			var b := range(BLESSINGS.size())
@@ -139,6 +148,8 @@ static func setup(r: Room, ev: String) -> void:
 			r.objects.append({ "kind": "e_attendant", "x": cx - 70, "y": cy + 30, "t": 0.0, "score": 0, "spawn": 0.0, "done": false })
 		"beacon":
 			r.objects.append({ "kind": "e_beacon", "x": cx, "y": cy, "lit": false, "held": 0.0, "spawn": 0.0 })
+		"breath":
+			Enchant.setup_breath(r, cx, cy)   # 46.1
 		"vault":
 			var order := PLATE_COLS.duplicate()
 			order.shuffle()
@@ -151,6 +162,7 @@ static func setup(r: Room, ev: String) -> void:
 		# 10.2
 		"frog":
 			r.objects.append({ "kind": "e_frog", "x": cx, "y": cy })
+			Enchant.place_special(r, "e_branch", cx + 48, cy - 2)   # 46.1: SPELLBOUND
 		"fishing":
 			Fishing.setup_hole(r)
 		"ritual":
@@ -161,6 +173,7 @@ static func setup(r: Room, ev: String) -> void:
 		"pawn":
 			r.objects.append({ "kind": "e_pawn", "x": cx - 30, "y": cy, "boxes": 1 })
 			r.objects.append({ "kind": "e_decor", "sprite": "weapon_rack", "x": cx + 36, "y": cy + 2, "used": true })
+			Enchant.place_special(r, "e_contraband", cx + 36, cy + 44)   # 46.1: CONTRABAND
 		"cups":
 			r.objects.append({ "kind": "e_hustler", "x": cx, "y": cy - 34, "bet": 0, "t": 0.0, "state": "idle", "ball": 0,
 				"order": [0, 1, 2], "swap": -1.0, "a": 0, "b": 1 })

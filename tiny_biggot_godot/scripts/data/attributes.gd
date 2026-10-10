@@ -55,6 +55,17 @@ static func enabled() -> bool:
 
 ## Grades for a weapon: { "str": "A", "dex": "C", "int": "-" }.
 static func scaling(w: Dictionary) -> Dictionary:
+	var shift := Enchant.grade_shift(w)   # 46 DULL, RUNESMITHED: every grade a step
+	if shift != 0:
+		var g: Dictionary = _scaling(w).duplicate()
+		for a in g:
+			if g[a] == "-":
+				continue   # (no scaling stays none)
+			g[a] = _up(g[a]) if shift > 0 else GRADES[mini(GRADES.size() - 2, GRADES.find(g[a]) + 1)]   # (S at the top, E at the bottom)
+		return g
+	return _scaling(w)
+
+static func _scaling(w: Dictionary) -> Dictionary:
 	if w.has("scaling"):
 		return w["scaling"]
 	var key: String = w["id"]

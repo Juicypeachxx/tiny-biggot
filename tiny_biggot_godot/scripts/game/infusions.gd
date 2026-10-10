@@ -29,8 +29,10 @@ const ELEMENTS := {
 	"poison": ["lime", "poison", "POISON"],
 	"nature": ["green", "bleed", "NATURE"],
 	"holy": ["bone", "", "HOLY"],
+	"necrotic": ["pink", "curse", "NECROTIC"],   # 46: DREADFUL
+	"dark": ["grey", "gloom", "DARK"],   # 46: UMBRAL
 }
-const AILMENT_WORD := { "burn": "BURN", "chill": "CHILL", "shock": "SHOCK", "poison": "POISON", "bleed": "MAKE FOES BLEED" }
+const AILMENT_WORD := { "burn": "BURN", "chill": "CHILL", "shock": "SHOCK", "poison": "POISON", "bleed": "MAKE FOES BLEED", "curse": "CURSE", "gloom": "GLOOM" }
 ## kind (its picture too): [name, element ("": PIXIE SAP), least, most damage a hit, rooms (0: for
 ## good), weight, colour]
 const KINDS := {
@@ -147,16 +149,20 @@ static func stretch(p: Player, n: int) -> void:
 # ---------- the hits ----------
 ## Combat.on_hit_effects, for a hit of the weapon itself: the elements' hit, and their ailments.
 static func on_hit(p: Player, e: Enemy) -> void:
-	if p.infusions.is_empty() or e.hp <= 0 or not on():
+	var ench := Enchant.element(p)   # 46: an enchantment's element rides with them ([element, least, most])
+	if (p.infusions.is_empty() and ench.is_empty()) or e.hp <= 0 or not on():
 		return
 	var scale := (1.0 + FLOOR_GROWTH * G.floor_index) * (1.0 + p.g("infuse_dmg"))
 	var dmg := 0.0
 	var best := 0.0
 	var col := "white"
-	for inf in p.infusions:
-		var d: Array = KINDS[inf[0]]
+	var all: Array = p.infusions
+	if not ench.is_empty():
+		all = p.infusions + [["", 0, 1, ench]]
+	for inf in all:
+		var d: Array = KINDS[inf[0]] if inf[0] != "" else ["", inf[3][0], inf[3][1], inf[3][2]]
 		var el: Array = ELEMENTS[d[1]]
-		var v: float = randf_range(d[2], d[3]) * inf[2] * scale
+		var v: float = randf_range(d[2], d[3]) * inf[2] * (scale if inf[0] != "" else 1.0 + FLOOR_GROWTH * G.floor_index)
 		if d[1] == "holy" and (e.curse_t > 0 or e.type in UNHOLY):
 			v *= 2.0
 		dmg += v

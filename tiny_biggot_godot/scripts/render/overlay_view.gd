@@ -107,6 +107,8 @@ static func item_lines(it: Dictionary) -> Array:
 		if it["id"] != cur["id"]:
 			sl += "   (%s%d%% VS YOURS)" % ["+" if diff >= 0 else "", diff]
 		lines.append([sl, "lime" if diff >= 0 else "red"])
+		if Enchant.of(it) != "":   # 46.1: its enchantment
+			lines.append(["- " + Enchant.what(it), Enchant.GROUP_COL[Enchant.KINDS[Enchant.of(it)][1]]])
 		if not it["tags"].is_empty():
 			lines.append(["TAGS: " + _tag_names(it["tags"]), "tan"])
 	elif it["item"] == "charm":   # 37.2
@@ -164,7 +166,7 @@ func draw_item_prompt(ci: CanvasItem, o: Dictionary, it: Dictionary, price: int 
 	if it["item"] == "gear" and p.gear.get(gslot) != null and p.gear[gslot]["id"] != it["id"]:
 		lines.append(["REPLACES " + p.gear[gslot]["name"], "dim"])
 	elif it["item"] == "weapon" and p.weapon["id"] != it["id"]:
-		lines.append(["REPLACES " + p.weapon["name"], "dim"])
+		lines.append(["REPLACES " + Enchant.prefix(p.weapon) + p.weapon["name"], "dim"])   # (46.1)
 	lines.append(["BUY FOR %d GOLD" % price if price >= 0 else ("PRESS USE TO WEAR" if it["item"] == "charm" else "PRESS USE TO EQUIP"), "gold" if price >= 0 else "grey"])
 	var w := 0
 	for l in lines:
@@ -207,6 +209,13 @@ func draw_prompt(ci: CanvasItem, o: Dictionary) -> void:
 		title = dl[0]
 		desc = dl[1]
 		extra = dl[2]
+	elif Enchant.handles(o["kind"]):   # 46.1 THE ENCHANTER, the rare ones' places
+		var el := Enchant.prompt(o)
+		if el.size() < 3:
+			return
+		title = el[0]
+		desc = el[1]
+		extra = el[2]
 	elif Saloon.handles(o["kind"]) or EventRooms.handles(o["kind"]) or RiftExtras.handles(o["kind"]) or Pets.handles(o["kind"]) \
 			or Rex.handles(o["kind"]) or Wanderers.handles(o["kind"]):
 		var sl := Saloon.prompt(o) if Saloon.handles(o["kind"]) else (EventRooms.prompt(o) if EventRooms.handles(o["kind"]) \
@@ -281,7 +290,7 @@ func draw_prompt(ci: CanvasItem, o: Dictionary) -> void:
 		"anvil":
 			var ap := G.player
 			title = "ANVIL"
-			if WeaponInfo.plus(ap.weapon) >= WeaponInfo.MAX_PLUS:
+			if int(ap.weapon.get("plus", 0)) >= WeaponInfo.MAX_PLUS:
 				desc = "YOUR WEAPON IS ALREADY +%d" % WeaponInfo.MAX_PLUS
 			else:
 				desc = "UPGRADE %s TO +%d (+8%% DAMAGE)" % [ap.weapon["name"], WeaponInfo.plus(ap.weapon) + 1]

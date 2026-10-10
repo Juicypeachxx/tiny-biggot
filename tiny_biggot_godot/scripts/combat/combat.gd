@@ -369,7 +369,7 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	if p.corrode > 0 and e.poison > 0: dmg *= 1 + p.corrode * e.poison
 	if e.curse_t > 0: dmg *= 1.0 + 0.25 * Might.ailment_mult(p)   # (40.2 MIGHT MAKES RIGHT)
 	if o.get("boom", false) and p.boom_elite and e.elite: dmg *= 2
-	if not o.get("no_mult", false): dmg *= player_damage_mult(p) * hook_mult(p, e) * Might.foe_mult(p, e) * Finesse.foe_mult(p, e, o) * Arcana.foe_mult(p, e, o) * Marvels.foe_mult(p, e)   # (42.1 cursed and sneaky hits; 43.1 CRYO CORE)
+	if not o.get("no_mult", false): dmg *= player_damage_mult(p) * hook_mult(p, e) * Might.foe_mult(p, e) * Finesse.foe_mult(p, e, o) * Arcana.foe_mult(p, e, o) * Marvels.foe_mult(p, e) * Enchant.foe_mult(p, e)   # (42.1 cursed and sneaky hits; 43.1 CRYO CORE; 46 enchantments)
 	if Might.casting: dmg *= Finesse.special_power(p)   # 41.1 STILL BREATH: the special's own blows
 	if e.vuln_t > 0 or e.shock > 0 or e.gloom > 0:
 		dmg *= Statuses.dmg_mult(e)
@@ -737,7 +737,7 @@ static func update_enemies(dt: float) -> void:
 			e.burn_tick -= dt * Finesse.tick_rate(p)
 			if e.burn_tick <= 0:
 				e.burn_tick = 0.5
-				damage_enemy(e, (1 + Weapons.wdmg(p) * 0.2) * (1 + p.burn_dmg) * Might.ailment_mult(p) * Might.stack_mult(p, e.burn_n) + Marvels.burn_extra(p, e), { "no_crit": true, "col": "orange", "silent": true })   # (43.1 INNER FIRE)
+				damage_enemy(e, (1 + Weapons.wdmg(p) * 0.2) * (1 + p.burn_dmg) * Might.ailment_mult(p) * Might.stack_mult(p, e.burn_n) * Enchant.burn_mult(p) + Marvels.burn_extra(p, e), { "no_crit": true, "col": "orange", "silent": true })   # (43.1 INNER FIRE; 46 SCALDING, WYRMFIRE)
 				if p.burn_leap > 0 and randf() < p.burn_leap:
 					for o2 in G.enemies:
 						if o2 != e and o2.hp > 0 and o2.burn_t <= 0 and TB.dist(o2, e) < 50:

@@ -175,7 +175,8 @@ func new_run() -> void:
 	Meta.write_save()
 	start_floor()
 
-## Playtesting: --give=relic:id,gear:id,trait:id,weapon:id and --combo=ID
+## Playtesting: --give=relic:id,gear:id,trait:id,weapon:id (and belt:, pack:, charm:, drink:,
+## infuse:, ench:, food:) and --combo=ID
 ## (hands over everything a named combo needs). No effect without the flags.
 func _debug_give(p: Player) -> void:
 	var items: Array = []
@@ -202,6 +203,9 @@ func _debug_give(p: Player) -> void:
 			continue
 		if parts.size() == 2 and parts[0] == "infuse" and Infusions.is_kind(parts[1]):
 			Infusions.infuse(p, parts[1])   # 44: an infusion on the weapon (pictures)
+			continue
+		if parts.size() == 2 and parts[0] == "ench" and Enchant.KINDS.has(parts[1]):
+			Enchant.give(p, parts[1])   # 46: an enchantment on the weapon (pictures)
 			continue
 		if parts.size() == 2 and parts[0] == "food" and Food.is_kind(parts[1]):
 			_give_food.append(parts[1])   # 36: food on the first room's floor (pictures; start_floor)
@@ -484,7 +488,7 @@ func leave_room(dir: String) -> void:
 	elif kind == "mystery":
 		opts = { "event": TB.pick(mystery_events()) }
 		if randf() < 0.18:
-			opts["event"] = TB.pick(EventRooms.SPECIAL)   # a special room: rarer than an event
+			opts["event"] = TB.pick(EventRooms.specials())   # a special room: rarer than an event
 	var nr := World.make_room(floor_d, kind, reward, World.OPP[dir], opts)
 	start_fade(func(): enter_room(nr))
 
@@ -784,6 +788,7 @@ func setup_objects(r: Room) -> void:
 				Charms.stock_shop(r, cx, cy)   # 37.2: a charm for sale
 				Food.stock_shop(r, cx, cy)   # 36.1: a food for sale
 				Infusions.stock_shop(r, cx, cy)   # 44: an infusion for sale
+				Enchant.stock_shop(r, cx, cy)   # 46.1: THE ENCHANTER
 				TraitRules.place_tome(r, cx - 144, cy + 34, price(28 + f * 4))   # 41.5: a trait tome for sale
 		"treasure":
 			if randf() < 0.35:
@@ -1282,6 +1287,8 @@ func deny(o: Dictionary, text: String) -> void:
 func interact(o: Dictionary) -> void:
 	if Saloon.handles(o["kind"]):
 		return Saloon.interact(o)
+	if Enchant.handles(o["kind"]):
+		return Enchant.interact(o)   # 46.1
 	if EventRooms.handles(o["kind"]):
 		return EventRooms.interact(o)
 	if Wanderers.handles(o["kind"]):
@@ -1427,7 +1434,7 @@ func interact(o: Dictionary) -> void:
 			Fx.burst(o["x"], o["y"], ["#6fd3e0", "#f4ecd8"], 20, 60)
 		"anvil":
 			# Rogues layer: pay gold to upgrade the weapon you hold (+8% damage per level).
-			if WeaponInfo.plus(p.weapon) >= WeaponInfo.MAX_PLUS:
+			if int(p.weapon.get("plus", 0)) >= WeaponInfo.MAX_PLUS:   # (46: its own levels; an enchantment's come on top)
 				return deny(o, "ALREADY +%d" % WeaponInfo.MAX_PLUS)
 			var acost := price(WeaponInfo.anvil_cost(p))
 			if p.gold < acost:

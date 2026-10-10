@@ -6,7 +6,10 @@ Stage 40 done (IPA 40 "Strength Traits"), Stage 41 done (IPA 41 "Dexterity Trait
 "How traits work" text as 41.5 (IPA 41.5 "How Traits Work": a limit of 12 traits, his pick),
 Stage 42 done (IPA 42 "Intelligence Traits"), Stage 43 done (IPA 43 "Super Traits"), 43.5 done
 (IPA 43.5 "Steady Ground"), 43.7 done (IPA 43.7 "Old Traits Reborn": the 286 old traits each
-gain one more effect and their own picture). Next: Stage 44, the INFUSIONS, after his try of 43.7.
+gain one more effect and their own picture). Then his "Ok go 44 and 45, and 46": Stage 44 done
+(IPA 44 "Infusions"), Stage 45 done (IPA 45 "Alignment Shops"), Stage 46 built and its test
+passes; still to do: the core replays re-recorded, the full check, then IPA 46 "Weapon
+Enchantments". Then: his try of them on the iPad.
 Done before: 39.4 "Bosses Fall" (IPA 39.4), Stage 39 "More to Find", 38 "Alignment and Loot", 37,
 36, 35 (the full check passed at 35). Next: Stage 40.
 
@@ -1722,6 +1725,48 @@ feel out of match": effects first (43.7a), then pictures (43.7b).
   classic none. Debug --ui=alshop --al=good|evil|law (a shop in the first room, for pictures).
 - Checked: the shops test, the content test (every relic in a live fight), arsenal, items, alignloot,
   effects (ALL MATCH), all 14 replays identical. The full check runs with Stage 46's.
+
+### Stage 46 (10 Oct): WEAPON ENCHANTMENTS (his pictures; "Ok go 44 and 45, and 46")
+- scripts/game/enchant.gd (class Enchant): KINDS id -> [name, group, what it does, effects, more];
+  more: "el" [element, least, most] (an element's hit, ridden on Infusions.on_hit: x(1 + 0.25
+  floor), not x infuse_dmg), "grade" +-1 (Attributes.scaling shifts every grade but "-"; S at the
+  top, E at the bottom), "plus" n (WeaponInfo.plus; the anvil's cap and price count only its own
+  levels, raw w["plus"]), "needs" an element (has_element: the enchantment's, an infusion's, or
+  the weapon's pyre / frost / storm tag). Groups: bad (FLAWED), good, grand (LEGENDARY), rare
+  (only from their places), old (OLD LORE, the four removed there). ENCHANTMENTS_PLAN.md maps
+  each picture to its name here.
+- One at most, on the weapon's own copy: w["ench"] (+ w["ench_v"], CONTRABAND's pick). enchanted()
+  duplicates; give() re-equips (Weapons.equip_weapon now calls Enchant.on_equip -1 for the old
+  weapon and +1 for the new: Effects.apply_equipment src "ench"), so the effects come and go with
+  the weapon and a new one replaces the old. RunSave keeps it (the weapon dict is saved whole).
+- Drops: Weapons.random_weapon -> Enchant.maybe (DROP 10% common .. 40% mythic; BAD, GRAND by
+  rarity; one randf more per weapon in the expanded game, none in classic). Hooks: foe_mult in
+  Combat.damage_enemy (slay_dragon DRAGONS, slay_fiend FIENDS, slay_boss: is_boss, d.mini,
+  d.champion; ench_afflicted Combat.afflicted; ench_armored guard_t or armour plates; ench_ready
+  special_cd <= 0), burn_mult on the burn tick, status_mult in Statuses.apply (chill, shock),
+  ench_top in Might.roll. Existing gf: lucky, nocrit_dmg; stats: crit, crit_mult, elite_mult,
+  dmg, rate, attr.
+- Infusions.ELEMENTS gained necrotic (pink, curse) and dark (grey, gloom).
+- Places (Enchant.handles: game.interact, overlay_view prompt, world_view draw): "enchanter" in
+  every expanded shop at cx - 72, cy + 34 (between the dice cup and the weapon; name plate
+  ENCHANTER; price 30 + 8 floor + 20 per use this run, run_stats "enchanter"); "e_breath" x4
+  (EventRooms "breath", THE WYRM'S BREATH, a fourth special room: EventRooms.specials() adds it in
+  the expanded game only, game.gd and floor_map.gd pick from it); "e_runesmith" (chop shop,
+  cx - 40, cy + 4), "e_contraband" (pawn shop, cx + 36, cy + 44), "e_branch" (frog pond,
+  cx + 48, cy - 2), via Enchant.place_special.
+- Shown: WeaponInfo.display_name (prefix), OverlayView.item_lines (a line in the group's colour),
+  the swap card's REPLACES, the equipment page (name and a line at y 87), the shop's name plate of
+  a weapon, Enchant.glint (two pixels over an enchanted weapon on the floor or in a shop).
+- Art tools/art/stage46_enchant.py: o_enchanter (a lectern, an open book), o_breath (a stone wyrm
+  head; its breath drawn in code), o_runeforge, o_contraband, o_branch. Debug --give=ench:ID.
+  Pictures: --floor=1 --no-oath --room=shop | --event=breath (without --floor the first room
+  comes back at the start of floor 1; --no-oath keeps the oath pick off the picture).
+- Test tests/enchant_test.tscn (in check.sh): the 46 names and texts, drops (3000: about 25%,
+  never a rare one, no legendary on a common weapon, the game's own weapon untouched), every one
+  comes and goes with its weapon, a new one replaces the old, grades, levels, CONTRABAND, the
+  slayers, KINGSLAYER, CRUEL, UNYIELDING, SPELLBOUND, SCALDING, WYRMFROST, HEAVY-HANDED, an
+  element hit, THE ENCHANTER, THE WYRM'S BREATH (200 visits: about a fifth charred), the three
+  places, the item card, a saved run, 5 s of a live fight with CRACKLING, classic none.
 
 ## Noted, not yet acted on
 

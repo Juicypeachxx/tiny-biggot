@@ -760,7 +760,7 @@ static func random_weapon(rarity: String, exclude: Variant = null) -> Dictionary
 		for w in all():
 			if w["rarity"] == rarity:
 				pool.append(w)
-	return TB.pick(pool)
+	return Enchant.maybe(TB.pick(pool))   # 46: now and then enchanted (a copy)
 
 ## Rough power of a weapon, for the "BASE POWER" comparison in prompts.
 static func weapon_dps(w: Dictionary) -> float:
@@ -832,7 +832,9 @@ static func equip_weapon(p: Player, w: Dictionary) -> Variant:
 		apply_hooks(p, old["hooks"], -1)
 		if not old["effects"].is_empty():
 			Effects.apply_equipment(p, old["effects"], -1, "wfx:" + old["id"])
+		Enchant.on_equip(p, old, -1)   # 46: its enchantment goes with it
 	p.weapon = w
+	Enchant.on_equip(p, w, 1)   # 46: and comes with the new one
 	apply_tuples(p, w["stats"], 1, "w:" + w["id"])
 	apply_hooks(p, w["hooks"], 1)
 	if not w["effects"].is_empty():

@@ -159,7 +159,7 @@ static func room_at(c: Vector2i, entrance: String) -> Room:
 		if kind == "mystery":
 			opts["event"] = TB.pick(G.mystery_events())
 			if randf() < 0.18:
-				opts["event"] = TB.pick(EventRooms.SPECIAL)
+				opts["event"] = TB.pick(EventRooms.specials())
 	# Depth: how far in it is (the mini-boss room is the one before the rest stop, as in the chain).
 	floor_d["depth"] = floor_d["total"] - 2 if cell.get("mini", false) else mini(cell["dist"], floor_d["total"] - 3)
 	if kind == "boss":

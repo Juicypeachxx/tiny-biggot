@@ -179,7 +179,7 @@ func _paint_plates(ci: CanvasItem) -> void:
 				sub = o["relic"]["desc"]
 			"shop":
 				if o.has("thing"):
-					name = o["thing"]["name"]
+					name = WeaponInfo.display_name(o["thing"]) if o["thing"]["item"] == "weapon" else o["thing"]["name"]   # (46.1: an enchanted one's name)
 					rar = o["thing"]["rarity"]
 				elif o["item"] == "relic":
 					name = o["relic"]["name"]
@@ -195,6 +195,9 @@ func _paint_plates(ci: CanvasItem) -> void:
 					rar = "rare" if Infusions.forever(o["infusion"]) else "common"
 			"anvil":
 				name = "ANVIL"
+			"enchanter":
+				name = "ENCHANTER"   # 46.1
+				rar = "epic"
 			"dicecup":
 				name = "DICE CUP"   # 35.1
 				rar = "epic"
@@ -611,6 +614,8 @@ func _paint_lower(ci: CanvasItem) -> void:
 				Pets.draw_cage(ci, o, t)
 			"dicecup":
 				Dice.draw(ci, o, t)   # 35.1
+			"enchanter", "e_breath", "e_runesmith", "e_contraband", "e_branch":
+				Enchant.draw(ci, o, t)   # 46.1
 			"x_bowl":
 				Rex.draw_bowl(ci, o, t)
 			"jukebox":
@@ -658,6 +663,7 @@ func _paint_lower(ci: CanvasItem) -> void:
 						ItemShow.pedestal(ci, x, y)
 					ItemShow.beam(ci, o, t)
 				Gfx.sp(ci, it["sprite"], x, y + 2 + bob, 1.5, 1.5)
+				Enchant.glint(ci, it, x, y + bob, t)   # 46.1
 			"shop":
 				ci.draw_rect(Rect2(roundf(x - 9), roundf(y + 2), 18, 6), TB.c("#4e4a5e"))
 				ci.draw_rect(Rect2(roundf(x - 9), roundf(y + 2), 18, 1), TB.c("#8b8f9c"))
@@ -675,6 +681,8 @@ func _paint_lower(ci: CanvasItem) -> void:
 				else:
 					name = { "potion": "potion", "heart": "heartPick", "bomb": "bomb", "key": "key", "armor": "armor" }[o["item"]]
 				Gfx.sp(ci, name, x, y + bob, 2, 2)
+				if o.has("thing"):
+					Enchant.glint(ci, o["thing"], x, y + bob, t)   # 46.1
 				var label := "%dG" % o["price"]
 				Gfx.text(ci, label, roundf(x - TB.text_w(label) / 2), roundf(y + 11), "gold" if G.player.gold >= o["price"] else "red")
 			"anvil":

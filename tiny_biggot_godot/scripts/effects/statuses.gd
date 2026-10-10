@@ -29,6 +29,7 @@ static func apply(e: Enemy, name: String, amount: float, hit_dmg: float) -> void
 		amount *= 2.0   # 40.2 MERCILESS: what your special inflicts is twice as strong
 	amount *= Finesse.status_mult(p)   # 41.1 HABIT: right after a repeat
 	amount *= Arcana.focus_mult(p, name)   # 42.1 FOCUSED ELEMENTS
+	amount *= Enchant.status_mult(p, name)   # 46 BITING, WYRMFROST, HUMMING, WYRMSTORM
 	if name == "burn" or name == "bleed":
 		Might.add_stack(p, e, name)   # 40.2 BLOOD AND ASH
 	match name:

@@ -165,6 +165,8 @@ static func roll(p: Player) -> float:
 	var r := 0.85 + 0.3 * randf()
 	if p.g("pack_roll") > 0:
 		r = minf(r, 0.85 + 0.3 * randf())
+	if p.g("ench_top") > 0:   # 46 HEAVY-HANDED: the same roll, its top end 20% higher (1.15 -> 1.38)
+		r = 0.85 + (r - 0.85) * (1.38 - 0.85) / 0.3
 	return r
 
 ## MIGHT MAKES RIGHT: ailments as strong as your power.

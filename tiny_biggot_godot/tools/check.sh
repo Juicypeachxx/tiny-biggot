@@ -357,6 +357,11 @@ timeout 600 "$GODOT" --headless --path . res://tests/alignshops_test.tscn -- --n
 grep -E "^\[alignshops\]|alignshops test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 46 weapon enchantments: drops, one at a time, each does what it says, the enchanter, the wyrm's breath, the rare ones' places"
+timeout 900 "$GODOT" --headless --path . res://tests/enchant_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[enchant\]|enchant test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== 41.5 how traits work: a limit of 12, stat points, traits that need a shield or a weapon kind, trait tomes"
 timeout 300 "$GODOT" --headless --path . res://tests/traitrules_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "traitrules test" "$LOG"

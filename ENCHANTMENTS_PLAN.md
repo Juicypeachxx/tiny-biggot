@@ -5,6 +5,63 @@ This file is what was on them and what each becomes here. Like TRAITS_PLAN.md: *
 it is built, every enchantment gets **a name of our own** (rule 3); the names below are only there to
 match the pictures. Planned as Stage 46 in ROADMAP.md, after the alignment shops.
 
+## Built: Stage 46 (10 Oct, scripts/game/enchant.gd)
+
+All 46 are in, each with a name of our own. The weapon's name starts with it (HALLOWED PIT HATCHET),
+the item card, the equipment page and the swap card say what it does, and an enchanted weapon on
+the floor or in a shop glints in its group's colour. One at a time: a new one replaces the old.
+Flat element damage rides with the infusions' hits (x(1 + 0.25 floor)); the wiki's numbers
+(20 to 30 ...) are scaled to this game's (2 to 3 ...).
+
+| On the picture | Here | Group | What it does here |
+|---|---|---|---|
+| Trash | DULL | flawed | every scaling grade one step lower (E at the bottom) |
+| Crappy / Godawful | CHIPPED / CRACKED | flawed | -10% / -20% damage |
+| Slow / Tortoiselike | SLUGGISH / LEADEN | flawed | -10% / -20% fire rate |
+| Precise | HONED | enchanted | +10% crit chance |
+| Dragonslayer's | DRAKEBANE | enchanted | x2 against wyrms and worms (bookwyrm, wordworm, ashworm, wyrm) |
+| Deadly | WICKED | enchanted | crits +0.75x |
+| Contaminated | VENOMOUS | enchanted | hits +2 to 3 poison, may poison |
+| Quick | BRISK | enchanted | +10% fire rate |
+| Electric | CRACKLING | enchanted | hits +0.5 to 7.5 lightning, may shock |
+| Fierce | SAVAGE | enchanted | +10% damage |
+| Icy | FROSTED | enchanted | hits +2 to 3 cold, may chill |
+| Happy | JOLLY | enchanted | +10% lucky hit chance |
+| Potent | HEAVY-HANDED | enchanted | the top of every hit's roll 1.15 -> 1.38 |
+| Fiery | SMOLDERING | enchanted | hits +2 to 3.5 fire, may burn |
+| Steady | STEADFAST | enchanted | hits that do not crit +20% |
+| Witchhunter's | FIENDBANE | enchanted | x2 against imps and fiends |
+| Sly / Clever / Brutal | NIMBLE / LEARNED / BRAWNY | enchanted | +5 DEX / INT / STR |
+| Incinerating | SCALDING | enchanted | burns +25% (fire on the weapon) |
+| Glacial / Charged | BITING / HUMMING | enchanted | chills / shocks 25% stronger (cold / lightning on the weapon) |
+| Almighty | GODFORGED | legendary | +30% damage |
+| Baleful | DREADFUL | legendary | hits +2.5 to 5 necrotic, may curse |
+| Divine | HALLOWED | legendary | hits +2.5 to 5 holy, twice on cursed and unholy foes |
+| Lucky | FORTUNATE | legendary | +25% lucky hit chance |
+| Headhunter's | KINGSLAYER | legendary | +20% against guardians, mini-bosses and champions |
+| Occult | UMBRAL | legendary | hits +1.5 to 8.5 dark, may gloom |
+| Unreal | PHANTASMAL | legendary | +25% fire rate |
+| Sniper's / Merciless | DEADEYE / PITILESS | legendary | +20% crit chance / crits +1.25x |
+| Twinkling | GLEAMING | legendary | +1 weapon level |
+| Dwarven | RUNESMITHED | rare | every grade a step higher: THE CHOP SHOP's runesmith (LAWFUL price) |
+| Illegal | CONTRABAND | rare | one of +20% damage, +15% crit, +20% fire rate: THE PAWN SHOP's back room (EVIL price) |
+| Shining | STARLIT | rare | +3 weapon levels: THE WYRM'S BREATH, the star stone |
+| Blazing / Freezing / Thundering | WYRMFIRE / WYRMFROST / WYRMSTORM | rare | burns x2 / chills, shocks twice as strong: the fire, ice, storm stones |
+| Scorched | CHARRED | rare | -50% damage: any breath, one time in five |
+| Arcane | SPELLBOUND | rare | +25% damage while your special is ready: THE FROG POND's silver branch (free) |
+| Disenchanting | UNBINDING | old lore | elites take +25% |
+| Legendary | STORIED | old lore | +25% damage |
+| Brutal (old) | CRUEL | old lore | +10% against a foe with an ailment (foes have no weaknesses here) |
+| Unstoppable | UNYIELDING | old lore | +25% against a foe behind a shield or armour plates |
+
+Where they come from: a dropped weapon has one 10% (common) to 40% (mythic) of the time (flawed
+ones mostly on common weapons, legendary ones only on rare or better, the old-lore ones among
+them; the rare group never drops); THE ENCHANTER in every expanded shop rolls one onto the weapon
+you hold (30 + 8 a floor, +20 for each use this run); THE WYRM'S BREATH is a fourth special room
+behind MYSTERY doors (four stones, one breath a visit); the runesmith, the back room and the
+branch stand in their event rooms. Expanded game only: classic weapons stay plain, and classic's
+special rooms are the same three as before.
+
 ## How they work there
 
 - An enchanted weapon carries **one** modifier at a time (most weapons only ever have one).
