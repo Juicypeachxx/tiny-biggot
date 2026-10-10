@@ -1656,8 +1656,13 @@ feel out of match": effects first (43.7a), then pictures (43.7b).
   without its add-on (it changes something, and nothing of it stays); 14 fights of 20 old traits
   at their last rank; classic MIGHT gives no crushing hits. A fight with all 286 at once is slow
   (60 ms a frame), with or without the add-ons: no run can hold more than 12.
-- 43.7b (in progress): tools/art/stage43_7_traits.py, a 16 x 16 picture for each, drawn in batches
-  by family (ART_OUT and SHEET to preview). Batch 1 (core, pyre, frost) drawn, not yet in the game.
+- 43.7b: tools/art/stage43_7_traits.py, a 16 x 16 picture for each of the 286, drawn in five
+  batches by family (ART_OUT=<folder> and SHEET=<file.png> write a preview and a contact sheet).
+  Each batch was looked at four times the size; the unclear ones were redrawn (a phantom too like
+  a famous arcade ghost got a curling tail, a rune that looked like a peace sign became a diamond).
+  Baked into the atlas (2442 of 2443 graphics, 1024 x 4096); tests/atlas_test passes. Seen on the
+  level-up card (--ui=traits --trait-opts=might,o_rage,n_dragonsoul and others): pictures and
+  texts fit. The core replays were re-recorded for 43.7a (classic identical).
 
 ## Noted, not yet acted on
 

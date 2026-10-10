@@ -1400,8 +1400,11 @@ family's glyph.
       grows with each rank; an oath's is one line (its vow takes a line of its card). IDLE HANDS,
       BOTTOMLESS PURSE and ELEMENTAL STORM, which do what LAZY GENIUS, ENDLESS WEALTH and WEATHER
       WITCH do, got add-ons the newer ones do not have. tests/revamp_test.tscn.
-- [ ] 43.7b Every old trait gets its own 16 x 16 picture in its cube (by family, in batches), and
+- [x] 43.7b Every old trait gets its own 16 x 16 picture in its cube (by family, in batches), and
       its text in the new style (short sentences, keywords).
+      Done: 286 pictures (tools/art/stage43_7_traits.py, five batches, each looked at and the
+      unclear ones redrawn), in the atlas. The text: the added sentence is in the new style; the
+      old sentences keep their words (the 72 originals' words are the classic game's).
 - [ ] 43.7c The 72 originals change in the expanded game only: --classic keeps them exactly as they
       were (rule 4; the classic replays stay identical).
 
