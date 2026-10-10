@@ -635,6 +635,8 @@ func _paint_lower(ci: CanvasItem) -> void:
 				if o["kind"] == "alwayshrine" and not used:
 					var pl := "%dG" % o["price"]
 					Gfx.text(ci, pl, roundf(x - TB.text_w(pl) / 2), roundf(y + 7), "gold" if G.player.gold >= o["price"] else "red")
+			"alshop":   # 45.1 an alignment shop's banner
+				AlignShops.draw(ci, o, t)
 			"bell":
 				Gfx.sp(ci, "bell", x, y + 4, 1, 1, deg(sin(t * 10) * 8) if o.get("used", false) else 0.0)
 			"lockdoor":

@@ -352,6 +352,11 @@ timeout 600 "$GODOT" --headless --path . res://tests/infusions_test.tscn -- --no
 grep -E "^\[infusions\]|infusions test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 45 the alignment shops: open once a ruler falls, after a guardian, wares that grow with an alignment"
+timeout 600 "$GODOT" --headless --path . res://tests/alignshops_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[alignshops\]|alignshops test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== 41.5 how traits work: a limit of 12, stat points, traits that need a shield or a weapon kind, trait tomes"
 timeout 300 "$GODOT" --headless --path . res://tests/traitrules_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "traitrules test" "$LOG"

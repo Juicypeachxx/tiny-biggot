@@ -275,6 +275,7 @@ func start_floor() -> void:
 		enter_room(World.make_room(floor_d, "start", "", ""))
 	Effects.fire("on_floor_start")
 	Marvels.on_floor(player)   # 43.1 SAINT AND SINNER
+	AlignShops.on_floor(player)   # 45.1 DAWN BUCKLER
 	for i in _give_food.size():   # (--give=food:..., pictures)
 		var k := Combat.drop_pickup(_give_food[i], 5.0 * TB.TS + i * 24.0, 6.0 * TB.TS)
 		k.vx = 0.0
@@ -897,6 +898,7 @@ func room_cleared() -> void:
 		StatDrops.maybe(0.25, 14.0 * TB.TS, 9.0 * TB.TS)   # 8.3: the middle of the room
 		Dice.maybe(0.06, 14.0 * TB.TS, 9.5 * TB.TS)   # 35.1
 		Loot.treasure(14.0 * TB.TS + 30, 9.5 * TB.TS)   # 38.2 TREASURE FIND
+		AlignShops.on_room_clear(player)   # 45.1 LAMP OF MERCY
 	Saloon.on_room_clear(room)
 	EventRooms.on_room_clear(room)
 	Wanderers.on_room_clear(room)   # 21.4 a ghost, a rival, a lost traveller
@@ -999,6 +1001,7 @@ func on_boss_dead(b: Enemy) -> void:
 	if GameData.rogues() and room.type != "barn":
 		_boss_reward(b)
 		Alignments.wayshrine(room)   # 38.1: buy an alignment
+		AlignShops.place(room)   # 45.1: perhaps a GOOD, EVIL or LAWFUL shop
 	BossLoot.drop(b)   # its own item (expanded game)
 	if Daily.is_on("giants"):
 		for rel in roll_relics(2, "boss"):   # 18.1 BIG GAME
@@ -1731,7 +1734,7 @@ func relic_pool() -> Array:
 	if Meta.unlocked("cache1"): ids += Relics.CACHE_1
 	if Meta.unlocked("cache2"): ids += Relics.CACHE_2
 	if Meta.unlocked("cache3"): ids += Relics.CACHE_3
-	ids += Relics.new_ids()   # new content is always in the pool
+	ids += Relics.new_ids().filter(func(i): return not AlignShops.shop_only(i))   # new content is always in the pool (45.1: the shops' own relics are not)
 	var out := []
 	for i in ids:
 		out.append(Relics.by_id(i))

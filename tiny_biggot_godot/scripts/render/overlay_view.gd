@@ -241,6 +241,9 @@ func draw_prompt(ci: CanvasItem, o: Dictionary) -> void:
 		"alshrine":
 			title = Alignments.NAMES[o["al"]] + " SHRINE"
 			desc = "+1 %s. ONE SHRINE PER REST STOP" % Alignments.NAMES[o["al"]]
+		"alshop":   # 45.1
+			title = AlignShops.SHOPS[o["al"]]["name"]
+			desc = "%s FELL: THIS SHOP SELLS THINGS THAT GROW WITH %s, CHEAPER WHILE YOU ARE %s" % [AlignShops.SHOPS[o["al"]]["ruler"], Alignments.NAMES[o["al"]], Alignments.NAMES[o["al"]]]
 		"alwayshrine":   # 38.1
 			title = "WAYSHRINE: " + Alignments.NAMES[o["al"]]
 			desc = "+1 %s (YOU HAVE %d). 3 GOOD OR 3 EVIL CHOOSE YOUR SOUL'S PATH" % [Alignments.NAMES[o["al"]], Alignments.value(G.player, o["al"])]
@@ -268,7 +271,7 @@ func draw_prompt(ci: CanvasItem, o: Dictionary) -> void:
 			else:
 				title = SHOP_TEXT[o["item"]][0]
 				desc = SHOP_TEXT[o["item"]][1]
-			extra = "BUY FOR %d GOLD" % o["price"]
+			extra = "BUY FOR %d GOLD" % o["price"] + (Alignments.price_note(G.player, o["al"]) if o.has("al") else "")   # (45.1)
 		"altar":
 			title = "BLOOD ALTAR"
 			desc = "OFFER 1 HEART FOR A RELIC"

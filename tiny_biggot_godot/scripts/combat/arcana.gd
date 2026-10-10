@@ -112,7 +112,7 @@ static func crit_add(p: Player, e: Enemy) -> float:
 	return p.g("anatomy")
 
 static func cursed_chance(p: Player) -> float:
-	return p.g("cursed_hit") * (2.0 if p.g("curse_x2") > 0 else 1.0)
+	return (p.g("cursed_hit") + p.g("cursed_per_evil") * p.al_evil) * (2.0 if p.g("curse_x2") > 0 else 1.0)   # (45.1 BLOOD TITHE)
 
 static func sneaky_chance(p: Player) -> float:
 	if p.g("trickery") <= 0:

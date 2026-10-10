@@ -248,6 +248,17 @@ const ROWS := [
 	["ripostecharm", "epic", "RIPOSTE CHARM", "ROLLING PAST A CLOSE SHOT SENDS THE SHOTS NEAR YOU BACK THE WAY THEY CAME, AS YOURS", [{ "on": "on_roll", "if": "danger", "do": [["reflect", 50, 1.2]] }], ["edge", "shadow"]],
 	["dominotile", "rare", "DOMINO TILE", "DAMAGE PAST AN ELITE'S DEATH CARRIES ON, DOUBLED, TO THE NEAREST FOE", [{ "on": "on_kill", "if": "elite", "do": [["overkill", 2.0]] }], ["fury"]],
 	["stampededrum", "epic", "STAMPEDE DRUM", "IN A CROWD (6+ FOES), EVERY 5S YOU BLAST THE FOES NEAR YOU AWAY FOR 80%", [{ "on": "every_n_seconds", "period": 5.0, "if": "crowd", "do": [["area", 90, 0.8], ["push", 90, 300], ["vfx", "ring", "#f4ecd8", 90]] }], ["fury", "bulwark"]],
+	# 45.1 THE ALIGNMENT SHOPS (his notes, 9 Oct): three relics each that grow with GOOD, EVIL or
+	# LAWFUL, sold only by THE ALMONER, THE ASH PEDDLER and THE QUARTERMASTER (align_shops.gd).
+	["almshalo", "epic", "ALMSGIVER'S HALO", "+4 POWER FOR EVERY POINT OF GOOD", [["hook", "power_per_good", 4]], ["bulwark"]],
+	["mercylamp", "rare", "LAMP OF MERCY", "A CLEARED FIGHT HEALS HALF A HEART FOR EVERY 3 POINTS OF GOOD", [["hook", "heal_per_good", 1]], ["bulwark"]],
+	["dawnbuckler", "rare", "DAWN BUCKLER", "EVERY FLOOR BEGINS WITH 1 ARMOR FOR EVERY 2 POINTS OF GOOD", [["hook", "armor_per_good", 1]], ["bulwark"]],
+	["ashcrown", "epic", "CROWN OF ASH", "+4 POWER FOR EVERY POINT OF EVIL", [["hook", "power_per_evil", 4]], ["malice"]],
+	["sinchalice", "rare", "SINNER'S CHALICE", "+2% CURSED HIT CHANCE FOR EVERY POINT OF EVIL: A CURSED HIT CURSES ITS FOE", [["hook", "cursed_per_evil", 0.02]], ["malice"]],
+	["gravecoin", "rare", "GRAVE COIN", "A KILL HEALS HALF A HEART 1% OF THE TIME FOR EVERY POINT OF EVIL", [["hook", "leech_per_evil", 0.01]], ["malice"]],
+	["tinstar", "epic", "TIN STAR", "+4 POWER FOR EVERY POINT OF LAWFUL", [["hook", "power_per_law", 4]], ["edge"]],
+	["duesledger", "rare", "LEDGER OF DUES", "+2% CRIT CHANCE FOR EVERY POINT OF LAWFUL", [["hook", "crit_per_law", 0.02]], ["edge"]],
+	["ironwrit", "rare", "IRON WRIT", "ROLLS RECHARGE 3% FASTER FOR EVERY POINT OF LAWFUL", [["hook", "roll_per_law", 0.03]], ["edge"]],
 	["spyglass", "rare", "SPYGLASS", "+15% RANGE. 15% OF HITS ON FAR FOES STRIKE AGAIN FOR 100%", [["mul", "life", 1.15], { "on": "on_hit", "if": "far", "chance": 0.15, "do": [["damage", 1.0]] }], ["edge"]],
 ]
 const BASE_COUNT := 34

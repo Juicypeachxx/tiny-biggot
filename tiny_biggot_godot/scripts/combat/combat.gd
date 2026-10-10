@@ -344,7 +344,7 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 		Lives.pop(e.x, e.y - e.r - 20, "SNEAK ATTACK!", "gold")
 	if GameData.rogues():
 		dmg *= Might.roll(p)   # Rogues layer: every hit rolls within +-15% (40.2 PACK HUNTER: twice, the lower)
-	var crit_chance := p.crit + (p.g("chill_crit") if e.chill_t > 0 else 0.0) + p.g("crit_per_str") * p.a_str + p.g("crit_per_evil") * p.al_evil   # (38.1 DEVIL'S BARGAIN)
+	var crit_chance := p.crit + (p.g("chill_crit") if e.chill_t > 0 else 0.0) + p.g("crit_per_str") * p.a_str + p.g("crit_per_evil") * p.al_evil + p.g("crit_per_law") * p.al_law   # (38.1 DEVIL'S BARGAIN; 45.1 LEDGER OF DUES)
 	crit_chance += Might.crit_chance(p) + Finesse.crit_chance(p, e) + Marvels.crit_chance(p)   # 40.2 SCAR TISSUE; 41.1 VENOM SIGHT, BULLSEYE; 43.1
 	var sure := p.g("sure_strike") > 0   # 33.2 SURE STRIKE: never a crit; the chance becomes damage
 	if sure:
@@ -424,6 +424,8 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 	e.hp = 0
 	p.kills += 1
 	p.room_kills += 1
+	if p.al_evil > 0 and p.g("leech_per_evil") > 0:
+		AlignShops.on_kill(p)   # 45.1 GRAVE COIN
 	G.run_stats["kills"] += 1
 	Bestiary.slain(e.boss if e.is_boss() else e.type)   # 22.3
 	Remains.add(e)   # 21.2: something of it stays on the floor

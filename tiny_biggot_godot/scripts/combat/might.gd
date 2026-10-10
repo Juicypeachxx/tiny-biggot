@@ -100,7 +100,7 @@ static func power(p: Player) -> float:
 		pw += p.g("war_charge") * mini(3, int(floor(lead / 0.1 + 0.0001)))
 	if p.g("crowd") > 0:
 		pw += minf(100.0, p.g("crowd") * crowd(p))
-	return pw + Arcana.power_add(p)   # 42.1 DAYDREAM, HUNGRY MIND
+	return pw + Arcana.power_add(p) + AlignShops.power_add(p)   # 42.1 DAYDREAM, HUNGRY MIND; 45.1 the alignment relics
 
 ## Combat.player_damage_mult.
 static func dmg_mult(p: Player) -> float:
@@ -191,7 +191,7 @@ static func add_stack(p: Player, e: Enemy, kind: String) -> void:
 static func roll_rate(p: Player) -> float:
 	if not on():
 		return 1.0
-	return 1.0 + p.g("roll_haste") + p.g("stride") * gear_count(p) + Finesse.recharge_add(p)
+	return 1.0 + p.g("roll_haste") + p.g("stride") * gear_count(p) + Finesse.recharge_add(p) + p.g("roll_per_law") * p.al_law   # (45.1 IRON WRIT)
 
 static func special_rate(p: Player) -> float:
 	if not on():

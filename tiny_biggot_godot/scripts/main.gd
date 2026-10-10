@@ -157,6 +157,8 @@ func _ready() -> void:
 	match DebugArgs.get_str("ui"):
 		"": pass
 		"choice": G.open_choice("chest", { "x": 200.0, "y": 150.0 })
+		"alshop":   # 45.1 pictures: an alignment shop in the first room (--al=good|evil|law)
+			AlignShops.stock(G.room, DebugArgs.get_str("al") if DebugArgs.get_str("al") != "" else "good")
 		"traits":
 			G.player.pending = 2
 			G.offer_traits()
