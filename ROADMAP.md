@@ -34,7 +34,10 @@ changed one), and carry on from there. What he says last outranks this file.
    All 46 with names of our own (ENCHANTMENTS_PLAN.md has the list), THE ENCHANTER in the shops,
    THE WYRM'S BREATH, and the runesmith, the back room and the silver branch.
 6. His list, 10 Oct (after IPA 46): another game's core gameplay, combat and equipment. What we
-   have and what is new: GAMEPLAY_PLAN.md. Proposed Stages 47 to 51 (below); waiting for his pick.
+   have and what is new: GAMEPLAY_PLAN.md. Proposed Stages 47 to 51 (below). His pick (10 Oct):
+   "Stage 47 first": THE GOURD and SHATTER, with its own IPA, then wait for his try.
+   His word, during it (10 Oct): "Also we need to rework the menu it looks all confused and heroes
+   stacked in front, also we can work on character select menu to be better": in Stage 47 too.
 Each stage waits for him to try the last IPA. Details of each step are further down.
 
 | Stage | What | State |
@@ -1450,6 +1453,10 @@ He pasted a list of Tiny Rogues' core gameplay. Most of it is here already (GAME
 each point); the rest, proposed in the order it would be felt most, with names of our own:
 - [ ] Stage 47: THE GOURD (a refillable healing flask; potions stay) and SHATTER (an armour-break
       ailment for every foe).
+  - [ ] 47.3 The title menu reworked (his word: "it looks all confused and heroes stacked in
+        front"): the nine items packed with no room between them, the four heroes standing on
+        top of the list, the stats line touching it.
+  - [ ] 47.4 A better hero select: all 34 heroes to see and tap at once, not 6 at a time.
 - [ ] Stage 48: items that grow with curses carried and foes slain, ROOM DRAUGHTS, a HONING STONE.
 - [ ] Stage 49: RADIANT, NECROTIC, DARK, ENERGY and SOUND as weapon damage types, and weapons for them.
 - [ ] Stage 50: run modes: THE NARROW WAY (no map), OMENS (pickable challenges after a win; the
