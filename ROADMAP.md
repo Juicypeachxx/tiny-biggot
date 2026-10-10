@@ -30,8 +30,7 @@ changed one), and carry on from there. What he says last outranks this file.
    with its own IPA, without waiting for his try in between.
 3. Stage 44: the 14 INFUSIONS, and the traits that work with them: done, IPA 44 "Infusions" (10 Oct).
 4. Stage 45: the GOOD, EVIL and LAWFUL shops: done, IPA 45 "Alignment Shops" (10 Oct).
-5. Stage 46: WEAPON ENCHANTMENTS from his pictures: built (10 Oct); IPA 46 "Weapon Enchantments"
-   after the full check.
+5. Stage 46: WEAPON ENCHANTMENTS from his pictures: done, IPA 46 "Weapon Enchantments" (10 Oct).
    All 46 with names of our own (ENCHANTMENTS_PLAN.md has the list), THE ENCHANTER in the shops,
    THE WYRM'S BREATH, and the runesmith, the back room and the silver branch.
 6. Next: his try of 44, 45 and 46 on the iPad, and what he asks for after it.

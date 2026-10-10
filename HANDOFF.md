@@ -7,9 +7,8 @@ Stage 40 done (IPA 40 "Strength Traits"), Stage 41 done (IPA 41 "Dexterity Trait
 Stage 42 done (IPA 42 "Intelligence Traits"), Stage 43 done (IPA 43 "Super Traits"), 43.5 done
 (IPA 43.5 "Steady Ground"), 43.7 done (IPA 43.7 "Old Traits Reborn": the 286 old traits each
 gain one more effect and their own picture). Then his "Ok go 44 and 45, and 46": Stage 44 done
-(IPA 44 "Infusions"), Stage 45 done (IPA 45 "Alignment Shops"), Stage 46 built and its test
-passes; still to do: the core replays re-recorded, the full check, then IPA 46 "Weapon
-Enchantments". Then: his try of them on the iPad.
+(IPA 44 "Infusions"), Stage 45 done (IPA 45 "Alignment Shops"), Stage 46 done (IPA 46 "Weapon
+Enchantments"; the full check passed). Next: his try of them on the iPad.
 Done before: 39.4 "Bosses Fall" (IPA 39.4), Stage 39 "More to Find", 38 "Alignment and Loot", 37,
 36, 35 (the full check passed at 35). Next: Stage 40.
 
@@ -1767,6 +1766,10 @@ feel out of match": effects first (43.7a), then pictures (43.7b).
   slayers, KINGSLAYER, CRUEL, UNYIELDING, SPELLBOUND, SCALDING, WYRMFROST, HEAVY-HANDED, an
   element hit, THE ENCHANTER, THE WYRM'S BREATH (200 visits: about a fifth charred), the three
   places, the item card, a saved run, 5 s of a live fight with CRACKLING, classic none.
+- Checked: the enchantments test, the content test (every item in a live fight, 795 swaps
+  restored exactly), effects (ALL MATCH 2424), the six classic replays identical, the eight core
+  ones re-recorded (content added on purpose) and identical on a second run, and the full check
+  (84 sections, covering Stage 45 too): CHECK PASSED. Not tested: the iPad itself.
 
 ## Noted, not yet acted on
 
