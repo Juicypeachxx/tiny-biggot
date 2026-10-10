@@ -479,6 +479,8 @@ const ROWS := [
 	["dex_swagger", "shadow", 1, "SHOWBOAT", "EVERY 4S IN A FIGHT, EVERYTHING THAT HAPPENS WHEN YOU ROLL HAPPENS AGAIN.", false, [["hook", "swagger", 1]], "legend", ["shadow"], {  }],
 	["dex_triggermaniac", "fortune", 1, "WELL OILED", "YOUR ITEMS' EFFECTS HIT 10% HARDER FOR EVERY LEVEL YOUR WEAPON HAS BEEN UPGRADED.", false, [["hook", "proc_per_plus", 0.1]], "uncommon", ["fortune"], {  }],
 	["dex_twosteps", "shadow", 1, "ONE STEP AHEAD", "AFTER A ROLL YOUR NEXT 2 ATTACKS REPEAT, AND THE REPEATS HIT TWICE AS HARD.", false, [["hook", "two_steps", 1]], "rare", ["shadow"], {  }],
+	# 44.1: the list's infusion trait (his pictures, 10 Oct), with the infusions (infusions.gd).
+	["dex_temper", "edge", 1, "ENDLESS INFUSION", "YOUR INFUSIONS NEVER WEAR OFF, AND THEY DEAL 25% MORE.", false, [["hook", "infuse_forever", 1], ["hook", "infuse_dmg", 0.25]], "rare", ["edge"], {  }],
 	# 42.2 (his pictures, 10 Oct: a wiki's INTELLIGENCE traits; ideas only, our own names and pictures,
 	# TRAITS_PLAN.md; scripts/combat/arcana.gd, tools/art/stage42_traits.py)
 	["int_anatomy", "malice", 1, "SURGEON'S EYE", "YOUR CRITS ON A BLEEDING FOE DEAL +200% CRIT DAMAGE.", false, [["hook", "anatomy", 2.0]], "rare", ["malice", "blood"], {  }],
@@ -547,7 +549,7 @@ const ROWS := [
 	["psy_complexion", "frost", 1, "WEATHER WITCH", "IN A FIGHT, EVERY FOE BURNS EVERY 8S, CHILLS EVERY 4S, IS SHOCKED EVERY 2S AND POISONED EVERY SECOND.", false, [{ "on": "every_n_seconds", "period": 8.0, "if": "fighting", "do": [["status_area", "burn", 1, 500]] }, { "on": "every_n_seconds", "period": 4.0, "if": "fighting", "do": [["status_area", "chill", 1, 500]] }, { "on": "every_n_seconds", "period": 2.0, "if": "fighting", "do": [["status_area", "shock", 1, 500]] }, { "on": "every_n_seconds", "period": 1.0, "if": "fighting", "do": [["status_area", "poison", 1, 500]] }], "rare", ["frost", "pyre", "storm", "venom"], {  }],
 	["psy_marionettes", "swarm", 1, "PUPPET STRINGS", "+2 WISPS AND ROOM FOR 2 MORE HELPERS, BUT YOUR HELPERS DEAL ONLY 30% OF THEIR DAMAGE.", false, [["add", "familiars", 2], ["hook", "minion_cap", 2], ["hook", "marionette", 1]], "uncommon", ["swarm"], {  }],
 	["psy_randomness", "fortune", 1, "DICE MIND", "EVERY ROOM YOU CLEAR HANDS YOU A RANDOM DIE. EVERY DIE YOU HAVE USED THIS RUN: +2.5% LUCKY HIT CHANCE.", false, [{ "on": "on_room_clear", "do": [["dice", "any", 1]] }, ["hook", "dice_mind", 0.025]], "rare", ["fortune"], {  }],
-	["psy_dilation", "arcane", 1, "SLOW TIME", "EVERY TIME YOU USE YOUR SPECIAL: +10% SPECIAL POWER FOR THE REST OF THE RUN (UP TO +200%), AND YOUR DRINKS LAST A ROOM LONGER.", false, [["hook", "dilation", 1]], "legend", ["arcane"], {  }],
+	["psy_dilation", "arcane", 1, "SLOW TIME", "EVERY TIME YOU USE YOUR SPECIAL: +10% SPECIAL POWER FOR THE REST OF THE RUN (UP TO +200%), AND YOUR DRINKS AND INFUSIONS LAST A ROOM LONGER.", false, [["hook", "dilation", 1]], "legend", ["arcane"], {  }],
 	["aug_freeze", "frost", 1, "CRYO CORE", "YOUR SPECIAL'S BLOWS CHILL AND DEAL +50% DAMAGE.", false, [["hook", "cryo_core", 0.5]], "uncommon", ["frost"], {  }],
 	["aug_laser", "storm", 1, "BEAM CORE", "USING YOUR SPECIAL FIRES A BEAM AT A FOE EVERY 0.4S FOR 8S (80% EACH).", false, [["hook", "laser_core", 1]], "rare", ["storm"], {  }],
 	["aug_lucky", "fortune", 1, "CHANCE CORE", "USING YOUR SPECIAL MAKES EVERY HIT LUCKY FOR 8S.", false, [{ "on": "on_special", "do": [["lucky_rush", 8]] }], "uncommon", ["fortune"], {  }],

@@ -49,8 +49,8 @@ func _weapon(test: Callable) -> String:
 
 func _ready() -> void:
 	var mine := Traits.all().filter(func(t): return t["id"].begins_with("dex_"))
-	if mine.size() != 38:
-		fail("%d DEX traits, not 38" % mine.size())
+	if mine.size() != 39:   # (44.1 adds the list's infusion trait, ENDLESS INFUSION)
+		fail("%d DEX traits, not 39" % mine.size())
 	for t in mine:
 		if not Img.has("tr_" + t["id"]):
 			fail("%s has no picture" % t["id"])

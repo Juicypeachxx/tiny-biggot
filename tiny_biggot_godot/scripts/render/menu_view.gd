@@ -886,8 +886,8 @@ func draw_inventory(ci: CanvasItem) -> void:
 		for j in mini(2, dl.size()):
 			TraitView.draw_line(ci, dl[j], INV_X - 4, dy + 9 + j * 8)
 	elif sel_c != "":
-		Gfx.text(ci, Consumables.KINDS[sel_c]["name"], INV_X - 4, dy, "gold")
-		Gfx.text(ci, Consumables.KINDS[sel_c]["desc"], INV_X - 4, dy + 9, "white")
+		Gfx.text(ci, Consumables.data(sel_c)["name"], INV_X - 4, dy, "gold")
+		Gfx.text(ci, Consumables.data(sel_c)["desc"], INV_X - 4, dy + 9, "white")
 	else:
 		Gfx.text(ci, "EMPTY", INV_X - 4, dy, "dim")
 	Gfx.text(ci, "< > PICK   USE EQUIP / DRINK   ROLL DROP   MENU BACK", TB.SW / 2, 263, "grey", 1, 0.5)

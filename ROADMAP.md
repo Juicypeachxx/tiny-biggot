@@ -26,6 +26,8 @@ changed one), and carry on from there. What he says last outranks this file.
 2c. Stage 43.7: the 286 OLD traits made like the new ones: done, IPA 43.7 "Old Traits Reborn"
    built (10 Oct, run 282): each keeps all it did and gains one more effect from the new mechanics, and each has
    its own picture.
+   His word after IPA 43.7 (10 Oct): "Ok go 44 and 45, and 46": the three stages straight on, each
+   with its own IPA, without waiting for his try in between.
 3. Stage 44: the 14 INFUSIONS, and the traits that work with them (IPA 44).
 4. Stage 45: the GOOD, EVIL and LAWFUL shops (IPA 45).
 5. Stage 46, later (his word): WEAPON ENCHANTMENTS from his pictures (ENCHANTMENTS_PLAN.md).

@@ -129,6 +129,7 @@ static func on_special(p: Player) -> void:
 		dilation += 1
 		for d in p.drinks:
 			d[1] += 1   # a room longer
+		Infusions.stretch(p, 1)   # 44: the saps too
 		_stat("dilation")
 
 ## Game.start_floor: SAINT AND SINNER.

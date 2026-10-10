@@ -210,6 +210,7 @@ var dice_used := 0
 var drinks: Array = []          # 36.3 drink buffs on (food.gd): [kind, rooms left, effect source]
 var charms: Array = []          # 37.2 charms worn (scripts/data/charms.gd)
 var drink_n := 0
+var infusions: Array = []      # 44 infusions on (infusions.gd): [kind, rooms left (0: for good), stacks]
 var stat_picks := 0             # 8.3 stat pickups taken this run (stat_drops.gd)
 var al_good := 0                # 8.1 alignments (scripts/game/alignments.gd)
 var al_evil := 0

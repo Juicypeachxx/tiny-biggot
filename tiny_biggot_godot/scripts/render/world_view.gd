@@ -190,6 +190,9 @@ func _paint_plates(ci: CanvasItem) -> void:
 				elif o["item"] == "food":
 					name = Food.info(o["food"])[0]   # 36.1
 					sub = Food.info(o["food"])[1]
+				elif o["item"] == "infusion":
+					name = Infusions.KINDS[o["infusion"]][0]   # 44
+					rar = "rare" if Infusions.forever(o["infusion"]) else "common"
 			"anvil":
 				name = "ANVIL"
 			"dicecup":
@@ -665,6 +668,8 @@ func _paint_lower(ci: CanvasItem) -> void:
 					name = Dice.KINDS[o["die"]][1]   # 35.1
 				elif o["item"] == "food":
 					name = o["food"]   # 36.1
+				elif o["item"] == "infusion":
+					name = o["infusion"]   # 44
 				else:
 					name = { "potion": "potion", "heart": "heartPick", "bomb": "bomb", "key": "key", "armor": "armor" }[o["item"]]
 				Gfx.sp(ci, name, x, y + bob, 2, 2)
@@ -725,7 +730,7 @@ func _paint_lower(ci: CanvasItem) -> void:
 			if Food.golden(k.kind):
 				Juice.glint(ci, k.x + _vr.randi_range(-3, 3), k.y - k.z - wob - 2)
 			continue
-		Gfx.sp(ci, PICKUP_SPRITE[k.kind], k.x, k.y + 3 - k.z - wob)
+		Gfx.sp(ci, PICKUP_SPRITE.get(k.kind, k.kind), k.x, k.y + 3 - k.z - wob)   # (44: an infusion is its own picture)
 		if k.kind in ["coin", "gem"]:
 			Juice.glint(ci, k.x + _vr.randi_range(-2, 2), k.y - k.z - wob)
 	for b in G.bombs:

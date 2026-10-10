@@ -21,9 +21,16 @@ const KINDS := {
 }
 
 static func is_kind(k: String) -> bool:
-	return KINDS.has(k)
+	return KINDS.has(k) or Infusions.is_kind(k)
 
+## Its name, what it does and its colour (44: an infusion's from infusions.gd).
+static func data(k: String) -> Dictionary:
+	return KINDS[k] if KINDS.has(k) else Infusions.card(k)
+
+## Bosses and some elites (Combat.kill_enemy). 44: a third of the time an infusion.
 static func random_kind() -> String:
+	if randf() < 0.35:
+		return Infusions.roll()
 	return KINDS.keys()[randi() % KINDS.size()]
 
 ## Picks up a consumable into the belt; false when the belt is full.
@@ -40,7 +47,13 @@ static func use(p: Player, i: int) -> void:
 		return
 	var kind: String = p.belt[i]
 	p.belt.remove_at(i)
-	var d: Dictionary = KINDS[kind]
+	var d: Dictionary = data(kind)
+	if Infusions.is_kind(kind):   # 44: an element on the weapon
+		Infusions.infuse(p, kind)
+		Snd.play("relic")
+		Juice.label(d["name"], d["col"], p.x, p.y - 22)
+		Juice.ring(p.x, p.y, 3, 30, 0.35, d["col"])
+		return
 	match kind:
 		"c_fury":
 			Effects.add_buff(p, "dmg", 0.4, 12.0)

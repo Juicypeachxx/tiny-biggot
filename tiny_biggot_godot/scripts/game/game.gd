@@ -200,6 +200,9 @@ func _debug_give(p: Player) -> void:
 		if parts.size() == 2 and parts[0] == "drink" and Food.DRINKS.has(parts[1]):
 			Food.drink(p, parts[1])   # 36.3: a drink's buff (pictures)
 			continue
+		if parts.size() == 2 and parts[0] == "infuse" and Infusions.is_kind(parts[1]):
+			Infusions.infuse(p, parts[1])   # 44: an infusion on the weapon (pictures)
+			continue
 		if parts.size() == 2 and parts[0] == "food" and Food.is_kind(parts[1]):
 			_give_food.append(parts[1])   # 36: food on the first room's floor (pictures; start_floor)
 			continue
@@ -361,6 +364,7 @@ func enter_room(r: Room) -> void:
 	Pace.on_enter()   # 35.2
 	if GameData.rogues():
 		Food.on_room(p)   # 36.3: the drink buffs have a room less
+		Infusions.on_room(p)   # 44: and the saps
 	match "" if room.cleared else room.type:   # a cleared room on the floor map stays cleared
 		"combat", "elite":
 			locked = true
@@ -778,6 +782,7 @@ func setup_objects(r: Room) -> void:
 				Dice.stock_shop(r, cx, cy)   # 35.1: a die for sale and the DICE CUP
 				Charms.stock_shop(r, cx, cy)   # 37.2: a charm for sale
 				Food.stock_shop(r, cx, cy)   # 36.1: a food for sale
+				Infusions.stock_shop(r, cx, cy)   # 44: an infusion for sale
 				TraitRules.place_tome(r, cx - 144, cy + 34, price(28 + f * 4))   # 41.5: a trait tome for sale
 		"treasure":
 			if randf() < 0.35:
@@ -1379,6 +1384,8 @@ func interact(o: Dictionary) -> void:
 				return deny(o, "POTIONS FULL")
 			if o["item"] == "heart" and p.hp >= p.max_hp:
 				return deny(o, "HEALTH FULL")
+			if o["item"] == "infusion" and p.belt.size() >= Consumables.BELT_SIZE:
+				return deny(o, "BELT FULL")
 			p.gold -= o["price"]
 			o["gone"] = true
 			Snd.play("coin")
@@ -1396,6 +1403,7 @@ func interact(o: Dictionary) -> void:
 				"armor": p.armor += 1
 				"die": Dice.give(p, o["die"], 1)   # 35.1
 				"food": Food.take(p, o["food"])   # 36.1
+				"infusion": Consumables.take(p, o["infusion"])   # 44: into the belt
 		"altar":
 			if p.hp <= 2:
 				return deny(o, "TOO WEAK")
@@ -1803,6 +1811,7 @@ func open_choice(source: String, o: Dictionary) -> void:
 		state = &"choice"
 	Dice.maybe({ "chest": 0.25, "iron": 0.4, "cursed": 0.6, "boss": 1.0 }.get(source, 0.25), o["x"], o["y"] + 10)   # 35.1
 	Charms.maybe({ "chest": 0.2, "iron": 0.3, "cursed": 0.4, "boss": 0.6 }.get(source, 0.2), o["x"] + 20, o["y"] + 16)   # 37.2
+	Infusions.maybe({ "chest": 0.2, "iron": 0.3, "cursed": 0.35, "boss": 0.5 }.get(source, 0.2), o["x"] - 20, o["y"] + 16)   # 44
 	Loot.treasure(o["x"] - 22, o["y"] + 16)   # 38.2 TREASURE FIND
 
 ## Offer weight. Original traits keep the original formula exactly. New

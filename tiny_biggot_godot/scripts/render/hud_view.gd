@@ -203,6 +203,8 @@ func _draw() -> void:
 			Gfx.text(self, "TIPSY %d" % int(p.tipsy), r4.end.x + 4, r4.position.y + 4, "gold" if p.tipsy >= Tipsy.VERY else "orange")
 		if not p.drinks.is_empty():   # 36.3: the drink buffs on, with their rooms left, under the belt
 			Food.draw_hud(self, p, belt_rect(0).position.x, belt_rect(0).end.y + 3)
+		if not p.infusions.is_empty():   # 44: then the infusions on
+			Infusions.draw_hud(self, p, belt_rect(0).position.x + 22 * p.drinks.size() + (4 if not p.drinks.is_empty() else 0), belt_rect(0).end.y + 3)
 	# Relic strip (last 24).
 	var rel: Array = p.relics.slice(maxi(0, p.relics.size() - 24))
 	for i in rel.size():

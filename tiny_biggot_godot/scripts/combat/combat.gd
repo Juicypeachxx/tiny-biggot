@@ -1070,9 +1070,8 @@ static func player_shoot(p: Player, a: float, echo_ok: bool = true) -> void:
 	if forced:
 		for b in made:
 			(b.merged if b.merged != null else b).crit = true
-	if p.tempo_max > 0 or p.rally_n > 0:
-		for b in made:
-			(b.merged if b.merged != null else b).own = true   # the Gaolbird: only the weapon's own shots count as blows
+	for b in made:   # the weapon's own shots: blows for the Gaolbird, hits for STR traits and infusions (44)
+		(b.merged if b.merged != null else b).own = true
 	var nb := (p.heavy_n > 0 and p.shot_n % p.heavy_n == 0) or (p.g("nth_big") > 0 and p.shot_n % int(p.g("nth_big")) == 0)
 	if nb:
 		for b in made:
@@ -1339,6 +1338,7 @@ static func on_hit_effects(e: Enemy, dmg: float, crit: bool, p: Player, b: PBull
 	Lucky.on_hit(e, dmg, crit, p, b)   # 34.1 lucky hits and the spell slot
 	if b == null or b.own:
 		Might.on_hit(p, e, dmg, crit)   # 40.2 the STRENGTH traits' marks on a foe
+		Infusions.on_hit(p, e)   # 44: the infusions' elements
 
 static func pbullet_hits(b: PBullet, p: Player) -> void:
 	if b.nohit:
@@ -1918,7 +1918,7 @@ static func update_pickups(dt: float) -> void:
 			if Consumables.take(p, k.kind):
 				k.dead = true
 				Snd.play("relic")
-				Fx.float_text(p.x, p.y - 12, Consumables.KINDS[k.kind]["name"], "gold")
+				Fx.float_text(p.x, p.y - 12, Consumables.data(k.kind)["name"], "gold")
 			continue
 		match k.kind:
 			"coin":
@@ -2224,9 +2224,8 @@ static func _update_player_base(p: Player, dt: float) -> void:
 		if v["t"] <= 0:
 			if v.get("raw", false):
 				var burst := fire_projectiles(p, p.aim_a)
-				if p.tempo_max > 0 or p.rally_n > 0:
-					for b in burst:
-						(b.merged if b.merged != null else b).own = true
+				for b in burst:
+					(b.merged if b.merged != null else b).own = true
 			else:
 				Finesse.shot_mult = v.get("mult", 1.0)   # 41.1 ONE STEP AHEAD: its repeats hit twice as hard
 				player_shoot(p, p.aim_a)
