@@ -1699,6 +1699,30 @@ feel out of match": effects first (43.7a), then pictures (43.7b).
 - The full check passed but for the camp build test: the quest board's two random quests could be
   one already met (the meal eaten earlier in the test); the test now sets all three.
 
+### Stage 45 (10 Oct): the GOOD, EVIL and LAWFUL shops (his notes of 9 Oct)
+- scripts/game/align_shops.gd (class AlignShops): SHOPS al -> name, ruler, three relics, the gear
+  piece of 38.1. open(al): GOOD Meta heaven_wins > 0, EVIL hell_wins > 0, LAWFUL Meta slain
+  marshal > 0 (the DUSTWATER rift's ruler). place (Game.on_boss_dead after the WAYSHRINE; returns
+  before any roll when none is open, so seeded runs with a fresh save are as before): CHANCE 0.6,
+  weighted 1 + your alignment; stock: a banner ("alshop", drawn by AlignShops.draw, card in
+  overlay_view) and three "shop" objects with "al" (relic or gear; the shop code buys them as
+  any other), G.price(base, al); spot(): the first of SPOTS (tiles) with nothing within 26 x 20
+  of the banner or a ware (a guardian's hoard chest stood at 280,192, by the first try's row).
+- Nine relics (relics.gd, under "45.1"), shop-only (Game.relic_pool leaves AlignShops.shop_only
+  out): ALMSGIVER'S HALO power_per_good 4, LAMP OF MERCY heal_per_good (room_cleared, fights),
+  DAWN BUCKLER armor_per_good (start_floor), CROWN OF ASH power_per_evil 4, SINNER'S CHALICE
+  cursed_per_evil 0.02 (Arcana.cursed_chance), GRAVE COIN leech_per_evil 0.01 (kill_enemy),
+  TIN STAR power_per_law 4, LEDGER OF DUES (id duesledger) crit_per_law 0.02 (damage_enemy),
+  IRON WRIT roll_per_law 0.03 (Might.roll_rate). Power: Might.power + AlignShops.power_add.
+  Two first ids clashed (bloodtithe, ledger: an older relic and a trinket): renamed; the content
+  test caught it.
+- Art tools/art/stage45_alignshops.py (12 x 12). Test tests/alignshops_test.tscn (in check.sh):
+  closed until a ruler falls, each shop's banner and wares, prices by alignment, bought, a real
+  guardian's hall after the kill (3 seeds) with nothing overlapping, the nine relics' numbers,
+  classic none. Debug --ui=alshop --al=good|evil|law (a shop in the first room, for pictures).
+- Checked: the shops test, the content test (every relic in a live fight), arsenal, items, alignloot,
+  effects (ALL MATCH), all 14 replays identical. The full check runs with Stage 46's.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

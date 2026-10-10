@@ -29,7 +29,7 @@ changed one), and carry on from there. What he says last outranks this file.
    His word after IPA 43.7 (10 Oct): "Ok go 44 and 45, and 46": the three stages straight on, each
    with its own IPA, without waiting for his try in between.
 3. Stage 44: the 14 INFUSIONS, and the traits that work with them: done, IPA 44 "Infusions" (10 Oct).
-4. Stage 45: the GOOD, EVIL and LAWFUL shops (IPA 45).
+4. Stage 45: the GOOD, EVIL and LAWFUL shops: done, IPA 45 "Alignment Shops" (10 Oct).
 5. Stage 46, later (his word): WEAPON ENCHANTMENTS from his pictures (ENCHANTMENTS_PLAN.md).
 Each stage waits for him to try the last IPA. Details of each step are further down.
 
@@ -1432,8 +1432,14 @@ what each becomes here, in **ENCHANTMENTS_PLAN.md**. Our own names when built (r
 ones come in too (rule 1). Planned as Stage 46, after the alignment shops.
 
 ### Stage 45: alignment shops (IPA 45)
-- [ ] 45.1 After a guardian, a GOOD, EVIL or LAWFUL shop can appear (each opens once that path's
+- [x] 45.1 After a guardian, a GOOD, EVIL or LAWFUL shop can appear (each opens once that path's
       ruler is beaten), selling items that grow with its alignment (his notes, 9 Oct).
+      Done (scripts/game/align_shops.gd): THE ALMONER (GOOD, once THE AUREATE JUDGE has fallen),
+      THE ASH PEDDLER (EVIL, THE CINDER KING), THE QUARTERMASTER (LAWFUL, THE MARSHAL of the
+      DUSTWATER rift, a lawman). 60% after a guardian, one of the open ones (likelier the more of
+      its alignment you have); three of its four wares: nine new relics, shop-only (POWER, healing,
+      armour, cursed hits, a kill's heal, crit, rolls, all for every point of the alignment) and
+      the growing piece of 38.1; prices by your alignment.
 
 ### Stage 46: weapon enchantments (IPA 46; later, his word)
 - [ ] 46.1 An enchantment slot on weapons (one at most): the item card, the name, the name plate,
