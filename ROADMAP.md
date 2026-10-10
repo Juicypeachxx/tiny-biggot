@@ -20,7 +20,9 @@ changed one), and carry on from there. What he says last outranks this file.
 **Next up (his ask, 10 Oct: "add what will you do next on to do list"):**
 1. Stage 42 the INTELLIGENCE traits: done, IPA 42 built (10 Oct). He tries it next.
 2. Stage 43: 15 SUPER traits for every hero, 11 PSYCHIC traits for the Mindwarden, 5 AUGMENT
-   traits for the Tinkerer (IPA 43).
+   traits for the Tinkerer (IPA 43). His word (10 Oct): "Do next stage then stability test and
+   bug fix": straight on, without waiting for his try of 42.
+2b. Stage 43.5: a stability test and bug fixes (IPA 43.5).
 3. Stage 44: the 14 INFUSIONS, and the traits that work with them (IPA 44).
 4. Stage 45: the GOOD, EVIL and LAWFUL shops (IPA 45).
 5. Stage 46, later (his word): WEAPON ENCHANTMENTS from his pictures (ENCHANTMENTS_PLAN.md).
@@ -1364,6 +1366,11 @@ his dice do. The heroes' own traits are Stage 43 (PSYCHIC the Mindwarden's, AUGM
 ### Stage 43: SUPER, PSYCHIC and AUGMENT traits (IPA 43)
 - [ ] 43.1 15 SUPER traits for every hero (rare).
 - [ ] 43.2 11 PSYCHIC traits, the Mindwarden's own; 5 AUGMENT traits, the Tinkerer's own.
+
+### Stage 43.5: stability test and bug fixes (IPA 43.5; his word, 10 Oct)
+- [ ] 43.5a The full check (tools/check.sh); long bot soaks with every hero on several seeds, the
+      menu monkey, the timing test; every script error, stuck screen or slow fight found is fixed.
+- [ ] 43.5b A note of what was found and fixed, for him.
 
 ### Stage 44: INFUSIONS (IPA 44)
 - [ ] 44.1 14 infusions: belt items that add an element to the weapon for 10 rooms or for good;
