@@ -61,7 +61,7 @@ static func draw(ci: CanvasItem) -> void:
 			pips += "*" if k < rank else "-"
 		Gfx.text(ci, pips, r.get_center().x, r.end.y + 2, "tan", 1, 0.5)
 	var below := list.size() - (first + ROWS) * COLS
-	var info := "%d TRAITS" % list.size()
+	var info := "TRAITS %d OF %d" % [TraitRules.counted(p), TraitRules.CAP]   # 41.5: the limit
 	if first > 0:
 		info += "   ^ %d ABOVE" % (first * COLS)
 	if below > 0:

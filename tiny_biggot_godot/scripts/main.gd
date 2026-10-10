@@ -168,6 +168,13 @@ func _ready() -> void:
 			if DebugArgs.get_str("trait-opts") != "":   # 40.1 pictures: --trait-opts=id,id,id
 				G.state = &"traits"
 				G.tchoice["opts"] = Array(DebugArgs.get_str("trait-opts").split(",")).map(func(id): return Traits.by_id(id))
+		"tome", "tomefloor":   # 41.5 pictures: a trait tome beside you (--trait-opts=ID: its trait), open or on the floor
+			var tid := DebugArgs.get_str("trait-opts").split(",")[0] if DebugArgs.get_str("trait-opts") != "" else TraitRules.roll_tome(G.player)
+			var to := { "kind": "ttome", "trait": tid, "x": G.player.x + 40.0, "y": G.player.y - 10.0 }
+			G.room.objects.append(to)
+			G.dyn_dirty = true
+			if DebugArgs.get_str("ui") == "tome":
+				TraitRules.open_tome(to)
 		"hud": pass
 		"stars":   # the constellation; with --unlock-all, a few stars already taken
 			G.state = &"title"

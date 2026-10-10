@@ -302,6 +302,12 @@ func draw_prompt(ci: CanvasItem, o: Dictionary) -> void:
 		"tome":
 			title = "FORBIDDEN TOME"
 			desc = "READ IT: GAIN A LEVEL, LOSE HALF A HEART"
+		"ttome":   # 41.5
+			var tt := Traits.by_id(o["trait"])
+			title = "TRAIT TOME: " + tt["name"]
+			desc = "READ IT: SWAP ONE OF YOUR %d TRAITS FOR IT" % TraitRules.CAP if TraitRules.must_swap(G.player, o) else "READ IT TO LEARN THIS TRAIT"
+			if o.has("price"):
+				extra = "PAY %d GOLD" % o["price"]
 		"grimoire":
 			title = "GOLDEN GRIMOIRE"
 			desc = "READ IT: CHOOSE ONE OF THREE RARE TRAITS"

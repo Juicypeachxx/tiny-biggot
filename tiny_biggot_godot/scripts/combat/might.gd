@@ -57,8 +57,8 @@ static func melee(w) -> bool:
 static func heavy(w) -> bool:
 	return w != null and w.get("shape", "") in HEAVY_SHAPES
 
-static func ranged(w) -> bool:
-	return w != null and WeaponInfo.wtype(w) == "RANGED"
+static func ranged(w) -> bool:   # 41.5: a flail, a spin or a slam is no bow (WeaponInfo.MELEE is shorter)
+	return w != null and not melee(w) and WeaponInfo.wtype(w) == "RANGED"
 
 ## SLASHING, PIERCING or PHYSICAL (blunt) by the weapon's kind, whatever its element.
 static func cut(w) -> String:

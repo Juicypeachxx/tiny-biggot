@@ -195,6 +195,11 @@ func _paint_plates(ci: CanvasItem) -> void:
 			"dicecup":
 				name = "DICE CUP"   # 35.1
 				rar = "epic"
+			"ttome":   # 41.5
+				var tt := Traits.by_id(o["trait"])
+				name = tt["name"]
+				sub = "TRAIT TOME"
+				rar = { "legend": "legend", "rare": "rare", "super": "epic", "mythic": "epic" }.get(tt["rarity"], "common")
 			_:
 				continue
 		if name == "" or TB.dist_xy(p.x, p.y, o["x"], o["y"]) > 110:
@@ -208,7 +213,7 @@ func _paint_plates(ci: CanvasItem) -> void:
 		var w := maxi(TB.text_w(name), TB.text_w(sub)) + 6
 		var h := 9 if sub == "" else 17
 		var px := clampf(roundf(o["x"] - w / 2), 2, TB.SW - w - 2)
-		var py := roundf(o["y"] - 30 - h)
+		var py := roundf(o["y"] - 30 - h - (22 if o["kind"] == "ttome" else 0))
 		ci.draw_rect(Rect2(px - 1, py - 1, w + 2, h + 2), Color(0.08, 0.06, 0.11, 0.9))
 		ci.draw_rect(Rect2(px, py, w, 1), TB.c(GameData.RARITY_HEX.get(rar, "#8b8f9c")))
 		Gfx.text(ci, name, px + 3, py + 2, GameData.RARITY_COL.get(rar, "white"), 1, 0.0, false)
@@ -581,6 +586,13 @@ func _paint_lower(ci: CanvasItem) -> void:
 					Gfx.sp(ci, "riftdoor", x, y + 8, zm, zm)
 			"tome", "grimoire":
 				Gfx.sp(ci, "tome", x, y + 6 + (0.0 if o.get("used", false) else bob), 2, 2)
+			"ttome":   # 41.5: a trait tome, its trait's cube over it
+				var tt := Traits.by_id(o["trait"])
+				Gfx.sp(ci, "tome", x, y + 6 + bob, 2, 2)
+				TraitView.cube(ci, roundf(x - 10), roundf(y - 44 + bob * 2.0), tt, 1)
+				if o.has("price"):
+					var tl := "%dG" % o["price"]
+					Gfx.text(ci, tl, roundf(x - TB.text_w(tl) / 2), roundf(y + 11), "gold" if G.player.gold >= o["price"] else "red")
 			"bed":
 				Gfx.sp(ci, "bed", x, y + 8, 2, 2)
 			"s_decor", "s_bartender", "s_drink", "s_merchant", "s_broker", "s_drunk", "s_piano", "s_poster":
@@ -741,7 +753,7 @@ func _paint_shadows(ci: CanvasItem, room: Room) -> void:
 		if o.get("gone", false):
 			continue
 		match o["kind"]:
-			"chest", "ichest", "cchest", "mimicchest", "tome", "grimoire", "jukebox": shadow(ci, o["x"], o["y"] + 4, 12)
+			"chest", "ichest", "cchest", "mimicchest", "tome", "grimoire", "ttome", "jukebox": shadow(ci, o["x"], o["y"] + 4, 12)
 			"idol", "campfire", "altar", "fountain", "wheel", "well", "bloodstall", "bed": shadow(ci, o["x"], o["y"] + 4, 14)
 			"bell": shadow(ci, o["x"], o["y"] + 4, 10)
 			"s_merchant", "s_broker", "e_pitboss", "e_mechanic", "e_teller", "e_courier", "e_attendant", "w_merchant", "e_pawn", "e_hustler", "n_archivist", "n_inkling", "n_bookbinder": \
@@ -1048,7 +1060,7 @@ func _paint_glow(ci: CanvasItem) -> void:
 				if not o.get("opened", false): Gfx.at(ci, "glow_white", x - 24, y - 24)
 			"mirror", "tome":
 				if not o.get("used", false): Gfx.at(ci, "glow_purple", x - 30, y - 30)
-			"grimoire":   # 29: gold, not the tome's purple
+			"grimoire", "ttome":   # 29: gold, not the tome's purple
 				if not o.get("used", false): Gfx.at(ci, "glow_white", x - 24, y - 24)
 			"cchest":
 				if not o.get("opened", false): Gfx.at(ci, "glow_purple", x - 30, y - 30)

@@ -58,6 +58,8 @@ var codex_i := 0
 var codex_tab := 0   # 22.3: 0 relics, 1 the bestiary, 2 past runs, 3 the trait book (30.2)
 var traitbook_i := 0   # 30.2: the trait chosen in the trait book
 var traitlist_i := 0   # 41.3: the cube chosen on the pause menu's TRAITS page (trait_page.gd)
+var tome: Dictionary = {}   # 41.5: the trait tome being read (trait_rules.gd)
+var tome_i := 0   # 41.5: the trait chosen to give up for it
 var bestiary_i := 0
 var inv_i := 0                 # Rogues layer: inventory cursor (0-5 backpack, 6-9 belt)
 var shrine_i := 0
@@ -608,6 +610,7 @@ func _setup_event(r: Room, ev: String) -> void:
 			r.objects.append({ "kind": "mirror", "x": cx, "y": cy })
 		"library":
 			r.objects.append({ "kind": "tome", "x": cx, "y": cy })
+			TraitRules.place_tome(r, cx + 56, cy)   # 41.5: a trait tome beside it
 		"safehouse":
 			r.objects.append({ "kind": "bed", "x": cx - 34, "y": cy })
 			r.objects.append({ "kind": "jukebox", "x": cx + 34, "y": cy })
@@ -772,6 +775,7 @@ func setup_objects(r: Room) -> void:
 				Dice.stock_shop(r, cx, cy)   # 35.1: a die for sale and the DICE CUP
 				Charms.stock_shop(r, cx, cy)   # 37.2: a charm for sale
 				Food.stock_shop(r, cx, cy)   # 36.1: a food for sale
+				TraitRules.place_tome(r, cx - 144, cy + 34, price(28 + f * 4))   # 41.5: a trait tome for sale
 		"treasure":
 			if randf() < 0.35:
 				var it: Dictionary = Weapons.random_weapon(Gear.roll_item_rarity(f, "elite"), player.weapon) if randf() < 0.5 \
@@ -1336,6 +1340,7 @@ func interact(o: Dictionary) -> void:
 			Fx.burst(o["x"], o["y"], ["#f2c94c", "#fffbe0"], 16, 60)
 			open_choice("boss" if o.get("boss", false) else "chest", o)
 			StatDrops.maybe(0.35, o["x"], o["y"] + 10)   # 8.3
+			TraitRules.maybe_drop(o["x"] + 30, o["y"] + 4)   # 41.5: sometimes a trait tome
 			Effects.fire("on_chest", { "x": o["x"], "y": o["y"] })
 		"ichest":
 			if not o.get("free", false):
@@ -1562,6 +1567,8 @@ func interact(o: Dictionary) -> void:
 			dyn_dirty = true
 			Snd.play("portal")
 			show_banner("YOUR SHADOW STEPS OUT", "BEAT IT FOR ITS GIFT")
+		"ttome":   # 41.5: a trait tome
+			TraitRules.open_tome(o)
 		"grimoire":   # 29: a hidden room's book of traits
 			o["used"] = true
 			p.special_picks += 1
@@ -1804,6 +1811,8 @@ func trait_weight(p: Player, t: Dictionary) -> int:
 	var rank: int = p.traits.get(t["id"], 0)
 	if rank >= t["max"]:
 		return 0
+	if GameData.rogues() and not TraitRules.allowed(p, t):
+		return 0   # 41.5: 12 traits at most; some only while they can work
 	if t["new"]:
 		return _new_trait_weight(p, t)
 	var fam: int = p.fam.get(t["fam"], 0)
@@ -1879,12 +1888,15 @@ func offer_traits() -> void:
 			if cands[i][0]["id"] == got["id"]:
 				cands.remove_at(i)
 				break
+	if mode == "" and opts.size() < 3 and TraitRules.full(p):
+		opts.append_array(TraitRules.stat_rows(p).slice(0, 3 - opts.size()))   # 41.5: stat points
 	if opts.is_empty():
 		p.pending = 0
 		return
 	tchoice = { "opts": opts, "idx": 0 if TraitView.active() else mini(1, opts.size() - 1), "t0": time, "mode": mode }
 	for t in opts:
-		TraitBook.note_seen(t)   # 30.2: lit in the trait book
+		if not t.has("stat"):
+			TraitBook.note_seen(t)   # 30.2: lit in the trait book
 	state = &"traits"
 
 ## The traits a pick can offer now, with their weights: [[trait, weight]...]. 35.1: a banished
@@ -1909,7 +1921,7 @@ func _only_dummies() -> bool:
 ## 29: weights of an OATH pick (the oaths alone) and of a grimoire's pick (rare or better, oaths
 ## too, no family or level needed but a mythic's level 6; no cursed trait).
 func _special_weight(p: Player, t: Dictionary, mode: String) -> int:
-	if not t["new"] or p.traits.get(t["id"], 0) >= t["max"]:
+	if not t["new"] or p.traits.get(t["id"], 0) >= t["max"] or not TraitRules.allowed(p, t):
 		return 0
 	if mode == "oath":
 		return 1 if t["rarity"] == "oath" else 0
@@ -1921,6 +1933,8 @@ func _special_weight(p: Player, t: Dictionary, mode: String) -> int:
 
 func take_trait(t: Dictionary) -> void:
 	var p := player
+	if t.has("stat"):
+		return TraitRules.take_stat(p, t)   # 41.5: a stat point
 	if tchoice.get("opts", []).has(t):   # 29: an oath or a grimoire's pick is spent
 		match tchoice.get("mode", ""):
 			"oath": p.oath_picks = maxi(0, p.oath_picks - 1)
@@ -2069,6 +2083,7 @@ func update(dt: float) -> void:
 				Snd.play("select")
 		&"choice": update_choice()
 		&"traits": update_traits()
+		&"tome": TraitRules.update()   # 41.5
 		&"dead", &"win":
 			update_embers(dt)
 			state_t += dt

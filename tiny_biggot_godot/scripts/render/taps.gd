@@ -54,6 +54,12 @@ static func zones() -> Array:
 			out.append(_act(Rect2(sw / 2 - 90, 262, 180, 16), func(): send(&"pause")))
 		&"board":
 			out.append(_act(Rect2(0, 0, sw, TB.SH), func(): send(&"pause")))
+		&"tome":   # 41.5: a cube chooses the trait to give up; the buttons read or leave the tome
+			if TraitRules.must_swap(G.player, G.tome):
+				for i in mini(TraitRules.swap_list(G.player).size(), TraitPage.COLS * 2):
+					out.append(_act(TraitRules.cell_rect(i).grow(3), func(): G.tome_i = i))
+			out.append(_act(TraitRules.btn_rect(0), func(): send(&"use")))
+			out.append(_act(TraitRules.btn_rect(1), func(): send(&"pause")))
 		&"traitlist":   # 41.3: a tap on a cube chooses it; anywhere else goes back (any_tap)
 			if GameData.rogues():
 				var tn := TraitPage.owned().size()

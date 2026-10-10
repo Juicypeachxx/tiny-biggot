@@ -59,6 +59,9 @@ func _paint_base(ci: CanvasItem) -> void:
 			draw_pause(ci)
 		&"fishing":
 			Fishing.draw_panel(ci)   # 15.1: over the world
+		&"tome":   # 41.5
+			_shade(ci, 240)
+			TraitRules.draw(ci)
 		&"traitlist":
 			_shade(ci, 246 if GameData.rogues() else 220)   # 41.3: the cubes on a darker page
 			draw_traitlist(ci)

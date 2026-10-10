@@ -2,8 +2,9 @@
 
 **10 Oct: his trait pictures.** 146 traits and 14 infusions to add (TRAITS_PLAN.md), in
 Stages 40 to 44 (STR, DEX, INT, SUPER/PSYCHIC/AUGMENT, infusions), then 45 the alignment shops.
-Stage 40 done (IPA 40 "Strength Traits"), Stage 41 done (IPA 41 "Dexterity Traits"). Next:
-Stage 42, the INT traits.
+Stage 40 done (IPA 40 "Strength Traits"), Stage 41 done (IPA 41 "Dexterity Traits"), and his
+"How traits work" text as 41.5 (IPA 41.5 "How Traits Work": a limit of 12 traits, his pick).
+Next: Stage 42, the INT traits.
 Done before: 39.4 "Bosses Fall" (IPA 39.4), Stage 39 "More to Find", 38 "Alignment and Loot", 37,
 36, 35 (the full check passed at 35). Next: Stage 40.
 
@@ -1553,6 +1554,30 @@ Done by another session (the port's), which took over from v31 on claude/dev.
   in the expanded game, a 6 x 4 grid of cubes that scrolls by rows (G.traitlist_i; game.gd's
   _grid_nav; taps.gd act zones, a tap elsewhere still goes back). Classic keeps the old text page.
 - Core replays re-recorded on purpose for the new traits (e6361b1); classic identical.
+
+### Stage 41.5 (10 Oct): how traits work (his wiki text; asked, he chose a limit of 12)
+- scripts/game/trait_rules.gd (class TraitRules), expanded game only:
+  - THE LIMIT: CAP 12 different traits (counted(p): p.traits without oaths). allowed(p, t) is
+    checked by G.trait_weight and G._special_weight: with 12, only your own traits (rank-ups);
+    oaths pass. G.offer_traits fills a pick of fewer than 3 rows with stat_rows(p) (pseudo-traits
+    with a "stat" key, never in p.traits, pictures tr_stat_str/dex/int from
+    tools/art/stage41_5_stats.py); G.take_trait hands them to take_stat (+1 attribute).
+  - NEEDS: shield (Block.on), ranged (Might.ranged), pierce/slash (Might.cut), blunt, dexw.
+  - TOMES: object kind "ttome" { trait, price? } (world_view draws the book and the trait's cube
+    over it, a name plate; overlay_view's prompt). roll_tome uses G._new_trait_weight, ignoring
+    the limit. Placed by place_tome: chests (maybe_drop, 12%), every expanded shop (cx - 144,
+    cy + 34, for gold), the library room. interact opens state &"tome" (G.tome, G.tome_i):
+    TraitRules.update/draw, taps.gd zones (12 cubes, READ and LEAVE buttons). read(): pays, with
+    12 removes the chosen trait (remove(): UNDO ops add/mul/pct/attr/hook and procs come off for
+    every rank and tier; family count and family bonus tiers drop; set/grant/add_cap and other
+    one-off ops stay), then take_trait. Without the gold the book closes again (the bot only
+    presses USE).
+- The pick screen shows TRAITS N OF 12 (orange at the limit), the title RAISE A TRAIT or TAKE A
+  STAT POINT, and no luck row at the limit. The TRAITS page's line says TRAITS N OF 12.
+- Might.ranged no longer counts melee kinds outside WeaponInfo.MELEE (spin, flail, slam...) as
+  ranged.
+- --ui=tome / --ui=tomefloor (--trait-opts=ID) for pictures. Test tests/traitrules_test.tscn (in
+  check.sh).
 
 ## Noted, not yet acted on
 

@@ -1319,6 +1319,29 @@ shops after the traits.
       its family's bonuses, synergies and combos beside it; scripts/render/trait_page.gd).
       --classic keeps the old text page.
 
+### His word, 10 Oct: how traits work (his text from the wiki), and a limit of 12
+He sent the wiki's "How traits work": traits come from a random pool at each level-up, at most 6
+different ones a run; dice reroll a pick or change a trait; TOMES hold a random trait you can swap
+for one of yours; some traits only come when they can work (shield traits need a shield); some
+heroes have traits of their own (Super Hero, Esper, Cyborg). Asked (a limit goes against rule 1),
+he chose **a limit of 12 different traits**. Our dice (REROLL, ALTER, BANISH, 35.1) already do what
+his dice do. The heroes' own traits are Stage 43 (PSYCHIC the Mindwarden's, AUGMENT the Tinkerer's).
+
+### Stage 41.5: how traits work (IPA 41.5, "How Traits Work", built 10 Oct)
+- [x] 41.5a At most 12 different traits a run (the expanded game; the run's OATH does not count).
+      With 12, a level-up offers only your own traits that can still rank up; when it has fewer
+      than three to show, the rest are STAT POINTS (+1 STR, DEX or INT); with all 12 at their top
+      rank, a level-up is a stat point. The pick screen and the TRAITS page show how many of 12.
+- [x] 41.5b TRAIT TOMES: a book holding one trait (its cube floats over it). Read it: with room,
+      learn it; with 12, choose one of yours to give up for it (its effects come off; a one-off
+      gift such as armour or a pet already given stays). In chests (sometimes), one in every
+      expanded shop, and one in the library room beside the forbidden tome.
+- [x] 41.5c Traits that only come when they can work: HOLD THE LINE (a shield's block) only while
+      you wear a shield, NO DISTANCE and MUZZLE FLASH only with a bow or gun, SHARP END, BLEEDING
+      EDGE and BLUNT FORCE only with a weapon of their kind, NIMBLE GRIP only with a DEX weapon.
+      Found on the way: flails, spinning and slamming weapons counted as bows for the Stage 40-41
+      traits (Might.ranged); fixed.
+
 ### Stage 42: the INTELLIGENCE traits (IPA 42)
 - [ ] 42.1 What the INT list needs: cursed hits, fragility, scorch, frostbite, zap, tick speed,
       the special's charge as mana.

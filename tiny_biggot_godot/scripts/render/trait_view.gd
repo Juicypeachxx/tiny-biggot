@@ -157,10 +157,14 @@ static func draw(ci: CanvasItem) -> void:
 	# 29: the run's opening OATH, and a grimoire's pick, have their own titles.
 	var mode: String = c.get("mode", "")
 	var title: String = { "oath": "SWEAR AN OATH FOR THIS RUN", "special": "THE GRIMOIRE: A RARE TRAIT" }.get(mode, "CHOOSE A TRAIT")
+	if mode == "" and TraitRules.full(p):   # 41.5: the limit reached
+		title = "TAKE A STAT POINT" if c["opts"].all(func(o): return o.has("stat")) else "RAISE A TRAIT"
 	var tw := maxi(124, TB.text_w(title) + 16)
 	Gfx.panel(ci, TB.SW / 2 - tw / 2, ROW_Y - 22, tw, 15, "#ff9b3a" if mode == "oath" else "#f4ecd8", "#0c0b12")
 	Gfx.text(ci, title, TB.SW / 2, ROW_Y - 18, "orange" if mode == "oath" else ("gold" if mode == "special" else "white"), 1, 0.5)
 	Gfx.text(ci, "LEVEL %d" % p.level + ("  (+%d MORE)" % (p.pending - 1) if p.pending > 1 else ""), PX + 2, ROW_Y - 18, "lime")
+	Gfx.text(ci, "TRAITS %d OF %d" % [TraitRules.counted(p), TraitRules.CAP], COL_X + COL_W + 2, ROW_Y - 18,
+		"orange" if TraitRules.full(p) else "grey", 1, 1.0)   # 41.5
 	var opts: Array = c["opts"]
 	for i in 4:
 		var r := row_rect(i)
@@ -170,7 +174,7 @@ static func draw(ci: CanvasItem) -> void:
 		var k := clampf((t - t0) / SHINE, 0.0, 1.0)
 		if i < opts.size():
 			_row(ci, r, opts[i], c["idx"] == i, minf(1.0, k * 2.5))
-		else:
+		elif not TraitRules.full(p):   # 41.5: at the limit the pick has no fourth row to wish for
 			Gfx.panel(ci, r.position.x, r.position.y, r.size.x, r.size.y, "#2a2838", "#0c0b12")
 			Gfx.text(ci, "INCREASE YOUR LUCK", r.get_center().x, r.position.y + 17, "dim", 1, 0.5)
 			Gfx.text(ci, "FOR A CHANCE OF 4 CHOICES", r.get_center().x, r.position.y + 27, "dim", 1, 0.5)
