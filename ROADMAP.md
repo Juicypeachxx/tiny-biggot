@@ -1305,10 +1305,13 @@ shops after the traits.
       named buffs (courage, berserk, rage, burning passion), instability, puncture, crush.
 - [x] 40.3 The 38 STRENGTH traits of TRAITS_PLAN.md, each with its picture.
 
-### Stage 41: the DEXTERITY traits (IPA 41)
-- [ ] 41.1 What the DEX list needs: lethal and sneaky hits, tailwind, morale, fatigue, rupture,
-      fields of frost and venom, repeats.
-- [ ] 41.2 The 39 DEXTERITY traits, each with its picture.
+### Stage 41: the DEXTERITY traits (IPA 41, "Dexterity Traits", built 10 Oct)
+- [x] 41.1 What the DEX list needs: lethal hits, close range for bows, rate from speed, fields,
+      helpers by count, tally crits, repeats at x2, tick speed, a tailwind and morale (buffs), a
+      grenade lob, the weakest foe weakened, a pup (scripts/combat/finesse.gd). Sneaky hits wait for
+      the INT list (TRICKERY needs them).
+- [x] 41.2 38 DEXTERITY traits, each with its picture. The 39th (infusion buffs for good) comes
+      with the infusions in Stage 44.
 
 ### Stage 42: the INTELLIGENCE traits (IPA 42)
 - [ ] 42.1 What the INT list needs: cursed hits, fragility, scorch, frostbite, zap, tick speed,
@@ -1321,7 +1324,7 @@ shops after the traits.
 
 ### Stage 44: INFUSIONS (IPA 44)
 - [ ] 44.1 14 infusions: belt items that add an element to the weapon for 10 rooms or for good;
-      TRANSCENDENCE and TIME DILATION work with them.
+      the DEX list's infusion trait (for good) and TIME DILATION work with them.
 
 ### Stage 45: alignment shops (IPA 45)
 - [ ] 45.1 After a guardian, a GOOD, EVIL or LAWFUL shop can appear (each opens once that path's

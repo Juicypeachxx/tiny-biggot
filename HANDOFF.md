@@ -2,7 +2,8 @@
 
 **10 Oct: his trait pictures.** 146 traits and 14 infusions to add (TRAITS_PLAN.md), in
 Stages 40 to 44 (STR, DEX, INT, SUPER/PSYCHIC/AUGMENT, infusions), then 45 the alignment shops.
-Stage 40 done (IPA 40 "Strength Traits"). Next: Stage 41, the DEX traits.
+Stage 40 done (IPA 40 "Strength Traits"), Stage 41 done (IPA 41 "Dexterity Traits"). Next:
+Stage 42, the INT traits.
 Done before: 39.4 "Bosses Fall" (IPA 39.4), Stage 39 "More to Find", 38 "Alignment and Loot", 37,
 36, 35 (the full check passed at 35). Next: Stage 40.
 
@@ -1529,6 +1530,22 @@ Done by another session (the port's), which took over from v31 on claude/dev.
   or off in classic.
 - 40.3 38 str_ traits (traits.gd, after the 38.x rows), names checked against every other name in
   scripts; pictures tools/art/stage40_traits.py. Test tests/stage40_test.tscn (in check.sh).
+
+### Stage 41 (10 Oct): the DEXTERITY traits (his pictures)
+- scripts/combat/finesse.gd (class Finesse): lethal hits (x2, or crit damage with lethality, on a
+  foe under half health: lethal chance, sharpshooter from afar, cheap_shot on lucky hits; Lucky's
+  extra strike carries o.lucky), close (ballistics: bows and guns always close; Might.close and the
+  "close" condition use it), rate_mult (agility, alacrity, influence, spellblade), recharge_add
+  (dynamo), special_power (special_per_roll; applied while Might.casting), helper_mult (bff in
+  Legion.dmg_mult) and helper_speed (influence), tick_rate (clockwork; burn, bleed and poison
+  ticks), crit_chance (crit_dex_rank, toxin_crit) and crit_add (shock_critdmg, illusion), tally
+  (crit_next sure crits), repeats (two_steps: volleys with mult 2, Finesse.shot_mult in wdmg;
+  repeat_debuff doubles statuses 4 s after any repeat), exit (on roll: refresh and tick DoTs),
+  swagger (roll effects every 4 s), blood_poison, boom_vuln (explode_at), moon_rupture.
+- New: actions lob and status_weakest, effect op pet (Pets.give or +1 level), Might.crushing(p, e)
+  for point_blank, Actions w x 1.1^plus (proc_per_plus), Might.buff_mult adds buff_power.
+- 38 dex_ traits (names checked), pictures tools/art/stage41_traits.py, test
+  tests/stage41_test.tscn (in check.sh); the content test knows the pet op.
 
 ## Noted, not yet acted on
 

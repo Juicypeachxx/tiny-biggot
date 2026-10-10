@@ -72,7 +72,7 @@ func fail(msg: String) -> void:
 
 # ---------- 1. Lint ----------
 const REVERSIBLE := ["add", "mul", "pct", "hook", "grant", "attr"]
-const ONE_SHOT := ["add", "mul", "pct", "set", "add_cap", "add_floor", "clamp_max", "at_least", "copy", "nth", "hook", "grant", "attr", "upgrade"]
+const ONE_SHOT := ["add", "mul", "pct", "set", "add_cap", "add_floor", "clamp_max", "at_least", "copy", "nth", "hook", "grant", "attr", "upgrade", "pet"]
 
 func lint_effects(where: String, effects: Array, reversible: bool) -> void:
 	for e in effects:
@@ -90,6 +90,10 @@ func lint_effects(where: String, effects: Array, reversible: bool) -> void:
 		if op == "hook":
 			continue
 		if op == "upgrade":
+			continue
+		if op == "pet":   # 41.1 GOOD DOG: a pet id
+			if not Pets.PETS.has(e[1]):
+				fail("%s: unknown pet %s" % [where, e[1]])
 			continue
 		if op == "attr":
 			if not e[1] in ["str", "dex", "int", "highest"]:
