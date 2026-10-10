@@ -22,7 +22,7 @@ changed one), and carry on from there. What he says last outranks this file.
 2. Stage 43 (done, IPA 43): 15 SUPER traits for every hero, 11 PSYCHIC traits for the Mindwarden, 5 AUGMENT
    traits for the Tinkerer (IPA 43). His word (10 Oct): "Do next stage then stability test and
    bug fix": straight on, without waiting for his try of 42.
-2b. Stage 43.5: a stability test and bug fixes (IPA 43.5).
+2b. Stage 43.5: a stability test and bug fixes: done, IPA 43.5 "Steady Ground" built (10 Oct).
 2c. Stage 43.7: the 286 OLD traits made like the new ones: their own pictures, the new look and
    text, and their effects brought up to the new traits (his word, 10 Oct) (IPA 43.7).
 3. Stage 44: the 14 INFUSIONS, and the traits that work with them (IPA 44).
