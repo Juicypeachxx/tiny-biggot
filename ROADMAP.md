@@ -38,8 +38,13 @@ changed one), and carry on from there. What he says last outranks this file.
    "Stage 47 first": THE GOURD and SHATTER, with its own IPA, then wait for his try.
    His word, during it (10 Oct): "Also we need to rework the menu it looks all confused and heroes
    stacked in front, also we can work on character select menu to be better": in Stage 47 too.
-   Stage 47 built (10 Oct); IPA 47 "Gourd and Shatter" after the full check. Next: his try of it,
-   then his pick of 48 to 51.
+   Stage 47 built (10 Oct); IPA 47 "Gourd and Shatter" after the full check.
+7. His word, 10 Oct (during 47; three pictures of the other game's 16 "cinders"): 16 difficulty
+   steps, played at about the 12th; each step also +0.5% health and armour per floor to every
+   foe and guardian; each step multiplies the meta progress ("+30% for 0-4, 20% for 5-8, 10% for
+   9-12, 5% for 13-16"); "also expand and reset constellation and hero trees, in options make
+   reset the game option". Stage 48 (below), right after IPA 47. The proposed 48 to 51 become
+   49 to 52.
 Each stage waits for him to try the last IPA. Details of each step are further down.
 
 | Stage | What | State |
@@ -1470,11 +1475,25 @@ each point); the rest, proposed in the order it would be felt most, with names o
   - [x] 47.4 A better hero select: all 34 heroes to see and tap at once, not 6 at a time. Done:
         a grid of two rows along the top (tap to see, tap again to begin), the chosen hero large
         beside its card.
-- [ ] Stage 48: items that grow with curses carried and foes slain, ROOM DRAUGHTS, a HONING STONE.
-- [ ] Stage 49: RADIANT, NECROTIC, DARK, ENERGY and SOUND as weapon damage types, and weapons for them.
-- [ ] Stage 50: run modes: THE NARROW WAY (no map), OMENS (pickable challenges after a win; the
-      constellation grows past 30), IRON VOW (after 5 wins: one life).
-- [ ] Stage 51: SPIRIT and LUCK as attributes; each attribute also raises a pool.
+- [ ] Stage 48 (his word, 10 Oct): DREAD to 16, star dust, trees expanded and reset, RESET GAME.
+  - [ ] 48.1 DREAD (our own ladder, unlocked one level a win, more dread more embers) grows from 5
+        to 16 levels, as his 16 "cinders": levels 1 to 5 keep what they do (rule 1); 6 to 16
+        each add one more rule of our own, from his list (a FLAWED starting weapon, short early
+        floors and long late ones, packed rooms, blood doors, guardians with escorts, guardians
+        and mini-bosses as elites, harder elite modifiers, a hunter that invades fights, plague
+        carriers, guardians stronger in their second stage, a weaker start on each guardian).
+        Every level also +0.5% health a floor to every foe and guardian (their plates with it).
+  - [ ] 48.2 STAR DUST (his "Mastery / Paragon EXP"): runs earn it (kills, floors, guardians,
+        wins), times the DREAD bonus (+30% a level for 1 to 4, +20% for 5 to 8, +10% for 9 to 12,
+        +5% for 13 to 16); star points come from it, and the constellation grows past 30.
+  - [ ] 48.3 The constellation and the hero skill trees: more to take, and a RESET that gives the
+        points back.
+  - [ ] 48.4 OPTIONS: RESET GAME (asks twice; the save starts over).
+- [ ] Stage 49: items that grow with curses carried and foes slain, ROOM DRAUGHTS, a HONING STONE.
+- [ ] Stage 50: RADIANT, NECROTIC, DARK, ENERGY and SOUND as weapon damage types, and weapons for them.
+- [ ] Stage 51: run modes: THE NARROW WAY (no map), IRON VOW (after 5 wins: one life). (OMENS:
+      his 16 cinders became DREAD to 16 in Stage 48.)
+- [ ] Stage 52: SPIRIT and LUCK as attributes; each attribute also raises a pool.
 
 ### Stage 46: weapon enchantments (IPA 46; his word: "Ok go 44 and 45, and 46")
 - [x] 46.1 An enchantment slot on weapons (one at most): the item card, the name, the name plate,
