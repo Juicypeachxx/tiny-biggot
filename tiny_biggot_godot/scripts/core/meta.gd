@@ -28,7 +28,8 @@ func unlock_all() -> void:
 	for u in GameData.unlocks():
 		meta["unlocked"][u["id"]] = true
 	for h in GameData.heroes():
-		meta["tree"][h["id"]] = [4, 4, 4]
+		var tn: int = Traits.tree_for(h["id"])[0]["nodes"].size()   # (48.3: six in the expanded game)
+		meta["tree"][h["id"]] = [tn, tn, tn]
 
 ## 48.4 RESET GAME (his word, 10 Oct: "in options make reset the game option"): every bit of
 ## progress starts over as on a first start (heroes, embers, unlocks, trees, stars, the camp,

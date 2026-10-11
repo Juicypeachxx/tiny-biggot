@@ -120,7 +120,7 @@ func _toast(ci: CanvasItem) -> void:
 	if m.is_empty():
 		return
 	var w := TB.text_w(m["text"], 2) + 20
-	var y := 228 if G.state == &"tree" else 130
+	var y := 2 if G.state == &"tree" else 130   # (48.3: the tree's toast at the top, over the title)
 	Gfx.panel(ci, (TB.SW - w) / 2, y, w, 22, "#e8873a")
 	Gfx.text(ci, m["text"], TB.SW / 2, y + 6, m["col"], 2, 0.5)
 
@@ -297,7 +297,11 @@ func draw_hero(ci: CanvasItem) -> void:
 		var d := mini(Meta.meta.get("dread", 0), mx)
 		# Under the hero's card, so it never sits on a new hero's passive and skill text.
 		Gfx.text(ci, "DREAD %d: %s" % [d, GameData.DREAD_DESC[d]], TB.SW / 2, 236, "red" if d > 0 else "grey", 1, 0.5)
-		Gfx.text(ci, "UP/DOWN CHANGES DREAD.  MORE DREAD, MORE EMBERS", TB.SW / 2, 246, "dim", 1, 0.5)
+		if d > 0 and GameData.rogues():   # 48.1: the levels below too, foes' health a floor, the rewards
+			Gfx.text(ci, "AND EVERY LEVEL BELOW. FOES +%.1f%% HEALTH A FLOOR. EMBERS X%.2f, STAR DUST X%.2f.  UP/DOWN: DREAD (%d OPEN)" % [0.5 * d, 1 + 0.25 * d, Dread.dust_mult(d), mx],
+				TB.SW / 2, 246, "dim", 1, 0.5)
+		else:
+			Gfx.text(ci, "UP/DOWN CHANGES DREAD.  MORE DREAD, MORE EMBERS", TB.SW / 2, 246, "dim", 1, 0.5)
 	else:
 		Gfx.text(ci, "WIN A RUN TO UNLOCK DREAD LEVELS", TB.SW / 2, 240, "dim", 1, 0.5)
 	Gfx.text(ci, "TAP A HERO, TAP AGAIN TO BEGIN     < >  CHOOSE     USE  BEGIN     ROLL  SKILL TREE     MENU  BACK", TB.SW / 2, 262, "grey", 1, 0.5)
@@ -505,6 +509,15 @@ func draw_traitlist(ci: CanvasItem) -> void:
 	Gfx.text(ci, "PRESS ANY BUTTON", TB.SW / 2, 266, "dim", 1, 0.5)
 
 # ---------- Skill tree ----------
+## 48.3 (his word, 10 Oct: "expand and reset ... hero trees"): six skills a branch in the expanded
+## game, closer together; classic's four keep their old places. The taps use the same boxes.
+const TREE_RESET := Rect2(TB.SW / 2 - 52, 248, 104, 14)
+
+static func tree_rect(bi: int, ni: int, n: int) -> Rect2:
+	if n <= 4:
+		return Rect2(34 + bi * 132, 56 + ni * 38, 120, 32)
+	return Rect2(34 + bi * 132, 52 + ni * 30, 120, 27)
+
 func draw_tree(ci: CanvasItem) -> void:
 	var h: Dictionary = GameData.heroes()[G.tree_hero]
 	var open := G.hero_unlocked(h)
@@ -516,29 +529,39 @@ func draw_tree(ci: CanvasItem) -> void:
 	Gfx.at(ci, "ember", TB.SW - 40 - TB.text_w(line), 26)
 	Gfx.text(ci, line, TB.SW - 32, 27, "gold", 1, 1)
 	var tree := Traits.tree_for(h["id"])
+	var big: bool = tree[0]["nodes"].size() > 4
 	for bi in tree.size():
 		var br: Dictionary = tree[bi]
+		var nn: int = br["nodes"].size()
 		var x := 34 + bi * 132
-		Gfx.text(ci, br["name"], x + 60, 44, "orange" if bi == 2 else "tan", 1, 0.5)
-		for ni in br["nodes"].size():
+		Gfx.text(ci, br["name"], x + 60, 42 if big else 44, "orange" if bi == 2 else "tan", 1, 0.5)
+		for ni in nn:
 			var nd: Array = br["nodes"][ni]
-			var y: int = 56 + ni * 38
+			var r := tree_rect(bi, ni, nn)
+			var y := int(r.position.y)
 			var got: bool = owned[bi] > ni
 			var avail: bool = owned[bi] == ni
 			var sel: bool = G.tree_b == bi and G.tree_n == ni
 			var border: String = "#f2c94c" if sel else ("#63b84f" if got else ("#8b8f9c" if avail else "#2a2838"))
-			Gfx.panel(ci, x, y, 120, 32, border, "#1d2a20" if got else "#17121e")
+			Gfx.panel(ci, x, y, 120, r.size.y, border, "#1d2a20" if got else "#17121e")
 			if ni > 0:
-				ci.draw_rect(Rect2(x + 59, y - 6, 2, 6), TB.c("#63b84f" if got else "#2a2838"))
-			Gfx.text(ci, nd[0], x + 60, y + 4, "lime" if got else ("gold" if avail else "dim"), 1, 0.5)
+				var gap := y - int(tree_rect(bi, ni - 1, nn).end.y)
+				ci.draw_rect(Rect2(x + 59, y - gap, 2, gap), TB.c("#63b84f" if got else "#2a2838"))
+			var ty := y + (3 if big else 4)
+			Gfx.text(ci, nd[0], x + 60, ty, "lime" if got else ("gold" if avail else "dim"), 1, 0.5)
 			var wl := Gfx.wrap_text(nd[1], 112)
 			for j in mini(2, wl.size()):
-				Gfx.text(ci, wl[j], x + 60, y + 13 + j * 8, "white" if got or avail else "dim", 1, 0.5)
+				Gfx.text(ci, wl[j], x + 60, ty + 8 + j * 8 + (0 if big else 1), "white" if got or avail else "dim", 1, 0.5)
 			if not got:
-				Gfx.text(ci, str(Traits.TREE_COSTS[ni]), x + 116, y + 4, "orange" if Meta.meta["embers"] >= Traits.TREE_COSTS[ni] else "red", 1, 1)
-	var nd: Array = tree[G.tree_b]["nodes"][G.tree_n]
-	Gfx.text(ci, nd[0] + ": " + nd[1], TB.SW / 2, 214, "white", 1, 0.5)
-	Gfx.text(ci, "ARROWS  PICK     USE  LEARN     AIM L/R  HERO     MENU  BACK", TB.SW / 2, 262, "grey", 1, 0.5)
+				Gfx.text(ci, str(Traits.TREE_COSTS[ni]), x + 116, ty, "orange" if Meta.meta["embers"] >= Traits.TREE_COSTS[ni] else "red", 1, 1)
+	var nd: Array = tree[G.tree_b]["nodes"][mini(G.tree_n, tree[G.tree_b]["nodes"].size() - 1)]
+	Gfx.text(ci, nd[0] + ": " + nd[1], TB.SW / 2, 236 if big else 214, "white", 1, 0.5)
+	# 48.3: the tree's reset (every ember back), red like the constellation's; it asks first.
+	var spent := Traits.tree_spent(owned)
+	var rr := TREE_RESET
+	Gfx.panel(ci, rr.position.x, rr.position.y, rr.size.x, rr.size.y, "#d8443c" if spent > 0 else "#2a2838", "#0c0b12")
+	Gfx.text(ci, ("SURE? RESET AGAIN" if G.tree_reset_armed else "RESET THIS TREE"), rr.get_center().x, rr.position.y + 5, "red" if spent > 0 else "dim", 1, 0.5)
+	Gfx.text(ci, "ARROWS  PICK     USE  LEARN     BOMB  RESET     AIM L/R  HERO     MENU  BACK", TB.SW / 2, 272, "grey", 1, 0.5)
 
 # ---------- Gear page ----------
 func draw_gearpage(ci: CanvasItem) -> void:
@@ -792,6 +815,9 @@ func draw_end(ci: CanvasItem) -> void:
 		Gfx.text(ci, "  ".join(parts), TB.SW / 2, 200, "tan", 1, 0.5)
 		var extra := "  (DREAD X%.2f)" % a["mult"] if a["mult"] > 1 else ""
 		Gfx.text(ci, "+%d EMBERS%s" % [a["total"], extra], TB.SW / 2, 212, "orange", 2, 0.5)
+		if a.has("dust"):   # 48.2
+			Gfx.text(ci, "+%d STAR DUST%s   (%d IN ALL: A STAR POINT FOR EVERY %d)" % [a["dust"], ("  (DREAD X%.2f)" % Dread.dust_mult()) if G.dread > 0 else "",
+				int(Meta.meta.get("dust", 0)), Stars.DUST_PER_POINT], TB.SW / 2, 228, "cyan", 1, 0.5)
 	if G.state_t > 1:
 		Gfx.text(ci, "PRESS USE TO CONTINUE", TB.SW / 2, 250, "white" if floori(G.time * 2) % 2 == 1 else "grey", 1, 0.5)
 

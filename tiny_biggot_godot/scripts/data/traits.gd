@@ -557,7 +557,7 @@ const ROWS := [
 	["aug_power", "demolition", 1, "OVERDRIVE CORE", "+10 POWER. YOUR POWER ALSO RAISES YOUR SPECIAL'S DAMAGE, 1% A POINT.", false, [["hook", "power", 10], ["hook", "power_core", 1]], "rare", ["demolition"], {  }],
 ]
 
-const TREE_COSTS := [10, 20, 35, 60]
+const TREE_COSTS := [10, 20, 35, 60, 100, 150]   # (48.3: the fifth and sixth skills of a branch)
 ## [name, desc] per node; effects in NODE_EFFECTS.
 const SKILL_BRANCHES := [
 	{ "name": "MIGHT", "nodes": [["SHARPENED", "+10% DAMAGE"], ["QUICK HANDS", "+10% FIRE RATE"], ["TRAINED EYE", "+8% CRIT CHANCE"], ["HEIRLOOM", "START WITH A RANDOM RARE RELIC"]] },
@@ -725,6 +725,13 @@ const NODE_EFFECTS := {
 	"PADDED": [["add", "armor", 1]],
 	"NIMBLE": [["add", "dodge_charges", 1], ["add", "charges", 1]],
 	"SECOND WIND": [["add", "revive", 1]],
+	# 48.3: the fifth and sixth skills (tree_for)
+	"DEADLY RHYTHM": [["mul", "rate", 1.1], ["add", "crit", 0.05]],
+	"MASTER'S TOUCH": [["mul", "dmg", 1.15]],
+	"IRON WILL": [["add", "max_hp", 2], ["add", "hp", 2], ["add", "armor", 1]],
+	"LONG ROAD": [["hook", "gourd_sips", 1]],
+	"MASTERY": [["hook", "special_haste", 0.2]],
+	"LEGEND": [["mul", "dmg", 1.1], ["add", "max_hp", 2], ["add", "hp", 2]],
 	"CURVING HEX": [["add", "homing", 0.8]],
 	"MALEDICT": [["add", "curse", 0.2]],
 	"PIERCING HEX": [["add", "pierce", 1]],
@@ -783,8 +790,33 @@ static func has(id: String) -> bool:
 	all()
 	return _by_id.has(id)
 
+## 48.3 (his word, 10 Oct: "expand and reset ... hero trees"): two more skills on each branch in the
+## expanded game (classic keeps four); a hero's tree can be reset for its embers (Game.update_tree).
+const SKILL_MORE := [[["DEADLY RHYTHM", "+10% FIRE RATE AND +5% CRIT"], ["MASTER'S TOUCH", "+15% DAMAGE"]],
+	[["IRON WILL", "+1 MAX HEART AND 1 ARMOR"], ["LONG ROAD", "THE GOURD HOLDS ONE MORE SIP"]]]
+const HERO_MORE := [["MASTERY", "YOUR SKILL RECHARGES 20% FASTER"], ["LEGEND", "+10% DAMAGE AND +1 MAX HEART"]]
+static var _grown := {}
+
 static func tree_for(hero_id: String) -> Array:
-	return SKILL_BRANCHES + [HERO_BRANCH[hero_id]]
+	var base: Array = SKILL_BRANCHES + [HERO_BRANCH[hero_id]]
+	if not GameData.rogues():
+		return base
+	if not _grown.has(hero_id):
+		var out := []
+		for bi in base.size():
+			var b: Dictionary = base[bi].duplicate(true)
+			b["nodes"] = b["nodes"] + (SKILL_MORE[bi] if bi < 2 else HERO_MORE)
+			out.append(b)
+		_grown[hero_id] = out
+	return _grown[hero_id]
+
+## What a hero's tree cost, for its reset.
+static func tree_spent(owned: Array) -> int:
+	var n := 0
+	for bi in owned.size():
+		for ni in int(owned[bi]):
+			n += TREE_COSTS[mini(ni, TREE_COSTS.size() - 1)]
+	return n
 
 ## One rank of a trait. tier_effects (new traits) add extra effects when a
 ## given rank is reached, e.g. { 3: [...] }. An old trait's "more" (43.7) comes with every rank.

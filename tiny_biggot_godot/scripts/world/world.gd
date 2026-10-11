@@ -30,7 +30,7 @@ const HIT_X := 1
 const HIT_Y := 2
 
 static func new_floor(index: int) -> Dictionary:
-	var total := mini(7 + index, 11)
+	var total := Dread.floor_rooms(index, mini(7 + index, 11))   # (48.1 TIDE OF ROOMS)
 	var fd := { "index": index, "total": total, "depth": 0,
 		"shop_depth": TB.rint(total / 2 - 1, total / 2 + 1), "shop_done": false, "path": [] }
 	if GameData.rogues():

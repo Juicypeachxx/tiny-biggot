@@ -61,6 +61,7 @@ var gloom := 0                 # 11.2: GLOOM stacks (statuses.gd)
 var gloom_t := 0.0
 var shatter := 0               # 47.2: SHATTER stacks (scripts/combat/shatter.gd)
 var shatter_t := 0.0
+var plague := false            # 48.1 PLAGUE: a carrier (scripts/game/dread.gd)
 var vuln_t := 0.0
 var weak_t := 0.0
 # AI scratch

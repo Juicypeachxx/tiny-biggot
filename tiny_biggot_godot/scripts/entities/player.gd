@@ -288,7 +288,7 @@ func update_move(dt: float) -> Vector2:
 	var raging := blood_rage and hp <= max_hp / 2
 	if charges < dodge_charges:
 		charge_t += dt * Might.roll_rate(self)   # 40.2 ROLLING THUNDER, HEAVY STRIDE (1.0 in classic)
-		if charge_t >= dodge_cd:
+		if charge_t >= dodge_cd + Dread.roll_delay():   # (48.1 COLD START)
 			charge_t = 0.0
 			charges += 1
 	var mv := Keys.move()

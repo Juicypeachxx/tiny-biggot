@@ -9,7 +9,8 @@ extends RefCounted
 ## be given back only if nothing taken hangs off it. Points: one per guardian ever beaten, two per
 ## win, up to 30. Taken stars are saved (Meta.meta["stars"]) and apply at the start of each run.
 
-const MAX_POINTS := 30
+const MAX_POINTS := 60   # (48.2: was 30; the spokes grew from 7 stars to 10)
+const DUST_PER_POINT := 250   # 48.2 STAR DUST: a point for every 250
 const STEP := 46.0   # distance between neighbouring stars, in web units
 
 ## Small stars along each spoke: [text, effects], cycled.
@@ -27,6 +28,8 @@ const NOTABLE := {
 		["KILLER INSTINCT", "+8% CRIT. CRITS DEAL +0.25X", [["add", "crit", 0.08], ["add", "crit_mult", 0.25]]],
 		["OVERFLOW", "+1 PROJECTILE, -10% DAMAGE", [["add", "count", 1], ["mul", "dmg", 0.9]]],
 		["BLOOD UP", "BELOW HALF HEALTH: +30% DAMAGE", [{ "on": "while_low_hp", "do": [["buff", "dmg", 0.3, 0]] }]],
+		["TEMPERED", "+10% DAMAGE AND +5% CRIT", [["mul", "dmg", 1.1], ["add", "crit", 0.05]]],   # 48.2
+		["TWIN STARS", "+1 PROJECTILE", [["add", "count", 1]]],
 	],
 	"e": [
 		["SECOND DAWN", "YOU RISE ONCE MORE FROM DEATH, ONCE PER RUN", [["add", "revive", 1]]],
@@ -34,6 +37,8 @@ const NOTABLE := {
 		["DEEP LUNGS", "+2 MAX HEARTS", [["add", "max_hp", 4], ["add", "hp", 4]]],
 		["GRIT", "WHEN HIT AT LOW HEALTH, 30% CHANCE TO HEAL HALF A HEART", [{ "on": "on_damage_taken", "if": "low_hp", "chance": 0.3, "do": [["heal", 1]] }]],
 		["BRAMBLE SKIN", "+15 THORNS. WHEN HIT, FOES NEAR YOU BLEED", [["add", "thorns", 15], { "on": "on_damage_taken", "do": [["status_area", "bleed", 1, 50]] }]],
+		["OAKEN HEART", "+1 MAX HEART AND 2 ARMOR AT THE START OF A RUN", [["add", "max_hp", 2], ["add", "hp", 2], ["add", "armor", 2]]],   # 48.2
+		["DEEP DRAUGHT", "THE GOURD HOLDS ONE MORE SIP", [["hook", "gourd_sips", 1]]],
 	],
 	"s": [
 		["FLEET FOOT", "+12% MOVE SPEED", [["mul", "speed", 1.12]]],
@@ -41,6 +46,8 @@ const NOTABLE := {
 		["DEEP POCKETS", "+1 POTION SLOT AND A POTION", [["add", "max_potions", 1], ["add", "potions", 1]]],
 		["GHOST STEP", "ROLLING LEAVES A RING OF 6 SHOTS (EVERY 2S)", [{ "on": "on_roll", "cd": 2.0, "do": [["nova", 6, 0.5, "spark"]] }]],
 		["SCAVENGER", "20% OF CLEARED ROOMS DROP A HEART", [{ "on": "on_room_clear", "chance": 0.2, "do": [["drop", "heart"]] }]],
+		["SWIFT WIND", "+8% MOVE SPEED, ROLLS RECHARGE 10% FASTER", [["mul", "speed", 1.08], ["mul", "dodge_cd", 0.9]]],   # 48.2
+		["SPARE STRIDE", "+1 ROLL CHARGE", [["add", "dodge_charges", 1], ["add", "charges", 1]]],
 	],
 	"w": [
 		["GILDED PALM", "+25% GOLD", [["mul", "gold_mult", 1.25]]],
@@ -48,6 +55,8 @@ const NOTABLE := {
 		["LOCKSMITH", "+2 KEYS AT THE START OF A RUN", [["add", "keys", 2]]],
 		["SILVER TONGUE", "SHOPS 15% CHEAPER", [["add_cap", "shop_disc", 0.15, 0.6]]],
 		["DEMOLITION KIT", "+3 BOMBS AT THE START OF A RUN", [["add", "bombs", 3]]],
+		["GOLD SENSE", "+30 GOLD AT THE START OF A RUN, +10% GOLD", [["add", "gold", 30], ["mul", "gold_mult", 1.1]]],   # 48.2
+		["HAGGLER'S ART", "SHOPS 10% CHEAPER", [["add_cap", "shop_disc", 0.1, 0.6]]],
 	],
 }
 const ICON := { "n": "fam_fury", "e": "fam_bulwark", "s": "fam_shadow", "w": "fam_fortune", "c": "fam_core",
@@ -90,13 +99,13 @@ static func nodes() -> Array:
 		var prev := 0
 		var small_i := 0
 		var notable_i := 0
-		for k in range(1, 8):
+		for k in range(1, 11):   # (48.2: 10 stars a spoke, was 7; the first 7 and their branches as they were)
 			var sm: Array = SMALL[side][small_i % SMALL[side].size()]
 			small_i += 1
 			var idx := _add("%s%d" % [side, k], dv * STEP * k, sm[0], sm[0], sm[1], false, side, prev)
 			prev = idx
 			# Side branches at every other star: two small stars, then a notable one.
-			if k % 2 == 0 or k == 7:
+			if k % 2 == 0 or k == 7:   # (48.2: and 8 and 10, a new notable each)
 				for sgn in ([1, -1] if k == 4 else [1 if (k / 2) % 2 == 0 else -1]):
 					if notable_i >= NOTABLE[side].size():
 						break
@@ -149,7 +158,14 @@ static func is_taken(i: int) -> bool:
 static func points() -> int:
 	if DebugArgs.has("unlock-all"):
 		return MAX_POINTS
-	return mini(MAX_POINTS, int(Meta.meta.get("bosses", 0)) + 2 * int(Meta.meta.get("wins", 0)))
+	return mini(MAX_POINTS, int(Meta.meta.get("bosses", 0)) + 2 * int(Meta.meta.get("wins", 0)) + int(Meta.meta.get("dust", 0)) / DUST_PER_POINT)   # (48.2 STAR DUST)
+
+## 48.2 STAR DUST (his word, 10 Oct: the other game's "Mastery EXP", "+30% for 0-4, 20% for 5-8, 10%
+## for 9-12, 5% for 13-16" a cinder): what a run that ends leaves, times the DREAD bonus.
+static func dust_for(win: bool) -> int:
+	var r := G.run_stats
+	var base := int(r.get("kills", 0)) / 4 + (G.floor_index + 1) * 10 + int(r.get("bosses", 0)) * 25 + (100 if win else 0)
+	return roundi(base * Dread.dust_mult())
 
 static func spent() -> int:
 	return taken().size()

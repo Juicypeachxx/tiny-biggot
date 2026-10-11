@@ -13,9 +13,12 @@ extends RefCounted
 const ALL := ["swift", "plated", "splitting", "volatile", "mending"]
 
 static func roll(e: Enemy) -> void:
+	if GameData.rogues() and (e.d.get("mini", false) or e.d.get("champion", false)) and Dread.has(12):
+		Dread.crown(e)   # 48.1 CROWNED
+		return
 	if not GameData.rogues() or not e.elite or e.is_boss() or e.d.get("mini", false) or e.d.get("champion", false):
 		return
-	var n := 2 if G.floor_index >= 6 or G.loop > 0 else 1
+	var n := (2 if G.floor_index >= 6 or G.loop > 0 else 1) + Dread.extra_traits()   # (48.1 TWICE CROWNED)
 	var pool := ALL.duplicate()
 	for i in n:
 		var t: String = pool[randi() % pool.size()]

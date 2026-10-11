@@ -125,9 +125,11 @@ static func zones() -> Array:
 		&"tree":
 			var tree := Traits.tree_for(GameData.heroes()[G.tree_hero]["id"])
 			for bi in tree.size():
-				for ni in tree[bi]["nodes"].size():
-					out.append(_z(Rect2(34 + bi * 132, 56 + ni * 38, 120, 32), _tree_sel.bind(bi, ni),
+				var nn: int = tree[bi]["nodes"].size()
+				for ni in nn:
+					out.append(_z(MenuView.tree_rect(bi, ni, nn), _tree_sel.bind(bi, ni),
 						G.tree_b == bi and G.tree_n == ni))
+			out.append(_act(MenuView.TREE_RESET.grow(2), func(): G.tree_reset()))   # 48.3: twice, as BOMB
 			var ho := GameData.hero_order()
 			var hn := ho.size()
 			out.append(_act(Rect2(sw / 2 - 110, 20, 80, 16), func(): G.tree_hero = ho[(ho.find(G.tree_hero) + hn - 1) % hn]))
@@ -167,6 +169,7 @@ static func _dice(out: Array, kinds: Array, y: float) -> void:
 static func _tree_sel(bi: int, ni: int) -> void:
 	G.tree_b = bi
 	G.tree_n = ni
+	G.tree_reset_armed = false   # (48.3: a reset asks again after moving)
 
 static func hit(pos: Vector2) -> Dictionary:
 	for z in zones():

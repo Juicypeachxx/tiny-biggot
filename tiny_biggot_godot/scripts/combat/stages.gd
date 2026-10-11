@@ -85,6 +85,7 @@ static func tick(e: Enemy, dt: float) -> bool:
 	var want := _want(e)
 	if want > e.stage:
 		e.stage = want
+		Dread.on_stage()   # 48.1 FALTERING NERVE
 		e.break_t = 1.2
 		e.speed *= 1.15
 		EBullets.clear_all()

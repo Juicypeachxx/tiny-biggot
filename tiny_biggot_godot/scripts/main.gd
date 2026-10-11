@@ -84,6 +84,9 @@ func _ready() -> void:
 	touch_layer.add_child(TouchControls.new())
 	G.god = DebugArgs.has("god")
 	G.hero_index = clampi(DebugArgs.get_int("hero", 0), 0, GameData.heroes().size() - 1)
+	if DebugArgs.has("dread"):   # 48.1: that DREAD level, opened and picked (tests)
+		Meta.meta["dread_max"] = clampi(DebugArgs.get_int("dread", 0), 0, Dread.cap())
+		Meta.meta["dread"] = Meta.meta["dread_max"]
 	# The game opens on the title screen. Test options start a run directly.
 	var quick := false
 	for k in ["bot", "room", "floor", "hero", "ui", "bench", "quick", "weapon", "heavy", "rift", "event", "rex", "set", "wanderer", "endless"]:

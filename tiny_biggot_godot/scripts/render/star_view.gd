@@ -276,10 +276,15 @@ func _draw() -> void:
 	# The points box, the buttons and the controls.
 	Gfx.panel(self, TB.SW / 2 - 44, 6, 88, 16, "#f4ecd8", "#0c0b12")
 	Gfx.text(self, "%d/%d POINTS" % [Stars.spent(), Stars.points()], TB.SW / 2, 11, "gold", 1, 0.5)
+	if GameData.rogues():   # 48.2 STAR DUST: how far to the next point
+		var dust := int(Meta.meta.get("dust", 0))
+		var next := Stars.DUST_PER_POINT - dust % Stars.DUST_PER_POINT
+		Gfx.text(self, "STAR DUST %d: NEXT POINT IN %d" % [dust, next] if Stars.points() < Stars.MAX_POINTS else "STAR DUST %d: EVERY POINT IS YOURS" % dust,
+			TB.SW / 2, 25, "cyan", 1, 0.5)
 	Gfx.panel(self, BACK_RECT.position.x, BACK_RECT.position.y, BACK_RECT.size.x, BACK_RECT.size.y, "#f4ecd8", "#0c0b12")
 	Gfx.text(self, "<", BACK_RECT.get_center().x, BACK_RECT.position.y + 5, "white", 1, 0.5)
-	Gfx.panel(self, RESET_RECT.position.x, RESET_RECT.position.y, RESET_RECT.size.x, RESET_RECT.size.y, "#8b8f9c", "#0c0b12")
-	Gfx.text(self, "RESET", RESET_RECT.get_center().x, RESET_RECT.position.y + 5, "grey", 1, 0.5)
+	Gfx.panel(self, RESET_RECT.position.x, RESET_RECT.position.y, RESET_RECT.size.x, RESET_RECT.size.y, "#d8443c", "#0c0b12")   # (48.3: plainer to see)
+	Gfx.text(self, "RESET", RESET_RECT.get_center().x, RESET_RECT.position.y + 5, "red", 1, 0.5)
 	var help := ["TAP: READ, AGAIN: TAKE", "HOLD: GIVE BACK", "DRAG: LOOK, PINCH: ZOOM", "KEYS: ARROWS, USE, ROLL", "HOLD BOMB: RESET  MENU: BACK"]
 	Gfx.panel(self, 4, TB.SH - 50, 118, 46, "#8b8f9c", "#0c0b12")
 	for k in help.size():

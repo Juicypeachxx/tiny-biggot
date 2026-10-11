@@ -21,7 +21,7 @@ static func start(p: Player) -> void:
 	if not on():
 		return
 	p.gourd_max = SIPS
-	p.gourd = SIPS
+	p.gourd = max_sips(p)   # (48.2 DEEP DRAUGHT: the constellation's star comes first)
 
 static func max_sips(p: Player) -> int:
 	return p.gourd_max + int(p.g("gourd_sips")) if p.gourd_max > 0 else 0

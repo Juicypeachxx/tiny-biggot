@@ -10,7 +10,7 @@ static func dread() -> int:
 	return G.dread
 
 static func floor_scale() -> float:
-	return (1 + 0.42 * G.floor_index) * (1 + 0.15 * dread()) * loop_scale() * hard_hp() * run_scale()
+	return (1 + 0.42 * G.floor_index) * (1 + 0.15 * Dread.old()) * loop_scale() * hard_hp() * run_scale() * Dread.hp_mult()   # (48.1: DREAD past 5)
 
 ## The expanded game is a little harder than the original (his ask, 5 Oct, ROADMAP 4.7): foes,
 ## mini-bosses and guardians have 10% more health on the first floor, 3% more each floor after
@@ -76,7 +76,7 @@ static func loop_scale() -> float:
 	return 1.0 + (1.5 if GameData.rogues() else 0.8) * G.loop   # each loop much harder (his ask, 6 Oct)
 
 static func shot_mult() -> float:
-	return (1 + (0.08 * (dread() - 1) if dread() >= 2 else 0.0)) * (1.0 + (0.12 if GameData.rogues() else 0.06) * G.loop) * (1.10 if GameData.rogues() else 1.0)   # 11.3: foes' shots 10% faster (was 6%)
+	return (1 + (0.08 * (Dread.old() - 1) if Dread.old() >= 2 else 0.0)) * (1.0 + (0.12 if GameData.rogues() else 0.06) * G.loop) * (1.10 if GameData.rogues() else 1.0)   # 11.3: foes' shots 10% faster (was 6%)
 
 static func has_los(a: Object, b: Object) -> bool:
 	var d := TB.dist_xy(a.x, a.y, b.x, b.y)
@@ -179,7 +179,7 @@ static func spawn_enemy(type: String, x: float, y: float, elite: bool = false, i
 	Bestiary.seen(type)   # 22.3
 	var hp: float = d["hp"] * floor_scale() * (2.2 if elite else 1.0)
 	if d.get("mini", false):
-		hp = d["hp"] * (1 + 0.15 * dread()) * loop_scale() * hard_hp() * run_scale()   # stage-7 mini-bosses: fixed health like guardians
+		hp = d["hp"] * (1 + 0.15 * Dread.old()) * loop_scale() * hard_hp() * run_scale() * Dread.hp_mult()   # stage-7 mini-bosses: fixed health like guardians
 	if d.get("champion", false):
 		hp = d["hp"] * floor_scale()   # rift champions turn up on any floor, so their health grows with it
 	var e := Enemy.new()
@@ -213,7 +213,7 @@ static func spawn_enemy(type: String, x: float, y: float, elite: bool = false, i
 static func spawn_boss(key: String, quiet: bool = false) -> Enemy:
 	var d: Dictionary = GameData.BOSSES[key]
 	Bestiary.seen(key)   # 22.3
-	var hp: float = d["hp"] * (1 + 0.15 * dread()) * loop_scale() * hard_hp() * run_scale() * boss_hp()
+	var hp: float = d["hp"] * (1 + 0.15 * Dread.old()) * loop_scale() * hard_hp() * run_scale() * boss_hp() * Dread.hp_mult()
 	if d.get("rift", false):
 		hp *= 1 + 0.42 * G.floor_index   # a rift guardian turns up on any floor
 	if Daily.is_on("giants"):
@@ -234,6 +234,7 @@ static func spawn_boss(key: String, quiet: bool = false) -> Enemy:
 	e.scale = d["scale"]
 	G.enemies.append(e)
 	G.boss = e
+	Dread.on_boss(e)   # 48.1 ESCORTED, CROWNED, FALTERING NERVE
 	if not quiet:
 		Snd.play("roar")
 		G.add_shake(6)
@@ -370,6 +371,7 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	if e.curse_t > 0: dmg *= 1.0 + 0.25 * Might.ailment_mult(p)   # (40.2 MIGHT MAKES RIGHT)
 	if o.get("boom", false) and p.boom_elite and e.elite: dmg *= 2
 	if not o.get("no_mult", false): dmg *= player_damage_mult(p) * hook_mult(p, e) * Might.foe_mult(p, e) * Finesse.foe_mult(p, e, o) * Arcana.foe_mult(p, e, o) * Marvels.foe_mult(p, e) * Enchant.foe_mult(p, e)   # (42.1 cursed and sneaky hits; 43.1 CRYO CORE; 46 enchantments)
+	dmg *= Dread.nerve_mult()   # 48.1 FALTERING NERVE (1.0 but at a guardian stage's start)
 	if Might.casting: dmg *= Finesse.special_power(p)   # 41.1 STILL BREATH: the special's own blows
 	if e.vuln_t > 0 or e.shock > 0 or e.gloom > 0 or e.shatter > 0:
 		dmg *= Statuses.dmg_mult(e)
@@ -420,6 +422,7 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	return crit
 
 static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
+	Dread.on_kill(e)   # 48.1 PLAGUE: a carrier bursts
 	var p := G.player
 	e.hp = 0
 	p.kills += 1

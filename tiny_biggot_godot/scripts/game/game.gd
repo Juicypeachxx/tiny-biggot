@@ -129,7 +129,7 @@ func new_run() -> void:
 	var owned := tree_owned(hero["id"])
 	var tree := Traits.tree_for(hero["id"])
 	for bi in tree.size():
-		for ni in owned[bi]:
+		for ni in mini(owned[bi], tree[bi]["nodes"].size()):   # (48.3: classic has only the first four)
 			Traits.apply_node(tree[bi]["nodes"][ni][0], p)
 	Attributes.start(p)
 	Alignments.start(p)   # 38.1: some heroes start GOOD, EVIL, LAWFUL or CHAOTIC
@@ -163,6 +163,7 @@ func new_run() -> void:
 	CampLife.on_new_run(p)   # 19.2: the camp's meal, song and parcel
 	Dice.start(p)   # 35.1: an ALTER and a BANISH die (the 2 REROLL dice were always there)
 	Gourd.start(p)   # 47.1: THE GOURD, full
+	Dread.on_new_run(p)   # 48.1 FLAWED STEEL
 	Block.reset()   # 37.1
 	Might.reset()   # 40.2
 	Finesse.reset()   # 41.1
@@ -275,6 +276,7 @@ func start_floor() -> void:
 	room = null
 	if FloorMap.wanted():
 		FloorMap.generate(floor_d, player)
+		Dread.on_floor_map(floor_d)   # 48.1 BLOOD TOLL
 		floor_d["map"]["cells"][floor_d["map"]["start"]]["visited"] = true
 		enter_room(FloorMap.room_at(floor_d["map"]["start"], ""))
 	else:
@@ -512,6 +514,12 @@ func _leave_on_map(dir: String, c: Dictionary) -> void:
 		if not cell2.is_empty() and not cell2["visited"]:
 			Meta.meta["secrets"] += 1
 			run_stats["secrets"] += 1
+	if room.on_map:   # 48.1 BLOOD TOLL: a heart at the door, or it stays shut
+		var tc: Dictionary = FloorMap.cells().get(room.cell + World.DIRS[dir], {})
+		if not tc.is_empty() and not Dread.pay_toll(player, tc):
+			player.x = clampf(player.x, TB.TS * 2.0, TB.SW - TB.TS * 2.0)
+			player.y = clampf(player.y, TB.TS * 2.4, TB.SH - TB.TS * 2.0)
+			return
 	var nr := FloorMap.step(dir)
 	start_fade(func(): enter_room(nr))
 
@@ -861,6 +869,7 @@ func spawn_wave(hard: bool = false) -> void:
 		var mb := Combat.spawn_enemy(room.theme["mini"], 14.0 * TB.TS, 7.0 * TB.TS)
 		show_banner(mb.d["name"], "IT KEEPS THE WAY TO THE CHAMPION")
 		n = maxi(1, n / 3)
+	n = Dread.pack(n)   # 48.1 PACKED HALLS
 	var deeper: Array = GameData.floors()[mini(floor_index + 1, GameData.floors().size() - 1)]["pool"]
 	var n0 := enemies.size()
 	for i in n:
@@ -870,6 +879,8 @@ func spawn_wave(hard: bool = false) -> void:
 		var s := World.free_spot(room, player, 90, World.M_FLYER if GameData.ENEMIES[type].get("fly", false) else World.M_WALKER)
 		Combat.spawn_enemy(type, s.x, s.y, randf() < ec)
 	Lives.on_wave(enemies.slice(n0), not _spawned)   # 21.5: some of the first wave are asleep
+	Dread.maybe_plague(enemies.slice(n0))   # 48.1 PLAGUE
+	Dread.maybe_hunter(not _spawned)   # 48.1 THE HUNTER
 	room.waves_left -= 1
 
 func give_reward(kind: String) -> void:
@@ -1245,6 +1256,10 @@ func award_embers(win: bool) -> void:
 	Meta.meta["embers"] += total
 	Meta.meta["kills"] += r["kills"]
 	award = { "parts": parts, "mult": mult, "total": total }
+	if GameData.rogues():   # 48.2 STAR DUST: star points for the constellation
+		var dust := Stars.dust_for(win)
+		Meta.meta["dust"] = int(Meta.meta.get("dust", 0)) + dust
+		award["dust"] = dust
 	Bestiary.log_run(win, total)   # 22.3 past runs
 	Meta.write_save()
 
@@ -1264,7 +1279,7 @@ func on_death(source: String) -> void:
 func throne_victory() -> void:
 	run_stats["throne"] = true
 	Meta.meta["wins"] += 1
-	Meta.meta["dread_max"] = mini(maxi(Meta.meta.get("dread_max", 0), dread + 1), 5)
+	Meta.meta["dread_max"] = mini(maxi(Meta.meta.get("dread_max", 0), dread + 1), Dread.cap())   # (48.1: up to 16)
 	Meta.write_save()
 	Snd.play("win")
 	show_banner("VICTORY! THE THRONE IS BROKEN", "A RIFT OPENS ONTO DARKER LANDS")
@@ -1272,7 +1287,7 @@ func throne_victory() -> void:
 func on_win() -> void:
 	if not run_stats.get("throne", false):
 		Meta.meta["wins"] += 1
-		Meta.meta["dread_max"] = mini(maxi(Meta.meta.get("dread_max", 0), dread + 1), 5)
+		Meta.meta["dread_max"] = mini(maxi(Meta.meta.get("dread_max", 0), dread + 1), Dread.cap())
 	else:
 		Meta.meta["eclipse_wins"] = Meta.meta.get("eclipse_wins", 0) + 1
 	award_embers(true)
@@ -1681,7 +1696,7 @@ func price(v: float, al: String = "") -> int:
 	if Daily.is_on("gold"):
 		v *= 1.5   # 18.1 GOLD RUSH
 	if dread >= 3:
-		v *= 1 + 0.08 * dread
+		v *= 1 + 0.08 * Dread.old()
 	return maxi(1, roundi(v * (1 - player.shop_disc)))
 
 func item_price(item: Dictionary, al: String = "") -> int:
@@ -2333,6 +2348,28 @@ func update_hero() -> void:
 		Snd.play("deny")
 		toast("UNLOCK THIS HERO AT THE EMBER SHRINE", "orange")
 
+## 48.3 (his word): a hero's tree reset, every ember back; the first press asks, the second does it.
+var tree_reset_armed := false
+func tree_reset() -> void:
+	var h: Dictionary = GameData.heroes()[tree_hero]
+	var owned := tree_owned(h["id"])
+	var spent := Traits.tree_spent(owned)
+	if spent <= 0:
+		Snd.play("deny")
+		toast("NOTHING LEARNED YET", "grey")
+		return
+	if not tree_reset_armed:
+		tree_reset_armed = true
+		Snd.play("deny")
+		toast("AGAIN TO RESET: %d EMBERS BACK" % spent, "orange")
+		return
+	tree_reset_armed = false
+	Meta.meta["embers"] += spent
+	Meta.meta["tree"][h["id"]] = [0, 0, 0]
+	Meta.write_save()
+	Snd.play("unlock")
+	toast("TREE RESET: +%d EMBERS" % spent, "gold")
+
 ## Skill tree: LEFT/RIGHT pick a branch, UP/DOWN a node, USE buys, AIM LEFT/RIGHT change hero.
 func update_tree() -> void:
 	var order := GameData.hero_order()
@@ -2343,18 +2380,24 @@ func update_tree() -> void:
 	if Keys.aim_right_trig():
 		tree_hero = order[(order.find(tree_hero) + 1) % n]
 		Snd.play("select")
+	if Keys.left() or Keys.right() or Keys.up() or Keys.down() or Keys.aim_left_trig() or Keys.aim_right_trig():
+		tree_reset_armed = false   # (48.3: a reset asks again after moving)
 	if Keys.left():
 		tree_b = (tree_b + 2) % 3
 		Snd.play("select")
 	if Keys.right():
 		tree_b = (tree_b + 1) % 3
 		Snd.play("select")
+	var tn: int = Traits.tree_for(GameData.heroes()[tree_hero]["id"])[tree_b]["nodes"].size()   # (48.3: six in the expanded game)
 	if Keys.up():
-		tree_n = (tree_n + 3) % 4
+		tree_n = (tree_n + tn - 1) % tn
 		Snd.play("select")
 	if Keys.down():
-		tree_n = (tree_n + 1) % 4
+		tree_n = (tree_n + 1) % tn
 		Snd.play("select")
+	if Keys.bomb():
+		tree_reset()   # 48.3: twice, and the tree is reset for its embers
+		return
 	if Keys.back():
 		state = &"hero" if tree_from == &"hero" else Camp.back_state()
 		menu = hero_index if tree_from == &"hero" else title_index("SKILL TREES")
@@ -2561,6 +2604,7 @@ func update_play(dt: float) -> void:
 		return
 	var p := player
 	_lp_t = Time.get_ticks_usec()   # (47.6: what each part costs, for the SHOW FPS breakdown)
+	Dread.tick(dt)   # 48.1 FALTERING NERVE
 	Effects.tick(dt)
 	_lp("PROCS")
 	Combat.update_player(p, dt)

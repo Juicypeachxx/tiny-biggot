@@ -16,6 +16,7 @@ extends RefCounted
 ##   --smart-bot                  with --bot: detours when stuck, hunts far foes, rings challenge bells
 ##   --touch                      show the touch controls on a desktop (mouse = finger)
 ##   --god                        the player takes no damage (soak tests)
+##   --dread=N                    DREAD level N opened and picked (48.1: up to 16; 5 in classic)
 ##   --weapon=ID                  start with this weapon (see data/weapons.gd)
 ##   --weapon-cycle=SECONDS       switch to the next weapon every N seconds (soak tests)
 ##   --ui=SCREEN                  open a screen at start: choice, traits, title, hero, tree, shrine, options, keys,

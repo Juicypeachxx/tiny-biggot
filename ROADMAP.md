@@ -1480,19 +1480,28 @@ each point); the rest, proposed in the order it would be felt most, with names o
         a grid of two rows along the top (tap to see, tap again to begin), the chosen hero large
         beside its card.
 - [ ] Stage 48 (his word, 10 Oct): DREAD to 16, star dust, trees expanded and reset, RESET GAME.
-  - [ ] 48.1 DREAD (our own ladder, unlocked one level a win, more dread more embers) grows from 5
+  - [x] 48.1 DREAD (our own ladder, unlocked one level a win, more dread more embers) grows from 5
         to 16 levels, as his 16 "cinders": levels 1 to 5 keep what they do (rule 1); 6 to 16
         each add one more rule of our own, from his list (a FLAWED starting weapon, short early
         floors and long late ones, packed rooms, blood doors, guardians with escorts, guardians
         and mini-bosses as elites, harder elite modifiers, a hunter that invades fights, plague
         carriers, guardians stronger in their second stage, a weaker start on each guardian).
         Every level also +0.5% health a floor to every foe and guardian (their plates with it).
-  - [ ] 48.2 STAR DUST (his "Mastery / Paragon EXP"): runs earn it (kills, floors, guardians,
+        Done (scripts/game/dread.gd): 6 FLAWED STEEL, 7 COLD START (slower roll recharge on the
+        first three floors), 8 PACKED HALLS, 9 BLOOD TOLL, 10 ESCORTED, 11 TIDE OF ROOMS,
+        12 CROWNED, 13 THE HUNTER, 14 FALTERING NERVE (each guardian stage starts at half damage),
+        15 PLAGUE, 16 TWICE CROWNED. Classic keeps its five. Test switch --dread=N.
+  - [x] 48.2 STAR DUST (his "Mastery / Paragon EXP"): runs earn it (kills, floors, guardians,
         wins), times the DREAD bonus (+30% a level for 1 to 4, +20% for 5 to 8, +10% for 9 to 12,
         +5% for 13 to 16); star points come from it, and the constellation grows past 30.
-  - [ ] 48.3 The constellation and the hero skill trees: more to take, and a RESET that gives the
-        points back.
-  - [ ] 48.4 OPTIONS: RESET GAME (asks twice; the save starts over).
+        Done: a point for every 250 dust, up to 60 points; each of the four spokes 10 stars
+        long (was 7) with two new notable stars; the end screen shows the dust a run earned.
+  - [x] 48.3 The constellation and the hero skill trees: more to take, and a RESET that gives the
+        points back. Done: every branch of every hero's tree has six skills (was four; 100 and
+        150 embers); RESET THIS TREE (tap or BOMB, twice) gives every ember back; the
+        constellation's RESET is red and plain to see.
+  - [x] 48.4 OPTIONS: RESET GAME (asks twice; the save starts over).
+  - [ ] 48.5 A test for all of it, the replays (classic unchanged), IPA 48.
 - [ ] Stage 49: items that grow with curses carried and foes slain, ROOM DRAUGHTS, a HONING STONE.
 - [ ] Stage 50: RADIANT, NECROTIC, DARK, ENERGY and SOUND as weapon damage types, and weapons for them.
 - [ ] Stage 51: run modes: THE NARROW WAY (no map), IRON VOW (after 5 wins: one life). (OMENS:

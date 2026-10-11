@@ -12,7 +12,9 @@ Enchantments"; the full check passed). Then his list of another game's core game
 (GAMEPLAY_PLAN.md): most of it is here; Stages 47 to 51 proposed in ROADMAP.md. His pick: Stage 47
 (THE GOURD, SHATTER), and during it the title menu and the hero select reworked (his word), and
 47.6 (his lag clip; every trait and relic checked): done, IPA 47 "Gourd and Shatter" (full check
-passed). Next: Stage 48 (his 16 cinders: DREAD to 16, star dust, trees reset, RESET GAME).
+passed). Now: Stage 48 (his 16 cinders): 48.1 DREAD to 16 (dread.gd), 48.2 STAR DUST and a
+constellation of 60 points, 48.3 six skills a tree branch and RESET THIS TREE, 48.4 RESET GAME:
+coded and committed; 48.5 (stage48_test, replays, IPA 48) is next.
 Done before: 39.4 "Bosses Fall" (IPA 39.4), Stage 39 "More to Find", 38 "Alignment and Loot", 37,
 36, 35 (the full check passed at 35). Next: Stage 40.
 
