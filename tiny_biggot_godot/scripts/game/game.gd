@@ -48,7 +48,8 @@ var tchoice: Dictionary = {}   # trait offer: { opts, idx }
 # Menus (Game.rb).
 const TITLE_ITEMS := ["START RUN", "SKILL TREES", "EMBER SHRINE", "CODEX", "HOW TO PLAY", "OPTIONS"]
 const PAUSE_ITEMS := ["RESUME", "GEAR", "TRAITS", "RELICS", "OPTIONS", "ABANDON RUN"]
-const OPTION_LIST := [["AUTO-AIM FIRE", "autofire"], ["MUSIC", "music"], ["SOUND EFFECTS", "sfx"], ["PLACE SOUNDS", "places"], ["SCREEN SHAKE", "shake"], ["SHOW FPS", "fps"], ["SHOW GEAR ON HERO", "show_gear"], ["FANCY EFFECTS", "vfx"], ["FAST DRAWING", "fast_draw"], ["MEET THE HAGGLER", "haggler"], ["STAT COLUMN", "statcol"], ["NEON LOOK", "neon"], ["KEYBOARD KEYS", "@keys"], ["BACK", ""]]
+const OPTION_LIST := [["AUTO-AIM FIRE", "autofire"], ["MUSIC", "music"], ["SOUND EFFECTS", "sfx"], ["PLACE SOUNDS", "places"], ["SCREEN SHAKE", "shake"], ["SHOW FPS", "fps"], ["SHOW GEAR ON HERO", "show_gear"], ["FANCY EFFECTS", "vfx"], ["FAST DRAWING", "fast_draw"], ["MEET THE HAGGLER", "haggler"], ["STAT COLUMN", "statcol"], ["NEON LOOK", "neon"], ["KEYBOARD KEYS", "@keys"], ["RESET GAME", "@reset"], ["BACK", ""]]   # (48.4 RESET GAME)
+var reset_armed := false   # 48.4: RESET GAME pressed once, waiting for the second press
 const CODEX_COLS := 11
 var quit_armed := false
 var wardrobe_from: StringName = &"title"   # 14.2: where the WARDROBE page goes back to
@@ -2452,6 +2453,26 @@ func update_options() -> void:
 		Snd.play("select")
 		return
 	var key: String = OPTION_LIST[menu][1]
+	if key != "@reset":
+		reset_armed = false
+	if key == "@reset":   # 48.4 (his word): every bit of progress starts over, after a second press
+		if go:
+			if opt_from != &"title":
+				Snd.play("deny")
+				toast("RESET THE GAME FROM THE TITLE'S OPTIONS", "orange")
+			elif not reset_armed:
+				reset_armed = true
+				Snd.play("deny")
+				toast("PRESS AGAIN TO ERASE ALL PROGRESS", "red")
+			else:
+				reset_armed = false
+				Meta.reset_progress()
+				hero_index = 0
+				state = &"title"
+				menu = 0
+				Snd.play("boom")
+				toast("THE GAME STARTS OVER", "red")
+		return
 	if key == "@keys":
 		if go:
 			state = &"keys"   # 13.1: the keyboard keys page
@@ -2493,7 +2514,7 @@ func update_keys() -> void:
 	var go := menu_nav(n)
 	if Keys.back() or (go and menu == n - 1):
 		state = &"options"
-		menu = OPTION_LIST.size() - 2
+		menu = OPTION_LIST.map(func(o): return o[1]).find("@keys")   # (48.4: RESET GAME stands after it)
 		Snd.play("select")
 		return
 	if not go:

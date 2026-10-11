@@ -416,14 +416,16 @@ func draw_howto(ci: CanvasItem) -> void:
 
 # ---------- Options and pause ----------
 ## Where the option rows sit (the tap zones in taps.gd use the same numbers).
-const OPT_Y0 := 68   # 8.2: eleven rows (STAT COLUMN) fit
-const OPT_DY := 15   # 13.1: thirteen rows; 21.3: fourteen (PLACE SOUNDS)
+const OPT_Y0 := 64   # 8.2: eleven rows (STAT COLUMN) fit
+const OPT_DY := 14   # 13.1: thirteen rows; 21.3: fourteen (PLACE SOUNDS); 48.4: fifteen (RESET GAME)
 func draw_options(ci: CanvasItem) -> void:
-	Gfx.text(ci, "OPTIONS", TB.SW / 2, 46, "gold", 2, 0.5)
+	Gfx.text(ci, "OPTIONS", TB.SW / 2, 42, "gold", 2, 0.5)
 	for i in G.OPTION_LIST.size():
 		var label: String = G.OPTION_LIST[i][0]
 		var key: String = G.OPTION_LIST[i][1]
 		var txt := "%s:  %s" % [label, "ON" if Meta.opts[key] else "OFF"] if key != "" and key[0] != "@" else label
+		if key == "@reset" and G.reset_armed:
+			txt = "SURE? PRESS AGAIN"   # 48.4
 		_menu_item(ci, txt, TB.SW / 2, OPT_Y0 + i * OPT_DY, i, 2, 260)
 
 ## 13.1: the keyboard keys page (taps.gd uses the same rows).

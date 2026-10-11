@@ -42,9 +42,9 @@ func _ready() -> void:
 	# The page: Options > KEYBOARD KEYS, pick BOMB, press G.
 	G.state = &"options"
 	G.opt_from = &"title"
-	G.menu = G.OPTION_LIST.size() - 2
-	if G.OPTION_LIST[G.menu][1] != "@keys":
-		fail("no KEYBOARD KEYS row before BACK")
+	G.menu = G.OPTION_LIST.map(func(o): return o[1]).find("@keys")
+	if G.menu < 0:
+		fail("no KEYBOARD KEYS row")
 	G.state = &"keys"
 	G.menu = 11
 	Keys.hold_off = 0

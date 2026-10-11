@@ -11,10 +11,11 @@ const SAVE_MAGIC := "TBSV"
 const SAVE_HEAD := 20
 
 var opts := { "autofire": true, "music": true, "sfx": true, "places": true, "shake": true, "fps": false, "show_gear": true, "fast_draw": true, "vfx": true, "haggler": false, "statcol": true, "neon": false, "keymap": {} }
-var meta := {
+const META_START := {
 	"runs": 0, "wins": 0, "best": 0, "embers": 0, "unlocked": {}, "found": {}, "secrets": 0,
 	"bosses": 0, "kills": 0, "dread_max": 0, "dread": 0, "tree": {}, "found_w": {}, "found_g": {},
 }
+var meta: Dictionary = META_START.duplicate(true)
 
 func _ready() -> void:
 	if not DebugArgs.has("no-save"):
@@ -28,6 +29,14 @@ func unlock_all() -> void:
 		meta["unlocked"][u["id"]] = true
 	for h in GameData.heroes():
 		meta["tree"][h["id"]] = [4, 4, 4]
+
+## 48.4 RESET GAME (his word, 10 Oct: "in options make reset the game option"): every bit of
+## progress starts over as on a first start (heroes, embers, unlocks, trees, stars, the camp,
+## records, a saved run); the options and keys are kept.
+func reset_progress() -> void:
+	meta = META_START.duplicate(true)
+	RunSave.clear()
+	write_save()
 
 func unlocked(id: String) -> bool:
 	return meta["unlocked"].get(id, false) == true
