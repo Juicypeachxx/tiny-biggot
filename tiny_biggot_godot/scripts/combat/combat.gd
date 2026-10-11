@@ -424,6 +424,8 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 
 static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 	Dread.on_kill(e)   # 48.1 PLAGUE: a carrier bursts
+	if e.seared_t > 0:
+		DamageTypes.on_death(e)   # 50.2: a seared foe bursts in light
 	var p := G.player
 	e.hp = 0
 	p.kills += 1
@@ -760,7 +762,8 @@ static func update_enemies(dt: float) -> void:
 		if e.hp <= 0:
 			continue
 		var ddt := dt * slow
-		if e.vuln_t > 0 or e.weak_t > 0 or e.shock_t > 0 or e.gloom_t > 0 or e.shatter_t > 0:
+		if e.vuln_t > 0 or e.weak_t > 0 or e.shock_t > 0 or e.gloom_t > 0 or e.shatter_t > 0 \
+				or e.seared_t > 0 or e.rot_t > 0 or e.charge_t > 0 or e.rattle_t > 0:   # (50.2)
 			if e.weak_t > 0:
 				ddt *= 0.7
 			Statuses.tick(e, dt)
@@ -1346,6 +1349,7 @@ static func on_hit_effects(e: Enemy, dmg: float, crit: bool, p: Player, b: PBull
 	if b == null or b.own:
 		Might.on_hit(p, e, dmg, crit)   # 40.2 the STRENGTH traits' marks on a foe
 		Infusions.on_hit(p, e)   # 44: the infusions' elements
+		DamageTypes.on_hit(p, e, dmg, crit)   # 50.2: RADIANT, NECROTIC, DARK, ENERGY, SOUND
 
 static func pbullet_hits(b: PBullet, p: Player) -> void:
 	if b.nohit:

@@ -997,6 +997,7 @@ func _paint_fx(ci: CanvasItem) -> void:
 	Oddities.draw_over(ci, G.time)
 	Spells.draw_over(ci, G.time)
 	Toys.draw_over(ci, G.time)   # 31 the toybox
+	DamageTypes.draw_over(ci, G.time)   # 50.2: marks of the new ailments
 
 # ---------- z 1900: additive glows ----------
 ## Small markers: a pink chevron over exposed foes (they take +25% damage), and

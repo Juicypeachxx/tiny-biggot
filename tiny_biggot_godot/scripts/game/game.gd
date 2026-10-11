@@ -1894,7 +1894,7 @@ func _new_trait_weight(p: Player, t: Dictionary) -> int:
 func reroll_cost() -> int:
 	return 15 + 10 * player.paid_rerolls
 
-func offer_traits() -> void:
+func offer_traits(reroll: bool = false) -> void:
 	var p := player
 	# 29: the run's OATH, or a grimoire's pick of rare traits; with none left to offer, an ordinary pick.
 	var mode := ""
@@ -1906,6 +1906,8 @@ func offer_traits() -> void:
 		p.special_picks = 0
 		mode = ""
 		cands = trait_cands(p, mode)
+	if GameData.rogues():
+		cands = vary_cands(p, cands, mode, reroll)   # 50.1: fewer repeats
 	var opts := []
 	var n_opts := 3
 	if TraitView.active() and p.luck > 0 and randf() < minf(0.9, p.luck * 0.15):
@@ -1919,7 +1921,7 @@ func offer_traits() -> void:
 			var sp := cands.filter(func(pair): return pair[0]["new"] and pair[0]["rarity"] in Traits.SPOTLIGHT)
 			if not sp.is_empty():
 				pool = sp
-		var tot := 0
+		var tot := 0.0
 		for c in pool:
 			tot += c[1]
 		var x := randf() * tot
@@ -1944,7 +1946,50 @@ func offer_traits() -> void:
 	for t in opts:
 		if not t.has("stat"):
 			TraitBook.note_seen(t)   # 30.2: lit in the trait book
+	if GameData.rogues():
+		note_offered(p, opts, true)
 	state = &"traits"
+
+## 50.1 (his word, 11 Oct: traits and oaths "more random and not repeat soo much when picking traits
+## or rerolling them"). Weights of the traits a pick can show: a reroll leaves out the traits it
+## throws away (while three others are left); a trait shown before and passed over comes up less
+## each time it was shown, and seldom in the very next pick; one not shown yet this run comes up
+## half again as often; your own traits keep their weight (a rank up); an oath pick leaves out the
+## oaths of the last two runs (while three others are left).
+func vary_cands(p: Player, cands: Array, mode: String, reroll: bool) -> Array:
+	var out := cands
+	if reroll and not p.last_offer.is_empty():
+		var rest := out.filter(func(pair): return not p.last_offer.has(pair[0]["id"]))
+		if rest.size() >= 3:
+			out = rest
+	if mode == "oath":
+		var recent: Array = Meta.meta.get("oaths_last", []) + Meta.meta.get("oaths_before", [])
+		var fresh := out.filter(func(pair): return not recent.has(pair[0]["id"]))
+		if fresh.size() >= 3:
+			out = fresh
+	var res := []
+	for pair in out:
+		var id: String = pair[0]["id"]
+		var w := float(pair[1])
+		if not p.traits.has(id):
+			if p.offered.has(id):
+				w /= 1.0 + 0.6 * float(p.offered[id])
+				if p.last_offer.has(id):
+					w *= 0.3
+			else:
+				w *= 1.5
+		res.append([pair[0], w])
+	return res
+
+## 50.1: what a pick showed is remembered for the run (fresh: the pick's whole list, else one row).
+func note_offered(p: Player, shown: Array, fresh: bool) -> void:
+	if fresh:
+		p.last_offer = []
+	for t in shown:
+		if t.has("stat"):
+			continue
+		p.last_offer.append(t["id"])
+		p.offered[t["id"]] = int(p.offered.get(t["id"], 0)) + 1
 
 ## The traits a pick can offer now, with their weights: [[trait, weight]...]. 35.1: a banished
 ## trait never comes again (Dice).
@@ -1984,7 +2029,15 @@ func take_trait(t: Dictionary) -> void:
 		return TraitRules.take_stat(p, t)   # 41.5: a stat point
 	if tchoice.get("opts", []).has(t):   # 29: an oath or a grimoire's pick is spent
 		match tchoice.get("mode", ""):
-			"oath": p.oath_picks = maxi(0, p.oath_picks - 1)
+			"oath":
+				p.oath_picks = maxi(0, p.oath_picks - 1)
+				# 50.1: the oaths this run showed, kept for the next two runs' oath picks to leave out
+				var shown := []
+				for id in p.offered:
+					if Traits.has(id) and Traits.by_id(id)["rarity"] == "oath":
+						shown.append(id)
+				Meta.meta["oaths_before"] = Meta.meta.get("oaths_last", [])
+				Meta.meta["oaths_last"] = shown
 			"special": p.special_picks = maxi(0, p.special_picks - 1)
 	p.traits[t["id"]] = p.traits.get(t["id"], 0) + 1
 	Traits.apply(t["id"], p)
@@ -2049,14 +2102,14 @@ func update_traits() -> void:
 			else:
 				player.rerolls -= 1
 			Snd.play("confirm")
-			offer_traits()
+			offer_traits(true)   # 50.1: other traits than these
 			tchoice["t0"] = time - TraitView.BURST   # a reroll: the rows again, not the starburst
 		elif player.gold >= reroll_cost():
 			# New (design spec 4): once the free rerolls are gone, rerolls cost gold.
 			player.gold -= reroll_cost()
 			player.paid_rerolls += 1
 			Snd.play("coin")
-			offer_traits()
+			offer_traits(true)
 			tchoice["t0"] = time - TraitView.BURST
 		else:
 			Snd.play("deny")

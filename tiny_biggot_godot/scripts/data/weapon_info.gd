@@ -32,7 +32,8 @@ const KIND_TYPE := { "slash": "SLASHING", "whip": "SLASHING", "disc": "SLASHING"
 	"shark": "PHYSICAL", "twister": "PHYSICAL", "disco": "ARCANE", "yoyo": "PHYSICAL", "portal": "ARCANE", "saw": "SLASHING",
 	"voodoo": "SHADOW", "anvil": "BLAST" }   # 31 the toybox
 const TYPE_COL := { "SLASHING": "bone", "PIERCING": "bone", "BLAST": "orange", "FIRE": "orange", "FROST": "cyan",
-	"POISON": "lime", "LIGHTNING": "cyan", "ARCANE": "pink", "SHADOW": "purple" }
+	"POISON": "lime", "LIGHTNING": "cyan", "ARCANE": "pink", "SHADOW": "purple",
+	"RADIANT": "gold", "NECROTIC": "green", "DARK": "purple", "ENERGY": "cyan", "SOUND": "bone" }   # 50.2
 
 static func wtype(w: Dictionary) -> String:
 	if w["kind"] in MELEE:
@@ -48,6 +49,8 @@ static func range_name(w: Dictionary) -> String:
 	return "MEDIUM" if reach < 150 else "LONG"
 
 static func damage_type(w: Dictionary) -> String:
+	if w.has("dtype"):
+		return w["dtype"]   # 50.2: RADIANT, NECROTIC, DARK, ENERGY, SOUND (damage_types.gd)
 	for t in w["tags"]:
 		if TAG_TYPE.has(t):
 			return TAG_TYPE[t]

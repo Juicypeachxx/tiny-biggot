@@ -16,7 +16,9 @@ passed). Now: Stage 48 (his 16 cinders): 48.1 DREAD to 16 (dread.gd), 48.2 STAR 
 constellation of 60 points, 48.3 six skills a tree branch and RESET THIS TREE, 48.4 RESET GAME:
 and 48.5 (stage48_test, the replays): done, IPA 48 "Dread and Dust". Now: Stage 49 (his "go", 11 Oct): 49.1 relics that grow with
 curses and kills, 49.2 ROOM DRAUGHTS, 49.3 (the WHETSTONE behind a door) and 49.4: done, IPA 49
-"Curses and Draughts". Next: Stage 50 (five more damage types; ROADMAP).
+"Curses and Draughts". Now (his word, 11 Oct): "Do stage 50 and 52, also we need to ajust traits and
+oaths to be more random and not repeat soo much": Stage 50 (50.1 picks that do not repeat, 50.2 the
+five damage types: done; 50.3 the replays and IPA 50), then Stage 52 (SPIRIT and LUCK).
 Done before: 39.4 "Bosses Fall" (IPA 39.4), Stage 39 "More to Find", 38 "Alignment and Loot", 37,
 36, 35 (the full check passed at 35). Next: Stage 40.
 
@@ -1918,6 +1920,27 @@ feel out of match": effects first (43.7a), then pictures (43.7b).
   soak says "the whole tree", which is six skills a branch since 48.3: it and content_test's
   hero fights now learn the whole tree (Traits.tree_for size). With it the soak reaches tempo 10;
   both tests pass.
+
+### Stage 50 (11 Oct): picks that do not repeat, five damage types (his word)
+- 50.1 `G.vary_cands(p, cands, mode, reroll)` (expanded game) reweighs what a pick can show:
+  `offer_traits(true)` (the two reroll paths) leaves out `p.last_offer` while three others remain;
+  a trait shown before and not owned: weight / (1 + 0.6 x times shown), x0.3 if in the last pick;
+  never shown this run: x1.5; owned traits unchanged. Oath picks leave out Meta "oaths_last" and
+  "oaths_before" (set in `take_trait` when the oath is sworn) while three others remain.
+  `note_offered` keeps `p.offered` and `p.last_offer` (saved with the run). The dice's ALTER and
+  BANISH (dice.gd) use the same weights. The weighted draw sums floats now (classic's int weights
+  give the same numbers). Measured (stage50_test, a build of 3 PYRE and 3 EDGE traits): before,
+  12 rerolls showed 3 thrown-away traits again and 30 picks showed 59 different traits, one 6
+  times; now 0, 73, and 3 times at most.
+- 50.2 `DamageTypes` (scripts/combat/damage_types.gd): a weapon row's "dtype" (RADIANT, NECROTIC,
+  DARK, ENERGY, SOUND) is its type (`WeaponInfo.damage_type`, colours in TYPE_COL). Its own hits
+  (`Combat.on_hit_effects`, beside the infusions) bring the ailment 30% of the time (x2 on a
+  crit): SEARED, ROT, GLOOM, CHARGED, RATTLED (Statuses.apply; Enemy fields seared_t, rot, rot_t,
+  rot_tick, charge, charge_t, rattle, rattle_t; ticked in Statuses.tick, which update_enemies now
+  also calls for them). A seared foe bursts when it dies (`Combat.kill_enemy`). Reactions:
+  ECLIPSE, BLIGHT, SUPERCONDUCT, CRACKLE, FEEDBACK (reactions.gd). Marks over foes drawn in
+  `DamageTypes.draw_over` (world_view). Keywords in TraitView.KEYWORDS. 20 weapons after "buzzblade"
+  (icons: one drawn, 19 recoloured in tools/art/sprites.py; atlas 2510). Test tests/stage50_test.
 
 ## Noted, not yet acted on
 

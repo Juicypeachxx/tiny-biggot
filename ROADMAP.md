@@ -1522,10 +1522,23 @@ each point); the rest, proposed in the order it would be felt most, with names o
   - [x] 49.4 A test for all of it, the replays (classic unchanged), IPA 49. Done:
         tests/stage49_test (in check.sh); classic replays identical; core a, b, c, d, e, g, h
         re-recorded on purpose (new relics in the pools, draughts in the drops, new doors).
-- [ ] Stage 50: RADIANT, NECROTIC, DARK, ENERGY and SOUND as weapon damage types, and weapons for them.
+- [ ] Stage 50 (his word, 11 Oct: "Do stage 50 and 52, also we need to ajust traits and oaths to be more
+      random and not repeat soo much when picking traits or rerolling them"):
+  - [x] 50.1 Picks that do not repeat (expanded game): a reroll shows other traits than the ones it
+        throws away; a trait offered and passed over comes up less each time; one not yet shown
+        this run a little more; the oath pick avoids the oaths of the last two runs. Done
+        (G.vary_cands): with a build going, 12 rerolls showed thrown-away traits 3 times before, 0
+        now; 30 picks showed 59 different traits (one 6 times) before, 73 (none over 3) now.
+  - [x] 50.2 RADIANT, NECROTIC, DARK, ENERGY and SOUND as weapon damage types, each with its colour,
+        its ailment (SEARED, ROT, GLOOM, CHARGED, RATTLED) and new reactions, and 20 weapons that
+        deal them (four a type). Done (scripts/combat/damage_types.gd): reactions ECLIPSE, BLIGHT,
+        SUPERCONDUCT, CRACKLE, FEEDBACK; tests/stage50_test passes.
+  - [ ] 50.3 A test for all of it, the replays (classic unchanged), IPA 50.
 - [ ] Stage 51: run modes: THE NARROW WAY (no map), IRON VOW (after 5 wins: one life). (OMENS:
       his 16 cinders became DREAD to 16 in Stage 48.)
-- [ ] Stage 52: SPIRIT and LUCK as attributes; each attribute also raises a pool.
+- [ ] Stage 52 (his word, 11 Oct, with Stage 50): SPIRIT (the special's charge and power) and LUCK as
+      attributes next to STR, DEX and INT; each attribute also raises a pool (STR health, DEX roll
+      charges, INT and SPIRIT the special). A test, the replays, IPA 52.
 
 ### Stage 46: weapon enchantments (IPA 46; his word: "Ok go 44 and 45, and 46")
 - [x] 46.1 An enchantment slot on weapons (one at most): the item card, the name, the name plate,

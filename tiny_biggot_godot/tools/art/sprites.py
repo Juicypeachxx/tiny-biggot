@@ -1635,3 +1635,24 @@ S["w_quickcrossbow"] = ("wood:#8a5a32 metal:#9aa3b5", [
 S["bonecaller_hero"] = ("main:#4e4a5e bone:#e8dcc8 glow:#9aff6a halo:1", M([
 "...ooo", "..o333", ".o3333", ".o3lll", ".o3ly0", ".o3lll", "..o3kk", "o3o333", "olo333", ".oo333",
 "..o322", "..o322", ".o3222", ".ooooo"]))
+# Stage 50: the RADIANT, NECROTIC, DARK, ENERGY and SOUND weapons (one drawn, the rest recoloured).
+S["w_wardrum"] = ("main:#c8463a second:#f4ecd8 wood:#8a5a3a gold:#f2c94c", [
+"............", "..oooooooo..", ".oqqqqqqqqo.", "o3c3c3c3c3co", "o3c3c3c3c3co", "o33333333330",
+"oc3c3c3c3c3o", "o3333333333o", ".oqqqqqqqqo.", "..oooooooo..", "............", "............"])
+_RAD = "main:#fff3b0 second:#f2c94c metal:#fff8d8 gold:#ffe27a wood:#c8a050 bone:#fffbe8 glow:#ffffff halo:1"
+_NEC = "main:#6a8a3a second:#3a5a2a metal:#a8b890 gold:#c8c870 wood:#4a3a2a bone:#c8d0a8 glow:#9fe04a"
+_DRK = "main:#9a6ac8 second:#6a4a9a metal:#c8b8e8 gold:#b89ae0 wood:#6a5a80 bone:#d8c8f0 glow:#e0a8ff halo:1"
+_NRG = "main:#3ac8e8 second:#1a6a9a metal:#b8f0ff gold:#7ff0ff wood:#2a4a5a bone:#d8f8ff glow:#e0ffff halo:1"
+_SND = "main:#e8dcc8 second:#b89a6a metal:#f4ecd8 gold:#f2c94c wood:#8a5a3a bone:#fffbe8 glow:#fff0c8"
+for _n, _pal, _from in [
+	("sunlance", _RAD, "w_seraphlance"), ("halodisc", _RAD, "w_sawlauncher"), ("morningray", _RAD, "w_cometscepter"),
+	("solarflare", _RAD, "w_steamcannon"),
+	("graverot", _NEC, "w_voidscythe"), ("deathknell", _NEC, "w_hushbell"), ("lichfinger", _NEC, "w_hexwand"),
+	("bonereaper", _NEC, "w_cogthrower"),
+	("nightshiv", _DRK, "w_rustyshiv"), ("shaderepeater", _DRK, "w_quickcrossbow"), ("umbralmoon", _DRK, "w_pocketvoid"),
+	("nightfall", _DRK, "w_serpentlash"),
+	("plasmarifle", _NRG, "w_gearwound"), ("arccaster", _NRG, "w_thunderking"), ("fusioncore", _NRG, "w_enginecore"),
+	("ionblade", _NRG, "w_chronoblade"),
+	("sonichorn", _SND, "w_partyhorn"), ("singingspear", _SND, "w_springlance"), ("bansheebell", _SND, "w_hushbell"),
+]:
+	S["w_" + _n] = (_pal, S[_from][1])

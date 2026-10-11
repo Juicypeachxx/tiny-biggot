@@ -10,6 +10,8 @@ extends RefCounted
 ##   weakened    (3 s): moves, shoots and acts 30% slower
 ##   gloom       (11.2, his trailer clips) stacks up to 10 (4 s): +8% damage taken per stack
 ##   shatter     (47.2, armour break) stacks up to 5 (4 s): +5% damage taken per stack (shatter.gd)
+##   seared, rot, charged, rattled (50.2): the ailments of the RADIANT, NECROTIC, ENERGY and SOUND
+##               weapons (damage_types.gd)
 
 const SHOCK_MAX := 5
 const GLOOM_MAX := 10
@@ -53,6 +55,12 @@ static func apply(e: Enemy, name: String, amount: float, hit_dmg: float) -> void
 			e.gloom = mini(GLOOM_MAX, e.gloom + maxi(1, int(amount)))
 			e.gloom_t = 4.0
 		"shatter": Shatter.add(e, int(amount))   # 47.2
+		"seared": e.seared_t = maxf(e.seared_t, 3.0 * maxf(1.0, amount))   # 50.2
+		"rot":
+			e.rot = mini(DamageTypes.ROT_MAX, e.rot + maxi(1, int(amount)))
+			e.rot_t = 4.0
+		"charged": DamageTypes.charge(e, maxi(1, int(amount)), hit_dmg)
+		"rattled": DamageTypes.rattle(e, maxi(1, int(amount)))
 		"vulnerable": e.vuln_t = maxf(e.vuln_t, 3.0 * amount)
 		"weakened": e.weak_t = maxf(e.weak_t, 3.0 * amount)
 		_:
@@ -97,3 +105,18 @@ static func tick(e: Enemy, dt: float) -> void:
 		e.shatter_t -= dt
 		if e.shatter_t <= 0:
 			e.shatter = 0
+	if e.seared_t > 0:   # 50.2
+		e.seared_t -= dt
+	if e.rot_t > 0:
+		e.rot_t -= dt
+		DamageTypes.tick_rot(e, dt)
+		if e.rot_t <= 0:
+			e.rot = 0
+	if e.charge_t > 0:
+		e.charge_t -= dt
+		if e.charge_t <= 0:
+			e.charge = 0
+	if e.rattle_t > 0:
+		e.rattle_t -= dt
+		if e.rattle_t <= 0:
+			e.rattle = 0

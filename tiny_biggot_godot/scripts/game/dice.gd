@@ -125,7 +125,8 @@ static func trait_row(banish: bool) -> bool:
 		G.toast("NOTHING ELSE TO OFFER", "grey")
 		Snd.play("deny")
 		return false
-	var tot := 0
+	cands = G.vary_cands(p, cands, c.get("mode", ""), false)   # 50.1: fewer repeats
+	var tot := 0.0
 	for pair in cands:
 		tot += pair[1]
 	var x := randf() * tot
@@ -137,6 +138,7 @@ static func trait_row(banish: bool) -> bool:
 			break
 	opts[i] = got
 	TraitBook.note_seen(got)
+	G.note_offered(p, [got], false)
 	if not c.has("alt"):
 		c["alt"] = {}
 	c["alt"][i] = G.time   # the row shines as it changes (trait_view.gd)

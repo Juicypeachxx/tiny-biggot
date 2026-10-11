@@ -721,6 +721,27 @@ const ROWS := [
 	["cursedcrossbow", "CURSED CROSSBOW", "bolt", "epic", ["malice", "edge"], "crossbow", { "dmg": 6.0, "rate": 2.2 }, [], [], "BOLTS THAT PIN: 15% OF HITS STICK A VOODOO PIN IN THE FOE.", [{ "on": "on_hit", "chance": 0.15, "do": [["toy", "pin", 1.0]] }]],
 	["portalbow", "BOW OF ELSEWHERE", "bolt", "legend", ["arcane", "shadow"], "bow", { "dmg": 6.0, "rate": 2.4, "pierce": 1 }, [["crit", 0.1]], [], "ARROWS. EVERY 3RD ONE ALSO COMES OUT OF A PORTAL BEHIND THE FOE.", [{ "on": "every_n_shots", "every": 3, "do": [["toy", "portal", 0.8]] }]],
 	["buzzblade", "BUZZ BLADE", "slash", "rare", ["edge", "demolition"], "greatsword", { "dmg": 10.0, "rate": 1.6 }, [], [], "A SPINNING BLADE. EVERY 4TH SWING LEAVES A SAW TRAP ON THE FOE.", [{ "on": "every_n_shots", "every": 4, "do": [["toy", "saw", 0.8]] }]],
+	# Stage 50 (his word, 11 Oct): RADIANT, NECROTIC, DARK, ENERGY and SOUND weapons, four a type (damage_types.gd).
+	["sunlance", "SUNLANCE", "thrust", "rare", ["arcane", "bulwark"], "spear", { "dmg": 12.0, "rate": 1.6, "dtype": "RADIANT" }, [], [], "A SPEAR OF LIGHT. RADIANT: HITS SEAR, AND A SEARED FOE BURSTS IN LIGHT WHEN IT DIES.", []],
+	["halodisc", "HALO DISC", "disc", "rare", ["arcane"], "chakram", { "dmg": 6.0, "rate": 1.8, "dtype": "RADIANT" }, [], [], "A RING OF LIGHT THAT BOUNCES OFF WALLS. RADIANT.", []],
+	["morningray", "MORNING RAY", "beam", "epic", ["arcane", "pyre"], "staff", { "dmg": 3.5, "dtype": "RADIANT" }, [], [], "A RAY OF SUNLIGHT. RADIANT: HALF AGAIN AGAINST CURSED FOES.", []],
+	["solarflare", "SOLAR FLARE", "shot", "legend", ["pyre", "arcane"], "blunderbuss", { "dmg": 4.0, "rate": 1.4, "dtype": "RADIANT" }, [], [], "A SPRAY OF SUNFIRE. RADIANT. EVERY 5TH BLAST CALLS A COMET.", [{ "on": "every_n_shots", "every": 5, "do": [["spell", "comet", 1.2]] }]],
+	["graverot", "GRAVEROT SCYTHE", "slash", "rare", ["malice", "venom"], "scythe", { "dmg": 12.0, "rate": 1.3, "dtype": "NECROTIC" }, [], [], "A SCYTHE THAT ROTS WHAT IT CUTS. NECROTIC: ROT EATS A SHARE OF A FOE'S MOST HEALTH.", []],
+	["deathknell", "DEATH KNELL", "pulse", "epic", ["venom", "malice"], "lanternw", { "dmg": 4.0, "dtype": "NECROTIC" }, [], [], "A SLOW TOLL THAT HURTS ALL NEAR IT. NECROTIC.", []],
+	["lichfinger", "LICH FINGER", "zap", "epic", ["malice"], "wand", { "dmg": 5.0, "dtype": "NECROTIC" }, [], [], "ARCS OF DEATH THAT CHAIN. NECROTIC.", []],
+	["bonereaper", "BONE REAPER", "spin", "legend", ["malice", "fury"], "sickle", { "dmg": 8.0, "dtype": "NECROTIC" }, [], [], "SPINNING SICKLES THAT PIERCE. NECROTIC. 15% OF KILLS RAISE A SKELETON FOR 8S.", [{ "on": "on_kill", "chance": 0.15, "do": [["raise", 8.0, 0.8]] }]],
+	["nightshiv", "NIGHT SHIV", "stab", "rare", ["shadow"], "dagger", { "dmg": 5.0, "rate": 3.0, "dtype": "DARK" }, [], [], "QUICK STABS FROM THE DARK. DARK: HITS GLOOM, AND DEEP GLOOM CALLS SHADES.", []],
+	["shaderepeater", "SHADE REPEATER", "burst", "rare", ["shadow", "malice"], "crossbow", { "dmg": 4.0, "dtype": "DARK" }, [], [], "THREE-SHOT BURSTS OF SHADOW. DARK.", []],
+	["umbralmoon", "MOON OF SHADOWS", "orb", "epic", ["shadow", "arcane"], "orb", { "dmg": 5.0, "dtype": "DARK" }, [], [], "HOMING BOLTS OF DARKNESS. DARK.", []],
+	["nightfall", "NIGHTFALL LASH", "whip", "legend", ["shadow"], "whip", { "dmg": 9.0, "dtype": "DARK" }, [], [], "A LASH OF NIGHT, ITS TIP ALWAYS CRITS. DARK: CRITS GLOOM TWICE AS OFTEN.", []],
+	["plasmarifle", "PLASMA RIFLE", "rail", "rare", ["storm", "arcane"], "rifle", { "dmg": 9.0, "dtype": "ENERGY" }, [], [], "PIERCING BOLTS OF PLASMA. ENERGY: THE FIFTH CHARGE ON A FOE DISCHARGES IN A BLAST.", []],
+	["arccaster", "ARC CASTER", "zap", "rare", ["storm"], "wand", { "dmg": 4.5, "dtype": "ENERGY" }, [], [], "INSTANT ARCS THAT CHAIN. ENERGY.", []],
+	["fusioncore", "FUSION CORE", "pulse", "epic", ["storm", "demolition"], "orb", { "dmg": 5.0, "dtype": "ENERGY" }, [], [], "A SLOW ORB OF ENERGY THAT HURTS ALL NEARBY. ENERGY.", []],
+	["ionblade", "ION BLADE", "slash", "legend", ["storm", "edge"], "katana", { "dmg": 13.0, "rate": 2.0, "dtype": "ENERGY" }, [], [], "A HUMMING BLADE. ENERGY. EVERY 4TH SWING THROWS 3 SPARKS.", [{ "on": "every_n_shots", "every": 4, "do": [["shoot_at", 3, 0.7, "spark", 0.2, 0.0]] }]],
+	["wardrum", "WAR DRUM", "wave", "rare", ["fury", "bulwark"], "orb", { "dmg": 6.0, "dtype": "SOUND" }, [], [], "A CONE OF BOOMING BEATS. SOUND: RATTLED FOES SLOW, AND THE SIXTH BEAT STUNS.", []],
+	["sonichorn", "SONIC HORN", "beam", "rare", ["arcane"], "sprayer", { "dmg": 3.0, "dtype": "SOUND" }, [], [], "A BLARE THAT HURTS. SOUND.", []],
+	["singingspear", "SINGING SPEAR", "thrust", "epic", ["edge", "arcane"], "spear", { "dmg": 11.0, "dtype": "SOUND" }, [], [], "A SPEAR THAT HUMS AS IT PIERCES. SOUND.", []],
+	["bansheebell", "BANSHEE BELL", "nova", "legend", ["malice", "arcane"], "lanternw", { "dmg": 4.0, "dtype": "SOUND" }, [], [], "A RING OF SCREAMS AROUND YOU. SOUND. EVERY 6TH RING STUNS EVERY FOE NEAR YOU.", [{ "on": "every_n_shots", "every": 6, "do": [["status_area", "stun", 1, 100], ["vfx", "ring", "#f4ecd8", 100]] }]],
 ]
 
 static var _by_id := {}
