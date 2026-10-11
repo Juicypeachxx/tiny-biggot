@@ -124,7 +124,7 @@ func new_run() -> void:
 	familiars = []
 	temp_fams = []
 	zones = []
-	dread = mini(Meta.meta.get("dread", 0), Meta.meta.get("dread_max", 0))
+	dread = mini(mini(Meta.meta.get("dread", 0), Meta.meta.get("dread_max", 0)), Dread.cap())   # (48.1: classic stops at 5)
 	var p := player
 	var owned := tree_owned(hero["id"])
 	var tree := Traits.tree_for(hero["id"])
@@ -2314,7 +2314,7 @@ func update_hero() -> void:
 	menu = order.find(hero_index)
 	var go := menu_nav(order.size(), true)
 	hero_index = order[menu]
-	var mx: int = Meta.meta.get("dread_max", 0)
+	var mx: int = mini(Meta.meta.get("dread_max", 0), Dread.cap())   # (48.1: classic stops at 5)
 	if mx > 0:
 		if Keys.up():
 			Meta.meta["dread"] = (Meta.meta.get("dread", 0) + 1) % (mx + 1)

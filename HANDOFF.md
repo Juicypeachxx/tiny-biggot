@@ -1832,6 +1832,49 @@ feel out of match": effects first (43.7a), then pictures (43.7b).
 - The full check's two failures fixed in the tests: vfx_test resets shatter between its runs;
   unit_tests checks the touch stick in play (the title's menu panel covers that corner now).
 
+### Stage 48 (11 Oct): DREAD to 16, STAR DUST, six-skill trees, RESET GAME (his 16 "cinders")
+- scripts/game/dread.gd (class Dread): MAX 16 in the expanded game, CLASSIC_MAX 5 (cap(); the
+  two dread_max caps in game.gd, new_run and the hero select use it). old() = min(dread, 5) for
+  the first five's growing numbers (Combat.floor_scale, shot_mult, mini and guardian health, shop
+  prices). hp_mult() = 1 + 0.005 x dread x (floor + 1) on every foe's, mini-boss's and guardian's
+  health (plates follow health). has(n): the level is in force (expanded game only). The rules:
+  6 on_new_run (a "bad" enchantment on the starting weapon), 7 roll_delay (Player: +3/2/1 s on
+  floors 1-3), 8 pack (Game.spawn_wave: x2 foes, 20% of fights), 9 on_floor_map / pay_toll
+  (half the treasure rooms and shrines: "toll" on the map cell, a heart at the door, never the
+  last: Game._leave_on_map pushes you back; world_view draws "1 HEART" under the door's sign),
+  10/12/14 on_boss (Combat.spawn_boss: two elite guards from the floor's pool, not in a rift;
+  crown(): swift, volatile or mending; nerve_t 20 s: nerve_mult x0.5 back to x1, +0.05 every
+  2 s, in Combat.damage_enemy; Stages: again at each new stage), 11 floor_rooms (World.new_floor:
+  floors 1-3 3/2/1 rooms shorter, at least 5; 8+ 1 to 3 longer), 12 EliteTraits.roll crowns
+  minis and champions, 13 maybe_hunter (run_stats hunter_in, 8-20 fights, a champion, banner THE
+  HUNTER), 15 maybe_plague / on_kill (35% of waves a carrier, Enemy.plague; it bursts: a hit if
+  you are within 28 px, the plague to foes within 46), 16 extra_traits. GameData.DREAD_DESC has
+  17 lines; the hero select's second dread line says the health a floor, embers and dust.
+  Test switch --dread=N (main.gd).
+- STAR DUST (stars.gd): dust_for(win) = (kills / 4 + floors x 10 + guardians x 25 + 100 for a
+  win) x Dread.dust_mult (+30% a level for 1-4, 20% 5-8, 10% 9-12, 5% 13-16), added to
+  Meta.meta["dust"] in Game.award_embers (expanded game; the end screen shows it). points() =
+  guardians + 2 x wins + dust / 250, up to MAX_POINTS 60. Each of the four spokes 10 stars long
+  (k 1 to 10; branches at 8 and 10), NOTABLE 7 a side (TEMPERED, TWIN STARS, OAKEN HEART, DEEP
+  DRAUGHT (gourd_sips), SWIFT WIND, SPARE STRIDE, GOLD SENSE, HAGGLER'S ART); 153 stars, the
+  closest two 37 apart. star_view: the dust line under the points, RESET in red.
+- Trees (traits.gd): TREE_COSTS 10, 20, 35, 60, 100, 150; tree_for(hero) adds SKILL_MORE (MIGHT:
+  DEADLY RHYTHM, MASTER'S TOUCH; SURVIVAL: IRON WILL, LONG ROAD) and HERO_MORE (MASTERY, LEGEND)
+  in the expanded game (classic: the four); tree_spent. Game.new_run applies only as many as the
+  tree has (classic with an expanded save). Game.tree_reset (BOMB on the tree page or the RESET
+  THIS TREE button, menu_view.TREE_RESET; twice, moving in between asks again): every ember
+  back. menu_view.tree_rect: six boxes a branch 30 px apart (classic: four, 38 apart, as
+  before); taps.gd uses it; the tree page's toast at the top.
+- RESET GAME (48.4): OPTION_LIST "@reset", from the title's options only, the second press:
+  Meta.reset_progress (META_START, the run save cleared).
+- Test tests/stage48_test.tscn (in check.sh): every DREAD rule at its level and not below,
+  health x(1.135 / 1.075) from 5 to 9 on floor 3, a blow at a stage's start x0.5 over 600 hits,
+  floor maps of 5 to 14 rooms whole, classic none; dust numbers, points, the save; the
+  constellation (ids, names, font, spacing, all of it at once); every tree (six skills, each
+  with effects, in the font, a name that fits), the reset by key and tap, learning skills 5 and
+  6, the tree's taps (18 boxes, 12 in classic); RESET GAME from the pause menu (no) and the
+  title (twice).
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).
