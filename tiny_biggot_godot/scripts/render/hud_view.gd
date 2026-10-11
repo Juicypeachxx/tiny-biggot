@@ -253,7 +253,7 @@ func _draw() -> void:
 ## INT, luck and crit, then the four alignments two by two (a leading one in its colour).
 func _stat_column(p: Player, y: int) -> void:
 	var rows := [["mi_str", str(p.a_str), "red"], ["mi_dex", str(p.a_dex), "lime"], ["mi_int", str(p.a_int), "cyan"],
-		["mi_luck", str(p.luck), "lime"], ["mi_crit", "%d%%" % roundi(p.crit * 100), "gold"]]
+		["mi_spi", str(p.a_spi), "pink"], ["mi_luck", str(p.luck), "lime"], ["mi_crit", "%d%%" % roundi(p.crit * 100), "gold"]]   # (52 SPIRIT)
 	for r in rows:
 		Gfx.at(self, r[0], 5, y)
 		Gfx.text(self, r[1], 14, y + 1, r[2])

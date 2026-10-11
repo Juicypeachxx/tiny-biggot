@@ -16,6 +16,7 @@ ICONS = {
 	"str": ("#e8506a", ["..ooo..", ".oaaao.", "oaabao.", "oaaaao.", "oaaaooo", "oaaaaao", ".ooooo."]),
 	"dex": ("#8fd84a", ["....oo.", "...oab.", "..oabo.", ".oabo..", "oabo...", "obo....", "oo....."]),
 	"int": ("#4fc8f0", ["..ooo..", ".oabao.", "oabbbao", "oaaaaao", ".oaaao.", "..oao..", "..ooo.."]),
+	"spi": ("#e88ad8", ["..o....", ".oao...", ".oabo..", "oabbao.", "oabbbao", ".oaaao.", "..ooo.."]),   # 52 SPIRIT
 	"good": ("#f2c94c", ["a..a..a", ".a.a.a.", "..aaa..", "aaabaaa", "..aaa..", ".a.a.a.", "a..a..a"]),
 	"evil": ("#d8443c", ["o.....o", "ooaaaoo", ".aoaoa.", ".aaaaa.", "..aoa..", "..a.a..", "......."]),
 	"law": ("#6fd3e0", ["...a...", "aaaaaaa", "a..a..a", "a..a..a", "aa.a.aa", "...a...", "..aaa.."]),

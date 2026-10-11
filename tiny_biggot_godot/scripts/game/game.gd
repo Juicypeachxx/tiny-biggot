@@ -263,6 +263,7 @@ func _debug_heavy(p: Player) -> void:
 func start_floor() -> void:
 	if player != null:
 		player.floor_kills = 0
+		Attributes.on_floor(player)   # 52: LUCK fills the dice
 	floor_d = World.new_floor(floor_index)
 	if GameData.rogues() and GameData.ALT_GUARDIANS.has(floor_index) and randf() < 0.5:
 		floor_d["guardian"] = GameData.ALT_GUARDIANS[floor_index]   # 9.3: half the time, the floor's second guardian

@@ -1942,6 +1942,20 @@ feel out of match": effects first (43.7a), then pictures (43.7b).
   `DamageTypes.draw_over` (world_view). Keywords in TraitView.KEYWORDS. 20 weapons after "buzzblade"
   (icons: one drawn, 19 recoloured in tools/art/sprites.py; atlas 2510). Test tests/stage50_test.
 
+### Stage 52 (11 Oct): SPIRIT and LUCK (his word, with Stage 50)
+- attributes.gd: ALL = str, dex, int, spi, lck (ATTRS stays the three that scale weapons). SPIRIT is
+  `p.a_spi` (set to 2 in `start`); LUCK is `p.luck` (value/add read and write it). Pools: STR +1
+  heart per 5 (as before), DEX +1 roll charge per 6 (`_side`, given back when DEX falls), INT and
+  SPIRIT the special's recharge (`special_rate`, added in Might.special_rate), SPIRIT its blows
+  (`spirit_power`, in Combat.damage_enemy while Might.casting), LUCK gold (`gold_mult`, at the three
+  coin pickups) and dice (`on_floor` from G.start_floor: a REROLL die per 5 LUCK). `on_trait`:
+  every third rank +1 SPIRIT, every second FORTUNE rank +1 LUCK. StatDrops "s_spi" (icon mi_spi,
+  tools/art/mini_icons.py). HUD stat column and the stats page list all five (the stats page's
+  old LUCK row is gone: it is in the attributes now). Test tests/stage52_test (in check.sh): passes.
+- State: code done and tested; the core replays for 50 and 52 are being re-recorded (classic
+  checked on the way), then the full check, then one IPA 52 with both stages (no separate IPA 50:
+  Stage 52's code was already in when 50's replays were ready).
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

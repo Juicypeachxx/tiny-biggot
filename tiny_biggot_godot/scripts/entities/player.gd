@@ -226,6 +226,7 @@ var al_chaos := 0
 var a_str := 0                  # Rogues layer: attributes (scripts/data/attributes.gd)
 var a_dex := 0
 var a_int := 0
+var a_spi := 0                  # 52: SPIRIT (attributes.gd); LUCK is `luck`
 var backpack: Array = []        # Rogues layer: spare weapons and gear (max BACKPACK_SIZE)
 var belt: Array = []            # Rogues layer: consumable kinds (max Consumables.BELT_SIZE)
 var tipsy := 0.0          # 33.2 THE TAVERN: drinks make you tipsy (tipsy.gd)

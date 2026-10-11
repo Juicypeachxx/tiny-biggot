@@ -12,6 +12,7 @@ const KINDS := {
 	"s_dmg": ["+2% DAMAGE", "mi_dmg", "red", 3], "s_rate": ["+2% FIRE RATE", "mi_rate", "gold", 3],
 	"s_crit": ["+1% CRIT", "mi_crit", "gold", 3], "s_speed": ["+1% MOVE SPEED", "mi_speed", "cyan", 2],
 	"s_luck": ["+1 LUCK", "mi_luck", "lime", 1],
+	"s_spi": ["+1 SPIRIT", "mi_spi", "pink", 2],   # 52
 }
 
 static func is_kind(k: String) -> bool:
@@ -43,7 +44,8 @@ static func take(p: Player, k: String) -> void:
 		"s_rate": Effects.apply(p, [["mul", "rate", 1.02]])
 		"s_crit": p.crit += 0.01
 		"s_speed": Effects.apply(p, [["mul", "speed", 1.01]])
-		"s_luck": p.luck += 1
+		"s_luck": Attributes.add(p, "lck", 1)
+		"s_spi": Attributes.add(p, "spi", 1)   # 52
 	p.stat_picks += 1
 	Snd.play("relic")
 	Fx.float_text(p.x, p.y - 12, KINDS[k][0], KINDS[k][2])

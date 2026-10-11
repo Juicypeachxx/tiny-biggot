@@ -373,7 +373,7 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	if o.get("boom", false) and p.boom_elite and e.elite: dmg *= 2
 	if not o.get("no_mult", false): dmg *= player_damage_mult(p) * hook_mult(p, e) * Might.foe_mult(p, e) * Finesse.foe_mult(p, e, o) * Arcana.foe_mult(p, e, o) * Marvels.foe_mult(p, e) * Enchant.foe_mult(p, e)   # (42.1 cursed and sneaky hits; 43.1 CRYO CORE; 46 enchantments)
 	dmg *= Dread.nerve_mult()   # 48.1 FALTERING NERVE (1.0 but at a guardian stage's start)
-	if Might.casting: dmg *= Finesse.special_power(p)   # 41.1 STILL BREATH: the special's own blows
+	if Might.casting: dmg *= Finesse.special_power(p) * Attributes.spirit_power(p)   # 41.1 STILL BREATH; 52 SPIRIT
 	if e.vuln_t > 0 or e.shock > 0 or e.gloom > 0 or e.shatter > 0:
 		dmg *= Statuses.dmg_mult(e)
 	if (e.guard_t > 0 or e.d.has("rule")) and not Might.ruthless(p, e):   # (40.2 TOE TO TOE goes through)
@@ -1855,7 +1855,7 @@ static func drop_pickup(kind: String, x: float, y: float, t: float = 0.0) -> Pic
 	var s := 30 + randf() * 50
 	if (kind == "coin" or kind == "gem") and G.pickups.size() >= COIN_PILE and GameData.rogues():
 		var p := G.player
-		p.gold_frac += p.gold_mult * (5 if kind == "gem" else 1)
+		p.gold_frac += p.gold_mult * Attributes.gold_mult(p) * (5 if kind == "gem" else 1)   # (52 LUCK)
 		var g := floori(p.gold_frac)
 		p.gold_frac -= g
 		p.gold += g
@@ -1933,7 +1933,7 @@ static func update_pickups(dt: float) -> void:
 			continue
 		match k.kind:
 			"coin":
-				p.gold_frac += p.gold_mult
+				p.gold_frac += p.gold_mult * Attributes.gold_mult(p)   # (52 LUCK)
 				var g := floori(p.gold_frac)
 				p.gold_frac -= g
 				p.gold += g
@@ -1942,7 +1942,7 @@ static func update_pickups(dt: float) -> void:
 				Snd.play("coin")
 				Fx.particle(k.x, k.y - 3, 0, -20, 0.2, "#f2c94c")
 			"gem":
-				p.gold_frac += 5 * p.gold_mult
+				p.gold_frac += 5 * p.gold_mult * Attributes.gold_mult(p)
 				var g := floori(p.gold_frac)
 				p.gold_frac -= g
 				p.gold += g

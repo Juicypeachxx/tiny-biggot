@@ -583,7 +583,7 @@ func draw_gearpage(ci: CanvasItem) -> void:
 		for a in Attributes.ATTRS:
 			x += Gfx.text(ci, "%s %s  " % [Attributes.NAMES[a], g[a]], x, 70, Attributes.COLS[a])
 		x += Gfx.text(ci, " YOU ", x, 70, "tan")
-		for a in Attributes.ATTRS:
+		for a in Attributes.ALL:   # 52: SPIRIT and LUCK too
 			x += Gfx.text(ci, "%s %d  " % [Attributes.NAMES[a], Attributes.value(p, a)], x, 70, Attributes.COLS[a])
 		Gfx.text(ci, "+%d%% DAMAGE" % roundi((Attributes.mult(p) - 1) * 100), x, 70, "gold")
 	else:
@@ -853,7 +853,7 @@ func draw_inventory(ci: CanvasItem) -> void:
 	# Left: the stat sidebar.
 	Gfx.panel(ci, 4, 6, 94, 236, "#4e4a5e", "#0f0d16")
 	var y := 12
-	for a in Attributes.ATTRS:
+	for a in Attributes.ALL:   # 52: SPIRIT and LUCK too
 		_stat_row(ci, y, Attributes.NAMES[a], str(Attributes.value(p, a)), Attributes.COLS[a])
 		y += 9
 	y += 4
@@ -866,7 +866,6 @@ func draw_inventory(ci: CanvasItem) -> void:
 		["ARMOR", str(p.armor), "cyan"],
 		["SPEED", str(roundi(p.speed)), "white"],
 		["ROLLS", str(p.dodge_charges), "white"],
-		["LUCK", str(p.luck), "lime"],
 		["LEVEL", str(p.level), "lime"],
 		["GOLD", str(p.gold), "gold"],
 		["KILLS", str(G.run_stats.get("kills", 0)), "grey"],

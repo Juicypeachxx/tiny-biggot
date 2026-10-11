@@ -198,7 +198,7 @@ static func roll_rate(p: Player) -> float:
 static func special_rate(p: Player) -> float:
 	if not on():
 		return 1.0
-	var r := 1.0 + p.g("special_haste") + p.g("special_str") * str_ranks(p) + Finesse.recharge_add(p)
+	var r := 1.0 + p.g("special_haste") + p.g("special_str") * str_ranks(p) + Finesse.recharge_add(p) + Attributes.special_rate(p)   # (52 INT, SPIRIT)
 	if p.g("honest") > 0:
 		r += roll_rate(p) - 1.0
 	return r

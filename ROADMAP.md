@@ -1539,6 +1539,8 @@ each point); the rest, proposed in the order it would be felt most, with names o
 - [ ] Stage 52 (his word, 11 Oct, with Stage 50): SPIRIT (the special's charge and power) and LUCK as
       attributes next to STR, DEX and INT; each attribute also raises a pool (STR health, DEX roll
       charges, INT and SPIRIT the special). A test, the replays, IPA 52.
+      (In progress: code done, tests/stage52_test passes; replays, full check and IPA 52 next.
+      One IPA 52 carries Stage 50 too.)
 
 ### Stage 46: weapon enchantments (IPA 46; his word: "Ok go 44 and 45, and 46")
 - [x] 46.1 An enchantment slot on weapons (one at most): the item card, the name, the name plate,

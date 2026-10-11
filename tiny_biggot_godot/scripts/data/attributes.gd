@@ -9,9 +9,21 @@ extends RefCounted
 ## attribute. Heroes start with their own spread, and some items add more.
 ## Off under --classic (GameData.rogues()), which keeps the original game.
 
-const ATTRS := ["str", "dex", "int"]
-const NAMES := { "str": "STR", "dex": "DEX", "int": "INT" }
-const COLS := { "str": "red", "dex": "lime", "int": "cyan" }
+const ATTRS := ["str", "dex", "int"]   # the three that scale weapons
+## 52 (his word, 11 Oct; GAMEPLAY_PLAN.md): SPIRIT and LUCK beside them. They scale no weapon; like
+## the others, each raises a pool: STR health (+1 heart for every 5), DEX roll charges (+1 for every
+## 6), INT the special (it recharges 1% faster a point), SPIRIT the special (3% faster and its blows
+## 3% harder a point), LUCK the dice (every new floor, +1 REROLL die for every 5) and gold (+2% a
+## point). LUCK is the luck you always had (the fourth trait row, lucky hits). SPIRIT starts at 2;
+## every third trait rank adds one; every second FORTUNE rank adds a LUCK; stat pickups of both.
+const ALL := ["str", "dex", "int", "spi", "lck"]
+const NAMES := { "str": "STR", "dex": "DEX", "int": "INT", "spi": "SPI", "lck": "LCK" }
+const COLS := { "str": "red", "dex": "lime", "int": "cyan", "spi": "pink", "lck": "gold" }
+const DEX_ROLL := 6          # 52: DEX for each extra roll charge
+const INT_SPECIAL := 0.01    # 52: the special's recharge a point of INT
+const SPI_SPECIAL := 0.03    # 52: the special's recharge and power a point of SPIRIT
+const LCK_DIE := 5           # 52: LUCK for each REROLL die a floor
+const LCK_GOLD := 0.02       # 52: gold a point of LUCK
 const PER_POINT := 0.05   # 40.0 (his notes, 9 Oct: +5% a point; it was 3%; no soft cap)
 const GRADES := ["S", "A", "B", "C", "D", "E", "-"]
 const COEF := { "S": 1.0, "A": 0.8, "B": 0.6, "C": 0.4, "D": 0.25, "E": 0.1, "-": 0.0 }
@@ -91,6 +103,10 @@ static func _up(grade: String) -> String:
 	return GRADES[maxi(0, GRADES.find(grade) - 1)]
 
 static func value(p: Player, a: String) -> int:
+	if a == "spi":
+		return p.a_spi
+	if a == "lck":
+		return p.luck
 	var v: int = p.a_str if a == "str" else (p.a_dex if a == "dex" else p.a_int)
 	if p.g("focus_str") > 0 or p.g("focus_dex") > 0 or p.g("focus_int") > 0:
 		v = int(round(v * focus(p, a)))
@@ -122,6 +138,12 @@ static func mult_for(p: Player, w: Dictionary) -> float:
 	return 1.0 + PER_POINT * m
 
 static func add(p: Player, a: String, n: int) -> void:
+	if a == "spi":
+		p.a_spi = maxi(0, p.a_spi + n)
+		return
+	if a == "lck":
+		p.luck += n
+		return
 	var before := value(p, a if a in ATTRS else "int")
 	match a:
 		"str": p.a_str += n
@@ -144,6 +166,10 @@ static func _side(p: Player, a: String, before: int, after: int) -> void:
 				p.hp = clampi(p.hp + maxi(0, d), 1, p.max_hp)
 		"dex":
 			p.crit += 0.01 * (after - before)
+			var dc := floori(after / float(DEX_ROLL)) - floori(before / float(DEX_ROLL))   # 52: the roll pool
+			if dc != 0:
+				p.dodge_charges = maxi(1, p.dodge_charges + dc)
+				p.charges = clampi(p.charges + maxi(0, dc), 0, p.dodge_charges)
 		"int":
 			var k := 0.02 * (after - before)
 			p.burn_dmg += k
@@ -163,11 +189,42 @@ static func start(p: Player) -> void:
 	var s: Array = HERO.get(p.hero["id"], [2, 2, 2])
 	for i in ATTRS.size():
 		add(p, ATTRS[i], s[i] - value(p, ATTRS[i]))   # through add(): the side stats come with them
+	p.a_spi = 2   # 52: SPIRIT
 
 ## One trait rank trains its family's attribute (core traits train your best one).
 static func on_trait(p: Player, fam: String) -> void:
 	if enabled():
 		add(p, FAMILY_ATTR.get(fam, highest(p)), 1)
+		# 52: every third trait rank also +1 SPIRIT, every second FORTUNE rank +1 LUCK.
+		var ranks := 0
+		var fortune := 0
+		for id in p.traits:
+			ranks += int(p.traits[id])
+			if fam == "fortune" and Traits.has(id) and Traits.by_id(id)["fam"] == "fortune":
+				fortune += int(p.traits[id])
+		if ranks > 0 and ranks % 3 == 0:
+			add(p, "spi", 1)
+		if fam == "fortune" and fortune > 0 and fortune % 2 == 0:
+			add(p, "lck", 1)
+
+## 52: the special's recharge from INT and SPIRIT (Might.special_rate adds it; 0 when off).
+static func special_rate(p: Player) -> float:
+	if not enabled():
+		return 0.0
+	return INT_SPECIAL * value(p, "int") + SPI_SPECIAL * p.a_spi
+
+## 52: the special's blows, harder with SPIRIT (1.0 when off).
+static func spirit_power(p: Player) -> float:
+	return 1.0 + SPI_SPECIAL * p.a_spi if enabled() else 1.0
+
+## 52: gold with LUCK (1.0 when off).
+static func gold_mult(p: Player) -> float:
+	return 1.0 + LCK_GOLD * maxi(0, p.luck) if enabled() else 1.0
+
+## 52: a new floor fills the dice with LUCK.
+static func on_floor(p: Player) -> void:
+	if enabled() and p != null and p.luck >= LCK_DIE:
+		Dice.give(p, "reroll", p.luck / LCK_DIE)
 
 static func grade_line(w: Dictionary) -> String:
 	var g := scaling(w)
