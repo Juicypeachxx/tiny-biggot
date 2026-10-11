@@ -10,9 +10,9 @@ gain one more effect and their own picture). Then his "Ok go 44 and 45, and 46":
 (IPA 44 "Infusions"), Stage 45 done (IPA 45 "Alignment Shops"), Stage 46 done (IPA 46 "Weapon
 Enchantments"; the full check passed). Then his list of another game's core gameplay
 (GAMEPLAY_PLAN.md): most of it is here; Stages 47 to 51 proposed in ROADMAP.md. His pick: Stage 47
-(THE GOURD, SHATTER), and during it the title menu and the hero select reworked (his word): built,
-its test passes; the core replays, the full check and IPA 47 "Gourd and Shatter" still to come.
-Then: his try of it, and his pick of Stages 48 to 51.
+(THE GOURD, SHATTER), and during it the title menu and the hero select reworked (his word), and
+47.6 (his lag clip; every trait and relic checked): done, IPA 47 "Gourd and Shatter" (full check
+passed). Next: Stage 48 (his 16 cinders: DREAD to 16, star dust, trees reset, RESET GAME).
 Done before: 39.4 "Bosses Fall" (IPA 39.4), Stage 39 "More to Find", 38 "Alignment and Loot", 37,
 36, 35 (the full check passed at 35). Next: Stage 40.
 

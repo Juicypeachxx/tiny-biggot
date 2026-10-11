@@ -38,7 +38,7 @@ changed one), and carry on from there. What he says last outranks this file.
    "Stage 47 first": THE GOURD and SHATTER, with its own IPA, then wait for his try.
    His word, during it (10 Oct): "Also we need to rework the menu it looks all confused and heroes
    stacked in front, also we can work on character select menu to be better": in Stage 47 too.
-   Stage 47 built (10 Oct); IPA 47 "Gourd and Shatter" after the full check.
+   Stage 47 done: IPA 47 "Gourd and Shatter" (11 Oct; the full check passed).
 7. His word, 10 Oct (during 47; three pictures of the other game's 16 "cinders"): 16 difficulty
    steps, played at about the 12th; each step also +0.5% health and armour per floor to every
    foe and guardian; each step multiplies the meta progress ("+30% for 0-4, 20% for 5-8, 10% for
