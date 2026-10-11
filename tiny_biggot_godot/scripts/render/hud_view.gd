@@ -32,14 +32,14 @@ func refresh() -> void:
 func _signature() -> Array:
 	var p := G.player
 	if p == null or G.room == null or not world_state():
-		return [perf_line, Meta.opts.get("fps", false)]
+		return [perf_line, perf_line2, Meta.opts.get("fps", false)]
 	var f := G.floor_d
 	var bo := _bar_foe()
 	var gear := []
 	for sl in Gear.slots():
 		var g = p.gear.get(sl)
 		gear.append(g["id"] if g != null else "")
-	return [perf_line, Meta.opts.get("fps", false), p.max_hp, p.hp, p.armor, p.max_potions, p.potions, p.gold, p.gourd, Gourd.max_sips(p),
+	return [perf_line, perf_line2, Meta.opts.get("fps", false), p.max_hp, p.hp, p.armor, p.max_potions, p.potions, p.gold, p.gourd, Gourd.max_sips(p),
 		p.dodge_charges, p.charges, roundi(5 * p.charge_t / p.dodge_cd), p.bombs, p.keys, p.embers_found, p.rerolls, p.alters, p.banishes, p.drinks.duplicate(true),
 		G.msg.get("text", ""), G.msg.get("col", ""), p.level, roundf(80.0 * p.xp / GameData.xp_needed(p.level)),
 		p.hero.get("hud", ""), p.heat, p.heat_max, p.tempo, p.tempo_max, G.floor_index, G.loop, f["depth"], f["total"], f["path"].size(),
@@ -90,10 +90,13 @@ static func world_state() -> bool:
 
 ## SHOW FPS option: frame rate, logic and drawing ms, draw calls (set by main.gd).
 static var perf_line := ""
+static var perf_line2 := ""   # 47.6: the logic's costliest parts (main.gd)
 
 func _draw() -> void:
 	if (Meta.opts.get("fps", false) or DebugArgs.has("perf")) and perf_line != "":
 		Gfx.text(self, perf_line, 4, TB.SH - 26, "lime", 1)
+		if perf_line2 != "":
+			Gfx.text(self, perf_line2, 4, TB.SH - 35, "lime", 1)
 	var p := G.player
 	if p == null or G.room == null or not world_state():
 		return

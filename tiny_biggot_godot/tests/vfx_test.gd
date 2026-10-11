@@ -125,6 +125,8 @@ func _restore(p: Player) -> void:
 		e.vuln_t = 0.0
 		e.weak_t = 0.0
 		e.shattered = false
+		e.shatter = 0   # 47.2
+		e.shatter_t = 0.0
 		e.flash = 0.0
 	# Foes a probe made for itself are gone, and the sound throttle (which decides whether
 	# a sound rolls its pitch) starts empty: both runs of a probe happen within one tick.

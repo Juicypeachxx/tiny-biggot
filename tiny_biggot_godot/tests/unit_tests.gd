@@ -65,6 +65,8 @@ func _test_keyboard() -> void:
 	var tc := TouchControls.new()
 	add_child(tc)
 	tc.visible = true
+	var state_was: StringName = G.state
+	G.state = &"play"   # the stick moves the hero in play (47.3: on the title, that corner is the menu)
 	var touch := InputEventScreenTouch.new()
 	touch.pressed = true
 	touch.position = tc.stick_home + Vector2(tc.stick_r, 0)
@@ -90,6 +92,7 @@ func _test_keyboard() -> void:
 	tc._input(pad)
 	_eq("gamepad press hides touch controls", tc.visible, false)
 	tc.queue_free()
+	G.state = state_was
 
 func _tap(tc: TouchControls, pos: Vector2) -> void:
 	for pressed in [true, false]:

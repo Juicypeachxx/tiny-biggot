@@ -2517,6 +2517,15 @@ func _notification(what: int) -> void:
 			quit_armed = false
 		Meta.write_save()
 
+## 47.6 (his clip of a run at 14 to 19 frames a second): the logic each part of a tick costs, in
+## microseconds since the last breakdown (main.gd turns it into the SHOW FPS breakdown line).
+var lprof := {}
+var _lp_t := 0
+func _lp(k: String) -> void:
+	var now := Time.get_ticks_usec()
+	lprof[k] = lprof.get(k, 0) + now - _lp_t
+	_lp_t = now
+
 func update_play(dt: float) -> void:
 	run_stats["time"] += dt
 	Combat.track_power(dt)
@@ -2530,24 +2539,35 @@ func update_play(dt: float) -> void:
 		hitstop -= dt
 		return
 	var p := player
+	_lp_t = Time.get_ticks_usec()   # (47.6: what each part costs, for the SHOW FPS breakdown)
 	Effects.tick(dt)
+	_lp("PROCS")
 	Combat.update_player(p, dt)
+	_lp("HERO")
 	Ambience.tick(p)   # 21.3 footsteps, the music's fight or calm level
 	if state != &"play":
 		return
+	_lp_t = Time.get_ticks_usec()
 	Combat.update_enemies(dt)
+	_lp("FOES")
 	Combat.update_pbullets(dt)
+	_lp("SHOTS")
 	EBullets.update(dt)
+	_lp("FOE SHOTS")
 	Combat.update_pickups(dt)
+	_lp("PICKUPS")
 	Combat.update_bombs(dt)
 	Combat.update_zones(dt)
+	_lp("POOLS")
 	Hazards.update(dt)
 	EventRooms.update(dt)
+	_lp("SPELLS")
 	Fx.update(dt)
 	Barks.update(dt)   # 21.1 voices
 	if Camp.active():
 		Barks.camp_tick()
 	Juice.update(dt, p)
+	_lp("FX")
 	var keep := []
 	for w in swings:
 		w["t"] -= dt

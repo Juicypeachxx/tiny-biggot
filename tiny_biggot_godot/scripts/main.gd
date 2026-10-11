@@ -456,6 +456,7 @@ var _perf_n := 0
 var _perf_rcpu := 0.0
 var _perf_rgpu := 0.0
 var _perf_calls := 0
+var _perf_procs := 0
 func _perf_tick(us: int) -> void:
 	if not DrawLayer.perf_on:
 		RenderingServer.viewport_set_measure_render_time(get_viewport().get_viewport_rid(), true)
@@ -478,6 +479,17 @@ func _perf_tick(us: int) -> void:
 			parts.append("%s %.2f" % [k, DrawLayer.perf[k] / 1000.0 / _perf_n])
 	HudView.perf_line = "%d FPS  LOGIC %.1f  DRAW %.1f  CALLS %d  WORST %d" % [Engine.get_frames_per_second(),
 		_perf_logic / 1000.0 / _perf_n, total / 1000.0 / _perf_n, _perf_calls, roundi(_worst_us / 1000.0)]
+	# 47.6: the three costliest parts of the logic, and how much is in play.
+	var lk := G.lprof.keys()
+	lk.sort_custom(func(a, b): return G.lprof[a] > G.lprof[b])
+	var lp := []
+	for k in lk.slice(0, 3):
+		lp.append("%s %.1f" % [k, G.lprof[k] / 1000.0 / _perf_n])
+	var procs: int = Effects.stats.get("procs", 0)
+	HudView.perf_line2 = "  ".join(lp) + "  -  %d SHOTS  %d FOES  %d POOLS  %d PROCS A TICK" % [G.pbullets.size(), G.enemies.size(),
+		G.zones.size(), roundi((procs - _perf_procs) / float(_perf_n))]
+	_perf_procs = procs
+	G.lprof.clear()
 	if DebugArgs.has("perf"): print("[perf] fps %d | logic %.2f ms | draw %.2f ms (%s) | render cpu %.2f gpu %.2f ms, peak %d draw calls | shots %d, foe shots %d, pickups %d, fx %d, texts %d | worst frame %.1f ms" % [
 		Engine.get_frames_per_second(), _perf_logic / 1000.0 / _perf_n, total / 1000.0 / _perf_n, ", ".join(parts),
 		_perf_rcpu / _perf_n, _perf_rgpu / _perf_n, _perf_calls, G.pbullets.size(), EBullets.n, G.pickups.size(), Fx.n, Fx.texts.size(),
