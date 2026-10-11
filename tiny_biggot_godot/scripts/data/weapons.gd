@@ -803,6 +803,8 @@ static func wrate(p: Player) -> float:
 		r *= 1.0 + p.g("rate_per_dex") * p.a_dex
 	if p.g("rate_per_law") > 0:   # 38.1 MAGISTRATE'S SEAL
 		r *= 1.0 + p.g("rate_per_law") * p.al_law
+	if p.g("curse_rate") > 0 or p.g("slain_rate") > 0:   # 49.1 (burdens.gd)
+		r *= Burdens.rate_mult(p)
 	return r
 static func wspd(p: Player) -> float: return p.weapon["speed"] * p.shot_speed
 static func wlife(p: Player) -> float: return p.weapon["life"] * p.life

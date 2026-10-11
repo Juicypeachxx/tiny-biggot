@@ -372,6 +372,11 @@ timeout 600 "$GODOT" --headless --path . res://tests/stage48_test.tscn -- --no-s
 grep -E "^\[stage48\]|stage48 test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 49 relics that grow with curses and kills, room draughts, the honing stone"
+timeout 600 "$GODOT" --headless --path . res://tests/stage49_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[stage49\]|stage49 test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== 41.5 how traits work: a limit of 12, stat points, traits that need a shield or a weapon kind, trait tomes"
 timeout 300 "$GODOT" --headless --path . res://tests/traitrules_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "traitrules test" "$LOG"

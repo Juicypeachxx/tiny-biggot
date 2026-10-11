@@ -190,6 +190,7 @@ var spin := 0.0
 var xp_mult := 1.0
 var haste_t := 0.0
 var floor_kills := 0
+var curse_marks := 0   # 49.1: curses THE CURSED ARMORY laid on you (burdens.gd counts what you carry)
 var step_t := 0.0
 var phoenix_used := false
 # Effect system (effects/effects.gd). Empty for original content.

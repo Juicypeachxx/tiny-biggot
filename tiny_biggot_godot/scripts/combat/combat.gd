@@ -297,6 +297,7 @@ static func hook_mult(p: Player, e: Enemy) -> float:
 	if p.g("heart_dmg") > 0:   # 33.2 BIG APPETITE: for every max heart above 3
 		m += p.g("heart_dmg") * maxi(0, p.max_hp / 2 - 3)
 	m += p.g("gold_dmg") * held_gold(p) / 100.0
+	m += Burdens.dmg(p)   # 49.1: for each curse you carry, for every 100 foes slain
 	m += p.g("relic_dmg") * p.relics.size()
 	# 8.4 traits that grow with the run (traits.gd, the 8.4 rows).
 	if p.g("idle_dmg") > 0:
@@ -345,7 +346,7 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 		Lives.pop(e.x, e.y - e.r - 20, "SNEAK ATTACK!", "gold")
 	if GameData.rogues():
 		dmg *= Might.roll(p)   # Rogues layer: every hit rolls within +-15% (40.2 PACK HUNTER: twice, the lower)
-	var crit_chance := p.crit + (p.g("chill_crit") if e.chill_t > 0 else 0.0) + p.g("crit_per_str") * p.a_str + p.g("crit_per_evil") * p.al_evil + p.g("crit_per_law") * p.al_law   # (38.1 DEVIL'S BARGAIN; 45.1 LEDGER OF DUES)
+	var crit_chance := p.crit + (p.g("chill_crit") if e.chill_t > 0 else 0.0) + p.g("crit_per_str") * p.a_str + p.g("crit_per_evil") * p.al_evil + p.g("crit_per_law") * p.al_law + Burdens.crit(p)   # (38.1 DEVIL'S BARGAIN; 45.1 LEDGER OF DUES; 49.1)
 	crit_chance += Might.crit_chance(p) + Finesse.crit_chance(p, e) + Marvels.crit_chance(p)   # 40.2 SCAR TISSUE; 41.1 VENOM SIGHT, BULLSEYE; 43.1
 	var sure := p.g("sure_strike") > 0   # 33.2 SURE STRIKE: never a crit; the chance becomes damage
 	if sure:

@@ -35,6 +35,8 @@ static func _hook(key: String, v: float, p: Player) -> float:
 	match key:
 		"gold_dmg": return v * Combat.held_gold(p) / 100.0
 		"relic_dmg": return v * p.relics.size()
+		"curse_dmg", "curse_rate", "curse_crit": return v * Burdens.curses(p)   # 49.1
+		"slain_dmg", "slain_rate", "slain_crit": return v * Burdens.slain(p)
 		"armor_dmg": return v * mini(p.armor, 6)
 		"collect_dmg": return v * p.stat_picks
 		"idle_dmg":

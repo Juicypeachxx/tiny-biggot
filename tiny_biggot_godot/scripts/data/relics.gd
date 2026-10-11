@@ -265,6 +265,16 @@ const ROWS := [
 	["honeystopper", "common", "HONEY STOPPER", "SIPS FROM THE GOURD HEAL ONE MORE HEART", [["hook", "gourd_heal", 2]], ["bulwark"]],
 	["splitwedge", "rare", "SPLITTING WEDGE", "15% OF HITS SHATTER: +5% DAMAGE TAKEN A STACK, UP TO 5", [{ "on": "on_hit", "chance": 0.15, "do": [["status", "shatter", 1]] }], ["demolition"]],
 	["crackedgeode", "epic", "CRACKED GEODE", "SHATTER IS TWICE AS STRONG: +10% DAMAGE TAKEN A STACK", [["hook", "shatter_x", 1]], ["demolition"]],
+	# 49.1 Relics that grow with the curses you carry and the foes you have slain this run (his list,
+	# 10 Oct; burdens.gd: a curse is a cursed trait or relic, an armory curse or a flawed weapon).
+	["burdenidol", "rare", "BURDENED IDOL", "+8% DAMAGE FOR EACH CURSE YOU CARRY: CURSED TRAITS AND RELICS, ARMORY CURSES, A FLAWED WEAPON", [["hook", "curse_dmg", 0.08]], ["malice"]],
+	["penitentchain", "rare", "PENITENT'S CHAIN", "+6% FIRE RATE FOR EACH CURSE YOU CARRY", [["hook", "curse_rate", 0.06]], ["malice"]],
+	["widowveil", "epic", "WIDOW'S VEIL", "+4% CRIT FOR EACH CURSE YOU CARRY. CURSED FOES YOU KILL HEAL HALF A HEART 10% OF THE TIME", [["hook", "curse_crit", 0.04], { "on": "on_kill", "if": "cursed", "chance": 0.1, "do": [["heal", 1]] }], ["malice"]],
+	["sinnerscrown", "legend", "SINNER'S CROWN", "A CURSE ITSELF: -1 MAX HEART. +15% DAMAGE AND +5% FIRE RATE FOR EACH CURSE YOU CARRY", [["add_floor", "max_hp", -2, 2], ["clamp_max", "hp", "max_hp"], ["hook", "curse_dmg", 0.15], ["hook", "curse_rate", 0.05]], ["malice"]],
+	["tallystick", "common", "TALLY STICK", "+5% DAMAGE FOR EVERY 100 FOES SLAIN THIS RUN", [["hook", "slain_dmg", 0.05]], ["fury"]],
+	["bonerosary", "rare", "BONE ROSARY", "+3% CRIT FOR EVERY 100 FOES SLAIN THIS RUN", [["hook", "slain_crit", 0.03]], ["fury"]],
+	["reaperlamp", "epic", "REAPER'S LAMP", "+8% FIRE RATE FOR EVERY 100 FOES SLAIN THIS RUN", [["hook", "slain_rate", 0.08]], ["fury"]],
+	["hundredfold", "legend", "THE HUNDREDFOLD", "+12% DAMAGE FOR EVERY 100 FOES SLAIN THIS RUN. EVERY 100 KILLS DROP A HEART", [["hook", "slain_dmg", 0.12], { "on": "on_kill", "every": 100, "do": [["drop", "heart"]] }], ["fury"]],
 ]
 const BASE_COUNT := 34
 const CACHE_1 := ["tallow", "skeletonkey", "quiver", "filings", "gravedust", "mothwing", "bitterroot", "tinwhistle", "chalk", "rustynail"]

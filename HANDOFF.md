@@ -14,7 +14,8 @@ Enchantments"; the full check passed). Then his list of another game's core game
 47.6 (his lag clip; every trait and relic checked): done, IPA 47 "Gourd and Shatter" (full check
 passed). Now: Stage 48 (his 16 cinders): 48.1 DREAD to 16 (dread.gd), 48.2 STAR DUST and a
 constellation of 60 points, 48.3 six skills a tree branch and RESET THIS TREE, 48.4 RESET GAME:
-and 48.5 (stage48_test, the replays): done, IPA 48 "Dread and Dust". Next: Stage 49 (ROADMAP).
+and 48.5 (stage48_test, the replays): done, IPA 48 "Dread and Dust". Now: Stage 49 (his "go", 11 Oct): 49.1 relics that grow with
+curses and kills done; 49.2 ROOM DRAUGHTS, 49.3 a HONING STONE, 49.4 test and IPA 49 to come.
 Done before: 39.4 "Bosses Fall" (IPA 39.4), Stage 39 "More to Find", 38 "Alignment and Loot", 37,
 36, 35 (the full check passed at 35). Next: Stage 40.
 
@@ -1880,6 +1881,21 @@ feel out of match": effects first (43.7a), then pictures (43.7b).
   At DREAD 0 nothing else moves (a, c, f, g identical).
 - Full check: 85 of 86 sections passed; the one failure was stars_test still counting 29 notable
   stars (37 now: seven a side); fixed, and stars_test passes.
+
+### Stage 49 (11 Oct): relics that grow with curses and kills, ROOM DRAUGHTS, a HONING STONE (his list)
+- 49.1 scripts/game/burdens.gd (class Burdens): count(p) = Player.curse_marks (one each time THE
+  CURSED ARMORY curses you: EventRooms.take_cursed) + each cursed trait held (rarity "cursed") +
+  each relic in CURSED_RELICS (cursedcoin, cursedcompass, sinnerscrown) + 1 for a "bad" enchantment
+  on the held weapon. curses(p): the same, counted once a tick (keyed on G.time and the hero).
+  slain(p) = Player.kills / 100. Hooks (gf): curse_dmg / slain_dmg (Combat.hook_mult via
+  Burdens.dmg), curse_rate / slain_rate (Weapons.wrate via rate_mult, only when held), curse_crit /
+  slain_crit (Combat.damage_enemy's crit chance via Burdens.crit). live.gd shows each as
+  "(+N% NOW)". Relics (relics.gd "49.1"): burdenidol (rare, +8% damage a curse), penitentchain
+  (rare, +6% fire rate), widowveil (epic, +4% crit, cursed kills may heal), sinnerscrown (legend,
+  -1 max heart, a curse itself, +15% damage and +5% fire rate a curse), tallystick (common, +5%
+  damage every 100 kills), bonerosary (rare, +3% crit), reaperlamp (epic, +8% fire rate),
+  hundredfold (legend, +12% damage, a heart every 100 kills: on_kill "every" 100). Art
+  tools/art/stage49_burdens.py (12 x 12). Test tests/stage49_test.tscn (in check.sh).
 
 ## Noted, not yet acted on
 

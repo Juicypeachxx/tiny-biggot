@@ -463,6 +463,7 @@ static func mod_weapon(p: Player, id: String) -> void:
 static func take_cursed(p: Player, o: Dictionary) -> void:
 	var cu: Array = CURSES[o["curse"]]
 	Effects.apply(p, cu[1], 1, "curse:" + str(o["curse"]))
+	p.curse_marks += 1   # 49.1: a curse you carry (burdens.gd)
 	p.hp = clampi(p.hp, 1, p.max_hp)
 	G.toast("CURSED: " + cu[0], "purple")
 	Snd.play("roar")
