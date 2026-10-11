@@ -321,6 +321,7 @@ func enter_room(r: Room) -> void:
 	Oddities.clear()
 	Spells.clear()
 	Toys.clear()   # 31
+	Souls.clear()   # 53.1 (the wisps; the gauge stays)
 	Auras.reset()   # 33.1
 	Lucky.reset()   # 34.1
 	Reactions.clear()
@@ -2105,6 +2106,8 @@ func update_traits() -> void:
 			Snd.play("confirm")
 			offer_traits(true)   # 50.1: other traits than these
 			tchoice["t0"] = time - TraitView.BURST   # a reroll: the rows again, not the starburst
+			if not player.procs.is_empty():
+				Effects.fire("on_reroll")   # 53.1 HIGH ROLLER
 		elif player.gold >= reroll_cost():
 			# New (design spec 4): once the free rerolls are gone, rerolls cost gold.
 			player.gold -= reroll_cost()
@@ -2112,6 +2115,8 @@ func update_traits() -> void:
 			Snd.play("coin")
 			offer_traits(true)
 			tchoice["t0"] = time - TraitView.BURST
+			if not player.procs.is_empty():
+				Effects.fire("on_reroll")
 		else:
 			Snd.play("deny")
 		return

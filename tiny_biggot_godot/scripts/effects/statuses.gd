@@ -57,7 +57,7 @@ static func apply(e: Enemy, name: String, amount: float, hit_dmg: float) -> void
 		"shatter": Shatter.add(e, int(amount))   # 47.2
 		"seared": e.seared_t = maxf(e.seared_t, 3.0 * maxf(1.0, amount))   # 50.2
 		"rot":
-			e.rot = mini(DamageTypes.ROT_MAX, e.rot + maxi(1, int(amount)))
+			e.rot = mini(DamageTypes.ROT_MAX + int(p.g("rot_max")) if p != null else DamageTypes.ROT_MAX, e.rot + maxi(1, int(amount)))   # (53.2 GRAVE MOSS)
 			e.rot_t = 4.0
 		"charged": DamageTypes.charge(e, maxi(1, int(amount)), hit_dmg)
 		"rattled": DamageTypes.rattle(e, maxi(1, int(amount)))
@@ -85,6 +85,11 @@ static func dmg_mult(e: Enemy) -> float:
 		m *= 1 + 0.08 * e.gloom
 	if e.shatter > 0:
 		m *= Shatter.mult(e)   # 47.2
+	if (e.seared_t > 0 or e.rattle > 0) and G.player != null:   # 53.2 SUNSPOT, RESONANCE
+		var p := G.player
+		if e.seared_t > 0:
+			m *= 1 + p.g("vs_seared")
+		m *= 1 + p.g("vs_rattle") * e.rattle
 	return m
 
 ## Ticks the new statuses. Called only while one is active.

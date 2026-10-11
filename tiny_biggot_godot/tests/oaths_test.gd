@@ -19,8 +19,8 @@ func _ready() -> void:
 	for id in Oaths.VOWS:
 		_one(id)
 		n += 1
-	if n != 19:
-		fail("%d vows, not 19" % n)
+	if n != 20:
+		fail("%d vows, not 20" % n)   # (53.2: the OATH OF SOULS)
 	for t in Traits.all():
 		if t["rarity"] == "oath" and not Oaths.VOWS.has(t["id"]):
 			fail("the oath %s has no vow" % t["id"])

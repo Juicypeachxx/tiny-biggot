@@ -76,18 +76,26 @@ static func check(e: Enemy) -> void:
 			Combat.damage_enemy(e, base * 3.5, { "no_crit": true, "col": "red", "silent": true })
 		"overload":
 			Combat.lightning(e, base)
+			_conduct(p, base)
 		"eclipse":   # a blast of black light that stuns what stands near
 			e.seared_t = 0.0
 			Combat.explode_at(e.x, e.y, base * 3.0, null, 44, "#a35bd6")
+			var spread := p.g("eclipse_spread") > 0   # 53.2 TOTAL ECLIPSE: light and dark on every foe near it
 			for o in G.enemies.duplicate():
 				if o.targetable() and o.charm_t <= 0 and TB.dist(o, e) < 50.0 + o.r:
 					Statuses.apply(o, "stun", 1, base)
+				if spread and o != e and o.hp > 0 and o.targetable() and o.charm_t <= 0 and TB.dist(o, e) < 70.0 + o.r:
+					Statuses.apply(o, "seared", 1, base)
+					Statuses.apply(o, "gloom", 2, base)
 		"blight":   # the poison is spent and the rot spreads to every foe near it
 			e.poison = 0.0
 			Fx.burst(e.x, e.y - 4, ["#7ad04a", "#3a5a2a", "#b8e05a"], 12, 50, 0.5)
+			var far := p.g("blight_far") > 0   # 53.2 PLAGUE WIND: twice as far, and poison too
 			for o in G.enemies.duplicate():
-				if o != e and o.targetable() and o.charm_t <= 0 and TB.dist(o, e) < 60.0 + o.r:
+				if o != e and o.targetable() and o.charm_t <= 0 and TB.dist(o, e) < (120.0 if far else 60.0) + o.r:
 					Statuses.apply(o, "rot", 3, base)
+					if far:
+						Statuses.apply(o, "poison", 3, base)
 			Combat.damage_enemy(e, base * 2.0, { "no_crit": true, "col": "green", "silent": true })
 		"superconduct":   # the charge goes off at once, and lightning leaps on
 			e.charge = 0
@@ -95,6 +103,7 @@ static func check(e: Enemy) -> void:
 			Combat.explode_at(e.x, e.y, base * 2.5, null, 40, "#6fe8ff")
 			if e.hp > 0:
 				Combat.chain_from(e, base)
+			_conduct(p, base)
 		"crackle":   # frozen and shaken: it cracks
 			e.chill_t = 0.0
 			e.rattle = 0
@@ -110,3 +119,11 @@ static func check(e: Enemy) -> void:
 					b.y = e.y - 4.0
 	if not p.procs.is_empty():
 		Effects.fire("on_reaction", { "enemy": e, "x": e.x, "y": e.y, "dmg": base })   # 26: traits and synergies that feed on it
+
+## 53.2 CONDUCTOR: SUPERCONDUCT and OVERLOAD also strike 3 foes with lightning.
+static func _conduct(p: Player, base: float) -> void:
+	if p.g("react_chain") <= 0:
+		return
+	var pool := G.enemies.filter(func(o): return o.targetable() and o.charm_t <= 0 and o.hp > 0)
+	for k in mini(3, pool.size()):
+		Combat.lightning(TB.pick(pool), base)

@@ -264,6 +264,16 @@ static func run(a: Array, stacks: int, ctx: Dictionary) -> void:
 					te = _random_foe() if String(a[1]) == "anvil" else _target(ctx)
 				var at := Vector2(te.x, te.y) if te != null else Vector2(p.x + cos(p.aim_a) * 70.0, p.y + sin(p.aim_a) * 70.0)
 				Toys.cast(String(a[1]), p, at.x, at.y, w * float(a[2]) * stacks, te.uid if te != null else -1)
+		"new_ailment":   # 53.1: ["new_ailment", stacks]: SEARED, ROT, GLOOM, CHARGED or RATTLED on the foe
+			var ne := _target(ctx)
+			if ne != null:
+				Statuses.apply(ne, TB.pick(["seared", "rot", "gloom", "charged", "rattled"]), a[1] * stacks, ctx.get("dmg", w))
+		"spirit":   # 53.1: ["spirit", n]: SPIRIT for the rest of the run
+			Attributes.add(p, "spi", int(a[1]) * stacks)
+		"ready_special":   # 53.1: the special ready at once
+			p.special_cd = 0.0
+		"souls":   # 53.1: ["souls", n]: souls into the gauge
+			Souls.add(p, int(a[1]) * stacks, p.x, p.y)
 		"vow":   # 30.1: ["vow", oath id]: one more step of that oath's vow; at its goal the oath awakens (oaths.gd)
 			Oaths.progress(p, String(a[1]), stacks)
 		"spell":

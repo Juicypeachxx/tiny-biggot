@@ -41,7 +41,7 @@ func _signature() -> Array:
 		gear.append(g["id"] if g != null else "")
 	return [perf_line, perf_line2, Meta.opts.get("fps", false), p.max_hp, p.hp, p.armor, p.max_potions, p.potions, p.gold, p.gourd, Gourd.max_sips(p),
 		p.dodge_charges, p.charges, roundi(5 * p.charge_t / p.dodge_cd), p.bombs, p.keys, p.embers_found, p.rerolls, p.alters, p.banishes, p.drinks.duplicate(true), p.draughts.size(),
-		G.msg.get("text", ""), G.msg.get("col", ""), p.level, roundf(80.0 * p.xp / GameData.xp_needed(p.level)),
+		G.msg.get("text", ""), G.msg.get("col", ""), p.level, roundf(80.0 * p.xp / GameData.xp_needed(p.level)), p.souls,
 		p.hero.get("hud", ""), p.heat, p.heat_max, p.tempo, p.tempo_max, G.floor_index, G.loop, f["depth"], f["total"], f["path"].size(),
 		int(G.run_stats.get("time", 0.0)), p.belt.duplicate(), p.relics.size(),
 		p.relics[p.relics.size() - 1]["id"] if not p.relics.is_empty() else "",
@@ -152,6 +152,8 @@ func _draw() -> void:
 	draw_rect(Rect2(5, 28, 82, 3), TB.c("#140f1c"))
 	draw_rect(Rect2(6, 29, roundf(80.0 * p.xp / need), 1), TB.c("#b8e05a"))
 	Gfx.text(self, "LV %d" % p.level, 90, 27, "lime")
+	if GameData.rogues():
+		Souls.draw_hud(self, p)   # 53.1: the SOUL gauge
 	Arsenal.draw_hud(self)   # the piggy bank's fill
 	if Pets.active(p):
 		# The pet: its picture, name and level.

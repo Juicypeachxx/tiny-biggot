@@ -56,17 +56,29 @@ static func on_hit(p: Player, e: Enemy, dmg: float, crit: bool) -> void:
 	if e.hp > 0 and randf() < CHANCE * (2.0 if crit else 1.0):
 		Statuses.apply(e, AILMENT[t], 1, dmg)
 
-## Statuses.apply: one more charge; the fifth discharges.
+## Statuses.apply: one more charge; the fifth discharges (CAPACITOR: the third, twice as wide;
+## LIVE WIRE: lightning leaps from it to foes near it).
 static func charge(e: Enemy, n: int, hit_dmg: float) -> void:
-	e.charge = mini(CHARGE_MAX, e.charge + n)
+	var p := G.player
+	var cap := 3 if p != null and p.g("charge_fast") > 0 else CHARGE_MAX
+	e.charge = mini(cap, e.charge + n)
 	e.charge_t = 3.0
-	if e.charge < CHARGE_MAX:
+	if e.charge < cap:
 		return
 	e.charge = 0
 	e.charge_t = 0.0
 	_stat("discharge")
 	Fx.texts.append({ "x": e.x, "y": e.y - e.r - 16, "text": "DISCHARGE!", "col": "cyan", "life": 0.7, "big": false })
-	Combat.explode_at(e.x, e.y, maxf(hit_dmg, Weapons.wdmg(G.player)) * 1.5, null, 40, HEX["ENERGY"])
+	var dmg := maxf(hit_dmg, Weapons.wdmg(p)) * 1.5
+	Combat.explode_at(e.x, e.y, dmg, null, 80 if cap < CHARGE_MAX else 40, HEX["ENERGY"])
+	var jumps := int(p.g("discharge_chain")) if p != null else 0
+	if jumps > 0:
+		for o in G.enemies.duplicate():
+			if jumps <= 0:
+				break
+			if o != e and o.targetable() and o.charm_t <= 0 and TB.dist(o, e) < 120.0:
+				Combat.lightning(o, dmg * 0.5)
+				jumps -= 1
 
 ## Statuses.apply: rattled more; from 3 weakened, the sixth stuns.
 static func rattle(e: Enemy, n: int) -> void:
@@ -90,13 +102,30 @@ static func tick_rot(e: Enemy, dt: float) -> void:
 	Combat.damage_enemy(e, e.max_hp * pct * 0.5 * e.rot, { "no_crit": true, "no_mult": true, "col": "green", "silent": true })
 	_stat("rot")
 
-## Combat.kill_enemy: a seared foe bursts in light.
+static var _heal_t := 0.0   # 53.2 DAWNBURST: the next burst that may heal (G.time)
+
+## Combat.kill_enemy: a seared foe bursts in light (DAWNBURST: twice as wide, and it may heal); a
+## rotting foe's rot spreads to the foes near it (LICH TOUCH).
 static func on_death(e: Enemy) -> void:
-	if e.seared_t <= 0.0 or not GameData.rogues():
+	var p := G.player
+	if not GameData.rogues() or p == null:
+		return
+	if e.rot > 0 and p.g("rot_spread") > 0:
+		var n := e.rot
+		e.rot = 0
+		for o in G.enemies.duplicate():
+			if o != e and o.hp > 0 and o.targetable() and o.charm_t <= 0 and TB.dist(o, e) < 70.0 + o.r:
+				Statuses.apply(o, "rot", n, Weapons.wdmg(p))
+		_stat("rot_spread")
+	if e.seared_t <= 0.0:
 		return
 	e.seared_t = 0.0
 	_stat("burst")
-	Combat.explode_at(e.x, e.y, Weapons.wdmg(G.player), e, 40, HEX["RADIANT"])
+	var wide := p.g("sear_wide") > 0
+	Combat.explode_at(e.x, e.y, Weapons.wdmg(p), e, 80 if wide else 40, HEX["RADIANT"])
+	if p.g("sear_heal") > 0 and G.time >= _heal_t:
+		_heal_t = G.time + 6.0
+		p.heal(1)
 
 ## Over the foes (world_view): a mark for each of the new ailments.
 static func draw_over(ci: CanvasItem, t: float) -> void:

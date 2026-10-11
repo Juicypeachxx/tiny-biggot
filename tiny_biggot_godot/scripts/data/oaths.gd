@@ -68,6 +68,9 @@ const VOWS := {
 	"o_dawn": [30, "SHINE 30 TIMES", "RINGS", { "on": "every_n_seconds", "period": 8.0, "if": "fighting" },
 		"EVERY 4S IN A FIGHT, ANOTHER RING. HALF OF THE ROOMS YOU CLEAR HEAL HALF A HEART",
 		[{ "on": "every_n_seconds", "period": 4.0, "if": "fighting", "do": [["nova", 16, 1.0, "spark", 1.0]] }, { "on": "on_room_clear", "chance": 0.5, "do": [["heal", 1]] }]],
+	"o_souls": [8, "SURGE 8 TIMES", "SURGES", { "on": "on_surge" },   # 53.2
+		"SURGES DEAL +50% AND STUN EVERY FOE THEY HIT",
+		[["hook", "surge_dmg", 0.5], ["hook", "surge_stun", 1]]],
 }
 
 ## The vow of an oath, as the pick and the trait book show it ("" for a trait without one).

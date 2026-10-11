@@ -47,7 +47,8 @@ const TRIGGERS := ["on_hit", "on_crit", "on_kill", "on_roll", "on_damage_taken",
 	"on_reaction",   # 26: two ailments on a foe reacted (reactions.gd)
 	"on_lucky",   # 34.1: a lucky hit (lucky.gd)
 	"on_special", "on_taunt",   # 40.2: the special used; a foe tamed, made a puppet or taunted (might.gd)
-	"on_dice"]   # 35.1: a die used (dice.gd)
+	"on_dice",   # 35.1: a die used (dice.gd)
+	"on_soul", "on_surge", "on_reroll"]   # 53.1: a soul into the gauge, a SOUL SURGE (souls.gd); a trait reroll
 const ACTIONS := ["nova", "shoot", "explode", "status", "heal", "buff", "chain", "lightning", "summon", "gold",
 	"refund_roll", "armor", "drop", "damage", "hurt_self", "xp", "clear_shots", "card", "heat", "scroll",
 	"dash", "channel", "invuln", "status_area", "vfx", "area",
@@ -66,7 +67,8 @@ const ACTIONS := ["nova", "shoot", "explode", "status", "heal", "buff", "chain",
 	"dice",   # 35.1: ["dice", kind or "any", n]: dice to bend luck (dice.gd)
 	"fan_shots", "pocket_cast", "trigger",   # 42.1: shards or a thistle; a backpack weapon fires; a moment's procs (arcana.gd)
 	"drink_random", "attrs",   # 43.1: random drinks; +n STR, DEX and INT (marvels.gd)
-	"toy"]   # 31: an item lets a toy of the toybox loose (toys.gd)
+	"toy",   # 31: an item lets a toy of the toybox loose (toys.gd)
+	"new_ailment", "spirit", "ready_special", "souls"]   # 53.1
 const STATUSES := ["burn", "poison", "chill", "bleed", "stun", "curse", "mark", "shock", "vulnerable", "weakened", "gloom", "shatter"]   # (47.2 shatter)
 const CONDITIONS := ["elite", "boss", "burning", "poisoned", "chilled", "bleeding", "shocked", "cursed",
 	"low_hp", "full_hp", "moving", "still", "crit", "danger", "fighting", "hot", "rich", "armored", "flight",
@@ -74,7 +76,8 @@ const CONDITIONS := ["elite", "boss", "burning", "poisoned", "chilled", "bleedin
 	"lead_good", "lead_evil", "lead_law", "lead_chaos", "devout",   # 8.1 alignments
 	"gloomy",   # 11.2
 	"tipsy", "very_tipsy",   # 33.2 THE TAVERN
-	"fight_room"]   # 39.3: this room is a fight (its foes may not be out yet: on_room_enter)
+	"fight_room",   # 39.3: this room is a fight (its foes may not be out yet: on_room_enter)
+	"seared", "rotting", "charged", "rattled"]   # 53.1: the new ailments (damage_types.gd)
 
 static var depth := 0
 static var budget := BUDGET
@@ -264,6 +267,10 @@ static func _cond(c: String, ctx: Dictionary) -> bool:
 		"lead_chaos": return Alignments.leads(p, "chaos")
 		"devout": return Alignments.devout(p)
 		"gloomy": return e != null and e.gloom > 0   # 11.2
+		"seared": return e != null and e.seared_t > 0   # 53.1
+		"rotting": return e != null and e.rot > 0
+		"charged": return e != null and e.charge > 0
+		"rattled": return e != null and e.rattle > 0
 	return false
 
 ## Foes in the room that can still be fought (dummies and tamed foes left out).

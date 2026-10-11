@@ -1539,8 +1539,20 @@ each point); the rest, proposed in the order it would be felt most, with names o
 - [ ] Stage 52 (his word, 11 Oct, with Stage 50): SPIRIT (the special's charge and power) and LUCK as
       attributes next to STR, DEX and INT; each attribute also raises a pool (STR health, DEX roll
       charges, INT and SPIRIT the special). A test, the replays, IPA 52.
-      (In progress: code done, tests/stage52_test passes; replays, full check and IPA 52 next.
-      One IPA 52 carries Stage 50 too.)
+      (Code done, tests/stage52_test passes. Built with Stage 53: one IPA 53 carries 50, 52 and 53.)
+- [ ] Stage 53 (his word, 11 Oct, before IPA 52: "Add new level up traits to pick matching the new
+      additions, also add new effects and mechanic make it very cool and satisfying"):
+  - [x] 53.1 SOULS (a new mechanic, expanded game): every foe slain lets out its soul, a wisp that
+        flies to you and fills the SOUL gauge (an elite 3, a mini or champion 5, a guardian 10); at
+        30 it goes off: SOUL SURGE, a ring of light around you (300% of your weapon's damage, foes
+        thrown back), a flash and a moment of slow time. New triggers (a soul, a surge, a reroll),
+        actions (a new ailment, +SPIRIT, the special ready) and conditions (seared, rotting,
+        charged, rattled) for items. Done (scripts/combat/souls.gd).
+  - [x] 53.2 New traits for what is new: the five damage types and their ailments, their reactions,
+        SPIRIT and LUCK, the toybox, the souls, and an OATH OF SOULS with its vow; each with its
+        picture. Done: 28 traits (q_*) and o_souls, pictures from tools/art/stage53_traits.py;
+        tests/stage53_test passes (every one taken in a live fight).
+  - [ ] 53.3 A test, the replays (classic unchanged), the full check, IPA 53 (with 50 and 52).
 
 ### Stage 46: weapon enchantments (IPA 46; his word: "Ok go 44 and 45, and 46")
 - [x] 46.1 An enchantment slot on weapons (one at most): the item card, the name, the name plate,

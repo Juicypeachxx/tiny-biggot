@@ -1956,6 +1956,26 @@ feel out of match": effects first (43.7a), then pictures (43.7b).
   checked on the way), then the full check, then one IPA 52 with both stages (no separate IPA 50:
   Stage 52's code was already in when 50's replays were ready).
 
+### Stage 53 (11 Oct): SOULS and the traits for the new additions (his word)
+- `Souls` (scripts/combat/souls.gd): `on_kill` from Combat.kill_enemy (expanded game; not dummies or
+  tamed foes): +1 soul (elite 3, mini/champion 5, guardian 10; hook soul_mult doubles), a wisp
+  drawn flying to the hero (24 at most). `p.souls` (saved with the run) reaching `need` (30;
+  soul_fast 20; soul_avatar 15) sets off `surge`: 300% weapon damage within 120 px (+surge_dmg),
+  thrown back, stun with surge_stun, heal with surge_heal; G.hitstop 0.07, flash, ring, text. One
+  surge per 0.6 s (`gap`); `tick` from Hazards.update; `clear` in G.enter_room (wisps only). Gauge
+  under the XP bar (hud_view; p.souls in the HUD's redraw key).
+- Effects: triggers on_soul, on_surge, on_reroll (fired after both trait rerolls); actions
+  new_ailment, spirit, ready_special, souls; conditions seared, rotting, charged, rattled.
+- Hooks read by code: vs_seared and vs_rattle (Statuses.dmg_mult, which damage_enemy now also
+  calls for seared or rattled foes), rot_max (Statuses.apply), gloom_crit (crit chance on a foe
+  with 5+ gloom), charge_fast and discharge_chain (DamageTypes.charge), sear_wide, sear_heal and
+  rot_spread (DamageTypes.on_death, which kill_enemy now calls for rotting foes too),
+  eclipse_spread, blight_far and react_chain (reactions.gd `_conduct`), spirit_fire
+  (Combat.on_hit_effects while Might.casting).
+- 29 rows at the end of Traits.ROWS (28 q_* and o_souls; its vow in Oaths.VOWS: SURGE 8 TIMES);
+  oaths_test now expects 20 vows. Pictures: tools/art/stage53_traits.py (shapes, not typed grids).
+  Test tests/stage53_test (in check.sh): passes.
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

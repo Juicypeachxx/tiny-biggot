@@ -346,7 +346,7 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 		Lives.pop(e.x, e.y - e.r - 20, "SNEAK ATTACK!", "gold")
 	if GameData.rogues():
 		dmg *= Might.roll(p)   # Rogues layer: every hit rolls within +-15% (40.2 PACK HUNTER: twice, the lower)
-	var crit_chance := p.crit + (p.g("chill_crit") if e.chill_t > 0 else 0.0) + p.g("crit_per_str") * p.a_str + p.g("crit_per_evil") * p.al_evil + p.g("crit_per_law") * p.al_law + Burdens.crit(p)   # (38.1 DEVIL'S BARGAIN; 45.1 LEDGER OF DUES; 49.1)
+	var crit_chance := p.crit + (p.g("chill_crit") if e.chill_t > 0 else 0.0) + (p.g("gloom_crit") if e.gloom >= 5 else 0.0) + p.g("crit_per_str") * p.a_str + p.g("crit_per_evil") * p.al_evil + p.g("crit_per_law") * p.al_law + Burdens.crit(p)   # (38.1 DEVIL'S BARGAIN; 45.1 LEDGER OF DUES; 49.1)
 	crit_chance += Might.crit_chance(p) + Finesse.crit_chance(p, e) + Marvels.crit_chance(p)   # 40.2 SCAR TISSUE; 41.1 VENOM SIGHT, BULLSEYE; 43.1
 	var sure := p.g("sure_strike") > 0   # 33.2 SURE STRIKE: never a crit; the chance becomes damage
 	if sure:
@@ -374,7 +374,7 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	if not o.get("no_mult", false): dmg *= player_damage_mult(p) * hook_mult(p, e) * Might.foe_mult(p, e) * Finesse.foe_mult(p, e, o) * Arcana.foe_mult(p, e, o) * Marvels.foe_mult(p, e) * Enchant.foe_mult(p, e)   # (42.1 cursed and sneaky hits; 43.1 CRYO CORE; 46 enchantments)
 	dmg *= Dread.nerve_mult()   # 48.1 FALTERING NERVE (1.0 but at a guardian stage's start)
 	if Might.casting: dmg *= Finesse.special_power(p) * Attributes.spirit_power(p)   # 41.1 STILL BREATH; 52 SPIRIT
-	if e.vuln_t > 0 or e.shock > 0 or e.gloom > 0 or e.shatter > 0:
+	if e.vuln_t > 0 or e.shock > 0 or e.gloom > 0 or e.shatter > 0 or e.seared_t > 0 or e.rattle > 0:   # (53.2)
 		dmg *= Statuses.dmg_mult(e)
 	if (e.guard_t > 0 or e.d.has("rule")) and not Might.ruthless(p, e):   # (40.2 TOE TO TOE goes through)
 		dmg = EnemyAI2.adjust_damage(e, dmg)   # shields, a deacon's guard, a dizzy dervish
@@ -424,8 +424,9 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 
 static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 	Dread.on_kill(e)   # 48.1 PLAGUE: a carrier bursts
-	if e.seared_t > 0:
-		DamageTypes.on_death(e)   # 50.2: a seared foe bursts in light
+	if e.seared_t > 0 or e.rot > 0:
+		DamageTypes.on_death(e)   # 50.2: a seared foe bursts in light; 53.2 LICH TOUCH: rot spreads
+	Souls.on_kill(e)   # 53.1: its soul comes out
 	var p := G.player
 	e.hp = 0
 	p.kills += 1
@@ -1350,6 +1351,9 @@ static func on_hit_effects(e: Enemy, dmg: float, crit: bool, p: Player, b: PBull
 		Might.on_hit(p, e, dmg, crit)   # 40.2 the STRENGTH traits' marks on a foe
 		Infusions.on_hit(p, e)   # 44: the infusions' elements
 		DamageTypes.on_hit(p, e, dmg, crit)   # 50.2: RADIANT, NECROTIC, DARK, ENERGY, SOUND
+		if Might.casting and p.g("spirit_fire") > 0 and e.hp > 0:   # 53.2 SPIRIT FIRE: the special's blows sear and burn
+			Statuses.apply(e, "seared", 1, dmg)
+			Statuses.apply(e, "burn", 1, dmg)
 
 static func pbullet_hits(b: PBullet, p: Player) -> void:
 	if b.nohit:
