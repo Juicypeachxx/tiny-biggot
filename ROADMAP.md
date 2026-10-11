@@ -1505,8 +1505,8 @@ each point); the rest, proposed in the order it would be felt most, with names o
   - [x] 48.5 A test for all of it, the replays (classic unchanged), IPA 48. Done:
         tests/stage48_test (in check.sh); classic replays identical; core replays b, d, e and h
         re-recorded on purpose (--unlock-all now learns the fifth and sixth tree skills).
-- [ ] Stage 49 (his list, 10 Oct; GAMEPLAY_PLAN.md; his "go", 11 Oct): items that grow with curses
-      carried and foes slain, ROOM DRAUGHTS, a HONING STONE.
+- [x] Stage 49 (his list, 10 Oct; GAMEPLAY_PLAN.md; his "go", 11 Oct): items that grow with curses
+      carried and foes slain, ROOM DRAUGHTS, a HONING STONE. IPA 49 "Curses and Draughts".
   - [x] 49.1 Relics that grow with the curses you carry and the foes you have slain this run, beside
         the gold ones. Done (scripts/game/burdens.gd): a curse is a cursed trait, an armory curse, a
         cursed relic or a flawed weapon; 8 relics: BURDENED IDOL, PENITENT'S CHAIN, WIDOW'S VEIL,
@@ -1519,7 +1519,9 @@ each point); the rest, proposed in the order it would be felt most, with names o
   - [x] 49.3 A HONING STONE: one use, +1 weapon level. It was already in the belt as the
         WHETSTONE (+1 weapon level, one use), but only guardians and a few elites dropped it: now a
         door can promise one (no second item doing the same).
-  - [ ] 49.4 A test for all of it, the replays (classic unchanged), IPA 49.
+  - [x] 49.4 A test for all of it, the replays (classic unchanged), IPA 49. Done:
+        tests/stage49_test (in check.sh); classic replays identical; core a, b, c, d, e, g, h
+        re-recorded on purpose (new relics in the pools, draughts in the drops, new doors).
 - [ ] Stage 50: RADIANT, NECROTIC, DARK, ENERGY and SOUND as weapon damage types, and weapons for them.
 - [ ] Stage 51: run modes: THE NARROW WAY (no map), IRON VOW (after 5 wins: one life). (OMENS:
       his 16 cinders became DREAD to 16 in Stage 48.)

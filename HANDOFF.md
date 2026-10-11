@@ -15,8 +15,8 @@ Enchantments"; the full check passed). Then his list of another game's core game
 passed). Now: Stage 48 (his 16 cinders): 48.1 DREAD to 16 (dread.gd), 48.2 STAR DUST and a
 constellation of 60 points, 48.3 six skills a tree branch and RESET THIS TREE, 48.4 RESET GAME:
 and 48.5 (stage48_test, the replays): done, IPA 48 "Dread and Dust". Now: Stage 49 (his "go", 11 Oct): 49.1 relics that grow with
-curses and kills, 49.2 ROOM DRAUGHTS and 49.3 (the WHETSTONE behind a door) done; 49.4 test and
-IPA 49 to come.
+curses and kills, 49.2 ROOM DRAUGHTS, 49.3 (the WHETSTONE behind a door) and 49.4: done, IPA 49
+"Curses and Draughts". Next: Stage 50 (five more damage types; ROADMAP).
 Done before: 39.4 "Bosses Fall" (IPA 39.4), Stage 39 "More to Find", 38 "Alignment and Loot", 37,
 36, 35 (the full check passed at 35). Next: Stage 40.
 
@@ -1910,6 +1910,14 @@ feel out of match": effects first (43.7a), then pictures (43.7b).
   tools/art/stage49_draughts.py (9 x 11 bottles with a band). --give=drink:KIND for pictures.
 - 49.3 his HONING STONE (one use: +1 weapon level) was already the belt's WHETSTONE (c_whet,
   WeaponInfo.upgrade 1); now also behind a "whet" door.
+- 49.4: content test and effects test pass; classic replays identical; core a, b, c, d, e, g, h
+  re-recorded on purpose (b's two starting relics change: the pools are bigger), f identical.
+  Full check: 86 of 87 sections passed; gaolbird_test's soak failed (top tempo 4, wants 6). Root
+  cause: its tree [4, 4, 4] includes HEIRLOOM (a random relic from the pool at the start): RED
+  MIST now, SQUIRREL ACORN before (a familiar that kept foes off the hero; hits break tempo). The
+  soak says "the whole tree", which is six skills a branch since 48.3: it and content_test's
+  hero fights now learn the whole tree (Traits.tree_for size). With it the soak reaches tempo 10;
+  both tests pass.
 
 ## Noted, not yet acted on
 

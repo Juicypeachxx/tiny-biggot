@@ -659,7 +659,8 @@ func dying() -> void:
 
 # ---------- 8 ----------
 func soak() -> void:
-	var p := _arena("gaolbird", [4, 4, 4])
+	var tn: int = Traits.tree_for("gaolbird")[0]["nodes"].size()   # (48.3: the whole tree is six skills a branch now)
+	var p := _arena("gaolbird", [tn, tn, tn])
 	G.room.waves_left = 2
 	var worst := 0
 	var dives := 0

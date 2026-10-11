@@ -632,7 +632,8 @@ func heroes() -> void:
 		var h: Dictionary = all[i]
 		if not h.get("new", false):
 			continue
-		Meta.meta["tree"][h["id"]] = [4, 4, 4]
+		var tn: int = Traits.tree_for(h["id"])[0]["nodes"].size()   # (48.3: the whole tree is six skills a branch now)
+		Meta.meta["tree"][h["id"]] = [tn, tn, tn]
 		var p := arena(i)
 		if p.weapon["id"] != Weapons.HERO_WEAPON[h["id"]]:
 			fail("hero %s starts with %s" % [h["id"], p.weapon["id"]])
