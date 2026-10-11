@@ -1,7 +1,7 @@
 extends Node
 ## The constellation (scripts/game/stars.gd). Run: godot --headless --path . res://tests/stars_test.tscn -- --no-save
 ##   1. The web: one piece, links both ways, stars far enough apart to tap, every card fits.
-##   2. Taking: only next to a taken star, only with points left, never more than 30 points.
+##   2. Taking: only next to a taken star, only with points left, never more than MAX_POINTS (60 since 48.2; was 30).
 ##   3. Giving back: only a star nothing taken hangs off; reset gives back everything.
 ##   4. A run starts with the taken stars' effects (expanded game only), and with none in --classic.
 ## Prints "stars test: PASSED" or a FAIL line per problem.
@@ -47,7 +47,7 @@ func _web() -> void:
 			fail("star %s card has %d lines" % [n["id"], lines.size()])
 		if TB.text_w(n["name"]) > 156:
 			fail("star %s name too wide" % n["id"])
-	if notables != 29:   # the heart, five on each side, and two on each alignment spoke (8.1)
+	if notables != 37:   # the heart, seven on each side (48.2: was five), and two on each alignment spoke (8.1)
 		fail("%d notable stars" % notables)
 	var seen := { 0: true }
 	var q := [0]

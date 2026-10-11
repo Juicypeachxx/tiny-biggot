@@ -1878,6 +1878,8 @@ feel out of match": effects first (43.7a), then pictures (43.7b).
   purpose: --unlock-all learns every tree skill, now six a branch (first second of b: hearts 12
   -> 16, gourd 1 -> 2 sips, damage x1.265, fire rate x1.1, crit +5%: exactly the new skills).
   At DREAD 0 nothing else moves (a, c, f, g identical).
+- Full check: 85 of 86 sections passed; the one failure was stars_test still counting 29 notable
+  stars (37 now: seven a side); fixed, and stars_test passes.
 
 ## Noted, not yet acted on
 
