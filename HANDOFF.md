@@ -14,7 +14,7 @@ Enchantments"; the full check passed). Then his list of another game's core game
 47.6 (his lag clip; every trait and relic checked): done, IPA 47 "Gourd and Shatter" (full check
 passed). Now: Stage 48 (his 16 cinders): 48.1 DREAD to 16 (dread.gd), 48.2 STAR DUST and a
 constellation of 60 points, 48.3 six skills a tree branch and RESET THIS TREE, 48.4 RESET GAME:
-coded and committed; 48.5 (stage48_test, replays, IPA 48) is next.
+and 48.5 (stage48_test, the replays): done, IPA 48 "Dread and Dust". Next: Stage 49 (ROADMAP).
 Done before: 39.4 "Bosses Fall" (IPA 39.4), Stage 39 "More to Find", 38 "Alignment and Loot", 37,
 36, 35 (the full check passed at 35). Next: Stage 40.
 
@@ -1874,6 +1874,10 @@ feel out of match": effects first (43.7a), then pictures (43.7b).
   with effects, in the font, a name that fits), the reset by key and tap, learning skills 5 and
   6, the tree's taps (18 boxes, 12 in classic); RESET GAME from the pause menu (no) and the
   title (twice).
+- Replays: classic all identical. Core b, d, e and h (the --unlock-all ones) re-recorded on
+  purpose: --unlock-all learns every tree skill, now six a branch (first second of b: hearts 12
+  -> 16, gourd 1 -> 2 sips, damage x1.265, fire rate x1.1, crit +5%: exactly the new skills).
+  At DREAD 0 nothing else moves (a, c, f, g identical).
 
 ## Noted, not yet acted on
 

@@ -1479,7 +1479,8 @@ each point); the rest, proposed in the order it would be felt most, with names o
   - [x] 47.4 A better hero select: all 34 heroes to see and tap at once, not 6 at a time. Done:
         a grid of two rows along the top (tap to see, tap again to begin), the chosen hero large
         beside its card.
-- [ ] Stage 48 (his word, 10 Oct): DREAD to 16, star dust, trees expanded and reset, RESET GAME.
+- [x] Stage 48 (his word, 10 Oct): DREAD to 16, star dust, trees expanded and reset, RESET GAME.
+      IPA 48 "Dread and Dust".
   - [x] 48.1 DREAD (our own ladder, unlocked one level a win, more dread more embers) grows from 5
         to 16 levels, as his 16 "cinders": levels 1 to 5 keep what they do (rule 1); 6 to 16
         each add one more rule of our own, from his list (a FLAWED starting weapon, short early
@@ -1501,7 +1502,9 @@ each point); the rest, proposed in the order it would be felt most, with names o
         150 embers); RESET THIS TREE (tap or BOMB, twice) gives every ember back; the
         constellation's RESET is red and plain to see.
   - [x] 48.4 OPTIONS: RESET GAME (asks twice; the save starts over).
-  - [ ] 48.5 A test for all of it, the replays (classic unchanged), IPA 48.
+  - [x] 48.5 A test for all of it, the replays (classic unchanged), IPA 48. Done:
+        tests/stage48_test (in check.sh); classic replays identical; core replays b, d, e and h
+        re-recorded on purpose (--unlock-all now learns the fifth and sixth tree skills).
 - [ ] Stage 49: items that grow with curses carried and foes slain, ROOM DRAUGHTS, a HONING STONE.
 - [ ] Stage 50: RADIANT, NECROTIC, DARK, ENERGY and SOUND as weapon damage types, and weapons for them.
 - [ ] Stage 51: run modes: THE NARROW WAY (no map), IRON VOW (after 5 wins: one life). (OMENS:
