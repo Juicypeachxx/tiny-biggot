@@ -45,6 +45,10 @@ changed one), and carry on from there. What he says last outranks this file.
    9-12, 5% for 13-16"); "also expand and reset constellation and hero trees, in options make
    reset the game option". Stage 48 (below), right after IPA 47. The proposed 48 to 51 become
    49 to 52.
+8. His clip (10 Oct): a slow fight (14 to 19 FPS) in an Alchemist run with 7704% crit; then (11 Oct)
+   "Check every trait for lag and bugs". Done in 47.6: every trait and relic checked in a live
+   fight (all pass alone); SHOW FPS now names the costliest parts. Waiting: his relics page and a
+   clip of a slow fight with the new line, to fix his exact case.
 Each stage waits for him to try the last IPA. Details of each step are further down.
 
 | Stage | What | State |

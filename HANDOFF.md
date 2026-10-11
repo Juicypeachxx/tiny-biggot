@@ -1807,6 +1807,29 @@ feel out of match": effects first (43.7a), then pictures (43.7b).
   wedge about 15%), every title row and hero cell tapped (no overlap, each picks its own), classic
   none.
 
+### 47.6 (11 Oct): his lag clip, and every trait checked (his word: "check every trait for lag and bugs")
+- His clip (10 Oct, IPA 46): THE ALCHEMIST on floor 3, SPORE MOTHER'S BLOOM, the ARCHMAGE set,
+  COLLAPSED STAR, SPARE HEART, level 19, 476 kills, crit 7704% (p.crit 77), 17.2 shots a second x5;
+  SHOW FPS read 14 to 19 FPS, LOGIC 39.7 to 62.6 ms, DRAW 0.8 (the 6424 ms worst frame: the iPad's
+  screen recording stopping). Paused: 60 FPS.
+- tests/trait_lag_test.tscn (not in check.sh: about 9 minutes; run it in parts, --part=N
+  --parts=4, and --kind=relic): every trait at its most ranks, every relic, on the Alchemist in
+  a live fight (foes that die and come back, rolls, the special) for 600 ticks, then 600 with no
+  foe; fails on a median over 6 ms or a tick over 60 ms of logic, or a stat that stays grown
+  (crit +0.05, damage or rate +25%, shots +2, health +4). All 432 traits and 198 relics pass
+  (medians 0.5 to 1.1 ms here). So no single one: his case is a mix. Rebuilt with crit 77 and the
+  crit traits (MOMENTUM, FIRESTORM, STATIC CLING, CRIT CASCADE ...): MOMENTUM's fire-rate buffs
+  fill the 64 buff slots (x20 fire rate), the 300-shot cap holds, poison pools pile up from
+  kills: 4.7 ms median, 8.2 p90 here; shots 1.4, spells 1.2, foes 0.9, the hero 0.6, effects 0.8.
+  Where p.crit 77 came from is not found (no stat leaks in any trait or relic alone; nothing adds
+  or multiplies crit that much); his relics page would tell.
+- SHOW FPS has a second line now (main.gd _perf_tick, Game.lprof timed in update_play): the three
+  costliest parts of the logic a tick (PROCS, HERO, FOES, SHOTS, FOE SHOTS, PICKUPS, POOLS,
+  SPELLS, FX) and how many shots, foes, pools and procs a tick are in play. His next clip of a
+  slow fight names the part to make cheaper.
+- The full check's two failures fixed in the tests: vfx_test resets shatter between its runs;
+  unit_tests checks the touch stick in play (the title's menu panel covers that corner now).
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).
