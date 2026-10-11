@@ -71,6 +71,7 @@ static func roll_reward(p: Object, elite: bool = false) -> String:
 	var w := { "relic": 14, "gold": 13, "heal": 20 if low else 7, "supply": 9, "armor": 6, "level": 12,
 		"embers": 4, "weapon": 11, "gear": 13 }
 	Food.reward_weights(w, G.floor_index)   # 36: "food", and "golden" on the deepest floors (expanded game)
+	Draughts.reward_weights(w)   # 49.2 "draught", 49.3 "whet" (expanded game)
 	return TB.weighted(w)
 
 ## Choices for the doors out of the current room.

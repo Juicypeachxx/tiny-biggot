@@ -194,6 +194,9 @@ func _debug_give(p: Player) -> void:
 		if parts.size() == 2 and parts[0] == "belt" and Consumables.is_kind(parts[1]):
 			Consumables.take(p, parts[1])
 			continue
+		if parts.size() == 2 and parts[0] == "drink" and Draughts.is_kind(parts[1]):
+			Draughts.drink(p, parts[1])   # 49.2: a room draught already on (pictures)
+			continue
 		if parts.size() == 2 and parts[0] == "pack" and Weapons._by_id.has(parts[1]):
 			p.backpack.append(Weapons.by_id(parts[1]))
 			continue
@@ -909,6 +912,8 @@ func give_reward(kind: String) -> void:
 			for i in 3: Combat.drop_pickup("ember", cx, cy)
 		"food", "golden":
 			Food.reward(kind, cx, cy)   # 36.1 / 36.2
+		"draught", "whet":
+			Draughts.reward(kind, cx, cy)   # 49.2 ROOM DRAUGHTS, 49.3 a WHETSTONE
 
 func room_cleared() -> void:
 	locked = false
@@ -968,6 +973,7 @@ func room_cleared() -> void:
 		room_changed.emit()
 		show_banner("FLAWLESS!", "NOT A SCRATCH: A HIDDEN DOOR OPENS")
 	Pace.on_clear(room)   # 35.2 CLEAR RUSH and the FIRST SPOILS
+	Draughts.on_clear(player)   # 49.2: the room draughts end
 	if p.g("room_armor") > 0:
 		p.armor += int(p.g("room_armor"))
 	if p.g("room_gold") > 0:

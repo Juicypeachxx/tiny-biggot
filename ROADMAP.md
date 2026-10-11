@@ -1511,8 +1511,14 @@ each point); the rest, proposed in the order it would be felt most, with names o
         the gold ones. Done (scripts/game/burdens.gd): a curse is a cursed trait, an armory curse, a
         cursed relic or a flawed weapon; 8 relics: BURDENED IDOL, PENITENT'S CHAIN, WIDOW'S VEIL,
         SINNER'S CROWN (a curse itself), TALLY STICK, BONE ROSARY, REAPER'S LAMP, THE HUNDREDFOLD.
-  - [ ] 49.2 ROOM DRAUGHTS: a strong buff that lasts until the room is clear.
-  - [ ] 49.3 A HONING STONE: one use, +1 weapon level.
+  - [x] 49.2 ROOM DRAUGHTS: a strong buff that lasts until the room is clear. Done
+        (scripts/game/draughts.gd): six belt drinks, WARCRY (+60% damage), QUICKSILVER (+40% attack
+        speed, +15% move speed), EAGLE-EYE (+25% crit, +0.5x crit damage), STORMCALL (+2
+        projectiles), GHOSTWALK (rolls twice as fast, +1 charge), BLOODLETTER'S (kills may heal);
+        all gone when the room is clear. Guardians and elites drop them; a door promises two.
+  - [x] 49.3 A HONING STONE: one use, +1 weapon level. It was already in the belt as the
+        WHETSTONE (+1 weapon level, one use), but only guardians and a few elites dropped it: now a
+        door can promise one (no second item doing the same).
   - [ ] 49.4 A test for all of it, the replays (classic unchanged), IPA 49.
 - [ ] Stage 50: RADIANT, NECROTIC, DARK, ENERGY and SOUND as weapon damage types, and weapons for them.
 - [ ] Stage 51: run modes: THE NARROW WAY (no map), IRON VOW (after 5 wins: one life). (OMENS:

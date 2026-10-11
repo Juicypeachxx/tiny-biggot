@@ -15,7 +15,8 @@ Enchantments"; the full check passed). Then his list of another game's core game
 passed). Now: Stage 48 (his 16 cinders): 48.1 DREAD to 16 (dread.gd), 48.2 STAR DUST and a
 constellation of 60 points, 48.3 six skills a tree branch and RESET THIS TREE, 48.4 RESET GAME:
 and 48.5 (stage48_test, the replays): done, IPA 48 "Dread and Dust". Now: Stage 49 (his "go", 11 Oct): 49.1 relics that grow with
-curses and kills done; 49.2 ROOM DRAUGHTS, 49.3 a HONING STONE, 49.4 test and IPA 49 to come.
+curses and kills, 49.2 ROOM DRAUGHTS and 49.3 (the WHETSTONE behind a door) done; 49.4 test and
+IPA 49 to come.
 Done before: 39.4 "Bosses Fall" (IPA 39.4), Stage 39 "More to Find", 38 "Alignment and Loot", 37,
 36, 35 (the full check passed at 35). Next: Stage 40.
 
@@ -1896,6 +1897,19 @@ feel out of match": effects first (43.7a), then pictures (43.7b).
   damage every 100 kills), bonerosary (rare, +3% crit), reaperlamp (epic, +8% fire rate),
   hundredfold (legend, +12% damage, a heart every 100 kills: on_kill "every" 100). Art
   tools/art/stage49_burdens.py (12 x 12). Test tests/stage49_test.tscn (in check.sh).
+- 49.2 scripts/game/draughts.gd (class Draughts): KINDS d_war, d_quick, d_eagle, d_storm, d_ghost,
+  d_leech ([name, text, colour, effects]). Consumables: is_kind/data (Draughts.card: the text +
+  " UNTIL THE ROOM IS CLEAR"), random_kind (draughts join the belt pool: guardians, 15% of
+  elites), use -> Draughts.drink (Effects.apply with a "draught:N" source; Player.draughts holds
+  [kind, source]). Game.room_cleared -> Draughts.on_clear: every effect taken back with -1, roll
+  charges clamped. So one drunk in a cleared room lasts through the next fight. Doors:
+  reward_weights adds "draught" (7) and "whet" (4) in World.roll_reward (expanded game);
+  Game.give_reward -> Draughts.reward (two draughts, or a c_whet). GameData.REWARDS has both
+  signs. HUD (hud_view): the draughts on come first on the row under the belt, "TILL CLEAR", the
+  drinks and infusions after them (in the signature: p.draughts.size()). Art
+  tools/art/stage49_draughts.py (9 x 11 bottles with a band). --give=drink:KIND for pictures.
+- 49.3 his HONING STONE (one use: +1 weapon level) was already the belt's WHETSTONE (c_whet,
+  WeaponInfo.upgrade 1); now also behind a "whet" door.
 
 ## Noted, not yet acted on
 

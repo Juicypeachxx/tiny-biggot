@@ -39,6 +39,7 @@ extends RefCounted
 ##   --spawn=TYPE                 put one foe of that type (GameData.ENEMIES) in the middle of the room
 ##   --neon                       turn the NEON LOOK option on (10.5)
 ##   --give=relic:ID,gear:ID,...  start with these items (relic, gear, trait at max rank, weapon)
+##                                (also belt:KIND into the belt, drink:KIND a room draught already on: 49.2)
 ##   --combo=ID                   start with everything a named combo needs (data/synergies.gd)
 ##   --loop=N                     start on loop playthrough N (0 = first time through)
 ##   --classic                    original items only in every pool (no Rogues content)

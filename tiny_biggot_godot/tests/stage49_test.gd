@@ -1,6 +1,10 @@
 extends Node
 ## Stage 49 (his list of another game's core gameplay, 10 Oct; GAMEPLAY_PLAN.md). Run:
 ##   godot --headless --path . res://tests/stage49_test.tscn -- --no-save
+## 49.2 ROOM DRAUGHTS (draughts.gd): each of the six gives its buff from the belt and every bit of
+## it is gone when the room is clear (drunk in a quiet room, it lasts through the next fight); two
+## of a kind count twice; doors promise two, guardians and elites drop them; their cards. 49.3 the
+## WHETSTONE (+1 weapon level from the belt; his HONING STONE) behind a door.
 ## 49.1 THE CURSES YOU CARRY and THE FOES YOU HAVE SLAIN (burdens.gd): what counts as a curse (a
 ## cursed trait, an armory curse, a cursed relic, a flawed weapon), and each of the eight relics
 ## gives exactly its number for each curse or every 100 kills: damage (Combat.hook_mult), fire rate
@@ -53,6 +57,7 @@ func _near(a: float, b: float, what: String) -> void:
 func _ready() -> void:
 	seed(49)
 	_burdens()
+	_draughts()
 	print("stage49 test: PASSED" if fails == 0 else "stage49 test: %d FAILED" % fails)
 	get_tree().quit()
 
@@ -138,3 +143,93 @@ func _burdens() -> void:
 	if Burdens.dmg(p) != 0.0 or Burdens.crit(p) != 0.0 or Burdens.rate_mult(p) != 1.0:
 		fail("a hero without these relics gets %.3f damage, %.3f crit, x%.3f fire rate" % [Burdens.dmg(p), Burdens.crit(p), Burdens.rate_mult(p)])
 	print("[stage49] curses: a cursed trait, armory curses, cursed relics, a flawed weapon; 8 relics give their number for each, and for every 100 kills")
+
+# ---------- 49.2, 49.3 ----------
+func _sheet(p: Player) -> Dictionary:
+	return { "dmg": p.dmg, "rate": p.rate, "speed": p.speed, "crit": p.crit, "crit_mult": p.crit_mult,
+		"count": float(p.count), "dodge_cd": p.dodge_cd, "dodge_charges": float(p.dodge_charges), "procs": float(p.procs.size()) }
+
+func _drink(p: Player, kind: String) -> void:
+	p.belt.clear()
+	p.belt.append(kind)
+	Consumables.use(p, 0)
+
+func _draughts() -> void:
+	var want := {
+		"d_war": { "dmg": 1.6 }, "d_quick": { "rate": 1.4, "speed": 1.15 }, "d_eagle": { "crit": 0.25, "crit_mult": 0.5 },
+		"d_storm": { "count": 2.0 }, "d_ghost": { "dodge_cd": 0.5, "dodge_charges": 1.0 }, "d_leech": { "procs": 1.0 },
+	}
+	if Draughts.KINDS.size() != want.size():
+		fail("%d room draughts (want %d)" % [Draughts.KINDS.size(), want.size()])
+	for k in Draughts.KINDS:
+		if not ResourceLoader.exists("res://assets/graphics/%s.png" % k):
+			fail("%s has no picture" % k)
+		var c := Consumables.data(k)
+		if not Consumables.is_kind(k) or not String(c["desc"]).ends_with("UNTIL THE ROOM IS CLEAR"):
+			fail("%s is not a belt item with its card (%s)" % [k, c.get("desc", "")])
+		var p := _start()
+		var before := _sheet(p)
+		_drink(p, k)
+		var on := _sheet(p)
+		if p.draughts.size() != 1 or not p.belt.is_empty():
+			fail("%s: %d draughts on, %d in the belt after drinking" % [k, p.draughts.size(), p.belt.size()])
+		for stat in want[k]:
+			var v: float = want[k][stat]
+			var got: float = (on[stat] / before[stat]) if stat in ["dmg", "rate", "speed", "dodge_cd"] else (on[stat] - before[stat])
+			if absf(got - v) > 0.001:
+				fail("%s: %s %s (want %s)" % [k, stat, str(got), str(v)])
+		G.room_cleared()
+		var after := _sheet(p)
+		for stat in before:
+			if absf(after[stat] - before[stat]) > 0.0001:
+				fail("%s: %s is %s after the room is clear (was %s)" % [k, stat, str(after[stat]), str(before[stat])])
+		if not p.draughts.is_empty():
+			fail("%s still on after the room is clear" % k)
+	# Two of a kind count twice; drunk in a quiet room it lasts through the next fight.
+	var p := _start()
+	var c0 := p.count
+	_drink(p, "d_storm")
+	_drink(p, "d_storm")
+	if p.count != c0 + 4:
+		fail("two STORMCALL DRAUGHTS: %d projectiles (want %d)" % [p.count, c0 + 4])
+	G.room_cleared()
+	if p.count != c0:
+		fail("two STORMCALL DRAUGHTS: %d projectiles after the room is clear (want %d)" % [p.count, c0])
+	_drink(p, "d_war")
+	G.enter_room(World.make_room(G.floor_d, "combat", "", "s", { "no_secret": true }))
+	G.state = &"play"
+	if p.draughts.size() != 1:
+		fail("a draught drunk in a quiet room ended at the next door")
+	G.room_cleared()
+	if not p.draughts.is_empty():
+		fail("a draught drunk in a quiet room outlasted the next fight")
+	# Doors: two draughts, or a whetstone; the whetstone's level.
+	var w := {}
+	Draughts.reward_weights(w)
+	if w.get("draught", 0) <= 0 or w.get("whet", 0) <= 0 or not GameData.REWARDS.has("draught") or not GameData.REWARDS.has("whet"):
+		fail("no doors that promise draughts or a whetstone")
+	for r in ["draught", "whet"]:
+		if not ResourceLoader.exists("res://assets/graphics/%s.png" % GameData.REWARDS[r]["icon"]):
+			fail("the %s door's sign has no picture" % r)
+	G.pickups.clear()
+	G.give_reward("draught")
+	G.give_reward("whet")
+	var got := G.pickups.map(func(k): return k.kind)
+	if got.filter(func(k): return Draughts.is_kind(k)).size() != Draughts.REWARD_N or not got.has("c_whet"):
+		fail("the doors' rewards: %s (want %d draughts and a whetstone)" % [str(got), Draughts.REWARD_N])
+	var plus: int = p.weapon.get("plus", 0)
+	_drink(p, "c_whet")
+	if int(p.weapon.get("plus", 0)) != plus + 1:
+		fail("a WHETSTONE: weapon +%d (want +%d)" % [int(p.weapon.get("plus", 0)), plus + 1])
+	# Guardians and elites drop them with the other belt items.
+	var seen := {}
+	for i in 3000:
+		var k := Consumables.random_kind()
+		if not Consumables.is_kind(k):
+			fail("a dropped belt item %s is no belt item" % k)
+			break
+		if Draughts.is_kind(k):
+			seen[k] = true
+	if seen.size() != Draughts.KINDS.size():
+		fail("3000 belt drops held %d kinds of draught of %d" % [seen.size(), Draughts.KINDS.size()])
+	print("[stage49] room draughts: %d kinds, each on until the room is clear, then gone to the last bit; doors with draughts or a whetstone" % Draughts.KINDS.size())
