@@ -19,6 +19,10 @@ extends Node
 ## cannot be readied, the run starts when two or more are all ready (each with their device and
 ## hero); P2's MENU opens the pause as theirs (G.player and the keys theirs, P1's button does not
 ## close it, their gear page, "P2'S GEAR"), then P1 again; the title ends the party.
+## W3 a hazard hurts every hero it touches, not only P1 (his "go", 12 Oct): P2 stands in a danger
+## circle, a lit square of the grid, a comet's path, a wave's ring, a note's path, the laser dot, a
+## sludge trail, a getaway car's lane and a plague carrier's burst; P3 beside them, rolling, and P1
+## and P4 far away are not hurt; a comet or a note that hits P2 is gone.
 ## Prints "coop test: PASSED" or a FAIL line per problem.
 
 var fails := 0
@@ -31,6 +35,7 @@ func _ready() -> void:
 	_pads()
 	_core()
 	_rules()
+	_hazards()
 	_join()
 	Keys.clear_pads()
 	Coop.want = []
@@ -355,6 +360,105 @@ func _rules() -> void:
 
 # ---------- C4 ----------
 ## One tick with pad k's action held, then one with it let go.
+# ---------- W3 ----------
+func _hazards() -> void:
+	_start4()
+	var hs := Coop.heroes()
+	G.enter_room(World.make_room(G.floor_d, "combat", "", "s", { "no_secret": true }))
+	G.enemies.clear()
+	G.room.waves_left = 0
+	G.locked = true
+	G.state = &"play"
+	G.god = false
+	for r in range(4, 16):
+		for c in range(2, 26):
+			G.room.grid[r * TB.COLS + c] = World.T_FLOOR
+	var p1: Player = hs[0]
+	var p2: Player = hs[1]
+	var p3: Player = hs[2]
+	var p4: Player = hs[3]
+	var ok := []
+	for k in ["circle", "grid", "comet", "wave", "note", "dot", "sludge", "car", "plague"]:
+		Chaos.clear()
+		Patterns.clear()
+		RiftBosses.clear()
+		Finale.dot = {}
+		G.room.goo.clear()
+		G.room.cars.clear()
+		for h: Player in hs:
+			h.invuln = 0.0
+			h.dodge_t = 0.0
+			h.evade = 0.0
+			h.hp = h.max_hp
+		# P2 in the grid's square 9 (lit by its first wave 0), P3 in it too but rolling; P1 and P4 far
+		# away, in unlit squares.
+		p1.x = 60.0
+		p1.y = 220.0
+		p2.x = 230.0
+		p2.y = 140.0
+		p3.x = 238.0
+		p3.y = 144.0
+		p3.dodge_t = 5.0
+		p4.x = 380.0
+		p4.y = 60.0
+		var gone := true
+		match k:
+			"circle":
+				Chaos.zones.append({ "x": p2.x, "y": p2.y, "r": 30.0, "warn": 0.1, "t": 0.0, "by": "A TEST", "ring": "", "quiet": true })
+				for i in 12:
+					Chaos._tick_zones(G.player, TB.DT)
+			"grid":
+				Patterns.grids.append({ "waves": [0], "warn": 0.1, "t": 0.0, "by": "A TEST", "col": Color.RED })
+				for i in 12:
+					Patterns._tick_grids(G.player, TB.DT)
+			"comet":
+				Patterns.comets.append({ "x": p2.x, "y": p2.y - 4, "a": 0.0, "v": 54.0, "turn": 1.4, "t": 0.0, "life": 3.0,
+					"by": "A TEST", "spr": "red", "col": Color.RED })
+				Patterns._tick_comets(G.player, TB.DT)
+				gone = Patterns.comets.is_empty()
+			"wave":
+				RiftBosses.waves.append({ "x": p2.x - 14, "y": p2.y, "r": 6.0, "speed": 130.0, "max": 90.0, "w": 6.0, "hit": false,
+					"by": "A TEST" })
+				for i in 40:
+					RiftBosses._tick_waves(G.player, TB.DT)
+			"note":
+				RiftBosses.notes.append({ "x": p2.x - 10, "y": p2.y, "ox": p2.x - 10, "oy": p2.y, "a": 0.0, "s": 0.0, "speed": 60.0,
+					"t": 0.0, "ph": 0.0, "amp": 0.0, "by": "A TEST" })
+				for i in 20:
+					RiftBosses._tick_notes(G.room, G.player, TB.DT)
+				gone = RiftBosses.notes.is_empty()
+			"dot":
+				Finale.dot = { "x": p2.x, "y": p2.y, "t": 0.0, "lock": 0.05, "by": "A TEST" }
+				for i in 6:
+					Finale._tick_dot(G.player, TB.DT)
+			"sludge":
+				EnemyAI2.add_goo("sludge", p2.x, p2.y, 12.0, 5.0)
+				for i in 40:
+					EnemyAI2.tick(G.room, TB.DT)
+			"car":
+				G.room.cars.append({ "y": p2.y, "t": 0.0, "x": p2.x - 30.0, "dir": 1, "hit": {} })
+				for i in 20:
+					Hazards._update_traffic(G.room, TB.DT)
+			"plague":
+				var e := Combat.spawn_enemy("slime", p2.x, p2.y, false, true)
+				e.x = p2.x
+				e.y = p2.y
+				e.plague = true
+				Dread.on_kill(e)
+				G.enemies.clear()
+		var hit := [p1.invuln > 0, p2.invuln > 0, p3.invuln > 0, p4.invuln > 0]
+		if hit != [false, true, false, false] or not gone or G.player != p1:
+			fail("W3 %s: P1 to P4 hurt %s (want only P2)%s" % [k, hit, "" if gone else ", still there after it hit P2"])
+		else:
+			ok.append(k)
+	Chaos.clear()
+	Patterns.clear()
+	RiftBosses.clear()
+	Finale.dot = {}
+	G.room.goo.clear()
+	G.room.cars.clear()
+	print("[coop] W3: P2 hurt by %s; P3 rolling beside them and P1, P4 far away were not" % ", ".join(ok))
+
 func _press(k: int, a: StringName) -> void:
 	Keys.pads[k]["bot"][a] = true
 	Keys.tick()

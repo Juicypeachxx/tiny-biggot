@@ -527,6 +527,12 @@ static func update_boss(e: Enemy, dt: float) -> void:
 					var perp := absf(px * dy - py * dx)
 					if along > 0 and perp < 7:
 						Combat.hurt_player(1, e.d["name"])
+					if Coop.on():   # (W3: the other heroes too)
+						var beam := func(hero: Player) -> bool:
+							var hx := hero.x - e.x
+							var hy := hero.y - e.y
+							return hx * dx + hy * dy > 0 and absf(hx * dy - hy * dx) < 7
+						Coop.hazard(beam, e.d["name"])
 				if e.st > 0.35:
 					e.beams = []
 					e.repeat += 1

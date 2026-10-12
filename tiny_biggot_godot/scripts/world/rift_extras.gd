@@ -259,6 +259,8 @@ static func _update_tide(room: Room, dt: float, active: bool) -> void:
 		if not w["hit_p"] and absf(p.y - w["y"]) < TIDE_HALF and absf(p.x - w["x"]) < 10:
 			w["hit_p"] = true
 			Combat.hurt_player(1, "the toxic tide", true)
+		if Coop.on():   # (W3: the other heroes too)
+			Coop.hazard(func(hero: Player) -> bool: return absf(hero.y - w["y"]) < TIDE_HALF and absf(hero.x - w["x"]) < 10, "the toxic tide", true)
 		for e in G.enemies.duplicate():
 			if not e.targetable() or w["hit"].has(e.uid) or e.d.get("champion", false) or e.is_boss():
 				continue

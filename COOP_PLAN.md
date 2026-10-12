@@ -151,9 +151,25 @@ hero; a shot remembers its owner, and its hits count for them.
       the left against the right Shift, a quick tap, a run of two on the keyboard (W, the up arrow,
       Esc, Backspace), one alone in a run.
 
+- [x] W3 Every hazard hurts every hero (12 Oct, his "go"; seen when IPA 56 came in: a guardian's
+      lasers, chains and danger circles, the final final bosses' moves, the rift guardians' and
+      Rex's attacks and Stage 56's patterns hurt only P1, so P2 to P4 could stand in them; the shots
+      they fire already hurt everyone). Done: `Coop.hazard(touch, source, env)`: after the test
+      for P1 (or the hero a foe's turn is for), the same test for every other standing hero, who is
+      hurt as P1 is (not while rolling or just hurt; `env`: one heart, as the room's own hazards
+      hurt). In Chaos (lasers, chains, circles), Patterns (orbs, comets, grid, quake), Finale (slam,
+      falling things, lobs, lanes, tongue, laser dot), BossAI's lasers, RiftBosses (anchors, the
+      hydra's heads and breath, shards, arcs, lances, orbs, twisters, lobs, waves, notes, sweeps)
+      and Rex (flop, spin, leap, slash, the thrown sword); and the rooms' own hazards that hurt
+      only P1 too: a champion's strike marks, the getaway cars, the toxic tide, the sludge trail
+      (each hero's own half second: `EnemyAI2._sludge_co`), a plague carrier's burst, a bomber's
+      blast. A comet, a note or a shard that hits P2 is gone, as when it hits P1. One player: the
+      tests are skipped (`Coop.on()`), so the replays are untouched. tests/coop_test.tscn `_hazards`:
+      P2 in a circle, the grid, a comet, a wave, a note, the laser dot, sludge, a car's lane and a
+      plague burst is hurt each time; P3 beside them rolling and P1, P4 far away are not (with the
+      fix turned off, 8 of the 9 fail). 4-player soaks of two guardians and two final final bosses
+      without god mode: no errors.
+
 ## Not done yet (later, if he wants it)
 
 - Saving a co-op run for CONTINUE.
-- A guardian's lasers, chains and danger circles (Chaos), the final final bosses' moves (Finale)
-  and Stage 56's new patterns (Patterns: an orb's touch, a comet, the grid, the quake's rings)
-  hurt P1 only; every shot they fire (EBullets) hurts every hero. Seen when IPA 56 came in.

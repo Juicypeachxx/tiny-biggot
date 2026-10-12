@@ -426,6 +426,8 @@ static func ai_bomber(e: Enemy, dt: float, p: Player) -> void:
 			Snd.play("boom")
 			if TB.dist(e, p) < 26:
 				Combat.hurt_player(1, e.d.get("label", "a bomber"))
+			if Coop.on():   # (W3: the other heroes too)
+				Coop.hazard(func(hero: Player) -> bool: return TB.dist(e, hero) < 26, e.d.get("label", "a bomber"))
 			Combat.kill_enemy(e)
 		return
 	Combat.steer(e, p.x, p.y, e.speed, dt, _mode(e))

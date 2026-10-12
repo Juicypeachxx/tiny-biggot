@@ -431,6 +431,8 @@ static func _captain(e: Enemy, p: Player, dt: float) -> void:
 					e.to = e.from + Vector2(cos(e.ca), sin(e.ca)) * d
 					if TB.dist_xy(e.to.x, e.to.y, p.x, p.y) < 7.0 + p.r:
 						Combat.hurt_player(1, e.d["name"])
+					if Coop.on():   # (W3: the other heroes too)
+						Coop.hazard(func(hero: Player) -> bool: return TB.dist_xy(e.to.x, e.to.y, hero.x, hero.y) < 7.0 + hero.r, e.d["name"])
 					if d >= e.aux2:
 						e.sub = 3
 						e.st = 0.0
@@ -485,6 +487,8 @@ static func _captain(e: Enemy, p: Player, dt: float) -> void:
 					e.to = Vector2(e.x + cos(e.angle) * radius, e.y + sin(e.angle) * radius)
 					if TB.dist_xy(e.to.x, e.to.y, p.x, p.y) < 8.0 + p.r:
 						Combat.hurt_player(1, e.d["name"])
+					if Coop.on():   # (W3: the other heroes too)
+						Coop.hazard(func(hero: Player) -> bool: return TB.dist_xy(e.to.x, e.to.y, hero.x, hero.y) < 8.0 + hero.r, e.d["name"])
 					if e.aux2 >= PI / 4:
 						e.aux2 -= PI / 4
 						Combat.eshot(e.to.x, e.to.y, e.angle, 50, "spore")
@@ -606,6 +610,8 @@ static func _hydra(e: Enemy, p: Player, dt: float) -> void:
 				h["y"] = h["oy"] + sin(h["a"]) * h["d"]
 				if TB.dist_xy(h["x"], h["y"], p.x, p.y) < 9.0 + p.r:
 					Combat.hurt_player(1, e.d["name"])
+				if Coop.on():   # (W3: the other heroes too)
+					Coop.hazard(func(hero: Player) -> bool: return TB.dist_xy(h["x"], h["y"], hero.x, hero.y) < 9.0 + hero.r, e.d["name"])
 				if h["d"] >= h["len"]:
 					h["st"] = "back"
 					Afx.dust(h["x"], h["y"])
@@ -636,6 +642,13 @@ static func _hydra(e: Enemy, p: Player, dt: float) -> void:
 				var along := px * dx + py * dy
 				if along > 0 and along < ln and absf(px * dy - py * dx) < 7.0 + p.r * 0.5:
 					Combat.hurt_player(1, e.d["name"])
+				if Coop.on():   # (W3: the other heroes too)
+					var breath := func(hero: Player) -> bool:
+						var hx: float = hero.x - h["x"]
+						var hy: float = hero.y - h["y"]
+						var ahead := hx * dx + hy * dy
+						return ahead > 0 and ahead < ln and absf(hx * dy - hy * dx) < 7.0 + hero.r * 0.5
+					Coop.hazard(breath, e.d["name"])
 				h["puddle"] -= dt
 				if h["puddle"] <= 0:
 					h["puddle"] = 0.22
@@ -815,6 +828,9 @@ static func _tick_held(p: Player, dt: float) -> void:
 		if TB.dist_xy(q["x"], q["y"], p.x, p.y) < 3.0 + p.r:
 			Combat.hurt_player(1, q["by"])
 			continue
+		if Coop.on():   # (W3: the other heroes too; one that hits them is gone)
+			if Coop.hazard(func(hero: Player) -> bool: return TB.dist_xy(q["x"], q["y"], hero.x, hero.y) < 3.0 + hero.r, q["by"]):
+				continue
 		keep.append(q)
 	held = keep
 
@@ -847,6 +863,8 @@ static func _tick_rods_arcs(p: Player, dt: float) -> void:
 			continue
 		if _near_seg(p.x, p.y, a["a"], a["b"], 4.0 + p.r * 0.6):
 			Combat.hurt_player(1, a["by"])
+		if Coop.on():   # (W3: the other heroes too)
+			Coop.hazard(func(hero: Player) -> bool: return _near_seg(hero.x, hero.y, a["a"], a["b"], 4.0 + hero.r * 0.6), a["by"])
 		keep2.append(a)
 	arcs = keep2
 
@@ -865,6 +883,8 @@ static func _tick_bands(p: Player, dt: float) -> void:
 				# The lance strikes: whoever stands in the band is hit; sparks fly off to the sides.
 				if absf((p.y if b["horiz"] else p.x) - b["pos"]) < b["half"] + p.r * 0.5:
 					Combat.hurt_player(1, b["by"])
+				if Coop.on():   # (W3: the other heroes too)
+					Coop.hazard(func(hero: Player) -> bool: return absf((hero.y if b["horiz"] else hero.x) - b["pos"]) < b["half"] + hero.r * 0.5, b["by"])
 				for j in 3:
 					var along: float = (5.0 + j * 4.5) * TB.TS
 					var x: float = along if b["horiz"] else b["pos"]
@@ -917,6 +937,8 @@ static func _tick_orbs(p: Player, dt: float) -> void:
 		o["y"] = to.y
 		if o["grow"] <= 0 and TB.dist_xy(o["x"], o["y"], p.x, p.y) < 6.0 + p.r:
 			Combat.hurt_player(1, o["by"])
+		if Coop.on():   # (W3: the other heroes too)
+			Coop.hazard(func(hero: Player) -> bool: return o["grow"] <= 0 and TB.dist_xy(o["x"], o["y"], hero.x, hero.y) < 6.0 + hero.r, o["by"])
 		keep.append(o)
 	orbs = keep
 	# Every so often the orbs join up with arcs (shown first).
@@ -950,6 +972,8 @@ static func _tick_twisters(room: Room, p: Player, dt: float) -> void:
 		w["y"] = to.y
 		if TB.dist_xy(w["x"], w["y"], p.x, p.y) < 13.0 + p.r:
 			Combat.hurt_player(1, w["by"])
+		if Coop.on():   # (W3: the other heroes too)
+			Coop.hazard(func(hero: Player) -> bool: return TB.dist_xy(w["x"], w["y"], hero.x, hero.y) < 13.0 + hero.r, w["by"])
 		w["debris"] -= dt
 		if w["debris"] <= 0:
 			w["debris"] = 0.3
@@ -974,12 +998,16 @@ static func _tick_lobs(p: Player, dt: float) -> void:
 			"sludge":
 				if TB.dist_xy(x, y, p.x, p.y) < 14.0 + p.r:
 					Combat.hurt_player(1, l["by"])
+				if Coop.on():   # (W3: the other heroes too)
+					Coop.hazard(func(hero: Player) -> bool: return TB.dist_xy(x, y, hero.x, hero.y) < 14.0 + hero.r, l["by"])
 				EnemyAI2.add_goo("sludge", x, y, 16.0, 4.5)
 				Combat.ering(x, y, 5, 50, randf() * TAU, "spore")
 				Snd.play("hit")
 			"bell":
 				if TB.dist_xy(x, y, p.x, p.y) < 26.0 + p.r:
 					Combat.hurt_player(1, l["by"])
+				if Coop.on():   # (W3: the other heroes too)
+					Coop.hazard(func(hero: Player) -> bool: return TB.dist_xy(x, y, hero.x, hero.y) < 26.0 + hero.r, l["by"])
 				waves.append({ "x": x, "y": y, "r": 6.0, "speed": 130.0, "max": 90.0, "w": 6.0, "hit": false, "by": l["by"] })
 				Combat.ering(x, y, 10, 70, randf() * TAU, "bone")
 				Afx.dust(x, y)
@@ -997,6 +1025,8 @@ static func _tick_lobs(p: Player, dt: float) -> void:
 			"potato":   # Rex's potatoes
 				if TB.dist_xy(x, y, p.x, p.y) < 12.0 + p.r:
 					Combat.hurt_player(1, l["by"])
+				if Coop.on():   # (W3: the other heroes too)
+					Coop.hazard(func(hero: Player) -> bool: return TB.dist_xy(x, y, hero.x, hero.y) < 12.0 + hero.r, l["by"])
 				Combat.ering(x, y, 5, 50, randf() * TAU, "bone")
 				Fx.burst(x, y, ["#704f38", "#d48c84"], 8, 50)
 				Snd.play("hit")
@@ -1011,6 +1041,8 @@ static func _tick_waves(p: Player, dt: float) -> void:
 			var before := p.invuln
 			Combat.hurt_player(1, w["by"])
 			w["hit"] = p.invuln > before
+		if Coop.on():   # (W3: the other heroes too)
+			Coop.hazard(func(hero: Player) -> bool: return absf(TB.dist_xy(w["x"], w["y"], hero.x, hero.y) - w["r"]) < w["w"] * 0.5 + hero.r - 1.0, w["by"])
 		keep.append(w)
 	waves = keep
 
@@ -1029,6 +1061,9 @@ static func _tick_notes(room: Room, p: Player, dt: float) -> void:
 		if TB.dist_xy(n["x"], n["y"], p.x, p.y) < 3.0 + p.r:
 			Combat.hurt_player(1, n["by"])
 			continue
+		if Coop.on():   # (W3: the other heroes too; a note that hits them is gone)
+			if Coop.hazard(func(hero: Player) -> bool: return TB.dist_xy(n["x"], n["y"], hero.x, hero.y) < 3.0 + hero.r, n["by"]):
+				continue
 		keep.append(n)
 	notes = keep
 
@@ -1091,6 +1126,8 @@ static func _tick_sweeps(p: Player, dt: float) -> void:
 			var before := p.invuln
 			Combat.hurt_player(1, s["by"])
 			s["hit"] = p.invuln > before
+		if Coop.on():   # (W3: the other heroes too)
+			Coop.hazard(func(hero: Player) -> bool: return absf(hero.y - s["y"]) < 5.0 + hero.r and absf(hero.x - s["gap"]) > s["half"], s["by"])
 		keep.append(s)
 	sweeps = keep
 

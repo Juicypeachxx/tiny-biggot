@@ -253,13 +253,30 @@ static func shot_hit(x: float, y: float, r: float) -> int:
 			return i + 1
 	return -1
 
+## W3 (his "go", 12 Oct: a guardian's lasers, chains, circles, the final final bosses' moves, the
+## rift guardians' hazards, Stage 56's patterns and some of the rooms' own hazards hurt only P1): a
+## hazard that tests the hero (P1, or the hero a foe's turn is for) tests the others too. `touch` takes a Player: true when the
+## hazard touches them. Every other standing hero it touches who is not rolling or just hurt is
+## hurt, as a stray shot hurts them (Coop.shot_hit). True: someone was. `env`: as the room's own
+## hazards hurt (Combat.hurt_player: one heart, however deep).
+static func hazard(touch: Callable, source: String, env := false) -> bool:
+	var any := false
+	for i in count():
+		var h: Player = heroes()[i]
+		if h == G.player or downs.has(h) or h.dodge_t > 0 or h.invuln > 0:
+			continue
+		if touch.call(h):
+			hurt(i, 1, source, env)
+			any = true
+	return any
+
 ## Hurts hero i as Combat.hurt_player hurts P1.
-static func hurt(i: int, amount: int, source: String) -> void:
+static func hurt(i: int, amount: int, source: String, env := false) -> void:
 	var keep: Player = G.player
 	var keep_actor := actor
 	G.player = heroes()[i]
 	actor = i
-	Combat.hurt_player(amount, source)
+	Combat.hurt_player(amount, source, env)
 	G.player = keep
 	actor = keep_actor
 

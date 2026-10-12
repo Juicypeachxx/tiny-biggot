@@ -42,6 +42,9 @@ and windows to work, soo if i work on multiplayer addon on windows it wont be pu
 - **Two players on one keyboard** (W2, 12 Oct): the left half and the mouse, the right half
   (`Keys.KB_LEFT`, `KB_RIGHT`, the pad "kb2"); COOP_PLAN.md, step W2. The keys are in the zip's
   README. A keyboard player alone keeps every key. tests/pc_test.tscn.
+- **Every hazard hurts every hero** (W3, 12 Oct): a guardian's lasers, chains, circles and
+  patterns, the final final bosses' and rift guardians' moves and the rooms' own hazards hurt
+  P2 to P4 too, not only P1 (`Coop.hazard`); COOP_PLAN.md, step W3. tests/coop_test.tscn.
 - The automatic way was first used for IPA 55 (12 Oct): the iPad build, then `ios-build` moved up,
   `windows-build` took in Stage 55 and Windows 55 was published, all in one run.
 - Not tested by Claude: the game running on Windows (the cloud has no Windows machine). The export

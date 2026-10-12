@@ -223,6 +223,8 @@ static func _flop(e: Enemy, p: Player, dt: float, flops: int) -> void:
 				e.z = 0.0
 				if TB.dist_xy(p.x, p.y, e.x, e.y) < FLOP_R + p.r * 0.5:
 					Combat.hurt_player(1, e.d["name"])
+				if Coop.on():   # (W3: the other heroes too)
+					Coop.hazard(func(hero: Player) -> bool: return TB.dist_xy(hero.x, hero.y, e.x, e.y) < FLOP_R + hero.r * 0.5, e.d["name"])
 				RiftBosses.waves.append({ "x": e.x, "y": e.y, "r": 10.0, "speed": 150.0, "max": 110.0, "w": 6.0, "hit": false,
 					"by": e.d["name"] })
 				Combat.ering(e.x, e.y, 12, 70, randf() * TAU, "bone")
@@ -371,6 +373,8 @@ static func _spin(e: Enemy, p: Player, dt: float) -> void:
 			var base := mouth + Vector2(cos(e.angle), sin(e.angle)) * 12.0
 			if RiftBosses._near_seg(p.x, p.y, base, tip, 6.0 + p.r * 0.5):
 				Combat.hurt_player(1, e.d["name"])
+			if Coop.on():   # (W3: the other heroes too)
+				Coop.hazard(func(hero: Player) -> bool: return RiftBosses._near_seg(hero.x, hero.y, base, tip, 6.0 + hero.r * 0.5), e.d["name"])
 			if fmod(e.aux2, PI / 6.0) < turn:
 				Combat.eshot(tip.x, tip.y, e.angle + e.aux * PI / 2, 80, "bone")
 			if e.aux2 >= TAU * 1.5:
@@ -395,6 +399,8 @@ static func _leap(e: Enemy, p: Player, dt: float) -> void:
 				e.z = 0.0
 				if TB.dist_xy(p.x, p.y, e.x, e.y) < 28.0 + p.r * 0.5:
 					Combat.hurt_player(1, e.d["name"])
+				if Coop.on():   # (W3: the other heroes too)
+					Coop.hazard(func(hero: Player) -> bool: return TB.dist_xy(hero.x, hero.y, e.x, e.y) < 28.0 + hero.r * 0.5, e.d["name"])
 				Afx.dust(e.x, e.y + 8)
 				G.add_shake(4)
 				Snd.play("boom")
@@ -409,6 +415,13 @@ static func _leap(e: Enemy, p: Player, dt: float) -> void:
 				var along := px * dx + py * dy
 				if along > 0 and along < 120.0 and absf(px * dy - py * dx) < 8.0 + p.r * 0.5:
 					Combat.hurt_player(1, e.d["name"])
+				if Coop.on():   # (W3: the other heroes too)
+					var lane := func(hero: Player) -> bool:
+						var hx := hero.x - e.x
+						var hy := hero.y - e.y
+						var ahead := hx * dx + hy * dy
+						return ahead > 0 and ahead < 120.0 and absf(hx * dy - hy * dx) < 8.0 + hero.r * 0.5
+					Coop.hazard(lane, e.d["name"])
 				for j in 3:
 					Combat.eshot(e.x + dy * (j - 1) * 6.0, e.y - dx * (j - 1) * 6.0, e.ca, 150, "bone", 3.0)
 				Snd.play("hatchet")
@@ -440,6 +453,8 @@ static func _fetch(e: Enemy, p: Player, dt: float) -> void:
 			e.to = e.from + Vector2(cos(e.ca), sin(e.ca)) * d
 			if TB.dist_xy(e.to.x, e.to.y, p.x, p.y) < 10.0 + p.r:
 				Combat.hurt_player(1, e.d["name"])
+			if Coop.on():   # (W3: the other heroes too)
+				Coop.hazard(func(hero: Player) -> bool: return TB.dist_xy(e.to.x, e.to.y, hero.x, hero.y) < 10.0 + hero.r, e.d["name"])
 			if d >= e.aux2:
 				e.sub = 2
 				e.st = 0.0

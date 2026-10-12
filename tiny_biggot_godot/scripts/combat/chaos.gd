@@ -105,6 +105,8 @@ static func _tick_beams(p: Player, dt: float) -> void:
 			if b["cd"] <= 0 and _seg_hit(p, at, end, BEAM_W):
 				b["cd"] = HIT_CD
 				Combat.hurt_player(1, b["by"])
+			if Coop.on():   # (W3: the other heroes too)
+				Coop.hazard(func(hero: Player) -> bool: return _seg_hit(hero, at, end, BEAM_W), b["by"])
 		keep.append(b)
 	beams = keep
 
@@ -130,6 +132,9 @@ static func _tick_hooks(p: Player, dt: float) -> void:
 		if h["cd"] <= 0 and _seg_hit(p, at, at + Vector2.from_angle(h["a"]) * h["len"], HOOK_W):
 			h["cd"] = HIT_CD
 			Combat.hurt_player(1, h["by"])
+		if Coop.on():   # (W3: the other heroes too)
+			var tip: Vector2 = at + Vector2.from_angle(h["a"]) * h["len"]
+			Coop.hazard(func(hero: Player) -> bool: return _seg_hit(hero, at, tip, HOOK_W), h["by"])
 		keep.append(h)
 	hooks = keep
 
@@ -144,6 +149,8 @@ static func _tick_zones(p: Player, dt: float) -> void:
 		if z["r"] > 0:
 			if TB.dist_xy(p.x, p.y, z["x"], z["y"]) < z["r"]:
 				Combat.hurt_player(1, z["by"])
+			if Coop.on():   # (W3: the other heroes too)
+				Coop.hazard(func(hero: Player) -> bool: return TB.dist_xy(hero.x, hero.y, z["x"], z["y"]) < z["r"], z["by"])
 			Fx.burst(z["x"], z["y"], ["#ff4a3a", "#ffd0c0"], 14 if z["r"] < 50 else 26, z["r"] * 1.6)
 			G.add_shake(3 if z["r"] < 50 else 7)
 		if z["ring"] != "":

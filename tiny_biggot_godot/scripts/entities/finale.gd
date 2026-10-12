@@ -576,6 +576,8 @@ static func _leap(e: Enemy, p: Player, dt: float, n: int, spr: String, word: Str
 		Fx.burst(e.x, e.y + 6, ["#8b8f9c", "#d9d0b4"], 18, 90)
 		if TB.dist(e, p) < 26.0 + p.r:
 			Combat.hurt_player(1, e.d["name"])
+		if Coop.on():   # (W3: the other heroes too)
+			Coop.hazard(func(hero: Player) -> bool: return TB.dist(e, hero) < 26.0 + hero.r, e.d["name"])
 		e.repeat += 1
 		if e.repeat >= n:
 			e.repeat = 0
@@ -635,6 +637,8 @@ static func _tick_drops(p: Player, dt: float) -> void:
 		# It lands: whoever stands under it is hit, and it bursts.
 		if TB.dist_xy(p.x, p.y, d["x"], d["y"]) < d["r"] + p.r * 0.5:
 			Combat.hurt_player(1, d["by"])
+		if Coop.on():   # (W3: the other heroes too)
+			Coop.hazard(func(hero: Player) -> bool: return TB.dist_xy(hero.x, hero.y, d["x"], d["y"]) < d["r"] + hero.r * 0.5, d["by"])
 		Combat.ering(d["x"], d["y"], d["n"], 70, randf() * TAU, d["spr"])
 		Fx.burst(d["x"], d["y"], ["#f4ecd8", "#ff8a2a" if d["kind"] == "meteor" else "#d9d0b4"], 10, 70)
 		if d["kind"] == "stamp":
@@ -655,6 +659,8 @@ static func _tick_lobs(p: Player, dt: float) -> void:
 		# It shatters where it lands.
 		if TB.dist_xy(p.x, p.y, l["x1"], l["y1"]) < 12.0 + p.r * 0.5:
 			Combat.hurt_player(1, l["by"])
+		if Coop.on():   # (W3: the other heroes too)
+			Coop.hazard(func(hero: Player) -> bool: return TB.dist_xy(hero.x, hero.y, l["x1"], l["y1"]) < 12.0 + hero.r * 0.5, l["by"])
 		var spr := "water" if l["kind"] == "bowl" else ("page" if l["kind"] == "mug" else "bone")
 		Combat.ering(l["x1"], l["y1"], 8, 72, randf() * TAU, spr)
 		Fx.burst(l["x1"], l["y1"], ["#f4ecd8", "#4d9be6" if l["kind"] in ["vase", "bowl"] else "#c8643a"], 12, 80)
@@ -673,6 +679,8 @@ static func _tick_lanes(p: Player, dt: float) -> void:
 			if b["warn"] <= 0.0:
 				if absf((p.y if b["horiz"] else p.x) - b["pos"]) < b["half"] + p.r * 0.5:
 					Combat.hurt_player(1, b["by"])
+				if Coop.on():   # (W3: the other heroes too)
+					Coop.hazard(func(hero: Player) -> bool: return absf((hero.y if b["horiz"] else hero.x) - b["pos"]) < b["half"] + hero.r * 0.5, b["by"])
 				G.add_shake(2)
 				Snd.play("bolt")
 				_stat("tape")
@@ -709,6 +717,9 @@ static func _tick_tongue(p: Player, dt: float) -> void:
 		var pull := (Vector2(b.x, b.y) - Vector2(p.x, p.y)).normalized() * 50.0
 		World.move_body(G.room, p, pull.x, pull.y, World.M_PLAYER)
 		_stat("tongue")
+	if Coop.on():   # (W3: the other heroes too)
+		var root := Vector2(tongue["ax"], tongue["ay"])
+		Coop.hazard(func(hero: Player) -> bool: return _near_seg(Vector2(hero.x, hero.y), root, tip, 7.0 + hero.r * 0.5), tongue["by"])
 	if tongue["fire"] <= 0.0:
 		tongue = {}
 
@@ -725,6 +736,8 @@ static func _tick_dot(p: Player, dt: float) -> void:
 		return
 	if TB.dist_xy(p.x, p.y, dot["x"], dot["y"]) < 16.0 + p.r * 0.5:
 		Combat.hurt_player(1, dot["by"])
+	if Coop.on():   # (W3: the other heroes too)
+		Coop.hazard(func(hero: Player) -> bool: return TB.dist_xy(hero.x, hero.y, dot["x"], dot["y"]) < 16.0 + hero.r * 0.5, dot["by"])
 	Combat.ering(dot["x"], dot["y"], 12, 75, randf() * TAU, "red")
 	Fx.burst(dot["x"], dot["y"], ["#ff3a3a", "#ffffff"], 14, 90)
 	G.add_shake(4)

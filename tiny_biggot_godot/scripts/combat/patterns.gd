@@ -251,6 +251,8 @@ static func _tick_orbs(p: Player, dt: float) -> void:
 		if b["cd"] <= 0 and at.distance_to(Vector2(p.x, p.y - 4)) < 6.0 + p.r:
 			b["cd"] = HIT_CD
 			Combat.hurt_player(1, b["by"])
+		if Coop.on():   # (W3: the other heroes too)
+			Coop.hazard(func(hero: Player) -> bool: return at.distance_to(Vector2(hero.x, hero.y - 4)) < 6.0 + hero.r, b["by"])
 		b["next"] -= dt
 		if b["next"] <= 0:
 			b["next"] = 1.5
@@ -273,6 +275,8 @@ static func _tick_comets(p: Player, dt: float) -> void:
 		var hit: bool = Vector2(c["x"], c["y"]).distance_to(Vector2(p.x, p.y - 4)) < 4.0 + p.r
 		if hit:
 			Combat.hurt_player(1, c["by"])
+		if Coop.on() and not hit:   # (W3: the other heroes too)
+			hit = Coop.hazard(func(hero: Player) -> bool: return Vector2(c["x"], c["y"]).distance_to(Vector2(hero.x, hero.y - 4)) < 4.0 + hero.r, c["by"])
 		if hit or c["t"] >= c["life"] or World.solid(G.room, floori(c["x"] / TB.TS), floori(c["y"] / TB.TS), World.M_BULLET):
 			Combat.ering(c["x"], c["y"], 8, 60.0, randf(), c["spr"])
 			Fx.burst(c["x"], c["y"], [c["col"].to_html(false), "#ffffff"], 8, 50)
@@ -299,6 +303,8 @@ static func _tick_grids(p: Player, dt: float) -> void:
 				var r := _cell(i)
 				if r.has_point(Vector2(p.x, p.y)):
 					Combat.hurt_player(1, g["by"])
+				if Coop.on():   # (W3: the other heroes too)
+					Coop.hazard(func(hero: Player) -> bool: return r.has_point(Vector2(hero.x, hero.y)), g["by"])
 				if i % 3 == 0:
 					Fx.burst(r.get_center().x, r.get_center().y, [g["col"].to_html(false), "#ffd0c0"], 6, 60)
 		G.add_shake(4)
@@ -327,6 +333,11 @@ static func _tick_quakes(p: Player, dt: float) -> void:
 		if q["cd"] <= 0 and absf(d.length() - q["r"]) < 5.0 and absf(TB.wrap_ang(d.angle() - q["gap"])) > q["gw"] * 0.5:
 			q["cd"] = HIT_CD * 2.0
 			Combat.hurt_player(1, q["by"])
+		if Coop.on():   # (W3: the other heroes too)
+			var ring := func(hero: Player) -> bool:
+				var dd := Vector2(hero.x - q["x"], hero.y - q["y"])
+				return absf(dd.length() - q["r"]) < 5.0 and absf(TB.wrap_ang(dd.angle() - q["gap"])) > q["gw"] * 0.5
+			Coop.hazard(ring, q["by"])
 		keep.append(q)
 	quakes = keep
 

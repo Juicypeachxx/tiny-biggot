@@ -502,6 +502,24 @@ static func in_web(p: Player) -> bool:
 	return false
 
 static var _sludge_t := 0.0
+static var _sludge_by := {}   # W3: each other co-op hero's time in the sludge (by their place in the party)
+
+## W3: the other heroes in co-op, each with their own half second in the sludge.
+static func _sludge_co(room: Room, dt: float) -> void:
+	for i in Coop.count():
+		var h: Player = Coop.heroes()[i]
+		if h == G.player or Coop.downs.has(h):
+			_sludge_by.erase(i)
+			continue
+		var stuck := false
+		for g in room.goo:
+			if g["kind"] == "sludge" and TB.dist_xy(h.x, h.y, g["x"], g["y"]) < g["r"]:
+				stuck = true
+		var t: float = _sludge_by.get(i, 0.0) + dt if stuck else 0.0
+		if t >= 0.5:
+			t = 0.0
+			Coop.hurt(i, 1, "a trail of sludge", true)
+		_sludge_by[i] = t
 
 ## Every tick (Hazards.update): goo fades; standing in sludge for half a second hurts; shields and
 ## drum haste wear off.
@@ -521,6 +539,8 @@ static func tick(room: Room, dt: float) -> void:
 		if _sludge_t >= 0.5:
 			_sludge_t = 0.0
 			Combat.hurt_player(1, "a trail of sludge", true)
+		if Coop.on():   # (W3: the other heroes too)
+			_sludge_co(room, dt)
 	if _any_guard or _any_haste:
 		var guard := false
 		var haste := false

@@ -193,6 +193,8 @@ static func on_kill(e: Enemy) -> void:
 	Vfx.blast(e.x, e.y, PLAGUE_R)
 	if p != null and TB.dist_xy(p.x, p.y, e.x, e.y) < PLAGUE_R * 0.6:
 		Combat.hurt_player(1, "a plague carrier")
+	if Coop.on():   # (W3: the other heroes too)
+		Coop.hazard(func(hero: Player) -> bool: return TB.dist_xy(hero.x, hero.y, e.x, e.y) < PLAGUE_R * 0.6, "a plague carrier")
 	for o in G.enemies:
 		if o != e and o.hp > 0 and not o.plague and TB.dist_xy(o.x, o.y, e.x, e.y) < PLAGUE_R:
 			o.plague = true
