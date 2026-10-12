@@ -943,7 +943,15 @@ func loops() -> void:
 		if o["kind"] == "exitportal": ex = o
 	var ew: int = Meta.meta.get("eclipse_wins", 0)
 	G.interact(ex)
-	play(90)   # (the helper returns to play after the win screen)
+	play(90)
+	if GameData.rogues():
+		# 55: walking out brings THE LAST LAUGH first (its fight: tests/stage55_test); its fall ends the run.
+		if not G.run_stats.has("finale") or G.state == &"win":
+			fail("exit portal: the final final boss did not come first")
+		G.run_stats["finale_done"] = true
+		G.run_stats["finale_won"] = true
+		G.on_win()
+		play(90)   # (the helper returns to play after the win screen)
 	if Meta.meta.get("eclipse_wins", 0) != ew + 1 or not G.award.get("parts", []).any(func(x): return x[0] == "LOOPS"):
 		fail("exit portal did not end the run with the loop bonus")
 	G.state = &"play"

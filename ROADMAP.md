@@ -1557,7 +1557,7 @@ each point); the rest, proposed in the order it would be felt most, with names o
         the 6 classic replays identical; the 8 core replays re-recorded on purpose (souls, the new
         weapons and traits in the pools); the full check passed after four older tests learned the
         new statuses, attributes and traits (content, stats, stage43, revamp). IPA 53 "Souls".
-- [ ] Stage 54 (his word, 11 Oct: "After that make ipa and after that full stability test and bug fixing
+- [x] Stage 54 (his word, 11 Oct: "After that make ipa and after that full stability test and bug fixing
       test"): the long bot soaks with every hero (34) on several seeds, the rift worlds, classic and
       the loops; the menu monkey (an hour, and short runs in the new content); every script error,
       stuck screen or slow fight fixed; a note of it for him. Built with Stage 55 (one IPA 55).
@@ -1566,8 +1566,12 @@ each point); the rest, proposed in the order it would be felt most, with names o
         play: the engine's objects creep up (4534 to 5328) while nodes and resources stay flat, and
         the game's own objects (foes, pickups, shots, rooms) stay bounded (the shot pool grows to
         the most shots ever on screen and is then reused). Same as before (43.5): no leak.
-  - [ ] 54.2 The monkey (tools/dev/monkey.sh): an hour, and short runs in the new content (now also
-        the new damage types and the four final final bosses); the soak now has the four too.
+  - [x] 54.2 The monkey (tools/dev/monkey.sh): an hour, and short runs in the new content (now also
+        the new damage types and the four final final bosses); the soak now has the four too. Done:
+        22 runs, no error (the hour: 4550 to 5314 objects, nodes and resources flat); the four
+        bosses' soak runs (10 minutes each, the bot) clean, and the bot beat three of them to the
+        win. Fixed on the way: four older tests that did not know Stages 50-53 (content, stats,
+        stage43, revamp), and two moves of the new bosses that never ended outside their arena.
 - [ ] Stage 55 (his word, 11 Oct): after the final boss, the FINAL FINAL BOSS takes the form of the
       alignment you gathered most (GOOD, EVIL, LAWFUL, CHAOTIC), each with three forms. His four, in our
       own names and pictures: a dim but noble DONKEY knight with three super forms (GOOD); a big fat

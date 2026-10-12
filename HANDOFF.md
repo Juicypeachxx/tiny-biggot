@@ -20,10 +20,10 @@ curses and kills, 49.2 ROOM DRAUGHTS, 49.3 (the WHETSTONE behind a door) and 49.
 oaths to be more random and not repeat soo much": Stage 50 (picks that do not repeat, the five
 damage types) and Stage 52 (SPIRIT and LUCK), and his next word, Stage 53 (SOULS and 29 traits for
 what is new): all done, built as one IPA 53 "Souls" (classic replays identical, core replays
-re-recorded on purpose, full check passed). Now his next word (11 Oct): Stage 54, a full stability
-test (the soak of every hero, rifts, classic and loops, then the monkey), and Stage 55, THE LAST
-LAUGH: a final final boss after every won run, in the form of your strongest alignment
-(scripts/entities/finale.gd, in progress).
+re-recorded on purpose, full check passed). Then his next word (11 Oct): Stage 54, a full stability
+test (the soak of every hero, rifts, classic and loops, and the monkey: all clean), and Stage 55, THE
+LAST LAUGH: a final final boss after every won run, in the form of your strongest alignment
+(scripts/entities/finale.gd, FINALE.md), built together as IPA 55 "The Last Laugh".
 Done before: 39.4 "Bosses Fall" (IPA 39.4), Stage 39 "More to Find", 38 "Alignment and Loot", 37,
 36, 35 (the full check passed at 35). Next: Stage 40.
 
