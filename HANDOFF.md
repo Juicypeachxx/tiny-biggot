@@ -56,7 +56,26 @@ takes 49, 69 and 85 s on floors 2, 5 and 8 (was 41, 54, 70); the same build meet
 health in ordinary rooms (the rooms' own timing was too uneven with four heroes to show it: the runs
 part ways once the foes are tougher). The six classic replays identical, the eight core ones
 re-recorded on purpose; the full check passed; IPA 57 "Cranked Up". Waiting on his iPad test of it.
-The first full check failed once on stage39 ("squeezebox hurt no foe in 2.5 s"): an old weak test,
+Then his dog (12 Oct, ten photos: "I want stage one boss to be custom, move stage 1 boss to another
+stage i want my do to be first boss he is hyperactive border collie"; his name: "Arči the pussy
+slayer"; the Colossus: "Floor 2, sometimes"): Stage 58. ARČI THE PUSSY SLAYER guards the first floor
+of the expanded game (GameData.FIRST_GUARDIAN; --classic keeps the Colossus); THE BONE COLOSSUS is one
+of floor 2's three guardians (GameData.MORE_GUARDIANS; a third each, Game.start_floor). His fight is
+scripts/entities/arci.gd on the RiftBosses model (like Rex): BOOP, FRISBEE, HERDING, CAT!, CRASH (asleep
+on his back: x1.5, no bite), at half health SUNGLASSES ON (STICK, two frisbees, two cats); his looks
+_s2 (sunglasses) and _s3 (and a gold aura); beaten, he sleeps where he fell (object "arci_rest") and
+the floor goes on; his drop ARČI'S FRISBEE (a boomerang, unique). Pictures: tools/art/stage58_arci.py.
+The font draws Č, Š, Ž (Gfx.HOOKED: C, S, Z with an upside-down ^ over them). tests/stage58_test
+(passes; in check.sh); bosses, stage56, realms, content, afx and chaos tests pass. Next: the core
+replays re-recorded (the first guardian changed on purpose), the full check, IPA 58.
+His word during it ("He loves his frizbie he is obsessed with his frizbies"): 58.5, the frisbee at the
+heart of the fight: in his mouth, DROP IT (throw it by stepping on it: he fetches, x1.5, no bite;
+ignore it: two fans of barks), FRENZY and BOUNCE in his second phase, his comets are frisbees, he
+sleeps beside it. stage58_test covers them (passes). Four of the eight core replays reach him and
+were re-recorded (the six classic ones identical); the full check passed (CHECK PASSED); IPA 58
+"Good Boy". Waiting on his iPad test of it (and of 57). On the Windows line his frisbees and stick
+hurt only P1 in co-op (like the hazards before W3): add Coop.hazard there after this merge.
+The first full check of 57 failed once on stage39 ("squeezebox hurt no foe in 2.5 s"): an old weak test,
 not the game (its target foes came in front of the door the hero walked in by, and the random
 room's pillars could push them away or stand in the way: 3 runs in 40 missed); fixed in the test
 (the hero placed first, the floor between them cleared: none in 40), and the full check passed.

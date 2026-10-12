@@ -17,6 +17,7 @@ extends RefCounted
 const KINDS := ["pinwheel", "cage", "orbit", "comets", "grid", "quake"]
 ## Each guardian's new patterns (the first is its signature).
 const NEW := {
+	"arci": ["comets", "orbit"],   # 58: his balls fly after you; he runs rings round you
 	"colossus": ["quake", "cage"], "sporemother": ["orbit", "grid"], "librarian": ["comets", "pinwheel"],
 	"tyrant": ["quake", "pinwheel"], "rimewarden": ["cage", "grid"], "regent": ["comets", "orbit"],
 	"bogmatriarch": ["orbit", "grid"], "ashwarlord": ["quake", "comets"], "frozenabbot": ["pinwheel", "cage"],
@@ -137,7 +138,7 @@ static func cast(e: Enemy, kind: String, hard: bool) -> float:
 			for i in k:
 				var a := at + ((float(i) / (k - 1) - 0.5) * 1.6 if k > 1 else 0.0)
 				comets.append({ "x": e.x, "y": e.y - 6, "a": a, "v": 62.0 if hard else 54.0, "turn": 1.7 if hard else 1.4,
-					"t": 0.0, "life": 3.0, "by": by, "spr": _spr(e), "col": _col(e) })
+					"t": 0.0, "life": 3.0, "by": by, "spr": _spr(e), "col": _col(e), "disc": e.boss == "arci" })   # 58: his are frisbees
 			Snd.play("charge")
 			return 0.9
 		"grid":
@@ -387,6 +388,9 @@ static func draw_over(ci: CanvasItem, t: float) -> void:
 		ci.draw_circle(at, 1.5, Color(1, 1, 1, 0.95))
 	for c in comets:
 		var at := Vector2(c["x"], c["y"])
+		if c.get("disc", false):
+			Gfx.sp(ci, "arci_frisbee", at.x, at.y + 3, 1.6, 1.6, sin(c["t"] * 30.0) * 0.2)   # 58: ARČI's frisbees
+			continue
 		for k in 3:
 			ci.draw_circle(at - Vector2.from_angle(c["a"]) * (4.0 + 3.0 * k), 2.5 - 0.6 * k, Color(c["col"], 0.6 - 0.15 * k))
 		ci.draw_circle(at, 4.0, Color(c["col"], 1.0))

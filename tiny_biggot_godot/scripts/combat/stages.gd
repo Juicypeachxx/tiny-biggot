@@ -8,6 +8,7 @@ extends RefCounted
 ## faster, with a wall of shots (stage 2) or chaos: quicker attacks and a desperation pulse (3).
 
 const LINES := ["IT GROWS FURIOUS", "IT FIGHTS FOR ITS LIFE"]
+const OWN_LINES := { "arci": ["HE FOUND HIS SECOND WIND", "HE WILL NEVER, EVER BE TIRED"] }   # 58: his dog
 
 static func applies(e: Enemy) -> bool:
 	if not GameData.rogues() or e.type == "dummy":
@@ -89,7 +90,7 @@ static func tick(e: Enemy, dt: float) -> bool:
 		e.break_t = 1.2
 		e.speed *= 1.15
 		EBullets.clear_all()
-		G.show_banner(e.d["name"], LINES[mini(want, 3) - 2])
+		G.show_banner(e.d["name"], OWN_LINES.get(e.boss, LINES)[mini(want, 3) - 2])
 		G.add_shake(6)
 		Snd.play("roar")
 		Fx.burst(e.x, e.y, ["#f4ecd8", "#d8443c"], 22, 110)

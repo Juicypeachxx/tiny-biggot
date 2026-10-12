@@ -43,11 +43,16 @@ func _draw_glyphs(rid: RID, st: String, col: String, sc: int) -> void:
 	var step := 4 * sc
 	var x := 0.0
 	for i in st.length():
-		var idx := Gfx.glyph_index(st.unicode_at(i))
+		var code := st.unicode_at(i)
+		var idx := Gfx.glyph_index(code)
 		if idx > 0:
 			var src := Rect2(idx * step, 0, gw, gh)
 			_add(rid, shadow, Rect2(x, sc, gw, gh), src)
 			_add(rid, sheet, Rect2(x, 0, gw, gh), src)
+			if Gfx.HOOKED.has(code):   # 58: Č, Š, Ž
+				var hk := Gfx.hook_rects(x, 0, sc)
+				_add(rid, shadow, Rect2(x, -sc, gw, -2 * sc), hk[1])
+				_add(rid, sheet, hk[0], hk[1])
 		x += step
 
 func _add(rid: RID, tex: Texture2D, rect: Rect2, src: Rect2) -> void:

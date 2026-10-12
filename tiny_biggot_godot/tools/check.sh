@@ -417,6 +417,11 @@ timeout 900 "$GODOT" --headless --path . res://tests/stage56_test.tscn -- --no-s
 grep -E "stage56 test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 58 ARČI, the first floor's guardian (his border collie): floors, the font, his moves, his phases, beaten"
+timeout 900 "$GODOT" --headless --path . res://tests/stage58_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[stage58\]|stage58 test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== 18.1 the daily trial"
 timeout 300 "$GODOT" --headless --path . res://tests/daily_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "daily test" "$LOG"

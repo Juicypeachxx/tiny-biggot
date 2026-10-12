@@ -7,7 +7,10 @@ extends RefCounted
 ## RGSS angles are degrees counter-clockwise; Godot rotation is radians
 ## clockwise (y points down). Callers pass Godot radians: rgss_deg -> -deg_to_rad.
 
-const FONT_CHARS := " !$%'()*+,-./0123456789:<=>?ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_~"
+const FONT_CHARS := " !$%'()*+,-./0123456789:<=>?ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_~ČŠŽ"
+## 58 (his dog's name: ARČI): the last three letters have no picture of their own (the font's sheets
+## end at ~): they are C, S and Z with a hook over them, the font's ^ upside down.
+const HOOKED := { 0x10C: 0x43, 0x160: 0x53, 0x17D: 0x5A }
 static var _font_index := {}
 
 static func sprite(ci: CanvasItem, name: String, x: float, y: float, ox: float, oy: float,
@@ -65,7 +68,8 @@ static func bar(ci: CanvasItem, col: Color, x: float, y: float, zx: float, zy: f
 static func _char_index(ch: String) -> int:
 	if _font_index.is_empty():
 		for i in FONT_CHARS.length():
-			_font_index[FONT_CHARS[i]] = i
+			if not HOOKED.has(FONT_CHARS.unicode_at(i)):
+				_font_index[FONT_CHARS[i]] = i
 	return _font_index.get(ch, _font_index["?"])
 
 ## Font sheets by "<colour><scale>" (and the shadow sheets by scale), looked
@@ -96,8 +100,18 @@ static func glyph_index(code: int) -> int:
 		_glyph.resize(128)
 		_glyph.fill(_char_index("?"))
 		for i in FONT_CHARS.length():
-			_glyph[FONT_CHARS.unicode_at(i)] = i
-	return _glyph[code] if code < 128 else _glyph[0x3f]
+			var c := FONT_CHARS.unicode_at(i)
+			if c < 128:
+				_glyph[c] = i
+	if code < 128:
+		return _glyph[code]
+	return _glyph[HOOKED[code]] if HOOKED.has(code) else _glyph[0x3f]
+
+## The hook over Č, Š and Ž (HOOKED): the top two rows of ^, upside down, just over the letter (a
+## negative height flips a picture in place: the rect starts two rows up).
+static func hook_rects(x: float, y: float, scale: int) -> Array:
+	var src := Rect2(glyph_index(0x5e) * 4 * scale, 0, 3 * scale, 2 * scale)
+	return [Rect2(x, y - 2 * scale, 3 * scale, -2 * scale), src]
 
 ## Draws pixel text. color is a font colour name ("white", "gold", ...). Returns the width.
 static func text(ci: CanvasItem, s: Variant, x: float, y: float, color: String = "white",
@@ -119,12 +133,17 @@ static func text(ci: CanvasItem, s: Variant, x: float, y: float, color: String =
 	var q := _glyph[0x3f]
 	for i in n:
 		var code := st.unicode_at(i)
-		var idx := _glyph[code] if code < 128 else q
+		var idx := _glyph[code] if code < 128 else (glyph_index(code) if HOOKED.has(code) else q)
 		if idx > 0:
 			var src := Rect2(idx * step, 0, gw, gh)
 			if sh != null:
 				ci.draw_texture_rect_region(sh, Rect2(pxx, cy + scale, gw, gh), src, mod)
 			ci.draw_texture_rect_region(sheet, Rect2(pxx, cy, gw, gh), src, mod)
+			if code >= 128:
+				var hk := hook_rects(pxx, cy, scale)
+				if sh != null:
+					ci.draw_texture_rect_region(sh, Rect2(pxx, cy - scale, gw, -2 * scale), hk[1], mod)
+				ci.draw_texture_rect_region(sheet, hk[0], hk[1], mod)
 		pxx += step
 	return w
 
