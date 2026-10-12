@@ -76,8 +76,15 @@ hero; a shot remembers its owner, and its hits count for them.
       beside them, or a cleared room, brings them back with a heart); the party goes through a door
       together (`exits`: "THE DOOR WAITS FOR P2"); rings, P1 to P4 tags, aim dots; P2 to P4's panels
       at the bottom. `--coop=N` (main.gd): N heroes, P2 on played by the test bot.
-- [ ] C3 The rules: down and revive, drops and gold per player, experience and level-ups in turn,
-      chests and shops per player, the party through a door, difficulty per player.
+- [x] C3 The rules: down and revive, drops and gold per player, experience and level-ups in turn,
+      chests and shops per player, the party through a door, difficulty per player. Done: down,
+      revive and the door came with C2; `scale_foe` (Combat.spawn_enemy +60% health, spawn_boss
+      +75%, for each extra player), `wave_size` (Game.spawn_wave +25% foes), `share_xp` (a
+      guardian's experience for every standing hero); TURNS: `offer_turn` (after P1's: each other
+      hero's oath and level-ups, one at a time, with G.player theirs and the menus on their pad:
+      Keys.tick uses `menu_pad`), a hero's USE by a chest, shop ware or pedestal opens it as theirs
+      (`update_heroes`), and `play_tick` (the first line of Game.update_play) gives the game back to
+      P1 once play goes on. The test bots take the first trait offered.
 - [ ] C4 Joining on the hero screen (up to 4 devices), whose turn it is on choice screens, pause and
       gear per player.
 - [ ] C5 A test for all of it, 4-player bot soaks, the Windows build.

@@ -877,6 +877,7 @@ func spawn_wave(hard: bool = false) -> void:
 		show_banner(mb.d["name"], "IT KEEPS THE WAY TO THE CHAMPION")
 		n = maxi(1, n / 3)
 	n = Dread.pack(n)   # 48.1 PACKED HALLS
+	n = Coop.wave_size(n)   # (Windows co-op: more foes for more players)
 	var deeper: Array = GameData.floors()[mini(floor_index + 1, GameData.floors().size() - 1)]["pool"]
 	var n0 := enemies.size()
 	for i in n:
@@ -2670,6 +2671,7 @@ func _lp(k: String) -> void:
 	_lp_t = now
 
 func update_play(dt: float) -> void:
+	Coop.play_tick()   # (Windows co-op: P2 to P4's menu turn is over)
 	run_stats["time"] += dt
 	Combat.track_power(dt)
 	if Keys.pause():
@@ -2770,6 +2772,8 @@ func update_play(dt: float) -> void:
 	if p.pending > 0 and not locked and (enemies.is_empty() or GameData.rogues() and _only_dummies()):
 		offer_traits()
 		return
+	if Coop.offer_turn():
+		return   # (Windows co-op: P2 to P4's oaths and level-ups, in turn)
 	prompt = null
 	var best := 24.0
 	for o in room.objects:

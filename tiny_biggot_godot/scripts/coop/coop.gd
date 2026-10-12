@@ -13,12 +13,16 @@ const FONT := ["red", "cyan", "lime", "gold"]
 const SPOTS := [Vector2(-16, 0), Vector2(16, 0), Vector2(0, 14)]   # where P2 to P4 stand beside P1
 const REVIVE_TIME := 3.0
 const REVIVE_R := 18.0
+const HP_PER := 0.6      # foes and mini-bosses: +60% health for each extra player
+const BOSS_PER := 0.75   # guardians: +75%
+const WAVE_PER := 0.25   # waves: +25% foes for each extra player (rounded up)
 
 static var extras: Array = []        # P2 to P4 (Player)
 static var want: Array = []          # hero indexes of the next run, P1 first (joining; --coop=N)
 static var pads: Array = [-1]        # each player's pad in Keys (-1: every device)
 static var bots: Array = [false]     # played by the test bot (--coop=N)
 static var actor := 0                # the hero acting now: their new shots are theirs
+static var turn := -1                # P2 to P4's menu turn (a level-up, a chest, a shop): G.player is them until play goes on
 static var downs := {}               # downed heroes (Player -> true)
 static var revive := {}              # Player -> seconds a friend has stood by them
 static var _lead: Player = null      # P1
@@ -104,10 +108,7 @@ static func before_run() -> void:
 	for i in range(1, mini(want.size(), MAX)):
 		G.hero_index = want[i]
 		G.new_run()
-		var h: Player = G.player
-		h.oath_picks = 0   # (an oath is P1's; level-ups come in turn: C3)
-		h.pending = 0
-		extras.append(h)
+		extras.append(G.player)   # (their oath and level-ups come in turn: offer_turn)
 		_fams.append_array(G.familiars)
 	G.hero_index = p1_hero
 	Meta.meta["runs"] = runs0
@@ -163,7 +164,17 @@ static func update_heroes(p: Player, dt: float) -> void:
 			_bot(i, h, dt)
 		Effects.tick(dt)
 		Combat.update_player(h, dt)
+		if G.state == &"play" and Keys.use():   # a chest, a shop ware, a pedestal: their own
+			var o = _object_near(h)
+			if o != null:
+				turn = i
+				G.interact(o)
+				if G.state != &"play":
+					return   # their menu: G.player stays theirs until it closes (play_tick)
+				turn = -1
 		leave()
+		if G.state != &"play":
+			return
 	_revive_tick(dt)
 
 ## Combat.update_enemies, for each foe: the hero it works against (its nearest standing one, chosen
@@ -275,6 +286,81 @@ static func update_pickups(dt: float) -> void:
 		all.append_array(G.pickups)
 		leave()
 	G.pickups = all
+
+## The nearest thing a hero can use (as Game.update_play finds P1's).
+static func _object_near(h: Player):
+	var best := 24.0
+	var out = null
+	for o in G.room.objects:
+		if o.get("used", false) or o.get("opened", false) or o.get("gone", false):
+			continue
+		var d := TB.dist_xy(h.x, h.y, o["x"], o["y"])
+		if d < best:
+			best = d
+			out = o
+	return out
+
+# ---------- turns: P2 to P4's own menus ----------
+## Game.update_play, first: a P2-P4 menu turn ends once the game is back in play.
+static func play_tick() -> void:
+	if turn > 0:
+		turn = -1
+		leave()
+
+## Keys.tick: whose pad the menus listen to (the turn's hero, else P1).
+static func menu_pad() -> int:
+	var i := turn if turn > 0 else 0
+	return pads[i] if i < pads.size() else -1
+
+## Game.update_play, after P1's: P2 to P4's oaths and level-ups, one hero at a time, each with
+## their own device, when the room is safe. True: a turn began.
+static func offer_turn() -> bool:
+	if extras.is_empty() or G.locked:
+		return false
+	if not (G.enemies.is_empty() or GameData.rogues() and G._only_dummies()):
+		return false
+	for i in range(1, count()):
+		var h: Player = extras[i - 1]
+		if h.pending <= 0 or downs.has(h):
+			continue
+		turn = i
+		enter(i)
+		G.toast("P%d: YOUR PICK" % (i + 1), FONT[i])
+		G.offer_traits()
+		if G.state == &"traits" and i < bots.size() and bots[i] and not G.tchoice.is_empty():
+			G.take_trait(G.tchoice["opts"][0])   # (the test bot takes the first)
+			G.tchoice = {}
+			G.state = &"play"
+		if G.state != &"play":
+			return true
+		turn = -1
+		leave()
+	return false
+
+# ---------- difficulty and shares ----------
+## Combat.spawn_enemy (per = HP_PER) and spawn_boss (BOSS_PER): more health for each extra player.
+static func scale_foe(e: Enemy, per: float) -> void:
+	if extras.is_empty() or e == null:
+		return
+	e.max_hp *= 1.0 + per * extras.size()
+	e.hp = e.max_hp
+
+## Game.spawn_wave: more foes for each extra player.
+static func wave_size(n: int) -> int:
+	if extras.is_empty():
+		return n
+	return ceili(n * (1.0 + WAVE_PER * extras.size()))
+
+## Combat.kill_enemy: a guardian's experience goes to every standing hero, not just its killer.
+static func share_xp(killer: Player, xp: int) -> void:
+	if extras.is_empty():
+		return
+	var keep: Player = G.player
+	for h in heroes():
+		if h != killer and not downs.has(h):
+			G.player = h
+			Combat.gain_xp(h, xp)
+	G.player = keep
 
 # ---------- down, not out ----------
 ## Combat.hurt_player, before the run would end: in co-op a hero with no hearts left is DOWN, and the

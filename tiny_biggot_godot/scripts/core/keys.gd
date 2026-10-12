@@ -242,6 +242,8 @@ func tick() -> void:
 		_latched[a] = false
 	for pd in pads:
 		_pad_tick(pd)
+	if Coop.on():
+		use_pad(Coop.menu_pad())   # (the menus listen to whoever's turn it is: P1, else P2 to P4)
 	var want := Input.CURSOR_CROSS if G.state == &"play" else Input.CURSOR_ARROW   # (Windows: aim with the mouse)
 	if want != _cursor:
 		_cursor = want

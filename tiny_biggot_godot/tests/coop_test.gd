@@ -9,6 +9,10 @@ extends Node
 ## shot belongs to the hero who fired it; a pickup goes to the nearest hero; a hero with no hearts is
 ## DOWN (the run goes on), helped up by a friend in 3 s or by a cleared room, and the run ends only
 ## when all are down; the party leaves through a door only together. One player: no co-op at all.
+## C3 the rules: foes +60% health and guardians +75% for each extra player, waves +25% foes; a
+## guardian's experience for every standing hero; P2 to P4's level-ups one at a time, each in their
+## own turn (G.player is them, the menus listen to their pad), P1 again once play goes on; a chest
+## opened by P3 is P3's choice.
 ## Prints "coop test: PASSED" or a FAIL line per problem.
 
 var fails := 0
@@ -20,6 +24,7 @@ func fail(msg: String) -> void:
 func _ready() -> void:
 	_pads()
 	_core()
+	_rules()
 	Keys.clear_pads()
 	Coop.want = []
 	Coop.pads = [-1]
@@ -251,3 +256,83 @@ func _core() -> void:
 	if Coop.on() or Coop.heroes().size() != 1:
 		fail("a one-player run after co-op still has %d heroes" % Coop.heroes().size())
 	print("[coop] C2: four heroes; foes, foe shots, shots, pickups each with their own hero; down and up; the door together; all down ends it")
+
+# ---------- C3 ----------
+func _rules() -> void:
+	# Health and waves: one player against four.
+	Coop.want = []
+	Keys.clear_pads()
+	Coop.pads = [-1]
+	Coop.bots = [false]
+	G.new_run()
+	var e1 := Combat.spawn_enemy("slime", 100, 100, false, true)
+	var hp1 := e1.max_hp
+	var w1 := Coop.wave_size(8)
+	G.enemies.clear()
+	_start4()
+	var e4 := Combat.spawn_enemy("slime", 100, 100, false, true)
+	if absf(e4.max_hp / hp1 - (1.0 + Coop.HP_PER * 3)) > 0.001:
+		fail("four players: a foe's health x%.3f (want x%.2f)" % [e4.max_hp / hp1, 1.0 + Coop.HP_PER * 3])
+	if w1 != 8 or Coop.wave_size(8) != 14:
+		fail("a wave of 8: %d alone, %d for four (want 8, 14)" % [w1, Coop.wave_size(8)])
+	G.enemies.clear()
+	# A guardian's experience for everyone.
+	var hs := Coop.heroes()
+	for h in hs:
+		h.pending = 0
+		h.oath_picks = 0
+	var xp := []
+	for h in hs:
+		xp.append(h.xp + h.level * 1000)
+	var b := Combat.spawn_boss(GameData.BOSSES.keys()[0], true)
+	Coop.enter(2)
+	Combat.kill_enemy(b)
+	Coop.leave()
+	for i in hs.size():
+		if hs[i].xp + hs[i].level * 1000 <= xp[i]:
+			fail("a guardian killed by P3: P%d got no experience" % (i + 1))
+	G.enemies.clear()
+	G.boss = null
+	# Level-ups in turn.
+	G.state = &"play"
+	G.locked = false
+	for h in hs:
+		h.pending = 0
+	hs[2].pending = 1
+	G.hitstop = 0.0   # (the guardian's death pauses the game a moment)
+	G.win_timer = null
+	G.update_play(TB.DT)
+	if G.state != &"traits" or G.player != hs[2] or Coop.turn != 2 or Keys.who != Coop.pads[2]:
+		fail("P3's level-up: the game %s, G.player P%d, turn %d, input pad %d (want traits, P3, 2, %d)" % [G.state, Coop.index_of(G.player) + 1, Coop.turn, Keys.who, Coop.pads[2]])
+	if G.state == &"traits" and not G.tchoice.is_empty():
+		var lv: int = hs[2].traits.size()
+		G.take_trait(G.tchoice["opts"][0])
+		G.tchoice = {}
+		G.state = &"play"
+		if hs[2].traits.size() <= lv and hs[2].pending > 0:
+			fail("P3's pick did not go to P3")
+	G.update_play(TB.DT)
+	if G.player != hs[0] or Coop.turn != -1:
+		fail("after P3's pick: G.player P%d, turn %d (want P1, -1)" % [Coop.index_of(G.player) + 1, Coop.turn])
+	# A chest opened by P3 is P3's choice.
+	G.enter_room(World.make_room(G.floor_d, "treasure", "", "s", { "no_secret": true }))
+	G.enemies.clear()
+	G.locked = false
+	G.state = &"play"
+	G.room.objects.clear()
+	G.room.objects.append({ "kind": "chest", "x": 120.0, "y": 120.0 })
+	hs[2].x = 124.0
+	hs[2].y = 122.0
+	hs[0].x = 300.0
+	hs[0].y = 200.0
+	Keys.pads[Coop.pads[2]]["bot"][&"use"] = true
+	Keys.tick()
+	G.hitstop = 0.0
+	G.update_play(TB.DT)
+	Keys.pads[Coop.pads[2]]["bot"][&"use"] = false
+	if G.state != &"choice" or G.player != hs[2]:
+		fail("P3 at a chest pressing USE: the game %s, G.player P%d (want choice, P3)" % [G.state, Coop.index_of(G.player) + 1])
+	G.state = &"play"
+	G.choice = {}
+	Coop.play_tick()
+	print("[coop] C3: health x%.1f and waves x%.2f for four; a guardian's experience for all; level-ups and chests in each hero's own turn" % [1.0 + Coop.HP_PER * 3, 1.0 + Coop.WAVE_PER * 3])

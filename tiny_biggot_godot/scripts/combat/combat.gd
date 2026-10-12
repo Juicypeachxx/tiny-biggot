@@ -208,6 +208,7 @@ static func spawn_enemy(type: String, x: float, y: float, elite: bool = false, i
 		G.champ = e   # mini-bosses and champions show the boss bar
 	if not instant:
 		Snd.play("spawn")
+	Coop.scale_foe(e, Coop.HP_PER)   # (Windows co-op: more health for more players)
 	return e
 
 static func spawn_boss(key: String, quiet: bool = false) -> Enemy:
@@ -238,6 +239,7 @@ static func spawn_boss(key: String, quiet: bool = false) -> Enemy:
 	if not quiet:
 		Snd.play("roar")
 		G.add_shake(6)
+	Coop.scale_foe(e, Coop.BOSS_PER)   # (Windows co-op)
 	return e
 
 # ---------- Enemy shots ----------
@@ -461,6 +463,8 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 	# Experience.
 	var xp: int = 40 + 10 * G.floor_index if boss else GameData.ENEMY_XP.get(e.type, 3) * (3 if e.elite else 1)
 	gain_xp(p, xp)
+	if boss:
+		Coop.share_xp(p, xp)   # (Windows co-op: a guardian's experience for everyone)
 	if GameData.rogues() and (boss or (e.elite and randf() < 0.15)):
 		drop_pickup(Consumables.random_kind(), e.x, e.y)   # Rogues layer: belt consumables
 	if not boss:
