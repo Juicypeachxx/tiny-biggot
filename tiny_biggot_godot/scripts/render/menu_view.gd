@@ -44,7 +44,7 @@ func _paint_base(ci: CanvasItem) -> void:
 	_sprites.clear()
 	_glows.clear()
 	match G.state:
-		&"title", &"hero", &"howto", &"shrine", &"codex", &"tree":
+		&"title", &"hero", &"howto", &"shrine", &"codex", &"tree", &"coop":
 			_backdrop(ci, true)
 			call("draw_" + String(G.state), ci)
 			_toast(ci)
@@ -95,6 +95,7 @@ func _paint_base(ci: CanvasItem) -> void:
 		&"dead", &"win":
 			_backdrop(ci, false)
 			draw_end(ci)
+	Coop.draw_turn(ci)   # (Windows co-op: whose menu it is)
 	_glow.queue_redraw()
 	_spr.queue_redraw()
 
@@ -305,6 +306,10 @@ func draw_hero(ci: CanvasItem) -> void:
 	else:
 		Gfx.text(ci, "WIN A RUN TO UNLOCK DREAD LEVELS", TB.SW / 2, 240, "dim", 1, 0.5)
 	Gfx.text(ci, "TAP A HERO, TAP AGAIN TO BEGIN     < >  CHOOSE     USE  BEGIN     ROLL  SKILL TREE     MENU  BACK", TB.SW / 2, 262, "grey", 1, 0.5)
+
+## (Windows co-op) the joining screen: scripts/coop/coop.gd.
+func draw_coop(ci: CanvasItem) -> void:
+	Coop.draw_lobby(ci, self)
 
 # ---------- Ember shrine ----------
 func draw_shrine(ci: CanvasItem) -> void:

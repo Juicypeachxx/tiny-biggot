@@ -1410,7 +1410,7 @@ func _paint_foe(ci: CanvasItem) -> void:
 func _paint_top(ci: CanvasItem) -> void:
 	RoomDress.paint_over(ci)   # 17.3: lightning
 	Pace.draw(ci, G.time)   # 35.2 FINISH THEM: the last foes marked
-	var p := G.player
+	var p := Coop.lead()   # (Windows co-op: P1, also while P2 to P4 are in a menu of theirs)
 	if p != null and not Coop.is_down(p):
 		# 35.3 CLARITY: the hero over your own shots, effects and sparks (foe shots stay above it).
 		_draw_hero_mark(ci, p, G.time)

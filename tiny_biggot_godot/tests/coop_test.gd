@@ -13,6 +13,11 @@ extends Node
 ## guardian's experience for every standing hero; P2 to P4's level-ups one at a time, each in their
 ## own turn (G.player is them, the menus listen to their pad), P1 again once play goes on; a chest
 ## opened by P3 is P3's choice.
+## C4 joining and menus: on the CO-OP screen each device joins with USE (bot devices stand in for a
+## keyboard and controllers), chooses with LEFT and RIGHT, MENU unreadies and leaves, a locked hero
+## cannot be readied, the run starts when two or more are all ready (each with their device and
+## hero); P2's MENU opens the pause as theirs (G.player and the keys theirs, P1's button does not
+## close it, their gear page, "P2'S GEAR"), then P1 again; the title ends the party.
 ## Prints "coop test: PASSED" or a FAIL line per problem.
 
 var fails := 0
@@ -25,6 +30,7 @@ func _ready() -> void:
 	_pads()
 	_core()
 	_rules()
+	_join()
 	Keys.clear_pads()
 	Coop.want = []
 	Coop.pads = [-1]
@@ -145,7 +151,13 @@ func _core() -> void:
 	p3.y = 60.0
 	hs[0].x = 380.0
 	hs[0].y = 220.0
+	hs[1].x = 380.0
+	hs[1].y = 60.0
+	hs[3].x = 60.0
+	hs[3].y = 220.0
 	var e := Combat.spawn_enemy("slime", 70.0, 64.0, false, true)
+	e.x = 70.0   # (the room's layout can move a spawn: here it stands by P3, whatever the room)
+	e.y = 64.0
 	var t := Coop.foe_target(e, hs[0])
 	Coop.foes_done(hs[0])
 	if t != p3 or G.player != hs[0]:
@@ -336,3 +348,122 @@ func _rules() -> void:
 	G.choice = {}
 	Coop.play_tick()
 	print("[coop] C3: health x%.1f and waves x%.2f for four; a guardian's experience for all; level-ups and chests in each hero's own turn" % [1.0 + Coop.HP_PER * 3, 1.0 + Coop.WAVE_PER * 3])
+
+# ---------- C4 ----------
+## One tick with pad k's action held, then one with it let go.
+func _press(k: int, a: StringName) -> void:
+	Keys.pads[k]["bot"][a] = true
+	Keys.tick()
+	G.update(TB.DT)
+	if k < Keys.pads.size():   # (the run's start makes the party's pads anew)
+		Keys.pads[k]["bot"][a] = false
+	Keys.tick()
+	G.update(TB.DT)
+
+func _join() -> void:
+	Coop.solo()
+	G.fade = {}
+	G.state = &"title"
+	if not G.title_items().has("CO-OP"):
+		fail("no CO-OP on the title")
+	Coop.open_lobby()
+	if G.state != &"coop" or Keys.pads.is_empty() or Keys.pads[0]["kind"] != "kbm":
+		fail("the CO-OP screen: state %s, pads %s (want the keyboard first)" % [G.state, Keys.pads.size()])
+		return
+	var d := [Keys.add_pad("bot"), Keys.add_pad("bot"), Keys.add_pad("bot")]
+	_press(d[0], &"use")
+	_press(d[1], &"use")
+	if Coop.lobby.size() != 2 or Coop.lobby[0]["pad"] != d[0] or Coop.lobby[1]["pad"] != d[1]:
+		fail("two devices pressed USE: %d joined" % Coop.lobby.size())
+		return
+	if Coop.lobby[0]["hero"] != G.hero_index or Coop.lobby[1]["hero"] == Coop.lobby[0]["hero"]:
+		fail("P1 joins with the last hero (%d, want %d), P2 with another (%d)" % [Coop.lobby[0]["hero"], G.hero_index, Coop.lobby[1]["hero"]])
+	_press(d[2], &"use")
+	_press(d[2], &"pause")
+	if Coop.lobby.size() != 2:
+		fail("P3 pressed MENU to leave: %d players (want 2)" % Coop.lobby.size())
+	_press(d[2], &"use")
+	var order := GameData.hero_order()
+	var h1: int = Coop.lobby[1]["hero"]
+	_press(d[1], &"move_right")
+	if Coop.lobby[1]["hero"] != order[(order.find(h1) + 1) % order.size()]:
+		fail("P2's RIGHT: hero %d (want the next after %d)" % [Coop.lobby[1]["hero"], h1])
+	var locked := -1
+	for i in order:
+		if not G.hero_unlocked(GameData.heroes()[i]):
+			locked = i
+	if locked >= 0:
+		var keep: int = Coop.lobby[2]["hero"]
+		Coop.lobby[2]["hero"] = locked
+		_press(d[2], &"use")
+		if Coop.lobby[2]["ready"]:
+			fail("P3 was readied with a locked hero")
+		Coop.lobby[2]["hero"] = keep
+	_press(d[0], &"use")
+	_press(d[0], &"pause")
+	if Coop.lobby[0]["ready"]:
+		fail("P1's MENU did not unready them")
+	for k in d:
+		_press(k, &"use")
+	var want: Array = Coop.lobby.map(func(e): return e["hero"])
+	for k in 200:   # the fade, then the run
+		Keys.tick()
+		G.update(TB.DT)
+		if G.state == &"play" and G.fade.is_empty():
+			break
+	if G.state != &"play" or Coop.count() != 3:
+		fail("three ready players: state %s, %d heroes (want play, 3)" % [G.state, Coop.count()])
+		return
+	var hs := Coop.heroes()
+	for i in 3:
+		if hs[i].hero["id"] != GameData.heroes()[want[i]]["id"]:
+			fail("P%d plays %s (want %s)" % [i + 1, hs[i].hero["id"], GameData.heroes()[want[i]]["id"]])
+	if Keys.pads.size() != 3 or Coop.pads != [0, 1, 2]:
+		fail("the party's pads %s of %d (want [0, 1, 2] of 3)" % [Coop.pads, Keys.pads.size()])
+	_menus()
+	# The title ends the party.
+	G.state = &"title"
+	Keys.tick()
+	G.update(TB.DT)
+	if Coop.on() or not Keys.pads.is_empty() or Coop.want.size() > 1:
+		fail("back on the title the party is still on (%d heroes, %d pads)" % [Coop.count(), Keys.pads.size()])
+	# With nobody joined, MENU on the CO-OP screen goes back to the title.
+	Coop.open_lobby()
+	var b := Keys.add_pad("bot")
+	_press(b, &"pause")
+	if G.state != &"title":
+		fail("MENU with nobody joined: state %s (want the title)" % G.state)
+	Coop.solo()
+	print("[coop] C4: the CO-OP screen (join, choose, ready, leave, start with 3); P2's own pause and gear; the party ends on the title")
+
+## P2's own pause and gear, then P1 again.
+func _menus() -> void:
+	G.enemies.clear()
+	G.hitstop = 0.0
+	for h in Coop.heroes():
+		h.pending = 0
+	var p1 := Coop.lead()
+	var p2: Player = Coop.extras[0]
+	var k2: int = Coop.pads[1]
+	Coop.bots = [false, false, false]   # (nobody else moves)
+	_press(k2, &"pause")
+	if G.state != &"pause" or Coop.turn != 1 or G.player != p2:
+		fail("P2's MENU: state %s, turn %d, P2 the player %s" % [G.state, Coop.turn, G.player == p2])
+		return
+	if Coop.turn_label() != "P2'S MENU":
+		fail("P2's pause is labelled %s" % Coop.turn_label())
+	_press(Coop.pads[0], &"pause")
+	if G.state != &"pause":
+		fail("P1's button closed P2's pause")
+	_press(k2, &"move_down")
+	_press(k2, &"use")
+	if G.state != &"inventory" or G.player != p2 or Coop.turn_label() != "P2'S GEAR":
+		fail("P2's GEAR: state %s, P2 the player %s, label %s" % [G.state, G.player == p2, Coop.turn_label()])
+	_press(k2, &"pause")
+	_press(k2, &"pause")
+	if G.state != &"play":
+		fail("P2 left their pause: state %s" % G.state)
+	Keys.tick()
+	G.update(TB.DT)
+	if G.player != p1 or Coop.turn != -1 or Coop.turn_label() != "":
+		fail("after P2's pause P1 is not the player again (turn %d)" % Coop.turn)

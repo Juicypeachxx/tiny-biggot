@@ -74,8 +74,8 @@ static func restore(d: Dictionary) -> bool:
 
 ## At the start of every floor (game.start_floor).
 static func save() -> void:
-	if not GameData.rogues() or DebugArgs.has("no-save") or G.player == null:
-		return
+	if not GameData.rogues() or DebugArgs.has("no-save") or G.player == null or Coop.busy():
+		return   # (Windows co-op: a co-op run is not saved for CONTINUE)
 	if Meta.write_save_to(FILE, BACKUP, capture()) == OK:
 		_has = 1
 
@@ -94,6 +94,8 @@ static func load_run() -> bool:
 
 ## The run is over (death, a win, abandoned): nothing to continue.
 static func clear() -> void:
+	if Coop.busy():
+		return   # (Windows co-op: a solo run waiting to be continued stays)
 	_has = 0
 	if DebugArgs.has("no-save"):
 		return

@@ -4,8 +4,9 @@ extends RefCounted
 ## the same room, each with their own device (Keys.pads). The game was made for one hero (G.player):
 ## for each hero's own work it runs with G.player set to that hero and Keys set to their pad
 ## (enter / leave). Foes work against their nearest standing hero, foe shots test every hero, a shot
-## belongs to the hero who fired it (PBullet.owner_i), pickups go to the nearest hero. With one
-## player none of this runs: the game is exactly as before.
+## belongs to the hero who fired it (PBullet.owner_i), pickups go to the nearest hero. The players
+## join on the title's CO-OP screen (the lobby below). With one player none of this runs: the game is
+## exactly as before.
 
 const MAX := 4
 const COLORS := ["#e8573a", "#4d9be6", "#7ad86a", "#f2c94c"]   # P1 red, P2 blue, P3 green, P4 gold
@@ -33,6 +34,8 @@ static var _fams: Array = []
 static var _bot_t: Array = [0.0, 0.0, 0.0, 0.0]
 static var wait_msg := ""            # who the door waits for (drawn by draw_tags)
 static var _door_t := 0.0            # how long a hero has waited at a door (the test bots catch up)
+static var lobby: Array = []         # the CO-OP screen's joined players, P1 first: { pad, hero, ready, msg, msg_t }
+static var _lmb := false             # the left mouse button last tick (the CO-OP screen's clicks)
 
 static func on() -> bool:
 	return not extras.is_empty()
@@ -50,6 +53,10 @@ static func heroes() -> Array:
 
 static func index_of(p: Player) -> int:
 	return heroes().find(p)
+
+## A co-op run is being made or played (RunSave leaves it alone: it is not saved for CONTINUE).
+static func busy() -> bool:
+	return _building or not extras.is_empty()
 
 static func is_down(p: Player) -> bool:
 	return downs.has(p)
@@ -87,6 +94,30 @@ static func from_args() -> void:
 		pads.append(Keys.add_pad("bot"))
 		bots.append(true)
 	Meta.opts["autofire"] = true
+
+## Back to one player: no party, every device for P1's menus and play.
+static func solo() -> void:
+	extras.clear()
+	want = []
+	pads = [-1]
+	bots = [false]
+	actor = 0
+	turn = -1
+	downs.clear()
+	revive.clear()
+	_tgt.clear()
+	_lead = null
+	_hs = []
+	_fams = []
+	wait_msg = ""
+	_door_t = 0.0
+	lobby = []
+	Keys.clear_pads()
+
+## Game.update_title, first: the party ends on the title (START RUN is one player again).
+static func on_title() -> void:
+	if not extras.is_empty() or want.size() > 1 or not Keys.pads.is_empty():
+		solo()
 
 ## Game.new_run, first: P2 to P4 are each made by a whole run of their own (all a hero gets at the
 ## start: weapon, tree, traits, perks, stars, the gourd...); P1's run, the last, is the real one.
@@ -155,6 +186,8 @@ static func update_heroes(p: Player, dt: float) -> void:
 	Keys.use_pad(pads[0])
 	if not downs.has(p):
 		Combat.update_player(p, dt)
+	if G.state != &"play":
+		return
 	for i in range(1, count()):
 		var h: Player = extras[i - 1]
 		if downs.has(h):
@@ -164,17 +197,14 @@ static func update_heroes(p: Player, dt: float) -> void:
 			_bot(i, h, dt)
 		Effects.tick(dt)
 		Combat.update_player(h, dt)
-		if G.state == &"play" and Keys.use():   # a chest, a shop ware, a pedestal: their own
+		if G.state == &"play" and Keys.use():   # a chest, a shop ware, a pedestal, a tome: their own
 			var o = _object_near(h)
 			if o != null:
-				turn = i
 				G.interact(o)
-				if G.state != &"play":
-					return   # their menu: G.player stays theirs until it closes (play_tick)
-				turn = -1
-		leave()
 		if G.state != &"play":
-			return
+			turn = i
+			return   # their menu: G.player stays theirs until it closes (play_tick)
+		leave()
 	_revive_tick(dt)
 
 ## Combat.update_enemies, for each foe: the hero it works against (its nearest standing one, chosen
@@ -277,15 +307,24 @@ static func update_pickups(dt: float) -> void:
 				best = i
 		groups[best].append(k)
 	var all := []
+	var menu_i := -1
 	for i in hs.size():
 		if groups[i].is_empty():
+			continue
+		if menu_i >= 0:
+			all.append_array(groups[i])   # (a menu opened: the rest wait for the next tick)
 			continue
 		enter(i)
 		G.pickups = groups[i]
 		Combat.update_pickups(dt)
 		all.append_array(G.pickups)
 		leave()
+		if G.state != &"play":
+			menu_i = i
 	G.pickups = all
+	if menu_i > 0:
+		turn = menu_i
+		enter(menu_i)   # (what they picked up opened a menu: it is theirs)
 
 ## The nearest thing a hero can use (as Game.update_play finds P1's).
 static func _object_near(h: Player):
@@ -301,14 +340,23 @@ static func _object_near(h: Player):
 	return out
 
 # ---------- turns: P2 to P4's own menus ----------
-## Game.update_play, first: a P2-P4 menu turn ends once the game is back in play.
+## Game.update_play, first: a P2-P4 menu turn ends once the game is back in play. A P2-P4 press of
+## MENU makes the pause theirs: G.player and the keys are theirs, so Game.update_play's own pause
+## check opens it (their gear, traits and relics), even a downed player's.
 static func play_tick() -> void:
 	if turn > 0:
 		turn = -1
 		leave()
+	for i in range(1, count()):
+		if i < pads.size() and pads[i] >= 0 and Keys.pads[pads[i]]["trig"].get(&"pause", false):
+			turn = i
+			enter(i)
+			return
 
-## Keys.tick: whose pad the menus listen to (the turn's hero, else P1).
+## Keys.tick: whose pad the menus listen to (the turn's hero, else P1; anyone's at the end).
 static func menu_pad() -> int:
+	if G.state == &"dead" or G.state == &"win":
+		return -1
 	var i := turn if turn > 0 else 0
 	return pads[i] if i < pads.size() else -1
 
@@ -471,6 +519,178 @@ static func _bots_to(dir: String) -> void:
 			h.x = at.x
 			h.y = at.y
 
+# ---------- joining: the CO-OP screen (the title's CO-OP) ----------
+## Opens the CO-OP screen: the keyboard and mouse and every controller can join (Brotato's way: up
+## to 4 players, each with their own device, each picks a hero; the run starts when all are ready).
+static func open_lobby() -> void:
+	solo()
+	Keys.add_pad("kbm")
+	for d in Input.get_connected_joypads():
+		Keys.add_pad("joy", d)
+	_lmb = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
+	G.endless_next = false
+	G.state = &"coop"
+
+## The joined place of Keys pad k, or -1.
+static func _slot_of(k: int) -> int:
+	for s in lobby.size():
+		if lobby[s]["pad"] == k:
+			return s
+	return -1
+
+## A newly joined player's hero: P1's last hero, then the next free ones in the hero screen's order.
+static func _first_hero() -> int:
+	if lobby.is_empty():
+		return G.hero_index
+	var order := GameData.hero_order()
+	var taken := lobby.map(func(e): return e["hero"])
+	var start := order.find(lobby.back()["hero"])
+	for j in range(1, order.size() + 1):
+		var i: int = order[(start + j) % order.size()]
+		if not i in taken and G.hero_unlocked(GameData.heroes()[i]):
+			return i
+	return G.hero_index
+
+static func _join(k: int, hero: int = -1) -> void:
+	if lobby.size() >= MAX:
+		return
+	lobby.append({ "pad": k, "hero": _first_hero() if hero < 0 else hero, "ready": false, "msg": "", "msg_t": 0.0 })
+	Snd.play("confirm")
+
+static func _ready_up(s: int) -> void:
+	var e: Dictionary = lobby[s]
+	if G.hero_unlocked(GameData.heroes()[e["hero"]]):
+		e["ready"] = true
+		Snd.play("confirm")
+	else:
+		e["msg"] = "UNLOCK IT AT THE SHRINE"
+		e["msg_t"] = G.time + 1.5
+		Snd.play("deny")
+
+## Game.update (state "coop"): each device on its own. USE joins, then readies; LEFT and RIGHT choose
+## a hero; MENU unreadies, then leaves (with nobody joined: back to the title); P1's UP and DOWN set
+## the DREAD. A mouse click on a hero chooses it for the keyboard's player, a second click readies.
+static func update_lobby() -> void:
+	for d in Input.get_connected_joypads():   # (a controller plugged in on this screen can join too)
+		var known := false
+		for pd in Keys.pads:
+			if pd["kind"] == "joy" and pd["dev"] == d:
+				known = true
+		if not known:
+			Keys.add_pad("joy", d)
+	var order := GameData.hero_order()
+	var leave_screen := false
+	for k in Keys.pads.size():
+		Keys.use_pad(k)
+		var s := _slot_of(k)
+		if s < 0:
+			if Keys.confirm():
+				_join(k)
+			elif Keys.back() and lobby.is_empty():
+				leave_screen = true
+			continue
+		var e: Dictionary = lobby[s]
+		if Keys.back():
+			if e["ready"]:
+				e["ready"] = false
+			else:
+				lobby.remove_at(s)   # (the others move up a place)
+			Snd.play("select")
+			continue
+		if s == 0:
+			var mx: int = mini(Meta.meta.get("dread_max", 0), Dread.cap())
+			if mx > 0 and (Keys.up() or Keys.down()):
+				Meta.meta["dread"] = (Meta.meta.get("dread", 0) + (1 if Keys.up() else mx)) % (mx + 1)
+				Snd.play("select")
+		if e["ready"]:
+			continue
+		if Keys.left() or Keys.right():
+			var j := order.find(e["hero"])
+			e["hero"] = order[(j + (1 if Keys.right() else order.size() - 1)) % order.size()]
+			Snd.play("select")
+		elif Keys.confirm():
+			_ready_up(s)
+	Keys.use_pad(-1)
+	var lmb := Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
+	if lmb and not _lmb:
+		_click(Keys.get_viewport().get_mouse_position())
+	_lmb = lmb
+	if leave_screen:
+		G.state = &"title"
+		G.menu = G.title_index("CO-OP")
+		Snd.play("select")
+		return
+	if lobby.size() >= 2 and lobby.all(func(e): return e["ready"]):
+		_start()
+
+## A click on the CO-OP screen: on a hero, it is the keyboard player's (joining them first); a click
+## on their hero again readies them.
+static func _click(at: Vector2) -> void:
+	var kp := -1
+	for k in Keys.pads.size():
+		if Keys.pads[k]["kind"] == "kbm":
+			kp = k
+	if kp < 0:
+		return
+	var order := GameData.hero_order()
+	for j in order.size():
+		if not MenuView.hero_cell(j).grow(1).has_point(at):
+			continue
+		var s := _slot_of(kp)
+		if s < 0:
+			_join(kp, order[j])
+		elif not lobby[s]["ready"]:
+			if lobby[s]["hero"] == order[j]:
+				_ready_up(s)
+			else:
+				lobby[s]["hero"] = order[j]
+				Snd.play("select")
+		return
+
+## Everyone is ready: the party (want, pads) in the order they joined, and the run.
+static func _start() -> void:
+	var devs := []
+	want = []
+	for e in lobby:
+		want.append(e["hero"])
+		devs.append([Keys.pads[e["pad"]]["kind"], Keys.pads[e["pad"]]["dev"]])
+	Keys.clear_pads()
+	pads = []
+	bots = []
+	for d in devs:
+		pads.append(Keys.add_pad(d[0], d[1]))
+		bots.append(d[0] == "bot")   # (tests: a bot device is played by the test bot)
+	for s in lobby.size():
+		lobby[s]["pad"] = pads[s]
+	G.hero_index = want[0]
+	Snd.play("confirm")
+	Meta.write_save()
+	G.start_fade(G.new_run)
+
+## --ui=coop (pictures): the CO-OP screen with three joined, P1 ready; --ui=coopgear (with --coop=N):
+## P2's gear page, as theirs.
+static func picture(kind: String) -> void:
+	if kind == "coop":
+		open_lobby()
+		_join(0)
+		for k in 2:
+			_join(Keys.add_pad("bot"))
+		lobby[0]["ready"] = true
+		return
+	if extras.is_empty():
+		return
+	turn = 1
+	enter(1)
+	G.state = &"inventory"
+
+static func _device_name(k: int) -> String:
+	if k < 0 or k >= Keys.pads.size():
+		return ""
+	match Keys.pads[k]["kind"]:
+		"kbm": return "KEYBOARD"
+		"joy": return "PAD %d" % (int(Keys.pads[k]["dev"]) + 1)
+	return "BOT"
+
 # ---------- the test bot (--coop=N) ----------
 static func _bot(i: int, h: Player, dt: float) -> void:
 	_bot_t[i] -= dt
@@ -516,6 +736,8 @@ static func draw_tags(ci: CanvasItem) -> void:
 		Gfx.text(ci, "P%d" % (i + 1), roundf(h.x), roundf(h.y - 22), FONT[i], 1, 0.5)
 		if downs.has(h):
 			continue
+		if i > 0 and G.state == &"play" and _object_near(h) != null:
+			Gfx.text(ci, "USE", roundf(h.x), roundf(h.y - 30), FONT[i], 1, 0.5)   # (P1's prompt is the game's own)
 		var c := TB.c(COLORS[i])
 		var at := Vector2(roundf(h.x), roundf(h.y) + 6.0)
 		ci.draw_arc(at, 8.0, 0.0, TAU, 20, Color(c, 0.75), 1.0)
@@ -524,6 +746,112 @@ static func draw_tags(ci: CanvasItem) -> void:
 			var ay := h.y - 2 + sin(h.aim_a) * 16
 			ci.draw_rect(Rect2(roundf(ax - 2), roundf(ay - 2), 4, 4), TB.c("#1a1423"))
 			ci.draw_rect(Rect2(roundf(ax - 1), roundf(ay - 1), 2, 2), c)
+
+## The CO-OP screen (MenuView.draw_coop; mv queues its sprites): the hero grid with each player's
+## colour on their hero, a card for each of the four places, how to join and the DREAD.
+static func draw_lobby(ci: CanvasItem, mv) -> void:
+	var t := G.time
+	Gfx.text(ci, "CO-OP: UP TO 4 PLAYERS", TB.SW / 2, 8, "gold", 2, 0.5)
+	var order := GameData.hero_order()
+	for j in order.size():
+		var i: int = order[j]
+		var hh: Dictionary = GameData.heroes()[i]
+		var r := MenuView.hero_cell(j)
+		var open := G.hero_unlocked(hh)
+		var on := []
+		for k in lobby.size():
+			if lobby[k]["hero"] == i:
+				on.append(k)
+		var col: String = COLORS[on[0]] if not on.is_empty() else ("#4e4a5e" if open else "#2a2838")
+		Gfx.panel(ci, r.position.x, r.position.y, r.size.x, r.size.y, col, "#2c2036" if not on.is_empty() else "#17121e")
+		mv._sprite(hh["sprite"], r.get_center().x, r.end.y - 3, 1, false, 1.0, Color(0, 0, 0, 0) if open else TB.rgba(62, 56, 78, 255))
+		for q in on.size():   # every player on it: their colour along its foot
+			ci.draw_rect(Rect2(r.position.x + 1 + q * 6, r.end.y, 5, 2), TB.c(COLORS[on[q]]))
+	for k in MAX:
+		var x := 18 + k * 104
+		var y := 86
+		var w := 100
+		var hgt := 142
+		if k >= lobby.size():
+			Gfx.panel(ci, x, y, w, hgt, "#2a2838", "#120e18")
+			Gfx.text(ci, "P%d" % (k + 1), x + 6, y + 6, "dim", 2)
+			if k == lobby.size():
+				var blink := floori(t * 2) % 2 == 0
+				Gfx.text(ci, "PRESS USE", x + w / 2, y + 52, FONT[k] if blink else "white", 1, 0.5)
+				Gfx.text(ci, "TO JOIN", x + w / 2, y + 62, FONT[k] if blink else "white", 1, 0.5)
+				Gfx.text(ci, "KEYS: ENTER OR SPACE", x + w / 2, y + 90, "dim", 1, 0.5)
+				Gfx.text(ci, "MOUSE: CLICK A HERO", x + w / 2, y + 100, "dim", 1, 0.5)
+				Gfx.text(ci, "CONTROLLER: A", x + w / 2, y + 110, "dim", 1, 0.5)
+			continue
+		var e: Dictionary = lobby[k]
+		var h: Dictionary = GameData.heroes()[e["hero"]]
+		var open := G.hero_unlocked(h)
+		Gfx.panel(ci, x, y, w, hgt, COLORS[k], "#2c2036" if e["ready"] else "#17121e")
+		Gfx.text(ci, "P%d" % (k + 1), x + 6, y + 6, FONT[k], 2)
+		Gfx.text(ci, _device_name(e["pad"]), x + w - 6, y + 9, "dim", 1, 1.0)
+		var bob := -1 if not e["ready"] and floori(t * 3 + k) % 2 == 1 else 0
+		mv._sprite(h["sprite"], x + w / 2, y + 60 + bob, 2, false, 1.0, Color(0, 0, 0, 0) if open else TB.rgba(20, 15, 28, 255))
+		var ny := y + 68
+		for l in Gfx.wrap_text(h["name"], w - 8):
+			Gfx.text(ci, l, x + w / 2, ny, "gold" if open else "dim", 1, 0.5)
+			ny += 8
+		for l in Gfx.wrap_text(h["weapon"], w - 8).slice(0, 2):
+			Gfx.text(ci, l, x + w / 2, ny, "grey", 1, 0.5)
+			ny += 8
+		var hn: int = mini(h["hp"] / 2, 10)
+		for q in hn:
+			Gfx.at(ci, "heart_full", roundf(x + w / 2 - hn * 4.5 + q * 9), ny + 1)
+		if e["msg"] != "" and G.time < e["msg_t"]:
+			Gfx.text(ci, e["msg"], x + w / 2, y + 116, "orange", 1, 0.5)
+		elif e["ready"]:
+			Gfx.text(ci, "READY", x + w / 2, y + 112, "lime", 2, 0.5)
+		elif not open:
+			Gfx.text(ci, "LOCKED", x + w / 2, y + 116, "red", 1, 0.5)
+		else:
+			Gfx.text(ci, "USE: READY", x + w / 2, y + 116, "white", 1, 0.5)
+		Gfx.text(ci, "MENU: LEAVE" if not e["ready"] else "MENU: NOT READY", x + w / 2, y + 130, "dim", 1, 0.5)
+	var line := ""
+	var col := "grey"
+	if lobby.size() < 2:
+		line = "A SECOND PLAYER JOINS WITH THEIR OWN KEYBOARD OR CONTROLLER"
+	else:
+		var wait := []
+		for k in lobby.size():
+			if not lobby[k]["ready"]:
+				wait.append("P%d" % (k + 1))
+		line = "WAITING FOR " + ", ".join(wait) if not wait.is_empty() else "EVERYONE IS READY"
+		col = "gold" if wait.is_empty() else "tan"
+	Gfx.text(ci, line, TB.SW / 2, 233, col, 1, 0.5)
+	var mx: int = mini(Meta.meta.get("dread_max", 0), Dread.cap())
+	var d := mini(Meta.meta.get("dread", 0), mx)
+	if mx > 0:
+		Gfx.text(ci, "DREAD %d: %s   (P1: UP / DOWN)" % [d, GameData.DREAD_DESC[d]], TB.SW / 2, 244, "red" if d > 0 else "grey", 1, 0.5)
+	Gfx.text(ci, "FOR EACH EXTRA PLAYER: FOES +60% HEALTH, GUARDIANS +75%, 25% MORE FOES. DROPS ARE NOT SHARED.", TB.SW / 2, 254, "dim", 1, 0.5)
+	Gfx.text(ci, "EACH PLAYER:  USE  JOIN, THEN READY     < >  HERO     MENU  LEAVE", TB.SW / 2, 266, "grey", 1, 0.5)
+
+## The pages that belong to one player: whose they are, in their colour (MenuView, last).
+const TURN_WORDS := { &"pause": "MENU", &"options": "MENU", &"keys": "MENU", &"wardrobe": "WARDROBE",
+	&"inventory": "GEAR", &"gearpage": "GEAR", &"traitlist": "TRAITS", &"relics": "RELICS",
+	&"choice": "PICK", &"traits": "PICK", &"tome": "TOME", &"fishing": "CATCH" }
+
+## Whose page it is ("P2'S GEAR"), or "" when it is nobody's own.
+static func turn_label() -> String:
+	if extras.is_empty() or not TURN_WORDS.has(G.state):
+		return ""
+	return "P%d'S %s" % [(turn if turn > 0 else 0) + 1, TURN_WORDS[G.state]]
+
+static func draw_turn(ci: CanvasItem) -> void:
+	var label := turn_label()
+	if label == "":
+		return
+	var i := turn if turn > 0 else 0
+	var c := TB.c(COLORS[i])
+	ci.draw_rect(Rect2(1, 1, TB.SW - 2, TB.SH - 2), c, false, 2.0)
+	var w := TB.text_w(label, 2) + 10
+	var x := TB.SW - 3 - w   # (the top right corner: the pages keep their own things on the left)
+	ci.draw_rect(Rect2(x, 3, w, 16), Color(0.05, 0.04, 0.07, 0.92))
+	ci.draw_rect(Rect2(x, 3, w, 16), c, false, 1.0)
+	Gfx.text(ci, label, x + 5, 6, FONT[i], 2)
 
 ## HudView: a small panel for P2 to P4 along the bottom (their tag, hearts, gold).
 static func draw_hud(ci: CanvasItem) -> void:

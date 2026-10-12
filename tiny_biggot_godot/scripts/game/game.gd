@@ -2173,6 +2173,9 @@ func update(dt: float) -> void:
 			update_embers(dt)
 			StarView.keys(dt)
 		&"hero": update_hero()
+		&"coop":   # (Windows co-op: the joining screen)
+			update_embers(dt)
+			Coop.update_lobby()
 		&"tree":
 			update_embers(dt)
 			update_tree()
@@ -2344,6 +2347,7 @@ func title_items() -> Array:
 		out.insert(2, "CONSTELLATION")
 		out.insert(out.find("CODEX") + 1, "WARDROBE")   # 14.2
 		out.insert(out.find("START RUN") + 1, "THE CAMP")   # 17.2
+	out.insert(out.find("START RUN") + 1, "CO-OP")   # (Windows co-op: the joining screen)
 	if RunSave.exists():
 		out.insert(0, "CONTINUE")   # 6.3: a saved run
 	return out
@@ -2352,6 +2356,7 @@ func title_index(item: String) -> int:
 	return maxi(0, title_items().find(item))
 
 func update_title(dt: float) -> void:
+	Coop.on_title()   # (Windows co-op: the party ends on the title)
 	update_embers(dt)
 	if Keys.triggered(&"special"):
 		Rex.poke()   # the sleeping dog in the corner
@@ -2368,6 +2373,7 @@ func update_title(dt: float) -> void:
 			endless_next = false
 			state = &"hero"
 			menu = hero_index
+		"CO-OP": Coop.open_lobby()   # (Windows co-op)
 		"SKILL TREES":
 			state = &"tree"
 			tree_hero = hero_index

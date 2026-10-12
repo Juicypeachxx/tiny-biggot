@@ -18,10 +18,12 @@ option shares them); a player who dies sits out until the wave ends; foes scale 
 
 ## How it fits this game
 
-- **Joining.** On the hero screen each device joins with its confirm button (keyboard: Enter or a
-  mouse click; controller: A), up to 4. Each player moves their own coloured frame (P1 red, P2 blue,
-  P3 green, P4 gold) over the heroes and confirms; the run starts when every joined player is ready.
-  A device that joins counts as that player for the whole run.
+- **Joining.** CO-OP on the title opens the joining screen (START RUN stays the one-player hero
+  screen). Each device joins with its confirm button (keyboard: Enter or Space, or a click on a hero;
+  controller: A), up to 4, in the order they join (P1 red, P2 blue, P3 green, P4 gold). Each player
+  chooses a hero with LEFT and RIGHT (their colour under it), USE readies, MENU unreadies and then
+  leaves; the run starts when two or more have joined and all are ready. A device that joins counts
+  as that player for the whole run. Back on the title the party ends.
 - **Controls.** Keyboard and mouse: move with the keys, aim with the mouse, hold the left button to
   fire at the cursor, the right button rolls; everything else on its keys. Controller: left stick
   moves, the right stick aims at its true angle, the buttons as now. Autofire works for everyone.
@@ -42,9 +44,13 @@ option shares them); a player who dies sits out until the wave ends; foes scale 
 - **Rooms and doors.** The doors open when the room is clear, as now. The party moves on when every
   standing player is in the same doorway (the doorway shows who is in it); downed players come along.
   On the floor map the leader (P1) picks the door, the others walk to it.
-- **Menus.** Any player can pause; the pause menu, the gear page and the belt belong to the player who
-  pressed. Choice screens show whose turn it is.
-- **Saving.** A co-op run is not saved for CONTINUE yet; the unlocks, embers and dust it earns are.
+- **Menus.** Any player can pause (a downed one too); the pause menu, the gear page, the traits and the
+  relics belong to the player who pressed, and only their device works it. Every page that is one
+  player's shows whose it is: a frame round the screen in their colour and "P2'S GEAR" (MENU, PICK,
+  TRAITS, RELICS, TOME) in the top right corner. P2 to P4 see "USE" over their head by something
+  they can open.
+- **Saving.** A co-op run is not saved for CONTINUE; a one-player run waiting to be continued is left
+  as it was. The unlocks, embers and dust a co-op run earns are kept.
 
 ## How it is built (the code)
 
@@ -85,6 +91,16 @@ hero; a shot remembers its owner, and its hits count for them.
       Keys.tick uses `menu_pad`), a hero's USE by a chest, shop ware or pedestal opens it as theirs
       (`update_heroes`), and `play_tick` (the first line of Game.update_play) gives the game back to
       P1 once play goes on. The test bots take the first trait offered.
-- [ ] C4 Joining on the hero screen (up to 4 devices), whose turn it is on choice screens, pause and
-      gear per player.
+- [x] C4 Joining on the hero screen (up to 4 devices), whose turn it is on choice screens, pause and
+      gear per player. Done: the title's CO-OP opens the joining screen (state "coop":
+      `Coop.open_lobby` / `update_lobby` / `draw_lobby`; a pad for the keyboard and mouse and one for
+      every controller, also one plugged in on the screen; `_start` makes the party's pads in the
+      order they joined, `want` their heroes, and starts the run). `on_title` (the first line of
+      Game.update_title) ends the party. Pause: a P2-P4 MENU press makes the pause theirs
+      (`play_tick` hands G.player and the keys to them, Game.update_play's own pause check opens it);
+      a menu that a hero's own move, USE or pickup opens stays theirs until play goes on;
+      `turn_label` / `draw_turn` (MenuView, last); `menu_pad` lets anyone go on from the end screens.
+      P1's HUD and P1's drawing in the world use `Coop.lead()` (P1 even while G.player is P2 in a
+      menu). RunSave neither saves nor clears during co-op (`Coop.busy`). Pictures: `--ui=coop`,
+      `--ui=coopgear` with `--coop=N`. tests/coop_test.tscn `_join` and `_menus`.
 - [ ] C5 A test for all of it, 4-player bot soaks, the Windows build.

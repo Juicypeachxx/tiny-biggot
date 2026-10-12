@@ -32,7 +32,7 @@ func refresh() -> void:
 
 ## Everything the static part of the HUD shows.
 func _signature() -> Array:
-	var p := G.player
+	var p := Coop.lead()   # (Windows co-op: P1's HUD, also in P2 to P4's menus)
 	if p == null or G.room == null or not world_state():
 		return [perf_line, perf_line2, Meta.opts.get("fps", false)]
 	var f := G.floor_d
@@ -52,7 +52,7 @@ func _signature() -> Array:
 
 ## The parts that animate every tick: the special ability meter and the banner.
 func _paint_anim(ci: CanvasItem) -> void:
-	var p := G.player
+	var p := Coop.lead()   # (Windows co-op: P1's HUD, also in P2 to P4's menus)
 	if p == null or G.room == null or not world_state():
 		return
 	# Special ability meter (step-6 heroes): fills while it recharges.
@@ -99,7 +99,7 @@ func _draw() -> void:
 		Gfx.text(self, perf_line, 4, TB.SH - 26, "lime", 1)
 		if perf_line2 != "":
 			Gfx.text(self, perf_line2, 4, TB.SH - 35, "lime", 1)
-	var p := G.player
+	var p := Coop.lead()   # (Windows co-op: P1's HUD, also in P2 to P4's menus)
 	if p == null or G.room == null or not world_state():
 		return
 	# Hearts and armour.
