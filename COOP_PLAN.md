@@ -154,3 +154,6 @@ hero; a shot remembers its owner, and its hits count for them.
 ## Not done yet (later, if he wants it)
 
 - Saving a co-op run for CONTINUE.
+- A guardian's lasers, chains and danger circles (Chaos), the final final bosses' moves (Finale)
+  and Stage 56's new patterns (Patterns: an orb's touch, a comet, the grid, the quake's rings)
+  hurt P1 only; every shot they fire (EBullets) hurts every hero. Seen when IPA 56 came in.
