@@ -217,6 +217,7 @@ static func _stage_break(e: Enemy, to: int) -> void:
 	EBullets.clear_all()
 	RiftBosses.clear()
 	Chaos.clear()
+	Patterns.clear()   # 56.4
 	if Finale.handles(e):
 		Finale.transform(e, to)   # 55: a new form, its name on the banner
 	else:
@@ -261,6 +262,7 @@ static func update_boss(e: Enemy, dt: float) -> void:
 	if e.state == &"pick":
 		var plan: Array = THIRD_PLANS[e.boss] if e.phase == 3 and THIRD_PLANS.has(e.boss) \
 			else (STAGE_PLANS[e.boss][e.stage - 2] if e.stage > 1 and STAGE_PLANS.has(e.boss) else BOSS_PLANS[e.boss])
+		plan = Patterns.plan(e, plan, 3 if e.phase == 3 else e.stage)   # 56.4: its new patterns
 		var nxt: String = plan[TB.rmod(e.cycle, plan.size())]
 		e.cycle += 1
 		if nxt == "summon" and (G.enemies.size() > 5 or (not h and e.boss == "colossus")):
@@ -283,6 +285,15 @@ static func update_boss(e: Enemy, dt: float) -> void:
 	var cx := e.x
 	var cy := e.y - 4
 	match e.state:
+		# 56.4 the new patterns (patterns.gd): cast once, then wait while they play out.
+		&"pinwheel", &"cage", &"orbit", &"comets", &"grid", &"quake":
+			if e.sub == 0:
+				e.sub = 1
+				e.t = Patterns.cast(e, String(e.state), e.stage >= 2 or h or Resolve.depth() >= 6)
+				if e.stage >= 3:
+					e.t = minf(e.t, 0.9)
+			elif e.t <= 0:
+				done(e, 0.5)
 		# 9.1 chaos moves (chaos.gd): cast once, then wait while they play out.
 		&"lasers", &"laserx", &"hooks", &"zone":
 			if e.sub == 0:

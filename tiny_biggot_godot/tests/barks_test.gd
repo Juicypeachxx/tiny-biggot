@@ -60,6 +60,8 @@ func _ready() -> void:
 	# An elite taunts when it comes near.
 	var el := Combat.spawn_enemy("skeleton", p.x + 60.0, p.y, true, true)
 	el.spawn_t = 0.0
+	el.x = p.x + 60.0   # (spawn_enemy moves a foe off a pillar or crate: once in six rooms out of reach)
+	el.y = p.y
 	Barks._tick = 0.0
 	Barks._foe_t = 0.0
 	Barks.update(TB.DT)

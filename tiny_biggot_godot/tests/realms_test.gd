@@ -25,6 +25,7 @@ func _ready() -> void:
 	seed(11)
 	Meta.opts["autofire"] = true
 	Finale.off = true   # 55: the endings here end the run; THE LAST LAUGH after them is tests/stage55_test
+	Resolve.off = true   # 56.3: a blow fells a guardian here; RESOLVE is tests/stage56_test
 	_soul()
 	for realm in ["heaven", "hell"]:
 		_way(realm)
@@ -261,8 +262,10 @@ func _fight(key: String) -> void:
 	var third := BossAI.THIRD_PLANS.has(key)
 	# The whole cycle must fit: 4 s a move, 40 s at least (35.2: the Unwritten's 13 moves took
 	# up to 38 s, so a small shift in timing left its last two just outside a 40 s window).
-	var secs := maxi(40, BossAI.BOSS_PLANS[key].size() * 4)
-	for i in (secs + 40 if third else secs) * 60:
+	var plan1 := Patterns.plan(b, BossAI.BOSS_PLANS[key], 1)   # (56.4: with its new patterns)
+	var plan3 := Patterns.plan(b, BossAI.THIRD_PLANS[key], 3) if third else []
+	var secs := maxi(40, plan1.size() * 4)
+	for i in (secs + maxi(40, plan3.size() * 4) if third else secs) * 60:
 		play(1)
 		seen[String(b.state)] = true
 		most = maxi(most, EBullets.n + RiftBosses.bands.size() + RiftBosses.rings.size())
@@ -272,7 +275,7 @@ func _fight(key: String) -> void:
 			Brazil.cow_rises(b)   # the third stage
 			b.max_hp = 1e9
 			b.hp = 1e9
-	for a in BossAI.BOSS_PLANS[key] + BossAI.THIRD_PLANS.get(key, []):
+	for a in plan1 + plan3:
 		if a == "curtain":
 			continue
 		if not seen.has(a):
@@ -389,14 +392,15 @@ func _stages(key: String) -> void:
 			fail("%s is in stage %d, not %d" % [key, b.stage, st])
 			return
 		var seen := {}
-		for i in 50 * 60:
+		var plan := Patterns.plan(b, BossAI.STAGE_PLANS[key][st - 2], st)   # (56.4: with its new patterns)
+		for i in maxi(50, plan.size() * 4) * 60:
 			play(1)
 			seen[String(b.state)] = true
 			if i % 300 == 0:
 				_cull(b)
 			if b.hp < b.max_hp * 0.1:
 				b.hp = b.max_hp * (0.6 if st == 2 else 0.3)
-		for a in BossAI.STAGE_PLANS[key][st - 2]:
+		for a in plan:
 			if a != "curtain" and not seen.has(a):
 				fail("%s never used %s in stage %d (seen %s)" % [key, a, st, seen.keys()])
 

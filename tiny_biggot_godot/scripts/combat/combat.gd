@@ -62,8 +62,10 @@ static func track_power(dt: float) -> void:
 
 ## Guardians and rift guardians: twice the health in the expanded game (his asks, 6 Oct: 60% more,
 ## then "bosses with a bigger health pool and armor"; the armor is scripts/combat/armor.gd).
+## 56.3 (his playthrough, 12 Oct: "make later bosses harder and have beaffier healthpools"): 6% more
+## for each floor down (Resolve.depth: loops count on), up to 72% more twelve floors down.
 static func boss_hp() -> float:
-	return 2.0 if GameData.rogues() else 1.0
+	return 2.0 * (1.0 + 0.06 * mini(Resolve.depth(), 12)) if GameData.rogues() else 1.0
 
 ## From the seventh floor on (the lands past the Pale Regent) a foe's blow or shot costs a whole
 ## heart in the expanded game; traps, your own bombs and the like stay at half. --classic: 1.
@@ -232,6 +234,7 @@ static func spawn_boss(key: String, quiet: bool = false) -> Enemy:
 	e.state = &"intro"
 	e.elite = true
 	e.scale = d["scale"]
+	e.born = G.time
 	G.enemies.append(e)
 	G.boss = e
 	Dread.on_boss(e)   # 48.1 ESCORTED, CROWNED, FALTERING NERVE
@@ -338,6 +341,9 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 		return false
 	if e.state == &"stagebreak" or e.break_t > 0:
 		return false   # a guardian between stages cannot be hurt (BossAI, stages.gd)
+	if e.unbroken_t > 0 and Resolve.on(e):
+		Resolve.bounce(e)
+		return false   # 56.3: an UNBROKEN guardian (resolve.gd)
 	var p := G.player
 	var crit := false
 	if e.asleep:
@@ -383,13 +389,15 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 		# Combat.power: what you really deal. 39.4: not a blow on a foe held at its stage line, which
 		# takes nothing off (his video, 9 Oct: such blows made every foe after it tougher).
 		G.run_stats["dealt"] = G.run_stats.get("dealt", 0.0) + minf(dmg, e.max_hp * 2.0)
-	e.hp -= Armor.soak(e, dmg, gate, Armor.weak_hit(e, o, crit) or crushing)
+	var hp0 := e.hp
+	e.hp -= Resolve.allow(e, Armor.soak(e, dmg, gate, Armor.weak_hit(e, o, crit) or crushing))   # (56.3 RESOLVE)
 	if crushing:
 		Might.crushed(p, e)   # 40.2 BONE BREAKER
 	Lives.on_hurt(e)   # 21.5: a call for help
 	e.mend_t = 0.0   # a mending elite waits again (elite_traits.gd)   # boss armor: most of a blow wears the plate down (armor.gd)
 	if gate > 0 and e.hp < gate:
 		e.hp = gate   # a boss never skips a stage (Stages.gate); other foes keep their overkill
+	Resolve.took(e, hp0 - e.hp)   # 56.3: the health it lost fills its RESOLVE
 	e.flash = 0.08
 	if not Toys.pinned.is_empty():
 		Toys.shared(e, dmg)   # 31: a voodoo pin shares the blow with every other pinned foe (toys.gd)

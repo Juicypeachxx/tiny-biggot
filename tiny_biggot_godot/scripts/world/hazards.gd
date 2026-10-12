@@ -83,6 +83,8 @@ static func update(dt: float) -> void:
 	Toys.tick(room, dt)   # 31 the toybox
 	Souls.tick(dt)   # 53.1 souls
 	Finale.tick(dt)   # 55 THE LAST LAUGH
+	Resolve.tick(dt)   # 56.3 RESOLVE
+	Patterns.tick(dt)   # 56.4 the new attack patterns
 	if room.hazards.is_empty() and room.strike == "" and room.marks.is_empty():
 		return
 	var active := G.enemies_active()

@@ -314,6 +314,7 @@ func enter_room(r: Room) -> void:
 	EBullets.clear()
 	RiftBosses.clear()
 	Chaos.clear()
+	Patterns.clear()   # 56.4
 	Arsenal.clear()
 	Flail.clear()
 	Charged.clear()
@@ -995,6 +996,10 @@ func open_secret_door(d: String) -> void:
 	Snd.play("unlock")
 
 func on_boss_dead(b: Enemy) -> void:
+	if DebugArgs.has("boss-clock"):   # 56.1: how fast it fell (tools/dev/boss_clock.sh)
+		print("[clock] floor=%d loop=%d boss=%s secs=%.1f hp=%.0f lv=%d relics=%d traits=%d power=%.0f dps=%.0f" % [floor_index + 1,
+			loop, b.boss, time - b.born, b.max_hp, player.level, player.relics.size(), player.traits.size(),
+			Combat.power(player), run_stats.get("dps", 0.0)])
 	Barks.hero("boss", true)   # 21.1
 	EBullets.clear_all()
 	for e in enemies:
@@ -1026,6 +1031,7 @@ func on_boss_dead(b: Enemy) -> void:
 		Dice.maybe(1.0, b.x, b.y)   # 35.1: and two dice
 	RiftBosses.clear()
 	Chaos.clear()
+	Patterns.clear()   # 56.4
 	Finale.clear()
 	if GameData.rogues() and room.type != "barn":
 		_boss_reward(b)

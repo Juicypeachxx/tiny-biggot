@@ -46,7 +46,8 @@ func _signature() -> Array:
 		int(G.run_stats.get("time", 0.0)), p.belt.duplicate(), p.relics.size(),
 		p.relics[p.relics.size() - 1]["id"] if not p.relics.is_empty() else "",
 		p.weapon["sprite"] if p.weapon != null else "", p.weapon["rarity"] if p.weapon != null else "", gear,
-		ceilf(220.0 * bo.hp / bo.max_hp) if bo != null and bo.hp > 0 else -1.0, Finale.bar_name(bo) if bo != null else ""]
+		ceilf(220.0 * bo.hp / bo.max_hp) if bo != null and bo.hp > 0 else -1.0, Finale.bar_name(bo) if bo != null else "",
+		ceilf(220.0 * bo.resolve / Resolve.cap()) if bo != null and Resolve.on(bo) else -1.0, bo != null and bo.unbroken_t > 0]
 
 ## The parts that animate every tick: the special ability meter and the banner.
 func _paint_anim(ci: CanvasItem) -> void:
@@ -246,6 +247,13 @@ func _draw() -> void:
 		if aw > 0:
 			draw_rect(Rect2(bx, by + 1, aw, 3), TB.c("#a8b4c8"))
 			draw_rect(Rect2(bx, by + 1, aw, 1), TB.c("#e8eef8"))
+		if Resolve.on(bo):   # 56.3 RESOLVE: the gold line under the health; full: UNBROKEN
+			draw_rect(Rect2(bx - 2, by + 6, w + 4, 3), TB.c("#1a1423"))
+			var rw := ceilf(w * clampf(bo.resolve / Resolve.cap(), 0.0, 1.0))
+			if rw > 0:
+				draw_rect(Rect2(bx, by + 7, rw, 1), TB.c("#fff3b0" if bo.unbroken_t > 0 else "#f2c94c"))
+			if bo.unbroken_t > 0:
+				Gfx.text(self, "UNBROKEN", bx, by - 9, "gold", 1, 0.0)
 		Gfx.text(self, Finale.bar_name(bo), TB.SW / 2, by - 9, "white", 1, 0.5)   # (55: a final final boss names its form)
 		var wk := Armor.weakness(bo)   # 7.1: its weakness wears the plate faster (armor.gd)
 		if wk != "":

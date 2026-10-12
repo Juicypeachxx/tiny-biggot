@@ -24,6 +24,14 @@ re-recorded on purpose, full check passed). Then his next word (11 Oct): Stage 5
 test (the soak of every hero, rifts, classic and loops, and the monkey: all clean), and Stage 55, THE
 LAST LAUGH: a final final boss after every won run, in the form of your strongest alignment
 (scripts/entities/finale.gd, FINALE.md), built together as IPA 55 "The Last Laugh".
+Then his full playthrough (12 Oct: "after i make my full build i just melt everything ... the bosses
+just melts in seconds"): Stage 56, the guardians fight back (BOSS_STAGES.md, last section): measured
+first (tests/boss_clock, a tool: later guardians fell faster than the first), then drawn over your
+shots and outlined while they attack, more health and plate the deeper they are, RESOLVE (a gold bar;
+full: UNBROKEN for 3.5 s; no guardian falls in less than 25 s + 6 s a floor; resolve.gd), and six new
+attack patterns, two or three for every guardian (patterns.gd). tests/stage56_test. IPA 56 "Bosses
+Fight Back". Also fixed: barks_test placed its elite where a pillar could push it out of reach (it
+failed once in six runs).
 Done before: 39.4 "Bosses Fall" (IPA 39.4), Stage 39 "More to Find", 38 "Alignment and Loot", 37,
 36, 35 (the full check passed at 35). Next: Stage 40.
 

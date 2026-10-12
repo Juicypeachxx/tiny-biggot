@@ -86,6 +86,7 @@ static func _phoenix_rises(e: Enemy) -> bool:
 	e.cycle = 0
 	EBullets.clear_all()
 	Chaos.clear()
+	Patterns.clear()   # 56.4
 	G.show_banner("THE PHOENIX RISES FROM ITS ASHES", "IT BURNS BRIGHTER THAN BEFORE")
 	G.add_shake(9)
 	Snd.play("roar")

@@ -114,6 +114,7 @@ func _paint_danger(ci: CanvasItem, t: float) -> void:
 	EnemyAI2.draw_goo(ci, t)
 	RiftBosses.draw_ground(ci, t)
 	Chaos.draw_ground(ci, t)
+	Patterns.draw_ground(ci, t)   # 56.4
 	Finale.draw_ground(ci, t)   # 55
 	_paint_warnings(ci, t)
 	if Vfx.enabled:
@@ -537,6 +538,7 @@ func _paint_lower(ci: CanvasItem) -> void:
 		EnemyAI2.draw_goo(ci, t)
 		RiftBosses.draw_ground(ci, t)
 		Chaos.draw_ground(ci, t)
+		Patterns.draw_ground(ci, t)   # 56.4
 		Finale.draw_ground(ci, t)   # 55 THE LAST LAUGH: what warns
 		_paint_warnings(ci, t)   # 11.2: a red "!" circle under a foe winding up a big hit
 	Arsenal.draw_floor(ci, t)
@@ -820,8 +822,8 @@ func _paint_ents(ci: CanvasItem) -> void:
 		if e == p:
 			Pets.draw(ci, p, t)
 			_draw_trail(ci, p)   # (35.3: the hero itself is drawn in the top layer, over your effects)
-		else:
-			_draw_enemy(ci, e, t)
+		elif not e.is_boss():
+			_draw_enemy(ci, e, t)   # (56.2: guardians are drawn in the top layer too)
 	Juice.draw_pops(ci)
 
 func _draw_trail(ci: CanvasItem, p: Player) -> void:
@@ -896,7 +898,20 @@ func _draw_weapon(ci: CanvasItem, p: Player) -> void:
 		var my := roundf(hy + sin(p.aim_a) * 6)
 		ci.draw_rect(Rect2(mx - 1, my - 1, 3, 3), Color(1, 0.95, 0.75, 0.9))
 
-func _draw_enemy(ci: CanvasItem, e: Enemy, t: float) -> void:
+## 56.2 (his playthrough, 12 Oct: "make bosses be visible when attacking because shear amount of
+## projects just drown him"): a guardian is drawn over your shots, effects and sparks (the top layer,
+## under the hero), and outlined in its colour while it attacks.
+const BOSS_CALM := [&"intro", &"pick", &"rest", &"idle", &"stagebreak"]
+
+func _draw_boss(ci: CanvasItem, e: Enemy, t: float) -> void:
+	var line := Color(0, 0, 0, 0)
+	if e.unbroken_t > 0:
+		line = TB.c("#f2c94c") if floori(t * 10) % 2 == 0 else TB.c("#fff3b0")   # 56.3 UNBROKEN: a golden shell
+	elif not e.state in BOSS_CALM and e.stun_t <= 0.0:
+		line = TB.c(Afx.BOSS_COL.get(e.boss, "#d8443c"))
+	_draw_enemy(ci, e, t, line)
+
+func _draw_enemy(ci: CanvasItem, e: Enemy, t: float, line := Color(0, 0, 0, 0)) -> void:
 	if e.spawn_t > 0:
 		return
 	var boss := e.is_boss()
@@ -936,6 +951,10 @@ func _draw_enemy(ci: CanvasItem, e: Enemy, t: float) -> void:
 			Gfx.sp(ci, name, e.x - cos(e.ca) * 9.0 * k, foot + bob - e.z - sin(e.ca) * 9.0 * k, sc * sx, sc * sy, 0.0, e.face < 0,
 				0.52 - 0.13 * k, Color(1.0, 0.54, 0.54, 0.7))
 	if not Spells.draw_sheep(ci, e, t, foot - e.z):   # 23.1: wild magic made it a sheep
+		if line.a > 0.0 and not e.hidden:   # 56.2: a guardian's outline while it attacks
+			var la := 0.75 + 0.25 * sin(t * 12.0)
+			for o: Vector2 in [Vector2(-1, 0), Vector2(1, 0), Vector2(0, -1), Vector2(0, 1)]:
+				Gfx.sp(ci, name, e.x + o.x, foot + bob - e.z + o.y, sc * sx, sc * sy, Finale.tilt(e), e.face < 0, la, Color(line, 1.0))
 		Gfx.sp(ci, name, e.x, foot + bob - e.z, sc * sx, sc * sy, Finale.tilt(e) if boss else 0.0, e.face < 0, 46 / 255.0 if e.hidden else 1.0, tint)
 	if e.shatter > 0 and not e.hidden:
 		Shatter.draw(ci, e, foot + bob - e.z)   # 47.2: its shards
@@ -991,9 +1010,6 @@ func _paint_fx(ci: CanvasItem) -> void:
 	Hazards.draw_traffic(ci, G.time)
 	Hazards.draw_gusts(ci, G.time)
 	RiftExtras.draw_hazards(ci, G.time)
-	RiftBosses.draw_over(ci, G.time)
-	Chaos.draw_over(ci, G.time)
-	Finale.draw_over(ci, G.time)   # 55 THE LAST LAUGH
 	Pets.draw_over(ci, G.player, G.time)
 	Arsenal.draw_over(ci, G.time)
 	Charged.draw_over(ci, G.time)
@@ -1401,6 +1417,11 @@ func _paint_swings(ci: CanvasItem) -> void:
 ## effects, sparks and numbers): the aiming lines and beams, the warning rings, then the shots.
 func _paint_foe(ci: CanvasItem) -> void:
 	var t := G.time
+	# 56.2: a guardian's lasers, chains, swings and what it throws, over your shots and effects too.
+	RiftBosses.draw_over(ci, t)
+	Chaos.draw_over(ci, t)
+	Patterns.draw_over(ci, t)   # 56.4
+	Finale.draw_over(ci, t)   # 55 THE LAST LAUGH
 	if Vfx.enabled:
 		Afx.draw_marks(ci, t)
 	Hazards.draw_marks(ci, t)
@@ -1410,6 +1431,9 @@ func _paint_foe(ci: CanvasItem) -> void:
 func _paint_top(ci: CanvasItem) -> void:
 	RoomDress.paint_over(ci)   # 17.3: lightning
 	Pace.draw(ci, G.time)   # 35.2 FINISH THEM: the last foes marked
+	for e: Enemy in G.enemies:
+		if e.is_boss():
+			_draw_boss(ci, e, G.time)   # 56.2: over your shots and effects, under the hero
 	var p := G.player
 	if p != null:
 		# 35.3 CLARITY: the hero over your own shots, effects and sparks (foe shots stay above it).

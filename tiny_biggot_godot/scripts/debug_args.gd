@@ -14,6 +14,8 @@ extends RefCounted
 ##   --bot                        autopilot that moves, aims and rolls (soak test)
 ##   --monkey                     random buttons in every menu and in play, seeded by --seed (ROADMAP 4.10)
 ##   --smart-bot                  with --bot: detours when stuck, hunts far foes, rings challenge bells
+##   --boss-clock                 print "[clock] ..." when a guardian falls: its floor, how many seconds it
+##                                lasted, its health and the hero's build (56.1; tests/boss_clock.tscn times them)
 ##   --touch                      show the touch controls on a desktop (mouse = finger)
 ##   --god                        the player takes no damage (soak tests)
 ##   --dread=N                    DREAD level N opened and picked (48.1: up to 16; 5 in classic)

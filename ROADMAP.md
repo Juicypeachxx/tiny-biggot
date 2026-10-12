@@ -1593,6 +1593,34 @@ each point); the rest, proposed in the order it would be felt most, with names o
         identical; the full check passed after the content test's true ending learned the new
         path (exit portal, then THE LAST LAUGH, then the win) and the effects test got the four
         bosses' colours and their moves' rules. The bot beat three of the four in its soak.
+- [x] Stage 56 (his word, 12 Oct, after a full playthrough on the iPad: "after i make my full build i
+      just melt everything, it happens after stage 1 if im lucky, the weapon particle just instant
+      kill all and it basicly instant kill everything, also the bosses just melts in seconds, also
+      make bosses be visible when attacking because shear amount of projects just drown him and
+      instantly kill it, the game is too easy late stages and it just speed runs all bosess, make
+      later bosses harder and have beaffier healthpools and armor and new mechanic also new attack
+      patterens for all boses"). Nothing of his build is toned down (rule 1): the bosses and the
+      late floors rise to meet it. Expanded game only (`--classic` as always). IPA 56 "Bosses Fight
+      Back". BOSS_STAGES.md has the details.
+  - [x] 56.1 Measure first: how fast every guardian falls to a full build, floor by floor (a test
+        that gives a hero a late build and times each boss). Done: tests/boss_clock.tscn (a tool)
+        and --boss-clock. 12 heroes, a random full build each, 45 s of the floor's fights, then its
+        guardian: the median fight was 30 s on floor 2 but 17 s on floor 10 (the fastest 7 and 8 s).
+  - [x] 56.2 The boss stays visible when it attacks: drawn above the hero's shots and effects, with
+        an outline, and its attacks and their warnings above them too. Done (world_view): over your
+        shots, effects and sparks, under the hero; outlined in its colour while it attacks (gold
+        while UNBROKEN); its lasers, chains, swings and throws, and the new patterns, over your shots.
+  - [x] 56.3 Later bosses: bigger health pools that grow with the floor, armor, and a new mechanic
+        so that no build kills one in seconds. Done: health +6% a floor (+72% at most), the plate
+        35% + 1.5% a floor, 0.8% a floor less through it (the first floor as it was); RESOLVE
+        (scripts/combat/resolve.gd): a gold bar; full, the guardian is UNBROKEN for 3.5 s and
+        answers with its signature; no guardian falls in less than 25 s + 6 s a floor. After: the
+        median 42, 53, 69, 72, 86 s on floors 2 to 10 (the fastest 32 to 80 s).
+  - [x] 56.4 New attack patterns for every boss. Done (scripts/combat/patterns.gd): PINWHEEL, CAGE,
+        ORBIT, COMETS, GRID, QUAKE; two or three for each of the 38 guardians in their stages, the
+        first its signature; rift guardians add theirs every 9 s.
+  - [ ] 56.5 The test, the classic replays unchanged, the core ones re-recorded (the bosses changed
+        on purpose), the full check, IPA 56.
 
 ### Stage 46: weapon enchantments (IPA 46; his word: "Ok go 44 and 45, and 46")
 - [x] 46.1 An enchantment slot on weapons (one at most): the item card, the name, the name plate,
@@ -1697,3 +1725,8 @@ each point); the rest, proposed in the order it would be felt most, with names o
   New tests/foes_test.tscn; a belt-feeder memory leak found by it and
   fixed. 11 soaks clean; classic replays identical; full re-recorded.
   Next: 4.5 (a guardian and a mini-boss for each new environment).
+- 12 Oct 2026: Stage 56 (his playthrough: "the bosses just melts in seconds"). Measured first (a
+  tool, tests/boss_clock): later guardians fell faster than the first (17 s against 30 s). Now they
+  are drawn over your shots, outlined while they attack; deeper ones have more health and a thicker
+  plate; RESOLVE makes a guardian UNBROKEN when it is hurt too fast (no build fells one in less than
+  25 s + 6 s a floor); six new attack patterns for every guardian. tests/stage56_test.
