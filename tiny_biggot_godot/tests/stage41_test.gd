@@ -158,6 +158,11 @@ func _ready() -> void:
 	# POCKET GRENADES: a grenade lands on a foe.
 	p = _start()
 	e = _foe(p, 60.0)
+	e.x = p.x + 60.0   # (just there: a spawn in a pillar moves to a free spot, and the start room's
+	e.y = p.y          # practice dummy could then be nearer and take the grenade; the test was flaky)
+	for o in G.enemies.duplicate():
+		if o != e:
+			G.enemies.erase(o)
 	var lob0: int = Actions.did.get("lob", 0)
 	Actions.run(["lob", 3.0, 30], 1, {})
 	if Actions.did.get("lob", 0) != lob0 + 1 or e.hp >= 1e7:

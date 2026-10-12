@@ -2032,6 +2032,12 @@ feel out of match": effects first (43.7a), then pictures (43.7b).
   content_test's true ending now walks out through the exit portal into THE LAST LAUGH, then wins;
   afx_test: BOSS_COL for the four, their standing moves in Afx.CASTING, the rest in
   `Finale.OWN_VISUAL`.
+- 55.3 (IPA 55 "The Last Laugh", with Stage 54): three full checks. The first failed in the two tests
+  above (fixed); the second only in arsenal_test's timing (lookingglass with 999 more projectiles,
+  4.00 ms against a 4.0 limit while a screenshot was rendering; 2.1-2.5 ms alone); the third only
+  in stage41_test's POCKET GRENADES, an old flaky check (no seed: the foe could be moved off a pillar
+  and the start room's dummy catch the grenade). Fixed: the foe placed exactly and alone; 5 of 5
+  passes. Every other test passed, and all 14 replays were identical in each run.
 
 ## Noted, not yet acted on
 
