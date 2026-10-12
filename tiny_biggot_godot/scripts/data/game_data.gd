@@ -731,7 +731,7 @@ const BOSSES := {
 	"rex": { "name": "REX THE FAT GOLDEN RETRIEVER", "sprite": "rex", "hp": 380, "r": 18, "scale": 2, "rift": true, "rule": "phase" },
 	# 58 (his word, 12 Oct): his border collie, the first floor's guardian (arci.gd).
 	"arci": { "name": "ARČI THE PUSSY SLAYER", "sprite": "arci", "hp": 440, "r": 13, "scale": 2, "rule": "phase",
-		"line": "A VERY GOOD BOY. VERY, VERY FAST." },
+		"line": "A VERY GOOD BOY, OBSESSED WITH HIS FRISBEE" },
 	# 55 THE LAST LAUGH (his word, 11 Oct; scripts/entities/finale.gd): the final final boss, in the form
 	# of the alignment gathered most. Three forms each (BossAI stages). Our own characters.
 	"braysalot": { "name": "SIR BRAYSALOT", "sprite": "braysalot", "hp": 3600, "r": 14, "scale": 1.8, "rule": "finale" },

@@ -68,6 +68,10 @@ the floor goes on; his drop ARČI'S FRISBEE (a boomerang, unique). Pictures: too
 The font draws Č, Š, Ž (Gfx.HOOKED: C, S, Z with an upside-down ^ over them). tests/stage58_test
 (passes; in check.sh); bosses, stage56, realms, content, afx and chaos tests pass. Next: the core
 replays re-recorded (the first guardian changed on purpose), the full check, IPA 58.
+His word during it ("He loves his frizbie he is obsessed with his frizbies"): 58.5, the frisbee at the
+heart of the fight: in his mouth, DROP IT (throw it by stepping on it: he fetches, x1.5, no bite;
+ignore it: two fans of barks), FRENZY and BOUNCE in his second phase, his comets are frisbees, he
+sleeps beside it. stage58_test covers them (passes).
 The first full check of 57 failed once on stage39 ("squeezebox hurt no foe in 2.5 s"): an old weak test,
 not the game (its target foes came in front of the door the hero walked in by, and the random
 room's pillars could push them away or stand in the way: 3 runs in 40 missed); fixed in the test

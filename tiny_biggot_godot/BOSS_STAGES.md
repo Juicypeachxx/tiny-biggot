@@ -141,6 +141,15 @@ pick, "Floor 2, sometimes". Expanded game only (`--classic` keeps THE BONE COLOS
   kitten bolts down a lane, he bolts after it into the wall: BONK; two cats in phase 2), CRASH (asleep
   on his back, Z's: x1.5 damage and touching him does not hurt), STICK (phase 2: an oval shown first,
   a lap and a half with a huge stick across his jaws). Phase 2: SUNGLASSES ON, 15% faster.
+- His frisbee (his word, 12 Oct: "He loves his frizbie he is obsessed with his frizbies"): he carries it
+  in his mouth (`Arci.holding`); DROP IT (he drops it at your feet and stares, a gold ring round it:
+  step on it and you throw it, he fetches it away to one side, x1.5 and no bite meanwhile; leave it 3 s
+  and he barks two fans of shots at you); FRENZY (phase 2: four frisbees fanned out on curves shown
+  first, then he fetches every one, the nearest first, a lane before each dash); BOUNCE (phase 2: a
+  frisbee off the walls, three bounces on a path shown first, he 40 px behind it); his RESOLVE answer
+  (comets) flies frisbees after you; he sleeps beside his frisbee. Plans: phase 1 FRISBEE, BOOP,
+  DROP IT, HERDING, FRISBEE, CAT!, CRASH; phase 2 FRENZY, STICK, DROP IT, BOUNCE, BOOP, FRISBEE, CAT!,
+  CRASH. However he runs, he stays on the open floor (`RiftBosses._inside`).
 - Looks (`Arci.sprite`, `Stages.look`): standing, running and asleep on his back, each plain, `_s2`
   (sunglasses) and `_s3` (sunglasses and a gold aura). `tools/art/stage58_arci.py`.
 - Beaten: hearts, no blasts, a bark; "GOOD BOY, ARČI!"; he sleeps where he fell (the object

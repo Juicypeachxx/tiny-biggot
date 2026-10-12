@@ -48,7 +48,7 @@ const PLANS := {
 	"bellringer": [["toll", "hymn", "drop"], ["toll", "hymn", "drop", "toll"]],
 	"brassorgan": [["toccata", "fugue", "chord", "choir", "toccata"], ["toccata", "chord", "fugue", "pedal", "chord", "choir"]],
 	"rex": [["flop", "zoomies", "dig", "woof", "nap"], ["spin", "leap", "fetch", "flop", "wave", "woof"]],   # rex.gd
-	"arci": [["boop", "frisbee", "herd", "cat", "crash"], ["boop", "stick", "frisbee", "herd", "cat", "stick", "crash"]],   # arci.gd
+	"arci": [["frisbee", "boop", "dropit", "herd", "frisbee", "cat", "crash"], ["frenzy", "stick", "dropit", "bounce", "boop", "frisbee", "cat", "crash"]],   # arci.gd
 }
 const PHASE_LINE := {
 	"squallheron": "THE SQUALL BREAKS", "stormcrown": "THE EYE OF THE STORM OPENS",

@@ -5,8 +5,10 @@ extends Node
 ##   floor has THE SPORE MOTHER, THE WALRUS ADMIRAL or THE BONE COLOSSUS, each about a third of the time.
 ## 2 His name in the pixel font: Č, Š and Ž are C, S and Z (with a hook drawn over them).
 ## 3 Each of his moves plays out and ends, and hurts a hero standing where it was shown: BOOP, FRISBEE,
-##   HERDING, CAT!, STICK; CRASH: asleep on his back he takes half again as much, and touching him
-##   does not hurt.
+##   HERDING, CAT!, STICK, FRENZY, BOUNCE; CRASH: asleep on his back he takes half again as much, and
+##   touching him does not hurt. DROP IT (his frisbee, his word: "he is obsessed with his frizbies"):
+##   left alone, he barks rings of shots; stepped on, it is thrown and he runs after it (x1.5, no
+##   bite, and the hero is never hurt while he waits or plays fetch).
 ## 4 At half health: SUNGLASSES ON (his second phase; the cool pictures). His patterns now and then
 ##   only from then on; RESOLVE as every guardian.
 ## 5 Beaten: not slain, he rolls over and stays there (arci_rest); the floor goes on (its portal);
@@ -117,7 +119,8 @@ func _move(move: StringName, at: Vector2, phase: int = 1) -> Array:
 	e.repeat = 0
 	var hits := 0
 	var ended := false
-	for i in 60 * 8:
+	var after := 0
+	for i in 60 * 10:
 		p.hp = p.max_hp
 		var h0: int = G.room.hits
 		Keys.tick()
@@ -126,16 +129,22 @@ func _move(move: StringName, at: Vector2, phase: int = 1) -> Array:
 		hits += G.room.hits - h0
 		p.invuln = minf(p.invuln, 0.05)   # (each touch counts)
 		p.x = clampf(p.x, 3.0 * TB.TS, 25.0 * TB.TS)
-		if e.state == &"rest":
+		if e.state == &"rest" and not ended:
 			ended = true
-			break
+			e.t = 99.0   # (no next move: his last shots fly on, 1.5 s)
+		if ended:
+			after += 1
+			if after >= 90:
+				break
 	G.enemies.clear()
+	EBullets.clear_all()
 	return [ended, hits]
 
 func _moves() -> void:
 	var got := []
 	for m in [[&"boop", Vector2(70, 0), 1], [&"frisbee", Vector2(80, 10), 1], [&"herd", Vector2(70, 0), 1],
-			[&"cat", Vector2(90, 0), 1], [&"stick", Vector2(0, 0), 2], [&"boop", Vector2(70, 0), 2], [&"cat", Vector2(90, 0), 2]]:
+			[&"cat", Vector2(90, 0), 1], [&"dropit", Vector2(70, 0), 1], [&"stick", Vector2(0, 0), 2], [&"boop", Vector2(70, 0), 2],
+			[&"cat", Vector2(90, 0), 2], [&"frisbee", Vector2(80, 10), 2], [&"frenzy", Vector2(80, 0), 2], [&"bounce", Vector2(80, 0), 2]]:
 		var r := _move(m[0], m[1], m[2])
 		if not r[0]:
 			fail("%s (phase %d) did not end in 8 s" % [m[0], m[2]])
@@ -163,6 +172,47 @@ func _moves() -> void:
 		fail("crash: standing on the sleeping dog hurt the hero")
 	G.enemies.clear()
 	print("[stage58] moves (hits on a hero in their way): %s; crash: x1.5 asleep, no bite" % ", ".join(got))
+	_throw()
+
+## DROP IT, thrown: the hero steps on the frisbee; he runs after it (x1.5 meanwhile, no bite) and the
+## move ends; the hero is never hurt from the drop to the end.
+func _throw() -> void:
+	var p := _run(0)
+	var e := _arci()
+	e.x = 14.0 * TB.TS
+	e.y = 9.0 * TB.TS
+	p.x = e.x + 70.0
+	p.y = e.y
+	e.state = &"dropit"
+	e.sub = 0
+	e.st = 0.0
+	var thrown := false
+	var hits := 0
+	var mult := 0.0
+	for i in 60 * 8:
+		p.hp = p.max_hp
+		var h0: int = G.room.hits
+		if e.state == &"dropit" and e.sub == 1:
+			var d: Dictionary = e.parts[0]["drop"]
+			p.x = d["x"]
+			p.y = d["y"]
+		Keys.tick()
+		G.update(TB.DT)
+		G.state = &"play"
+		if e.state == &"dropit" and e.sub >= 1:
+			hits += G.room.hits - h0
+		if e.state == &"dropit" and e.sub == 2:
+			thrown = true
+			mult = Arci.adjust_damage(e, 10.0) / 10.0
+			if not Arci.harmless(e):
+				fail("drop it: he can bite while he runs after the frisbee")
+		p.invuln = minf(p.invuln, 0.05)
+		if e.state == &"rest":
+			break
+	if not thrown or e.state != &"rest" or absf(mult - 1.5) > 0.01 or hits > 0:
+		fail("drop it, thrown: thrown %s, ended %s, x%.2f while he fetches, %d hits on the hero (want yes, yes, 1.5, 0)" % [thrown, e.state == &"rest", mult, hits])
+	G.enemies.clear()
+	print("[stage58] drop it: stepped on, thrown; he fetches it at x%.1f and never bites" % mult)
 
 # ---------- 4 ----------
 func _phase() -> void:

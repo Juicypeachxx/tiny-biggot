@@ -1679,6 +1679,13 @@ each point); the rest, proposed in the order it would be felt most, with names o
   - [ ] 58.3 Beaten, he is not slain: he rolls over for a belly rub (hearts, a bark) and stays there
         asleep; the floor goes on as after any guardian. His drop: ARČI'S FRISBEE (a weapon that
         flies out and comes back).
+  - [ ] 58.5 His word (12 Oct): "He loves his frizbie he is obsessed with his frizbies". The frisbee at
+        the heart of his fight: he carries one in his mouth; DROP IT (he drops it at your feet and
+        stares: throw it, by stepping on it, and he bolts after it, too happy to mind your blows,
+        x1.5; leave it and he barks rings of shots); FRENZY (second phase: four frisbees fanned out
+        on curves shown first, and he fetches every one); BOUNCE (second phase: a frisbee bouncing
+        off the walls on a path shown first, he right behind it); his RESOLVE answer flies frisbees
+        after you; he sleeps beside his frisbee when beaten.
   - [ ] 58.4 tests/stage58_test, the classic replays unchanged, the core ones re-recorded (the first
         guardian changed on purpose), the full check, IPA 58.
 ### Stage 46: weapon enchantments (IPA 46; his word: "Ok go 44 and 45, and 46")

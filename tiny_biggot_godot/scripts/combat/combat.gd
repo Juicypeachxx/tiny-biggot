@@ -834,7 +834,7 @@ static func update_enemies(dt: float) -> void:
 			if absf(e.kx) < 2: e.kx = 0.0
 			if absf(e.ky) < 2: e.ky = 0.0
 		if not e.hidden and TB.dist(e, p) < e.r + p.r and not e.d.has("no_touch") and e.puppet_t <= 0 and e.charm_t <= 0 and e.shrink_t <= 0 \
-				and not (e.state == &"crash" and e.boss == "arci"):   # 58: a sleeping dog does not bite
+				and not (e.boss == "arci" and Arci.harmless(e)):   # 58: no bite while he sleeps or plays fetch
 			if e.type == "haggler":
 				Brazil.caught(e)
 				break
