@@ -48,15 +48,17 @@ const PLANS := {
 	"bellringer": [["toll", "hymn", "drop"], ["toll", "hymn", "drop", "toll"]],
 	"brassorgan": [["toccata", "fugue", "chord", "choir", "toccata"], ["toccata", "chord", "fugue", "pedal", "chord", "choir"]],
 	"rex": [["flop", "zoomies", "dig", "woof", "nap"], ["spin", "leap", "fetch", "flop", "wave", "woof"]],   # rex.gd
+	"arci": [["boop", "frisbee", "herd", "cat", "crash"], ["boop", "stick", "frisbee", "herd", "cat", "stick", "crash"]],   # arci.gd
 }
 const PHASE_LINE := {
 	"squallheron": "THE SQUALL BREAKS", "stormcrown": "THE EYE OF THE STORM OPENS",
 	"tidecaptain": "THE DEEP WILL NOT KEEP HIM", "bilgehydra": "CUT ONE, TWO MORE RISE",
 	"bellringer": "THE BELL CRACKS. IT RINGS LOUDER", "brassorgan": "THE ORGAN PLAYS ITSELF",
 	"rex": "SUNGLASSES ON. HE FOUND A MOLDY LOAF IN THE HAY",
+	"arci": "SUNGLASSES ON. TOO COOL TO STOP",
 }
 const COL := { "squallheron": "#9fc3ee", "stormcrown": "#6fd3e0", "tidecaptain": "#63b84f", "bilgehydra": "#b8e05a",
-	"bellringer": "#f2c94c", "brassorgan": "#e8873a", "rex": "#f2c94c" }
+	"bellringer": "#f2c94c", "brassorgan": "#e8873a", "rex": "#f2c94c", "arci": "#e86fb4" }
 ## The organ's pipes: column and top row in its 40 x 28 picture (drawn twice as large).
 const PIPE_COL := [3.5, 7.5, 10.5, 13.5, 16.5, 19.5, 22.5, 25.5, 28.5, 31.5, 35.5]
 const PIPE_ROW := [4, 1, 6, 1, 6, 1, 6, 1, 6, 1, 4]
@@ -102,6 +104,8 @@ static func adjust_damage(e: Enemy, dmg: float) -> float:
 		return dmg * 1.5
 	if e.boss == "rex":
 		return Rex.adjust_damage(e, dmg)
+	if e.boss == "arci":
+		return Arci.adjust_damage(e, dmg)
 	return dmg
 
 ## A mini-boss down (Combat.kill_enemy): its things stop, and it leaves a little hoard.
@@ -139,6 +143,8 @@ static func update(e: Enemy, dt: float) -> void:
 				h["grow"] = minf(1.0, h["grow"] + dt / PHASE_T)
 		if k == "rex":
 			Rex.to_hay(e, dt)
+		if k == "arci":
+			Arci.to_cool(e, dt)
 		_idle_parts(e, k, dt)
 		if e.st >= PHASE_T:
 			e.phase = 2
@@ -167,6 +173,7 @@ static func update(e: Enemy, dt: float) -> void:
 		"bellringer": _ringer(e, p, dt)
 		"brassorgan": _organ(e, p, dt)
 		"rex": Rex.attack(e, p, dt)
+		"arci": Arci.attack(e, p, dt)
 	_idle_parts(e, k, dt)
 
 static func _setup(e: Enemy, k: String) -> void:
@@ -184,6 +191,8 @@ static func _setup(e: Enemy, k: String) -> void:
 			e.x = TB.SW / 2.0
 			e.y = 5.75 * TB.TS
 			e.parts = [{ "kind": "organ" }]
+		"arci":
+			e.parts = [{ "kind": "arci", "discs": [], "cat": {}, "out": false }]
 		_:
 			e.parts = [{ "kind": "none" }]
 
@@ -249,6 +258,8 @@ static func _rest_move(e: Enemy, k: String, p: Player, dt: float) -> void:
 			e.face = 1 if p.x > e.x else -1
 		"rex":
 			Rex.rest_move(e, p, dt)
+		"arci":
+			Arci.rest_move(e, p, dt)
 
 static func _pull(e: Enemy, p: Player, dt: float) -> void:
 	if p.dodge_t > 0 or p.leap_max > 0:
@@ -261,7 +272,7 @@ static func _pull(e: Enemy, p: Player, dt: float) -> void:
 
 static func _shot(k: String) -> String:
 	return { "squallheron": "cyan", "stormcrown": "cyan", "tidecaptain": "spore", "bilgehydra": "spore",
-		"bellringer": "bone", "brassorgan": "fire", "rex": "bone" }[k]
+		"bellringer": "bone", "brassorgan": "fire", "rex": "bone", "arci": "bone" }[k]
 
 ## A point kept inside the room.
 static func _inside(v: Vector2) -> Vector2:
@@ -1113,6 +1124,8 @@ static func draw_ground(ci: CanvasItem, t: float) -> void:
 		match k:
 			"rex":
 				Rex.draw_ground(ci, e, t)
+			"arci":
+				Arci.draw_ground(ci, e, t)
 			"tidecaptain":
 				if e.state == &"anchor" and e.sub == 1:
 					Afx.lane(ci, e.x, e.y, e.ca, 5.0, e.aux2, e.st / 0.6, Afx.C_WARN, t)
@@ -1324,6 +1337,8 @@ static func draw_parts(ci: CanvasItem, e: Enemy, foot: float, t: float) -> void:
 	match key(e):
 		"rex":
 			Rex.draw_parts(ci, e, foot, t)
+		"arci":
+			Arci.draw_parts(ci, e, foot, t)
 		"tidecaptain":
 			if e.parts[0]["out"]:
 				var hand := Vector2(e.x + 6 * e.face, e.y + 2)

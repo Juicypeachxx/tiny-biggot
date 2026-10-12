@@ -96,7 +96,7 @@ const BOSS_LINES := {
 	"erratum": "I AM THE MISTAKE.", "reader": "I HAVE READ THIS PART BEFORE.", "shelver": "OUT OF ORDER!",
 	"hush": "...", "critic": "I HAVE READ BETTER.", "admiral": "ALL HANDS ON DECK!", "golemking": "STONE ENDURES.",
 	"archmage": "A LESSON, THEN.", "phoenix": "I RISE.", "wyrm": "YOU ARE SMALL.", "chainfiend": "THE CHAINS HUNGER.",
-	"seraph": "BE JUDGED.", "rex": "WOOF.",
+	"seraph": "BE JUDGED.", "rex": "WOOF.", "arci": "BALL?! IS THAT A BALL?!",   # 58: his border collie
 	"braysalot": "HEE-HAW! I AM THE HERO OF THIS STORY!", "scalesworth": "VOTE FOR ME. OR ELSE.",   # 55 THE LAST LAUGH
 	"prophet": "THE END IS NIGH! I TOLD YOU ALL!", "chonk": "YOU ARE IN MY SPOT.",
 }

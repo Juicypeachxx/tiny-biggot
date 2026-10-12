@@ -59,8 +59,14 @@ static func entries() -> Array:
 		for t in EnemyAI2.OLD_FLOOR_EXTRA.get(i, []):
 			add.call(t, false, f["name"])
 		add.call(f.get("mini", ""), false, f["name"])
-		add.call(f["boss"], true, f["name"])
+		var own: String = f["boss"]
+		if GameData.rogues() and GameData.FIRST_GUARDIAN.has(own):
+			add.call(GameData.FIRST_GUARDIAN[own], true, f["name"])   # 58: ARČI in the Colossus' place
+		else:
+			add.call(own, true, f["name"])
 		add.call(GameData.ALT_GUARDIANS.get(i, ""), true, f["name"])
+		for k in (GameData.MORE_GUARDIANS.get(own, []) if GameData.rogues() else []):
+			add.call(k, true, f["name"])   # 58: the Colossus, now and then on the second floor
 	for th in Themes.LIST + Themes.REALMS:
 		var where: String = th["name"]
 		for t in th.get("pool", []):

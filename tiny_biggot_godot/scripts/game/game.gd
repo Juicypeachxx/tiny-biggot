@@ -265,8 +265,15 @@ func start_floor() -> void:
 		player.floor_kills = 0
 		Attributes.on_floor(player)   # 52: LUCK fills the dice
 	floor_d = World.new_floor(floor_index)
-	if GameData.rogues() and GameData.ALT_GUARDIANS.has(floor_index) and randf() < 0.5:
-		floor_d["guardian"] = GameData.ALT_GUARDIANS[floor_index]   # 9.3: half the time, the floor's second guardian
+	var own: String = GameData.floors()[floor_index]["boss"] if floor_index < GameData.floors().size() else ""
+	if GameData.rogues() and GameData.FIRST_GUARDIAN.has(own):
+		floor_d["guardian"] = GameData.FIRST_GUARDIAN[own]   # 58: ARČI guards the first floor
+	elif GameData.rogues() and GameData.ALT_GUARDIANS.has(floor_index):
+		# 9.3: the floor's second guardian half the time; 58: with a third, each a third of the time.
+		var alts: Array = [GameData.ALT_GUARDIANS[floor_index]] + GameData.MORE_GUARDIANS.get(own, [])
+		var r := randf()
+		if r < 1.0 - 1.0 / (alts.size() + 1):
+			floor_d["guardian"] = alts[int(r * (alts.size() + 1))]
 	Saloon.on_floor_start()
 	EventRooms.on_floor_start()
 	Wanderers.on_floor_start()
@@ -1039,6 +1046,8 @@ func on_boss_dead(b: Enemy) -> void:
 		Alignments.wayshrine(room)   # 38.1: buy an alignment
 		AlignShops.place(room)   # 45.1: perhaps a GOOD, EVIL or LAWFUL shop
 	BossLoot.drop(b)   # its own item (expanded game)
+	if b.boss == "arci":
+		Arci.on_beaten(b)   # 58: a good boy rolls over; the floor goes on as after any guardian
 	if Daily.is_on("giants"):
 		for rel in roll_relics(2, "boss"):   # 18.1 BIG GAME
 			add_relic(player, rel)
@@ -2758,7 +2767,7 @@ func update_play(dt: float) -> void:
 					show_banner(boss.d["name"], "GUARDIAN OF " + room.theme["name"])
 			else:
 				Combat.spawn_boss(floor_d.get("guardian", GameData.floors()[floor_index]["boss"]))   # 9.3: maybe the second guardian
-				show_banner(boss.d["name"], "")
+				show_banner(boss.d["name"], boss.d.get("line", ""))
 	if win_timer != null:
 		win_timer -= dt
 		var all_open := true

@@ -1660,6 +1660,27 @@ each point); the rest, proposed in the order it would be felt most, with names o
         test (stage39: its target foes stood in front of the door, and the random room's pillars
         could push them away or stand in the way: 3 runs in 40 had a weapon that hurt no foe); the
         test now places them in front of the hero in an open room (none in 40), then the check passed.
+- [ ] Stage 58 (his word, 12 Oct, with ten photos of his dog: "I want stage one boss to be custom,
+      move stage 1 boss to another stage i want my do to be first boss he is hyperactive border
+      collie"; his name, his word: "Arči the pussy slayer"; the Colossus: "Floor 2, sometimes").
+      ARČI THE PUSSY SLAYER guards the first floor of the expanded game (`--classic` keeps THE BONE
+      COLOSSUS there); THE BONE COLOSSUS becomes one of floor 2's three guardians (with THE SPORE
+      MOTHER and THE WALRUS ADMIRAL, a third of the time each): nothing is removed (rule 1). His art is
+      ours, drawn from the photos (rule 3). IPA 58.
+  - [ ] 58.1 His pictures (tools/art/stage58_arci.py): standing, running, asleep on his back with his
+        tongue out, each with and without his sunglasses; his frisbee and stick; ARČI'S FRISBEE icon.
+        Č, Š and Ž in the pixel font (his name), from the font's own letters.
+  - [ ] 58.2 The fight (scripts/entities/arci.gd, on the RiftBosses model like Rex): BOOP BOOP BOOP
+        (nose-first dashes down lanes shown first), FRISBEE (a disc out on a curve and back, he leaps
+        for it), HERDING (he circles you, yipping, then cuts in), CAT! (a cat bolts across the room,
+        he bolts after it), CRASH (worn out, he flops on his back: a moment to hit him harder). At half
+        health: SUNGLASSES ON, too cool to stop: faster, two frisbees, two cats, and STICK (he tears
+        round the room with a huge stick). RESOLVE and the patterns as every guardian.
+  - [ ] 58.3 Beaten, he is not slain: he rolls over for a belly rub (hearts, a bark) and stays there
+        asleep; the floor goes on as after any guardian. His drop: ARČI'S FRISBEE (a weapon that
+        flies out and comes back).
+  - [ ] 58.4 tests/stage58_test, the classic replays unchanged, the core ones re-recorded (the first
+        guardian changed on purpose), the full check, IPA 58.
 ### Stage 46: weapon enchantments (IPA 46; his word: "Ok go 44 and 45, and 46")
 - [x] 46.1 An enchantment slot on weapons (one at most): the item card, the name, the name plate,
       saving; flat element damage on hits; foe kinds for the slayer enchantments.

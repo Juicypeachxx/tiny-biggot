@@ -674,6 +674,11 @@ const ENEMIES := {
 
 ## 9.3 (his ask, 6 Oct): seven floors have a second guardian, met half the time (game.start_floor).
 const ALT_GUARDIANS := { 1: "admiral", 3: "golemking", 5: "archmage", 6: "phoenix", 8: "wyrm", 9: "chainfiend", 10: "seraph" }
+## 58 (his word, 12 Oct): ARČI, his border collie, guards the first floor of the expanded game in
+## THE BONE COLOSSUS's place (Game.start_floor), and the Colossus is one more guardian a floor with
+## THE SPORE MOTHER may have (his pick: "Floor 2, sometimes"): each of the floor's guardians as often.
+const FIRST_GUARDIAN := { "colossus": "arci" }
+const MORE_GUARDIANS := { "sporemother": ["colossus"] }
 
 const BOSSES := {
 	"colossus": { "name": "THE BONE COLOSSUS", "sprite": "colossus", "hp": 420, "r": 13, "scale": 2 },
@@ -724,6 +729,9 @@ const BOSSES := {
 	"chainfiend": { "name": "THE CHAIN FIEND", "sprite": "chainfiend", "hp": 1700, "r": 13, "scale": 2.2 },
 	"seraph": { "name": "THE SERAPH", "sprite": "seraph", "hp": 2150, "r": 13, "scale": 2.4 },
 	"rex": { "name": "REX THE FAT GOLDEN RETRIEVER", "sprite": "rex", "hp": 380, "r": 18, "scale": 2, "rift": true, "rule": "phase" },
+	# 58 (his word, 12 Oct): his border collie, the first floor's guardian (arci.gd).
+	"arci": { "name": "ARČI THE PUSSY SLAYER", "sprite": "arci", "hp": 440, "r": 13, "scale": 2, "rule": "phase",
+		"line": "A VERY GOOD BOY. VERY, VERY FAST." },
 	# 55 THE LAST LAUGH (his word, 11 Oct; scripts/entities/finale.gd): the final final boss, in the form
 	# of the alignment gathered most. Three forms each (BossAI stages). Our own characters.
 	"braysalot": { "name": "SIR BRAYSALOT", "sprite": "braysalot", "hp": 3600, "r": 14, "scale": 1.8, "rule": "finale" },
