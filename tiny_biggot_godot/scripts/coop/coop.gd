@@ -487,8 +487,8 @@ static func exits() -> bool:
 	if not missing.is_empty():
 		wait_msg = "THE DOOR WAITS FOR " + ", ".join(missing)
 		_door_t += TB.DT
-		if _door_t > 3.0:
-			_bots_to(dir)   # (only the test bots: they walk badly)
+		if _door_t > 0.25:
+			_bots_to(dir)   # (only the test bots: they walk badly, and the soak bot leading them backs off a door that does not open)
 		return true
 	wait_msg = ""
 	_door_t = 0.0
@@ -704,7 +704,8 @@ static func _bot(i: int, h: Player, dt: float) -> void:
 	var v := Vector2(randf() - 0.5, randf() - 0.5)
 	if e != null:
 		var to := Vector2(e.x - h.x, e.y - h.y)
-		v = to if to.length() > 90 else (-to if to.length() < 50 else to.orthogonal())
+		var near := 14.0 if h.weapon != null and WeaponInfo.wtype(h.weapon) == "MELEE" else 50.0   # (melee closes in)
+		v = to if to.length() > near + 40.0 else (-to if to.length() < near else to.orthogonal())
 	elif G.room != null and not G.locked:
 		v = Vector2(lead().x - h.x, lead().y - h.y)   # follow P1 to the door
 	if v.x < -0.2: b[&"move_left"] = true

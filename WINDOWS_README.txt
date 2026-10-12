@@ -7,4 +7,19 @@ To play:
    Press "More info", then "Run anyway". It asks only the first time.
 
 The keys: on the title screen, OPTIONS, then KEYBOARD KEYS shows them and lets you change them.
+The mouse: hold the left button to shoot at the cursor, the right button rolls.
+A controller: the left stick moves, the right stick aims and shoots, A uses, B rolls, Y or START is
+the menu.
 Your progress is saved on this computer, apart from the iPad's.
+
+PLAYING TOGETHER (up to 4 on one screen):
+1. Plug in the controllers, then choose CO-OP on the title screen.
+2. Each player presses their confirm button to join: Enter or Space on the keyboard (or click a
+   hero), A on a controller. One player can use the keyboard and mouse, every other player a
+   controller.
+3. Each player chooses a hero with LEFT and RIGHT and presses confirm again: READY. The run starts
+   when everyone who joined is ready. MENU takes a player out again.
+In the run: everyone has their own hearts, gold, items and levels; what you touch is yours. Foes
+are tougher for each extra player. A player who loses all hearts is DOWN: stand by them for 3
+seconds to help them up (a cleared room helps everyone up). The doors open for the party when
+everyone standing is in the same doorway. Any player's MENU opens their own pause and gear.
