@@ -76,6 +76,8 @@ fi
 # replaces it. The tags are moved, never deleted (as the iPad build does).
 BODY="$(bash "$PROJECT/tools/versions.sh" notes "$V")
 
+On Windows only: couch CO-OP for up to 4 players (CO-OP on the title screen; keyboard and mouse or a controller each; how to play together is in README.txt in the zip).
+
 Version $V: $NAME, for Windows (64-bit). Built from commit $SHA. Unzip it and double-click TinyBiggot.exe. Windows may say it protected your PC, because the game is not signed: press More info, then Run anyway."
 publish() {
   local tag="$1" title="$2"
