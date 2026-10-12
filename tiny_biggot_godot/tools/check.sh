@@ -25,6 +25,11 @@ timeout 600 "$GODOT" --headless --path . res://tests/coop_test.tscn -- --no-save
 grep -E "^\[coop\]|coop test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== Windows: the mouse in the menus, the full screen key (the Windows line only: WINDOWS_BUILD.md)"
+timeout 600 "$GODOT" --headless --path . res://tests/pc_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "pc test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== run main scene for $FRAMES frames"
 "$GODOT" --headless --path . --fixed-fps 60 --quit-after "$FRAMES" -- "$@" >"$LOG" 2>&1
 tail -n 5 "$LOG"

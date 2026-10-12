@@ -7,7 +7,9 @@ To play:
    Press "More info", then "Run anyway". It asks only the first time.
 
 The keys: on the title screen, OPTIONS, then KEYBOARD KEYS shows them and lets you change them.
-The mouse: hold the left button to shoot at the cursor, the right button rolls.
+The mouse: hold the left button to shoot at the cursor, the right button rolls. In every menu,
+point at a choice and click it; the wheel moves up and down.
+Full screen: F11 (or Alt+Enter) switches between the window and the full screen; it is remembered.
 A controller: the left stick moves, the right stick aims and shoots, A uses, B rolls, Y or START is
 the menu.
 Your progress is saved on this computer, apart from the iPad's.

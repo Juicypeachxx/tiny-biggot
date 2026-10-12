@@ -134,6 +134,5 @@ hero; a shot remembers its owner, and its hits count for them.
 
 ## Not done yet (later, if he wants it)
 
-- Clicking menus with the mouse (the keyboard works them; the CO-OP screen takes clicks).
 - Saving a co-op run for CONTINUE.
 - Two players on one keyboard.

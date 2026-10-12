@@ -82,6 +82,7 @@ func _ready() -> void:
 	touch_layer.layer = 60
 	add_child(touch_layer)
 	touch_layer.add_child(TouchControls.new())
+	add_child(MouseMenus.new())   # Windows: the mouse works every menu; F11 the full screen (scripts/pc/)
 	G.god = DebugArgs.has("god")
 	G.hero_index = clampi(DebugArgs.get_int("hero", 0), 0, GameData.heroes().size() - 1)
 	if DebugArgs.has("dread"):   # 48.1: that DREAD level, opened and picked (tests)

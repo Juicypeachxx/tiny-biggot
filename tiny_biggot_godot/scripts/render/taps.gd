@@ -195,6 +195,8 @@ static func activate(z: Dictionary) -> void:
 ## Presses and releases an input action (the same path as the touch buttons;
 ## Keys latches the press, so the next logic tick sees it).
 static func send(action: StringName) -> void:
+	if MouseMenus.latch(action):
+		return   # (Windows co-op: a mouse click is the keyboard player's)
 	for pressed in [true, false]:
 		var e := InputEventAction.new()
 		e.action = action
