@@ -790,6 +790,10 @@ func draw_end(ci: CanvasItem) -> void:
 		msg = p.hero["name"] + " ERASED THE REDACTOR. THE BOOK IS WHOLE"
 	elif win and r.get("author", false):
 		msg = p.hero["name"] + " OUTWROTE THE AUTHOR"
+	if win and r.get("finale_won", false):   # 55 THE LAST LAUGH
+		msg = p.hero["name"] + " HAD THE LAST LAUGH OVER " + GameData.BOSSES[Finale.BOSS[r["finale"]]]["name"]
+	elif win and r.get("finale_lost", false):
+		msg = GameData.BOSSES[Finale.BOSS[r["finale"]]]["name"] + " HAD THE LAST LAUGH. THE WIN STILL COUNTS"
 	if r.get("endless", false):   # 22.2
 		msg = "THE ENDLESS DESCENT: DEPTH %d%s" % [r.get("depth", 1), "  NEW BEST!" if r.get("new_best", false) else ""]
 	if r.has("daily_score"):   # 18.1

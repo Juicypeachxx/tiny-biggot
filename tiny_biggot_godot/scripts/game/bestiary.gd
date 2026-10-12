@@ -122,6 +122,8 @@ static func log_run(win: bool, embers: int) -> void:
 			if r.get(k[0], false):
 				how = "WON: " + k[1]
 				break
+		if r.get("finale_won", false):
+			how = "WON: THE LAST LAUGH"   # 55
 	var rec := { "hero": p.hero["name"], "sprite": p.hero["sprite"], "floor": G.floor_index + 1,
 		"place": fl[clampi(G.floor_index, 0, fl.size() - 1)]["name"], "how": how, "win": win, "time": float(r.get("time", 0.0)),
 		"kills": int(r.get("kills", 0)), "embers": embers, "date": Time.get_date_string_from_system() }

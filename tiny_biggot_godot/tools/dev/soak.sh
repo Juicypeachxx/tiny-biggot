@@ -31,6 +31,11 @@ runs+=("classic_a --classic --hero=0 --seed=40")
 runs+=("classic_b --classic --hero=1 --floor=4 --seed=41 --weapon-cycle=1")
 runs+=("plain_a --plain-draw --no-vfx --hero=3 --seed=50")
 runs+=("plain_b --plain-draw --no-vfx --hero=8 --floor=6 --seed=51 --weapon-cycle=1")
+# 55: the four final final bosses, fought from their arena (three forms, their followers).
+al=(good law chaos evil)
+for i in 0 1 2 3; do
+  runs+=("finale_${al[$i]} --finale=${al[$i]} --hero=$((i * 7 + 3)) --floor=$((i * 3)) --seed=$((70 + i)) --weapon-cycle=1")
+done
 for l in 1 2 3; do
   wc=""; [ $l -ne 2 ] && wc="--weapon-cycle=1"
   runs+=("loop$l --loop=$l --hero=$((l + 9)) --floor=$((l * 3)) --seed=$((60 + l)) $wc")

@@ -46,7 +46,7 @@ func _signature() -> Array:
 		int(G.run_stats.get("time", 0.0)), p.belt.duplicate(), p.relics.size(),
 		p.relics[p.relics.size() - 1]["id"] if not p.relics.is_empty() else "",
 		p.weapon["sprite"] if p.weapon != null else "", p.weapon["rarity"] if p.weapon != null else "", gear,
-		ceilf(220.0 * bo.hp / bo.max_hp) if bo != null and bo.hp > 0 else -1.0, bo.d["name"] if bo != null else ""]
+		ceilf(220.0 * bo.hp / bo.max_hp) if bo != null and bo.hp > 0 else -1.0, Finale.bar_name(bo) if bo != null else ""]
 
 ## The parts that animate every tick: the special ability meter and the banner.
 func _paint_anim(ci: CanvasItem) -> void:
@@ -246,7 +246,7 @@ func _draw() -> void:
 		if aw > 0:
 			draw_rect(Rect2(bx, by + 1, aw, 3), TB.c("#a8b4c8"))
 			draw_rect(Rect2(bx, by + 1, aw, 1), TB.c("#e8eef8"))
-		Gfx.text(self, bo.d["name"], TB.SW / 2, by - 9, "white", 1, 0.5)
+		Gfx.text(self, Finale.bar_name(bo), TB.SW / 2, by - 9, "white", 1, 0.5)   # (55: a final final boss names its form)
 		var wk := Armor.weakness(bo)   # 7.1: its weakness wears the plate faster (armor.gd)
 		if wk != "":
 			Gfx.text(self, "WEAK: " + wk.to_upper(), bx + w, by - 18, Armor.WEAK_COL[wk], 1, 1)

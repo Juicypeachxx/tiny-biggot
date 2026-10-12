@@ -1560,7 +1560,14 @@ each point); the rest, proposed in the order it would be felt most, with names o
 - [ ] Stage 54 (his word, 11 Oct: "After that make ipa and after that full stability test and bug fixing
       test"): the long bot soaks with every hero (34) on several seeds, the rift worlds, classic and
       the loops; the menu monkey (an hour, and short runs in the new content); every script error,
-      stuck screen or slow fight fixed; a note of it for him; IPA 54.
+      stuck screen or slow fight fixed; a note of it for him. Built with Stage 55 (one IPA 55).
+  - [x] 54.1 The soak (tools/dev/soak.sh, HEROES=34): all 34 heroes 10 minutes each, the 11 rift
+        worlds, classic, plain drawing, loops 1-3: 52 runs, no script error or warning; 30 minutes of
+        play: the engine's objects creep up (4534 to 5328) while nodes and resources stay flat, and
+        the game's own objects (foes, pickups, shots, rooms) stay bounded (the shot pool grows to
+        the most shots ever on screen and is then reused). Same as before (43.5): no leak.
+  - [ ] 54.2 The monkey (tools/dev/monkey.sh): an hour, and short runs in the new content (now also
+        the new damage types and the four final final bosses); the soak now has the four too.
 - [ ] Stage 55 (his word, 11 Oct): after the final boss, the FINAL FINAL BOSS takes the form of the
       alignment you gathered most (GOOD, EVIL, LAWFUL, CHAOTIC), each with three forms. His four, in our
       own names and pictures: a dim but noble DONKEY knight with three super forms (GOOD); a big fat
@@ -1568,6 +1575,17 @@ each point); the rest, proposed in the order it would be felt most, with names o
       you (CHAOTIC; his first idea was a boss built on a real people, which we do not make; named
       PROPHET NIGH, as "Doomsayer" is a card in another game); and a stupid funny one of ours: a fat
       evil CAT overlord who knocks things off tables at you and calls kittens (EVIL). IPA 55.
+  - [x] 55.1 THE LAST LAUGH (scripts/entities/finale.gd, FINALE.md): every won run (the Critic, a
+        closed book, the walk out after the Eclipse) is not over: something laughs, you are healed
+        and taken to its arena; beat it for THE LAST LAUGH (+400 embers); fall to it and the run is
+        still won. SIR BRAYSALOT (SUPER, ULTRA HOLY), SENATOR SCALESWORTH (THE MASK SLIPS,
+        COLD-BLOODED), PROPHET NIGH (PROVEN RIGHT, THE END), BARON VON CHONK (THE ZOOMIES, NINE
+        LIVES): 21 moves of their own, their followers (pony squires, lobbyists, interns, true
+        believers who MOG you, kittens), four arenas.
+  - [x] 55.2 The pictures (tools/art/stage55_finale.py): 12 boss forms, 5 followers and their
+        elites, the thrown things, four arenas' tiles.
+  - [ ] 55.3 tests/stage55_test (passes), the full check, the replays (classic and core unchanged:
+        the final final boss only comes after a win), IPA 55 "The Last Laugh".
 
 ### Stage 46: weapon enchantments (IPA 46; his word: "Ok go 44 and 45, and 46")
 - [x] 46.1 An enchantment slot on weapons (one at most): the item card, the name, the name plate,

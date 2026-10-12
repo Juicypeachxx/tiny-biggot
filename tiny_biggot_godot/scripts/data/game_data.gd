@@ -664,6 +664,12 @@ const ENEMIES := {
 	"shadow": { "sprite": "shadow", "name": "YOUR SHADOW", "hp": 150, "speed": 60, "r": 6, "ai": "champion", "shot": "dark",
 		"mini": true, "champion": true, "gold": 0.0, "style": "ranged",
 		"moves": [["burst", 5], ["blink"], ["fan", 5, 0.6, 2], ["charge", 1], ["ring", 12, 60, 2]] },
+	# 55 THE LAST LAUGH (finale.gd): the final final bosses' followers. A believer flexes at you (MOGGED).
+	"ponysquire": { "sprite": "ponysquire", "hp": 26, "speed": 80, "r": 5, "ai": "runner", "gold": 0.4, "label": "a pony squire", "scale": 1.2 },
+	"lobbyist": { "sprite": "lobbyist", "hp": 30, "speed": 40, "r": 5, "ai": "lobber", "shot": "page", "gold": 0.6, "label": "a lobbyist", "scale": 1.2 },
+	"intern": { "sprite": "intern", "hp": 12, "speed": 92, "r": 4, "ai": "runner", "gold": 0.2, "label": "an intern" },
+	"believer": { "sprite": "believer", "hp": 40, "speed": 40, "r": 6, "ai": "knight", "gold": 0.5, "label": "a true believer", "scale": 1.2 },
+	"kitten": { "sprite": "kitten", "hp": 10, "speed": 96, "r": 4, "ai": "runner", "gold": 0.1, "label": "a kitten" },
 }
 
 ## 9.3 (his ask, 6 Oct): seven floors have a second guardian, met half the time (game.start_floor).
@@ -718,6 +724,12 @@ const BOSSES := {
 	"chainfiend": { "name": "THE CHAIN FIEND", "sprite": "chainfiend", "hp": 1700, "r": 13, "scale": 2.2 },
 	"seraph": { "name": "THE SERAPH", "sprite": "seraph", "hp": 2150, "r": 13, "scale": 2.4 },
 	"rex": { "name": "REX THE FAT GOLDEN RETRIEVER", "sprite": "rex", "hp": 380, "r": 18, "scale": 2, "rift": true, "rule": "phase" },
+	# 55 THE LAST LAUGH (his word, 11 Oct; scripts/entities/finale.gd): the final final boss, in the form
+	# of the alignment gathered most. Three forms each (BossAI stages). Our own characters.
+	"braysalot": { "name": "SIR BRAYSALOT", "sprite": "braysalot", "hp": 3600, "r": 14, "scale": 1.8, "rule": "finale" },
+	"scalesworth": { "name": "SENATOR SCALESWORTH", "sprite": "scalesworth", "hp": 3600, "r": 14, "scale": 1.8, "rule": "finale" },
+	"prophet": { "name": "PROPHET NIGH", "sprite": "prophet", "hp": 3600, "r": 14, "scale": 1.8, "rule": "finale", "no_flip": true },
+	"chonk": { "name": "BARON VON CHONK", "sprite": "chonk", "hp": 3600, "r": 15, "scale": 1.8, "rule": "finale" },
 }
 
 const FLOORS := [
@@ -814,6 +826,8 @@ static func floor_music(i: int) -> int:
 const BOSS_TRACK := 6
 
 const SPRITE_COLOR := {
+	"braysalot": "#958b97", "scalesworth": "#2c3a68", "prophet": "#94704a", "chonk": "#6c6a7e", "ponysquire": "#a8744a",   # 55
+	"lobbyist": "#5e9c4a", "intern": "#8ccc6a", "believer": "#dca882", "kitten": "#f0a050",
 	"bat": "#a35bd6", "slime": "#63b84f", "skeleton": "#d9d0b4", "mushroom": "#d8443c", "cultist": "#8a2a33",
 	"imp": "#d8443c", "knight": "#8b8f9c", "ghost": "#f4ecd8", "bookwyrm": "#7a5236", "drowned": "#63b84f",
 	"wisp": "#6fd3e0", "golem": "#4d9be6", "colossus": "#d9d0b4", "sporemother": "#a35bd6", "librarian": "#2b4f8a",
@@ -867,7 +881,7 @@ const DREAD_DESC := [
 ]
 
 ## Experience per kill (01b_traits.rb).
-const ENEMY_XP := { "bat": 2, "slime": 3, "slimelet": 1, "skeleton": 3, "mushroom": 3, "cultist": 4, "imp": 3,
+const ENEMY_XP := { "ponysquire": 4, "lobbyist": 5, "intern": 2, "believer": 6, "kitten": 2, "bat": 2, "slime": 3, "slimelet": 1, "skeleton": 3, "mushroom": 3, "cultist": 4, "imp": 3,
 	# Stage 7 foes.
 	"bogling": 4, "gnat": 2, "hexwife": 4, "longbowman": 4, "lancer": 6, "warpriest": 4, "torchimp": 3, "monk": 5,
 	"icearcher": 4, "snowlantern": 4, "gunman": 5, "cutthroat": 4, "crow": 2, "chimneyimp": 3, "voidling": 4,

@@ -89,7 +89,7 @@ func _ready() -> void:
 		Meta.meta["dread"] = Meta.meta["dread_max"]
 	# The game opens on the title screen. Test options start a run directly.
 	var quick := false
-	for k in ["bot", "room", "floor", "hero", "ui", "bench", "quick", "weapon", "heavy", "rift", "event", "rex", "set", "wanderer", "endless"]:
+	for k in ["bot", "room", "floor", "hero", "ui", "bench", "quick", "weapon", "heavy", "rift", "event", "rex", "set", "wanderer", "endless", "finale"]:
 		if DebugArgs.has(k):
 			quick = true
 	if not quick:
@@ -123,6 +123,13 @@ func _ready() -> void:
 		var step := DebugArgs.get_int("step", 0)
 		G.enter_room(World.make_room(G.floor_d, ["combat", "elite", "elite", "boss"][clampi(step, 0, 3)], "", "s",
 			{ "theme": DebugArgs.get_str("rift"), "step": step }))
+	# --finale=good|evil|law|chaos: straight into the arena of THE LAST LAUGH (55, finale.gd).
+	if DebugArgs.has("finale"):
+		var al := DebugArgs.get_str("finale")
+		if not Finale.BOSS.has(al):
+			al = "good"
+		G.run_stats["finale"] = al
+		G.enter_room(World.make_room(G.floor_d, "boss", "", "s", { "theme": Finale.ARENA[al], "step": 3 }))
 	# --set=ID starts wearing a whole armor set (13.2: the set's big moment, its aura).
 	if DebugArgs.has("set"):
 		for g in Gear.pieces(DebugArgs.get_str("set")):

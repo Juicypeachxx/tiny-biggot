@@ -481,6 +481,8 @@ static func adjust_damage(e: Enemy, dmg: float) -> float:
 				dmg *= 1.5
 		"phase":
 			dmg = RiftBosses.adjust_damage(e, dmg)   # the rift bosses' grace between phases
+		"finale":
+			dmg = Finale.adjust_damage(e, dmg)   # 55: a tripped donkey, a napping cat
 	return dmg
 
 # ---------- Webs and sludge on the floor (Room.goo) ----------

@@ -29,6 +29,9 @@ extends RefCounted
 ##                                itself (repeatable test runs)
 ##   --unlock-all                 every shrine unlock and every skill-tree node, all 30 constellation points
 ##   --rex                        start a run in Rex's barn (the hidden boss, scripts/entities/rex.gd)
+##   --finale=good|evil|law|chaos 55: start in the arena of the final final boss of that alignment (finale.gd)
+##   --no-finale                  55: a won run ends at once, without the final final boss (tests)
+##   --finale-form=2|3            55: with --finale, the boss starts in its second or third form (pictures)
 ##   --endless                    22.2: the run is an endless descent
 ##   --weather=KIND               22.1: every floor after the first gets this weather (rain storm fog snow ash dark)
 ##   --clock=H                    21.6: the camp at hour H (0-23) instead of the iPad's clock

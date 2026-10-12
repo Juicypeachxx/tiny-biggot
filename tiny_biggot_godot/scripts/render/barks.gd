@@ -97,6 +97,8 @@ const BOSS_LINES := {
 	"hush": "...", "critic": "I HAVE READ BETTER.", "admiral": "ALL HANDS ON DECK!", "golemking": "STONE ENDURES.",
 	"archmage": "A LESSON, THEN.", "phoenix": "I RISE.", "wyrm": "YOU ARE SMALL.", "chainfiend": "THE CHAINS HUNGER.",
 	"seraph": "BE JUDGED.", "rex": "WOOF.",
+	"braysalot": "HEE-HAW! I AM THE HERO OF THIS STORY!", "scalesworth": "VOTE FOR ME. OR ELSE.",   # 55 THE LAST LAUGH
+	"prophet": "THE END IS NIGH! I TOLD YOU ALL!", "chonk": "YOU ARE IN MY SPOT.",
 }
 ## Foes that bark now and then while they fight you.
 const FOE_BARKS := {
@@ -107,6 +109,8 @@ const FOE_BARKS := {
 	"citation": ["SEE ABOVE."], "shusher": ["SHH!", "SHHHH!", "QUIET!"], "cardsprite": ["SEE INDEX.", "FILED!"],
 	"spectacle": ["I SEE YOU."], "pokerknight": ["STOKE THE FIRE!"], "firedog": ["WOOF!", "GRRR."], "mothling": ["FLUTTER."],
 	"sootling": ["COUGH!"], "bookend": ["..."], "scribe": ["NOTED."], "inkmage": ["INK AND BONE!"],
+	"ponysquire": ["NEIGH!", "FOR SIR BRAYSALOT!"], "lobbyist": ["SIGN HERE.", "A SMALL DONATION?"], "intern": ["COFFEE?", "IS THIS PAID?"],
+	"believer": ["FLEX!", "BEHOLD THESE ARMS!", "IT IS NIGH, BRO."], "kitten": ["MEW!", "MEW?", "HSSS!"],
 }
 const ELITE_TAUNTS := ["YOU'RE MINE!", "FRESH MEAT.", "COME CLOSER.", "I'VE BEEN WAITING.", "YOU LOOK TIRED."]
 const FLEE_LINES := ["RUN!", "NOT LIKE THIS!", "HELP!", "I YIELD!", "MOMMY!"]

@@ -114,6 +114,7 @@ func _paint_danger(ci: CanvasItem, t: float) -> void:
 	EnemyAI2.draw_goo(ci, t)
 	RiftBosses.draw_ground(ci, t)
 	Chaos.draw_ground(ci, t)
+	Finale.draw_ground(ci, t)   # 55
 	_paint_warnings(ci, t)
 	if Vfx.enabled:
 		Afx.draw_ground(ci, t)
@@ -536,6 +537,7 @@ func _paint_lower(ci: CanvasItem) -> void:
 		EnemyAI2.draw_goo(ci, t)
 		RiftBosses.draw_ground(ci, t)
 		Chaos.draw_ground(ci, t)
+		Finale.draw_ground(ci, t)   # 55 THE LAST LAUGH: what warns
 		_paint_warnings(ci, t)   # 11.2: a red "!" circle under a foe winding up a big hit
 	Arsenal.draw_floor(ci, t)
 	Charged.draw_floor(ci, t)
@@ -803,6 +805,8 @@ func _enemy_sprite(e: Enemy) -> String:
 			return full + "_s%d" % look   # it has evolved (his ask, 6 Oct; minis and champions: 6.1)
 	if key == "bat" and floori(e.anim * 8) % 2 == 1:
 		key = "bat2"
+	if key == "believer":
+		return Finale.sprite(e, key + "_elite" if e.elite else key)   # 55: a believer mid-flex
 	return key + "_elite" if e.elite and not e.is_boss() else key
 
 func _paint_ents(ci: CanvasItem) -> void:
@@ -932,7 +936,7 @@ func _draw_enemy(ci: CanvasItem, e: Enemy, t: float) -> void:
 			Gfx.sp(ci, name, e.x - cos(e.ca) * 9.0 * k, foot + bob - e.z - sin(e.ca) * 9.0 * k, sc * sx, sc * sy, 0.0, e.face < 0,
 				0.52 - 0.13 * k, Color(1.0, 0.54, 0.54, 0.7))
 	if not Spells.draw_sheep(ci, e, t, foot - e.z):   # 23.1: wild magic made it a sheep
-		Gfx.sp(ci, name, e.x, foot + bob - e.z, sc * sx, sc * sy, 0.0, e.face < 0, 46 / 255.0 if e.hidden else 1.0, tint)
+		Gfx.sp(ci, name, e.x, foot + bob - e.z, sc * sx, sc * sy, Finale.tilt(e) if boss else 0.0, e.face < 0, 46 / 255.0 if e.hidden else 1.0, tint)
 	if e.shatter > 0 and not e.hidden:
 		Shatter.draw(ci, e, foot + bob - e.z)   # 47.2: its shards
 	if e.plague and not e.hidden:
@@ -989,6 +993,7 @@ func _paint_fx(ci: CanvasItem) -> void:
 	RiftExtras.draw_hazards(ci, G.time)
 	RiftBosses.draw_over(ci, G.time)
 	Chaos.draw_over(ci, G.time)
+	Finale.draw_over(ci, G.time)   # 55 THE LAST LAUGH
 	Pets.draw_over(ci, G.player, G.time)
 	Arsenal.draw_over(ci, G.time)
 	Charged.draw_over(ci, G.time)

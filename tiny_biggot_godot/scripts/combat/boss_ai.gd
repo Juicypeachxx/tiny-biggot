@@ -44,6 +44,11 @@ const BOSS_PLANS := {
 	"wyrm": ["sweep", "volley", "charge", "hail", "summon", "lasers"],
 	"chainfiend": ["hooks", "zone", "spiral", "hooks", "summon", "charge", "laserx"],
 	"seraph": ["halo", "lasers", "laserx", "verdict", "summon", "zone", "spiral"],
+	# 55 THE LAST LAUGH (finale.gd: their own moves): the final final bosses, in their first form.
+	"braysalot": ["heehaw", "lance", "carrots", "kick", "summon", "trip", "lance", "heehaw"],
+	"scalesworth": ["speech", "veto", "tax", "redtape", "summon", "speech", "veto", "verdict"],
+	"prophet": ["sermon", "pamphlets", "summon", "signslam", "sermon", "meteors"],
+	"chonk": ["knock", "hairball", "pounce", "summon", "knock", "nap"],
 }
 ## Souls-like stages (his ask, 6 Oct; expanded game only, the original game's guardians are as
 ## they were). Stage 1 is the plan above; at two thirds of its health a guardian breaks into stage
@@ -85,6 +90,12 @@ const STAGE_PLANS := {
 	"wyrm": [["sweep", "lasers", "charge", "wall", "hail", "summon"], ["sweep", "laserx", "barrage", "charge", "flower", "hooks"]],
 	"chainfiend": [["hooks", "zone", "wall", "hooks", "brimstone", "summon"], ["hooks", "zone", "lasers", "hooks", "flower", "barrage", "zone"]],
 	"seraph": [["lasers", "halo", "laserx", "curtain", "zone", "verdict"], ["laserx", "lasers", "halo", "hooks", "barrage", "zone", "flower", "verdict"]],
+	# 55: their second and third forms (SUPER and ULTRA HOLY; THE MASK SLIPS and COLD-BLOODED; THE SKY
+	# IS FALLING and THE END; THE ZOOMIES and NINE LIVES).
+	"braysalot": [["lance", "heehaw", "carrots", "halo", "kick", "summon", "trip", "wall"], ["lance", "laserx", "heehaw", "carrots", "barrage", "flower", "kick", "hooks"]],
+	"scalesworth": [["tongue", "speech", "redtape", "veto", "tax", "summon", "wall", "tongue"], ["tongue", "laserx", "veto", "barrage", "redtape", "flower", "tongue", "zone"]],
+	"prophet": [["meteors", "sermon", "summon", "pamphlets", "brimstone", "signslam", "wall"], ["doomsday", "meteors", "hellgate", "sermon", "barrage", "flower", "signslam", "summon"]],
+	"chonk": [["zoomies", "knock", "hairball", "pounce", "summon", "knock", "flower"], ["lasers", "knock", "laserdot", "zoomies", "barrage", "hairball", "laserdot", "summon"]],
 }
 const STAGE_LINE := {
 	"inkleviathan": ["THE INK RISES", "A FLOOD OF UNWRITTEN WORDS"], "thebinder": ["THE THREAD PULLS TIGHT", "EVERY PAGE BOUND AT ONCE"], "author": ["THE PEN SCRATCHES FASTER", "THE AUTHOR WRITES THE LAST WORD"], "redactor": ["WHOLE LINES GO BLACK", "THE REDACTOR ERASES EVERYTHING"], "lexicon": ["THE WORDS SWARM", "EVERY WORD AT ONCE"], "erratum": ["THE MISTAKE SPREADS", "NOTHING IS SPELLED RIGHT NOW"], "reader": ["THE READER LEANS CLOSER", "THE READER TURNS THE LAST PAGE"], "shelver": ["THE SHELVES TOPPLE", "EVERY BOOK COMES DOWN AT ONCE"], "hush": ["THE ROOM GOES QUIET", "NOT A SOUND. NOT ONE"], "critic": ["THE CRITIC SHARPENS ITS PEN", "EVERY WORD IS STRUCK OUT"],
@@ -105,6 +116,8 @@ const STAGE_LINE := {
 	"wyrm": ["THE BLIZZARD IN ITS LUNGS", "THE OLDEST COLD"],
 	"chainfiend": ["THE CHAINS GO TAUT", "NOTHING IS LEFT TO HOLD IT"],
 	"seraph": ["ALL SIX WINGS OPEN", "IT SINGS THE LAST NOTE"],
+	"braysalot": ["HE HAS BECOME SUPER", "HE HAS BECOME HOLY. AND ULTRA"], "scalesworth": ["THE MASK SLIPS", "COLD-BLOODED"],   # 55
+	"prophet": ["THE SKY IS FALLING", "IT IS THE END"], "chonk": ["THE ZOOMIES", "NINE LIVES"],
 }
 ## A guardian's third stage (it rose again: e.phase == 3; brazil.gd).
 const THIRD_PLANS := { "holycow": ["ascend", "holyfire", "milkrain", "stampede", "udder", "halo", "summon"],
@@ -137,11 +150,14 @@ const BOSS_SUMMONS := {
 	"wyrm": ["frostmite", "frostmite", "glimmerwisp"],
 	"chainfiend": ["imp", "ghost", "imp"],
 	"seraph": ["wisp", "wisp", "knight"],
+	"braysalot": ["ponysquire", "ponysquire"], "scalesworth": ["lobbyist", "intern", "intern"],   # 55
+	"prophet": ["believer", "believer"], "chonk": ["kitten", "kitten", "kitten"],
 }
 const RING_SPR := { "colossus": "bone", "librarian": "water", "rimewarden": "ice",
 	"bogmatriarch": "spore", "ashwarlord": "fire", "frozenabbot": "ice", "crowking": "dark", "umbralsun": "darkBig",
 	"judge": "bone", "cinderking": "fireBig", "unwritten": "dark", "greatengine": "fire", "glacialmaw": "cyan", "inkleviathan": "dark", "thebinder": "page", "author": "darkBig", "redactor": "darkBig", "lexicon": "page", "erratum": "fireBig", "reader": "darkBig", "shelver": "page", "hush": "dark", "critic": "fireBig",
-	"admiral": "water", "golemking": "bone", "archmage": "cyan", "phoenix": "fire", "wyrm": "ice", "chainfiend": "fireBig", "seraph": "bone" }
+	"admiral": "water", "golemking": "bone", "archmage": "cyan", "phoenix": "fire", "wyrm": "ice", "chainfiend": "fireBig", "seraph": "bone",
+	"braysalot": "bone", "scalesworth": "page", "prophet": "fireBig", "chonk": "dark" }
 ## Stage 7: per-guardian bullet sprites for shared attacks (originals keep theirs).
 const SHOT_SPR := {
 	"inkleviathan": {"spiral": "dark", "sweep": "dark", "ink": "dark"},
@@ -201,7 +217,10 @@ static func _stage_break(e: Enemy, to: int) -> void:
 	EBullets.clear_all()
 	RiftBosses.clear()
 	Chaos.clear()
-	G.show_banner(e.d["name"], STAGE_LINE[e.boss][to - 2])
+	if Finale.handles(e):
+		Finale.transform(e, to)   # 55: a new form, its name on the banner
+	else:
+		G.show_banner(e.d["name"], STAGE_LINE[e.boss][to - 2])
 	G.add_shake(7)
 	Snd.play("roar")
 	Fx.burst(e.x, e.y, ["#f4ecd8", Afx.BOSS_COL.get(e.boss, "#d8443c")], 26, 120)
@@ -813,3 +832,6 @@ static func update_boss(e: Enemy, dt: float) -> void:
 				e.sub += 1
 			if e.st > 3.6:
 				done(e, 1)
+		_:
+			if Finale.handles(e):
+				Finale.move(e, p, dt, h)   # 55: the final final bosses' own moves

@@ -1026,6 +1026,7 @@ func on_boss_dead(b: Enemy) -> void:
 		Dice.maybe(1.0, b.x, b.y)   # 35.1: and two dice
 	RiftBosses.clear()
 	Chaos.clear()
+	Finale.clear()
 	if GameData.rogues() and room.type != "barn":
 		_boss_reward(b)
 		Alignments.wayshrine(room)   # 38.1: buy an alignment
@@ -1181,6 +1182,9 @@ func _chapter_won(b: Enemy) -> void:
 ## Heaven and Hell (ROADMAP 4.7 part C): a realm's ruler falls and the way to the Unwritten Page
 ## opens; the Unwritten falls and the run is won, the last ending of all.
 func _realm_won(b: Enemy) -> void:
+	if room.theme.get("finale", "") != "":
+		Finale.won(b)   # 55: the final final boss falls, and the run is won
+		return
 	var id: String = room.theme["id"]
 	Story.reach("unwritten" if id == "seam" else "realm")   # 12.1
 	if id == "redaction":
@@ -1248,6 +1252,8 @@ func award_embers(win: bool) -> void:
 		parts.append(["CHAPTER III", 600])   # 14.4
 	if run_stats.get("critic", false):
 		parts.append(["CHAPTER IV", 700])   # 20.3
+	if run_stats.get("finale_won", false):
+		parts.append(["THE LAST LAUGH", Finale.EMBERS])   # 55
 	if run_stats.get("trophies", 0) > 0:
 		parts.append(["NEW TROPHIES", run_stats["trophies"] * Trophies.EMBERS])
 	if Endless.on():
@@ -1272,6 +1278,9 @@ func award_embers(win: bool) -> void:
 	Meta.write_save()
 
 func on_death(source: String) -> void:
+	if Finale.keeps_win(source):
+		on_win()   # 55: the final final boss got you, but the run was already won
+		return
 	death_by = source if source != "" else "the crypt"
 	state = &"dead"
 	state_t = 0.0
@@ -1293,6 +1302,8 @@ func throne_victory() -> void:
 	show_banner("VICTORY! THE THRONE IS BROKEN", "A RIFT OPENS ONTO DARKER LANDS")
 
 func on_win() -> void:
+	if Finale.intercept():
+		return   # 55 THE LAST LAUGH: not yet. The final final boss comes first (finale.gd)
 	if not run_stats.get("throne", false):
 		Meta.meta["wins"] += 1
 		Meta.meta["dread_max"] = mini(maxi(Meta.meta.get("dread_max", 0), dread + 1), Dread.cap())
@@ -2727,7 +2738,10 @@ func update_play(dt: float) -> void:
 			boss_delay = null
 			if room.rift_step == 3:
 				Combat.spawn_boss(room.theme["guardian"])
-				if room.theme["id"] == "seam":
+				if room.theme.get("finale", "") != "":
+					Finale.spawned(boss)   # 55 THE LAST LAUGH
+					show_banner(boss.d["name"], "THE FINAL FINAL BOSS")
+				elif room.theme["id"] == "seam":
 					show_banner(boss.d["name"], "THE LAST BOSS OF ALL")
 				elif room.theme["id"] == "redaction":
 					show_banner(boss.d["name"], "IT ERASES EVEN AUTHORS")

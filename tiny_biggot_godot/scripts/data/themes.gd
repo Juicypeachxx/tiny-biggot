@@ -82,6 +82,16 @@ const REALMS := [
 	# 12.3: the hidden last room, behind the Author's desk when three torn pages are carried.
 	{ "id": "redaction", "name": "THE REDACTED", "sub": "WHERE EVEN AUTHORS ARE ERASED", "kit": "kit_redact", "accent_hex": "#e8e8f0",
 	  "pool": ["pagewraith", "inkmage"], "guardian": "redactor", "hazard": "", "decor": "", "music": 5, "realm": true },
+	# 55 THE LAST LAUGH (finale.gd): the arenas of the final final boss, one for each alignment. Only
+	# ever reached when a run would be won ("finale": the alignment).
+	{ "id": "f_pasture", "name": "THE NOBLE PASTURE", "sub": "A HERO ALWAYS RISES. THIS ONE IS A DONKEY", "kit": "kit_pasture",
+	  "accent_hex": "#f2c94c", "pool": ["ponysquire"], "guardian": "braysalot", "hazard": "", "decor": "", "music": 5, "realm": true, "finale": "good" },
+	{ "id": "f_senate", "name": "THE GRAND CHAMBER", "sub": "ORDER! ORDER! THE MOTION TO END YOU IS CARRIED", "kit": "kit_senate",
+	  "accent_hex": "#6fd3e0", "pool": ["lobbyist", "intern"], "guardian": "scalesworth", "hazard": "", "decor": "", "music": 5, "realm": true, "finale": "law" },
+	{ "id": "f_endtimes", "name": "THE END OF THE WORLD", "sub": "HE SAID IT WOULD COME. IT CAME", "kit": "kit_endtimes",
+	  "accent_hex": "#ff8a2a", "pool": ["believer"], "guardian": "prophet", "hazard": "", "decor": "", "music": 5, "realm": true, "finale": "chaos" },
+	{ "id": "f_parlour", "name": "THE CAT'S PARLOUR", "sub": "EVERYTHING HERE BELONGS TO THE CAT", "kit": "kit_parlour",
+	  "accent_hex": "#d8443c", "pool": ["kitten"], "guardian": "chonk", "hazard": "", "decor": "", "music": 5, "realm": true, "finale": "evil" },
 ]
 
 static var _by_id := {}

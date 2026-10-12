@@ -29,6 +29,10 @@ runs+=("rex $s --seed=9 --rex --hero=2" "loop $s --seed=10 --loop=1 --hero=12 --
 runs+=("endless $s --seed=12 --endless --hero=5" "night $s --seed=13 --hero=7 --floor=3 --weather=dark")
 runs+=("storm $s --seed=14 --hero=9 --floor=6 --weather=storm" "chapter4 $s --seed=15 --chapter=4 --floor=1 --hero=4")
 runs+=("wander $s --seed=16 --wanderer --floor=2 --hero=10")
+# Stages 50-55: weapons of the new damage types, and the four final final bosses in their arenas.
+runs+=("dtypes $s --seed=17 --hero=13 --floor=5 --weapon=plasmarifle" "dtypes2 $s --seed=18 --hero=20 --floor=7 --weapon=bansheebell")
+runs+=("fin_good $s --seed=19 --finale=good --hero=1" "fin_law $s --seed=20 --finale=law --hero=15 --floor=6")
+runs+=("fin_chaos $s --seed=21 --finale=chaos --hero=24 --floor=9" "fin_evil $s --seed=22 --finale=evil --hero=30 --floor=3")
 printf "%s\n" "${runs[@]}" | xargs -P 4 -I{} bash -c 'one {}' | tee "$OUT/summary.txt"
 grep "^\[objects\]" "$OUT/hour.log" | sed -n '1p;$p'
 fails=$(grep -cE "bad=[1-9]" "$OUT/summary.txt")

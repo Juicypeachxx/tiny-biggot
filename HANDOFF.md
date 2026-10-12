@@ -1989,6 +1989,47 @@ feel out of match": effects first (43.7a), then pictures (43.7b).
   they were made after the revamp). Effects.STATUSES was left as it was (the FX picture bench
   cycles through it). Then CHECK PASSED.
 
+### Stage 54 (11 Oct): the stability test (his word)
+- Soak (`HEROES=34 tools/dev/soak.sh` on a copy of the Stage 53 project): 52 runs (34 heroes, 11
+  rift worlds, classic a/b, plain drawing a/b, loops 1-3), bad=0 in all; the 30-minute objects
+  run 4534 -> 5328 objects, nodes 72 and resources 196 flat. Counted per type in a scratch copy
+  (static counters in Enemy, Pickup, PBullet, Room, Player): all bounded; the PBullet pool grows to
+  the most shots ever alive (58, then 136) and is reused. Not a leak (43.5 saw the same creep).
+- soak.sh now also fights the four final final bosses (finale_good/law/chaos/evil); monkey.sh has
+  short runs with the new damage-type weapons and in the four arenas.
+
+### Stage 55 (11 Oct): THE LAST LAUGH, the final final boss (his word; FINALE.md)
+- `Finale` (scripts/entities/finale.gd). `intercept()` at the top of `G.on_win` (expanded game, not
+  endless, not `Finale.off` or `--no-finale`): the first time, `begin(pick(p))` sets
+  run_stats["finale"], the banner and laughter, and `wait` (2.6 s, counted in `tick`), then
+  `enter()`: full health and `G._enter_realm(ARENA[al], 3)`. While run_stats has "finale" and not
+  "finale_done", `on_win` waits. `G._realm_won` sends a theme with "finale" to `won()` (finale_done,
+  finale_won, Meta finale_wins and <boss>_wins, 2 boss chests, the taxes back as coins, win_timer 6).
+  `G.on_death` asks `keeps_win()` first (finale_lost; then on_win). `award_embers`: THE LAST LAUGH
+  (+400). menu_view's end message and Bestiary.log_run name it.
+- The bosses are BossAI guardians (BOSS_PLANS form 1, STAGE_PLANS forms 2 and 3, STAGE_LINE,
+  BOSS_SUMMONS, RING_SPR), rule "finale" (EnemyAI2.adjust_damage -> `Finale.adjust_damage`: x1.5
+  while "trip" or "nap" is at sub 1). BossAI's move match ends in `_: if Finale.handles(e):
+  Finale.move(...)`; `_stage_break` calls `Finale.transform` (the form's name on the banner) instead
+  of its STAGE_LINE banner. `Finale.spawned` (game.gd boss spawn): health x(1 + 0.15 per chapter
+  past the first); `--finale-form=N` sets the stage and health for pictures.
+- Their things: `drops` (shadows, then a burst; carrots, stamps, meteors), `lobs` (the cat's props,
+  shatter where they land), `lanes` (red tape), `tongue`, `dot`, `table`, `aim` (lance lane or leap
+  ring), `trail`, `dark` (THE END). `tick` runs them wherever a finale boss fights (`live()`), so a
+  move never hangs outside its arena (realms_test plays them in a plain room). `clear()` on a stage
+  break, a fall and a room change.
+- MOGGED: a believer within 64 px flexes every 3.5 s (`flexers` by uid; world_view draws
+  believer_flex); the hero then moves at 40% for 1.1 s (`speed_mult` in Player.update_move), at most
+  every 2.4 s, not mid-roll.
+- world_view: `Finale.draw_ground` (both places Chaos.draw_ground is), `draw_over`, `tilt()` for a
+  boss (a tripped donkey, a napping cat), `sprite()` for believers. hud_view: `Finale.bar_name`.
+  The prophet has "no_flip" (his sign reads the right way round).
+- Data: BOSSES braysalot, scalesworth, prophet, chonk (hp 3600, scale 1.8); ENEMIES ponysquire,
+  lobbyist (lobber, page shots), intern, believer (knight), kitten (all runners otherwise);
+  Themes.REALMS f_pasture, f_senate, f_endtimes, f_parlour ("finale": the alignment);
+  Ambience.RIFT; Barks lines. Pictures: tools/art/stage55_finale.py (kits recoloured from kit0).
+- Tests: tests/stage55_test (in check.sh); realms_test sets `Finale.off` (its endings end the run).
+
 ## Noted, not yet acted on
 
 - Saving a run in progress: done in 6.3 (`RunSave`, CONTINUE on the title).

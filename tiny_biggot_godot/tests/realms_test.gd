@@ -24,6 +24,7 @@ func _ready() -> void:
 	await get_tree().process_frame
 	seed(11)
 	Meta.opts["autofire"] = true
+	Finale.off = true   # 55: the endings here end the run; THE LAST LAUGH after them is tests/stage55_test
 	_soul()
 	for realm in ["heaven", "hell"]:
 		_way(realm)

@@ -25,6 +25,7 @@ const RIFT := {
 	"fog": ["water", "water"], "heaven": ["wind", "stone"], "hell": ["hearth", "stone"], "neon": ["eclipse", "metal"],
 	"redaction": ["ink", "paper"], "rimefrost": ["wind", "snow"], "seam": ["eclipse", "stone"], "skyreach": ["wind", "wood"],
 	"spire": ["wind", "stone"], "streets": ["rain", "stone"],
+	"f_pasture": ["campday", "grass"], "f_senate": ["library", "stone"], "f_endtimes": ["hearth", "stone"], "f_parlour": ["camp", "wood"],   # 55
 }
 const STRIDE := 20.0   # pixels walked between two footsteps (about four a second)
 
