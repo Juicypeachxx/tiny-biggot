@@ -206,7 +206,7 @@ static func _done(e: Enemy, wait: float = 0.9) -> void:
 	e.st = 0.0
 	e.sub = 0
 	e.has_target = false
-	e.t = wait * (0.7 if e.phase == 2 else 1.0)
+	e.t = wait * (0.7 if e.phase == 2 else 1.0) * BossAI.rest()   # 57: 15% less rest
 
 static func _begin_phase(e: Enemy, k: String) -> void:
 	e.state = &"phase"

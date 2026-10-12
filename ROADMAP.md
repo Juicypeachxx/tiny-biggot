@@ -1636,6 +1636,20 @@ each point); the rest, proposed in the order it would be felt most, with names o
         replays identical, the eight core ones re-recorded; the full check passed; IPA 56 "Bosses
         Fight Back".
 
+- [ ] Stage 57 (his word, 12 Oct, after IPA 56: "Crank difficulty alittle bit more up in normal rooms
+      and at bosses"). A little harder, not a wall: the foes and the guardians rise, nothing of the
+      hero is toned down (rule 1). Expanded game only (`--classic` as always). IPA 57.
+  - [ ] 57.1 Measure first: tests/boss_clock (4 heroes with the build a player has by then, floors
+        2, 5 and 8): a room's seconds, how long a foe lives, a guardian's seconds.
+  - [ ] 57.2 Ordinary rooms: foes a little tougher (Combat.hard_hp +10% on the first floor, 7% more
+        each floor after instead of 6%), a strong build met a little more closely
+        (Combat.power_scale: the lead to the power of 0.7, was 0.65), 4% more elites, foes' shots 5%
+        faster. Not their attack timers: those also time their warnings.
+  - [ ] 57.3 Guardians: 7% more health each floor down (was 6%), no guardian falls in less than
+        30 s + 7 s a floor (was 25 s + 6 s; 140 s at most, was 120), and they rest 15% less between
+        attacks (BossAI.done, RiftBosses._done; the warnings stay as long).
+  - [ ] 57.4 Measure after; the tests' numbers; the classic replays unchanged, the core ones
+        re-recorded (on purpose); the full check; IPA 57.
 ### Stage 46: weapon enchantments (IPA 46; his word: "Ok go 44 and 45, and 46")
 - [x] 46.1 An enchantment slot on weapons (one at most): the item card, the name, the name plate,
       saving; flat element damage on hits; foe kinds for the slayer enchantments.

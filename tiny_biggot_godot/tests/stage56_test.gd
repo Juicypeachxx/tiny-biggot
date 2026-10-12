@@ -75,6 +75,7 @@ func _ready() -> void:
 	await _patterns()
 	_rooms()
 	_classic()
+	_harder()
 	print("stage56 test: PASSED" if fails == 0 else "stage56 test: %d FAILED" % fails)
 	get_tree().quit()
 
@@ -84,17 +85,17 @@ func _depth() -> void:
 	var e := _boss("colossus")
 	if absf(Combat.boss_hp() - 2.0) > 0.001 or absf(Armor.plate(e) / e.max_hp - 0.35) > 0.001 or absf(Armor.through(e) - 0.25) > 0.001:
 		fail("the first floor changed: health x%.2f, plate %.2f, through %.3f (want 2, 0.35, 0.25)" % [Combat.boss_hp(), Armor.plate(e) / e.max_hp, Armor.through(e)])
-	if absf(Resolve.t_min() - 25.0) > 0.01:
-		fail("the first floor's fewest seconds: %.1f (want 25)" % Resolve.t_min())
+	if absf(Resolve.t_min() - 30.0) > 0.01:   # (57: 30 s + 7 s a floor, was 25 s + 6 s)
+		fail("the first floor's fewest seconds: %.1f (want 30)" % Resolve.t_min())
 	_run(10)
 	e = _boss("crowking")
-	if absf(Combat.boss_hp() - 3.2) > 0.001 or absf(Armor.plate(e) / e.max_hp - 0.5) > 0.001 or absf(Armor.through(e) - 0.17) > 0.001:
-		fail("the eleventh floor: health x%.2f, plate %.2f, through %.3f (want 3.2, 0.5, 0.17)" % [Combat.boss_hp(), Armor.plate(e) / e.max_hp, Armor.through(e)])
-	if absf(Resolve.t_min() - 85.0) > 0.01:
-		fail("the eleventh floor's fewest seconds: %.1f (want 85)" % Resolve.t_min())
+	if absf(Combat.boss_hp() - 3.4) > 0.001 or absf(Armor.plate(e) / e.max_hp - 0.5) > 0.001 or absf(Armor.through(e) - 0.17) > 0.001:
+		fail("the eleventh floor: health x%.2f, plate %.2f, through %.3f (want 3.4, 0.5, 0.17)" % [Combat.boss_hp(), Armor.plate(e) / e.max_hp, Armor.through(e)])
+	if absf(Resolve.t_min() - 100.0) > 0.01:
+		fail("the eleventh floor's fewest seconds: %.1f (want 100)" % Resolve.t_min())
 	G.loop = 3
-	if Resolve.t_min() > 120.0 or Combat.boss_hp() > 2.0 * 1.72 + 0.001:
-		fail("deep loops: %.1f s, health x%.2f (want at most 120 s, x3.44)" % [Resolve.t_min(), Combat.boss_hp()])
+	if Resolve.t_min() > 140.0 or Combat.boss_hp() > 2.0 * 1.84 + 0.001:
+		fail("deep loops: %.1f s, health x%.2f (want at most 140 s, x3.68)" % [Resolve.t_min(), Combat.boss_hp()])
 	G.loop = 0
 
 # ---------- 2 ----------
@@ -320,8 +321,9 @@ func _rooms() -> void:
 			Combat.track_power(TB.DT)   # (the wait for the next wave)
 	if Combat.power_scale() < 3.0 or Combat.floor_scale() < hp0 * 3.0:
 		fail("thirty waves killed in one blow each: foes x%.2f health (want at least x3)" % (Combat.floor_scale() / hp0))
-	# The curve: as before up to ten times ahead, then closer (100 times ahead: 35 times the health).
-	for want in [[1.0, 1.0], [5.0, pow(5.0, 0.65)], [10.0, pow(10.0, 0.65)], [100.0, pow(10.0, 0.65) * pow(10.0, 0.9)]]:
+	# The curve: the lead to the power of 0.7 up to ten times ahead (57: was 0.65), then closer (100
+	# times ahead: 40 times the health).
+	for want in [[1.0, 1.0], [5.0, pow(5.0, 0.7)], [10.0, pow(10.0, 0.7)], [100.0, pow(10.0, 0.7) * pow(10.0, 0.9)]]:
 		G.run_stats["dps"] = want[0] * Combat.yardstick()
 		if absf(Combat.power_scale() - want[1]) > 0.01 * want[1]:
 			fail("%.0f times ahead: foes x%.2f health (want x%.2f)" % [want[0], Combat.power_scale(), want[1]])
@@ -339,4 +341,34 @@ func _classic() -> void:
 		fail("--classic: the colossus' plan changed")
 	if Patterns.cast(e, "grid", true) > 0.3 or Patterns.busy():
 		fail("--classic: a new pattern was cast")
+	GameData.force_classic = false
+
+# ---------- 7 (Stage 57) ----------
+## 57 (his ask, 12 Oct: "Crank difficulty alittle bit more up in normal rooms and at bosses"): foes
+## 60% more health on the first floor and 7% more a floor (Combat.hard_hp, was 45% and 6%), their
+## shots 15% faster (was 10%), a guardian rests 15% less between attacks (BossAI.done and
+## RiftBosses._done; its warnings as long as before); --classic: none of it.
+func _harder() -> void:
+	_run(0)
+	if absf(Combat.hard_hp() - 1.6) > 0.001 or absf(Combat.shot_mult() - 1.15) > 0.001 or absf(BossAI.rest() - 0.85) > 0.001:
+		fail("57, the first floor: foes x%.2f health, shots x%.2f, rest x%.2f (want 1.6, 1.15, 0.85)" % [Combat.hard_hp(), Combat.shot_mult(), BossAI.rest()])
+	var e := _boss("colossus")
+	e.stage = 1
+	e.hp = e.max_hp
+	BossAI.done(e, 1.0)
+	if absf(e.t - 0.85) > 0.001:
+		fail("57: a guardian's rest after an attack %.2f s (want 0.85)" % e.t)
+	G.enemies.clear()
+	_run(10)
+	if absf(Combat.hard_hp() - 2.3) > 0.001:
+		fail("57, the eleventh floor: foes x%.2f health (want 2.3)" % Combat.hard_hp())
+	GameData.force_classic = true
+	_run(10)
+	e = _boss("colossus")
+	e.stage = 1
+	e.hp = e.max_hp
+	BossAI.done(e, 1.0)
+	if Combat.hard_hp() != 1.0 or Combat.shot_mult() != 1.0 or BossAI.rest() != 1.0 or absf(e.t - 1.0) > 0.001:
+		fail("57 --classic: foes x%.2f health, shots x%.2f, rest %.2f s (want 1, 1, 1)" % [Combat.hard_hp(), Combat.shot_mult(), e.t])
+	G.enemies.clear()
 	GameData.force_classic = false

@@ -857,6 +857,7 @@ func spawn_wave(hard: bool = false) -> void:
 	ec += (0.12 if GameData.rogues() else 0.06) * loop   # loop playthroughs: more elites
 	if GameData.rogues():
 		ec += 0.04   # 11.3 (his ask, 6 Oct: "a little bit harder")
+		ec += 0.04   # 57 (his ask, 12 Oct: "Crank difficulty alittle bit more up in normal rooms")
 	if fdef.has("mini") and room.type == "elite" and room.theme.is_empty() and room.depth == floor_d["total"] - 2 \
 			and not floor_d.get("mini_done", false):
 		floor_d["mini_done"] = true
