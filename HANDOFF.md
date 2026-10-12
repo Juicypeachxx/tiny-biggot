@@ -2028,7 +2028,10 @@ feel out of match": effects first (43.7a), then pictures (43.7b).
   lobbyist (lobber, page shots), intern, believer (knight), kitten (all runners otherwise);
   Themes.REALMS f_pasture, f_senate, f_endtimes, f_parlour ("finale": the alignment);
   Ambience.RIFT; Barks lines. Pictures: tools/art/stage55_finale.py (kits recoloured from kit0).
-- Tests: tests/stage55_test (in check.sh); realms_test sets `Finale.off` (its endings end the run).
+- Tests: tests/stage55_test (in check.sh); realms_test sets `Finale.off` (its endings end the run);
+  content_test's true ending now walks out through the exit portal into THE LAST LAUGH, then wins;
+  afx_test: BOSS_COL for the four, their standing moves in Afx.CASTING, the rest in
+  `Finale.OWN_VISUAL`.
 
 ## Noted, not yet acted on
 

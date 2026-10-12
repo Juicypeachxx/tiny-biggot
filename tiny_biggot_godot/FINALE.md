@@ -97,6 +97,9 @@ by brightness onto each arena's own colours). All within 96 px, all in the atlas
   `Finale.spawned` (its health); `award_embers` (THE LAST LAUGH).
 - `BossAI`: plans, lines, summons, ring shots; `_stage_break` calls `Finale.transform`; any move it
   does not know goes to `Finale.move` (finale bosses only).
+- Afx: the bosses' colours (BOSS_COL); their moves made standing get the casting circle
+  (Afx.CASTING); the others show themselves (`Finale.OWN_VISUAL`: the lance's lane, the leaps'
+  rings, the zoomies' trail, the trip, the nap). tests/afx_test checks every boss move has one.
 - `EnemyAI2.adjust_damage` rule "finale" (the trip and the nap); `Player.update_move` x
   `Finale.speed_mult` (MOGGED); `Hazards.update` -> `Finale.tick`; world_view draws
   `Finale.draw_ground` / `draw_over`, the tilt of a tripped donkey or a napping cat, a believer's
