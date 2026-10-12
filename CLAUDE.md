@@ -115,5 +115,13 @@ the session may, otherwise open a pull request into `claude/dev` and tell him
 to press Merge. A step that is only on a session's own branch is lost to the
 next session.
 
+**The iOS and Windows lines** (his word, 12 Oct: "if i work on multiplayer addon
+on windows it wont be pushed on ios"). `ios-build` and `windows-build` are his
+build branches. Every iPad build from `claude/dev` moves `ios-build` up to it,
+merges it into `windows-build` and builds the Windows game (`build-ipa.yml`, the
+job "windows"; `WINDOWS_BUILD.md` on `windows-build`). Windows-only work is done
+on `windows-build` and **never merged into `claude/dev` or `ios-build`**: that
+would put it on the iPad. No IPA is ever built from `windows-build`.
+
 Do not push to `main` unless he asks. End commit messages with the session's
 attribution lines.

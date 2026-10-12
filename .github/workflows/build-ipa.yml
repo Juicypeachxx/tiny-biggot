@@ -22,7 +22,8 @@ concurrency:
 
 jobs:
   ipa:
-    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[ipa]')
+    # (never from windows-build: Windows-only work stays off the iPad, his word 12 Oct)
+    if: github.ref != 'refs/heads/windows-build' && (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[ipa]'))
     runs-on: macos-15
     timeout-minutes: 45
     env:
@@ -201,3 +202,56 @@ jobs:
             build/export.log
             build/xcodebuild.log
           if-no-files-found: ignore
+
+  windows:
+    # His word (12 Oct): iOS and Windows apart ("if i work on multiplayer addon on windows it wont be
+    # pushed on ios"), and every iPad build reaching Windows too (WINDOWS_BUILD.md on windows-build).
+    # After the iPad build of a claude/dev commit: ios-build moves up to it, and windows-build (all of
+    # claude/dev plus Windows-only work, which never comes back here) takes it in and is built for
+    # Windows by its own script.
+    needs: ipa
+    if: github.ref == 'refs/heads/claude/dev'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: The iOS line (ios-build) moves up to this iPad build
+        run: |
+          git push origin "$GITHUB_SHA:refs/heads/ios-build" || echo "::warning::ios-build has commits of its own, so it stays where it was"
+
+      - name: The Windows line (windows-build) takes in this iPad build (one way only)
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B windows-build origin/windows-build
+          V=$(git show "$GITHUB_SHA:VERSION" | tr -d '[:space:]')
+          if ! git merge --no-edit -m "Windows line: take in the iPad build $V ($GITHUB_SHA)" "$GITHUB_SHA"; then
+            git merge --abort || true
+            echo "::error::windows-build clashes with this iPad build (its Windows-only work changes the same lines). A Claude merges claude/dev into windows-build by hand and pushes; that push builds Windows."
+            exit 1
+          fi
+          git push origin windows-build
+
+      - name: Godot and the Windows export template (kept between runs)
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/godot
+            ~/.local/share/godot/export_templates
+          key: godot-4.6.1-stable-linux-windows-1
+
+      - name: Build the Windows game and publish it (windows-build's own script)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash tiny_biggot_godot/tools/build_windows.sh
+
+      - name: Keep the Windows game with this run
+        uses: actions/upload-artifact@v4
+        with:
+          name: TinyBiggot-windows
+          path: build/${{ env.PACKAGE }}
+          if-no-files-found: error
