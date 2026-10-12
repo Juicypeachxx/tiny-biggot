@@ -2037,7 +2037,8 @@ feel out of match": effects first (43.7a), then pictures (43.7b).
   4.00 ms against a 4.0 limit while a screenshot was rendering; 2.1-2.5 ms alone); the third only
   in stage41_test's POCKET GRENADES, an old flaky check (no seed: the foe could be moved off a pillar
   and the start room's dummy catch the grenade). Fixed: the foe placed exactly and alone; 5 of 5
-  passes. Every other test passed, and all 14 replays were identical in each run.
+  passes. Every other test passed, and all 14 replays were identical in each run. A fourth full
+  check on the built commit (0721965): CHECK PASSED. IPA 55 and the Windows build (win-55) published.
 
 ## Noted, not yet acted on
 
