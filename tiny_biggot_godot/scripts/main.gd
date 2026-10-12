@@ -95,6 +95,7 @@ func _ready() -> void:
 	if not quick:
 		G.state = &"title"
 		return
+	Coop.from_args()   # (Windows co-op: --coop=N)
 	G.new_run()
 	if DebugArgs.get_int("chapter", 1) >= 2:   # 12.2 / 14.4: a chapter's floors (--floor counts on from them)
 		G.run_stats["chapter"] = DebugArgs.get_int("chapter", 1)

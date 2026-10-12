@@ -63,9 +63,19 @@ hero; a shot remembers its owner, and its hits count for them.
       use_pad(i) points the API at a pad, -1 at every device), quick taps latch to their own pad;
       the controller bindings now take every controller (they took only the first); a cross cursor in
       play. tests/coop_test.tscn (in check.sh, near the top). One player: two replays identical.
-- [ ] C2 Co-op core: `G.players`, `--coop=N` for tests (bots for the others), every hero moves, aims
+- [x] C2 Co-op core: `G.players`, `--coop=N` for tests (bots for the others), every hero moves, aims
       and shoots with their own device, foes chase the nearest hero, foe shots hit any hero, shots
       count for their owner, each hero drawn with their ring and tag, a small HUD for each.
+      Done (`scripts/coop/coop.gd`): `Coop.extras` (P2 to P4), each made by a whole new_run of its
+      own before P1's (`Coop.before_run`, the first line of Game.new_run), placed beside P1 in every
+      room (`Coop.enter_room`); `update_heroes` (every hero's turn with their pad), `foe_target`
+      (Combat.update_enemies: each foe's nearest standing hero, chosen again every second),
+      `shot_hit` / `hurt` (EBullets: the other heroes), `update_pbullets` (each hero's shots with them
+      as the player; PBullet.owner_i is set from Coop.actor), `update_pickups` (to the nearest hero);
+      DOWN and REVIVE already (Combat.hurt_player: down instead of the end while anyone stands; 3 s
+      beside them, or a cleared room, brings them back with a heart); the party goes through a door
+      together (`exits`: "THE DOOR WAITS FOR P2"); rings, P1 to P4 tags, aim dots; P2 to P4's panels
+      at the bottom. `--coop=N` (main.gd): N heroes, P2 on played by the test bot.
 - [ ] C3 The rules: down and revive, drops and gold per player, experience and level-ups in turn,
       chests and shops per player, the party through a door, difficulty per player.
 - [ ] C4 Joining on the hero screen (up to 4 devices), whose turn it is on choice screens, pause and

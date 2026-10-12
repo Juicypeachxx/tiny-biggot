@@ -22,6 +22,8 @@ func _ready() -> void:
 func refresh() -> void:
 	_ticks += 1
 	var sig := _signature()
+	if Coop.on():
+		sig.append(Coop.hud_sig())   # (Windows co-op: P2 to P4's panels)
 	# Every half second it is redrawn regardless, so nothing can stay stale.
 	if sig != _sig or _ticks % 30 == 0:
 		_sig = sig
@@ -214,6 +216,8 @@ func _draw() -> void:
 			Food.draw_hud(self, p, bx, belt_rect(0).end.y + 3)
 		if not p.infusions.is_empty():   # 44: then the infusions on
 			Infusions.draw_hud(self, p, bx + 22 * p.drinks.size() + (4 if not p.drinks.is_empty() else 0), belt_rect(0).end.y + 3)
+	if Coop.on():
+		Coop.draw_hud(self)   # (Windows co-op: P2 to P4's panels)
 	# Relic strip (last 24).
 	var rel: Array = p.relics.slice(maxi(0, p.relics.size() - 24))
 	for i in rel.size():

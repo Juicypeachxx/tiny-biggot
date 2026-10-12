@@ -53,7 +53,10 @@ var own := false         # fired by the hero's weapon itself (not a proc or a wi
 var merged: PBullet = null   # set on a stand-in: the shot flying that this one merged into (Combat._merge_shot)
 var cast := false        # 34.1: made by a free cast from the spell slot (lucky.gd): it never casts again
 
+var owner_i: int = Coop.actor   # (Windows co-op: the hero who fired it)
+
 func reset() -> void:
+	owner_i = Coop.actor
 	x = 0.0; y = 0.0; vx = 0.0; vy = 0.0; dmg = 0.0; life = 0.0; max_life = 0.0; r = 2.5
 	pierce = 0; bounce = 0; homing = 0.0; kind = "bolt"; hit = {}; rot = 0.0; age = 0.0; ric = 0
 	back = BACK_NONE; crit = false; bloom = false; poison_add = 0; split = 0.0; grow = 0.0; accel = 0.0

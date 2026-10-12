@@ -107,6 +107,7 @@ func start_fade(cb: Callable) -> void:
 
 # ---------- Run flow ----------
 func new_run() -> void:
+	Coop.before_run()   # (Windows co-op: P2 to P4 first; COOP_PLAN.md)
 	var hero: Dictionary = GameData.heroes()[hero_index]
 	player = Player.new(hero)
 	Effects.reset_run_state()
@@ -362,6 +363,7 @@ func enter_room(r: Room) -> void:
 		f["x"] = p.x
 		f["y"] = p.y
 	Pets.enter_room(p)
+	Coop.enter_room(p)   # (Windows co-op: P2 to P4 beside P1)
 	if not room.objects_ready:
 		room.objects_ready = true
 		setup_objects(room)
@@ -929,6 +931,7 @@ func room_cleared() -> void:
 	EventRooms.on_room_clear(room)
 	Wanderers.on_room_clear(room)   # 21.4 a ghost, a rival, a lost traveller
 	Pets.on_room_clear()
+	Coop.on_room_clear()   # (Windows co-op: the downed get up)
 	dyn_dirty = true
 	Snd.play("door")
 	var p := player
@@ -2683,7 +2686,7 @@ func update_play(dt: float) -> void:
 	Dread.tick(dt)   # 48.1 FALTERING NERVE
 	Effects.tick(dt)
 	_lp("PROCS")
-	Combat.update_player(p, dt)
+	Coop.update_heroes(p, dt)   # (Windows co-op: every hero's turn; one hero: Combat.update_player as before)
 	_lp("HERO")
 	Ambience.tick(p)   # 21.3 footsteps, the music's fight or calm level
 	if state != &"play":
@@ -2691,11 +2694,11 @@ func update_play(dt: float) -> void:
 	_lp_t = Time.get_ticks_usec()
 	Combat.update_enemies(dt)
 	_lp("FOES")
-	Combat.update_pbullets(dt)
+	Coop.update_pbullets(dt)   # (Windows co-op: each hero's shots as theirs)
 	_lp("SHOTS")
 	EBullets.update(dt)
 	_lp("FOE SHOTS")
-	Combat.update_pickups(dt)
+	Coop.update_pickups(dt)   # (Windows co-op: to the nearest hero)
 	_lp("PICKUPS")
 	Combat.update_bombs(dt)
 	Combat.update_zones(dt)
@@ -2778,7 +2781,7 @@ func update_play(dt: float) -> void:
 			prompt = o
 	if prompt != null and Keys.use():
 		interact(prompt)
-	if not locked:
+	if not locked and not Coop.exits():   # (Windows co-op: the party goes through a door together)
 		var dir := ""
 		if p.y < TB.TS * 1.2: dir = "n"
 		elif p.y > TB.SH - TB.TS * 0.7: dir = "s"

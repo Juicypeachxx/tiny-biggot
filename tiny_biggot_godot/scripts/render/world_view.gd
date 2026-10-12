@@ -1411,11 +1411,18 @@ func _paint_top(ci: CanvasItem) -> void:
 	RoomDress.paint_over(ci)   # 17.3: lightning
 	Pace.draw(ci, G.time)   # 35.2 FINISH THEM: the last foes marked
 	var p := G.player
-	if p != null:
+	if p != null and not Coop.is_down(p):
 		# 35.3 CLARITY: the hero over your own shots, effects and sparks (foe shots stay above it).
 		_draw_hero_mark(ci, p, G.time)
 		_draw_player(ci, p, G.time)
 		Block.draw(ci, p, G.time)   # 37.1 a shield ready to stop a hit
+	if Coop.on():   # (Windows co-op: P2 to P4, the downed, every tag)
+		for h in Coop.extras:
+			if not Coop.is_down(h):
+				_draw_hero_mark(ci, h, G.time)
+				_draw_player(ci, h, G.time)
+		Coop.draw_downed(ci)
+		Coop.draw_tags(ci)
 	if G.enemies_active() or Keys.aim() != null:
 		var ax := p.x + cos(p.aim_a) * 16
 		var ay := p.y - 2 + sin(p.aim_a) * 16

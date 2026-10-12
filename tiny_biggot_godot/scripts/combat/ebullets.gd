@@ -131,6 +131,7 @@ static func update(dt: float) -> void:
 	var py := p.y - 2
 	var hit_r := p.hit_r
 	var mirror := p.mirror
+	var coop := Coop.on()   # (Windows co-op: the other heroes too)
 	var inv_ts := 1.0 / TB.TS
 	# Work on local copies (static member access is slow in GDScript) and
 	# write them back afterwards. Anything that may touch the arrays from the
@@ -188,6 +189,13 @@ static func update(dt: float) -> void:
 				lifes[i] = 0.0
 				_store(xs, ys, vxs, vys, lifes)
 				Combat.hurt_player(1, "a stray shot")
+				xs = bx; ys = by; vxs = bvx; vys = bvy; lifes = blife
+		if coop and lifes[i] > 0:
+			var hi := Coop.shot_hit(x, y, br[i])
+			if hi > 0:
+				lifes[i] = 0.0
+				_store(xs, ys, vxs, vys, lifes)
+				Coop.hurt(hi, 1, "a stray shot")
 				xs = bx; ys = by; vxs = bvx; vys = bvy; lifes = blife
 		i += 1
 	_store(xs, ys, vxs, vys, lifes)

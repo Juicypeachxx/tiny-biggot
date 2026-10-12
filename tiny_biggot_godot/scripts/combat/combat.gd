@@ -695,6 +695,8 @@ static func _hurt_player_base(p: Player, amount: int, source: String) -> void:
 		G.show_banner("RISEN AGAIN", "YOU CHEAT DEATH ONCE")
 		Snd.play("portal")
 		return
+	if Coop.downed(p, source):
+		return   # (Windows co-op: down, not out, while anyone stands)
 	G.on_death(source)
 
 static func _nearest_targets(p: Player, k: int) -> Array:
@@ -708,6 +710,7 @@ static func _nearest_targets(p: Player, k: int) -> Array:
 # ---------- Enemies ----------
 static func update_enemies(dt: float) -> void:
 	var p := G.player
+	var p0 := p   # (Windows co-op: each foe works against its own hero)
 	var room := G.room
 	var i := 0
 	while i < G.enemies.size():
@@ -715,6 +718,7 @@ static func update_enemies(dt: float) -> void:
 		i += 1
 		if e.hp <= 0:
 			continue
+		p = Coop.foe_target(e, p0)   # (Windows co-op)
 		e.anim += dt
 		e.flash = maxf(0.0, e.flash - dt)
 		if e.spawn_t > 0:
@@ -825,6 +829,7 @@ static func update_enemies(dt: float) -> void:
 						Statuses.apply(e, "gloom", 10, 0)   # 40.2 SHADOW VEIL: all its gloom at once
 					if p.g("wide_orbit") > 0 and e.hp > 0:
 						Statuses.apply(e, "vulnerable", 1, 0)   # 42.1 WIDE ORBIT
+	Coop.foes_done(p0)   # (Windows co-op)
 	var alive: Array[Enemy] = []
 	for e in G.enemies:
 		if e.hp > 0:
