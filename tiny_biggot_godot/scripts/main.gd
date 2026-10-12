@@ -168,7 +168,7 @@ func _ready() -> void:
 		Wanderers._ghost(wr, { "floor": G.floor_index, "x": 120.0, "y": 110.0, "sprite": "brute", "name": "THE BRUTE", "gold": 40 })
 	match DebugArgs.get_str("ui"):
 		"": pass
-		"coop", "coopgear": Coop.picture(DebugArgs.get_str("ui"))   # (Windows co-op pictures)
+		"coop", "coopkeys", "coopgear": Coop.picture(DebugArgs.get_str("ui"))   # (Windows co-op pictures)
 		"choice": G.open_choice("chest", { "x": 200.0, "y": 150.0 })
 		"alshop":   # 45.1 pictures: an alignment shop in the first room (--al=good|evil|law)
 			AlignShops.stock(G.room, DebugArgs.get_str("al") if DebugArgs.get_str("al") != "" else "good")

@@ -586,9 +586,12 @@ static func _bots_to(dir: String) -> void:
 # ---------- joining: the CO-OP screen (the title's CO-OP) ----------
 ## Opens the CO-OP screen: the keyboard and mouse and every controller can join (Brotato's way: up
 ## to 4 players, each with their own device, each picks a hero; the run starts when all are ready).
+## W2: the keyboard is two places, its left half (SPACE joins) and its right half (ENTER joins): one
+## keyboard player has every key, two share it (Keys.KB_LEFT, KB_RIGHT).
 static func open_lobby() -> void:
 	solo()
-	Keys.add_pad("kbm")
+	Keys.seat(Keys.add_pad("kbm"), false)
+	Keys.seat(Keys.add_pad("kb2"), false)
 	for d in Input.get_connected_joypads():
 		Keys.add_pad("joy", d)
 	_lmb = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
@@ -619,6 +622,7 @@ static func _join(k: int, hero: int = -1) -> void:
 	if lobby.size() >= MAX:
 		return
 	lobby.append({ "pad": k, "hero": _first_hero() if hero < 0 else hero, "ready": false, "msg": "", "msg_t": 0.0 })
+	Keys.seat(k, true)
 	Snd.play("confirm")
 
 static func _ready_up(s: int) -> void:
@@ -659,6 +663,7 @@ static func update_lobby() -> void:
 				e["ready"] = false
 			else:
 				lobby.remove_at(s)   # (the others move up a place)
+				Keys.seat(k, false)
 			Snd.play("select")
 			continue
 		if s == 0:
@@ -688,12 +693,9 @@ static func update_lobby() -> void:
 		_start()
 
 ## A click on the CO-OP screen: on a hero, it is the keyboard player's (joining them first); a click
-## on their hero again readies them.
+## on their hero again readies them. (Two on the keyboard: the mouse is the left half's.)
 static func _click(at: Vector2) -> void:
-	var kp := -1
-	for k in Keys.pads.size():
-		if Keys.pads[k]["kind"] == "kbm":
-			kp = k
+	var kp := Keys.mouse_pad()
 	if kp < 0:
 		return
 	var order := GameData.hero_order()
@@ -731,14 +733,18 @@ static func _start() -> void:
 	Meta.write_save()
 	G.start_fade(G.new_run)
 
-## --ui=coop (pictures): the CO-OP screen with three joined, P1 ready; --ui=coopgear (with --coop=N):
-## P2's gear page, as theirs.
+## --ui=coop (pictures): the CO-OP screen with three joined, P1 ready; --ui=coopkeys: two on the
+## keyboard (P1 its left half, ready; P2 its right half); --ui=coopgear (with --coop=N): P2's gear
+## page, as theirs.
 static func picture(kind: String) -> void:
-	if kind == "coop":
+	if kind == "coop" or kind == "coopkeys":
 		open_lobby()
 		_join(0)
-		for k in 2:
-			_join(Keys.add_pad("bot"))
+		if kind == "coopkeys":
+			_join(1)
+		else:
+			for k in 2:
+				_join(Keys.add_pad("bot"))
 		lobby[0]["ready"] = true
 		return
 	if extras.is_empty():
@@ -751,9 +757,32 @@ static func _device_name(k: int) -> String:
 	if k < 0 or k >= Keys.pads.size():
 		return ""
 	match Keys.pads[k]["kind"]:
-		"kbm": return "KEYBOARD"
+		"kbm": return "WASD + MOUSE" if Keys.split() else "KEYBOARD"
+		"kb2": return "ARROWS" if Keys.split() else "KEYBOARD"
 		"joy": return "PAD %d" % (int(Keys.pads[k]["dev"]) + 1)
 	return "BOT"
+
+## W2: a keyboard player's own key for USE or MENU on the CO-OP screen ("SPACE"), or the word itself
+## for any other device.
+static func _key_word(k: int, a: StringName) -> String:
+	var kind: String = Keys.pads[k]["kind"] if k >= 0 and k < Keys.pads.size() else ""
+	if kind == "kbm":
+		return "SPACE" if a == &"use" else "ESC"
+	if kind == "kb2":
+		return "ENTER" if a == &"use" else ("BACKSPACE" if Keys.split() else "ESC")
+	return "USE" if a == &"use" else "MENU"
+
+## The keyboard's halves nobody has joined with yet (0 left, 1 right).
+static func _free_halves() -> Array:
+	var out := []
+	for half in 2:
+		var k := -1
+		for i in Keys.pads.size():
+			if Keys.pads[i]["kind"] == ("kbm" if half == 0 else "kb2"):
+				k = i
+		if k >= 0 and _slot_of(k) < 0:
+			out.append(half)
+	return out
 
 # ---------- the test bot (--coop=N) ----------
 static func _bot(i: int, h: Player, dt: float) -> void:
@@ -844,9 +873,16 @@ static func draw_lobby(ci: CanvasItem, mv) -> void:
 				var blink := floori(t * 2) % 2 == 0
 				Gfx.text(ci, "PRESS USE", x + w / 2, y + 52, FONT[k] if blink else "white", 1, 0.5)
 				Gfx.text(ci, "TO JOIN", x + w / 2, y + 62, FONT[k] if blink else "white", 1, 0.5)
-				Gfx.text(ci, "KEYS: ENTER OR SPACE", x + w / 2, y + 90, "dim", 1, 0.5)
-				Gfx.text(ci, "MOUSE: CLICK A HERO", x + w / 2, y + 100, "dim", 1, 0.5)
-				Gfx.text(ci, "CONTROLLER: A", x + w / 2, y + 110, "dim", 1, 0.5)
+				var free := _free_halves()
+				var hy := y + 90
+				if free.size() == 2:
+					Gfx.text(ci, "KEYS: SPACE OR ENTER", x + w / 2, hy, "dim", 1, 0.5)
+					Gfx.text(ci, "MOUSE: CLICK A HERO", x + w / 2, hy + 10, "dim", 1, 0.5)
+					hy += 20
+				elif free.size() == 1:   # (W2: a second player on the same keyboard)
+					Gfx.text(ci, "SAME KEYBOARD: " + ("SPACE" if free[0] == 0 else "ENTER"), x + w / 2, hy, "dim", 1, 0.5)
+					hy += 10
+				Gfx.text(ci, "CONTROLLER: A", x + w / 2, hy, "dim", 1, 0.5)
 			continue
 		var e: Dictionary = lobby[k]
 		var h: Dictionary = GameData.heroes()[e["hero"]]
@@ -873,12 +909,15 @@ static func draw_lobby(ci: CanvasItem, mv) -> void:
 		elif not open:
 			Gfx.text(ci, "LOCKED", x + w / 2, y + 116, "red", 1, 0.5)
 		else:
-			Gfx.text(ci, "USE: READY", x + w / 2, y + 116, "white", 1, 0.5)
-		Gfx.text(ci, "MENU: LEAVE" if not e["ready"] else "MENU: NOT READY", x + w / 2, y + 130, "dim", 1, 0.5)
+			Gfx.text(ci, _key_word(e["pad"], &"use") + ": READY", x + w / 2, y + 116, "white", 1, 0.5)
+		Gfx.text(ci, _key_word(e["pad"], &"pause") + (": LEAVE" if not e["ready"] else ": NOT READY"), x + w / 2, y + 130, "dim", 1, 0.5)
 	var line := ""
 	var col := "grey"
 	if lobby.size() < 2:
-		line = "A SECOND PLAYER JOINS WITH THEIR OWN KEYBOARD OR CONTROLLER"
+		match _free_halves().size():
+			2: line = "A SECOND PLAYER JOINS WITH A CONTROLLER, OR TWO SHARE THE KEYBOARD: SPACE (WASD) AND ENTER (ARROWS)"
+			1: line = "A SECOND PLAYER JOINS WITH A CONTROLLER, OR ON THIS KEYBOARD WITH %s: THEN IT IS SPLIT IN TWO" % ("SPACE" if _free_halves()[0] == 0 else "ENTER")
+			_: line = "A SECOND PLAYER JOINS WITH A CONTROLLER"
 	else:
 		var wait := []
 		for k in lobby.size():

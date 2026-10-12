@@ -19,8 +19,8 @@ option shares them); a player who dies sits out until the wave ends; foes scale 
 ## How it fits this game
 
 - **Joining.** CO-OP on the title opens the joining screen (START RUN stays the one-player hero
-  screen). Each device joins with its confirm button (keyboard: Enter or Space, or a click on a hero;
-  controller: A), up to 4, in the order they join (P1 red, P2 blue, P3 green, P4 gold). Each player
+  screen). Each device joins with its confirm button (keyboard: Space or Enter, or a click on a hero;
+  controller: A; two can share the keyboard, W2 below), up to 4, in the order they join (P1 red, P2 blue, P3 green, P4 gold). Each player
   chooses a hero with LEFT and RIGHT (their colour under it), USE readies, MENU unreadies and then
   leaves; the run starts when two or more have joined and all are ready. A device that joins counts
   as that player for the whole run. Back on the title the party ends.
@@ -132,7 +132,25 @@ hero; a shot remembers its owner, and its hits count for them.
       own device, none offered one they own. Full check passed, all replays identical; a 5 min
       4-player soak with chests: no errors, never stuck.
 
+- [x] W2 Two players on one keyboard (12 Oct, his word "continue" the PC port). Done: in `Keys`
+      the pad "kbm" is the keyboard's left half and the mouse, a new pad "kb2" its right half;
+      when both are in the party each reads only its own keys, from fixed tables (`KB_LEFT`:
+      WASD, Space, Left Shift, Q, E, F, 1-4, Esc/Tab/`, the mouse; `KB_RIGHT`: arrows, number pad
+      aim, Enter, Right Shift / pad 0, /, Right Ctrl / comma, ., 7-0, Backspace). Which Shift or
+      Ctrl: from the key events' side (`_side`; the system only says that some Shift is held).
+      A quick tap counts for its own half (`_input`). The CO-OP screen has both halves from the
+      start (`Keys.seat`: joined or not): with nobody on the keyboard SPACE joins the left half
+      and ENTER the right one; one keyboard player has every key (as alone) but the other half's
+      USE key, which joins a second one, and then the keyboard is split (a key held while the
+      keyboard changes hands is not a new press for its new owner: `Keys._seats`; found in the
+      test: ESC held to leave also sent the screen back to the title). A keyboard player alone
+      in a run keeps every key and the mouse (`Keys.mouse_pad`). The cards name the half (WASD +
+      MOUSE, ARROWS) and its keys (SPACE: READY, BACKSPACE: LEAVE); an empty place says how a
+      second keyboard player joins (`--ui=coopkeys` shows it). tests/pc_test.tscn presses real
+      keys: joining, one and two on the keyboard, leaving with ESC held, D against the right arrow,
+      the left against the right Shift, a quick tap, a run of two on the keyboard (W, the up arrow,
+      Esc, Backspace), one alone in a run.
+
 ## Not done yet (later, if he wants it)
 
 - Saving a co-op run for CONTINUE.
-- Two players on one keyboard.

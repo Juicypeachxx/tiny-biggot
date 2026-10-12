@@ -25,8 +25,8 @@ extends RefCounted
 ##                                22.3: codex, bestiary, runs (the codex on a page);
 ##                                --camp-built: all its upgrades, --camp-fish: a full larder, --camp-near=KIND),
 ##                                ending (the true-ending room with the loop and exit portals);
-##                                (Windows co-op) coop: the CO-OP screen with three joined, coopgear: with
-##                                --coop=N, P2's gear page as theirs
+##                                (Windows co-op) coop: the CO-OP screen with three joined, coopkeys: with
+##                                two on the keyboard, coopgear: with --coop=N, P2's gear page as theirs
 ##   --coop=N                     (Windows co-op) N heroes in the run, P2 on played by the test bot
 ##   --no-save                    neither read nor write the save file, nor the sprite atlas the game keeps for
 ##                                itself (repeatable test runs)

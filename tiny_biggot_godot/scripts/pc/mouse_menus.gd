@@ -6,8 +6,8 @@ extends Node
 ## presses a button), and the wheel moves the choice up and down. On a screen that waits for any
 ## button, a click goes on. In play the mouse aims and fires (Keys), so nothing here runs then; the
 ## constellation and the CO-OP screen read the mouse themselves.
-## In co-op the mouse is the keyboard player's: it works their menus, and the ones anyone may finish
-## (the end screens), never another player's turn.
+## In co-op the mouse is the keyboard player's (with two on the keyboard, the left half's: W2): it
+## works their menus, and the ones anyone may finish (the end screens), never another player's turn.
 ## F11 or Alt+Enter switches between the window and the full screen; the choice is kept (Meta.opts
 ## "fullscreen") for the next start.
 ## Only real mouse and key events reach it, so tests without them and the replays are untouched.
@@ -37,7 +37,7 @@ static func active() -> bool:
 		return false
 	if Coop.on():
 		var mp := Coop.menu_pad()
-		if mp >= 0 and (mp >= Keys.pads.size() or Keys.pads[mp]["kind"] != "kbm"):
+		if mp >= 0 and mp != Keys.mouse_pad():
 			return false   # another player's menu
 	return true
 
@@ -78,7 +78,7 @@ static func latch(action: StringName) -> bool:
 	if not _acting or not Coop.on():
 		return false
 	var mp := Coop.menu_pad()
-	if mp < 0 or mp >= Keys.pads.size() or Keys.pads[mp]["kind"] != "kbm":
+	if mp < 0 or mp != Keys.mouse_pad():
 		return false
 	Keys.pads[mp]["latched"][action] = true
 	return true

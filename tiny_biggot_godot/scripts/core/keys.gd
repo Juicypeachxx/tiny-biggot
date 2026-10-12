@@ -70,6 +70,32 @@ var who := -1
 var _merged: Array = []
 var _cursor := -1
 
+## W2: two players on one keyboard. The pad "kbm" is its left half (and the mouse), "kb2" its right
+## half. When both are in the party each reads only its own keys, from these fixed tables (the
+## KEYBOARD KEYS page changes the one-player keys only); a keyboard player alone keeps every key.
+## A key is a key code, or [code, side] for a key that has a left and a right one (Shift, Ctrl).
+## The left player aims with the mouse (or fires at the nearest foe by itself, as always).
+## The CO-OP screen has both halves from the start ("in": joined): with nobody on the keyboard each
+## half is its own (SPACE joins the left one, ENTER the right one); with one keyboard player, they
+## have every key but the other half's USE key, which joins a second player on the keyboard.
+const KB_LEFT := {
+	&"move_up": [KEY_W], &"move_down": [KEY_S], &"move_left": [KEY_A], &"move_right": [KEY_D],
+	&"roll": [[KEY_SHIFT, KEY_LOCATION_LEFT]], &"use": [KEY_SPACE], &"heal": [KEY_Q],
+	&"pause": [KEY_ESCAPE, KEY_TAB, KEY_QUOTELEFT], &"bomb": [KEY_E], &"special": [KEY_F],
+	&"belt1": [KEY_1], &"belt2": [KEY_2], &"belt3": [KEY_3], &"belt4": [KEY_4],
+}
+const KB_RIGHT := {
+	&"move_up": [KEY_UP], &"move_down": [KEY_DOWN], &"move_left": [KEY_LEFT], &"move_right": [KEY_RIGHT],
+	&"aim_up": [KEY_KP_8], &"aim_down": [KEY_KP_5, KEY_KP_2], &"aim_left": [KEY_KP_4], &"aim_right": [KEY_KP_6],
+	&"roll": [[KEY_SHIFT, KEY_LOCATION_RIGHT], KEY_KP_0], &"use": [KEY_ENTER, KEY_KP_ENTER],
+	&"heal": [KEY_SLASH], &"pause": [KEY_BACKSPACE], &"bomb": [[KEY_CTRL, KEY_LOCATION_RIGHT], KEY_COMMA],
+	&"special": [KEY_PERIOD],
+	&"belt1": [KEY_7], &"belt2": [KEY_8], &"belt3": [KEY_9], &"belt4": [KEY_0],
+}
+var _split := false   # each half reads its own keys (both in the party; on the CO-OP screen, neither yet)
+var _lone := -1       # the CO-OP screen: the one keyboard player so far (pad), the other half free to join
+var _side := {}       # code * 8 + side -> held (Shift and Ctrl: which one, from their events)
+
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_setup_input_map()
@@ -207,6 +233,8 @@ func keys_label(a: StringName) -> String:
 func _input(event: InputEvent) -> void:
 	if event.is_echo():
 		return
+	if event is InputEventKey and event.location != KEY_LOCATION_UNSPECIFIED:
+		_side[_code(event) * 8 + event.location] = event.pressed   # (W2: which Shift, which Ctrl)
 	if capturing != &"" and event is InputEventKey and event.pressed:
 		var code: int = event.physical_keycode if event.physical_keycode != 0 else event.keycode
 		if code != KEY_ESCAPE:
@@ -223,8 +251,20 @@ func _input(event: InputEvent) -> void:
 		if event.is_action_pressed(a):
 			_latched[a] = true
 			var pi := pad_of(event)   # (Windows co-op: and for the player whose device it is)
-			if pi >= 0:
+			if pi >= 0 and not (_split and event is InputEventKey):
 				pads[pi]["latched"][a] = true
+	if _split and event is InputEventKey and event.pressed:
+		for half in 2:   # (W2: a key shared by two players counts for its own half)
+			var pi := _half_pad(half)
+			var table: Dictionary = KB_LEFT if half == 0 else KB_RIGHT
+			for a in table:
+				for spec in table[a]:
+					if _is_spec(spec, event):
+						pads[pi]["latched"][a] = true
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
+		_side.clear()   # (keys let go in another window are not held here)
 
 ## Call once per fixed logic tick, before the game update.
 func tick() -> void:
@@ -311,17 +351,88 @@ func aim_left_trig() -> bool: return _trig[&"aim_left"]
 func aim_right_trig() -> bool: return _trig[&"aim_right"]
 
 # ---------- Windows co-op: each player's own devices (COOP_PLAN.md) ----------
-## A pad: kind "kbm" (the keyboard and mouse), "joy" (one controller, dev = its device id) or "bot"
-## (tests: bot[action] = held), with its own down / trig / rep tables like the ones above.
+## A pad: kind "kbm" (the keyboard and mouse), "kb2" (W2: the keyboard's right half, for a second
+## player on it), "joy" (one controller, dev = its device id) or "bot" (tests: bot[action] = held),
+## with its own down / trig / rep tables like the ones above.
 func add_pad(kind: String, dev: int = -1) -> int:
-	pads.append({ "kind": kind, "dev": dev, "bot": {}, "down": {}, "prev": {}, "held": {}, "latched": {},
-		"trig": {}, "rep": {} })
+	pads.append({ "kind": kind, "dev": dev, "in": true, "bot": {}, "down": {}, "prev": {}, "held": {},
+		"latched": {}, "trig": {}, "rep": {} })
+	_seats()
 	_pad_tick(pads.back())
 	return pads.size() - 1
 
 func clear_pads() -> void:
 	use_pad(-1)
 	pads.clear()
+	_seats()
+
+## The CO-OP screen: pad k's player has joined (true) or left.
+func seat(k: int, on: bool) -> void:
+	if k >= 0 and k < pads.size():
+		pads[k]["in"] = on
+		_seats()
+
+## W2: two players share the keyboard (each reads only their half of it).
+func split() -> bool:
+	return _split
+
+func _seats() -> void:
+	var was := [_split, _lone]
+	var l := _half_pad(0)
+	var r := _half_pad(1)
+	_split = false
+	_lone = -1
+	if l >= 0 and r >= 0:
+		if pads[l]["in"] == pads[r]["in"]:
+			_split = true
+		else:
+			_lone = l if pads[l]["in"] else r
+	if [_split, _lone] != was:
+		for pd in pads:   # (a key held as the keyboard changes hands is not a new press for its new owner)
+			if pd["kind"] in ["kbm", "kb2"]:
+				for a in ACTIONS:
+					pd["prev"][a] = _pad_raw(pd, a)
+
+## The CO-OP screen with one keyboard player: the other half's pad (its USE key joins), or -1.
+func _free_pad() -> int:
+	return -1 if _lone < 0 else _half_pad(1 if pads[_lone]["kind"] == "kbm" else 0)
+
+## Is the key of this InputMap event one of pad k's half's USE keys?
+func _joins(k: int, e: InputEventKey) -> bool:
+	var c := _code(e)
+	return c in (KB_LEFT if pads[k]["kind"] == "kbm" else KB_RIGHT)[&"use"]
+
+## The pad of the keyboard's left half ("kbm", half 0) or right half ("kb2", half 1), or -1.
+func _half_pad(half: int) -> int:
+	for i in pads.size():
+		if pads[i]["kind"] == ("kbm" if half == 0 else "kb2"):
+			return i
+	return -1
+
+## The pad of the mouse, and of the whole keyboard when one player has it: the left half's, else the
+## right half's (a keyboard player alone), or -1.
+func mouse_pad() -> int:
+	if _lone >= 0:
+		return _lone
+	var i := _half_pad(0)
+	return i if i >= 0 else _half_pad(1)
+
+## The key code of a key event: where the key is (its physical place), else what it types.
+static func _code(event: InputEventKey) -> int:
+	return event.physical_keycode if event.physical_keycode != 0 else event.keycode
+
+## Is this key event the key of `spec` (a code, or [code, side])?
+static func _is_spec(spec, event: InputEventKey) -> bool:
+	if spec is Array:
+		return _code(event) == spec[0] and event.location == spec[1]
+	return _code(event) == spec
+
+## Is the key of `spec` held? A side's Shift or Ctrl by its own events (the system only tells that
+## some Shift is held).
+func _key_held(spec) -> bool:
+	if spec is Array:
+		return _side.get(int(spec[0]) * 8 + int(spec[1]), false)
+	return Input.is_physical_key_pressed(spec)
 
 ## The API above reads pads[i] (-1: every device, one player).
 func use_pad(i: int) -> void:
@@ -335,12 +446,23 @@ func use_pad(i: int) -> void:
 	_trig = t[1]
 	_rep = t[2]
 
-## The pad an input event comes from, or -1.
+## The pad an input event comes from, or -1. With two players on the keyboard a key is the pad of
+## its half (-1: a key of neither).
 func pad_of(event: InputEvent) -> int:
+	if event is InputEventKey and _split:
+		for half in 2:
+			var table: Dictionary = KB_LEFT if half == 0 else KB_RIGHT
+			for a in table:
+				for spec in table[a]:
+					if _is_spec(spec, event):
+						return _half_pad(half)
+		return -1
+	if event is InputEventKey and _free_pad() >= 0 and _joins(_free_pad(), event):
+		return _free_pad()   # (the CO-OP screen: a second player joins on the keyboard)
+	if event is InputEventKey or event is InputEventMouseButton:
+		return mouse_pad()
 	for i in pads.size():
 		var pd: Dictionary = pads[i]
-		if pd["kind"] == "kbm" and (event is InputEventKey or event is InputEventMouseButton):
-			return i
 		if pd["kind"] == "joy" and (event is InputEventJoypadButton or event is InputEventJoypadMotion) and event.device == pd["dev"]:
 			return i
 	return -1
@@ -363,10 +485,24 @@ func _pad_raw(pd: Dictionary, a: StringName) -> bool:
 	match pd["kind"]:
 		"bot":
 			return pd["bot"].get(a, false)
-		"kbm":
+		"kbm", "kb2":
+			if _split:   # (W2: two players on the keyboard: each their own half; the mouse is the left one's)
+				for spec in (KB_LEFT if pd["kind"] == "kbm" else KB_RIGHT).get(a, []):
+					if _key_held(spec):
+						return true
+				if pd["kind"] != "kbm":
+					return false
+			elif _lone >= 0 and not is_same(pd, pads[_lone]):
+				if a != &"use":   # (the CO-OP screen: the half nobody has yet only joins)
+					return false
+				for spec in (KB_LEFT if pd["kind"] == "kbm" else KB_RIGHT)[&"use"]:
+					if _key_held(spec):
+						return true
+				return false
+			var free := _free_pad()
 			for e in InputMap.action_get_events(a):
-				if e is InputEventKey and ((e.physical_keycode != 0 and Input.is_physical_key_pressed(e.physical_keycode))
-						or (e.keycode != 0 and Input.is_key_pressed(e.keycode))):
+				if not _split and e is InputEventKey and ((e.physical_keycode != 0 and Input.is_physical_key_pressed(e.physical_keycode))
+						or (e.keycode != 0 and Input.is_key_pressed(e.keycode))) and not (free >= 0 and _joins(free, e)):
 					return true
 				if e is InputEventMouseButton and Input.is_mouse_button_pressed(e.button_index):
 					return true
@@ -387,7 +523,7 @@ func _pointer_aim() -> Variant:
 	if who >= 0:
 		kind = pads[who]["kind"]
 		dev = pads[who]["dev"]
-	if kind in ["all", "kbm"] and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and G.player != null:
+	if (kind == "all" or (who >= 0 and who == mouse_pad())) and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and G.player != null:
 		var m := get_viewport().get_mouse_position()
 		return atan2(m.y - G.player.y, m.x - G.player.x)
 	if kind == "joy":

@@ -9,6 +9,12 @@ extends Node
 ##   5. In play the mouse does nothing to menus (it aims and fires there).
 ##   6. Co-op: the mouse is the keyboard player's: it works their menu, never another player's turn.
 ##   7. F11 does not break anything without a window (the cloud's headless run).
+##   8. W2, two players on one keyboard: on the CO-OP screen ENTER joins the right half and SPACE the
+##      left one; one keyboard player has every key (but the other half's SPACE or ENTER, which joins a
+##      second one); two each read only their half (D and the right arrow, the left and the right
+##      Shift), in the run too (W and the up arrow, ESC and BACKSPACE); the mouse is the left half's.
+##      Leaving with ESC held a while: the key does not become the other half's press.
+##      A keyboard player alone in a run keeps every key.
 ## Prints "pc test: PASSED" or a FAIL line per problem.
 
 var fails := 0
@@ -39,6 +45,7 @@ func _ready() -> void:
 	await _ends()
 	await _in_play()
 	await _coop()
+	await _two_keys()
 	_full()
 	print("pc test: PASSED" if fails == 0 else "pc test: %d FAILED" % fails)
 	get_tree().quit()
@@ -169,6 +176,149 @@ func _coop() -> void:
 	Coop.want = []
 	Coop.pads = [-1]
 	Coop.bots = [false]
+
+## A key pressed or let go, as the system sends it (the Input state and every _input).
+func _key(code: int, down: bool, side: int = KEY_LOCATION_UNSPECIFIED) -> void:
+	var e := InputEventKey.new()
+	e.physical_keycode = code
+	e.keycode = code
+	e.location = side
+	e.pressed = down
+	Input.parse_input_event(e)
+	Input.flush_buffered_events()
+
+## A key pressed for a tick, then let go.
+func _tap(code: int, side: int = KEY_LOCATION_UNSPECIFIED) -> void:
+	_key(code, true, side)
+	await _tick()
+	_key(code, false, side)
+	await _tick()
+
+## A key held for n ticks, then let go.
+func _hold(code: int, n: int) -> void:
+	_key(code, true)
+	for i in n:
+		await _tick()
+	_key(code, false)
+	await _tick()
+
+## Held keys -> {pad: down[action]} of pads l and r after a tick (no game update).
+func _held(codes: Array, l: int, r: int, a: StringName, side: int = KEY_LOCATION_UNSPECIFIED) -> Array:
+	for c in codes:
+		_key(c, true, side)
+	Keys.tick()
+	var out := [Keys.pads[l]["down"].get(a, false), Keys.pads[r]["down"].get(a, false)]
+	for c in codes:
+		_key(c, false, side)
+	Keys.tick()
+	return out
+
+func _two_keys() -> void:
+	Coop.solo()
+	G.fade = {}
+	G.state = &"title"
+	Coop.open_lobby()
+	var l := Keys.mouse_pad()
+	var r := -1
+	for i in Keys.pads.size():
+		if Keys.pads[i]["kind"] == "kb2":
+			r = i
+	if l < 0 or r < 0 or Keys.pads[l]["kind"] != "kbm" or not Keys.split() or Coop._free_halves() != [0, 1]:
+		fail("W2: the CO-OP screen has no two keyboard halves (pads %s)" % [Keys.pads.map(func(p): return p["kind"])])
+		return
+	# One keyboard player: ENTER joins the right half, who then has every key but SPACE.
+	await _tap(KEY_ENTER)
+	if Coop.lobby.size() != 1 or Coop.lobby[0]["pad"] != r:
+		fail("W2: ENTER on the CO-OP screen: %d joined (want the keyboard's right half)" % Coop.lobby.size())
+		return
+	if Keys.split() or Keys.mouse_pad() != r or Coop._device_name(r) != "KEYBOARD" or Coop._free_halves() != [0] \
+			or Coop._key_word(r, &"use") != "ENTER" or Coop._key_word(r, &"pause") != "ESC":
+		fail("W2: one keyboard player: split %s, the mouse's pad %d (want %d), %s, free %s, %s / %s" % [Keys.split(),
+			Keys.mouse_pad(), r, Coop._device_name(r), Coop._free_halves(), Coop._key_word(r, &"use"), Coop._key_word(r, &"pause")])
+	var order := GameData.hero_order()
+	var h0: int = Coop.lobby[0]["hero"]
+	await _tap(KEY_RIGHT)
+	if Coop.lobby[0]["hero"] != order[(order.find(h0) + 1) % order.size()]:
+		fail("W2: one keyboard player's right arrow did not choose the next hero")
+	var w := _held([KEY_W], l, r, &"aim_up")
+	if w[0] or not w[1]:
+		fail("W2: one keyboard player's W is not their aim (left half %s, theirs %s)" % w)
+	# They leave with ESC held a while: it does not become the free half's press (the screen stays).
+	await _hold(KEY_ESCAPE, 6)
+	if G.state != &"coop" or not Coop.lobby.is_empty():
+		fail("W2: the one keyboard player left with ESC: state %s, %d joined (want the CO-OP screen, nobody)" % [G.state, Coop.lobby.size()])
+		return
+	await _tap(KEY_ENTER)
+	# SPACE: a second player joins on the left half (it does not ready P1); the keyboard is split.
+	await _tap(KEY_SPACE)
+	if Coop.lobby.size() != 2 or Coop.lobby[1]["pad"] != l or Coop.lobby[0]["ready"]:
+		fail("W2: SPACE with one keyboard player: %d joined, P1 ready %s (want the left half joined, P1 not ready)" % [Coop.lobby.size(), Coop.lobby[0]["ready"]])
+		return
+	if not Keys.split() or Coop._device_name(l) != "WASD + MOUSE" or Coop._device_name(r) != "ARROWS" or not Coop._free_halves().is_empty() \
+			or Coop._key_word(r, &"pause") != "BACKSPACE" or Coop._key_word(l, &"use") != "SPACE" or Keys.mouse_pad() != l:
+		fail("W2: two on the keyboard: split %s, %s / %s, free %s, P1 MENU %s, the mouse's pad %d (want %d)" % [Keys.split(),
+			Coop._device_name(l), Coop._device_name(r), Coop._free_halves(), Coop._key_word(r, &"pause"), Keys.mouse_pad(), l])
+	# Each reads only their half: D is the left one's RIGHT, the right arrow the right one's.
+	var a0: int = Coop.lobby[0]["hero"]
+	var a1: int = Coop.lobby[1]["hero"]
+	await _tap(KEY_D)
+	if Coop.lobby[1]["hero"] == a1 or Coop.lobby[0]["hero"] != a0:
+		fail("W2: D changed P1's hero (%s) or not P2's (%s)" % [Coop.lobby[0]["hero"] != a0, Coop.lobby[1]["hero"] != a1])
+	a1 = Coop.lobby[1]["hero"]
+	await _tap(KEY_RIGHT)
+	if Coop.lobby[0]["hero"] == a0 or Coop.lobby[1]["hero"] != a1:
+		fail("W2: the right arrow changed P2's hero (%s) or not P1's (%s)" % [Coop.lobby[1]["hero"] != a1, Coop.lobby[0]["hero"] != a0])
+	# The left one leaves with ESC held a while: the right one stays (ESC is theirs only when alone).
+	await _hold(KEY_ESCAPE, 6)
+	if Coop.lobby.size() != 1 or Coop.lobby[0]["pad"] != r:
+		fail("W2: the left one left with ESC: %d joined (want the right one still in)" % Coop.lobby.size())
+		return
+	await _tap(KEY_SPACE)
+	var sr := _held([KEY_SHIFT], l, r, &"roll", KEY_LOCATION_RIGHT)
+	var sl := _held([KEY_SHIFT], l, r, &"roll", KEY_LOCATION_LEFT)
+	if sr != [false, true] or sl != [true, false]:
+		fail("W2: the right Shift rolls %s, the left Shift %s (left half, right half; want [false, true], [true, false])" % [sr, sl])
+	# A tap shorter than a tick counts for its own half only.
+	_key(KEY_ENTER, true)
+	_key(KEY_ENTER, false)
+	Keys.tick()
+	if not Keys.pads[r]["trig"][&"use"] or Keys.pads[l]["trig"][&"use"]:
+		fail("W2: a quick ENTER went to %s" % ("both halves" if Keys.pads[l]["trig"][&"use"] else "nobody"))
+	Keys.tick()
+	# Both ready (heroes they have): the run, with each half its own.
+	var open := order.filter(func(i): return G.hero_unlocked(GameData.heroes()[i]))
+	Coop.lobby[0]["hero"] = open[0]
+	Coop.lobby[1]["hero"] = open[1 % open.size()]
+	await _tap(KEY_ENTER)
+	await _tap(KEY_SPACE)
+	for k in 200:   # the fade, then the run
+		Keys.tick()
+		G.update(TB.DT)
+		if G.state == &"play" and G.fade.is_empty():
+			break
+	if G.state != &"play" or Coop.count() != 2 or not Keys.split():
+		fail("W2: two keyboard players ready: state %s, %d heroes, split %s" % [G.state, Coop.count(), Keys.split()])
+		Coop.solo()
+		return
+	var p1: int = Coop.pads[0]
+	var p2: int = Coop.pads[1]
+	var mv := _held([KEY_W], p2, p1, &"move_up")
+	var am := _held([KEY_W], p2, p1, &"aim_up")
+	var ar := _held([KEY_UP], p2, p1, &"move_up")
+	var es := _held([KEY_ESCAPE], p2, p1, &"pause")
+	var bs := _held([KEY_BACKSPACE], p2, p1, &"pause")
+	if mv != [true, false] or am != [false, false] or ar != [false, true] or es != [true, false] or bs != [false, true]:
+		fail("W2: in the run (P2 left, P1 right): W moves %s, aims %s; up arrow %s; ESC %s; BACKSPACE %s" % [mv, am, ar, es, bs])
+	if Keys.mouse_pad() != p2:
+		fail("W2: in the run the mouse is pad %d (want P2's, the left half: %d)" % [Keys.mouse_pad(), p2])
+	# A keyboard player alone in a run keeps every key (W aims, as always), and the mouse.
+	Keys.clear_pads()
+	Coop.pads = [Keys.add_pad("bot"), Keys.add_pad("kb2")]
+	var solo := _held([KEY_W], Coop.pads[0], Coop.pads[1], &"aim_up")
+	if Keys.split() or Keys.mouse_pad() != Coop.pads[1] or solo != [false, true]:
+		fail("W2: a keyboard player alone: split %s, the mouse's pad %d, W aims %s" % [Keys.split(), Keys.mouse_pad(), solo])
+	Coop.solo()
+	G.state = &"title"
 
 func _full() -> void:
 	var was: bool = Meta.opts.get("fullscreen", false)

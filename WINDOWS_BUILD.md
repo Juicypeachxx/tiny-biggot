@@ -39,6 +39,9 @@ and windows to work, soo if i work on multiplayer addon on windows it wont be pu
   goes to their pad: `MouseMenus.latch`, the first line of `Taps.send`). One line in main.gd adds
   the node. **F11 or Alt+Enter**: the full screen and back, kept in Meta.opts "fullscreen".
   tests/pc_test.tscn (in check.sh). Only real mouse events reach it, so the replays are untouched.
+- **Two players on one keyboard** (W2, 12 Oct): the left half and the mouse, the right half
+  (`Keys.KB_LEFT`, `KB_RIGHT`, the pad "kb2"); COOP_PLAN.md, step W2. The keys are in the zip's
+  README. A keyboard player alone keeps every key. tests/pc_test.tscn.
 - The automatic way was first used for IPA 55 (12 Oct): the iPad build, then `ios-build` moved up,
   `windows-build` took in Stage 55 and Windows 55 was published, all in one run.
 - Not tested by Claude: the game running on Windows (the cloud has no Windows machine). The export
