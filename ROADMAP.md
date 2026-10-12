@@ -1660,34 +1660,38 @@ each point); the rest, proposed in the order it would be felt most, with names o
         test (stage39: its target foes stood in front of the door, and the random room's pillars
         could push them away or stand in the way: 3 runs in 40 had a weapon that hurt no foe); the
         test now places them in front of the hero in an open room (none in 40), then the check passed.
-- [ ] Stage 58 (his word, 12 Oct, with ten photos of his dog: "I want stage one boss to be custom,
+- [x] Stage 58 (his word, 12 Oct, with ten photos of his dog: "I want stage one boss to be custom,
       move stage 1 boss to another stage i want my do to be first boss he is hyperactive border
       collie"; his name, his word: "Arči the pussy slayer"; the Colossus: "Floor 2, sometimes").
       ARČI THE PUSSY SLAYER guards the first floor of the expanded game (`--classic` keeps THE BONE
       COLOSSUS there); THE BONE COLOSSUS becomes one of floor 2's three guardians (with THE SPORE
       MOTHER and THE WALRUS ADMIRAL, a third of the time each): nothing is removed (rule 1). His art is
       ours, drawn from the photos (rule 3). IPA 58.
-  - [ ] 58.1 His pictures (tools/art/stage58_arci.py): standing, running, asleep on his back with his
+  - [x] 58.1 His pictures (tools/art/stage58_arci.py): standing, running, asleep on his back with his
         tongue out, each with and without his sunglasses; his frisbee and stick; ARČI'S FRISBEE icon.
-        Č, Š and Ž in the pixel font (his name), from the font's own letters.
-  - [ ] 58.2 The fight (scripts/entities/arci.gd, on the RiftBosses model like Rex): BOOP BOOP BOOP
+        Č, Š and Ž in the pixel font (his name), from the font's own letters. Done: and like every
+        guardian he evolves with his stages: _s2 his sunglasses, _s3 a gold aura too.
+  - [x] 58.2 The fight (scripts/entities/arci.gd, on the RiftBosses model like Rex): BOOP BOOP BOOP
         (nose-first dashes down lanes shown first), FRISBEE (a disc out on a curve and back, he leaps
         for it), HERDING (he circles you, yipping, then cuts in), CAT! (a cat bolts across the room,
         he bolts after it), CRASH (worn out, he flops on his back: a moment to hit him harder). At half
         health: SUNGLASSES ON, too cool to stop: faster, two frisbees, two cats, and STICK (he tears
         round the room with a huge stick). RESOLVE and the patterns as every guardian.
-  - [ ] 58.3 Beaten, he is not slain: he rolls over for a belly rub (hearts, a bark) and stays there
+  - [x] 58.3 Beaten, he is not slain: he rolls over for a belly rub (hearts, a bark) and stays there
         asleep; the floor goes on as after any guardian. His drop: ARČI'S FRISBEE (a weapon that
         flies out and comes back).
-  - [ ] 58.5 His word (12 Oct): "He loves his frizbie he is obsessed with his frizbies". The frisbee at
+  - [x] 58.5 His word (12 Oct): "He loves his frizbie he is obsessed with his frizbies". The frisbee at
         the heart of his fight: he carries one in his mouth; DROP IT (he drops it at your feet and
         stares: throw it, by stepping on it, and he bolts after it, too happy to mind your blows,
         x1.5; leave it and he barks rings of shots); FRENZY (second phase: four frisbees fanned out
         on curves shown first, and he fetches every one); BOUNCE (second phase: a frisbee bouncing
         off the walls on a path shown first, he right behind it); his RESOLVE answer flies frisbees
         after you; he sleeps beside his frisbee when beaten.
-  - [ ] 58.4 tests/stage58_test, the classic replays unchanged, the core ones re-recorded (the first
-        guardian changed on purpose), the full check, IPA 58.
+  - [x] 58.4 tests/stage58_test, the classic replays unchanged, the core ones re-recorded (the first
+        guardian changed on purpose), the full check, IPA 58. Done: stage58_test passes; the six
+        classic replays identical, four of the eight core ones changed (they reach him) and were
+        re-recorded; the full check passed; IPA 58 "Good Boy". Bots at level 1 in his room last
+        30 to 60 s (against the Colossus in the same room: 20 to 50 s): no harder than before.
 ### Stage 46: weapon enchantments (IPA 46; his word: "Ok go 44 and 45, and 46")
 - [x] 46.1 An enchantment slot on weapons (one at most): the item card, the name, the name plate,
       saving; flat element damage on hits; foe kinds for the slayer enchantments.
@@ -1800,3 +1804,8 @@ each point); the rest, proposed in the order it would be felt most, with names o
   bosses"). Foes 10% to 25% more health for the same build, 4% more elites, faster foe shots;
   guardians more health deeper down, at least 30 s + 7 s a floor, 15% less rest between attacks.
   A guardian now takes 49, 69 and 85 s on floors 2, 5 and 8 (was 41, 54, 70). IPA 57 "Cranked Up".
+- 12 Oct 2026: Stage 58 (his dog: "i want my do to be first boss he is hyperactive border collie";
+  "He loves his frizbie"). ARČI THE PUSSY SLAYER guards the first floor (the Colossus: floor 2, a
+  third of the time). Frisbees, boops, herding, cats, a stick and naps; sunglasses at half health;
+  beaten, he sleeps beside his frisbee. His drop: ARČI'S FRISBEE. The font draws Č, Š, Ž. IPA 58
+  "Good Boy".

@@ -71,7 +71,10 @@ replays re-recorded (the first guardian changed on purpose), the full check, IPA
 His word during it ("He loves his frizbie he is obsessed with his frizbies"): 58.5, the frisbee at the
 heart of the fight: in his mouth, DROP IT (throw it by stepping on it: he fetches, x1.5, no bite;
 ignore it: two fans of barks), FRENZY and BOUNCE in his second phase, his comets are frisbees, he
-sleeps beside it. stage58_test covers them (passes).
+sleeps beside it. stage58_test covers them (passes). Four of the eight core replays reach him and
+were re-recorded (the six classic ones identical); the full check passed (CHECK PASSED); IPA 58
+"Good Boy". Waiting on his iPad test of it (and of 57). On the Windows line his frisbees and stick
+hurt only P1 in co-op (like the hazards before W3): add Coop.hazard there after this merge.
 The first full check of 57 failed once on stage39 ("squeezebox hurt no foe in 2.5 s"): an old weak test,
 not the game (its target foes came in front of the door the hero walked in by, and the random
 room's pillars could push them away or stand in the way: 3 runs in 40 missed); fixed in the test
