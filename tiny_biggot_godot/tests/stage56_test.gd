@@ -14,6 +14,11 @@ extends Node
 ##   5. Every pattern plays out, can hurt a hero who stands in it, and comes to an end; they are
 ##      cleared with the room; the drawing does not fail.
 ##   6. --classic: none of it (no resolve, no new patterns, the old health and plates).
+##   7. 56.6 (his question: "What about normal rooms scaling"): the measure of your strength
+##      (Combat.power) sees overkill (a blow counts up to 20 s of a plain build, not only twice the
+##      foe's health) and only fighting time (a wait for the next wave does not lower it), so a build
+##      that kills every foe in one blow makes the next foes tougher. A blow within twice the foe's
+##      health counts as it did.
 ## Prints "stage56 test: PASSED" or a FAIL line per problem.
 
 var fails := 0
@@ -68,6 +73,7 @@ func _ready() -> void:
 	_broken()
 	_plans()
 	await _patterns()
+	_rooms()
 	_classic()
 	print("stage56 test: PASSED" if fails == 0 else "stage56 test: %d FAILED" % fails)
 	get_tree().quit()
@@ -265,6 +271,62 @@ func GRID_SPOT(grids: Array) -> float:
 		if Patterns._lit(grids[0], i) and i / 6 == 1:
 			return Patterns._cell(i).get_center().x
 	return 224.0
+
+# ---------- 7 ----------
+func _rooms() -> void:
+	var p := _run(4)
+	G.run_stats["power0"] = 40.0
+	G.run_stats["dps"] = 0.0
+	G.run_stats["dealt"] = 0.0
+	var e := Combat.spawn_enemy("slime", p.x + 40.0, p.y, false, true)
+	e.spawn_t = 0.0
+	var cap := Combat.blow_cap(e)
+	if absf(cap - 20.0 * Combat.yardstick()) > 0.01 or cap <= e.max_hp * 2.0:
+		fail("a weak foe's blow cap is %.0f (want 20 s of a plain build: %.0f)" % [cap, 20.0 * Combat.yardstick()])
+	# A small blow counts whole (each blow rolls its damage: what it took is the blow).
+	var hp_a := e.hp
+	Combat.damage_enemy(e, e.max_hp * 0.4, { "no_crit": true, "no_mult": true })
+	var small: float = G.run_stats.get("dealt", 0.0)
+	if absf(small - (hp_a - e.hp)) > 0.01 * e.max_hp:
+		fail("a blow that took %.1f of a foe's health counted %.1f" % [hp_a - e.hp, small])
+	G.run_stats["dealt"] = 0.0
+	# A blow a thousand times its health: the overkill counts, up to the cap.
+	Combat.damage_enemy(e, e.max_hp * 1000.0, { "no_crit": true, "no_mult": true })
+	var big: float = G.run_stats.get("dealt", 0.0)
+	if absf(big - minf(e.max_hp * 1000.0, cap)) > 0.01 * big or big <= e.max_hp * 2.0:
+		fail("a blow of a thousand times a foe's health counted %.0f (want %.0f)" % [big, minf(e.max_hp * 1000.0, cap)])
+	G.locked = true
+	Combat.track_power(TB.DT)
+	var after_kill: float = G.run_stats["dps"]
+	if after_kill <= 0.0:
+		fail("a kill did not move the measure (dps %.1f)" % after_kill)
+	# The wait for the next wave (locked, nobody there, nothing dealt) does not lower it.
+	G.enemies.clear()
+	for i in 300:
+		Combat.track_power(TB.DT)
+	if absf(G.run_stats["dps"] - after_kill) > 0.001:
+		fail("five seconds of waiting moved the measure from %.1f to %.1f" % [after_kill, G.run_stats["dps"]])
+	# One-blow kills, wave after wave: the next foes are tougher.
+	G.run_stats["dps"] = 0.0
+	var hp0 := Combat.floor_scale()
+	for wave in 30:
+		for k in 6:
+			var f := Combat.spawn_enemy("slime", p.x + 40.0, p.y + k, false, true)
+			f.spawn_t = 0.0
+			Combat.damage_enemy(f, f.max_hp * 500.0, { "no_crit": true, "no_mult": true })
+		Combat.track_power(TB.DT)
+		G.enemies.clear()
+		for i in 120:
+			Combat.track_power(TB.DT)   # (the wait for the next wave)
+	if Combat.power_scale() < 3.0 or Combat.floor_scale() < hp0 * 3.0:
+		fail("thirty waves killed in one blow each: foes x%.2f health (want at least x3)" % (Combat.floor_scale() / hp0))
+	# The curve: as before up to ten times ahead, then closer (100 times ahead: 35 times the health).
+	for want in [[1.0, 1.0], [5.0, pow(5.0, 0.65)], [10.0, pow(10.0, 0.65)], [100.0, pow(10.0, 0.65) * pow(10.0, 0.9)]]:
+		G.run_stats["dps"] = want[0] * Combat.yardstick()
+		if absf(Combat.power_scale() - want[1]) > 0.01 * want[1]:
+			fail("%.0f times ahead: foes x%.2f health (want x%.2f)" % [want[0], Combat.power_scale(), want[1]])
+	G.locked = false
+	G.enemies.clear()
 
 # ---------- 6 ----------
 func _classic() -> void:
