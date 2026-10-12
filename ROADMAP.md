@@ -1636,20 +1636,30 @@ each point); the rest, proposed in the order it would be felt most, with names o
         replays identical, the eight core ones re-recorded; the full check passed; IPA 56 "Bosses
         Fight Back".
 
-- [ ] Stage 57 (his word, 12 Oct, after IPA 56: "Crank difficulty alittle bit more up in normal rooms
+- [x] Stage 57 (his word, 12 Oct, after IPA 56: "Crank difficulty alittle bit more up in normal rooms
       and at bosses"). A little harder, not a wall: the foes and the guardians rise, nothing of the
       hero is toned down (rule 1). Expanded game only (`--classic` as always). IPA 57.
-  - [ ] 57.1 Measure first: tests/boss_clock (4 heroes with the build a player has by then, floors
-        2, 5 and 8): a room's seconds, how long a foe lives, a guardian's seconds.
-  - [ ] 57.2 Ordinary rooms: foes a little tougher (Combat.hard_hp +10% on the first floor, 7% more
+  - [x] 57.1 Measure first: tests/boss_clock (4 heroes with the build a player has by then, floors
+        2, 5 and 8): a room's seconds, how long a foe lives, a guardian's seconds. Done: a guardian
+        took 41, 54 and 70 s on floors 2, 5 and 8 (the middle two of four).
+  - [x] 57.2 Ordinary rooms: foes a little tougher (Combat.hard_hp +10% on the first floor, 7% more
         each floor after instead of 6%), a strong build met a little more closely
         (Combat.power_scale: the lead to the power of 0.7, was 0.65), 4% more elites, foes' shots 5%
-        faster. Not their attack timers: those also time their warnings.
-  - [ ] 57.3 Guardians: 7% more health each floor down (was 6%), no guardian falls in less than
+        faster. Not their attack timers: those also time their warnings. Done: the same build meets
+        10% (plain, first floor) to 25% (ten times ahead, deep) more health. The rooms' own timing
+        was too uneven to show it with four heroes (the runs part ways once the foes are tougher:
+        other drops, other level-ups), so the health is the number to trust.
+  - [x] 57.3 Guardians: 7% more health each floor down (was 6%), no guardian falls in less than
         30 s + 7 s a floor (was 25 s + 6 s; 140 s at most, was 120), and they rest 15% less between
-        attacks (BossAI.done, RiftBosses._done; the warnings stay as long).
-  - [ ] 57.4 Measure after; the tests' numbers; the classic replays unchanged, the core ones
-        re-recorded (on purpose); the full check; IPA 57.
+        attacks (BossAI.done, RiftBosses._done; the warnings stay as long). Done (BossAI.rest()).
+        Measured after: a guardian takes 49, 69 and 85 s on floors 2, 5 and 8 (was 41, 54, 70).
+  - [x] 57.4 Measure after; the tests' numbers; the classic replays unchanged, the core ones
+        re-recorded (on purpose); the full check; IPA 57. Done: tests/stage56_test has the new numbers
+        and a section for 57; the six classic replays identical, the eight core ones re-recorded;
+        the full check passed; IPA 57 "Cranked Up". The first full check failed once on an old weak
+        test (stage39: its target foes stood in front of the door, and the random room's pillars
+        could push them away or stand in the way: 3 runs in 40 had a weapon that hurt no foe); the
+        test now places them in front of the hero in an open room (none in 40), then the check passed.
 ### Stage 46: weapon enchantments (IPA 46; his word: "Ok go 44 and 45, and 46")
 - [x] 46.1 An enchantment slot on weapons (one at most): the item card, the name, the name plate,
       saving; flat element damage on hits; foe kinds for the slayer enchantments.
@@ -1758,3 +1768,7 @@ each point); the rest, proposed in the order it would be felt most, with names o
   are drawn over your shots, outlined while they attack; deeper ones have more health and a thicker
   plate; RESOLVE makes a guardian UNBROKEN when it is hurt too fast (no build fells one in less than
   25 s + 6 s a floor); six new attack patterns for every guardian. tests/stage56_test.
+- 12 Oct 2026: Stage 57 (his ask: "Crank difficulty alittle bit more up in normal rooms and at
+  bosses"). Foes 10% to 25% more health for the same build, 4% more elites, faster foe shots;
+  guardians more health deeper down, at least 30 s + 7 s a floor, 15% less rest between attacks.
+  A guardian now takes 49, 69 and 85 s on floors 2, 5 and 8 (was 41, 54, 70). IPA 57 "Cranked Up".

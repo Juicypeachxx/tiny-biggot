@@ -51,8 +51,15 @@ answers a little more (Combat.LEAD_POW 0.7, was 0.65), 4% more elites (Game.spaw
 15% faster (was 10%; Combat.shot_mult); guardians 7% more health a floor (Combat.boss_hp, was 6%),
 RESOLVE's fewest seconds 30 s + 7 s a floor, 140 s at most (was 25 + 6, 120), and they rest 15% less
 between attacks (BossAI.rest() in BossAI.done and RiftBosses._done; the warnings as long as before).
-tests/stage56_test has the new numbers and a section for 57 (passes). Next: the measure after, the
-core replays re-recorded (on purpose), the full check, IPA 57.
+tests/stage56_test has the new numbers and a section for 57 (passes). Measured after: a guardian
+takes 49, 69 and 85 s on floors 2, 5 and 8 (was 41, 54, 70); the same build meets 10% to 25% more
+health in ordinary rooms (the rooms' own timing was too uneven with four heroes to show it: the runs
+part ways once the foes are tougher). The six classic replays identical, the eight core ones
+re-recorded on purpose; the full check passed; IPA 57 "Cranked Up". Waiting on his iPad test of it.
+The first full check failed once on stage39 ("squeezebox hurt no foe in 2.5 s"): an old weak test,
+not the game (its target foes came in front of the door the hero walked in by, and the random
+room's pillars could push them away or stand in the way: 3 runs in 40 missed); fixed in the test
+(the hero placed first, the floor between them cleared: none in 40), and the full check passed.
 Done before: 39.4 "Bosses Fall" (IPA 39.4), Stage 39 "More to Find", 38 "Alignment and Loot", 37,
 36, 35 (the full check passed at 35). Next: Stage 40.
 
