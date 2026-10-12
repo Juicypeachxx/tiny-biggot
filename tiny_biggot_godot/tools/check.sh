@@ -20,6 +20,11 @@ echo "== compile all scripts"
 timeout 900 "$GODOT" --headless --path . --quit-after 3000 res://tests/check_scripts.tscn 2>&1 | tee "$LOG" | tail -n 3
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== Windows co-op (the Windows line only: COOP_PLAN.md)"
+timeout 600 "$GODOT" --headless --path . res://tests/coop_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[coop\]|coop test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== run main scene for $FRAMES frames"
 "$GODOT" --headless --path . --fixed-fps 60 --quit-after "$FRAMES" -- "$@" >"$LOG" 2>&1
 tail -n 5 "$LOG"

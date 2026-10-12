@@ -63,6 +63,13 @@ var _latched := {}
 var _trig := {}
 var _rep := {}
 
+# Windows co-op (COOP_PLAN.md, his word 12 Oct): each player's own devices. who = -1: every device
+# at once (one player, as always); who = i: only pads[i] (Coop sets it around each hero's turn).
+var pads: Array = []
+var who := -1
+var _merged: Array = []
+var _cursor := -1
+
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_setup_input_map()
@@ -73,6 +80,7 @@ func _ready() -> void:
 		_latched[a] = false
 		_trig[a] = false
 		_rep[a] = false
+	_merged = [_down, _trig, _rep]
 
 func _key(code: Key) -> InputEventKey:
 	var e := InputEventKey.new()
@@ -89,12 +97,19 @@ func _lkey(code: Key) -> InputEventKey:
 func _btn(b: JoyButton) -> InputEventJoypadButton:
 	var e := InputEventJoypadButton.new()
 	e.button_index = b
+	e.device = -1   # (Windows co-op: every controller, not only the first)
+	return e
+
+func _mouse(b: MouseButton) -> InputEventMouseButton:
+	var e := InputEventMouseButton.new()
+	e.button_index = b
 	return e
 
 func _axis(ax: JoyAxis, v: float) -> InputEventJoypadMotion:
 	var e := InputEventJoypadMotion.new()
 	e.axis = ax
 	e.axis_value = v
+	e.device = -1   # (every controller)
 	return e
 
 func _bind(action: StringName, events: Array) -> void:
@@ -114,7 +129,7 @@ func _setup_input_map() -> void:
 	_bind(&"aim_right", [_axis(JOY_AXIS_RIGHT_X, 1.0)])
 	_bind(&"aim_up", [_axis(JOY_AXIS_RIGHT_Y, -1.0)])
 	_bind(&"aim_down", [_axis(JOY_AXIS_RIGHT_Y, 1.0)])
-	_bind(&"roll", [_btn(JOY_BUTTON_B), _axis(JOY_AXIS_TRIGGER_RIGHT, 1.0)])
+	_bind(&"roll", [_btn(JOY_BUTTON_B), _axis(JOY_AXIS_TRIGGER_RIGHT, 1.0), _mouse(MOUSE_BUTTON_RIGHT)])   # (Windows: the right mouse button)
 	_bind(&"use", [_btn(JOY_BUTTON_A)])
 	_bind(&"heal", [_btn(JOY_BUTTON_X), _axis(JOY_AXIS_TRIGGER_LEFT, 1.0)])
 	_bind(&"pause", [_btn(JOY_BUTTON_Y), _btn(JOY_BUTTON_START)])
@@ -207,9 +222,13 @@ func _input(event: InputEvent) -> void:
 	for a in ACTIONS:
 		if event.is_action_pressed(a):
 			_latched[a] = true
+			var pi := pad_of(event)   # (Windows co-op: and for the player whose device it is)
+			if pi >= 0:
+				pads[pi]["latched"][a] = true
 
 ## Call once per fixed logic tick, before the game update.
 func tick() -> void:
+	use_pad(-1)
 	for a in ACTIONS:
 		var raw := Input.is_action_pressed(a)
 		var down: bool = raw or _latched[a]
@@ -221,6 +240,12 @@ func tick() -> void:
 		_down[a] = down
 		_prev[a] = raw
 		_latched[a] = false
+	for pd in pads:
+		_pad_tick(pd)
+	var want := Input.CURSOR_CROSS if G.state == &"play" else Input.CURSOR_ARROW   # (Windows: aim with the mouse)
+	if want != _cursor:
+		_cursor = want
+		Input.set_default_cursor_shape(want)
 
 func pressed(a: StringName) -> bool:
 	return _down[a]
@@ -246,6 +271,9 @@ func move() -> Vector2:
 
 ## Manual aim angle, or null when no aim key is held (an angle of 0.0 is valid!).
 func aim() -> Variant:
+	var pa = _pointer_aim()
+	if pa != null:
+		return pa
 	var x := 0
 	var y := 0
 	if _down[&"aim_left"]: x -= 1
@@ -279,3 +307,96 @@ func any() -> bool: return _trig[&"use"] or _trig[&"pause"] or _trig[&"roll"]
 ## Input.trigger?(:X) / (:Z) in the skill tree = aim left / aim right keys.
 func aim_left_trig() -> bool: return _trig[&"aim_left"]
 func aim_right_trig() -> bool: return _trig[&"aim_right"]
+
+# ---------- Windows co-op: each player's own devices (COOP_PLAN.md) ----------
+## A pad: kind "kbm" (the keyboard and mouse), "joy" (one controller, dev = its device id) or "bot"
+## (tests: bot[action] = held), with its own down / trig / rep tables like the ones above.
+func add_pad(kind: String, dev: int = -1) -> int:
+	pads.append({ "kind": kind, "dev": dev, "bot": {}, "down": {}, "prev": {}, "held": {}, "latched": {},
+		"trig": {}, "rep": {} })
+	_pad_tick(pads.back())
+	return pads.size() - 1
+
+func clear_pads() -> void:
+	use_pad(-1)
+	pads.clear()
+
+## The API above reads pads[i] (-1: every device, one player).
+func use_pad(i: int) -> void:
+	if i >= pads.size():
+		i = -1
+	if i == who:
+		return
+	who = i
+	var t: Array = _merged if i < 0 else [pads[i]["down"], pads[i]["trig"], pads[i]["rep"]]
+	_down = t[0]
+	_trig = t[1]
+	_rep = t[2]
+
+## The pad an input event comes from, or -1.
+func pad_of(event: InputEvent) -> int:
+	for i in pads.size():
+		var pd: Dictionary = pads[i]
+		if pd["kind"] == "kbm" and (event is InputEventKey or event is InputEventMouseButton):
+			return i
+		if pd["kind"] == "joy" and (event is InputEventJoypadButton or event is InputEventJoypadMotion) and event.device == pd["dev"]:
+			return i
+	return -1
+
+func _pad_tick(pd: Dictionary) -> void:
+	for a in ACTIONS:
+		var raw := _pad_raw(pd, a)
+		var lat: bool = pd["latched"].get(a, false)
+		var down: bool = raw or lat
+		var trig: bool = lat or (down and not pd["prev"].get(a, false))
+		var h: int = (int(pd["held"].get(a, 0)) + 1) if down else 0
+		pd["held"][a] = h
+		pd["trig"][a] = trig
+		pd["rep"][a] = trig or (h >= 24 and (h - 24) % 6 == 0)
+		pd["down"][a] = down
+		pd["prev"][a] = raw
+		pd["latched"][a] = false
+
+func _pad_raw(pd: Dictionary, a: StringName) -> bool:
+	match pd["kind"]:
+		"bot":
+			return pd["bot"].get(a, false)
+		"kbm":
+			for e in InputMap.action_get_events(a):
+				if e is InputEventKey and ((e.physical_keycode != 0 and Input.is_physical_key_pressed(e.physical_keycode))
+						or (e.keycode != 0 and Input.is_key_pressed(e.keycode))):
+					return true
+				if e is InputEventMouseButton and Input.is_mouse_button_pressed(e.button_index):
+					return true
+		"joy":
+			var d: int = pd["dev"]
+			for e in InputMap.action_get_events(a):
+				if e is InputEventJoypadButton and Input.is_joy_button_pressed(d, e.button_index):
+					return true
+				if e is InputEventJoypadMotion and Input.get_joy_axis(d, e.axis) * signf(e.axis_value) >= 0.5:
+					return true
+	return false
+
+## Aim from a pointer: the mouse while its left button is held (fire at the cursor), or a
+## controller's right stick at its true angle. Null when neither is in use.
+func _pointer_aim() -> Variant:
+	var kind := "all"
+	var dev := -1
+	if who >= 0:
+		kind = pads[who]["kind"]
+		dev = pads[who]["dev"]
+	if kind in ["all", "kbm"] and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and G.player != null:
+		var m := get_viewport().get_mouse_position()
+		return atan2(m.y - G.player.y, m.x - G.player.x)
+	if kind == "joy":
+		return _stick_aim(dev)
+	if kind == "all":
+		for d in Input.get_connected_joypads():
+			var sa = _stick_aim(d)
+			if sa != null:
+				return sa
+	return null
+
+func _stick_aim(d: int) -> Variant:
+	var v := Vector2(Input.get_joy_axis(d, JOY_AXIS_RIGHT_X), Input.get_joy_axis(d, JOY_AXIS_RIGHT_Y))
+	return v.angle() if v.length() >= 0.5 else null
