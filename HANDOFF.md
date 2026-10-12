@@ -37,6 +37,29 @@ the measure of your strength (Combat.power, power_scale) now sees overkill (a bl
 of a plain build, Combat.blow_cap) and only fighting time (not the waits between waves), and past ten
 times ahead the foes keep up more closely (power 0.9); thirty waves of one-blow kills used to leave
 the foes at x1.00 health. Your build is untouched. tests/boss_clock --clock-rooms times the rooms.
+IPA 56 built (ipa-56, 12 Oct 13:38 UTC). Its Windows job stopped: windows-build clashed in
+world_view.gd (_paint_top: Stage 56 draws the guardians there, the co-op line picks Coop.lead()
+there). Merged by hand on windows-build (both kept), its full check passed, pushed: Windows 56 built
+(win-56). The next IPA's Windows job should merge cleanly again.
+On windows-build only (12 Oct, his "go"): W3, every hazard hurts every co-op hero, not only P1
+(Coop.hazard; COOP_PLAN.md W3; d674abf, Windows 56 rebuilt).
+Then his ask (12 Oct, after IPA 56): "Crank difficulty alittle bit more up in normal rooms and at
+bosses": Stage 57 (ROADMAP.md). Measured first (tests/boss_clock, 4 heroes, floors 2, 5, 8: a
+guardian took 41, 54 and 70 s, the middle of four). Changed, expanded game only: foes +60% health on
+the first floor and 7% more a floor (Combat.hard_hp, was 45% and 6%), the measure of a strong build
+answers a little more (Combat.LEAD_POW 0.7, was 0.65), 4% more elites (Game.spawn_wave), foes' shots
+15% faster (was 10%; Combat.shot_mult); guardians 7% more health a floor (Combat.boss_hp, was 6%),
+RESOLVE's fewest seconds 30 s + 7 s a floor, 140 s at most (was 25 + 6, 120), and they rest 15% less
+between attacks (BossAI.rest() in BossAI.done and RiftBosses._done; the warnings as long as before).
+tests/stage56_test has the new numbers and a section for 57 (passes). Measured after: a guardian
+takes 49, 69 and 85 s on floors 2, 5 and 8 (was 41, 54, 70); the same build meets 10% to 25% more
+health in ordinary rooms (the rooms' own timing was too uneven with four heroes to show it: the runs
+part ways once the foes are tougher). The six classic replays identical, the eight core ones
+re-recorded on purpose; the full check passed; IPA 57 "Cranked Up". Waiting on his iPad test of it.
+The first full check failed once on stage39 ("squeezebox hurt no foe in 2.5 s"): an old weak test,
+not the game (its target foes came in front of the door the hero walked in by, and the random
+room's pillars could push them away or stand in the way: 3 runs in 40 missed); fixed in the test
+(the hero placed first, the floor between them cleared: none in 40), and the full check passed.
 Done before: 39.4 "Bosses Fall" (IPA 39.4), Stage 39 "More to Find", 38 "Alignment and Loot", 37,
 36, 35 (the full check passed at 35). Next: Stage 40.
 

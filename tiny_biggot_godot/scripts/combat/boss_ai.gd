@@ -191,6 +191,11 @@ const SHOT_SPR := {
 static func _spr(e: Enemy, attack: String, default: String) -> String:
 	return SHOT_SPR.get(e.boss, {}).get(attack, default)
 
+## 57 (his ask, 12 Oct: "a little bit more ... at bosses"): in the expanded game a guardian rests 15%
+## less between its attacks (only the rest: its warnings stay as long). --classic: 1.0.
+static func rest() -> float:
+	return 0.85 if GameData.rogues() else 1.0
+
 static func half(e: Enemy) -> bool:
 	return e.hp < e.max_hp * (0.7 if G.dread >= 4 else 0.5)
 
@@ -198,7 +203,7 @@ static func done(e: Enemy, wait: float = 0.8) -> void:
 	var h := half(e)
 	e.state = &"rest"
 	e.st = 0.0
-	e.t = wait * (0.7 if h else 1.0)
+	e.t = wait * (0.7 if h else 1.0) * rest()
 	if e.stage == 2:
 		e.t *= 0.75
 	elif e.stage == 3:

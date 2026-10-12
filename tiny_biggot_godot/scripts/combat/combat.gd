@@ -17,8 +17,10 @@ static func floor_scale() -> float:
 ## (40% more on the eleventh). --classic: exactly 1.0, the original game.
 ## Cranked up (his ask, 6 Oct: "stages are still too easy"): 35% more on the first floor, 6% more
 ## each floor after (95% more on the eleventh).
+## 57 (his ask, 12 Oct: "Crank difficulty alittle bit more up in normal rooms and at bosses"): 60%
+## more on the first floor, 7% more each floor after (130% more on the eleventh; was 45% and 105%).
 static func hard_hp() -> float:
-	return 1.45 + 0.06 * G.floor_index if GameData.rogues() else 1.0   # 11.3: +45% on the first floor (was +35%)
+	return 1.6 + 0.07 * G.floor_index if GameData.rogues() else 1.0   # 11.3: +45% on the first floor; 57: +60%
 
 ## The run grows with you (his ask, 6 Oct: broken builds end every fight at once; nothing about the
 ## build is touched): foes gain 2% health for every relic you carry and 1% for every minute of the
@@ -32,19 +34,21 @@ static func run_scale() -> float:
 ## bosses after a few pickups"). Nothing about the build is touched: your damage, rate, shots and
 ## crits are measured, and when they run ahead of what a plain build has on that floor (your power
 ## at the start of the run times 1 + 1.3 f + 0.25 f², from bot runs with no combo, 6 Oct) every
-## foe spawned from then on gets more health: the lead to the power of 0.65, so a build ten times
-## ahead still kills more than three times faster than a plain one (56.6: past ten times, to the
-## power of 0.9). --classic: 1.0.
+## foe spawned from then on gets more health: the lead to the power of 0.7 (57: was 0.65), so a build
+## ten times ahead still kills twice as fast as a plain one (56.6: past ten times, to the power of
+## 0.9). --classic: 1.0.
+const LEAD_POW := 0.7   # 57 (his ask, 12 Oct: "a little bit more"): was 0.65
+
 static func power_scale() -> float:
 	var base: float = G.run_stats.get("power0", 0.0)
 	if not GameData.rogues() or G.player == null or base <= 0.0:
 		return 1.0
 	var lead := power(G.player) / yardstick()
 	if lead <= 10.0:
-		return pow(lead, 0.65) if lead > 1.0 else 1.0
+		return pow(lead, LEAD_POW) if lead > 1.0 else 1.0
 	# 56.6 (his question, 12 Oct: "What about normal rooms scaling"): far ahead, the foes keep up
-	# more closely (a build 100 times ahead meets 35 times the health, not 20; it still clears faster).
-	return pow(10.0, 0.65) * pow(lead / 10.0, 0.9)
+	# more closely (a build 100 times ahead meets 40 times the health, not 25; it still clears faster).
+	return pow(10.0, LEAD_POW) * pow(lead / 10.0, 0.9)
 
 ## What a plain build deals a second on this floor: your power at the start of the run times
 ## 1 + 1.3 f + 0.25 f² (and loops), the yardstick of power_scale.
@@ -84,8 +88,9 @@ static func track_power(dt: float) -> void:
 ## then "bosses with a bigger health pool and armor"; the armor is scripts/combat/armor.gd).
 ## 56.3 (his playthrough, 12 Oct: "make later bosses harder and have beaffier healthpools"): 6% more
 ## for each floor down (Resolve.depth: loops count on), up to 72% more twelve floors down.
+## 57 (his ask, 12 Oct: "a little bit more ... at bosses"): 7% more a floor, up to 84% more.
 static func boss_hp() -> float:
-	return 2.0 * (1.0 + 0.06 * mini(Resolve.depth(), 12)) if GameData.rogues() else 1.0
+	return 2.0 * (1.0 + 0.07 * mini(Resolve.depth(), 12)) if GameData.rogues() else 1.0
 
 ## From the seventh floor on (the lands past the Pale Regent) a foe's blow or shot costs a whole
 ## heart in the expanded game; traps, your own bombs and the like stay at half. --classic: 1.
@@ -98,7 +103,7 @@ static func loop_scale() -> float:
 	return 1.0 + (1.5 if GameData.rogues() else 0.8) * G.loop   # each loop much harder (his ask, 6 Oct)
 
 static func shot_mult() -> float:
-	return (1 + (0.08 * (Dread.old() - 1) if Dread.old() >= 2 else 0.0)) * (1.0 + (0.12 if GameData.rogues() else 0.06) * G.loop) * (1.10 if GameData.rogues() else 1.0)   # 11.3: foes' shots 10% faster (was 6%)
+	return (1 + (0.08 * (Dread.old() - 1) if Dread.old() >= 2 else 0.0)) * (1.0 + (0.12 if GameData.rogues() else 0.06) * G.loop) * (1.15 if GameData.rogues() else 1.0)   # 11.3: foes' shots 10% faster (was 6%); 57: 15%
 
 static func has_los(a: Object, b: Object) -> bool:
 	var d := TB.dist_xy(a.x, a.y, b.x, b.y)

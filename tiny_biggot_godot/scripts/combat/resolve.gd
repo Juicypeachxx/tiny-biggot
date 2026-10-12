@@ -10,7 +10,8 @@ extends RefCounted
 ## attack (Patterns), at most every 7 s. Then the bar is empty again.
 ## So a build that deals less than the bar empties never meets it, and a stronger one still wins
 ## faster the stronger it is, but no guardian falls in seconds: it takes at least t_min() seconds of
-## fighting (25 s on the first floor, 6 s more each floor after, 120 s at most). The build is not
+## fighting (30 s on the first floor, 7 s more each floor after, 140 s at most; 57, his ask "a little
+## bit more ... at bosses": it was 25 s, 6 s and 120 s). The build is not
 ## touched: every blow lands as it always did, on everything else and on a guardian that is not
 ## UNBROKEN.
 
@@ -28,7 +29,7 @@ static func depth() -> int:
 
 ## The fewest seconds of fighting a guardian of this depth takes.
 static func t_min() -> float:
-	return minf(120.0, 25.0 + 6.0 * depth())
+	return minf(140.0, 30.0 + 7.0 * depth())
 
 ## Its resolve: the share of its health it can lose before it is UNBROKEN.
 static func cap() -> float:

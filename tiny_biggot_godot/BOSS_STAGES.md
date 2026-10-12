@@ -105,3 +105,20 @@ Expanded game only (`--classic` as always). Not Rex (the good boy is as he was).
   hurts a hero standing in it and ends, the room clears them, they draw; `--classic`: none of it.
   The bosses, chaos, realms and Last Laugh tests set `Resolve.off`; realms checks every move of the
   new plans in real fights.
+
+## Stage 57: a little harder (his ask, 12 Oct: "Crank difficulty alittle bit more up in normal rooms and at bosses")
+
+Expanded game only; nothing of the hero is touched (rule 1).
+- Every foe, mini-boss and guardian: `Combat.hard_hp` 1.6 + 0.07 a floor (was 1.45 + 0.06); a strong
+  build is answered a little more (`Combat.LEAD_POW` 0.7, was 0.65): the same build meets 10% (a
+  plain build, first floor) to 25% (ten times ahead, deep floors) more health.
+- Ordinary rooms: 4% more elites (`Game.spawn_wave`), foes' shots 15% faster than the original
+  (`Combat.shot_mult`, was 10%). Their attack timers are not touched: those also time their warnings.
+- Guardians: 7% more health a floor down (`Combat.boss_hp`, was 6%; 84% more at most, was 72%);
+  RESOLVE's fewest seconds 30 s + 7 s a floor, 140 s at most (`Resolve.t_min`, was 25 s + 6 s, 120 s);
+  they rest 15% less between attacks (`BossAI.rest()`, in `BossAI.done` and `RiftBosses._done`; the
+  telegraphs stay as long).
+- Measured (tests/boss_clock, 4 heroes with the build a player has by then, the middle two of four):
+  a guardian took 41, 54 and 70 s on floors 2, 5 and 8; now 49, 69 and 85 s.
+- tests/stage56_test: the new numbers, and section 7 for 57 (`--classic`: none of it).
+
