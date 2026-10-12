@@ -56,6 +56,10 @@ const LOB_T := 0.75      # a thrown thing in the air
 const VULN := 1.5        # a tripped donkey, a napping cat: damage taken
 const TRIP_T := 2.2
 const PROPS := ["vase", "mug", "bowl", "pot"]
+## Moves that show themselves (draw_ground / draw_over / tilt): the lance's lane, a leap's landing
+## ring, the zoomies' trail, a tripped donkey's stars, a napping cat. Every other move of theirs is made
+## standing, with the casting circle under it (Afx.CASTING); tests/afx_test checks both.
+const OWN_VISUAL := [&"lance", &"signslam", &"pounce", &"zoomies", &"trip", &"nap"]
 
 static var wait := 0.0
 static var drops: Array = []     # falling from the sky: { x, y, warn, max, kind, r, by, n, spr }
