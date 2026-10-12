@@ -3,12 +3,13 @@ name: Build the Windows game
 # His Windows build branch (12 Oct: "i want to setup windows build in windows-build"; WINDOWS_BUILD.md).
 # Builds TinyBiggot-<VERSION>-<Name>-Windows.zip (TinyBiggot.exe, one file with the game inside, and a
 # short README) on one of GitHub's Linux machines, and publishes it as two releases: win-<version>
-# (kept, so he can go back) and win-latest.
+# (kept, so he can go back) and win-latest. The steps are in tiny_biggot_godot/tools/build_windows.sh.
 #
 # It runs when
-#   - anything is pushed to the branch windows-build (bring it up to date from claude/dev and push), or
+#   - anything is pushed to the branch windows-build (Windows-only work goes there), or
 #   - you press "Run workflow" on the Actions page (once this file is on the default branch).
-# The iPad build (build-ipa.yml) is not touched: it still runs on [ipa] commits on any branch.
+# Every iPad build on claude/dev also takes its version into windows-build and builds it for Windows
+# with the same script (build-ipa.yml there). Nothing on windows-build goes back to claude/dev.
 
 on:
   workflow_dispatch:
@@ -26,94 +27,21 @@ jobs:
   windows:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
-    env:
-      PROJECT: tiny_biggot_godot
-      GODOT_RELEASE: 4.6.1-stable
-      TEMPLATES: 4.6.1.stable
     steps:
       - uses: actions/checkout@v4
 
-      - name: The version (the file VERSION) and its name (scripts/data/versions.gd)
-        run: |
-          set -euo pipefail
-          V=$(tr -d '[:space:]' < VERSION)
-          N=$(bash "$PROJECT/tools/versions.sh" name "$V")
-          if [ -z "$N" ] || [ "$(bash "$PROJECT/tools/versions.sh" newest)" != "$V" ]; then
-            echo "::error::Version $V needs its line (number|Name|tweak; tweak) at the top of scripts/data/versions.gd"
-            exit 1
-          fi
-          echo "V=$V" >> "$GITHUB_ENV"
-          echo "NAME=$N" >> "$GITHUB_ENV"
-          echo "PACKAGE=TinyBiggot-$V-$(printf '%s' "$N" | tr -cs 'A-Za-z0-9' '-')-Windows.zip" >> "$GITHUB_ENV"
-          echo "Version $V: $N"
-
       - name: Godot and the Windows export template (kept between runs)
-        id: godot
         uses: actions/cache@v4
         with:
           path: |
             ~/godot
             ~/.local/share/godot/export_templates
-          key: godot-${{ env.GODOT_RELEASE }}-linux-windows-1
+          key: godot-4.6.1-stable-linux-windows-1
 
-      - name: Download Godot and the Windows export template
-        if: steps.godot.outputs.cache-hit != 'true'
-        run: |
-          set -euo pipefail
-          BASE="https://github.com/godotengine/godot/releases/download/$GODOT_RELEASE"
-          mkdir -p ~/godot && cd ~/godot
-          curl -fsSL --retry 3 -o godot.zip "$BASE/Godot_v${GODOT_RELEASE}_linux.x86_64.zip"
-          unzip -q godot.zip && rm godot.zip
-          mv "Godot_v${GODOT_RELEASE}_linux.x86_64" godot
-          curl -fsSL --retry 3 -o templates.tpz "$BASE/Godot_v${GODOT_RELEASE}_export_templates.tpz"
-          T="$HOME/.local/share/godot/export_templates/$TEMPLATES"
-          mkdir -p "$T"
-          unzip -q -j templates.tpz templates/windows_release_x86_64.exe templates/version.txt -d "$T"
-          rm templates.tpz
-          ls -la "$T"
-
-      - name: Import the project
-        run: |
-          set -euo pipefail
-          G=~/godot/godot
-          "$G" --version
-          mkdir -p build
-          "$G" --headless --path "$PROJECT" --import > build/import.log 2>&1 || true
-          "$G" --headless --path "$PROJECT" --import >> build/import.log 2>&1
-          tail -n 3 build/import.log
-
-      - name: Make the sprite atlas from this import and test it
-        run: |
-          set -euo pipefail
-          GODOT=~/godot/godot bash "$PROJECT/tools/bake_atlas.sh"
-
-      - name: Twenty seconds of play without a screen
-        run: |
-          set -euo pipefail
-          G=~/godot/godot
-          "$G" --headless --path "$PROJECT" --fixed-fps 60 --quit-after 1200 -- --no-save --bot --smart-bot --god --seed=6 --hero=2 --room=elite > build/smoke.log 2>&1 || true
-          grep "\[bot\]" build/smoke.log | tail -n 1
-          if grep -E "SCRIPT ERROR|Parse Error|ERROR:" build/smoke.log; then exit 1; fi
-
-      - name: Export the Windows game (release engine, one .exe with the game inside)
-        run: |
-          set -euo pipefail
-          G=~/godot/godot
-          mkdir -p build/win
-          "$G" --headless --path "$PROJECT" --export-release "Windows" "$PWD/build/win/TinyBiggot.exe" > build/export.log 2>&1 || true
-          grep -E "ERROR|WARNING" build/export.log | sort | uniq -c | head -n 20 || true
-          test -s build/win/TinyBiggot.exe
-          file build/win/TinyBiggot.exe
-          ls -la build/win
-
-      - name: Package it with its README
-        run: |
-          set -euo pipefail
-          sed -e "s|@VERSION@|$V|" -e "s|@NAME@|$NAME|" WINDOWS_README.txt > build/win/README.txt
-          # (not called ZIP: zip reads a variable of that name as its own options)
-          zip -q -9 -j "$PWD/build/$PACKAGE" build/win/TinyBiggot.exe build/win/README.txt
-          ls -la "build/$PACKAGE"
-          unzip -l "build/$PACKAGE"
+      - name: Build the Windows game and publish it
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash tiny_biggot_godot/tools/build_windows.sh
 
       - name: Keep the game with this run
         uses: actions/upload-artifact@v4
@@ -121,32 +49,6 @@ jobs:
           name: TinyBiggot-windows
           path: build/${{ env.PACKAGE }}
           if-no-files-found: error
-
-      - name: Publish it as the "latest Windows build" release, and as its own version
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-          # Two releases: win-latest (always the newest) and win-<version> (kept). A rebuild of the
-          # same version replaces it. The tags are moved, never deleted (as the iPad build does).
-          BODY="$(bash "$PROJECT/tools/versions.sh" notes "$V")
-
-          Version $V: $NAME, for Windows (64-bit). Built from commit $GITHUB_SHA. Unzip it and double-click TinyBiggot.exe. Windows may say it protected your PC, because the game is not signed: press More info, then Run anyway."
-          publish() {
-            local tag="$1" title="$2"
-            gh release delete "$tag" --yes || true
-            git tag -f "$tag" "$GITHUB_SHA"
-            git push -f origin "refs/tags/$tag"
-            gh release create "$tag" "build/$PACKAGE" \
-              --verify-tag --prerelease --title "$title" --notes "$BODY"
-            sleep 5
-            if [ "$(gh release view "$tag" --json isDraft -q .isDraft)" != "false" ]; then
-              gh release edit "$tag" --draft=false
-            fi
-            gh release view "$tag" --json tagName,isDraft,assets -q '.tagName + " draft=" + (.isDraft|tostring) + " " + (.assets|map(.name)|join(","))'
-          }
-          publish "win-$V" "Tiny Biggot Rogues $V: $NAME (Windows)"
-          publish win-latest "Tiny Biggot Rogues: latest Windows build ($V: $NAME)"
 
       - name: Keep the logs
         if: always()
