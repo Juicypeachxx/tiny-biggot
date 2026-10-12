@@ -19,6 +19,7 @@ func fail(msg: String) -> void:
 
 func _ready() -> void:
 	await get_tree().process_frame
+	Resolve.off = true   # (56.3 RESOLVE has its own test: stage56_test; here a blow fells a guardian)
 	seed(5)
 	Meta.opts["autofire"] = true
 	for type in GameData.ENEMIES:
@@ -184,13 +185,13 @@ func _armor(key: String) -> void:
 	var hw := e.hp
 	var aw := e.armor
 	Combat.damage_enemy(e, 20.0, wo)
-	if wk == "" or absf((aw - e.armor) / maxf(0.01, hw - e.hp) - Armor.WEAR / Armor.THROUGH) > 0.3:
+	if wk == "" or absf((aw - e.armor) / maxf(0.01, hw - e.hp) - Armor.WEAR / Armor.through(e)) > 0.3:   # (56.3: less through further down)
 		fail("%s: its weakness (%s) wore %.1f plate for %.1f health" % [key, wk, aw - e.armor, hw - e.hp])
 	var hp0 := e.hp
 	var a0 := e.armor
 	Combat.damage_enemy(e, 40.0, { "no_crit": true, "no_mult": true })
 	var worn := a0 - e.armor
-	if worn < 30.0 or worn > 50.0 or absf(hp0 - e.hp - worn * Armor.THROUGH) > 0.5:
+	if worn < 30.0 or worn > 50.0 or absf(hp0 - e.hp - worn * Armor.through(e)) > 0.5:
 		fail("%s: a blow of 40 wore %.1f armor and took %.1f health" % [key, worn, hp0 - e.hp])
 	Combat.damage_enemy(e, e.armor * 1.3 + 1.0, { "no_crit": true, "no_mult": true })
 	if e.armor > 0 or e.stun_t <= 0 or e.vuln_t <= 0:

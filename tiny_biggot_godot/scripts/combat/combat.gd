@@ -33,37 +33,59 @@ static func run_scale() -> float:
 ## crits are measured, and when they run ahead of what a plain build has on that floor (your power
 ## at the start of the run times 1 + 1.3 f + 0.25 f², from bot runs with no combo, 6 Oct) every
 ## foe spawned from then on gets more health: the lead to the power of 0.65, so a build ten times
-## ahead still kills more than three times faster than a plain one. --classic: 1.0.
+## ahead still kills more than three times faster than a plain one (56.6: past ten times, to the
+## power of 0.9). --classic: 1.0.
 static func power_scale() -> float:
 	var base: float = G.run_stats.get("power0", 0.0)
 	if not GameData.rogues() or G.player == null or base <= 0.0:
 		return 1.0
+	var lead := power(G.player) / yardstick()
+	if lead <= 10.0:
+		return pow(lead, 0.65) if lead > 1.0 else 1.0
+	# 56.6 (his question, 12 Oct: "What about normal rooms scaling"): far ahead, the foes keep up
+	# more closely (a build 100 times ahead meets 35 times the health, not 20; it still clears faster).
+	return pow(10.0, 0.65) * pow(lead / 10.0, 0.9)
+
+## What a plain build deals a second on this floor: your power at the start of the run times
+## 1 + 1.3 f + 0.25 f² (and loops), the yardstick of power_scale.
+static func yardstick() -> float:
 	var f := float(G.floor_index)
-	var lead := power(G.player) / (base * (1 + 1.3 * f + 0.25 * f * f) * (1 + 0.4 * G.loop))
-	return pow(lead, 0.65) if lead > 1.0 else 1.0
+	return G.run_stats.get("power0", 0.0) * (1 + 1.3 * f + 0.25 * f * f) * (1 + 0.4 * G.loop)
+
+## 56.6 (his question, 12 Oct: "What about normal rooms scaling"): the most a blow counts for in
+## Combat.power. It was twice the foe's health, so a build that kills everything with blows far
+## bigger than that looked like an ordinary one (its overkill never showed) and the foes never grew
+## with it. Now also up to 20 s of what a plain build deals on this floor: overkill shows, and one
+## huge hit still cannot run away with it.
+static func blow_cap(e: Enemy) -> float:
+	return maxf(e.max_hp * 2.0, 20.0 * yardstick())
 
 ## Damage a second: the weapon's blow, shots and steady rate (no short haste) with crits, or what
 ## you really dealt in fights lately if that is more (combos, wisps, meteors, blasts; a blow counts
-## up to twice the foe's health, so overkill shows without one huge hit running away).
+## up to blow_cap, so overkill shows without one huge hit running away).
 static func power(p: Player) -> float:
 	var sheet: float = Weapons.wdmg(p) * p.weapon["rate"] * p.rate * Weapons.wcount(p) * (1.0 + clampf(p.crit, 0.0, 1.0) * (p.crit_mult - 1.0))
 	return maxf(sheet, G.run_stats.get("dps", 0.0))
 
 ## Called every tick of play: the damage dealt in a locked fight feeds a running average with a
-## time of 20 seconds (Combat.power).
+## time of 20 seconds (Combat.power). 56.6: only the time of fighting counts (a foe is there, or a
+## blow landed), not the waits for the next wave: a build that kills every wave at once used to
+## be measured by how fast the foes came, not by what it deals.
 static func track_power(dt: float) -> void:
 	if not GameData.rogues():
 		return
 	var dealt: float = G.run_stats.get("dealt", 0.0)
 	G.run_stats["dealt"] = 0.0
-	if G.locked and dt > 0.0:
+	if G.locked and dt > 0.0 and (dealt > 0.0 or G.enemies_active()):
 		var dps: float = G.run_stats.get("dps", 0.0)
 		G.run_stats["dps"] = dps + (dealt / dt - dps) * minf(1.0, dt / 20.0)
 
 ## Guardians and rift guardians: twice the health in the expanded game (his asks, 6 Oct: 60% more,
 ## then "bosses with a bigger health pool and armor"; the armor is scripts/combat/armor.gd).
+## 56.3 (his playthrough, 12 Oct: "make later bosses harder and have beaffier healthpools"): 6% more
+## for each floor down (Resolve.depth: loops count on), up to 72% more twelve floors down.
 static func boss_hp() -> float:
-	return 2.0 if GameData.rogues() else 1.0
+	return 2.0 * (1.0 + 0.06 * mini(Resolve.depth(), 12)) if GameData.rogues() else 1.0
 
 ## From the seventh floor on (the lands past the Pale Regent) a foe's blow or shot costs a whole
 ## heart in the expanded game; traps, your own bombs and the like stay at half. --classic: 1.
@@ -233,6 +255,7 @@ static func spawn_boss(key: String, quiet: bool = false) -> Enemy:
 	e.state = &"intro"
 	e.elite = true
 	e.scale = d["scale"]
+	e.born = G.time
 	G.enemies.append(e)
 	G.boss = e
 	Dread.on_boss(e)   # 48.1 ESCORTED, CROWNED, FALTERING NERVE
@@ -340,6 +363,9 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 		return false
 	if e.state == &"stagebreak" or e.break_t > 0:
 		return false   # a guardian between stages cannot be hurt (BossAI, stages.gd)
+	if e.unbroken_t > 0 and Resolve.on(e):
+		Resolve.bounce(e)
+		return false   # 56.3: an UNBROKEN guardian (resolve.gd)
 	var p := G.player
 	var crit := false
 	if e.asleep:
@@ -384,14 +410,16 @@ static func damage_enemy(e: Enemy, dmg: float, o: Dictionary = {}) -> bool:
 	if GameData.rogues() and e.type != "dummy" and not (gate > 0.0 and e.hp <= gate):
 		# Combat.power: what you really deal. 39.4: not a blow on a foe held at its stage line, which
 		# takes nothing off (his video, 9 Oct: such blows made every foe after it tougher).
-		G.run_stats["dealt"] = G.run_stats.get("dealt", 0.0) + minf(dmg, e.max_hp * 2.0)
-	e.hp -= Armor.soak(e, dmg, gate, Armor.weak_hit(e, o, crit) or crushing)
+		G.run_stats["dealt"] = G.run_stats.get("dealt", 0.0) + minf(dmg, blow_cap(e))   # (56.6)
+	var hp0 := e.hp
+	e.hp -= Resolve.allow(e, Armor.soak(e, dmg, gate, Armor.weak_hit(e, o, crit) or crushing))   # (56.3 RESOLVE)
 	if crushing:
 		Might.crushed(p, e)   # 40.2 BONE BREAKER
 	Lives.on_hurt(e)   # 21.5: a call for help
 	e.mend_t = 0.0   # a mending elite waits again (elite_traits.gd)   # boss armor: most of a blow wears the plate down (armor.gd)
 	if gate > 0 and e.hp < gate:
 		e.hp = gate   # a boss never skips a stage (Stages.gate); other foes keep their overkill
+	Resolve.took(e, hp0 - e.hp)   # 56.3: the health it lost fills its RESOLVE
 	e.flash = 0.08
 	if not Toys.pinned.is_empty():
 		Toys.shared(e, dmg)   # 31: a voodoo pin shares the blow with every other pinned foe (toys.gd)

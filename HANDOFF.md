@@ -24,6 +24,19 @@ re-recorded on purpose, full check passed). Then his next word (11 Oct): Stage 5
 test (the soak of every hero, rifts, classic and loops, and the monkey: all clean), and Stage 55, THE
 LAST LAUGH: a final final boss after every won run, in the form of your strongest alignment
 (scripts/entities/finale.gd, FINALE.md), built together as IPA 55 "The Last Laugh".
+Then his full playthrough (12 Oct: "after i make my full build i just melt everything ... the bosses
+just melts in seconds"): Stage 56, the guardians fight back (BOSS_STAGES.md, last section): measured
+first (tests/boss_clock, a tool: later guardians fell faster than the first), then drawn over your
+shots and outlined while they attack, more health and plate the deeper they are, RESOLVE (a gold bar;
+full: UNBROKEN for 3.5 s; no guardian falls in less than 25 s + 6 s a floor; resolve.gd), and six new
+attack patterns, two or three for every guardian (patterns.gd). tests/stage56_test. IPA 56 "Bosses
+Fight Back" (the full check passed; classic replays identical, core re-recorded on purpose). Also
+fixed: barks_test placed its elite where a pillar could push it out of reach (it failed once in six
+runs). Then his question before the IPA ("What about normal rooms scaling"): 56.6,
+the measure of your strength (Combat.power, power_scale) now sees overkill (a blow counts up to 20 s
+of a plain build, Combat.blow_cap) and only fighting time (not the waits between waves), and past ten
+times ahead the foes keep up more closely (power 0.9); thirty waves of one-blow kills used to leave
+the foes at x1.00 health. Your build is untouched. tests/boss_clock --clock-rooms times the rooms.
 Done before: 39.4 "Bosses Fall" (IPA 39.4), Stage 39 "More to Find", 38 "Alignment and Loot", 37,
 36, 35 (the full check passed at 35). Next: Stage 40.
 
@@ -2037,7 +2050,8 @@ feel out of match": effects first (43.7a), then pictures (43.7b).
   4.00 ms against a 4.0 limit while a screenshot was rendering; 2.1-2.5 ms alone); the third only
   in stage41_test's POCKET GRENADES, an old flaky check (no seed: the foe could be moved off a pillar
   and the start room's dummy catch the grenade). Fixed: the foe placed exactly and alone; 5 of 5
-  passes. Every other test passed, and all 14 replays were identical in each run.
+  passes. Every other test passed, and all 14 replays were identical in each run. A fourth full
+  check on the built commit (0721965): CHECK PASSED. IPA 55 and the Windows build (win-55) published.
 
 ## Noted, not yet acted on
 

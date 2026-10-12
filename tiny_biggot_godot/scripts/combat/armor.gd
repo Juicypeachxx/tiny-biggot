@@ -44,10 +44,16 @@ static func has(e: Enemy) -> bool:
 		return false
 	return e.is_boss() or e.d.get("mini", false) or e.d.get("champion", false) or e.traits.has("plated")
 
+## 56.3 (his playthrough, 12 Oct: "... and armor"): a guardian's plate grows with depth (35% of its
+## health on the first floor, 1.5% more each floor down, 53% twelve floors down), and less gets
+## through it (a quarter, then 0.8% less each floor, 15.4% twelve floors down).
 static func plate(e: Enemy) -> float:
 	if e.traits.has("plated"):
 		return e.max_hp * 0.5   # a PLATED elite (elite_traits.gd)
-	return e.max_hp * (0.35 if e.is_boss() else 0.25)
+	return e.max_hp * ((0.35 + 0.015 * mini(Resolve.depth(), 12)) if e.is_boss() else 0.25)
+
+static func through(e: Enemy) -> float:
+	return THROUGH - 0.008 * mini(Resolve.depth(), 12) if e.is_boss() else THROUGH
 
 ## A fresh plate at the start of each stage, and each phase of a rift guardian (read lazily, on
 ## the first blow of the stage).
@@ -77,7 +83,7 @@ static func soak(e: Enemy, dmg: float, gate: float = 0.0, weak: bool = false) ->
 	var wear := WEAR if weak else 1.0
 	if dmg * wear < e.armor:
 		e.armor -= dmg * wear
-		return dmg * THROUGH
+		return dmg * through(e)
 	var rest := dmg - e.armor / wear
 	e.armor = 0.0
 	_break(e, gate <= 0.0 or e.hp - rest > gate)

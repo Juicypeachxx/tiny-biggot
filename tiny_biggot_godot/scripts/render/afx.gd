@@ -42,7 +42,9 @@ const CASTING := [&"ring", &"volley", &"spiral", &"burst", &"cloud", &"pages", &
 	&"lasers", &"laserx", &"hooks", &"zone",   # ROADMAP 4.7 part C (verdict and brimstone also show their lanes and rings)
 	# 55: the final final bosses' moves made standing (finale.gd; the rest draw their own: Finale.OWN_VISUAL)
 	&"heehaw", &"carrots", &"kick", &"speech", &"veto", &"tax", &"redtape", &"tongue", &"sermon", &"pamphlets",
-	&"meteors", &"doomsday", &"knock", &"hairball", &"laserdot"]
+	&"meteors", &"doomsday", &"knock", &"hairball", &"laserdot",
+	# 56.4: the new patterns (patterns.gd), each also shown on its own
+	&"pinwheel", &"cage", &"orbit", &"comets", &"grid", &"quake"]
 
 static var _rng := RandomNumberGenerator.new()
 static var _head := 0

@@ -53,6 +53,7 @@ func _cull(b: Enemy) -> void:
 
 func _ready() -> void:
 	await get_tree().process_frame
+	Resolve.off = true   # 56.3: blows drive the forms here; RESOLVE is tests/stage56_test
 	seed(55)
 	Meta.opts["autofire"] = true
 	_data()

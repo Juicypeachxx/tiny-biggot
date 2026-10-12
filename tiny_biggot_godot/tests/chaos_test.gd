@@ -15,6 +15,7 @@ func fail(msg: String) -> void:
 
 func _ready() -> void:
 	await get_tree().process_frame
+	Resolve.off = true   # (56.3 RESOLVE has its own test: stage56_test; here a blow fells a guardian)
 	seed(91)
 	G.hero_index = 0
 	G.new_run()
