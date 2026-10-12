@@ -74,7 +74,15 @@ func _take_off(p: Player, slot: String) -> void:
 	if g["new"]:
 		Effects.recount_tags(p)
 
+## Four foes in front of the hero where _tick holds them, in an open room. (Stage 57: the foes used to
+## come in front of the door the hero walked in by, 64 px lower, and the room's own pillars could
+## push some far away or stand in the way: 3 runs in 40 had a weapon that hurt no foe.)
 func _foes(p: Player, n: int = 4) -> Array:
+	p.x = 14.0 * TB.TS
+	p.y = 12.0 * TB.TS
+	for r in range(4, 16):
+		for c in range(2, 26):
+			G.room.grid[r * TB.COLS + c] = World.T_FLOOR
 	var out := []
 	for i in n:
 		var e := Combat.spawn_enemy("skeleton", p.x - 60.0 + i * 40.0, p.y - 50.0 - (i % 2) * 16.0, false, true)
