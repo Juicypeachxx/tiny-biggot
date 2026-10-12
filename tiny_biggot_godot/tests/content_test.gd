@@ -96,7 +96,7 @@ func lint_effects(where: String, effects: Array, reversible: bool) -> void:
 				fail("%s: unknown pet %s" % [where, e[1]])
 			continue
 		if op == "attr":
-			if not e[1] in ["str", "dex", "int", "highest"]:
+			if not e[1] in ["str", "dex", "int", "spi", "lck", "highest"]:   # (52 SPIRIT and LUCK)
 				fail("%s: unknown attribute %s" % [where, e[1]])
 			continue
 		if not _props.has(e[1]):
@@ -119,7 +119,7 @@ func lint_proc(where: String, d: Dictionary) -> void:
 	for a in d["do"]:
 		if not a[0] in Effects.ACTIONS:
 			fail("%s: unknown action %s" % [where, a[0]])
-		elif a[0] == "status" and not a[1] in Effects.STATUSES:
+		elif a[0] == "status" and not a[1] in Effects.STATUSES and not a[1] in DamageTypes.AILMENT.values():   # (50.2 SEARED, ROT, CHARGED, RATTLED)
 			fail("%s: unknown status %s" % [where, a[1]])
 		elif a[0] == "buff" and (not _props.has(a[1]) or _props[a[1]] != TYPE_FLOAT):
 			fail("%s: buff on bad stat %s" % [where, a[1]])

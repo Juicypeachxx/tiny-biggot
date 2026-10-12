@@ -7,6 +7,13 @@ extends RefCounted
 ## text and effects are all there is (Traits.all, Traits.apply, TraitRules.remove).
 ##   id: [the sentence added to its text, [its effects]]; one more of each for every rank.
 
+## Traits made after the revamp whose ids do not say so (53.2: the SOULS and damage-type traits, and
+## the OATH OF SOULS): already in the new style, so they have no add-on (tests/revamp_test).
+const NEWER := ["q_sunspot", "q_dawnburst", "q_gravemoss", "q_lichtouch", "q_longshadow", "q_livewire", "q_capacitor",
+	"q_bassdrop", "q_resonance", "q_fivefold", "q_totaleclipse", "q_conductor", "q_plaguewind", "q_kindred", "q_spiritfire",
+	"q_ladyluck", "q_highroller", "q_sharkweek", "q_dancefloor", "q_anvilrain", "q_pincushion", "q_backdoor", "q_soulbound",
+	"q_harvest", "q_soulstorm", "q_spiritwell", "q_wispwarden", "q_soulavatar", "o_souls"]
+
 const MORE := {
 	# core
 	"vitality": ["+1% LUCKY HIT CHANCE FOR EVERY MAX HEART.", [["hook", "lucky_heart", 0.01]]],

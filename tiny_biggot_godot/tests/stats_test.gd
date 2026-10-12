@@ -22,7 +22,7 @@ func _ready() -> void:
 	var p := G.player
 	G.enter_room(World.make_room(G.floor_d, "treasure", "", "s", { "no_secret": true }))
 	for k in StatDrops.KINDS:
-		var before := [p.a_str, p.a_dex, p.a_int, p.dmg, p.rate, p.crit, p.speed, p.luck]
+		var before := [p.a_str, p.a_dex, p.a_int, p.dmg, p.rate, p.crit, p.speed, p.luck, p.a_spi]
 		G.pickups.clear()
 		var pk := Combat.drop_pickup(k, p.x, p.y)
 		pk.vx = 0.0
@@ -34,7 +34,7 @@ func _ready() -> void:
 		if not G.pickups.is_empty():
 			fail("%s was not picked up" % k)
 			continue
-		var after := [p.a_str, p.a_dex, p.a_int, p.dmg, p.rate, p.crit, p.speed, p.luck]
+		var after := [p.a_str, p.a_dex, p.a_int, p.dmg, p.rate, p.crit, p.speed, p.luck, p.a_spi]
 		var ok := false
 		match k:
 			"s_str": ok = after[0] == before[0] + 1
@@ -45,6 +45,7 @@ func _ready() -> void:
 			"s_crit": ok = absf(after[5] - before[5] - 0.01) < 1e-6
 			"s_speed": ok = absf(after[6] / before[6] - 1.01) < 1e-4
 			"s_luck": ok = after[7] == before[7] + 1
+			"s_spi": ok = after[8] == before[8] + 1   # 52 SPIRIT
 		if not ok:
 			fail("%s: before %s after %s" % [k, before, after])
 	# 2. The side stats, up and back down.

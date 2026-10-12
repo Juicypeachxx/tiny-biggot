@@ -15,6 +15,8 @@ func fail(msg: String) -> void:
 	print("FAIL revamp: ", msg)
 
 func _old(id: String) -> bool:
+	if id in TraitRevamp.NEWER:
+		return false   # (53.2: made after the revamp)
 	for pre in NEW_PREFIX:
 		if id.begins_with(pre):
 			return false

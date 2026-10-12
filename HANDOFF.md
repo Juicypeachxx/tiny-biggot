@@ -16,9 +16,14 @@ passed). Now: Stage 48 (his 16 cinders): 48.1 DREAD to 16 (dread.gd), 48.2 STAR 
 constellation of 60 points, 48.3 six skills a tree branch and RESET THIS TREE, 48.4 RESET GAME:
 and 48.5 (stage48_test, the replays): done, IPA 48 "Dread and Dust". Now: Stage 49 (his "go", 11 Oct): 49.1 relics that grow with
 curses and kills, 49.2 ROOM DRAUGHTS, 49.3 (the WHETSTONE behind a door) and 49.4: done, IPA 49
-"Curses and Draughts". Now (his word, 11 Oct): "Do stage 50 and 52, also we need to ajust traits and
-oaths to be more random and not repeat soo much": Stage 50 (50.1 picks that do not repeat, 50.2 the
-five damage types: done; 50.3 the replays and IPA 50), then Stage 52 (SPIRIT and LUCK).
+"Curses and Draughts". Then (his word, 11 Oct): "Do stage 50 and 52, also we need to ajust traits and
+oaths to be more random and not repeat soo much": Stage 50 (picks that do not repeat, the five
+damage types) and Stage 52 (SPIRIT and LUCK), and his next word, Stage 53 (SOULS and 29 traits for
+what is new): all done, built as one IPA 53 "Souls" (classic replays identical, core replays
+re-recorded on purpose, full check passed). Now his next word (11 Oct): Stage 54, a full stability
+test (the soak of every hero, rifts, classic and loops, then the monkey), and Stage 55, THE LAST
+LAUGH: a final final boss after every won run, in the form of your strongest alignment
+(scripts/entities/finale.gd, in progress).
 Done before: 39.4 "Bosses Fall" (IPA 39.4), Stage 39 "More to Find", 38 "Alignment and Loot", 37,
 36, 35 (the full check passed at 35). Next: Stage 40.
 
@@ -1975,6 +1980,14 @@ feel out of match": effects first (43.7a), then pictures (43.7b).
 - 29 rows at the end of Traits.ROWS (28 q_* and o_souls; its vow in Oaths.VOWS: SURGE 8 TIMES);
   oaths_test now expects 20 vows. Pictures: tools/art/stage53_traits.py (shapes, not typed grids).
   Test tests/stage53_test (in check.sh): passes.
+- 53.3 (IPA 53 "Souls", with 50 and 52): classic replays a-f identical; core a-h re-recorded on
+  purpose. The full check first failed in four older tests that did not know the new things:
+  content_test (the lint now takes the ailments SEARED, ROT, CHARGED, RATTLED and the attributes
+  spi, lck), stats_test (+1 SPIRIT counted), stage43_test (TIRELESS counts the roll a DEX pool
+  brings; ARCANE ENGINE and FLUX CORE measure the special's rate without what INT and SPIRIT
+  add), revamp_test (TraitRevamp.NEWER lists the 29 Stage 53 traits, which need no add-on as
+  they were made after the revamp). Effects.STATUSES was left as it was (the FX picture bench
+  cycles through it). Then CHECK PASSED.
 
 ## Noted, not yet acted on
 

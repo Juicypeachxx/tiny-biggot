@@ -109,9 +109,11 @@ func _ready() -> void:
 	if Combat.held_gold(p) < 1000:
 		fail("ENDLESS WEALTH: gold counts as %d" % Combat.held_gold(p))
 	var c0 := p.dodge_charges
+	var x0 := floori(Attributes.value(p, "dex") / float(Attributes.DEX_ROLL))
 	_take(p, "sup_stamina")
-	if p.dodge_charges != c0 + 3:
-		fail("TIRELESS: %d rolls" % (p.dodge_charges - c0))
+	var x1 := floori(Attributes.value(p, "dex") / float(Attributes.DEX_ROLL))   # (52: and the DEX it brings, a roll a pool)
+	if p.dodge_charges != c0 + 3 + (x1 - x0):
+		fail("TIRELESS: %d rolls (%d from DEX)" % [p.dodge_charges - c0, x1 - x0])
 
 	# STORMBORN: a roll strikes with lightning.
 	p = _start()
@@ -157,12 +159,12 @@ func _ready() -> void:
 
 	# ARCANE ENGINE: the special 3 times as fast; +1 STR, DEX and INT each time.
 	p = _start(mw)
-	var sr := Might.special_rate(p)
+	var sr := Might.special_rate(p) - Attributes.special_rate(p)   # (52: what INT and SPIRIT add is counted apart)
 	_take(p, "sup_engine")
 	var s0 := p.a_str + p.a_dex + p.a_int
 	Might.cast(p, [])
-	if absf(Might.special_rate(p) - sr - 2.0) > 0.01 or p.a_str + p.a_dex + p.a_int != s0 + 3:
-		fail("ARCANE ENGINE: rate +%.2f, stats +%d" % [Might.special_rate(p) - sr, p.a_str + p.a_dex + p.a_int - s0])
+	if absf(Might.special_rate(p) - Attributes.special_rate(p) - sr - 2.0) > 0.01 or p.a_str + p.a_dex + p.a_int != s0 + 3:
+		fail("ARCANE ENGINE: rate +%.2f, stats +%d" % [Might.special_rate(p) - Attributes.special_rate(p) - sr, p.a_str + p.a_dex + p.a_int - s0])
 
 	# PSYCHIC.
 	p = _start(mw)
@@ -228,11 +230,11 @@ func _ready() -> void:
 		Marvels.tick(p, TB.DT)
 	if Marvels.stats.get("laser", 0) < l0 + 2 or Lucky.rush_t <= 0:
 		fail("BEAM CORE / CHANCE CORE: %d beams in a second, lucky rush %.1f" % [Marvels.stats.get("laser", 0) - l0, Lucky.rush_t])
-	sr = Might.special_rate(p)
+	sr = Might.special_rate(p) - Attributes.special_rate(p)
 	for i in 6:
 		_take(p, "aug_mana")
-	if absf(Might.special_rate(p) - sr - 1.2) > 0.01:
-		fail("FLUX CORE x6: special rate +%.2f" % (Might.special_rate(p) - sr))
+	if absf(Might.special_rate(p) - Attributes.special_rate(p) - sr - 1.2) > 0.01:
+		fail("FLUX CORE x6: special rate +%.2f" % (Might.special_rate(p) - Attributes.special_rate(p) - sr))
 	_take(p, "aug_power")
 	if Marvels.special_add(p) < Might.power(p) / 100.0 - 0.001 or Might.power(p) < 10.0:
 		fail("OVERDRIVE CORE: special +%.2f with %.0f power" % [Marvels.special_add(p), Might.power(p)])

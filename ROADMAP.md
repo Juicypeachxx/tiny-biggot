@@ -1522,7 +1522,7 @@ each point); the rest, proposed in the order it would be felt most, with names o
   - [x] 49.4 A test for all of it, the replays (classic unchanged), IPA 49. Done:
         tests/stage49_test (in check.sh); classic replays identical; core a, b, c, d, e, g, h
         re-recorded on purpose (new relics in the pools, draughts in the drops, new doors).
-- [ ] Stage 50 (his word, 11 Oct: "Do stage 50 and 52, also we need to ajust traits and oaths to be more
+- [x] Stage 50 (his word, 11 Oct: "Do stage 50 and 52, also we need to ajust traits and oaths to be more
       random and not repeat soo much when picking traits or rerolling them"):
   - [x] 50.1 Picks that do not repeat (expanded game): a reroll shows other traits than the ones it
         throws away; a trait offered and passed over comes up less each time; one not yet shown
@@ -1533,14 +1533,15 @@ each point); the rest, proposed in the order it would be felt most, with names o
         its ailment (SEARED, ROT, GLOOM, CHARGED, RATTLED) and new reactions, and 20 weapons that
         deal them (four a type). Done (scripts/combat/damage_types.gd): reactions ECLIPSE, BLIGHT,
         SUPERCONDUCT, CRACKLE, FEEDBACK; tests/stage50_test passes.
-  - [ ] 50.3 A test for all of it, the replays (classic unchanged), IPA 50.
+  - [x] 50.3 A test for all of it, the replays (classic unchanged), IPA 50. Done with 53.3: one IPA 53
+        carries 50, 52 and 53.
 - [ ] Stage 51: run modes: THE NARROW WAY (no map), IRON VOW (after 5 wins: one life). (OMENS:
       his 16 cinders became DREAD to 16 in Stage 48.)
-- [ ] Stage 52 (his word, 11 Oct, with Stage 50): SPIRIT (the special's charge and power) and LUCK as
+- [x] Stage 52 (his word, 11 Oct, with Stage 50): SPIRIT (the special's charge and power) and LUCK as
       attributes next to STR, DEX and INT; each attribute also raises a pool (STR health, DEX roll
       charges, INT and SPIRIT the special). A test, the replays, IPA 52.
-      (Code done, tests/stage52_test passes. Built with Stage 53: one IPA 53 carries 50, 52 and 53.)
-- [ ] Stage 53 (his word, 11 Oct, before IPA 52: "Add new level up traits to pick matching the new
+      Done: tests/stage52_test passes. Built with Stage 53: one IPA 53 carries 50, 52 and 53.
+- [x] Stage 53 (his word, 11 Oct, before IPA 52: "Add new level up traits to pick matching the new
       additions, also add new effects and mechanic make it very cool and satisfying"):
   - [x] 53.1 SOULS (a new mechanic, expanded game): every foe slain lets out its soul, a wisp that
         flies to you and fills the SOUL gauge (an elite 3, a mini or champion 5, a guardian 10); at
@@ -1552,7 +1553,21 @@ each point); the rest, proposed in the order it would be felt most, with names o
         SPIRIT and LUCK, the toybox, the souls, and an OATH OF SOULS with its vow; each with its
         picture. Done: 28 traits (q_*) and o_souls, pictures from tools/art/stage53_traits.py;
         tests/stage53_test passes (every one taken in a live fight).
-  - [ ] 53.3 A test, the replays (classic unchanged), the full check, IPA 53 (with 50 and 52).
+  - [x] 53.3 A test, the replays (classic unchanged), the full check, IPA 53 (with 50 and 52). Done:
+        the 6 classic replays identical; the 8 core replays re-recorded on purpose (souls, the new
+        weapons and traits in the pools); the full check passed after four older tests learned the
+        new statuses, attributes and traits (content, stats, stage43, revamp). IPA 53 "Souls".
+- [ ] Stage 54 (his word, 11 Oct: "After that make ipa and after that full stability test and bug fixing
+      test"): the long bot soaks with every hero (34) on several seeds, the rift worlds, classic and
+      the loops; the menu monkey (an hour, and short runs in the new content); every script error,
+      stuck screen or slow fight fixed; a note of it for him; IPA 54.
+- [ ] Stage 55 (his word, 11 Oct): after the final boss, the FINAL FINAL BOSS takes the form of the
+      alignment you gathered most (GOOD, EVIL, LAWFUL, CHAOTIC), each with three forms. His four, in our
+      own names and pictures: a dim but noble DONKEY knight with three super forms (GOOD); a big fat
+      REPTILIAN POLITICIAN (LAWFUL); a raving doomsday prophet who calls buff followers that flex at
+      you (CHAOTIC; his first idea was a boss built on a real people, which we do not make; named
+      PROPHET NIGH, as "Doomsayer" is a card in another game); and a stupid funny one of ours: a fat
+      evil CAT overlord who knocks things off tables at you and calls kittens (EVIL). IPA 55.
 
 ### Stage 46: weapon enchantments (IPA 46; his word: "Ok go 44 and 45, and 46")
 - [x] 46.1 An enchantment slot on weapons (one at most): the item card, the name, the name plate,
