@@ -30,5 +30,8 @@ and windows to work, soo if i work on multiplayer addon on windows it wont be pu
   details). The renderer is GL Compatibility, the same as on the iPad. It lives only on this branch.
 - To build by hand: `PUBLISH=0 bash tiny_biggot_godot/tools/build_windows.sh` from the top of the
   repo (Godot in `~/godot/godot` and the Windows template are fetched when missing).
+- Couch co-op for up to 4 players lives only here: COOP_PLAN.md (CO-OP on the title).
+- The automatic way was first used for IPA 55 (12 Oct): the iPad build, then `ios-build` moved up,
+  `windows-build` took in Stage 55 and Windows 55 was published, all in one run.
 - Not tested by Claude: the game running on Windows (the cloud has no Windows machine). The export
   itself is checked: a 64-bit Windows program with the game's name and icon in it.

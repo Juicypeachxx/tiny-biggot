@@ -103,4 +103,21 @@ hero; a shot remembers its owner, and its hits count for them.
       P1's HUD and P1's drawing in the world use `Coop.lead()` (P1 even while G.player is P2 in a
       menu). RunSave neither saves nor clears during co-op (`Coop.busy`). Pictures: `--ui=coop`,
       `--ui=coopgear` with `--coop=N`. tests/coop_test.tscn `_join` and `_menus`.
-- [ ] C5 A test for all of it, 4-player bot soaks, the Windows build.
+- [x] C5 A test for all of it, 4-player bot soaks, the Windows build. Done: tests/coop_test.tscn
+      covers C1 to C4 (in check.sh); the full check passed on windows-build with Stage 55 merged
+      in (CHECK PASSED, all replays identical). Soaks (`--coop=N --bot --smart-bot`, no errors in
+      any): 4 players 15 min with --god (15 rooms, floor 2); 4 players 10 min without (downs,
+      help-ups, deaths); 3 players 10 min at DREAD 8 (floor 2); 2 players until both were down.
+      Speed here: 3 min of play took 24.7 s for one hero, 33.1 s for four. The test bots for P2 to
+      P4 now join whoever is in a doorway after a quarter second (the soak bot leading them backs
+      off a door that does not open at once; players are never moved) and close in with melee
+      weapons; they make 6 to 23 kills each to the lead bot's 38 to 52, so co-op runs with bots
+      are slower than real players would be. On paper, with players of equal skill: a room takes
+      about as long as alone with 2 players and about 1.2 times as long with 4; a guardian falls a
+      little faster. The README in the Windows zip explains playing together.
+
+## Not done yet (later, if he wants it)
+
+- Clicking menus with the mouse (the keyboard works them; the CO-OP screen takes clicks).
+- Saving a co-op run for CONTINUE.
+- Two players on one keyboard.
