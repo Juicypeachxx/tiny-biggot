@@ -30,8 +30,9 @@ first (tests/boss_clock, a tool: later guardians fell faster than the first), th
 shots and outlined while they attack, more health and plate the deeper they are, RESOLVE (a gold bar;
 full: UNBROKEN for 3.5 s; no guardian falls in less than 25 s + 6 s a floor; resolve.gd), and six new
 attack patterns, two or three for every guardian (patterns.gd). tests/stage56_test. IPA 56 "Bosses
-Fight Back". Also fixed: barks_test placed its elite where a pillar could push it out of reach (it
-failed once in six runs). Then his question before the IPA ("What about normal rooms scaling"): 56.6,
+Fight Back" (the full check passed; classic replays identical, core re-recorded on purpose). Also
+fixed: barks_test placed its elite where a pillar could push it out of reach (it failed once in six
+runs). Then his question before the IPA ("What about normal rooms scaling"): 56.6,
 the measure of your strength (Combat.power, power_scale) now sees overkill (a blow counts up to 20 s
 of a plain build, Combat.blow_cap) and only fighting time (not the waits between waves), and past ten
 times ahead the foes keep up more closely (power 0.9); thirty waves of one-blow kills used to leave

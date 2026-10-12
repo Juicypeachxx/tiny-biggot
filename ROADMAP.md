@@ -1631,8 +1631,10 @@ each point); the rest, proposed in the order it would be felt most, with names o
         foe lives 1.15 s (was 0.93 s; floor 4: 1.9 s, was 1.0 s); the same builds without the x100
         x2.2 (was x2.1), a foe lives 2.6 s (was 1.9 s). A build far ahead still clears faster than a
         plain one (rule 1): a foe it meets still falls in about a second.
-  - [ ] 56.5 The test, the classic replays unchanged, the core ones re-recorded (the bosses changed
-        on purpose), the full check, IPA 56.
+  - [x] 56.5 The test, the classic replays unchanged, the core ones re-recorded (the bosses changed
+        on purpose), the full check, IPA 56. Done: tests/stage56_test passes; the six classic
+        replays identical, the eight core ones re-recorded; the full check passed; IPA 56 "Bosses
+        Fight Back".
 
 ### Stage 46: weapon enchantments (IPA 46; his word: "Ok go 44 and 45, and 46")
 - [x] 46.1 An enchantment slot on weapons (one at most): the item card, the name, the name plate,
