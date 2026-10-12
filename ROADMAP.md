@@ -1572,7 +1572,7 @@ each point); the rest, proposed in the order it would be felt most, with names o
         bosses' soak runs (10 minutes each, the bot) clean, and the bot beat three of them to the
         win. Fixed on the way: four older tests that did not know Stages 50-53 (content, stats,
         stage43, revamp), and two moves of the new bosses that never ended outside their arena.
-- [ ] Stage 55 (his word, 11 Oct): after the final boss, the FINAL FINAL BOSS takes the form of the
+- [x] Stage 55 (his word, 11 Oct): after the final boss, the FINAL FINAL BOSS takes the form of the
       alignment you gathered most (GOOD, EVIL, LAWFUL, CHAOTIC), each with three forms. His four, in our
       own names and pictures: a dim but noble DONKEY knight with three super forms (GOOD); a big fat
       REPTILIAN POLITICIAN (LAWFUL); a raving doomsday prophet who calls buff followers that flex at
@@ -1588,8 +1588,11 @@ each point); the rest, proposed in the order it would be felt most, with names o
         believers who MOG you, kittens), four arenas.
   - [x] 55.2 The pictures (tools/art/stage55_finale.py): 12 boss forms, 5 followers and their
         elites, the thrown things, four arenas' tiles.
-  - [ ] 55.3 tests/stage55_test (passes), the full check, the replays (classic and core unchanged:
-        the final final boss only comes after a win), IPA 55 "The Last Laugh".
+  - [x] 55.3 tests/stage55_test (passes), the full check, the replays (classic and core unchanged:
+        the final final boss only comes after a win), IPA 55 "The Last Laugh". Done: all 14 replays
+        identical; the full check passed after the content test's true ending learned the new
+        path (exit portal, then THE LAST LAUGH, then the win) and the effects test got the four
+        bosses' colours and their moves' rules. The bot beat three of the four in its soak.
 
 ### Stage 46: weapon enchantments (IPA 46; his word: "Ok go 44 and 45, and 46")
 - [x] 46.1 An enchantment slot on weapons (one at most): the item card, the name, the name plate,
