@@ -37,6 +37,10 @@ the measure of your strength (Combat.power, power_scale) now sees overkill (a bl
 of a plain build, Combat.blow_cap) and only fighting time (not the waits between waves), and past ten
 times ahead the foes keep up more closely (power 0.9); thirty waves of one-blow kills used to leave
 the foes at x1.00 health. Your build is untouched. tests/boss_clock --clock-rooms times the rooms.
+IPA 56 built (ipa-56, 12 Oct 13:38 UTC). Its Windows job stopped: windows-build clashed in
+world_view.gd (_paint_top: Stage 56 draws the guardians there, the co-op line picks Coop.lead()
+there). Merged by hand on windows-build (both kept), its full check passed, pushed: Windows 56 built
+(win-56). The next IPA's Windows job should merge cleanly again.
 Done before: 39.4 "Bosses Fall" (IPA 39.4), Stage 39 "More to Find", 38 "Alignment and Loot", 37,
 36, 35 (the full check passed at 35). Next: Stage 40.
 
