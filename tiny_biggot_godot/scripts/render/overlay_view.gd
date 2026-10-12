@@ -381,7 +381,7 @@ func _choice_geom() -> Array:
 	var n: int = G.choice["relics"].size()
 	var w := 100 if n > 3 else 120
 	var gap := 8 if n > 3 else 14
-	return [n, w, gap, (TB.SW - (n * w + (n - 1) * gap)) / 2]
+	return [n, w, gap, Coop.choice_x0(n, w, gap)]   # (Windows co-op: more than 4 scroll)
 
 const CHOICE_DICE_Y := 248
 

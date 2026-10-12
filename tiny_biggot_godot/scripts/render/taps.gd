@@ -142,7 +142,7 @@ static func zones() -> Array:
 			var n: int = G.choice["relics"].size()
 			var w := 100 if n > 3 else 120
 			var gap := 8 if n > 3 else 14
-			var x0 := (sw - (n * w + (n - 1) * gap)) / 2
+			var x0 := Coop.choice_x0(n, w, gap)   # (Windows co-op: more than 4 scroll)
 			for i in n:
 				out.append(_z(Rect2(x0 + i * (w + gap), 68, w, 144), func(): G.choice["idx"] = i, G.choice["idx"] == i))
 			if GameData.rogues():

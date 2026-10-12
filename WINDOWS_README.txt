@@ -19,7 +19,8 @@ PLAYING TOGETHER (up to 4 on one screen):
    controller.
 3. Each player chooses a hero with LEFT and RIGHT and presses confirm again: READY. The run starts
    when everyone who joined is ready. MENU takes a player out again.
-In the run: everyone has their own hearts, gold, items and levels; what you touch is yours. Foes
+In the run: everyone has their own hearts, gold, items and levels; what you touch is yours. A chest
+is for everyone: whoever opens it picks first, then the others in turn from what is left. Foes
 are tougher for each extra player. A player who loses all hearts is DOWN: stand by them for 3
 seconds to help them up (a cleared room helps everyone up). The doors open for the party when
 everyone standing is in the same doorway. Any player's MENU opens their own pause and gear.

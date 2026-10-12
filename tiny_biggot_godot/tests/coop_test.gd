@@ -12,7 +12,8 @@ extends Node
 ## C3 the rules: foes +60% health and guardians +75% for each extra player, waves +25% foes; a
 ## guardian's experience for every standing hero; P2 to P4's level-ups one at a time, each in their
 ## own turn (G.player is them, the menus listen to their pad), P1 again once play goes on; a chest
-## opened by P3 is P3's choice.
+## opened by P3 is P3's choice; then (his pick, 12 Oct) P4, P1 and P2 pick from what is left, in
+## turn, each with their own device, never offered a relic they own (the chest has 3 more for four).
 ## C4 joining and menus: on the CO-OP screen each device joins with USE (bot devices stand in for a
 ## keyboard and controllers), chooses with LEFT and RIGHT, MENU unreadies and leaves, a locked hero
 ## cannot be readied, the run starts when two or more are all ready (each with their device and
@@ -344,8 +345,11 @@ func _rules() -> void:
 	Keys.pads[Coop.pads[2]]["bot"][&"use"] = false
 	if G.state != &"choice" or G.player != hs[2]:
 		fail("P3 at a chest pressing USE: the game %s, G.player P%d (want choice, P3)" % [G.state, Coop.index_of(G.player) + 1])
+	else:
+		_draft(hs)
 	G.state = &"play"
 	G.choice = {}
+	Coop.draft = []
 	Coop.play_tick()
 	print("[coop] C3: health x%.1f and waves x%.2f for four; a guardian's experience for all; level-ups and chests in each hero's own turn" % [1.0 + Coop.HP_PER * 3, 1.0 + Coop.WAVE_PER * 3])
 
@@ -467,3 +471,67 @@ func _menus() -> void:
 	G.update(TB.DT)
 	if G.player != p1 or Coop.turn != -1 or Coop.turn_label() != "":
 		fail("after P2's pause P1 is not the player again (turn %d)" % Coop.turn)
+
+# ---------- C6: a chest for everyone, in turn ----------
+## USE on hero k's device (P1's is every device: the game's own input).
+func _take(k: int) -> void:
+	Keys.tick()   # (every button let go first: the press below is a new one)
+	if Coop.pads[k] >= 0:
+		_press(Coop.pads[k], &"use")
+		return
+	Input.action_press(&"use")
+	Keys.tick()
+	G.update(TB.DT)
+	Input.action_release(&"use")
+	Keys.tick()
+	G.update(TB.DT)
+
+func _draft(hs: Array) -> void:
+	G.fade = {}   # (the door test's fade may still be running: the game waits for it)
+	var base := 4 if Meta.unlocked("perk_choice") else 3
+	var n0: int = G.choice["relics"].size()
+	if n0 != base + 3:
+		fail("a chest for four offers %d relics (want %d)" % [n0, base + 3])
+	if Coop.draft != [3, 0, 1]:
+		fail("after P3 the chest goes to %s (want [3, 0, 1]: P4, P1, P2)" % [Coop.draft])
+	var before: Array = hs.map(func(h): return h.relics.size())
+	var got := {}
+	var order := [2, 3, 0, 1]
+	for j in order.size():
+		var k: int = order[j]
+		if G.state != &"choice" or G.player != hs[k]:
+			fail("P%d's turn at the chest: state %s, the player P%d" % [k + 1, G.state, Coop.index_of(G.player) + 1])
+			return
+		if G.choice["relics"].size() != n0 - j:
+			fail("P%d chooses from %d relics (want %d)" % [k + 1, G.choice["relics"].size(), n0 - j])
+		for r in G.choice["relics"]:
+			if hs[k].relics.any(func(x): return x["id"] == r["id"]):
+				fail("P%d is offered %s, which they own" % [k + 1, r["id"]])
+		var pick: Dictionary = G.choice["relics"][G.choice["idx"]]
+		_take(k)
+		got[pick["id"]] = true
+		if hs[k].relics.size() != before[k] + 1 or hs[k].relics.back()["id"] != pick["id"]:
+			fail("P%d took %s: %d relics (want %d)" % [k + 1, pick["id"], hs[k].relics.size(), before[k] + 1])
+			return
+	if G.state != &"play" or got.size() != 4 or not Coop.draft.is_empty():
+		fail("after four picks: state %s, %d different relics, %d still to pick (want play, 4, 0)" % [G.state, got.size(), Coop.draft.size()])
+	# Test bots (--coop=N soaks) take theirs at once, so a chest never waits for them.
+	var keep_bots: Array = Coop.bots.duplicate()
+	Coop.bots = [false, true, true, true]
+	Coop.leave()
+	before = hs.map(func(h): return h.relics.size())
+	G.open_choice("chest", { "x": 200.0, "y": 150.0 })
+	_take(0)
+	if G.state != &"play" or hs.any(func(h): return h.relics.size() != before[hs.find(h)] + 1):
+		fail("P1 took, the three bots after: state %s, relics %s (were %s)" % [G.state, hs.map(func(h): return h.relics.size()), before])
+	Coop.bots = keep_bots
+	# A player whose controller is unplugged: anyone can finish their menu.
+	var keep_pad: int = Coop.pads[1]
+	Coop.pads[1] = Keys.add_pad("joy", 7)   # (no controller 7 here)
+	Coop.turn = 1
+	if Coop.menu_pad() != -1:
+		fail("P2's controller is gone but their menu listens only to it (%d)" % Coop.menu_pad())
+	Coop.pads[1] = keep_pad
+	Keys.pads.pop_back()
+	Coop.turn = -1
+	print("[coop] C6: a chest for four offers %d relics; P3, P4, P1, P2 each took one in turn, %d different; bots take theirs; an unplugged controller's turn is anyone's" % [n0, got.size()])

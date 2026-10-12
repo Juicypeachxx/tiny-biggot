@@ -35,6 +35,7 @@ static var _bot_t: Array = [0.0, 0.0, 0.0, 0.0]
 static var wait_msg := ""            # who the door waits for (drawn by draw_tags)
 static var _door_t := 0.0            # how long a hero has waited at a door (the test bots catch up)
 static var lobby: Array = []         # the CO-OP screen's joined players, P1 first: { pad, hero, ready, msg, msg_t }
+static var draft: Array = []         # an open chest: the players still to pick from it, in turn (indexes)
 static var _lmb := false             # the left mouse button last tick (the CO-OP screen's clicks)
 
 static func on() -> bool:
@@ -112,6 +113,7 @@ static func solo() -> void:
 	wait_msg = ""
 	_door_t = 0.0
 	lobby = []
+	draft = []
 	Keys.clear_pads()
 
 ## Game.update_title, first: the party ends on the title (START RUN is one player again).
@@ -131,6 +133,7 @@ static func before_run() -> void:
 	_lead = null
 	_hs = []
 	_fams = []
+	draft = []
 	if want.size() <= 1:
 		return
 	_building = true
@@ -353,12 +356,16 @@ static func play_tick() -> void:
 			enter(i)
 			return
 
-## Keys.tick: whose pad the menus listen to (the turn's hero, else P1; anyone's at the end).
+## Keys.tick: whose pad the menus listen to (the turn's hero, else P1; anyone's at the end, or when
+## that player's controller has been unplugged).
 static func menu_pad() -> int:
 	if G.state == &"dead" or G.state == &"win":
 		return -1
 	var i := turn if turn > 0 else 0
-	return pads[i] if i < pads.size() else -1
+	var k: int = pads[i] if i < pads.size() else -1
+	if k >= 0 and k < Keys.pads.size() and Keys.pads[k]["kind"] == "joy" and not Keys.pads[k]["dev"] in Input.get_connected_joypads():
+		return -1   # (their controller is gone: anyone can finish their menu)
+	return k
 
 ## Game.update_play, after P1's: P2 to P4's oaths and level-ups, one hero at a time, each with
 ## their own device, when the room is safe. True: a turn began.
@@ -384,6 +391,63 @@ static func offer_turn() -> bool:
 		turn = -1
 		leave()
 	return false
+
+# ---------- a chest: every player picks from it in turn (his pick, 12 Oct) ----------
+## Game.open_choice: one more relic in a chest for each extra player (the last to pick still has
+## as many to choose from as one player alone).
+static func chest_extra() -> int:
+	return extras.size()
+
+## Game.open_choice, once the chest's relics are out: whoever opened it picks first, then the
+## others in player order after them.
+static func draft_start() -> void:
+	draft = []
+	if extras.is_empty():
+		return
+	var first := maxi(0, index_of(G.player))
+	for k in range(1, count()):
+		draft.append((first + k) % count())
+
+## Game.update_choice, after a pick: the next player picks from what is left (what they already
+## own is swapped for a new relic; a test bot takes the first). True: the chest stays open for them.
+static func draft_next(taken: Dictionary) -> bool:
+	if draft.is_empty() or G.choice.is_empty():
+		draft = []
+		return false
+	var rest: Array = G.choice["relics"].filter(func(r): return r != taken)
+	while not draft.is_empty() and not rest.is_empty():
+		var i: int = draft.pop_front()
+		if i == 0:
+			turn = -1
+			leave()
+		else:
+			turn = i
+			enter(i)
+		var ids: Array = rest.map(func(r): return r["id"])
+		for k in rest.size():
+			if G.player.relics.any(func(r): return r["id"] == rest[k]["id"]):
+				var fresh: Array = G.roll_relics(1, G.choice.get("source", "chest"), null, ids)   # (G.player is them: theirs are left out)
+				if not fresh.is_empty():
+					rest[k] = fresh[0]
+					ids.append(fresh[0]["id"])
+		if i < bots.size() and bots[i]:
+			G.add_relic(G.player, rest.pop_front())   # (the test bot takes the first)
+			continue
+		G.choice["relics"] = rest
+		G.choice["idx"] = mini(1, rest.size() - 1)
+		G.choice["alt"] = {}
+		Snd.play("select")
+		return true
+	draft = []
+	return false
+
+## OverlayView and Taps: where a chest's first card sits. More than 4 (a chest for several
+## players): a row of 4 that follows the chosen card, with a sliver of the others at the edges.
+static func choice_x0(n: int, w: int, gap: int) -> int:
+	if n <= 4:
+		return (TB.SW - (n * w + (n - 1) * gap)) / 2
+	var first := clampi(int(G.choice.get("idx", 0)) - 1, 0, n - 4)
+	return (TB.SW - (4 * w + 3 * gap)) / 2 - first * (w + gap)
 
 # ---------- difficulty and shares ----------
 ## Combat.spawn_enemy (per = HP_PER) and spawn_boss (BOSS_PER): more health for each extra player.
@@ -845,6 +909,17 @@ static func draw_turn(ci: CanvasItem) -> void:
 	var label := turn_label()
 	if label == "":
 		return
+	if G.state == &"choice" and not G.choice.is_empty():   # a chest for several: who picks next, more cards
+		if not draft.is_empty():
+			var names: Array = draft.map(func(k): return "P%d" % (k + 1))
+			Gfx.text(ci, "THEN " + ", ".join(names) + " PICK FROM WHAT IS LEFT", TB.SW / 2, 58, "tan", 1, 0.5)
+		var n: int = G.choice["relics"].size()
+		if n > 4:
+			var first := clampi(int(G.choice["idx"]) - 1, 0, n - 4)
+			if first > 0:
+				Gfx.text(ci, "<", 2, 137, "gold", 2)
+			if first + 4 < n:
+				Gfx.text(ci, ">", TB.SW - 8, 137, "gold", 2)
 	var i := turn if turn > 0 else 0
 	var c := TB.c(COLORS[i])
 	ci.draw_rect(Rect2(1, 1, TB.SW - 2, TB.SH - 2), c, false, 2.0)

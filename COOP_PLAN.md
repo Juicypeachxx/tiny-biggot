@@ -30,8 +30,14 @@ option shares them); a player who dies sits out until the wave ends; foes scale 
 - **One screen.** Every room fits the screen, so no split screen and no camera: all heroes are in the
   room together, each with a coloured ring and a P1 to P4 tag.
 - **Drops.** Coins, hearts, potions, keys, bombs, food and belt items go to whoever touches them
-  (as in Brotato: not shared). A chest, a pedestal, a shop ware: the player who opens or buys it
-  chooses and pays from their own gold. Gold, keys and bombs are each player's own.
+  (as in Brotato: not shared). A pedestal, a shop ware: the player who takes or buys it pays from
+  their own gold. Gold, keys and bombs are each player's own.
+- **Chests** (his pick, 12 Oct: "3 is cool"): everyone picks from one chest, in turn. Whoever opens
+  it picks first, then the others in player order from what is left; the chest has one more relic
+  for each extra player (with four: 6, so the last still chooses from 3), and a relic a player
+  already owns is swapped for a new one on their turn. The screen shows whose pick it is and who
+  comes next; more than 4 relics scroll (an arrow and a sliver of the next card at the edge). The
+  key of a locked chest is the opener's.
 - **Levels.** Each player has their own experience (kills give it to the killer, a guardian's to
   everyone). Level-ups already wait until the room is clear here: then each player picks their
   trait in turn, with their own device, their colour on the choice screen.
@@ -115,6 +121,16 @@ hero; a shot remembers its owner, and its hits count for them.
       are slower than real players would be. On paper, with players of equal skill: a room takes
       about as long as alone with 2 players and about 1.2 times as long with 4; a guardian falls a
       little faster. The README in the Windows zip explains playing together.
+
+- [x] C6 Chests for everyone (his pick, 12 Oct). Done: `Coop.chest_extra` (Game.open_choice: one
+      more relic per extra player), `draft_start` (the order after the opener), `draft_next`
+      (Game.update_choice: the next player's turn with what is left, their owned relics swapped),
+      `choice_x0` (OverlayView and Taps: a row of 4 that follows the chosen card), the order line
+      and arrows in `draw_turn`; a test bot takes its pick at once (soaks never wait on a chest); a
+      player whose controller is unplugged: anyone can finish their menu (`menu_pad`).
+      tests/coop_test.tscn: P3 opens a chest for four, P3, P4, P1 and P2 take one each with their
+      own device, none offered one they own. Full check passed, all replays identical; a 5 min
+      4-player soak with chests: no errors, never stuck.
 
 ## Not done yet (later, if he wants it)
 

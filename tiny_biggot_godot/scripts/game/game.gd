@@ -1853,7 +1853,7 @@ func add_relic(p: Player, r: Dictionary) -> void:
 	Snd.play("relic")
 
 func open_choice(source: String, o: Dictionary) -> void:
-	var n := 4 if Meta.unlocked("perk_choice") else 3
+	var n := (4 if Meta.unlocked("perk_choice") else 3) + Coop.chest_extra()   # (Windows co-op: one more for each extra player)
 	var ch := roll_relics(n, source)
 	if ch.is_empty():
 		for i in 15:
@@ -1861,6 +1861,7 @@ func open_choice(source: String, o: Dictionary) -> void:
 	else:
 		choice = { "relics": ch, "idx": mini(1, ch.size() - 1), "source": source }
 		state = &"choice"
+		Coop.draft_start()   # (Windows co-op: then the others pick from it in turn)
 	Dice.maybe({ "chest": 0.25, "iron": 0.4, "cursed": 0.6, "boss": 1.0 }.get(source, 0.25), o["x"], o["y"] + 10)   # 35.1
 	Charms.maybe({ "chest": 0.2, "iron": 0.3, "cursed": 0.4, "boss": 0.6 }.get(source, 0.2), o["x"] + 20, o["y"] + 16)   # 37.2
 	Infusions.maybe({ "chest": 0.2, "iron": 0.3, "cursed": 0.35, "boss": 0.5 }.get(source, 0.2), o["x"] - 20, o["y"] + 16)   # 44
@@ -2100,6 +2101,8 @@ func update_choice() -> void:
 	var r: Dictionary = choice["relics"][choice["idx"]]
 	add_relic(player, r)
 	show_banner(r["name"], r["desc"])
+	if Coop.draft_next(r):
+		return   # (Windows co-op: the next player picks from what is left)
 	choice = {}
 	state = &"play"
 
