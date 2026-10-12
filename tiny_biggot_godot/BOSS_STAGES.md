@@ -122,3 +122,31 @@ Expanded game only; nothing of the hero is touched (rule 1).
   a guardian took 41, 54 and 70 s on floors 2, 5 and 8; now 49, 69 and 85 s.
 - tests/stage56_test: the new numbers, and section 7 for 57 (`--classic`: none of it).
 
+
+## Stage 58: ARČI, the first floor's guardian (his word, 12 Oct, with ten photos of his dog)
+
+"I want stage one boss to be custom, move stage 1 boss to another stage i want my do to be first
+boss he is hyperactive border collie"; his name, his word: "Arči the pussy slayer"; the Colossus: his
+pick, "Floor 2, sometimes". Expanded game only (`--classic` keeps THE BONE COLOSSUS on floor 1).
+- Where: `GameData.FIRST_GUARDIAN` (the Colossus' floor has him instead) and `MORE_GUARDIANS` (a floor
+  with THE SPORE MOTHER may have THE BONE COLOSSUS too: with THE WALRUS ADMIRAL, three guardians, a
+  third of the time each; `Game.start_floor`, one dice roll as before). The bestiary lists him under
+  THE OSSUARY and the Colossus under MIREWOOD GROTTO.
+- His fight: `scripts/entities/arci.gd`, on the RiftBosses model like Rex (two phases at half health,
+  the grace between them, a third stage at a quarter with his own lines, RESOLVE, his signature
+  COMETS then ORBIT when UNBROKEN, patterns of his own every 9 s only in his second phase). Moves:
+  BOOP BOOP BOOP (lanes shown first, nose-first dashes; 4 in phase 2), FRISBEE (a curve and his lane
+  shown first; he races the disc and leaps for it; two discs in phase 2), HERDING (a ring round you,
+  kept inside the room; he circles yipping shots in, the ring closing, then cuts across), CAT! (a
+  kitten bolts down a lane, he bolts after it into the wall: BONK; two cats in phase 2), CRASH (asleep
+  on his back, Z's: x1.5 damage and touching him does not hurt), STICK (phase 2: an oval shown first,
+  a lap and a half with a huge stick across his jaws). Phase 2: SUNGLASSES ON, 15% faster.
+- Looks (`Arci.sprite`, `Stages.look`): standing, running and asleep on his back, each plain, `_s2`
+  (sunglasses) and `_s3` (sunglasses and a gold aura). `tools/art/stage58_arci.py`.
+- Beaten: hearts, no blasts, a bark; "GOOD BOY, ARČI!"; he sleeps where he fell (the object
+  `arci_rest`) and the floor goes on as after any guardian. His drop: ARČI'S FRISBEE (a boomerang,
+  `BossLoot`, never rolled elsewhere).
+- The font: Č, Š, Ž (`Gfx.HOOKED`): C, S, Z with the font's ^ upside down over them.
+- Tests: `tests/stage58_test` (floors, the font, each move ends and hurts a hero in its way, the crash,
+  the phases, beaten). Bots at level 1 in his room (8 runs) last 30 to 60 s; against the Colossus
+  in the same room, 20 to 50 s: the first guardian is no harder than it was.
