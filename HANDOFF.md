@@ -31,7 +31,11 @@ shots and outlined while they attack, more health and plate the deeper they are,
 full: UNBROKEN for 3.5 s; no guardian falls in less than 25 s + 6 s a floor; resolve.gd), and six new
 attack patterns, two or three for every guardian (patterns.gd). tests/stage56_test. IPA 56 "Bosses
 Fight Back". Also fixed: barks_test placed its elite where a pillar could push it out of reach (it
-failed once in six runs).
+failed once in six runs). Then his question before the IPA ("What about normal rooms scaling"): 56.6,
+the measure of your strength (Combat.power, power_scale) now sees overkill (a blow counts up to 20 s
+of a plain build, Combat.blow_cap) and only fighting time (not the waits between waves), and past ten
+times ahead the foes keep up more closely (power 0.9); thirty waves of one-blow kills used to leave
+the foes at x1.00 health. Your build is untouched. tests/boss_clock --clock-rooms times the rooms.
 Done before: 39.4 "Bosses Fall" (IPA 39.4), Stage 39 "More to Find", 38 "Alignment and Loot", 37,
 36, 35 (the full check passed at 35). Next: Stage 40.
 

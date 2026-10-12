@@ -1619,12 +1619,18 @@ each point); the rest, proposed in the order it would be felt most, with names o
   - [x] 56.4 New attack patterns for every boss. Done (scripts/combat/patterns.gd): PINWHEEL, CAGE,
         ORBIT, COMETS, GRID, QUAKE; two or three for each of the 38 guardians in their stages, the
         first its signature; rift guardians add theirs every 9 s.
-  - [ ] 56.6 His question (12 Oct, before IPA 56): "What about normal rooms scaling did you fix this
+  - [x] 56.6 His question (12 Oct, before IPA 56): "What about normal rooms scaling did you fix this
         too". Not yet then: the foes of ordinary rooms grow with your measured strength
         (Combat.power_scale), but the measure counted a blow only up to twice the foe's health and
         averaged over the waits between waves, so a build that kills everything at once looked
         ordinary. Fix the measure (overkill counts, only fighting time), the build untouched; time
-        the rooms before and after (tests/boss_clock --clock-rooms). In IPA 56.
+        the rooms before and after (tests/boss_clock --clock-rooms). In IPA 56. Done: a blow counts
+        up to 20 s of a plain build (Combat.blow_cap), only fighting time is averaged, and past ten
+        times ahead the foes keep up more closely (power 0.9). Measured (6 heroes, floors 4 and 8,
+        the median): with their builds x100, the foes' health from the build x85 (was x16) and a
+        foe lives 1.15 s (was 0.93 s; floor 4: 1.9 s, was 1.0 s); the same builds without the x100
+        x2.2 (was x2.1), a foe lives 2.6 s (was 1.9 s). A build far ahead still clears faster than a
+        plain one (rule 1): a foe it meets still falls in about a second.
   - [ ] 56.5 The test, the classic replays unchanged, the core ones re-recorded (the bosses changed
         on purpose), the full check, IPA 56.
 
