@@ -159,3 +159,41 @@ pick, "Floor 2, sometimes". Expanded game only (`--classic` keeps THE BONE COLOS
 - Tests: `tests/stage58_test` (floors, the font, each move ends and hurts a hero in its way, the crash,
   the phases, beaten). Bots at level 1 in his room (8 runs) last 30 to 60 s; against the Colossus
   in the same room, 20 to 50 s: the first guardian is no harder than it was.
+
+## Stage 59: ŠEFE, KING OF THE BLOK, the third floor's guardian (his word, 13 Oct, with five photos)
+
+"I have stage 3 new boss idea, slovenian gopnik who acts like gangster and mogg peaople he also smoke
+alot of marijuana and drinks alot of beer"; his picks: the name "ŠEFE, KING OF THE BLOK" and "Floor 3,
+always". Expanded game only (`--classic` keeps THE DROWNED LIBRARIAN on floor 3).
+- Where: `GameData.OWN_GUARDIANS` (was `FIRST_GUARDIAN`: the Colossus' floor has Arči, the
+  Librarian's floor has Šefe) and `MORE_GUARDIANS` (a floor with THE FORGE TYRANT may have THE
+  DROWNED LIBRARIAN: with THE GOLEM KING, three guardians, a third of the time each).
+- His fight: `scripts/entities/sefe.gd`, on the RiftBosses model like Arči (two phases at half health,
+  the grace between them, a third stage at a quarter with his own lines, RESOLVE, his signature
+  PINWHEEL then QUAKE when UNBROKEN, patterns of his own only in his second phase). Moves:
+  FINGER GUNS (a pose, then volleys from both hands: PEW PEW; four in phase 2), MOG (a cone shown
+  first; inside it when he stares, unless you roll: MOGGED, slow for half again as long as the final
+  boss' stare, `Finale.mog_t`; then a shot from each hand after you), SMOKE BREAK (the gopnik squat and a joint: clouds drift at you and slow you,
+  `Sefe.clouds`; six blows meanwhile and he coughs: x1.5 and harmless), BEER (PSSHT, NA ZDRAVJE!, he
+  chugs, then throws the can where you stand, its landing shown: foam that slows you, `Sefe.foam`, and
+  a ring of shots; then a belch, a ring round him), ZONED OUT (sitting, staring at nothing: x1.5 and
+  harmless). Phase 2, THE CROWN AND THE CHAIN, 15% faster: THE BIG ONE (a beam of smoke sweeps an arc
+  shown first, leaving clouds), CHAINSAW (BRRRM: three charges down lanes shown first), AXE (thrown
+  down lanes, it sticks in the floor; two in phase 2). Plans: phase 1 FINGER GUNS, MOG, SMOKE BREAK,
+  FINGER GUNS, BEER, ZONED OUT; phase 2 THE BIG ONE, FINGER GUNS, CHAINSAW, MOG, AXE, BEER, SMOKE
+  BREAK, ZONED OUT.
+- He is drawn 86 px tall (34 x 43 at scale 2): `Sefe.TOP_Y` (6.5 tiles) keeps him low enough that his
+  head never goes under the top bar; a chainsaw lane shown upward ends there too.
+- Looks (`Sefe.sprite`, `Stages.look`): standing, the squat, drinking, zoned out and passed out, each
+  plain, `_s2` (a gold crown and chain) and `_s3` (and red eyes and a green haze). Props: the can,
+  the cone, a puff of smoke, the chainsaw, the axe. `tools/art/stage59_sefe.py` (our own cartoon of
+  the type: no brand from the photos).
+- Beaten: "ŠEFE PASSED OUT", "THE BLOK IS YOURS NOW"; he lies where he fell, snoring (the object
+  `sefe_rest`), and the floor goes on. His drop: ŠEFE'S FINGER GUNS (two shots at a time, one from
+  each hand; 10% of hits stun a foe 1 s; `BossLoot`, never rolled elsewhere).
+- Tests: `tests/stage59_test` (floors, the font, each move ends and hurts a hero in its way, MOG in and
+  beside the cone, the smoke and the cough, zoned out, the crown at half health, beaten).
+- Measured (`tests/boss_clock --clock-floors=3 --clock-boss=KEY`, new: a guardian in place of the
+  floor's own; 4 heroes, 2 seeds, the build a player has there by then): ŠEFE fell in 57 s (the
+  middle of eight; 46 to 96 s), THE DROWNED LIBRARIAN in 59 s (47 to 94 s) on the same builds: the
+  third floor is no quicker and no slower than it was.

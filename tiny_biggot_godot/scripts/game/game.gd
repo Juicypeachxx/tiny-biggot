@@ -267,8 +267,8 @@ func start_floor() -> void:
 		Attributes.on_floor(player)   # 52: LUCK fills the dice
 	floor_d = World.new_floor(floor_index)
 	var own: String = GameData.floors()[floor_index]["boss"] if floor_index < GameData.floors().size() else ""
-	if GameData.rogues() and GameData.FIRST_GUARDIAN.has(own):
-		floor_d["guardian"] = GameData.FIRST_GUARDIAN[own]   # 58: ARČI guards the first floor
+	if GameData.rogues() and GameData.OWN_GUARDIANS.has(own):
+		floor_d["guardian"] = GameData.OWN_GUARDIANS[own]   # 58: ARČI guards the first floor; 59: ŠEFE the third
 	elif GameData.rogues() and GameData.ALT_GUARDIANS.has(floor_index):
 		# 9.3: the floor's second guardian half the time; 58: with a third, each a third of the time.
 		var alts: Array = [GameData.ALT_GUARDIANS[floor_index]] + GameData.MORE_GUARDIANS.get(own, [])
@@ -1052,6 +1052,8 @@ func on_boss_dead(b: Enemy) -> void:
 	BossLoot.drop(b)   # its own item (expanded game)
 	if b.boss == "arci":
 		Arci.on_beaten(b)   # 58: a good boy rolls over; the floor goes on as after any guardian
+	elif b.boss == "sefe":
+		Sefe.on_beaten(b)   # 59: he passes out; the floor goes on
 	if Daily.is_on("giants"):
 		for rel in roll_relics(2, "boss"):   # 18.1 BIG GAME
 			add_relic(player, rel)

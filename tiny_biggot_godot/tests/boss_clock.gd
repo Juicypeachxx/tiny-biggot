@@ -17,6 +17,7 @@ extends Node
 ## build: Combat.power_scale), and how long a foe lives there once it can be hit ("life", the median).
 ## --clock-rooms: the rooms only, no guardian. --clock-broken: the build deals a hundred times its damage
 ## (a broken build: its "damage at full health" +9900%; god mode keeps the hero at full health).
+## --clock-boss=KEY (59): that guardian instead of the floor's own (to set a new one beside the old).
 
 var heroes: Array = [0]
 var seeds := 2
@@ -25,6 +26,7 @@ var cap := 150.0
 var plain := false
 var rooms_only := false
 var broken := false
+var boss_key := ""
 var by_floor := {}   # floor -> [secs]
 var room_secs := {}  # floor -> [seconds a room]
 var lives := {}      # floor -> [median seconds a foe lives]
@@ -47,6 +49,7 @@ func _ready() -> void:
 	plain = DebugArgs.has("clock-plain")
 	rooms_only = DebugArgs.has("clock-rooms")
 	broken = DebugArgs.has("clock-broken")
+	boss_key = DebugArgs.get_str("clock-boss")
 	for h in heroes:
 		for s in seeds:
 			for f in floors:
@@ -130,6 +133,8 @@ func _clock(h: int, s: int, f: int) -> void:
 	# The guardian.
 	G.enemies.clear()
 	G.locked = false
+	if boss_key != "":
+		G.floor_d["guardian"] = boss_key
 	G.enter_room(World.make_room(G.floor_d, "boss", "", "s", { "no_secret": true }))
 	var b: Enemy = null
 	var bt := 0.0

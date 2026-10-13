@@ -318,7 +318,7 @@ func update_move(dt: float) -> Vector2:
 		trail.append({ "x": x, "y": y, "life": 0.18, "face": face })
 		Combat.while_rolling(self, dt)
 	else:
-		var spd := speed * (1.2 if raging else 1.0) * Pace.speed_mult() * Might.speed_mult(self) * Finale.speed_mult(self)   # 35.2 FINISH THEM, CLEAR RUSH; 40.2 HEAVY STRIDE; 55 MOGGED
+		var spd := speed * (1.2 if raging else 1.0) * Pace.speed_mult() * Might.speed_mult(self) * Finale.speed_mult(self) * Sefe.speed_mult(self)   # 35.2 FINISH THEM, CLEAR RUSH; 40.2 HEAVY STRIDE; 55 MOGGED; 59 ŠEFE's smoke and foam
 		vx = mv.x * spd
 		vy = mv.y * spd
 	moving = Vector2(vx, vy).length() > 5

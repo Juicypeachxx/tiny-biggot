@@ -8,7 +8,8 @@ extends RefCounted
 ## faster, with a wall of shots (stage 2) or chaos: quicker attacks and a desperation pulse (3).
 
 const LINES := ["IT GROWS FURIOUS", "IT FIGHTS FOR ITS LIFE"]
-const OWN_LINES := { "arci": ["HE FOUND HIS SECOND WIND", "HE WILL NEVER, EVER BE TIRED"] }   # 58: his dog
+const OWN_LINES := { "arci": ["HE FOUND HIS SECOND WIND", "HE WILL NEVER, EVER BE TIRED"],   # 58: his dog
+	"sefe": ["HE OPENS ANOTHER ONE", "THE BLOK NEVER SLEEPS"] }   # 59
 
 static func applies(e: Enemy) -> bool:
 	if not GameData.rogues() or e.type == "dummy":

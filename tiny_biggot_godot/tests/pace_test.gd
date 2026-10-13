@@ -78,6 +78,16 @@ func _kill_down_to(n: int) -> void:
 			Combat.damage_enemy(fs[i], 1e15, { "no_crit": true, "silent": true })
 		_tick(1)
 
+## Ticks until the room clears, 2 s at most (59: the kills can fill the soul gauge, and its SOUL
+## SURGE stops the world a moment, G.hitstop, so the fallen are still listed: waiting only 2 ticks,
+## 7 runs in 82 found the room still locked; none in 30 since).
+func _until_clear() -> void:
+	for i in 120:
+		if not G.locked:
+			break
+		_tick(1)
+	_tick(2)
+
 func _ready() -> void:
 	var p := _start()
 	_fight()
@@ -120,7 +130,7 @@ func _ready() -> void:
 
 	# CLEAR RUSH and the first spoils.
 	_kill_down_to(0)
-	_tick(2)
+	_until_clear()
 	if G.locked:
 		fail("the room did not clear")
 	if Pace.finishing or not Pace.rushing or absf(Pace.speed_mult() - Pace.RUSH_SPEED) > 0.001:
@@ -141,7 +151,7 @@ func _ready() -> void:
 	_tick(60)
 	G.room.waves_left = 0
 	_kill_down_to(0)
-	_tick(2)
+	_until_clear()
 	if not G.room.objects.any(func(o): return o["kind"] == "item"):
 		fail("the second fight left no item")
 	print("[pace] the rush walks %.0f px/s, plain %.0f; %s" % [ran, walked, Pace.stats])
@@ -157,7 +167,7 @@ func _ready() -> void:
 	G.room.waves_left = 0
 	_tick(2)
 	_kill_down_to(0)
-	_tick(2)
+	_until_clear()
 	if Pace.rushing or G.room.objects.any(func(o): return o["kind"] == "chest"):
 		fail("classic got a rush or the spoils")
 	GameData.force_classic = false

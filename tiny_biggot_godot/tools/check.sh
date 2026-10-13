@@ -422,6 +422,11 @@ timeout 900 "$GODOT" --headless --path . res://tests/stage58_test.tscn -- --no-s
 grep -E "^\[stage58\]|stage58 test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 59 ŠEFE, KING OF THE BLOK, the third floor's guardian: floors, the font, his moves, his phases, beaten"
+timeout 900 "$GODOT" --headless --path . res://tests/stage59_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[stage59\]|stage59 test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== 18.1 the daily trial"
 timeout 300 "$GODOT" --headless --path . res://tests/daily_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "daily test" "$LOG"
