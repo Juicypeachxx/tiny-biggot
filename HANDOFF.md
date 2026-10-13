@@ -74,7 +74,7 @@ ignore it: two fans of barks), FRENZY and BOUNCE in his second phase, his comets
 sleeps beside it. stage58_test covers them (passes). Four of the eight core replays reach him and
 were re-recorded (the six classic ones identical); the full check passed (CHECK PASSED); IPA 58
 "Good Boy". Waiting on his iPad test of it (and of 57). On the Windows line his frisbees and stick
-hurt only P1 in co-op (like the hazards before W3): add Coop.hazard there after this merge.
+hurt only P1 in co-op (like the hazards before W3): done in W4 (below).
 Then his next boss (13 Oct, five photos: "slovenian gopnik who acts like gangster and mogg peaople he
 also smoke alot of marijuana and drinks alot of beer"; his picks: the name "ŠEFE, KING OF THE BLOK",
 "Floor 3, always"): Stage 59. ŠEFE guards the third floor of the expanded game; THE DROWNED LIBRARIAN
@@ -97,8 +97,13 @@ SURGE stops the world a moment, G.hitstop, so 2 ticks later the fallen were stil
 still locked: 7 runs in 82); the test now waits until the room clears (none in 30). Then the full
 check passed (CHECK PASSED); IPA 59 "King of the Blok" built (ipa-59, 13 Oct 09:09 UTC; its Windows
 job merged into windows-build cleanly and built Windows 59). Waiting on his iPad test of it (and of 57
-and 58). On the Windows line his chainsaw, axe,
-beam, can and stare reach only P1 in co-op, like Arči's moves: add Coop.hazard there (a W4).
+and 58).
+On windows-build only (13 Oct, his word: "For coop make that it hurts all"): W4. Arči's and Šefe's
+own moves hurt every co-op hero in their way, not only the one aimed at (Coop.hazard); any hero can
+throw Arči's frisbee; Šefe's stare MOGS whoever stands in it; and every foe's body hurts every hero
+it touches (Coop.foe_touch: before, only the hero it worked against, so Arči's dashes and Šefe's
+chainsaw went through P2 to P4). COOP_PLAN.md W4; tests/coop_test _guardians (11 checks, all fail
+without the fix); the full check passed there; 72717d1, Windows 59 rebuilt (13 Oct 11:22 UTC).
 The first full check of 57 failed once on stage39 ("squeezebox hurt no foe in 2.5 s"): an old weak test,
 not the game (its target foes came in front of the door the hero walked in by, and the random
 room's pillars could push them away or stand in the way: 3 runs in 40 missed); fixed in the test
