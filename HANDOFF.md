@@ -88,8 +88,10 @@ CHAINSAW (three charges down lanes shown first), AXE. Beaten he passes out (obje
 his drop ŠEFE'S FINGER GUNS (two shots at a time, 10% of hits stun 1 s; unique). He is tall (86 px
 drawn): Sefe.TOP_Y keeps him low enough that his head never goes under the top bar. Pictures:
 tools/art/stage59_sefe.py (our own cartoon: no brand from the photos). tests/stage59_test (passes,
-in check.sh); bosses, atlas, afx, stage58, content, chaos, realms and stage56 tests pass. Next: the
-core replays re-recorded (floor 3 changed on purpose), the full check, IPA 59.
+in check.sh); bosses, atlas, afx, stage58, content, chaos, realms and stage56 tests pass. Timed
+(tests/boss_clock, new --clock-boss=KEY): with the same 8 builds on floor 3 he fell in 57 s (the
+middle), the Librarian in 59 s. Next: the core replays re-recorded (floor 3 changed on purpose),
+the full check, IPA 59.
 The first full check of 57 failed once on stage39 ("squeezebox hurt no foe in 2.5 s"): an old weak test,
 not the game (its target foes came in front of the door the hero walked in by, and the random
 room's pillars could push them away or stand in the way: 3 runs in 40 missed); fixed in the test
