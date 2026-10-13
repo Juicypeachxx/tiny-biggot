@@ -1,0 +1,61 @@
+name: Build the Windows game
+
+# His Windows build branch (12 Oct: "i want to setup windows build in windows-build"; WINDOWS_BUILD.md).
+# Builds TinyBiggot-<VERSION>-<Name>-Windows.zip (TinyBiggot.exe, one file with the game inside, and a
+# short README) on one of GitHub's Linux machines, and publishes it as two releases: win-<version>
+# (kept, so he can go back) and win-latest. The steps are in tiny_biggot_godot/tools/build_windows.sh.
+#
+# It runs when
+#   - anything is pushed to the branch windows-build (Windows-only work goes there), or
+#   - you press "Run workflow" on the Actions page (once this file is on the default branch).
+# Every iPad build on claude/dev also takes its version into windows-build and builds it for Windows
+# with the same script (build-ipa.yml there). Nothing on windows-build goes back to claude/dev.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["windows-build"]
+
+permissions:
+  contents: write        # to publish the game as a release you can download
+
+concurrency:
+  group: win-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  windows:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Godot and the Windows export template (kept between runs)
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/godot
+            ~/.local/share/godot/export_templates
+          key: godot-4.6.1-stable-linux-windows-1
+
+      - name: Build the Windows game and publish it
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash tiny_biggot_godot/tools/build_windows.sh
+
+      - name: Keep the game with this run
+        uses: actions/upload-artifact@v4
+        with:
+          name: TinyBiggot-windows
+          path: build/${{ env.PACKAGE }}
+          if-no-files-found: error
+
+      - name: Keep the logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-build-logs
+          path: |
+            build/import.log
+            build/smoke.log
+            build/export.log

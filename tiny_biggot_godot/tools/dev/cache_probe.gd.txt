@@ -1,0 +1,30 @@
+extends Node
+## Scratch: how did the atlas come to be, and is every sprite handed out its own file's pixels?
+func _ready() -> void:
+	await get_tree().process_frame
+	var bad := 0
+	var n := 0
+	for name in Img.folder_names():
+		var tex = load(Img.GFX + name + ".png")
+		if tex == null:
+			continue
+		var file: Image = tex.get_image().duplicate()
+		if file.is_compressed():
+			file.decompress()
+		file.convert(Image.FORMAT_RGBA8)
+		file.clear_mipmaps()          # the full-size picture is what is compared
+		n += 1
+		var got := Img.image(name)
+		if got != null:
+			got.clear_mipmaps()
+		if got == null or got.get_data() != file.get_data():
+			bad += 1
+		var wt := Img.white(name)
+		var wi := wt.get_image()
+		if wi != null:
+			wi.clear_mipmaps()
+		if wi == null or wi.get_data() != Img.whiten(file).get_data():
+			bad += 1
+	print("[probe] atlas %s, %d graphics; %d sprites checked against their files, %d differ; own file there: %s" % [
+		Img.atlas_source, Img.atlas_count, n, bad, FileAccess.file_exists(Img.CACHED)])
+	get_tree().quit()
