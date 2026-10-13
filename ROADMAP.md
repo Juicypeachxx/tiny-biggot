@@ -1692,7 +1692,7 @@ each point); the rest, proposed in the order it would be felt most, with names o
         classic replays identical, four of the eight core ones changed (they reach him) and were
         re-recorded; the full check passed; IPA 58 "Good Boy". Bots at level 1 in his room last
         30 to 60 s (against the Colossus in the same room: 20 to 50 s): no harder than before.
-- [ ] Stage 59 (his word, 13 Oct, with five photos: "I have stage 3 new boss idea, slovenian gopnik who
+- [x] Stage 59 (his word, 13 Oct, with five photos: "I have stage 3 new boss idea, slovenian gopnik who
       acts like gangster and mogg peaople he also smoke alot of marijuana and drinks alot of beer";
       his picks: the name "ŠEFE, KING OF THE BLOK", "Floor 3, always"). ŠEFE guards the third floor of
       the expanded game (`--classic` keeps THE DROWNED LIBRARIAN there); THE DROWNED LIBRARIAN becomes
@@ -1710,8 +1710,12 @@ each point); the rest, proposed in the order it would be felt most, with names o
         AXE (thrown, it sticks in the floor). RESOLVE and the patterns as every guardian.
   - [x] 59.3 Beaten, he passes out where he stands and stays there snoring; the floor goes on. His
         drop: ŠEFE'S FINGER GUNS (a weapon). Slovenian lines (KAJ GLEDAŠ?!, NA ZDRAVJE!).
-  - [ ] 59.4 tests/stage59_test, the classic replays unchanged, the core ones re-recorded if they
-        reach him, the full check, IPA 59.
+  - [x] 59.4 tests/stage59_test, the classic replays unchanged, the core ones re-recorded if they
+        reach him, the full check, IPA 59. Done: stage59_test passes; the six classic replays
+        identical, and the eight core ones too (none reaches the third floor: nothing re-recorded);
+        the pace test made to wait for the room to clear (a SOUL SURGE's pause failed it 7 runs in
+        82); the full check passed; IPA 59 "King of the Blok". Timed with the same eight builds on
+        floor 3 (tests/boss_clock --clock-boss): he falls in 57 s, the Librarian in 59 s.
 ### Stage 46: weapon enchantments (IPA 46; his word: "Ok go 44 and 45, and 46")
 - [x] 46.1 An enchantment slot on weapons (one at most): the item card, the name, the name plate,
       saving; flat element damage on hits; foe kinds for the slayer enchantments.
@@ -1829,3 +1833,8 @@ each point); the rest, proposed in the order it would be felt most, with names o
   third of the time). Frisbees, boops, herding, cats, a stick and naps; sunglasses at half health;
   beaten, he sleeps beside his frisbee. His drop: ARČI'S FRISBEE. The font draws Č, Š, Ž. IPA 58
   "Good Boy".
+- 13 Oct 2026: Stage 59 (his photos: "slovenian gopnik who acts like gangster and mogg peaople").
+  ŠEFE, KING OF THE BLOK guards the third floor (the Librarian: floor 4, a third of the time).
+  Finger guns, the MOG stare, smoke breaks, beer and foam, zoned out; the crown and the chain at
+  half health: the big one, a chainsaw, an axe. Beaten, he passes out. His drop: ŠEFE'S FINGER GUNS.
+  IPA 59 "King of the Blok".

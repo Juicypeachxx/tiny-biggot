@@ -90,8 +90,13 @@ drawn): Sefe.TOP_Y keeps him low enough that his head never goes under the top b
 tools/art/stage59_sefe.py (our own cartoon: no brand from the photos). tests/stage59_test (passes,
 in check.sh); bosses, atlas, afx, stage58, content, chaos, realms and stage56 tests pass. Timed
 (tests/boss_clock, new --clock-boss=KEY): with the same 8 builds on floor 3 he fell in 57 s (the
-middle), the Librarian in 59 s. Next: the core replays re-recorded (floor 3 changed on purpose),
-the full check, IPA 59.
+middle), the Librarian in 59 s. The six classic replays identical, and the eight core ones too
+(none reaches floor 3: nothing to re-record). The first full check failed once on pace ("the second
+fight left no item"): an old weak test, not the game (the kills can fill the soul gauge, and its SOUL
+SURGE stops the world a moment, G.hitstop, so 2 ticks later the fallen were still listed and the room
+still locked: 7 runs in 82); the test now waits until the room clears (none in 30). Then the full
+check passed (CHECK PASSED); IPA 59 "King of the Blok". Waiting on his iPad test of it (and of 57 and 58). On the Windows line his chainsaw, axe,
+beam, can and stare reach only P1 in co-op, like Arči's moves: add Coop.hazard there (a W4).
 The first full check of 57 failed once on stage39 ("squeezebox hurt no foe in 2.5 s"): an old weak test,
 not the game (its target foes came in front of the door the hero walked in by, and the random
 room's pillars could push them away or stand in the way: 3 runs in 40 missed); fixed in the test
