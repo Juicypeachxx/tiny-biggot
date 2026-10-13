@@ -177,6 +177,8 @@ static func _frisbee(e: Enemy, p: Player, dt: float) -> void:
 				var at := disc_at(d, k)
 				if TB.dist_xy(at.x, at.y, p.x, p.y - 4) < 5.0 + p.r:
 					Combat.hurt_player(1, e.d["name"])
+				if Coop.on():   # (W4: the other heroes too)
+					Coop.hazard(func(hero: Player) -> bool: return TB.dist_xy(at.x, at.y, hero.x, hero.y - 4) < 5.0 + hero.r, e.d["name"])
 			e.x = lerpf(e.from.x, e.to.x, k)
 			e.y = lerpf(e.from.y, e.to.y, k)
 			e.z = sin((k - 0.7) / 0.3 * PI) * 22.0 if k > 0.7 else 0.0   # the leap for the catch
@@ -367,12 +369,24 @@ static func _stick(e: Enemy, p: Player, dt: float) -> void:
 			var ends := stick_ends(e)
 			if RiftBosses._near_seg(p.x, p.y, ends[0], ends[1], 5.0 + p.r * 0.5):
 				Combat.hurt_player(1, e.d["name"])
+			if Coop.on():   # (W4: the other heroes too)
+				Coop.hazard(func(hero: Player) -> bool: return RiftBosses._near_seg(hero.x, hero.y, ends[0], ends[1], 5.0 + hero.r * 0.5), e.d["name"])
 			if e.aux2 >= TAU * 1.5:
 				RiftBosses._done(e, 0.6)
 
 ## DROP IT: he trots up, drops his frisbee at your feet and stares. Step on it and you throw it: he
 ## bolts after it (away to one side), too happy to mind your blows. Leave it and he barks at you twice
 ## (fans of shots), then picks it up again.
+## A hero on the frisbee he dropped throws it (W4: in co-op, any standing one).
+static func _stepped(p: Player, d: Dictionary) -> bool:
+	if TB.dist_xy(p.x, p.y, d["x"], d["y"]) < 9.0 + p.r:
+		return true
+	if Coop.on():
+		for h: Player in Coop.heroes():
+			if not Coop.downs.has(h) and TB.dist_xy(h.x, h.y, d["x"], d["y"]) < 9.0 + h.r:
+				return true
+	return false
+
 static func _dropit(e: Enemy, p: Player, dt: float) -> void:
 	var me := _me(e)
 	match e.sub:
@@ -393,7 +407,7 @@ static func _dropit(e: Enemy, p: Player, dt: float) -> void:
 		1:   # he stares at it, then at you
 			e.z = absf(sin(e.st * 14.0)) * 2.0
 			var d: Dictionary = me["drop"]
-			if TB.dist_xy(p.x, p.y, d["x"], d["y"]) < 9.0 + p.r:
+			if _stepped(p, d):
 				var side := 1.0 if randf() < 0.5 else -1.0
 				var a := TB.ang_xy(e.x, e.y, d["x"], d["y"]) + PI / 2 * side
 				var s0 := Vector2(d["x"], d["y"])
@@ -480,6 +494,8 @@ static func _frenzy(e: Enemy, p: Player, dt: float) -> void:
 				var at := disc_at(d, k)
 				if TB.dist_xy(at.x, at.y, p.x, p.y - 4) < 5.0 + p.r:
 					Combat.hurt_player(1, e.d["name"])
+				if Coop.on():   # (W4: the other heroes too)
+					Coop.hazard(func(hero: Player) -> bool: return TB.dist_xy(at.x, at.y, hero.x, hero.y - 4) < 5.0 + hero.r, e.d["name"])
 			if k >= 1.0:
 				e.sub = 2
 				e.st = 0.0
@@ -577,6 +593,8 @@ static func _bounce(e: Enemy, p: Player, dt: float) -> void:
 			me["discs"] = [{ "s": at, "c": at, "e": at, "k": 1.0, "mine": true }] if dd < total else []
 			if dd < total and TB.dist_xy(at.x, at.y, p.x, p.y - 4) < 5.0 + p.r:
 				Combat.hurt_player(1, e.d["name"])
+			if dd < total and Coop.on():   # (W4: the other heroes too)
+				Coop.hazard(func(hero: Player) -> bool: return TB.dist_xy(at.x, at.y, hero.x, hero.y - 4) < 5.0 + hero.r, e.d["name"])
 			var behind := along(pts, clampf(dd - 40.0, 0.0, total)) + Vector2(0, 14)
 			e.face = 1 if behind.x > e.x else -1
 			_run_to(e, behind, 600.0 * dt)

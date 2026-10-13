@@ -23,6 +23,11 @@ extends Node
 ## circle, a lit square of the grid, a comet's path, a wave's ring, a note's path, the laser dot, a
 ## sludge trail, a getaway car's lane and a plague carrier's burst; P3 beside them, rolling, and P1
 ## and P4 far away are not hurt; a comet or a note that hits P2 is gone.
+## W4 ARČI's and ŠEFE's moves hurt every hero in their way (his word, 13 Oct: "For coop make that it
+## hurts all"): FRISBEE, FRENZY, BOUNCE, STICK, BEER (the can), THE BIG ONE, CHAINSAW and AXE, aimed
+## at P1, hurt P1 and P2 standing where they pass, not P3 there rolling nor P4 far away; a foe's body
+## hurts every hero it touches (a skeleton aimed at P1 touches P2 too; Arči asleep bites nobody);
+## P2 can throw Arči's frisbee by stepping on it; P2 in ŠEFE's stare, P1 beside it: MOGGED.
 ## Prints "coop test: PASSED" or a FAIL line per problem.
 
 var fails := 0
@@ -36,6 +41,7 @@ func _ready() -> void:
 	_core()
 	_rules()
 	_hazards()
+	_guardians()
 	_join()
 	Keys.clear_pads()
 	Coop.want = []
@@ -458,6 +464,195 @@ func _hazards() -> void:
 	G.room.goo.clear()
 	G.room.cars.clear()
 	print("[coop] W3: P2 hurt by %s; P3 rolling beside them and P1, P4 far away were not" % ", ".join(ok))
+
+## W4: a four-hero room with an open floor; every hero ready to be hurt.
+func _room4() -> Array:
+	_start4()
+	var hs := Coop.heroes()
+	G.enter_room(World.make_room(G.floor_d, "combat", "", "s", { "no_secret": true }))
+	G.enemies.clear()
+	G.room.waves_left = 0
+	G.locked = true
+	G.state = &"play"
+	G.god = false
+	for r in range(4, 16):
+		for c in range(2, 26):
+			G.room.grid[r * TB.COLS + c] = World.T_FLOOR
+	_fresh(hs)
+	return hs
+
+func _fresh(hs: Array) -> void:
+	for h: Player in hs:
+		h.invuln = 0.0
+		h.dodge_t = 0.0
+		h.evade = 0.0
+		h.hp = h.max_hp
+
+## Where a hero stands in the way of a guardian's move right now (null: not yet).
+func _in_way(e: Enemy, move: StringName) -> Variant:
+	match move:
+		&"frisbee", &"frenzy", &"bounce":
+			var discs: Array = Arci._me(e).get("discs", [])
+			if e.sub == 1 and not discs.is_empty():
+				var d: Dictionary = discs[0]
+				return Arci.disc_at(d, d["k"]) + Vector2(0, 4)
+		&"stick":
+			if e.sub == 1:
+				var ends := Arci.stick_ends(e)
+				return Vector2(ends[0]).lerp(Vector2(ends[1]), 0.5)
+		&"beer":
+			var can: Dictionary = Sefe._me(e).get("can", {})
+			if e.sub == 2 and not can.is_empty():
+				return Vector2(can["x1"], can["y1"])
+		&"bigone":
+			if e.sub == 1:
+				var ends := Sefe.beam_ends(e)
+				return Vector2(ends[0]).lerp(Vector2(ends[1]), 0.5)
+		&"chainsaw":
+			if e.sub == 1:
+				var base := Vector2(e.x, e.y - 20.0)
+				return base + Vector2(cos(e.ca), sin(e.ca)) * 15.0
+		&"axe":
+			for ax: Dictionary in Sefe._me(e).get("axes", []):
+				if e.sub >= 1 and not ax["stuck"] and ax.has("x"):
+					return Vector2(ax["x"], ax["y"] + 4.0)
+	return null
+
+func _guardians() -> void:
+	var ok := []
+	for m in [["arci", &"frisbee", 1], ["arci", &"frenzy", 2], ["arci", &"bounce", 2], ["arci", &"stick", 2],
+			["sefe", &"beer", 1], ["sefe", &"bigone", 2], ["sefe", &"chainsaw", 2], ["sefe", &"axe", 2]]:
+		var hs := _room4()
+		var p1: Player = hs[0]
+		var p2: Player = hs[1]
+		var p3: Player = hs[2]
+		var p4: Player = hs[3]
+		var e := Combat.spawn_boss(m[0], true)
+		e.spawn_t = 0.0
+		e.phase = m[2]
+		e.x = 14.0 * TB.TS
+		e.y = 9.0 * TB.TS
+		p1.x = e.x + 80.0
+		p1.y = e.y
+		p4.x = 16.0   # (a far corner: nothing of his comes there)
+		p4.y = 16.0
+		e.state = m[1]
+		e.sub = 0
+		e.st = 0.0
+		e.t = 0.0
+		e.repeat = 0
+		# Once the move is under way, P1, P2 and P3 (rolling) stand where it is going next, until P1
+		# is hurt (the target, as alone); then the move plays out.
+		var last = null
+		for i in 600:
+			if p1.invuln <= 0.0:
+				var at = _in_way(e, m[1])
+				if at != null:
+					var go: Vector2 = at + (at - last if last != null else Vector2.ZERO)
+					for h: Player in [p1, p2, p3]:
+						h.x = go.x
+						h.y = go.y
+					p3.dodge_t = 99.0
+				last = at
+			G.player = p1
+			RiftBosses.update(e, TB.DT)
+			if e.state == &"rest":
+				break
+		var hit := [p1.invuln > 0, p2.invuln > 0, p3.invuln > 0, p4.invuln > 0]
+		if hit != [true, true, false, false] or G.player != p1:
+			fail("W4 %s %s: P1 to P4 hurt %s (want P1 and P2)" % [m[0], m[1], hit])
+		else:
+			ok.append(String(m[1]))
+		G.enemies.clear()
+		Sefe.clear()
+	# A foe's body: a skeleton working against P1 (the nearest) touches P2 too; P3 rolling and P4
+	# far away are not hurt.
+	var hs := _room4()
+	var p1: Player = hs[0]
+	var p2: Player = hs[1]
+	var p3: Player = hs[2]
+	var p4: Player = hs[3]
+	var sk := Combat.spawn_enemy("skeleton", 200.0, 150.0)
+	sk.spawn_t = 0.0
+	p1.x = sk.x + 2.0
+	p1.y = sk.y
+	p2.x = sk.x - 6.0
+	p2.y = sk.y
+	p3.x = sk.x
+	p3.y = sk.y + 6.0
+	p3.dodge_t = 99.0
+	p4.x = 400.0
+	p4.y = 250.0
+	Combat.update_enemies(TB.DT)
+	var body := [p1.invuln > 0, p2.invuln > 0, p3.invuln > 0, p4.invuln > 0]
+	if body != [true, true, false, false] or G.player != p1:
+		fail("W4 a skeleton's body: P1 to P4 hurt %s (want P1 and P2)" % [body])
+	# Arči asleep (CRASH) bites nobody.
+	G.enemies.clear()
+	_fresh(hs)
+	var dog := Combat.spawn_boss("arci", true)
+	dog.spawn_t = 0.0
+	dog.x = 200.0
+	dog.y = 150.0
+	dog.state = &"crash"
+	dog.sub = 1
+	dog.st = 0.0
+	for h: Player in [p1, p2]:
+		h.x = dog.x
+		h.y = dog.y
+	Combat.update_enemies(TB.DT)
+	if p1.invuln > 0 or p2.invuln > 0:
+		fail("W4 Arči asleep bit P1 %s, P2 %s" % [p1.invuln > 0, p2.invuln > 0])
+	# DROP IT: P2 steps on the frisbee (P1, the one he stares at, far from it): thrown.
+	dog.state = &"dropit"
+	dog.sub = 1
+	dog.st = 0.0
+	Arci._me(dog)["drop"] = { "x": 120.0, "y": 150.0 }
+	p1.x = 360.0
+	p1.y = 200.0
+	p2.x = 120.0
+	p2.y = 150.0
+	G.player = p1
+	RiftBosses.update(dog, TB.DT)
+	var thrown := dog.state == &"dropit" and dog.sub == 2
+	if not thrown:
+		fail("W4 P2 stepped on Arči's frisbee: not thrown (state %s %d)" % [dog.state, dog.sub])
+	G.enemies.clear()
+	# MOG: he stares at P1; P1 steps aside, P2 stands in the stare: MOGGED.
+	_fresh(hs)
+	var sefe := Combat.spawn_boss("sefe", true)
+	sefe.spawn_t = 0.0
+	sefe.x = 14.0 * TB.TS
+	sefe.y = 9.0 * TB.TS
+	p1.x = sefe.x + 70.0
+	p1.y = sefe.y
+	p2.x = 40.0
+	p2.y = 250.0
+	Finale.mog_t = 0.0
+	Finale.mog_cd = 0.0
+	sefe.state = &"mog"
+	sefe.sub = 0
+	sefe.st = 0.0
+	G.player = p1
+	RiftBosses.update(sefe, TB.DT)   # (he aims his stare at P1)
+	p2.x = p1.x
+	p2.y = p1.y
+	p1.x = sefe.x
+	p1.y = sefe.y - 90.0
+	var mogged := false
+	for i in 90:
+		G.player = p1
+		RiftBosses.update(sefe, TB.DT)
+		mogged = mogged or Finale.mog_t > 0.0
+		if sefe.state == &"rest":
+			break
+	if not mogged:
+		fail("W4 P2 in Šefe's stare was not MOGGED")
+	G.enemies.clear()
+	Finale.mog_t = 0.0
+	Sefe.clear()
+	print("[coop] W4: P1 and P2 hurt by %s; a foe's body hurts every hero it touches %s; P2 throws the frisbee %s; P2 MOGGED %s" % [
+		", ".join(ok), body == [true, true, false, false], thrown, mogged])
 
 func _press(k: int, a: StringName) -> void:
 	Keys.pads[k]["bot"][a] = true

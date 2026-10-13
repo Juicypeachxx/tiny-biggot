@@ -170,6 +170,22 @@ hero; a shot remembers its owner, and its hits count for them.
       fix turned off, 8 of the 9 fail). 4-player soaks of two guardians and two final final bosses
       without god mode: no errors.
 
+- [x] W4 Everything hurts every hero (13 Oct, his word: "For coop make that it hurts all", after IPA 59:
+      ARČI's and ŠEFE's own moves hurt only the hero they were aimed at). Done: `Coop.hazard` after
+      each of their own hits: FRISBEE and FRENZY's discs, BOUNCE, STICK (arci.gd); the can of BEER,
+      THE BIG ONE's beam, the CHAINSAW, the AXE (sefe.gd). DROP IT: any standing hero can step on
+      the frisbee (`Arci._stepped`). MOG: whoever stands in his stare is MOGGED (the slow is shared,
+      as the final boss's stare already is: `Finale.mog_t`). And a foe's body: in co-op it hurt only
+      the hero it works against (its nearest, `Coop.foe_target`), so Arči's dashes and leaps and
+      Šefe's chainsaw charge went through P2 to P4: now every foe's body hurts every standing hero
+      it touches (`Coop.foe_touch`, after Combat.update_enemies' own test; not while Arči sleeps or
+      waits, nor Šefe zoned out or coughing; no lambda, as it runs for every foe every frame). One
+      player: none of it runs (`Coop.on()`), so the replays are untouched. tests/coop_test.tscn
+      `_guardians`: each of the eight moves aimed at P1 hurts P1 and P2 standing where it passes,
+      not P3 there rolling nor P4 far away; a skeleton aimed at P1 touches P2 too; Arči asleep bites
+      nobody; P2 throws the frisbee; P2 in the stare is MOGGED (with the fix taken out, all 11 fail).
+      4-player fights against Arči and Šefe without god mode (90 s each, two seeds): no errors.
+
 ## Not done yet (later, if he wants it)
 
 - Saving a co-op run for CONTINUE.

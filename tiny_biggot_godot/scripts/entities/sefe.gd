@@ -187,6 +187,13 @@ static func _mog(e: Enemy, p: Player, dt: float) -> void:
 					Finale.mog_cd = Finale.MOG_CD
 					Fx.float_text(p.x, p.y - 26, "MOGGED!", "pink", true)
 					Snd.play("shield")
+				if Coop.on():   # (W4: whoever stands in his stare; the slow is shared, as the final boss's)
+					for h: Player in Coop.heroes():
+						if h != p and not Coop.downs.has(h) and h.dodge_t <= 0.0 and TB.dist(e, h) < MOG_R \
+								and absf(TB.wrap_ang(TB.ang_to(e, h) - e.ca)) < MOG_HALF:
+							Finale.mog_t = Finale.MOG_T * 1.5
+							Finale.mog_cd = Finale.MOG_CD
+							Fx.float_text(h.x, h.y - 26, "MOGGED!", "pink", true)
 		1:
 			if e.st >= 0.35:
 				for h in hands(e):
@@ -252,6 +259,8 @@ static func _beer(e: Enemy, p: Player, dt: float) -> void:
 				foam.append({ "x": c["x1"], "y": c["y1"], "life": 5.0 })
 				if TB.dist_xy(p.x, p.y, c["x1"], c["y1"]) < 12.0 + p.r:
 					Combat.hurt_player(1, e.d["name"])
+				if Coop.on():   # (W4: the other heroes too)
+					Coop.hazard(func(hero: Player) -> bool: return TB.dist_xy(hero.x, hero.y, c["x1"], c["y1"]) < 12.0 + hero.r, e.d["name"])
 				Combat.ering(c["x1"], c["y1"], 6, 60.0, randf() * TAU, "red")
 				Fx.burst(c["x1"], c["y1"], ["#fff3d0", "#f2c94c", "#ffffff"], 14, 70)
 				Snd.play("hit")
@@ -314,6 +323,8 @@ static func _bigone(e: Enemy, p: Player, dt: float) -> void:
 			var ends := beam_ends(e)
 			if RiftBosses._near_seg(p.x, p.y, ends[0], ends[1], 7.0 + p.r * 0.5):
 				Combat.hurt_player(1, e.d["name"])
+			if Coop.on():   # (W4: the other heroes too)
+				Coop.hazard(func(hero: Player) -> bool: return RiftBosses._near_seg(hero.x, hero.y, ends[0], ends[1], 7.0 + hero.r * 0.5), e.d["name"])
 			e.aux2 -= dt
 			if e.aux2 <= 0.0:
 				e.aux2 = 0.4
@@ -346,6 +357,9 @@ static func _chainsaw(e: Enemy, p: Player, dt: float, charges: int) -> void:
 			var tip := Vector2(e.x + cos(e.ca) * 30.0, e.y - 20.0 + sin(e.ca) * 30.0)
 			if RiftBosses._near_seg(p.x, p.y, Vector2(e.x, e.y - 20.0), tip, 6.0 + p.r * 0.5):
 				Combat.hurt_player(1, e.d["name"])
+			if Coop.on():   # (W4: the other heroes too)
+				var base := Vector2(e.x, e.y - 20.0)
+				Coop.hazard(func(hero: Player) -> bool: return RiftBosses._near_seg(hero.x, hero.y, base, tip, 6.0 + hero.r * 0.5), e.d["name"])
 			if d >= e.aux2:
 				Afx.dust(e.x, e.y + 8)
 				e.repeat += 1
@@ -386,6 +400,8 @@ static func _axe(e: Enemy, p: Player, dt: float, n: int) -> void:
 				ax["y"] = at.y
 				if TB.dist_xy(at.x, at.y, p.x, p.y - 4) < 7.0 + p.r:
 					Combat.hurt_player(1, e.d["name"])
+				if Coop.on():   # (W4: the other heroes too)
+					Coop.hazard(func(hero: Player) -> bool: return TB.dist_xy(at.x, at.y, hero.x, hero.y - 4) < 7.0 + hero.r, e.d["name"])
 				if ax["d"] >= ax["len"]:
 					ax["stuck"] = true
 					Afx.dust(at.x, at.y + 6)

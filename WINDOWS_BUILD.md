@@ -45,6 +45,11 @@ and windows to work, soo if i work on multiplayer addon on windows it wont be pu
 - **Every hazard hurts every hero** (W3, 12 Oct): a guardian's lasers, chains, circles and
   patterns, the final final bosses' and rift guardians' moves and the rooms' own hazards hurt
   P2 to P4 too, not only P1 (`Coop.hazard`); COOP_PLAN.md, step W3. tests/coop_test.tscn.
+- **Everything hurts every hero** (W4, 13 Oct, his word: "For coop make that it hurts all"): ARČI's
+  and ŠEFE's own moves (frisbees, the stick, the can, the beam of smoke, the chainsaw, the axe) and
+  every foe's body hurt P2 to P4 too, not only the hero it is aimed at (`Coop.hazard`,
+  `Coop.foe_touch`); any hero can throw Arči's frisbee; Šefe's stare MOGS whoever stands in it.
+  COOP_PLAN.md, step W4. tests/coop_test.tscn.
 - The automatic way was first used for IPA 55 (12 Oct): the iPad build, then `ios-build` moved up,
   `windows-build` took in Stage 55 and Windows 55 was published, all in one run.
 - Not tested by Claude: the game running on Windows (the cloud has no Windows machine). The export

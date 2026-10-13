@@ -270,6 +270,20 @@ static func hazard(touch: Callable, source: String, env := false) -> bool:
 			any = true
 	return any
 
+## W4 (his word, 13 Oct: "For coop make that it hurts all"): a foe's body hurts every standing hero it
+## touches, not only the one it works against (Combat.update_enemies tests that one: G.player).
+## Arči's dashes and leaps and Šefe's chainsaw charge hurt mostly by touch. No lambda: every foe,
+## every frame.
+static func foe_touch(e: Enemy, source: String) -> void:
+	var hs := heroes()
+	for i in hs.size():
+		var h: Player = hs[i]
+		if h == G.player or downs.has(h) or h.dodge_t > 0 or h.invuln > 0:
+			continue
+		var rr := e.r + h.r
+		if (h.x - e.x) * (h.x - e.x) + (h.y - e.y) * (h.y - e.y) < rr * rr:
+			hurt(i, 1, source)
+
 ## Hurts hero i as Combat.hurt_player hurts P1.
 static func hurt(i: int, amount: int, source: String, env := false) -> void:
 	var keep: Player = G.player

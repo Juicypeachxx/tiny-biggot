@@ -852,6 +852,9 @@ static func update_enemies(dt: float) -> void:
 			if p.thorns > 0 and not e.thorn_cd > 0:
 				damage_enemy(e, p.thorns, { "no_crit": true, "col": "green" })
 				e.thorn_cd = 0.5
+		if Coop.on() and not e.hidden and not e.d.has("no_touch") and e.puppet_t <= 0 and e.charm_t <= 0 and e.shrink_t <= 0 \
+				and e.type != "haggler" and not (e.boss == "arci" and Arci.harmless(e)) and not (e.boss == "sefe" and Sefe.harmless(e)):
+			Coop.foe_touch(e, e.d["name"] if e.is_boss() else e.d.get("label", "a " + e.type))   # (W4: every hero it touches)
 		if e.thorn_cd > 0:
 			e.thorn_cd -= dt
 		if p.orbitals > 0:
