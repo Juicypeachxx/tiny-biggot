@@ -95,7 +95,9 @@ middle), the Librarian in 59 s. The six classic replays identical, and the eight
 fight left no item"): an old weak test, not the game (the kills can fill the soul gauge, and its SOUL
 SURGE stops the world a moment, G.hitstop, so 2 ticks later the fallen were still listed and the room
 still locked: 7 runs in 82); the test now waits until the room clears (none in 30). Then the full
-check passed (CHECK PASSED); IPA 59 "King of the Blok". Waiting on his iPad test of it (and of 57 and 58). On the Windows line his chainsaw, axe,
+check passed (CHECK PASSED); IPA 59 "King of the Blok" built (ipa-59, 13 Oct 09:09 UTC; its Windows
+job merged into windows-build cleanly and built Windows 59). Waiting on his iPad test of it (and of 57
+and 58). On the Windows line his chainsaw, axe,
 beam, can and stare reach only P1 in co-op, like Arči's moves: add Coop.hazard there (a W4).
 The first full check of 57 failed once on stage39 ("squeezebox hurt no foe in 2.5 s"): an old weak test,
 not the game (its target foes came in front of the door the hero walked in by, and the random
