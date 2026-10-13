@@ -1,0 +1,257 @@
+name: Build the iPad app (IPA)
+
+# Builds an unsigned TinyBiggot-<VERSION>-<Name>.ipa on one of GitHub's Macs. SideStore signs it with your
+# Apple ID when it installs it.
+#
+# It runs when
+#   - you press "Run workflow" on the Actions page (once this file is on the default branch), or
+#   - a commit is pushed whose message contains [ipa].
+# Other pushes start nothing, so no Mac minutes are spent on them.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["**"]
+
+permissions:
+  contents: write        # to publish the IPA as a release you can download with one tap
+
+concurrency:
+  group: ipa-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ipa:
+    # (never from windows-build: Windows-only work stays off the iPad, his word 12 Oct)
+    if: github.ref != 'refs/heads/windows-build' && (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[ipa]'))
+    runs-on: macos-15
+    timeout-minutes: 45
+    env:
+      PROJECT: tiny_biggot_godot
+      GODOT_RELEASE: 4.6.1-stable
+      TEMPLATES: 4.6.1.stable
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: The version (the roadmap step this build ends, from the file VERSION) and its name
+        run: |
+          set -euo pipefail
+          V=$(tr -d '[:space:]' < VERSION)
+          echo "V=$V" >> "$GITHUB_ENV"
+          # Its name and tweaks are its line in scripts/data/versions.gd (the title screen shows the
+          # newest line, so the newest must be this version).
+          N=$(bash "$PROJECT/tools/versions.sh" name "$V")
+          if [ -z "$N" ] || [ "$(bash "$PROJECT/tools/versions.sh" newest)" != "$V" ]; then
+            echo "::error::Version $V needs its line (number|Name|tweak; tweak) at the top of scripts/data/versions.gd"
+            exit 1
+          fi
+          echo "NAME=$N" >> "$GITHUB_ENV"
+          echo "IPA=TinyBiggot-$V-$(printf '%s' "$N" | tr -cs 'A-Za-z0-9' '-').ipa" >> "$GITHUB_ENV"
+          echo "Version $V: $N"
+          # The app shows it in SideStore and the iPad's settings; the build number counts up.
+          sed -i '' "s/^application\/short_version=.*/application\/short_version=\"$V\"/" "$PROJECT/export_presets.cfg"
+          sed -i '' "s/^application\/version=.*/application\/version=\"$GITHUB_RUN_NUMBER\"/" "$PROJECT/export_presets.cfg"
+          grep -E "^application/(short_)?version" "$PROJECT/export_presets.cfg"
+
+      - name: Godot and the iOS export template (kept between runs)
+        id: godot
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/godot
+            ~/Library/Application Support/Godot/export_templates
+          key: godot-${{ env.GODOT_RELEASE }}-macos-ios-1
+
+      - name: Download Godot and the iOS export template
+        if: steps.godot.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          BASE="https://github.com/godotengine/godot/releases/download/$GODOT_RELEASE"
+          mkdir -p ~/godot && cd ~/godot
+          curl -fsSL --retry 3 -o godot.zip "$BASE/Godot_v${GODOT_RELEASE}_macos.universal.zip"
+          unzip -q godot.zip && rm godot.zip
+          curl -fsSL --retry 3 -o templates.tpz "$BASE/Godot_v${GODOT_RELEASE}_export_templates.tpz"
+          T="$HOME/Library/Application Support/Godot/export_templates/$TEMPLATES"
+          mkdir -p "$T"
+          unzip -q -j templates.tpz templates/ios.zip templates/version.txt -d "$T"
+          rm templates.tpz
+          ls -la "$T"
+
+      - name: Import the project
+        run: |
+          set -euo pipefail
+          G=~/godot/Godot.app/Contents/MacOS/Godot
+          "$G" --version
+          xcodebuild -version
+          mkdir -p build
+          "$G" --headless --path "$PROJECT" --import > build/import.log 2>&1 || true
+          "$G" --headless --path "$PROJECT" --import >> build/import.log 2>&1
+          tail -n 3 build/import.log
+
+      - name: Make the sprite atlas from this import and test it
+        run: |
+          set -euo pipefail
+          GODOT=~/godot/Godot.app/Contents/MacOS/Godot bash "$PROJECT/tools/bake_atlas.sh"
+
+      - name: Twenty seconds of play without a screen
+        run: |
+          set -euo pipefail
+          G=~/godot/Godot.app/Contents/MacOS/Godot
+          "$G" --headless --path "$PROJECT" --fixed-fps 60 --quit-after 1200 -- --no-save --bot --smart-bot --god --seed=6 --hero=2 --room=elite > build/smoke.log 2>&1 || true
+          grep "\[bot\]" build/smoke.log | tail -n 1
+          if grep -E "SCRIPT ERROR|Parse Error|ERROR:" build/smoke.log; then exit 1; fi
+
+      - name: Export the Xcode project (release engine)
+        run: |
+          set -euo pipefail
+          G=~/godot/Godot.app/Contents/MacOS/Godot
+          mkdir -p build/ios
+          "$G" --headless --path "$PROJECT" --export-release "iOS" "$PWD/build/ios/TinyBiggot.xcodeproj" > build/export.log 2>&1 || true
+          grep -E "ERROR|WARNING" build/export.log | sort | uniq -c | head -n 20 || true
+          test -d build/ios/TinyBiggot.xcodeproj
+          ls build/ios
+
+      - name: Build the app (not signed here)
+        run: |
+          set -euo pipefail
+          cd build/ios
+          xcodebuild -project TinyBiggot.xcodeproj -scheme TinyBiggot -configuration Release \
+            -sdk iphoneos -destination 'generic/platform=iOS' -derivedDataPath "$PWD/dd" \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+            build > ../xcodebuild.log 2>&1 || { tail -n 120 ../xcodebuild.log; exit 1; }
+          tail -n 3 ../xcodebuild.log
+
+      - name: Package the IPA
+        run: |
+          set -euo pipefail
+          APP=$(find build/ios/dd/Build/Products -maxdepth 2 -name "*.app" | head -n 1)
+          test -n "$APP"
+          rm -rf build/Payload && mkdir -p build/Payload
+          cp -R "$APP" build/Payload/
+          (cd build && zip -qry "$IPA" Payload)
+          ls -la "build/$IPA"
+          NAME=$(basename "$APP")
+          /usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "build/Payload/$NAME/Info.plist"
+          /usr/libexec/PlistBuddy -c "Print :MinimumOSVersion" "build/Payload/$NAME/Info.plist"
+          /usr/libexec/PlistBuddy -c "Print :LSSupportsGameMode" "build/Payload/$NAME/Info.plist"
+          lipo -archs "build/Payload/$NAME/${NAME%.app}"
+          ls "build/Payload/$NAME" | head -n 40
+
+      - name: Keep the IPA with this run
+        uses: actions/upload-artifact@v4
+        with:
+          name: TinyBiggot-ipa
+          path: build/${{ env.IPA }}
+          if-no-files-found: error
+
+      - name: Publish it as the "latest iPad build" release, and as its own version
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          # Two releases: ipa-latest (always the newest) and ipa-<version> (kept, one per stage
+          # step, so he can go back to any one). A rebuild of the same version replaces it.
+          # The tags are moved, never deleted: GitHub turns a release into a hidden draft when its
+          # tag is deleted, and a late deletion once caught the new release (5 Oct).
+          # The notes: the version's tweaks, then how it was built.
+          BODY="$(bash "$PROJECT/tools/versions.sh" notes "$V")
+
+          Version $V: $NAME. Unsigned IPA built from commit $GITHUB_SHA. Open it with SideStore on the iPad; SideStore signs it with your Apple ID."
+          publish() {
+            local tag="$1" title="$2"
+            gh release delete "$tag" --yes || true
+            git tag -f "$tag" "$GITHUB_SHA"
+            git push -f origin "refs/tags/$tag"
+            gh release create "$tag" "build/$IPA" \
+              --verify-tag --prerelease --title "$title" --notes "$BODY"
+            sleep 5
+            if [ "$(gh release view "$tag" --json isDraft -q .isDraft)" != "false" ]; then
+              gh release edit "$tag" --draft=false
+            fi
+            gh release view "$tag" --json tagName,isDraft,assets -q '.tagName + " draft=" + (.isDraft|tostring) + " " + (.assets|map(.name)|join(","))'
+          }
+          publish "ipa-$V" "Tiny Biggot Rogues $V: $NAME"
+          publish ipa-latest "Tiny Biggot Rogues: latest iPad build ($V: $NAME)"
+          # The older releases take their names too, once (a release already named is left alone):
+          # the title, and its tweaks over its old notes (kept from their "Version ..." line).
+          gh release list --limit 200 --json tagName,name -q '.[] | .tagName + "\t" + .name' |
+          while IFS=$'\t' read -r tag cur; do
+            v=${tag#ipa-}
+            case "$v" in "$tag"|latest|"$V") continue ;; esac
+            n=$(bash "$PROJECT/tools/versions.sh" name "$v")
+            [ -n "$n" ] || continue
+            [ "$cur" != "Tiny Biggot Rogues $v: $n" ] || continue
+            old=$(gh release view "$tag" --json body -q .body < /dev/null) || continue
+            keep=$(printf '%s\n' "$old" | sed -n '/^Version /,$p')
+            if gh release edit "$tag" --title "Tiny Biggot Rogues $v: $n" \
+                --notes "$(bash "$PROJECT/tools/versions.sh" notes "$v")"$'\n\n'"$keep" < /dev/null > /dev/null; then
+              echo "named $tag: $n"
+            else
+              echo "could not name $tag"
+            fi
+          done
+
+      - name: Keep the logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs
+          path: |
+            build/import.log
+            build/smoke.log
+            build/export.log
+            build/xcodebuild.log
+          if-no-files-found: ignore
+
+  windows:
+    # His word (12 Oct): iOS and Windows apart ("if i work on multiplayer addon on windows it wont be
+    # pushed on ios"), and every iPad build reaching Windows too (WINDOWS_BUILD.md on windows-build).
+    # After the iPad build of a claude/dev commit: ios-build moves up to it, and windows-build (all of
+    # claude/dev plus Windows-only work, which never comes back here) takes it in and is built for
+    # Windows by its own script.
+    needs: ipa
+    if: github.ref == 'refs/heads/claude/dev'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: The iOS line (ios-build) moves up to this iPad build
+        run: |
+          git push origin "$GITHUB_SHA:refs/heads/ios-build" || echo "::warning::ios-build has commits of its own, so it stays where it was"
+
+      - name: The Windows line (windows-build) takes in this iPad build (one way only)
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B windows-build origin/windows-build
+          V=$(git show "$GITHUB_SHA:VERSION" | tr -d '[:space:]')
+          if ! git merge --no-edit -m "Windows line: take in the iPad build $V ($GITHUB_SHA)" "$GITHUB_SHA"; then
+            git merge --abort || true
+            echo "::error::windows-build clashes with this iPad build (its Windows-only work changes the same lines). A Claude merges claude/dev into windows-build by hand and pushes; that push builds Windows."
+            exit 1
+          fi
+          git push origin windows-build
+
+      - name: Godot and the Windows export template (kept between runs)
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/godot
+            ~/.local/share/godot/export_templates
+          key: godot-4.6.1-stable-linux-windows-1
+
+      - name: Build the Windows game and publish it (windows-build's own script)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash tiny_biggot_godot/tools/build_windows.sh
+
+      - name: Keep the Windows game with this run
+        uses: actions/upload-artifact@v4
+        with:
+          name: TinyBiggot-windows
+          path: build/${{ env.PACKAGE }}
+          if-no-files-found: error
