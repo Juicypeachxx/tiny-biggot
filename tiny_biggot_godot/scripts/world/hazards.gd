@@ -85,6 +85,7 @@ static func update(dt: float) -> void:
 	Finale.tick(dt)   # 55 THE LAST LAUGH
 	Resolve.tick(dt)   # 56.3 RESOLVE
 	Patterns.tick(dt)   # 56.4 the new attack patterns
+	Sefe.tick(dt)   # 59 ŠEFE's smoke and beer foam
 	if room.hazards.is_empty() and room.strike == "" and room.marks.is_empty():
 		return
 	var active := G.enemies_active()

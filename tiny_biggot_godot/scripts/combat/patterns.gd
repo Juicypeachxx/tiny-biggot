@@ -18,6 +18,7 @@ const KINDS := ["pinwheel", "cage", "orbit", "comets", "grid", "quake"]
 ## Each guardian's new patterns (the first is its signature).
 const NEW := {
 	"arci": ["comets", "orbit"],   # 58: his balls fly after you; he runs rings round you
+	"sefe": ["pinwheel", "quake"],   # 59: finger guns all round; a belch that shakes the floor
 	"colossus": ["quake", "cage"], "sporemother": ["orbit", "grid"], "librarian": ["comets", "pinwheel"],
 	"tyrant": ["quake", "pinwheel"], "rimewarden": ["cage", "grid"], "regent": ["comets", "orbit"],
 	"bogmatriarch": ["orbit", "grid"], "ashwarlord": ["quake", "comets"], "frozenabbot": ["pinwheel", "cage"],

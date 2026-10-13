@@ -28,7 +28,7 @@ const SHOT_COL := { "red": "#ff8a8a", "redBig": "#ff8a8a", "bone": "#f4ecd8", "w
 	"iceBig": "#c8f0ff", "spore": "#b8e05a", "dark": "#e8c8ff", "darkBig": "#e8c8ff", "fire": "#f2c94c",
 	"fireBig": "#f2c94c", "cyan": "#c8f0ff", "page": "#f4ecd8" }
 ## A guardian's own colour: its circle while it casts, its lanes and beams.
-const BOSS_COL := { "arci": "#e86fb4", "colossus": "#d9d0b4", "sporemother": "#b8e05a", "librarian": "#6fd3e0", "tyrant": "#e8873a",
+const BOSS_COL := { "arci": "#e86fb4", "sefe": "#9ad07a", "colossus": "#d9d0b4", "sporemother": "#b8e05a", "librarian": "#6fd3e0", "tyrant": "#e8873a",
 	"rimewarden": "#c8f0ff", "regent": "#a35bd6", "bogmatriarch": "#b8e05a", "ashwarlord": "#e8873a",
 	"frozenabbot": "#c8f0ff", "crowking": "#a35bd6", "umbralsun": "#e86fb4", "judge": "#f2c94c", "cinderking": "#e8873a", "greatengine": "#e8b84a", "glacialmaw": "#8fd8ff", "inkleviathan": "#4d6aa8", "thebinder": "#c8a878", "author": "#f2c94c", "redactor": "#ff3a4a", "lexicon": "#4d9be6", "erratum": "#d8443c", "reader": "#f2c94c", "shelver": "#c8a878", "hush": "#9fe0ff", "critic": "#ff3a2a", "admiral": "#8a6a4a", "golemking": "#8a8f9c", "archmage": "#4d9be6", "phoenix": "#e8873a", "wyrm": "#c8f0ff", "chainfiend": "#d8443c", "seraph": "#f2c94c", "unwritten": "#f4ecd8", "holycow": "#f4ecd8",
 	"stormcrown": "#6fd3e0", "bilgehydra": "#b8e05a", "brassorgan": "#e8873a",

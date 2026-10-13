@@ -75,6 +75,21 @@ sleeps beside it. stage58_test covers them (passes). Four of the eight core repl
 were re-recorded (the six classic ones identical); the full check passed (CHECK PASSED); IPA 58
 "Good Boy". Waiting on his iPad test of it (and of 57). On the Windows line his frisbees and stick
 hurt only P1 in co-op (like the hazards before W3): add Coop.hazard there after this merge.
+Then his next boss (13 Oct, five photos: "slovenian gopnik who acts like gangster and mogg peaople he
+also smoke alot of marijuana and drinks alot of beer"; his picks: the name "ŠEFE, KING OF THE BLOK",
+"Floor 3, always"): Stage 59. ŠEFE guards the third floor of the expanded game; THE DROWNED LIBRARIAN
+is one of floor 4's three (GameData.OWN_GUARDIANS, was FIRST_GUARDIAN, and MORE_GUARDIANS; --classic
+keeps the Librarian on floor 3). scripts/entities/sefe.gd on the RiftBosses model: FINGER GUNS, MOG
+(a cone; inside when he stares: MOGGED, slow, Finale.mog_t), SMOKE BREAK (gopnik squat; clouds that
+slow you; six blows and he coughs: x1.5, harmless), BEER (PSSHT, NA ZDRAVJE!, the can thrown where
+you stand: foam that slows, then a belch ring), ZONED OUT (x1.5, harmless); at half health the crown
+and the chain (_s2; _s3 adds red eyes and a green haze): THE BIG ONE (a sweeping beam of smoke),
+CHAINSAW (three charges down lanes shown first), AXE. Beaten he passes out (object "sefe_rest");
+his drop ŠEFE'S FINGER GUNS (two shots at a time, 10% of hits stun 1 s; unique). He is tall (86 px
+drawn): Sefe.TOP_Y keeps him low enough that his head never goes under the top bar. Pictures:
+tools/art/stage59_sefe.py (our own cartoon: no brand from the photos). tests/stage59_test (passes,
+in check.sh); bosses, atlas, afx, stage58, content, chaos, realms and stage56 tests pass. Next: the
+core replays re-recorded (floor 3 changed on purpose), the full check, IPA 59.
 The first full check of 57 failed once on stage39 ("squeezebox hurt no foe in 2.5 s"): an old weak test,
 not the game (its target foes came in front of the door the hero walked in by, and the random
 room's pillars could push them away or stand in the way: 3 runs in 40 missed); fixed in the test

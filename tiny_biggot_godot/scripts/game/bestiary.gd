@@ -60,13 +60,13 @@ static func entries() -> Array:
 			add.call(t, false, f["name"])
 		add.call(f.get("mini", ""), false, f["name"])
 		var own: String = f["boss"]
-		if GameData.rogues() and GameData.FIRST_GUARDIAN.has(own):
-			add.call(GameData.FIRST_GUARDIAN[own], true, f["name"])   # 58: ARČI in the Colossus' place
+		if GameData.rogues() and GameData.OWN_GUARDIANS.has(own):
+			add.call(GameData.OWN_GUARDIANS[own], true, f["name"])   # 58: ARČI in the Colossus' place; 59: ŠEFE
 		else:
 			add.call(own, true, f["name"])
 		add.call(GameData.ALT_GUARDIANS.get(i, ""), true, f["name"])
 		for k in (GameData.MORE_GUARDIANS.get(own, []) if GameData.rogues() else []):
-			add.call(k, true, f["name"])   # 58: the Colossus, now and then on the second floor
+			add.call(k, true, f["name"])   # 58: the Colossus, now and then on the second floor; 59: the Librarian on the fourth
 	for th in Themes.LIST + Themes.REALMS:
 		var where: String = th["name"]
 		for t in th.get("pool", []):

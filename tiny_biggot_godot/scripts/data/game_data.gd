@@ -677,8 +677,11 @@ const ALT_GUARDIANS := { 1: "admiral", 3: "golemking", 5: "archmage", 6: "phoeni
 ## 58 (his word, 12 Oct): ARČI, his border collie, guards the first floor of the expanded game in
 ## THE BONE COLOSSUS's place (Game.start_floor), and the Colossus is one more guardian a floor with
 ## THE SPORE MOTHER may have (his pick: "Floor 2, sometimes"): each of the floor's guardians as often.
-const FIRST_GUARDIAN := { "colossus": "arci" }
-const MORE_GUARDIANS := { "sporemother": ["colossus"] }
+## 59 (his word, 13 Oct): ŠEFE, KING OF THE BLOK, guards the third floor in THE DROWNED LIBRARIAN's
+## place (his pick: "Floor 3, always"), and the Librarian is one more guardian of THE FORGE TYRANT's
+## floor (with THE GOLEM KING: a third each).
+const OWN_GUARDIANS := { "colossus": "arci", "librarian": "sefe" }
+const MORE_GUARDIANS := { "sporemother": ["colossus"], "tyrant": ["librarian"] }
 
 const BOSSES := {
 	"colossus": { "name": "THE BONE COLOSSUS", "sprite": "colossus", "hp": 420, "r": 13, "scale": 2 },
@@ -732,6 +735,9 @@ const BOSSES := {
 	# 58 (his word, 12 Oct): his border collie, the first floor's guardian (arci.gd).
 	"arci": { "name": "ARČI THE PUSSY SLAYER", "sprite": "arci", "hp": 440, "r": 13, "scale": 2, "rule": "phase",
 		"line": "A VERY GOOD BOY, OBSESSED WITH HIS FRISBEE" },
+	# 59 (his word, 13 Oct): the third floor's guardian (sefe.gd).
+	"sefe": { "name": "ŠEFE, KING OF THE BLOK", "sprite": "sefe", "hp": 640, "r": 12, "scale": 2, "rule": "phase",
+		"line": "HE RUNS THIS BLOK. KAJ GLEDAŠ?!" },
 	# 55 THE LAST LAUGH (his word, 11 Oct; scripts/entities/finale.gd): the final final boss, in the form
 	# of the alignment gathered most. Three forms each (BossAI stages). Our own characters.
 	"braysalot": { "name": "SIR BRAYSALOT", "sprite": "braysalot", "hp": 3600, "r": 14, "scale": 1.8, "rule": "finale" },

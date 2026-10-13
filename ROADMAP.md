@@ -1692,6 +1692,26 @@ each point); the rest, proposed in the order it would be felt most, with names o
         classic replays identical, four of the eight core ones changed (they reach him) and were
         re-recorded; the full check passed; IPA 58 "Good Boy". Bots at level 1 in his room last
         30 to 60 s (against the Colossus in the same room: 20 to 50 s): no harder than before.
+- [ ] Stage 59 (his word, 13 Oct, with five photos: "I have stage 3 new boss idea, slovenian gopnik who
+      acts like gangster and mogg peaople he also smoke alot of marijuana and drinks alot of beer";
+      his picks: the name "ŠEFE, KING OF THE BLOK", "Floor 3, always"). ŠEFE guards the third floor of
+      the expanded game (`--classic` keeps THE DROWNED LIBRARIAN there); THE DROWNED LIBRARIAN becomes
+      one of floor 4's three guardians (with THE FORGE TYRANT and THE GOLEM KING, a third each):
+      nothing is removed (rule 1). Our own cartoon of the type, from the photos (rule 3: no brand
+      logos from them). On the RiftBosses model like Arči. IPA 59.
+  - [x] 59.1 His pictures: standing (finger guns), the gopnik squat, smoking, drinking, passed out;
+        looks _s2 and _s3; his beer can, joint, the giant cone, smoke, a chainsaw and an axe.
+  - [x] 59.2 His fight: FINGER GUNS (pew pew: fans of shots from both hands), MOG (a cone shown
+        first: inside it you are MOGGED, slow), SMOKE BREAK (he squats and lights up: smoke clouds
+        drift at you and slow you; hit him enough and he coughs, stunned), BEER (he cracks one and
+        chugs, throws the can: it bursts into foam; then a belch: a ring of shots), ZONED OUT (sitting
+        on the floor, staring at nothing: hit him harder, he does not bite). At half health: THE BIG ONE
+        (the giant cone: a sweeping beam of smoke) and CHAINSAW (revs and charges down lanes),
+        AXE (thrown, it sticks in the floor). RESOLVE and the patterns as every guardian.
+  - [x] 59.3 Beaten, he passes out where he stands and stays there snoring; the floor goes on. His
+        drop: ŠEFE'S FINGER GUNS (a weapon). Slovenian lines (KAJ GLEDAŠ?!, NA ZDRAVJE!).
+  - [ ] 59.4 tests/stage59_test, the classic replays unchanged, the core ones re-recorded if they
+        reach him, the full check, IPA 59.
 ### Stage 46: weapon enchantments (IPA 46; his word: "Ok go 44 and 45, and 46")
 - [x] 46.1 An enchantment slot on weapons (one at most): the item card, the name, the name plate,
       saving; flat element damage on hits; foe kinds for the slayer enchantments.

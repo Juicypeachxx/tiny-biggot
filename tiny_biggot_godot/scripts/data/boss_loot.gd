@@ -17,6 +17,7 @@ const DROPS := {
 	"bilgehydra": ["weapon", "hydraheads"],
 	"rex": ["weapon", "moldyloaf"],
 	"arci": ["weapon", "arcifrisbee"],   # 58
+	"sefe": ["weapon", "sefefingerguns"],   # 59
 	"tidecaptain": ["weapon", "captainsanchor"],
 	"enforcer": ["weapon", "enforcergun"],
 	"carrionknight": ["weapon", "carrionlance"],
