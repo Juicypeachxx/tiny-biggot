@@ -49,3 +49,18 @@ resprite the game and then you will package it to ipa". README.txt and PROMPT.tx
    - commit with `[ipa]`: build-ipa.yml builds any branch but windows-build.
 
    The "latest iPad build" release will then be this test.
+
+## His first sheet back (20 Oct: 02-foes, from Gemini)
+
+- **The layout was not kept:** pictures moved and changed size and run into each other (so they
+  cannot be cut apart automatically); a few are doubled; some foes became other creatures (the
+  worm a spider, the frog an armoured warrior); some are missing.
+- **About half could be matched by eye** (15 of 30).
+- **Gemini drew much finer pixels than the boxes ask for**, in a dark palette. Shrunk to the
+  game's size (12 to 16 px) most of them become dark smudges; only the simple shapes still read
+  (the red lips, the bomb sack, the door, the black blob, the ring).
+- Nothing was put into the game. His choice is pending:
+  - a stricter retry;
+  - a double-detail V2 (sprites drawn at 2x and shown at half size, so Gemini's detail survives:
+    a bigger job);
+  - or keep today's art.
