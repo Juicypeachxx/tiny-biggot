@@ -117,21 +117,22 @@ session.
   - The style guide is `spritecook/style-guide.png`: 10 of his Gemini foes at x4.
   - The reference for each is the game's sprite today, enlarged.
   - All four came back. SpriteCook sizes: 82, 30, 66 and 62 px square.
-- **Blocked: the container cannot download them.**
-  - The pictures are at `api.spritecook.ai`, which the network settings still refuse (403).
-  - `spritecook.ai` and `mcp.spritecook.ai` pass.
-  - He has to add `api.spritecook.ai` under Allowed domains. A change there reached this running
-    session last time; no new session is needed.
-- **`spritecook-assets.json`** holds every asset id: the style guide, the references and the four
-  made.
-- **Once it passes:**
-  1. `get_asset_metadata(asset_id)` for each made one: fresh links, which last an hour.
-  2. Save each as `spritecook/<name>.png`, exactly as given.
-  3. Run `python3 resprite/tools/spritecook_fit.py`. It trims the picture, fits it to the
-     sprite's double size in `hd/` (same fit as the Gemini cuts: 24 colours, the dark outline)
-     and writes the sha12 into the manifest.
-  4. Run `python3 resprite/tools/review.py OUT.png hexer brute colossus sporemother` and show
-     him.
+- **Downloaded** once he allowed `api.spritecook.ai` in the network settings (it reached this
+  running session at once).
+  - Kept as given in `spritecook/<name>.png`, fitted into `hd/` by `tools/spritecook_fit.py`.
+  - `spritecook-assets.json` holds every asset id (style guide, references, the four) with sha12.
+  - Fresh links: `get_asset_metadata(asset_id)`; they last an hour.
+- **The shrink.** SpriteCook takes the size only as a hint: the hexer came back at 82 px for a
+  24 x 28 sprite.
+  - The Gemini cuts' fit (area average, then 24 colours) faded its eyes into the hood.
+  - `spritecook_fit.down()` keeps a small bright or vivid detail (eyes, amulet, the skull's red
+    eyes, the cap's spots) when it is rare among the pixels around it. So the skull's teeth stay
+    an average.
+  - No colour cut: 32 colours put a purple pixel into the hexer's eyes.
+  - `gemini_cut.fit` now shares `frame()` (stand at the bottom middle, outline); its 14 foes came
+    out byte-identical.
+- **Shown to him:** the four as SpriteCook drew them, and `review.py` (today next to new, same
+  size on screen).
 - **If he likes it:**
   - The other 32 heroes at 12 credits (384).
   - The other 42 guardians' main pictures on Lite at 8 (336), if Lite holds up on one first.

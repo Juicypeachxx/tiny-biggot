@@ -47,7 +47,7 @@
     82,
     82
    ],
-   "sha12": null
+   "sha12": "f245dcfd8cc4"
   },
   {
    "label": "brute, test 21 Oct",
@@ -61,7 +61,7 @@
     30,
     30
    ],
-   "sha12": null
+   "sha12": "c32bcf280216"
   },
   {
    "label": "colossus, test 21 Oct",
@@ -75,7 +75,7 @@
     66,
     66
    ],
-   "sha12": null
+   "sha12": "0db3a470b65d"
   },
   {
    "label": "sporemother, test 21 Oct",
@@ -89,7 +89,7 @@
     62,
     62
    ],
-   "sha12": null
+   "sha12": "04630707f3b3"
   }
  ]
 }

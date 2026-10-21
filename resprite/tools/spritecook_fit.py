@@ -6,7 +6,7 @@ import hashlib, json, os, sys
 from PIL import Image
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from inventory import G, ROOT
-from gemini_cut import fit
+from gemini_cut import frame
 
 RAW = os.path.join(ROOT, "resprite", "spritecook")
 HD = os.path.join(ROOT, "resprite", "hd")
@@ -15,6 +15,59 @@ MANIFEST = os.path.join(ROOT, "resprite", "spritecook-assets.json")
 def sha12(path):
     with open(path, "rb") as f:
         return hashlib.sha256(f.read()).hexdigest()[:12]
+
+def lum(c):
+    return 0.299 * c[0] + 0.587 * c[1] + 0.114 * c[2]
+
+def sat(c):
+    return max(c[:3]) - min(c[:3])
+
+def _block(src, W, H, x0, x1, y0, y1):
+    """(weight, colour) of every source pixel under the box x0..x1, y0..y1."""
+    px = []
+    for sy in range(max(0, int(y0)), min(H, int(-(-y1 // 1)))):
+        wy = min(y1, sy + 1) - max(y0, sy)
+        for sx in range(max(0, int(x0)), min(W, int(-(-x1 // 1)))):
+            wx = min(x1, sx + 1) - max(x0, sx)
+            px.append((wx * wy, src[sx, sy]))
+    return px
+
+def _mean(px):
+    tw = sum(w for w, _ in px)
+    return tuple(sum(w * c[i] for w, c in px) / tw for i in range(3))
+
+def _accent(c, ml, ms):
+    return lum(c) >= ml + 45 or (sat(c) >= ms + 60 and lum(c) >= ml)
+
+def down(spr, nw, nh):
+    """Area average, except that a small bright or vivid detail (eyes, gems, spots) keeps its
+    colour instead of fading into what is around it. A detail is one that stands out from the
+    3 x 3 pixels around it and is rare there (so a skull's teeth are not one)."""
+    src = spr.load()
+    W, H = spr.size
+    fx, fy = W / nw, H / nh
+    out = Image.new("RGBA", (nw, nh), (0, 0, 0, 0))
+    o = out.load()
+    for y in range(nh):
+        for x in range(nw):
+            px = _block(src, W, H, x * fx, (x + 1) * fx, y * fy, (y + 1) * fy)
+            vis = [p for p in px if p[1][3] >= 128]
+            vw = sum(w for w, _ in vis)
+            if vw < 0.47 * sum(w for w, _ in px):
+                continue
+            nb = [p for p in _block(src, W, H, (x - 1) * fx, (x + 2) * fx, (y - 1) * fy, (y + 2) * fy) if p[1][3] >= 128]
+            around = _mean(nb)
+            ml, ms = lum(around), sat(around)
+            acc = [p for p in vis if _accent(p[1], ml, ms)]
+            rare = sum(w for w, c in nb if _accent(c, ml, ms)) <= 0.25 * sum(w for w, _ in nb)
+            col = _mean(acc) if rare and sum(w for w, _ in acc) >= 0.12 * vw else _mean(vis)
+            o[x, y] = tuple(int(round(v)) for v in col) + (255,)
+    return out
+
+def fit(spr, w, h):
+    k = min(w / spr.width, h / spr.height)
+    nw, nh = max(1, round(spr.width * k)), max(1, round(spr.height * k))
+    return frame(down(spr, nw, nh), w, h)
 
 def trim(im):
     box = im.getchannel("A").point(lambda v: 255 if v >= 128 else 0).getbbox()

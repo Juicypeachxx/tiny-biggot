@@ -40,6 +40,11 @@ def fit(spr, w, h):
     rgb = small.convert("RGB").quantize(colors=24, method=Image.Quantize.MEDIANCUT).convert("RGB")
     small = rgb.convert("RGBA")
     small.putalpha(a)
+    return frame(small, w, h)
+
+def frame(small, w, h):
+    """The shrunk picture stood at the bottom middle of a w x h canvas, with the outline."""
+    nw, nh = small.size
     out = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     out.alpha_composite(small, ((w - nw) // 2, h - nh))
     px = out.load()

@@ -1,13 +1,16 @@
 """Review sheets for him: every picture today (left) and in the new look (right), big enough to
 see, in rows with their names. python3 resprite/tools/review.py OUT.png NAME [NAME...]
-The new look is resprite/hd/<name>.png when there is one (his Gemini foes), else made now."""
-import os, sys
+The new look is resprite/hd/<name>.png when there is one (his Gemini foes, SpriteCook's
+pictures), else made now."""
+import json, os, sys
 from PIL import Image, ImageDraw
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from inventory import G, ROOT
 from gritty import gritty
 
 HD = os.path.join(ROOT, "resprite", "hd")
+with open(os.path.join(ROOT, "resprite", "spritecook-assets.json")) as f:
+    SPRITECOOK = {a["name"] for a in json.load(f)["assets"] if a["kind"] == "made"}
 BG = (34, 30, 40, 255)
 
 def new_of(name):
@@ -35,7 +38,8 @@ def sheet(out, names, per_row=6, unit=4):
         n2 = new.resize((new.width * unit, new.height * unit), Image.NEAREST)
         img.alpha_composite(o2, (x + (side - o2.width) // 2, y + side - o2.height))
         img.alpha_composite(n2, (x + side + 12 + (side - n2.width) // 2, y + side - n2.height))
-        d.text((x, y + side + 4), n + ("  (Gemini)" if hand else ""), fill=(200, 190, 170, 255))
+        tag = "  (SpriteCook)" if n in SPRITECOOK else "  (Gemini)" if hand else ""
+        d.text((x, y + side + 4), n + tag, fill=(200, 190, 170, 255))
     img.convert("RGB").save(out)
     return img.size
 
