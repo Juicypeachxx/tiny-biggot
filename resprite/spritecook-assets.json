@@ -8,6 +8,12 @@
    "sha12": "b6992f606524"
   },
   {
+   "label": "style guide: his picture of the look he wants (21 Oct): a bright, clean, colourful monster sheet. Only its look is used, never its monsters; the picture stays out of the repo (we don't know where it is from)",
+   "kind": "style",
+   "asset_id": "8e43ad1a-3a19-479b-89b7-89575ada6626",
+   "sha12": "13257f6fb781"
+  },
+  {
    "label": "reference: the game's hexer today, enlarged",
    "kind": "reference",
    "name": "hexer",
@@ -335,7 +341,7 @@
    "sha12": null
   },
   {
-   "label": "hero sheet h1g (gritty), 21 Oct",
+   "label": "hero sheet h1g (gritty), 21 Oct (gritty, set aside)",
    "kind": "sheet",
    "name": "heroes_h1g",
    "asset_id": "338d0ed0-f87b-4f83-8775-84f80ef1c04b",
@@ -354,97 +360,107 @@
     "banehunter",
     "oathbreaker"
    ],
-   "sha12": "29a552f23e12"
+   "sha12": "29a552f23e12",
+   "file": "spritecook/sheets/gritty/heroes_h1g.png"
   },
   {
-   "label": "hexer, from hero sheet h1g cell 0",
-   "kind": "made",
+   "label": "hexer, from hero sheet h1g cell 0 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "hexer",
    "asset_id": "338d0ed0-f87b-4f83-8775-84f80ef1c04b",
    "sheet_cell": 0,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "e8281c4ba008"
+   "sha12": "e8281c4ba008",
+   "file": "spritecook/gritty/hexer.png"
   },
   {
-   "label": "poacher, from hero sheet h1g cell 1",
-   "kind": "made",
+   "label": "poacher, from hero sheet h1g cell 1 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "poacher",
    "asset_id": "338d0ed0-f87b-4f83-8775-84f80ef1c04b",
    "sheet_cell": 1,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "9af29bfeec1f"
+   "sha12": "9af29bfeec1f",
+   "file": "spritecook/gritty/poacher.png"
   },
   {
-   "label": "brute, from hero sheet h1g cell 2",
-   "kind": "made",
+   "label": "brute, from hero sheet h1g cell 2 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "brute",
    "asset_id": "338d0ed0-f87b-4f83-8775-84f80ef1c04b",
    "sheet_cell": 2,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "120e7419adea"
+   "sha12": "120e7419adea",
+   "file": "spritecook/gritty/brute.png"
   },
   {
-   "label": "gravedigger, from hero sheet h1g cell 3",
-   "kind": "made",
+   "label": "gravedigger, from hero sheet h1g cell 3 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "gravedigger",
    "asset_id": "338d0ed0-f87b-4f83-8775-84f80ef1c04b",
    "sheet_cell": 3,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "608a2aae31b2"
+   "sha12": "608a2aae31b2",
+   "file": "spritecook/gritty/gravedigger.png"
   },
   {
-   "label": "alchemist, from hero sheet h1g cell 4",
-   "kind": "made",
+   "label": "alchemist, from hero sheet h1g cell 4 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "alchemist",
    "asset_id": "338d0ed0-f87b-4f83-8775-84f80ef1c04b",
    "sheet_cell": 4,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "9822b461d028"
+   "sha12": "9822b461d028",
+   "file": "spritecook/gritty/alchemist.png"
   },
   {
-   "label": "warden, from hero sheet h1g cell 5",
-   "kind": "made",
+   "label": "warden, from hero sheet h1g cell 5 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "warden",
    "asset_id": "338d0ed0-f87b-4f83-8775-84f80ef1c04b",
    "sheet_cell": 5,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "307b1a32248a"
+   "sha12": "307b1a32248a",
+   "file": "spritecook/gritty/warden.png"
   },
   {
-   "label": "gaolbird, from hero sheet h1g cell 6",
-   "kind": "made",
+   "label": "gaolbird, from hero sheet h1g cell 6 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "gaolbird",
    "asset_id": "338d0ed0-f87b-4f83-8775-84f80ef1c04b",
    "sheet_cell": 6,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "3000aceddb2d"
+   "sha12": "3000aceddb2d",
+   "file": "spritecook/gritty/gaolbird.png"
   },
   {
-   "label": "banehunter, from hero sheet h1g cell 7",
-   "kind": "made",
+   "label": "banehunter, from hero sheet h1g cell 7 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "banehunter",
    "asset_id": "338d0ed0-f87b-4f83-8775-84f80ef1c04b",
    "sheet_cell": 7,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "650ded960ac8"
+   "sha12": "650ded960ac8",
+   "file": "spritecook/gritty/banehunter.png"
   },
   {
-   "label": "oathbreaker, from hero sheet h1g cell 8",
-   "kind": "made",
+   "label": "oathbreaker, from hero sheet h1g cell 8 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "oathbreaker",
    "asset_id": "338d0ed0-f87b-4f83-8775-84f80ef1c04b",
    "sheet_cell": 8,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "0ffb90b8d318"
+   "sha12": "0ffb90b8d318",
+   "file": "spritecook/gritty/oathbreaker.png"
   },
   {
    "label": "hero sheet h2 (gritty), 21 Oct: my hint text described the wrong cells, so heroes took others' looks (resprite/spritecook/rejected/)",
@@ -513,7 +529,7 @@
    "sha12": "ba1eb98c4f4e"
   },
   {
-   "label": "hero sheet h2b (gritty, hints checked on a labelled view), 21 Oct",
+   "label": "hero sheet h2b (gritty, hints checked on a labelled view), 21 Oct (gritty, set aside)",
    "kind": "sheet",
    "name": "heroes_h2b",
    "asset_id": "b4c1cad0-2d6a-43cd-8ce5-178e28c66005",
@@ -532,100 +548,110 @@
     "boneweaver",
     "mirrorknight"
    ],
-   "sha12": "269e4b20d9ea"
+   "sha12": "269e4b20d9ea",
+   "file": "spritecook/sheets/gritty/heroes_h2b.png"
   },
   {
-   "label": "wayfarer, from hero sheet h2b cell 0",
-   "kind": "made",
+   "label": "wayfarer, from hero sheet h2b cell 0 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "wayfarer",
    "asset_id": "b4c1cad0-2d6a-43cd-8ce5-178e28c66005",
    "sheet_cell": 0,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "e997df97e318"
+   "sha12": "e997df97e318",
+   "file": "spritecook/gritty/wayfarer.png"
   },
   {
-   "label": "racketeer, from hero sheet h2b cell 1",
-   "kind": "made",
+   "label": "racketeer, from hero sheet h2b cell 1 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "racketeer",
    "asset_id": "b4c1cad0-2d6a-43cd-8ce5-178e28c66005",
    "sheet_cell": 1,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "b530ac1681ff"
+   "sha12": "b530ac1681ff",
+   "file": "spritecook/gritty/racketeer.png"
   },
   {
-   "label": "condemned, from hero sheet h2b cell 2",
-   "kind": "made",
+   "label": "condemned, from hero sheet h2b cell 2 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "condemned",
    "asset_id": "b4c1cad0-2d6a-43cd-8ce5-178e28c66005",
    "sheet_cell": 2,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "65c0c4e1504c"
+   "sha12": "65c0c4e1504c",
+   "file": "spritecook/gritty/condemned.png"
   },
   {
-   "label": "cartomancer, from hero sheet h2b cell 3",
-   "kind": "made",
+   "label": "cartomancer, from hero sheet h2b cell 3 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "cartomancer",
    "asset_id": "b4c1cad0-2d6a-43cd-8ce5-178e28c66005",
    "sheet_cell": 3,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "03e53c275842"
+   "sha12": "03e53c275842",
+   "file": "spritecook/gritty/cartomancer.png"
   },
   {
-   "label": "sellsword, from hero sheet h2b cell 4",
-   "kind": "made",
+   "label": "sellsword, from hero sheet h2b cell 4 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "sellsword",
    "asset_id": "b4c1cad0-2d6a-43cd-8ce5-178e28c66005",
    "sheet_cell": 4,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "40fac771191c"
+   "sha12": "40fac771191c",
+   "file": "spritecook/gritty/sellsword.png"
   },
   {
-   "label": "beekeeper, from hero sheet h2b cell 5",
-   "kind": "made",
+   "label": "beekeeper, from hero sheet h2b cell 5 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "beekeeper",
    "asset_id": "b4c1cad0-2d6a-43cd-8ce5-178e28c66005",
    "sheet_cell": 5,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "b836c064f772"
+   "sha12": "b836c064f772",
+   "file": "spritecook/gritty/beekeeper.png"
   },
   {
-   "label": "tinkerer, from hero sheet h2b cell 6",
-   "kind": "made",
+   "label": "tinkerer, from hero sheet h2b cell 6 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "tinkerer",
    "asset_id": "b4c1cad0-2d6a-43cd-8ce5-178e28c66005",
    "sheet_cell": 6,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "ec3cb99de28b"
+   "sha12": "ec3cb99de28b",
+   "file": "spritecook/gritty/tinkerer.png"
   },
   {
-   "label": "boneweaver, from hero sheet h2b cell 7",
-   "kind": "made",
+   "label": "boneweaver, from hero sheet h2b cell 7 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "boneweaver",
    "asset_id": "b4c1cad0-2d6a-43cd-8ce5-178e28c66005",
    "sheet_cell": 7,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "637ce6ced378"
+   "sha12": "637ce6ced378",
+   "file": "spritecook/gritty/boneweaver.png"
   },
   {
-   "label": "mirrorknight, from hero sheet h2b cell 8",
-   "kind": "made",
+   "label": "mirrorknight, from hero sheet h2b cell 8 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "mirrorknight",
    "asset_id": "b4c1cad0-2d6a-43cd-8ce5-178e28c66005",
    "sheet_cell": 8,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "5c6a0b5f57b4"
+   "sha12": "5c6a0b5f57b4",
+   "file": "spritecook/gritty/mirrorknight.png"
   },
   {
-   "label": "hero sheet h3b (gritty, hints checked on a labelled view), 21 Oct",
+   "label": "hero sheet h3b (gritty, hints checked on a labelled view), 21 Oct (gritty, set aside)",
    "kind": "sheet",
    "name": "heroes_h3b",
    "asset_id": "0a05bcb5-9409-4276-992c-b7bf9229778a",
@@ -644,100 +670,110 @@
     "minstrel",
     "jester"
    ],
-   "sha12": "ea2b95effb18"
+   "sha12": "ea2b95effb18",
+   "file": "spritecook/sheets/gritty/heroes_h3b.png"
   },
   {
-   "label": "plaguesaint, from hero sheet h3b cell 0",
-   "kind": "made",
+   "label": "plaguesaint, from hero sheet h3b cell 0 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "plaguesaint",
    "asset_id": "0a05bcb5-9409-4276-992c-b7bf9229778a",
    "sheet_cell": 0,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "0298afe5a6f4"
+   "sha12": "0298afe5a6f4",
+   "file": "spritecook/gritty/plaguesaint.png"
   },
   {
-   "label": "frostwitch, from hero sheet h3b cell 1",
-   "kind": "made",
+   "label": "frostwitch, from hero sheet h3b cell 1 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "frostwitch",
    "asset_id": "0a05bcb5-9409-4276-992c-b7bf9229778a",
    "sheet_cell": 1,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "d219288bb9c9"
+   "sha12": "d219288bb9c9",
+   "file": "spritecook/gritty/frostwitch.png"
   },
   {
-   "label": "demolitionist, from hero sheet h3b cell 2",
-   "kind": "made",
+   "label": "demolitionist, from hero sheet h3b cell 2 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "demolitionist",
    "asset_id": "0a05bcb5-9409-4276-992c-b7bf9229778a",
    "sheet_cell": 2,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "7a7746f03ad9"
+   "sha12": "7a7746f03ad9",
+   "file": "spritecook/gritty/demolitionist.png"
   },
   {
-   "label": "executioner, from hero sheet h3b cell 3",
-   "kind": "made",
+   "label": "executioner, from hero sheet h3b cell 3 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "executioner",
    "asset_id": "0a05bcb5-9409-4276-992c-b7bf9229778a",
    "sheet_cell": 3,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "948a4f36378c"
+   "sha12": "948a4f36378c",
+   "file": "spritecook/gritty/executioner.png"
   },
   {
-   "label": "pilgrim, from hero sheet h3b cell 4",
-   "kind": "made",
+   "label": "pilgrim, from hero sheet h3b cell 4 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "pilgrim",
    "asset_id": "0a05bcb5-9409-4276-992c-b7bf9229778a",
    "sheet_cell": 4,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "9555fbf5052f"
+   "sha12": "9555fbf5052f",
+   "file": "spritecook/gritty/pilgrim.png"
   },
   {
-   "label": "beastmaster, from hero sheet h3b cell 5",
-   "kind": "made",
+   "label": "beastmaster, from hero sheet h3b cell 5 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "beastmaster",
    "asset_id": "0a05bcb5-9409-4276-992c-b7bf9229778a",
    "sheet_cell": 5,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "ed1ae1f2497c"
+   "sha12": "ed1ae1f2497c",
+   "file": "spritecook/gritty/beastmaster.png"
   },
   {
-   "label": "clockmaker, from hero sheet h3b cell 6",
-   "kind": "made",
+   "label": "clockmaker, from hero sheet h3b cell 6 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "clockmaker",
    "asset_id": "0a05bcb5-9409-4276-992c-b7bf9229778a",
    "sheet_cell": 6,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "4a0a0e40d2fd"
+   "sha12": "4a0a0e40d2fd",
+   "file": "spritecook/gritty/clockmaker.png"
   },
   {
-   "label": "minstrel, from hero sheet h3b cell 7",
-   "kind": "made",
+   "label": "minstrel, from hero sheet h3b cell 7 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "minstrel",
    "asset_id": "0a05bcb5-9409-4276-992c-b7bf9229778a",
    "sheet_cell": 7,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "1740a07c43e2"
+   "sha12": "1740a07c43e2",
+   "file": "spritecook/gritty/minstrel.png"
   },
   {
-   "label": "jester, from hero sheet h3b cell 8",
-   "kind": "made",
+   "label": "jester, from hero sheet h3b cell 8 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "jester",
    "asset_id": "0a05bcb5-9409-4276-992c-b7bf9229778a",
    "sheet_cell": 8,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "1f6bb2f71dc0"
+   "sha12": "1f6bb2f71dc0",
+   "file": "spritecook/gritty/jester.png"
   },
   {
-   "label": "hero sheet h4b (gritty, hints checked on a labelled view), 21 Oct",
+   "label": "hero sheet h4b (gritty, hints checked on a labelled view), 21 Oct (gritty, set aside)",
    "kind": "sheet",
    "name": "heroes_h4b",
    "asset_id": "c1722f20-1a91-4256-bca1-5cbdfb7694bd",
@@ -756,77 +792,85 @@
     "-",
     "-"
    ],
-   "sha12": "1530be0763ea"
+   "sha12": "1530be0763ea",
+   "file": "spritecook/sheets/gritty/heroes_h4b.png"
   },
   {
-   "label": "berserker, from hero sheet h4b cell 0",
-   "kind": "made",
+   "label": "berserker, from hero sheet h4b cell 0 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "berserker",
    "asset_id": "c1722f20-1a91-4256-bca1-5cbdfb7694bd",
    "sheet_cell": 0,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "fdd8319209c8"
+   "sha12": "fdd8319209c8",
+   "file": "spritecook/gritty/berserker.png"
   },
   {
-   "label": "forsaken, from hero sheet h4b cell 1",
-   "kind": "made",
+   "label": "forsaken, from hero sheet h4b cell 1 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "forsaken",
    "asset_id": "c1722f20-1a91-4256-bca1-5cbdfb7694bd",
    "sheet_cell": 1,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "af55a85e65b1"
+   "sha12": "af55a85e65b1",
+   "file": "spritecook/gritty/forsaken.png"
   },
   {
-   "label": "inkling_hero, from hero sheet h4b cell 2",
-   "kind": "made",
+   "label": "inkling_hero, from hero sheet h4b cell 2 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "inkling_hero",
    "asset_id": "c1722f20-1a91-4256-bca1-5cbdfb7694bd",
    "sheet_cell": 2,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "596f46a74beb"
+   "sha12": "596f46a74beb",
+   "file": "spritecook/gritty/inkling_hero.png"
   },
   {
-   "label": "mindwarden_hero, from hero sheet h4b cell 3",
-   "kind": "made",
+   "label": "mindwarden_hero, from hero sheet h4b cell 3 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "mindwarden_hero",
    "asset_id": "c1722f20-1a91-4256-bca1-5cbdfb7694bd",
    "sheet_cell": 3,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "a13cd147581d"
+   "sha12": "a13cd147581d",
+   "file": "spritecook/gritty/mindwarden_hero.png"
   },
   {
-   "label": "tavernknight_hero, from hero sheet h4b cell 4",
-   "kind": "made",
+   "label": "tavernknight_hero, from hero sheet h4b cell 4 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "tavernknight_hero",
    "asset_id": "c1722f20-1a91-4256-bca1-5cbdfb7694bd",
    "sheet_cell": 4,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "c8671cf290d1"
+   "sha12": "c8671cf290d1",
+   "file": "spritecook/gritty/tavernknight_hero.png"
   },
   {
-   "label": "trickshot_hero, from hero sheet h4b cell 5",
-   "kind": "made",
+   "label": "trickshot_hero, from hero sheet h4b cell 5 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "trickshot_hero",
    "asset_id": "c1722f20-1a91-4256-bca1-5cbdfb7694bd",
    "sheet_cell": 5,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "fd16995d0bff"
+   "sha12": "fd16995d0bff",
+   "file": "spritecook/gritty/trickshot_hero.png"
   },
   {
-   "label": "bonecaller_hero, from hero sheet h4b cell 6",
-   "kind": "made",
+   "label": "bonecaller_hero, from hero sheet h4b cell 6 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "bonecaller_hero",
    "asset_id": "c1722f20-1a91-4256-bca1-5cbdfb7694bd",
    "sheet_cell": 6,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "4833ed36e51a"
+   "sha12": "4833ed36e51a",
+   "file": "spritecook/gritty/bonecaller_hero.png"
   },
   {
    "label": "guardian sheet 2, first try: coarse (55 px) and the Umbral Sun drawn as a ship's wheel",
@@ -839,7 +883,7 @@
    "sha12": null
   },
   {
-   "label": "guardian sheet boss_g1 (gritty, 2K), 21 Oct",
+   "label": "guardian sheet boss_g1 (gritty, 2K), 21 Oct (gritty, set aside)",
    "kind": "sheet",
    "name": "boss_g1",
    "asset_id": "b028f1b7-a2ca-493f-8736-1d2a93dc5794",
@@ -858,97 +902,107 @@
     "ashwarlord",
     "frozenabbot"
    ],
-   "sha12": "1174636be903"
+   "sha12": "1174636be903",
+   "file": "spritecook/sheets/gritty/boss_g1.png"
   },
   {
-   "label": "colossus, from boss_g1 cell 0",
-   "kind": "made",
+   "label": "colossus, from boss_g1 cell 0 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "colossus",
    "asset_id": "b028f1b7-a2ca-493f-8736-1d2a93dc5794",
    "sheet_cell": 0,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "ac0226bdf2f6"
+   "sha12": "ac0226bdf2f6",
+   "file": "spritecook/gritty/colossus.png"
   },
   {
-   "label": "sporemother, from boss_g1 cell 1",
-   "kind": "made",
+   "label": "sporemother, from boss_g1 cell 1 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "sporemother",
    "asset_id": "b028f1b7-a2ca-493f-8736-1d2a93dc5794",
    "sheet_cell": 1,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "251a84544ccc"
+   "sha12": "251a84544ccc",
+   "file": "spritecook/gritty/sporemother.png"
   },
   {
-   "label": "librarian, from boss_g1 cell 2",
-   "kind": "made",
+   "label": "librarian, from boss_g1 cell 2 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "librarian",
    "asset_id": "b028f1b7-a2ca-493f-8736-1d2a93dc5794",
    "sheet_cell": 2,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "bcc77f5ac835"
+   "sha12": "bcc77f5ac835",
+   "file": "spritecook/gritty/librarian.png"
   },
   {
-   "label": "tyrant, from boss_g1 cell 3",
-   "kind": "made",
+   "label": "tyrant, from boss_g1 cell 3 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "tyrant",
    "asset_id": "b028f1b7-a2ca-493f-8736-1d2a93dc5794",
    "sheet_cell": 3,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "281d48c494ce"
+   "sha12": "281d48c494ce",
+   "file": "spritecook/gritty/tyrant.png"
   },
   {
-   "label": "rimewarden, from boss_g1 cell 4",
-   "kind": "made",
+   "label": "rimewarden, from boss_g1 cell 4 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "rimewarden",
    "asset_id": "b028f1b7-a2ca-493f-8736-1d2a93dc5794",
    "sheet_cell": 4,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "5ddf58b3812d"
+   "sha12": "5ddf58b3812d",
+   "file": "spritecook/gritty/rimewarden.png"
   },
   {
-   "label": "regent, from boss_g1 cell 5",
-   "kind": "made",
+   "label": "regent, from boss_g1 cell 5 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "regent",
    "asset_id": "b028f1b7-a2ca-493f-8736-1d2a93dc5794",
    "sheet_cell": 5,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "b12388861635"
+   "sha12": "b12388861635",
+   "file": "spritecook/gritty/regent.png"
   },
   {
-   "label": "bogmatriarch, from boss_g1 cell 6",
-   "kind": "made",
+   "label": "bogmatriarch, from boss_g1 cell 6 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "bogmatriarch",
    "asset_id": "b028f1b7-a2ca-493f-8736-1d2a93dc5794",
    "sheet_cell": 6,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "20f21ea16603"
+   "sha12": "20f21ea16603",
+   "file": "spritecook/gritty/bogmatriarch.png"
   },
   {
-   "label": "ashwarlord, from boss_g1 cell 7",
-   "kind": "made",
+   "label": "ashwarlord, from boss_g1 cell 7 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "ashwarlord",
    "asset_id": "b028f1b7-a2ca-493f-8736-1d2a93dc5794",
    "sheet_cell": 7,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "9e8e19ed956b"
+   "sha12": "9e8e19ed956b",
+   "file": "spritecook/gritty/ashwarlord.png"
   },
   {
-   "label": "frozenabbot, from boss_g1 cell 8",
-   "kind": "made",
+   "label": "frozenabbot, from boss_g1 cell 8 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "frozenabbot",
    "asset_id": "b028f1b7-a2ca-493f-8736-1d2a93dc5794",
    "sheet_cell": 8,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "c66cb93ea4d7"
+   "sha12": "c66cb93ea4d7",
+   "file": "spritecook/gritty/frozenabbot.png"
   },
   {
    "label": "guardian sheet boss_g2b (gritty, 2K), 21 Oct: coarser (about 60 px a guardian), redone with 'small fine pixels'",
@@ -973,7 +1027,7 @@
    "sha12": "95a5389967c6"
   },
   {
-   "label": "guardian sheet boss_g3 (gritty, 2K), 21 Oct",
+   "label": "guardian sheet boss_g3 (gritty, 2K), 21 Oct (gritty, set aside)",
    "kind": "sheet",
    "name": "boss_g3",
    "asset_id": "d8d3e940-e2c3-4d86-918d-a5a02146f5f5",
@@ -992,97 +1046,107 @@
     "erratum",
     "reader"
    ],
-   "sha12": "da84bf1ed197"
+   "sha12": "da84bf1ed197",
+   "file": "spritecook/sheets/gritty/boss_g3.png"
   },
   {
-   "label": "greatengine, from boss_g3 cell 0",
-   "kind": "made",
+   "label": "greatengine, from boss_g3 cell 0 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "greatengine",
    "asset_id": "d8d3e940-e2c3-4d86-918d-a5a02146f5f5",
    "sheet_cell": 0,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "544280992560"
+   "sha12": "544280992560",
+   "file": "spritecook/gritty/greatengine.png"
   },
   {
-   "label": "glacialmaw, from boss_g3 cell 1",
-   "kind": "made",
+   "label": "glacialmaw, from boss_g3 cell 1 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "glacialmaw",
    "asset_id": "d8d3e940-e2c3-4d86-918d-a5a02146f5f5",
    "sheet_cell": 1,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "80a5ae222b86"
+   "sha12": "80a5ae222b86",
+   "file": "spritecook/gritty/glacialmaw.png"
   },
   {
-   "label": "inkleviathan, from boss_g3 cell 2",
-   "kind": "made",
+   "label": "inkleviathan, from boss_g3 cell 2 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "inkleviathan",
    "asset_id": "d8d3e940-e2c3-4d86-918d-a5a02146f5f5",
    "sheet_cell": 2,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "f2f63e513eaa"
+   "sha12": "f2f63e513eaa",
+   "file": "spritecook/gritty/inkleviathan.png"
   },
   {
-   "label": "thebinder, from boss_g3 cell 3",
-   "kind": "made",
+   "label": "thebinder, from boss_g3 cell 3 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "thebinder",
    "asset_id": "d8d3e940-e2c3-4d86-918d-a5a02146f5f5",
    "sheet_cell": 3,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "736fd88253a6"
+   "sha12": "736fd88253a6",
+   "file": "spritecook/gritty/thebinder.png"
   },
   {
-   "label": "author, from boss_g3 cell 4",
-   "kind": "made",
+   "label": "author, from boss_g3 cell 4 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "author",
    "asset_id": "d8d3e940-e2c3-4d86-918d-a5a02146f5f5",
    "sheet_cell": 4,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "ec324d08542a"
+   "sha12": "ec324d08542a",
+   "file": "spritecook/gritty/author.png"
   },
   {
-   "label": "redactor, from boss_g3 cell 5",
-   "kind": "made",
+   "label": "redactor, from boss_g3 cell 5 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "redactor",
    "asset_id": "d8d3e940-e2c3-4d86-918d-a5a02146f5f5",
    "sheet_cell": 5,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "b9086ed14244"
+   "sha12": "b9086ed14244",
+   "file": "spritecook/gritty/redactor.png"
   },
   {
-   "label": "lexicon, from boss_g3 cell 6",
-   "kind": "made",
+   "label": "lexicon, from boss_g3 cell 6 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "lexicon",
    "asset_id": "d8d3e940-e2c3-4d86-918d-a5a02146f5f5",
    "sheet_cell": 6,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "0d396bf06e38"
+   "sha12": "0d396bf06e38",
+   "file": "spritecook/gritty/lexicon.png"
   },
   {
-   "label": "erratum, from boss_g3 cell 7",
-   "kind": "made",
+   "label": "erratum, from boss_g3 cell 7 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "erratum",
    "asset_id": "d8d3e940-e2c3-4d86-918d-a5a02146f5f5",
    "sheet_cell": 7,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "e63ff107741e"
+   "sha12": "e63ff107741e",
+   "file": "spritecook/gritty/erratum.png"
   },
   {
-   "label": "reader, from boss_g3 cell 8",
-   "kind": "made",
+   "label": "reader, from boss_g3 cell 8 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "reader",
    "asset_id": "d8d3e940-e2c3-4d86-918d-a5a02146f5f5",
    "sheet_cell": 8,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "10fa5c927ab6"
+   "sha12": "10fa5c927ab6",
+   "file": "spritecook/gritty/reader.png"
   },
   {
    "label": "guardian sheet boss_g4 (gritty, 2K), 21 Oct: coarser (about 55 px a guardian), redone with 'small fine pixels'",
@@ -1107,7 +1171,7 @@
    "sha12": "ae1cbcd53ec3"
   },
   {
-   "label": "guardian sheet boss_s1 (gritty, 2K), 21 Oct",
+   "label": "guardian sheet boss_s1 (gritty, 2K), 21 Oct (gritty, set aside)",
    "kind": "sheet",
    "name": "boss_s1",
    "asset_id": "ce597393-daa6-4527-a7bb-22c553459887",
@@ -1126,100 +1190,110 @@
     "sefe_drink",
     "sefe_out"
    ],
-   "sha12": "97c8ab9ecf82"
+   "sha12": "97c8ab9ecf82",
+   "file": "spritecook/sheets/gritty/boss_s1.png"
   },
   {
-   "label": "seraph, from boss_s1 cell 0",
-   "kind": "made",
+   "label": "seraph, from boss_s1 cell 0 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "seraph",
    "asset_id": "ce597393-daa6-4527-a7bb-22c553459887",
    "sheet_cell": 0,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "ee5d32ae6712"
+   "sha12": "ee5d32ae6712",
+   "file": "spritecook/gritty/seraph.png"
   },
   {
-   "label": "rex, from boss_s1 cell 1",
-   "kind": "made",
+   "label": "rex, from boss_s1 cell 1 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "rex",
    "asset_id": "ce597393-daa6-4527-a7bb-22c553459887",
    "sheet_cell": 1,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "de175f29395a"
+   "sha12": "de175f29395a",
+   "file": "spritecook/gritty/rex.png"
   },
   {
-   "label": "rex_lie, from boss_s1 cell 2",
-   "kind": "made",
+   "label": "rex_lie, from boss_s1 cell 2 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "rex_lie",
    "asset_id": "ce597393-daa6-4527-a7bb-22c553459887",
    "sheet_cell": 2,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "a1510757f88a"
+   "sha12": "a1510757f88a",
+   "file": "spritecook/gritty/rex_lie.png"
   },
   {
-   "label": "arci, from boss_s1 cell 3",
-   "kind": "made",
+   "label": "arci, from boss_s1 cell 3 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "arci",
    "asset_id": "ce597393-daa6-4527-a7bb-22c553459887",
    "sheet_cell": 3,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "655caafa8642"
+   "sha12": "655caafa8642",
+   "file": "spritecook/gritty/arci.png"
   },
   {
-   "label": "arci_lie, from boss_s1 cell 4",
-   "kind": "made",
+   "label": "arci_lie, from boss_s1 cell 4 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "arci_lie",
    "asset_id": "ce597393-daa6-4527-a7bb-22c553459887",
    "sheet_cell": 4,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "2465aa5e825a"
+   "sha12": "2465aa5e825a",
+   "file": "spritecook/gritty/arci_lie.png"
   },
   {
-   "label": "arci_run, from boss_s1 cell 5",
-   "kind": "made",
+   "label": "arci_run, from boss_s1 cell 5 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "arci_run",
    "asset_id": "ce597393-daa6-4527-a7bb-22c553459887",
    "sheet_cell": 5,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "7d2da1ed939f"
+   "sha12": "7d2da1ed939f",
+   "file": "spritecook/gritty/arci_run.png"
   },
   {
-   "label": "sefe, from boss_s1 cell 6",
-   "kind": "made",
+   "label": "sefe, from boss_s1 cell 6 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "sefe",
    "asset_id": "ce597393-daa6-4527-a7bb-22c553459887",
    "sheet_cell": 6,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "7129d0da7050"
+   "sha12": "7129d0da7050",
+   "file": "spritecook/gritty/sefe.png"
   },
   {
-   "label": "sefe_drink, from boss_s1 cell 7",
-   "kind": "made",
+   "label": "sefe_drink, from boss_s1 cell 7 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "sefe_drink",
    "asset_id": "ce597393-daa6-4527-a7bb-22c553459887",
    "sheet_cell": 7,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "b3aa5cbdc498"
+   "sha12": "b3aa5cbdc498",
+   "file": "spritecook/gritty/sefe_drink.png"
   },
   {
-   "label": "sefe_out, from boss_s1 cell 8",
-   "kind": "made",
+   "label": "sefe_out, from boss_s1 cell 8 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "sefe_out",
    "asset_id": "ce597393-daa6-4527-a7bb-22c553459887",
    "sheet_cell": 8,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "ccf5b20bca9f"
+   "sha12": "ccf5b20bca9f",
+   "file": "spritecook/gritty/sefe_out.png"
   },
   {
-   "label": "guardian sheet boss_s2 (gritty, 2K), 21 Oct",
+   "label": "guardian sheet boss_s2 (gritty, 2K), 21 Oct (gritty, set aside)",
    "kind": "sheet",
    "name": "boss_s2",
    "asset_id": "6bbf889c-995e-4688-b394-a09d46fed29b",
@@ -1238,70 +1312,77 @@
     "-",
     "-"
    ],
-   "sha12": "9a43bff1c9d9"
+   "sha12": "9a43bff1c9d9",
+   "file": "spritecook/sheets/gritty/boss_s2.png"
   },
   {
-   "label": "sefe_squat, from boss_s2 cell 0",
-   "kind": "made",
+   "label": "sefe_squat, from boss_s2 cell 0 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "sefe_squat",
    "asset_id": "6bbf889c-995e-4688-b394-a09d46fed29b",
    "sheet_cell": 0,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "0e7db0677d26"
+   "sha12": "0e7db0677d26",
+   "file": "spritecook/gritty/sefe_squat.png"
   },
   {
-   "label": "sefe_zoned, from boss_s2 cell 1",
-   "kind": "made",
+   "label": "sefe_zoned, from boss_s2 cell 1 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "sefe_zoned",
    "asset_id": "6bbf889c-995e-4688-b394-a09d46fed29b",
    "sheet_cell": 1,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "598b82162a8e"
+   "sha12": "598b82162a8e",
+   "file": "spritecook/gritty/sefe_zoned.png"
   },
   {
-   "label": "braysalot, from boss_s2 cell 2",
-   "kind": "made",
+   "label": "braysalot, from boss_s2 cell 2 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "braysalot",
    "asset_id": "6bbf889c-995e-4688-b394-a09d46fed29b",
    "sheet_cell": 2,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "c9fa6c6ab1e9"
+   "sha12": "c9fa6c6ab1e9",
+   "file": "spritecook/gritty/braysalot.png"
   },
   {
-   "label": "scalesworth, from boss_s2 cell 3",
-   "kind": "made",
+   "label": "scalesworth, from boss_s2 cell 3 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "scalesworth",
    "asset_id": "6bbf889c-995e-4688-b394-a09d46fed29b",
    "sheet_cell": 3,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "4f2e8a63b545"
+   "sha12": "4f2e8a63b545",
+   "file": "spritecook/gritty/scalesworth.png"
   },
   {
-   "label": "prophet, from boss_s2 cell 4",
-   "kind": "made",
+   "label": "prophet, from boss_s2 cell 4 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "prophet",
    "asset_id": "6bbf889c-995e-4688-b394-a09d46fed29b",
    "sheet_cell": 4,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "ce33e829550a"
+   "sha12": "ce33e829550a",
+   "file": "spritecook/gritty/prophet.png"
   },
   {
-   "label": "chonk, from boss_s2 cell 5",
-   "kind": "made",
+   "label": "chonk, from boss_s2 cell 5 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "chonk",
    "asset_id": "6bbf889c-995e-4688-b394-a09d46fed29b",
    "sheet_cell": 5,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "95d2d88e46ca"
+   "sha12": "95d2d88e46ca",
+   "file": "spritecook/gritty/chonk.png"
   },
   {
-   "label": "guardian sheet boss_g2c (gritty, 2K, small fine pixels), 21 Oct",
+   "label": "guardian sheet boss_g2c (gritty, 2K, small fine pixels), 21 Oct (gritty, set aside)",
    "kind": "sheet",
    "name": "boss_g2c",
    "asset_id": "13207f8f-2597-4fc5-a2ea-4933e5695d5c",
@@ -1320,100 +1401,110 @@
     "bilgehydra",
     "brassorgan"
    ],
-   "sha12": "b6e2dcaf89ee"
+   "sha12": "b6e2dcaf89ee",
+   "file": "spritecook/sheets/gritty/boss_g2c.png"
   },
   {
-   "label": "crowking, from boss_g2c cell 0",
-   "kind": "made",
+   "label": "crowking, from boss_g2c cell 0 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "crowking",
    "asset_id": "13207f8f-2597-4fc5-a2ea-4933e5695d5c",
    "sheet_cell": 0,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "5480aae7092e"
+   "sha12": "5480aae7092e",
+   "file": "spritecook/gritty/crowking.png"
   },
   {
-   "label": "umbralsun, from boss_g2c cell 1",
-   "kind": "made",
+   "label": "umbralsun, from boss_g2c cell 1 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "umbralsun",
    "asset_id": "13207f8f-2597-4fc5-a2ea-4933e5695d5c",
    "sheet_cell": 1,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "269ef29267c0"
+   "sha12": "269ef29267c0",
+   "file": "spritecook/gritty/umbralsun.png"
   },
   {
-   "label": "holycow, from boss_g2c cell 2",
-   "kind": "made",
+   "label": "holycow, from boss_g2c cell 2 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "holycow",
    "asset_id": "13207f8f-2597-4fc5-a2ea-4933e5695d5c",
    "sheet_cell": 2,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "f3f8b163560b"
+   "sha12": "f3f8b163560b",
+   "file": "spritecook/gritty/holycow.png"
   },
   {
-   "label": "judge, from boss_g2c cell 3",
-   "kind": "made",
+   "label": "judge, from boss_g2c cell 3 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "judge",
    "asset_id": "13207f8f-2597-4fc5-a2ea-4933e5695d5c",
    "sheet_cell": 3,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "2229cfd6c8d8"
+   "sha12": "2229cfd6c8d8",
+   "file": "spritecook/gritty/judge.png"
   },
   {
-   "label": "cinderking, from boss_g2c cell 4",
-   "kind": "made",
+   "label": "cinderking, from boss_g2c cell 4 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "cinderking",
    "asset_id": "13207f8f-2597-4fc5-a2ea-4933e5695d5c",
    "sheet_cell": 4,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "5bf283df786a"
+   "sha12": "5bf283df786a",
+   "file": "spritecook/gritty/cinderking.png"
   },
   {
-   "label": "unwritten, from boss_g2c cell 5",
-   "kind": "made",
+   "label": "unwritten, from boss_g2c cell 5 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "unwritten",
    "asset_id": "13207f8f-2597-4fc5-a2ea-4933e5695d5c",
    "sheet_cell": 5,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "177dc2735531"
+   "sha12": "177dc2735531",
+   "file": "spritecook/gritty/unwritten.png"
   },
   {
-   "label": "stormcrown, from boss_g2c cell 6",
-   "kind": "made",
+   "label": "stormcrown, from boss_g2c cell 6 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "stormcrown",
    "asset_id": "13207f8f-2597-4fc5-a2ea-4933e5695d5c",
    "sheet_cell": 6,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "2b65a27c6799"
+   "sha12": "2b65a27c6799",
+   "file": "spritecook/gritty/stormcrown.png"
   },
   {
-   "label": "bilgehydra, from boss_g2c cell 7",
-   "kind": "made",
+   "label": "bilgehydra, from boss_g2c cell 7 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "bilgehydra",
    "asset_id": "13207f8f-2597-4fc5-a2ea-4933e5695d5c",
    "sheet_cell": 7,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "55be824a36a7"
+   "sha12": "55be824a36a7",
+   "file": "spritecook/gritty/bilgehydra.png"
   },
   {
-   "label": "brassorgan, from boss_g2c cell 8",
-   "kind": "made",
+   "label": "brassorgan, from boss_g2c cell 8 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "brassorgan",
    "asset_id": "13207f8f-2597-4fc5-a2ea-4933e5695d5c",
    "sheet_cell": 8,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "66e735519d90"
+   "sha12": "66e735519d90",
+   "file": "spritecook/gritty/brassorgan.png"
   },
   {
-   "label": "guardian sheet boss_g4b (gritty, 2K, small fine pixels), 21 Oct",
+   "label": "guardian sheet boss_g4b (gritty, 2K, small fine pixels), 21 Oct (gritty, set aside)",
    "kind": "sheet",
    "name": "boss_g4b",
    "asset_id": "f7fd2b2c-24b6-466d-9620-d5a0a554709e",
@@ -1432,100 +1523,110 @@
     "wyrm",
     "chainfiend"
    ],
-   "sha12": "140211cece1b"
+   "sha12": "140211cece1b",
+   "file": "spritecook/sheets/gritty/boss_g4b.png"
   },
   {
-   "label": "shelver, from boss_g4b cell 0",
-   "kind": "made",
+   "label": "shelver, from boss_g4b cell 0 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "shelver",
    "asset_id": "f7fd2b2c-24b6-466d-9620-d5a0a554709e",
    "sheet_cell": 0,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "59379c73db2e"
+   "sha12": "59379c73db2e",
+   "file": "spritecook/gritty/shelver.png"
   },
   {
-   "label": "hush, from boss_g4b cell 1",
-   "kind": "made",
+   "label": "hush, from boss_g4b cell 1 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "hush",
    "asset_id": "f7fd2b2c-24b6-466d-9620-d5a0a554709e",
    "sheet_cell": 1,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "9bde6dd0f276"
+   "sha12": "9bde6dd0f276",
+   "file": "spritecook/gritty/hush.png"
   },
   {
-   "label": "critic, from boss_g4b cell 2",
-   "kind": "made",
+   "label": "critic, from boss_g4b cell 2 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "critic",
    "asset_id": "f7fd2b2c-24b6-466d-9620-d5a0a554709e",
    "sheet_cell": 2,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "b1ec3e1ddf27"
+   "sha12": "b1ec3e1ddf27",
+   "file": "spritecook/gritty/critic.png"
   },
   {
-   "label": "admiral, from boss_g4b cell 3",
-   "kind": "made",
+   "label": "admiral, from boss_g4b cell 3 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "admiral",
    "asset_id": "f7fd2b2c-24b6-466d-9620-d5a0a554709e",
    "sheet_cell": 3,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "a529ec49305d"
+   "sha12": "a529ec49305d",
+   "file": "spritecook/gritty/admiral.png"
   },
   {
-   "label": "golemking, from boss_g4b cell 4",
-   "kind": "made",
+   "label": "golemking, from boss_g4b cell 4 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "golemking",
    "asset_id": "f7fd2b2c-24b6-466d-9620-d5a0a554709e",
    "sheet_cell": 4,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "f68a3c726bb8"
+   "sha12": "f68a3c726bb8",
+   "file": "spritecook/gritty/golemking.png"
   },
   {
-   "label": "archmage, from boss_g4b cell 5",
-   "kind": "made",
+   "label": "archmage, from boss_g4b cell 5 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "archmage",
    "asset_id": "f7fd2b2c-24b6-466d-9620-d5a0a554709e",
    "sheet_cell": 5,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "e823f1ef50be"
+   "sha12": "e823f1ef50be",
+   "file": "spritecook/gritty/archmage.png"
   },
   {
-   "label": "phoenix, from boss_g4b cell 6",
-   "kind": "made",
+   "label": "phoenix, from boss_g4b cell 6 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "phoenix",
    "asset_id": "f7fd2b2c-24b6-466d-9620-d5a0a554709e",
    "sheet_cell": 6,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "21217865ad45"
+   "sha12": "21217865ad45",
+   "file": "spritecook/gritty/phoenix.png"
   },
   {
-   "label": "wyrm, from boss_g4b cell 7",
-   "kind": "made",
+   "label": "wyrm, from boss_g4b cell 7 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "wyrm",
    "asset_id": "f7fd2b2c-24b6-466d-9620-d5a0a554709e",
    "sheet_cell": 7,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "abeee6ae1c0f"
+   "sha12": "abeee6ae1c0f",
+   "file": "spritecook/gritty/wyrm.png"
   },
   {
-   "label": "chainfiend, from boss_g4b cell 8",
-   "kind": "made",
+   "label": "chainfiend, from boss_g4b cell 8 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "chainfiend",
    "asset_id": "f7fd2b2c-24b6-466d-9620-d5a0a554709e",
    "sheet_cell": 8,
    "model": "gpt-image-2 low 2K",
    "credits": 0,
-   "sha12": "9d3218d93aca"
+   "sha12": "9d3218d93aca",
+   "file": "spritecook/gritty/chainfiend.png"
   },
   {
-   "label": "sheet champ_c1 (gritty), 21 Oct",
+   "label": "sheet champ_c1 (gritty), 21 Oct (gritty, set aside)",
    "kind": "sheet",
    "name": "champ_c1",
    "asset_id": "da40bd72-0d96-465d-bde5-bedf4fbdd5ab",
@@ -1544,100 +1645,110 @@
     "broker",
     "mayor"
    ],
-   "sha12": "b10eadb5d9db"
+   "sha12": "b10eadb5d9db",
+   "file": "spritecook/sheets/gritty/champ_c1.png"
   },
   {
-   "label": "mirehulk, from champ_c1 cell 0",
-   "kind": "made",
+   "label": "mirehulk, from champ_c1 cell 0 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "mirehulk",
    "asset_id": "da40bd72-0d96-465d-bde5-bedf4fbdd5ab",
    "sheet_cell": 0,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "a793cecaf208"
+   "sha12": "a793cecaf208",
+   "file": "spritecook/gritty/mirehulk.png"
   },
   {
-   "label": "ironcaptain, from champ_c1 cell 1",
-   "kind": "made",
+   "label": "ironcaptain, from champ_c1 cell 1 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "ironcaptain",
    "asset_id": "da40bd72-0d96-465d-bde5-bedf4fbdd5ab",
    "sheet_cell": 1,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "57d7804628a9"
+   "sha12": "57d7804628a9",
+   "file": "spritecook/gritty/ironcaptain.png"
   },
   {
-   "label": "stoneabbot, from champ_c1 cell 2",
-   "kind": "made",
+   "label": "stoneabbot, from champ_c1 cell 2 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "stoneabbot",
    "asset_id": "da40bd72-0d96-465d-bde5-bedf4fbdd5ab",
    "sheet_cell": 2,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "013d9f2c5b88"
+   "sha12": "013d9f2c5b88",
+   "file": "spritecook/gritty/stoneabbot.png"
   },
   {
-   "label": "enforcer, from champ_c1 cell 3",
-   "kind": "made",
+   "label": "enforcer, from champ_c1 cell 3 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "enforcer",
    "asset_id": "da40bd72-0d96-465d-bde5-bedf4fbdd5ab",
    "sheet_cell": 3,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "8b6fbcb5a9f3"
+   "sha12": "8b6fbcb5a9f3",
+   "file": "spritecook/gritty/enforcer.png"
   },
   {
-   "label": "herald, from champ_c1 cell 4",
-   "kind": "made",
+   "label": "herald, from champ_c1 cell 4 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "herald",
    "asset_id": "da40bd72-0d96-465d-bde5-bedf4fbdd5ab",
    "sheet_cell": 4,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "e9ed1e8ef7f6"
+   "sha12": "e9ed1e8ef7f6",
+   "file": "spritecook/gritty/herald.png"
   },
   {
-   "label": "turnkey, from champ_c1 cell 5",
-   "kind": "made",
+   "label": "turnkey, from champ_c1 cell 5 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "turnkey",
    "asset_id": "da40bd72-0d96-465d-bde5-bedf4fbdd5ab",
    "sheet_cell": 5,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "b5f0b18edac9"
+   "sha12": "b5f0b18edac9",
+   "file": "spritecook/gritty/turnkey.png"
   },
   {
-   "label": "carrionknight, from champ_c1 cell 6",
-   "kind": "made",
+   "label": "carrionknight, from champ_c1 cell 6 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "carrionknight",
    "asset_id": "da40bd72-0d96-465d-bde5-bedf4fbdd5ab",
    "sheet_cell": 6,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "b1186e1dfa3b"
+   "sha12": "b1186e1dfa3b",
+   "file": "spritecook/gritty/carrionknight.png"
   },
   {
-   "label": "broker, from champ_c1 cell 7",
-   "kind": "made",
+   "label": "broker, from champ_c1 cell 7 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "broker",
    "asset_id": "da40bd72-0d96-465d-bde5-bedf4fbdd5ab",
    "sheet_cell": 7,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "67128e8c827a"
+   "sha12": "67128e8c827a",
+   "file": "spritecook/gritty/broker.png"
   },
   {
-   "label": "mayor, from champ_c1 cell 8",
-   "kind": "made",
+   "label": "mayor, from champ_c1 cell 8 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "mayor",
    "asset_id": "da40bd72-0d96-465d-bde5-bedf4fbdd5ab",
    "sheet_cell": 8,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "6631d0f19d3d"
+   "sha12": "6631d0f19d3d",
+   "file": "spritecook/gritty/mayor.png"
   },
   {
-   "label": "sheet champ_c2 (gritty), 21 Oct",
+   "label": "sheet champ_c2 (gritty), 21 Oct (gritty, set aside)",
    "kind": "sheet",
    "name": "champ_c2",
    "asset_id": "54cfadad-bfc7-4c83-ad1b-59414a1cf72b",
@@ -1656,100 +1767,110 @@
     "squallheron",
     "tidecaptain"
    ],
-   "sha12": "4da14779fe42"
+   "sha12": "4da14779fe42",
+   "file": "spritecook/sheets/gritty/champ_c2.png"
   },
   {
-   "label": "rustbutcher, from champ_c2 cell 0",
-   "kind": "made",
+   "label": "rustbutcher, from champ_c2 cell 0 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "rustbutcher",
    "asset_id": "54cfadad-bfc7-4c83-ad1b-59414a1cf72b",
    "sheet_cell": 0,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "0c764c08f484"
+   "sha12": "0c764c08f484",
+   "file": "spritecook/gritty/rustbutcher.png"
   },
   {
-   "label": "landlord, from champ_c2 cell 1",
-   "kind": "made",
+   "label": "landlord, from champ_c2 cell 1 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "landlord",
    "asset_id": "54cfadad-bfc7-4c83-ad1b-59414a1cf72b",
    "sheet_cell": 1,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "3f4191922db3"
+   "sha12": "3f4191922db3",
+   "file": "spritecook/gritty/landlord.png"
   },
   {
-   "label": "kingpin, from champ_c2 cell 2",
-   "kind": "made",
+   "label": "kingpin, from champ_c2 cell 2 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "kingpin",
    "asset_id": "54cfadad-bfc7-4c83-ad1b-59414a1cf72b",
    "sheet_cell": 2,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "4a1af6a817ac"
+   "sha12": "4a1af6a817ac",
+   "file": "spritecook/gritty/kingpin.png"
   },
   {
-   "label": "marshal, from champ_c2 cell 3",
-   "kind": "made",
+   "label": "marshal, from champ_c2 cell 3 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "marshal",
    "asset_id": "54cfadad-bfc7-4c83-ad1b-59414a1cf72b",
    "sheet_cell": 3,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "e9a2423ef8d9"
+   "sha12": "e9a2423ef8d9",
+   "file": "spritecook/gritty/marshal.png"
   },
   {
-   "label": "galewarden, from champ_c2 cell 4",
-   "kind": "made",
+   "label": "galewarden, from champ_c2 cell 4 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "galewarden",
    "asset_id": "54cfadad-bfc7-4c83-ad1b-59414a1cf72b",
    "sheet_cell": 4,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "7825f55b8612"
+   "sha12": "7825f55b8612",
+   "file": "spritecook/gritty/galewarden.png"
   },
   {
-   "label": "rotking, from champ_c2 cell 5",
-   "kind": "made",
+   "label": "rotking, from champ_c2 cell 5 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "rotking",
    "asset_id": "54cfadad-bfc7-4c83-ad1b-59414a1cf72b",
    "sheet_cell": 5,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "7fb123d612f0"
+   "sha12": "7fb123d612f0",
+   "file": "spritecook/gritty/rotking.png"
   },
   {
-   "label": "highcaliber, from champ_c2 cell 6",
-   "kind": "made",
+   "label": "highcaliber, from champ_c2 cell 6 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "highcaliber",
    "asset_id": "54cfadad-bfc7-4c83-ad1b-59414a1cf72b",
    "sheet_cell": 6,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "f80aa5ea7bcd"
+   "sha12": "f80aa5ea7bcd",
+   "file": "spritecook/gritty/highcaliber.png"
   },
   {
-   "label": "squallheron, from champ_c2 cell 7",
-   "kind": "made",
+   "label": "squallheron, from champ_c2 cell 7 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "squallheron",
    "asset_id": "54cfadad-bfc7-4c83-ad1b-59414a1cf72b",
    "sheet_cell": 7,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "d06116cde26d"
+   "sha12": "d06116cde26d",
+   "file": "spritecook/gritty/squallheron.png"
   },
   {
-   "label": "tidecaptain, from champ_c2 cell 8",
-   "kind": "made",
+   "label": "tidecaptain, from champ_c2 cell 8 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "tidecaptain",
    "asset_id": "54cfadad-bfc7-4c83-ad1b-59414a1cf72b",
    "sheet_cell": 8,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "b6d8ddd58374"
+   "sha12": "b6d8ddd58374",
+   "file": "spritecook/gritty/tidecaptain.png"
   },
   {
-   "label": "sheet champ_c3 (gritty), 21 Oct",
+   "label": "sheet champ_c3 (gritty), 21 Oct (gritty, set aside)",
    "kind": "sheet",
    "name": "champ_c3",
    "asset_id": "b85a55ca-9794-4471-8895-d6866e1b9f99",
@@ -1768,100 +1889,110 @@
     "lexicant",
     "fineprint"
    ],
-   "sha12": "2730551f9288"
+   "sha12": "2730551f9288",
+   "file": "spritecook/sheets/gritty/champ_c3.png"
   },
   {
-   "label": "bellringer, from champ_c3 cell 0",
-   "kind": "made",
+   "label": "bellringer, from champ_c3 cell 0 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "bellringer",
    "asset_id": "b85a55ca-9794-4471-8895-d6866e1b9f99",
    "sheet_cell": 0,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "261665715773"
+   "sha12": "261665715773",
+   "file": "spritecook/gritty/bellringer.png"
   },
   {
-   "label": "shadow, from champ_c3 cell 1",
-   "kind": "made",
+   "label": "shadow, from champ_c3 cell 1 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "shadow",
    "asset_id": "b85a55ca-9794-4471-8895-d6866e1b9f99",
    "sheet_cell": 1,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "b6a54c699e3b"
+   "sha12": "b6a54c699e3b",
+   "file": "spritecook/gritty/shadow.png"
   },
   {
-   "label": "foreman, from champ_c3 cell 2",
-   "kind": "made",
+   "label": "foreman, from champ_c3 cell 2 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "foreman",
    "asset_id": "b85a55ca-9794-4471-8895-d6866e1b9f99",
    "sheet_cell": 2,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "4ea249643d5d"
+   "sha12": "4ea249643d5d",
+   "file": "spritecook/gritty/foreman.png"
   },
   {
-   "label": "hoarknight, from champ_c3 cell 3",
-   "kind": "made",
+   "label": "hoarknight, from champ_c3 cell 3 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "hoarknight",
    "asset_id": "b85a55ca-9794-4471-8895-d6866e1b9f99",
    "sheet_cell": 3,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "939c98df36cc"
+   "sha12": "939c98df36cc",
+   "file": "spritecook/gritty/hoarknight.png"
   },
   {
-   "label": "inkwidow, from champ_c3 cell 4",
-   "kind": "made",
+   "label": "inkwidow, from champ_c3 cell 4 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "inkwidow",
    "asset_id": "b85a55ca-9794-4471-8895-d6866e1b9f99",
    "sheet_cell": 4,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "68bebca27673"
+   "sha12": "68bebca27673",
+   "file": "spritecook/gritty/inkwidow.png"
   },
   {
-   "label": "bindingpress, from champ_c3 cell 5",
-   "kind": "made",
+   "label": "bindingpress, from champ_c3 cell 5 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "bindingpress",
    "asset_id": "b85a55ca-9794-4471-8895-d6866e1b9f99",
    "sheet_cell": 5,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "50cf13365d81"
+   "sha12": "50cf13365d81",
+   "file": "spritecook/gritty/bindingpress.png"
   },
   {
-   "label": "headscribe, from champ_c3 cell 6",
-   "kind": "made",
+   "label": "headscribe, from champ_c3 cell 6 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "headscribe",
    "asset_id": "b85a55ca-9794-4471-8895-d6866e1b9f99",
    "sheet_cell": 6,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "9a0416f9a8ed"
+   "sha12": "9a0416f9a8ed",
+   "file": "spritecook/gritty/headscribe.png"
   },
   {
-   "label": "lexicant, from champ_c3 cell 7",
-   "kind": "made",
+   "label": "lexicant, from champ_c3 cell 7 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "lexicant",
    "asset_id": "b85a55ca-9794-4471-8895-d6866e1b9f99",
    "sheet_cell": 7,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "acad8956c52f"
+   "sha12": "acad8956c52f",
+   "file": "spritecook/gritty/lexicant.png"
   },
   {
-   "label": "fineprint, from champ_c3 cell 8",
-   "kind": "made",
+   "label": "fineprint, from champ_c3 cell 8 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "fineprint",
    "asset_id": "b85a55ca-9794-4471-8895-d6866e1b9f99",
    "sheet_cell": 8,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "9fed158e2772"
+   "sha12": "9fed158e2772",
+   "file": "spritecook/gritty/fineprint.png"
   },
   {
-   "label": "sheet champ_c4 (gritty), 21 Oct",
+   "label": "sheet champ_c4 (gritty), 21 Oct (gritty, set aside)",
    "kind": "sheet",
    "name": "champ_c4",
    "asset_id": "98cd4337-fbe1-40ac-a96f-97f8e54c5239",
@@ -1880,50 +2011,55 @@
     "-",
     "-"
    ],
-   "sha12": "2b4c57aed5f5"
+   "sha12": "2b4c57aed5f5",
+   "file": "spritecook/sheets/gritty/champ_c4.png"
   },
   {
-   "label": "colophon, from champ_c4 cell 0",
-   "kind": "made",
+   "label": "colophon, from champ_c4 cell 0 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "colophon",
    "asset_id": "98cd4337-fbe1-40ac-a96f-97f8e54c5239",
    "sheet_cell": 0,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "1d1d45b70b15"
+   "sha12": "1d1d45b70b15",
+   "file": "spritecook/gritty/colophon.png"
   },
   {
-   "label": "overdue, from champ_c4 cell 1",
-   "kind": "made",
+   "label": "overdue, from champ_c4 cell 1 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "overdue",
    "asset_id": "98cd4337-fbe1-40ac-a96f-97f8e54c5239",
    "sheet_cell": 1,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "abcb4c83de89"
+   "sha12": "abcb4c83de89",
+   "file": "spritecook/gritty/overdue.png"
   },
   {
-   "label": "quiet, from champ_c4 cell 2",
-   "kind": "made",
+   "label": "quiet, from champ_c4 cell 2 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "quiet",
    "asset_id": "98cd4337-fbe1-40ac-a96f-97f8e54c5239",
    "sheet_cell": 2,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "c2b879fe3619"
+   "sha12": "c2b879fe3619",
+   "file": "spritecook/gritty/quiet.png"
   },
   {
-   "label": "kindling, from champ_c4 cell 3",
-   "kind": "made",
+   "label": "kindling, from champ_c4 cell 3 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "kindling",
    "asset_id": "98cd4337-fbe1-40ac-a96f-97f8e54c5239",
    "sheet_cell": 3,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "7bc85e1401ef"
+   "sha12": "7bc85e1401ef",
+   "file": "spritecook/gritty/kindling.png"
   },
   {
-   "label": "sheet prop_p1 (gritty), 21 Oct",
+   "label": "sheet prop_p1 (gritty), 21 Oct (gritty, set aside)",
    "kind": "sheet",
    "name": "prop_p1",
    "asset_id": "de60ad75-c71b-4df4-b152-348bfe8cf32d",
@@ -1942,70 +2078,77 @@
     "arci_frisbee",
     "arci_stick"
    ],
-   "sha12": "40fad1f038c0"
+   "sha12": "40fad1f038c0",
+   "file": "spritecook/sheets/gritty/prop_p1.png"
   },
   {
-   "label": "rex_bowl, from prop_p1 cell 0",
-   "kind": "made",
+   "label": "rex_bowl, from prop_p1 cell 0 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "rex_bowl",
    "asset_id": "de60ad75-c71b-4df4-b152-348bfe8cf32d",
    "sheet_cell": 0,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "d9717ab11278"
+   "sha12": "d9717ab11278",
+   "file": "spritecook/gritty/rex_bowl.png"
   },
   {
-   "label": "rex_hay, from prop_p1 cell 1",
-   "kind": "made",
+   "label": "rex_hay, from prop_p1 cell 1 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "rex_hay",
    "asset_id": "de60ad75-c71b-4df4-b152-348bfe8cf32d",
    "sheet_cell": 1,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "ee9de6ed8482"
+   "sha12": "ee9de6ed8482",
+   "file": "spritecook/gritty/rex_hay.png"
   },
   {
-   "label": "rex_mat, from prop_p1 cell 2",
-   "kind": "made",
+   "label": "rex_mat, from prop_p1 cell 2 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "rex_mat",
    "asset_id": "de60ad75-c71b-4df4-b152-348bfe8cf32d",
    "sheet_cell": 2,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "25a52a80cfc5"
+   "sha12": "25a52a80cfc5",
+   "file": "spritecook/gritty/rex_mat.png"
   },
   {
-   "label": "rex_potato, from prop_p1 cell 3",
-   "kind": "made",
+   "label": "rex_potato, from prop_p1 cell 3 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "rex_potato",
    "asset_id": "de60ad75-c71b-4df4-b152-348bfe8cf32d",
    "sheet_cell": 3,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "16f0a47d8eae"
+   "sha12": "16f0a47d8eae",
+   "file": "spritecook/gritty/rex_potato.png"
   },
   {
-   "label": "rex_shades, from prop_p1 cell 5",
-   "kind": "made",
+   "label": "rex_shades, from prop_p1 cell 5 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "rex_shades",
    "asset_id": "de60ad75-c71b-4df4-b152-348bfe8cf32d",
    "sheet_cell": 5,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "d480312870aa"
+   "sha12": "d480312870aa",
+   "file": "spritecook/gritty/rex_shades.png"
   },
   {
-   "label": "arci_frisbee, from prop_p1 cell 7",
-   "kind": "made",
+   "label": "arci_frisbee, from prop_p1 cell 7 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "arci_frisbee",
    "asset_id": "de60ad75-c71b-4df4-b152-348bfe8cf32d",
    "sheet_cell": 7,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "556f07d3593a"
+   "sha12": "556f07d3593a",
+   "file": "spritecook/gritty/arci_frisbee.png"
   },
   {
-   "label": "sheet prop_p2 (gritty), 21 Oct",
+   "label": "sheet prop_p2 (gritty), 21 Oct (gritty, set aside)",
    "kind": "sheet",
    "name": "prop_p2",
    "asset_id": "ad3c6174-e05c-44a6-98cb-431a95b68886",
@@ -2024,60 +2167,66 @@
     "-",
     "-"
    ],
-   "sha12": "608459b3f248"
+   "sha12": "608459b3f248",
+   "file": "spritecook/sheets/gritty/prop_p2.png"
   },
   {
-   "label": "sefe_axe, from prop_p2 cell 0",
-   "kind": "made",
+   "label": "sefe_axe, from prop_p2 cell 0 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "sefe_axe",
    "asset_id": "ad3c6174-e05c-44a6-98cb-431a95b68886",
    "sheet_cell": 0,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "df0c37773392"
+   "sha12": "df0c37773392",
+   "file": "spritecook/gritty/sefe_axe.png"
   },
   {
-   "label": "sefe_can, from prop_p2 cell 1",
-   "kind": "made",
+   "label": "sefe_can, from prop_p2 cell 1 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "sefe_can",
    "asset_id": "ad3c6174-e05c-44a6-98cb-431a95b68886",
    "sheet_cell": 1,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "bc1920030087"
+   "sha12": "bc1920030087",
+   "file": "spritecook/gritty/sefe_can.png"
   },
   {
-   "label": "sefe_chainsaw, from prop_p2 cell 2",
-   "kind": "made",
+   "label": "sefe_chainsaw, from prop_p2 cell 2 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "sefe_chainsaw",
    "asset_id": "ad3c6174-e05c-44a6-98cb-431a95b68886",
    "sheet_cell": 2,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "daa6875a295a"
+   "sha12": "daa6875a295a",
+   "file": "spritecook/gritty/sefe_chainsaw.png"
   },
   {
-   "label": "sefe_cone, from prop_p2 cell 3",
-   "kind": "made",
+   "label": "sefe_cone, from prop_p2 cell 3 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "sefe_cone",
    "asset_id": "ad3c6174-e05c-44a6-98cb-431a95b68886",
    "sheet_cell": 3,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "f59d1a362cc7"
+   "sha12": "f59d1a362cc7",
+   "file": "spritecook/gritty/sefe_cone.png"
   },
   {
-   "label": "sefe_smoke, from prop_p2 cell 4",
-   "kind": "made",
+   "label": "sefe_smoke, from prop_p2 cell 4 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "sefe_smoke",
    "asset_id": "ad3c6174-e05c-44a6-98cb-431a95b68886",
    "sheet_cell": 4,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "97fb73122de4"
+   "sha12": "97fb73122de4",
+   "file": "spritecook/gritty/sefe_smoke.png"
   },
   {
-   "label": "prop sheet p3: the stick sword, fetch stick and potato planter lying flat (first tries were diagonal or a tall crate)",
+   "label": "prop sheet p3: the stick sword, fetch stick and potato planter lying flat (first tries were diagonal or a tall crate) (gritty, set aside)",
    "kind": "sheet",
    "name": "prop_p3",
    "asset_id": "00fced30-5d32-4356-b4ab-c1445c01b2ef",
@@ -2091,37 +2240,581 @@
     "rex_potatoes",
     "-"
    ],
-   "sha12": "ecb8d9b9b951"
+   "sha12": "ecb8d9b9b951",
+   "file": "spritecook/sheets/gritty/prop_p3.png"
   },
   {
-   "label": "rex_sword, from prop_p3 cell 0",
-   "kind": "made",
+   "label": "rex_sword, from prop_p3 cell 0 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "rex_sword",
    "asset_id": "00fced30-5d32-4356-b4ab-c1445c01b2ef",
    "sheet_cell": 0,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "de99fbc0e0cf"
+   "sha12": "de99fbc0e0cf",
+   "file": "spritecook/gritty/rex_sword.png"
   },
   {
-   "label": "arci_stick, from prop_p3 cell 1",
-   "kind": "made",
+   "label": "arci_stick, from prop_p3 cell 1 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "arci_stick",
    "asset_id": "00fced30-5d32-4356-b4ab-c1445c01b2ef",
    "sheet_cell": 1,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "592d83e2f77f"
+   "sha12": "592d83e2f77f",
+   "file": "spritecook/gritty/arci_stick.png"
   },
   {
-   "label": "rex_potatoes, from prop_p3 cell 2",
-   "kind": "made",
+   "label": "rex_potatoes, from prop_p3 cell 2 (the gritty look, set aside 21 Oct for his bright look)",
+   "kind": "alternative",
    "name": "rex_potatoes",
    "asset_id": "00fced30-5d32-4356-b4ab-c1445c01b2ef",
    "sheet_cell": 2,
    "model": "gpt-image-2 low",
    "credits": 0,
-   "sha12": "76a81ddbf964"
+   "sha12": "76a81ddbf964",
+   "file": "spritecook/gritty/rex_potatoes.png"
+  },
+  {
+   "label": "hero sheet h1 in his bright look, 21 Oct",
+   "kind": "sheet",
+   "name": "bright_h1",
+   "asset_id": "94ffe637-5d85-4499-934f-57fc556890b0",
+   "job_id": "f21daaed-e40d-422a-839d-ce0d43b97836",
+   "reference": "834213cc-a25d-44f5-93cf-b9c3cccf54dd",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "cells": [
+    "hexer",
+    "poacher",
+    "brute",
+    "gravedigger",
+    "alchemist",
+    "warden",
+    "gaolbird",
+    "banehunter",
+    "oathbreaker"
+   ],
+   "sha12": "2fcd4893d496"
+  },
+  {
+   "label": "hexer, from sheet bright_h1 cell 0",
+   "kind": "made",
+   "name": "hexer",
+   "asset_id": "94ffe637-5d85-4499-934f-57fc556890b0",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "d1f714ebe18a"
+  },
+  {
+   "label": "poacher, from sheet bright_h1 cell 1",
+   "kind": "made",
+   "name": "poacher",
+   "asset_id": "94ffe637-5d85-4499-934f-57fc556890b0",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "c1c513572041"
+  },
+  {
+   "label": "brute, from sheet bright_h1 cell 2",
+   "kind": "made",
+   "name": "brute",
+   "asset_id": "94ffe637-5d85-4499-934f-57fc556890b0",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "77168287ac8c"
+  },
+  {
+   "label": "gravedigger, from sheet bright_h1 cell 3",
+   "kind": "made",
+   "name": "gravedigger",
+   "asset_id": "94ffe637-5d85-4499-934f-57fc556890b0",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "673c8be4243b"
+  },
+  {
+   "label": "alchemist, from sheet bright_h1 cell 4",
+   "kind": "made",
+   "name": "alchemist",
+   "asset_id": "94ffe637-5d85-4499-934f-57fc556890b0",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "b2b27f5410b8"
+  },
+  {
+   "label": "warden, from sheet bright_h1 cell 5",
+   "kind": "made",
+   "name": "warden",
+   "asset_id": "94ffe637-5d85-4499-934f-57fc556890b0",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "048b0fed0e63"
+  },
+  {
+   "label": "gaolbird, from sheet bright_h1 cell 6",
+   "kind": "made",
+   "name": "gaolbird",
+   "asset_id": "94ffe637-5d85-4499-934f-57fc556890b0",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "973cc2b451c7"
+  },
+  {
+   "label": "banehunter, from sheet bright_h1 cell 7",
+   "kind": "made",
+   "name": "banehunter",
+   "asset_id": "94ffe637-5d85-4499-934f-57fc556890b0",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "a3b4ea9349da"
+  },
+  {
+   "label": "oathbreaker, from sheet bright_h1 cell 8",
+   "kind": "made",
+   "name": "oathbreaker",
+   "asset_id": "94ffe637-5d85-4499-934f-57fc556890b0",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "69e8fee53a21"
+  },
+  {
+   "label": "hero sheet h3 in his bright look, 21 Oct",
+   "kind": "sheet",
+   "name": "bright_h3",
+   "asset_id": "f4ad60d6-123f-470b-982e-d165bef7bfe9",
+   "job_id": "9fa343c3-6a06-446e-832c-e0e59c859d49",
+   "reference": "9420462d-7c61-4a80-a2c0-a47e1f3ed91a",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "cells": [
+    "plaguesaint",
+    "frostwitch",
+    "demolitionist",
+    "executioner",
+    "pilgrim",
+    "beastmaster",
+    "clockmaker",
+    "minstrel",
+    "jester"
+   ],
+   "sha12": "93d9068979b4"
+  },
+  {
+   "label": "plaguesaint, from sheet bright_h3 cell 0",
+   "kind": "made",
+   "name": "plaguesaint",
+   "asset_id": "f4ad60d6-123f-470b-982e-d165bef7bfe9",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "30b67e048ba5"
+  },
+  {
+   "label": "frostwitch, from sheet bright_h3 cell 1",
+   "kind": "made",
+   "name": "frostwitch",
+   "asset_id": "f4ad60d6-123f-470b-982e-d165bef7bfe9",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "ac8713059350"
+  },
+  {
+   "label": "demolitionist, from sheet bright_h3 cell 2",
+   "kind": "made",
+   "name": "demolitionist",
+   "asset_id": "f4ad60d6-123f-470b-982e-d165bef7bfe9",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "75dd29ca0475"
+  },
+  {
+   "label": "executioner, from sheet bright_h3 cell 3",
+   "kind": "made",
+   "name": "executioner",
+   "asset_id": "f4ad60d6-123f-470b-982e-d165bef7bfe9",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "087b0e08f9fe"
+  },
+  {
+   "label": "pilgrim, from sheet bright_h3 cell 4",
+   "kind": "made",
+   "name": "pilgrim",
+   "asset_id": "f4ad60d6-123f-470b-982e-d165bef7bfe9",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "e4f89229fb35"
+  },
+  {
+   "label": "beastmaster, from sheet bright_h3 cell 5",
+   "kind": "made",
+   "name": "beastmaster",
+   "asset_id": "f4ad60d6-123f-470b-982e-d165bef7bfe9",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "b60abf6e25b6"
+  },
+  {
+   "label": "clockmaker, from sheet bright_h3 cell 6",
+   "kind": "made",
+   "name": "clockmaker",
+   "asset_id": "f4ad60d6-123f-470b-982e-d165bef7bfe9",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "27f4703ede3e"
+  },
+  {
+   "label": "minstrel, from sheet bright_h3 cell 7",
+   "kind": "made",
+   "name": "minstrel",
+   "asset_id": "f4ad60d6-123f-470b-982e-d165bef7bfe9",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "38827586277f"
+  },
+  {
+   "label": "jester, from sheet bright_h3 cell 8",
+   "kind": "made",
+   "name": "jester",
+   "asset_id": "f4ad60d6-123f-470b-982e-d165bef7bfe9",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "7f17c53ccefd"
+  },
+  {
+   "label": "hero sheet h4 in his bright look, 21 Oct",
+   "kind": "sheet",
+   "name": "bright_h4",
+   "asset_id": "8fdf6d43-ce88-4584-943c-a86cc1858490",
+   "job_id": "c38e7bc9-8a26-402a-b0e3-1923d23a6d64",
+   "reference": "19e0984f-5da7-4d23-ae33-10ba4d373220",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "cells": [
+    "berserker",
+    "forsaken",
+    "inkling_hero",
+    "mindwarden_hero",
+    "tavernknight_hero",
+    "trickshot_hero",
+    "bonecaller_hero",
+    "-",
+    "-"
+   ],
+   "sha12": "62b1f8505c7a"
+  },
+  {
+   "label": "berserker, from sheet bright_h4 cell 0",
+   "kind": "made",
+   "name": "berserker",
+   "asset_id": "8fdf6d43-ce88-4584-943c-a86cc1858490",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "2c154a7ca2b6"
+  },
+  {
+   "label": "forsaken, from sheet bright_h4 cell 1",
+   "kind": "made",
+   "name": "forsaken",
+   "asset_id": "8fdf6d43-ce88-4584-943c-a86cc1858490",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "1c2f6ceffee2"
+  },
+  {
+   "label": "inkling_hero, from sheet bright_h4 cell 2",
+   "kind": "made",
+   "name": "inkling_hero",
+   "asset_id": "8fdf6d43-ce88-4584-943c-a86cc1858490",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "719589eaa87c"
+  },
+  {
+   "label": "mindwarden_hero, from sheet bright_h4 cell 3",
+   "kind": "made",
+   "name": "mindwarden_hero",
+   "asset_id": "8fdf6d43-ce88-4584-943c-a86cc1858490",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "9deb9ec06f55"
+  },
+  {
+   "label": "tavernknight_hero, from sheet bright_h4 cell 4",
+   "kind": "made",
+   "name": "tavernknight_hero",
+   "asset_id": "8fdf6d43-ce88-4584-943c-a86cc1858490",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "12363f811ca5"
+  },
+  {
+   "label": "trickshot_hero, from sheet bright_h4 cell 5",
+   "kind": "made",
+   "name": "trickshot_hero",
+   "asset_id": "8fdf6d43-ce88-4584-943c-a86cc1858490",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "2495dba00c4e"
+  },
+  {
+   "label": "bonecaller_hero, from sheet bright_h4 cell 6",
+   "kind": "made",
+   "name": "bonecaller_hero",
+   "asset_id": "8fdf6d43-ce88-4584-943c-a86cc1858490",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "c87df2517b38"
+  },
+  {
+   "label": "guardian sheet g1 in his bright look (2K), 21 Oct",
+   "kind": "sheet",
+   "name": "bright_g1",
+   "asset_id": "3d55f5d8-7318-4387-8e32-b55fcaa523ee",
+   "job_id": "b8cbc73d-bdb1-4e23-91dd-d9097004dfd4",
+   "reference": "bfe3dd1f-b89a-4dd1-8773-a97a57c0cb21",
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 18,
+   "cells": [
+    "colossus",
+    "sporemother",
+    "librarian",
+    "tyrant",
+    "rimewarden",
+    "regent",
+    "bogmatriarch",
+    "ashwarlord",
+    "frozenabbot"
+   ],
+   "sha12": "30a80d7cdb27"
+  },
+  {
+   "label": "colossus, from sheet bright_g1 cell 0",
+   "kind": "made",
+   "name": "colossus",
+   "asset_id": "3d55f5d8-7318-4387-8e32-b55fcaa523ee",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "40d828729fe7"
+  },
+  {
+   "label": "sporemother, from sheet bright_g1 cell 1",
+   "kind": "made",
+   "name": "sporemother",
+   "asset_id": "3d55f5d8-7318-4387-8e32-b55fcaa523ee",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "c428c2639b8e"
+  },
+  {
+   "label": "librarian, from sheet bright_g1 cell 2",
+   "kind": "made",
+   "name": "librarian",
+   "asset_id": "3d55f5d8-7318-4387-8e32-b55fcaa523ee",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "3f1a65228390"
+  },
+  {
+   "label": "tyrant, from sheet bright_g1 cell 3",
+   "kind": "made",
+   "name": "tyrant",
+   "asset_id": "3d55f5d8-7318-4387-8e32-b55fcaa523ee",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "72deff42e9a5"
+  },
+  {
+   "label": "rimewarden, from sheet bright_g1 cell 4",
+   "kind": "made",
+   "name": "rimewarden",
+   "asset_id": "3d55f5d8-7318-4387-8e32-b55fcaa523ee",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "c4265b48841f"
+  },
+  {
+   "label": "regent, from sheet bright_g1 cell 5",
+   "kind": "made",
+   "name": "regent",
+   "asset_id": "3d55f5d8-7318-4387-8e32-b55fcaa523ee",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "6c116ca63e7d"
+  },
+  {
+   "label": "bogmatriarch, from sheet bright_g1 cell 6",
+   "kind": "made",
+   "name": "bogmatriarch",
+   "asset_id": "3d55f5d8-7318-4387-8e32-b55fcaa523ee",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "59bb99056f1b"
+  },
+  {
+   "label": "ashwarlord, from sheet bright_g1 cell 7",
+   "kind": "made",
+   "name": "ashwarlord",
+   "asset_id": "3d55f5d8-7318-4387-8e32-b55fcaa523ee",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "ceed767ca8e5"
+  },
+  {
+   "label": "frozenabbot, from sheet bright_g1 cell 8",
+   "kind": "made",
+   "name": "frozenabbot",
+   "asset_id": "3d55f5d8-7318-4387-8e32-b55fcaa523ee",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "5fb42bc97dde"
+  },
+  {
+   "label": "hero sheet h2 in his bright look, 21 Oct",
+   "kind": "sheet",
+   "name": "bright_h2",
+   "asset_id": "dea05059-dfac-4f2a-9f90-5099d61feb2f",
+   "job_id": "2ddeb8e6-25f5-4793-9d09-2da05ea54602",
+   "reference": "c4782d76-be5e-4d5b-81ff-64dba04cf2e9",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "cells": [
+    "wayfarer",
+    "racketeer",
+    "condemned",
+    "cartomancer",
+    "sellsword",
+    "beekeeper",
+    "tinkerer",
+    "boneweaver",
+    "mirrorknight"
+   ],
+   "sha12": "00adfc35495c"
+  },
+  {
+   "label": "wayfarer, from sheet bright_h2 cell 0",
+   "kind": "made",
+   "name": "wayfarer",
+   "asset_id": "dea05059-dfac-4f2a-9f90-5099d61feb2f",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "36d305fd17e7"
+  },
+  {
+   "label": "racketeer, from sheet bright_h2 cell 1",
+   "kind": "made",
+   "name": "racketeer",
+   "asset_id": "dea05059-dfac-4f2a-9f90-5099d61feb2f",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "e79b676f9eff"
+  },
+  {
+   "label": "condemned, from sheet bright_h2 cell 2",
+   "kind": "made",
+   "name": "condemned",
+   "asset_id": "dea05059-dfac-4f2a-9f90-5099d61feb2f",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "ef396c68a580"
+  },
+  {
+   "label": "cartomancer, from sheet bright_h2 cell 3",
+   "kind": "made",
+   "name": "cartomancer",
+   "asset_id": "dea05059-dfac-4f2a-9f90-5099d61feb2f",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "08a9e0e626bc"
+  },
+  {
+   "label": "sellsword, from sheet bright_h2 cell 4",
+   "kind": "made",
+   "name": "sellsword",
+   "asset_id": "dea05059-dfac-4f2a-9f90-5099d61feb2f",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "5161ef95ba5b"
+  },
+  {
+   "label": "beekeeper, from sheet bright_h2 cell 5",
+   "kind": "made",
+   "name": "beekeeper",
+   "asset_id": "dea05059-dfac-4f2a-9f90-5099d61feb2f",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "f782f2ea1af7"
+  },
+  {
+   "label": "tinkerer, from sheet bright_h2 cell 6",
+   "kind": "made",
+   "name": "tinkerer",
+   "asset_id": "dea05059-dfac-4f2a-9f90-5099d61feb2f",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "24cd0da34d4d"
+  },
+  {
+   "label": "boneweaver, from sheet bright_h2 cell 7",
+   "kind": "made",
+   "name": "boneweaver",
+   "asset_id": "dea05059-dfac-4f2a-9f90-5099d61feb2f",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "bccca37feb28"
+  },
+  {
+   "label": "mirrorknight, from sheet bright_h2 cell 8",
+   "kind": "made",
+   "name": "mirrorknight",
+   "asset_id": "dea05059-dfac-4f2a-9f90-5099d61feb2f",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "e071262604cd"
   }
  ]
 }
