@@ -199,3 +199,71 @@ session.
   not files, so nothing can be cut from them yet. Asked for the files and where they come from
   (rule 3). Two of them look like well-known D&D monsters: leave those out.
 - **To finish floor 1:** the other 32 heroes (384 credits). Then the engine step and the IPA.
+
+## 21 Oct: sheets of 9, and then his bright look
+
+- **Sheets of 9 (cheap and the layout holds).**
+  - `tools/sheet_ref.py OUT COLS [--fill] NAMES`: today's sprites enlarged in a 3 x 3 grid, uploaded
+    as the reference. `--fill` enlarges each one to fill its cell (guardians).
+  - `tools/sheet_view.py`: the same grid with names, to write the prompt's hints from (never
+    uploaded). Hints written from a picture without names went to the wrong cells once.
+  - The prompt names every cell, row by row: "Top row, left to right: the Hexer, a purple hooded
+    witch ...". `smart_crop=false`, so the grid survives.
+  - `tools/sheet_add.py SHEET ASSET JOB REF MODEL CREDITS 3x3 LABEL NAMES`: one step for a
+    downloaded sheet. It goes into the manifest, is cut (`sheet_cut.py`: each solid piece belongs
+    to the cell its middle is in; a piece running over a grid line is cut at its thinnest line
+    there), each cell becomes the "made" picture of its name, and is fitted.
+- **First pass (gritty):** GPT-Image-2 low, 2 credits a sheet: the 34 heroes, 44 guardians and
+  the specials' poses, 31 champions, 14 props. Kept as alternatives:
+  `spritecook/gritty/`, `spritecook/sheets/gritty/`.
+- **His new word (21 Oct, evening):** "i want this vibe in all my sprites please do it", with a
+  picture of a bright, clean, colourful monster sheet. That look replaces the gritty one.
+  - Rule 3: only its look is used, never its monsters. The picture is a SpriteCook style guide
+    (in the manifest); it stays out of the repo because we don't know where it is from.
+- **GPT-Image-2 was down.** Every job failed with "This request could not be processed", even a
+  plain apple. Failed jobs are refunded. So these sheets are **Nano Banana 2.1**: 12 credits a
+  sheet, 18 at 2K. Its look is very close to his picture.
+- **Done in his look (sheets `spritecook/sheets/bright_*.png`):**
+  - heroes h1 to h4 (34);
+  - guardians g1 to g4 (36, at 2K) and the specials s1, s2 (15 poses);
+  - champions c1 to c4 (31);
+  - props p1 to p3 (14).
+  - Review sheets: `sheets/review-heroes.png`, `-guardians`, `-guardians-big`,
+    `-special-guardians`, `-champions`, `-guardian-props`.
+- **What Nano Banana does:**
+  - It draws a person about 74 px tall and a guardian about 85 px, at 1K or 2K, on a 3 x 3 or a
+    2 x 2 sheet alike. Asking for bigger did not work (two tries, kept as "rejected").
+  - Its first specials sheet came out coarse with a faceless Seraph: redone with the s2 sheet
+    (Sefe drawn right) as the style image.
+  - Long things lying flat (the stick sword, the fetch stick) came out on a slant: redrawn alone,
+    side by side on a 16:9 sheet, "lying perfectly flat".
+- **Density** (`spritecook_fit.density`): 4 for the guardians drawn at twice size (64 x 64), 2 for
+  the rest. A drawing under three quarters of double size stays at 1, the old size: the potato
+  crate and Sefe's long cigarette. Sefe, the Prophet and running ARCI are 82 to 94% of double size,
+  so they show a little smaller.
+  - The only limit on 4 is the atlas's 96 px height (`Img.ATLAS_MAX_H`; widths up to 1024 pass).
+  - "Big enough" is measured on the drawing's longer side after the fit: today's stage pictures
+    are often wider (wings spread sideways), and the old rule (longest sides compared) dropped
+    37 stage pictures to 2 while their stage 1 was at 4.
+  - Left at 2: the Bilge Hydra's stages 2 and 3 (over 96 px tall at 4) and the Author's stage 3.
+- **Stages 2 and 3 (20 sheets, Nano Banana 2.1).**
+  - Reference: today's stage sheet (`stage_*`, in the manifest). First style image: the new
+    stage-1 sheet, so the design stays; the second: his picture.
+  - The prompt: "the same bosses as in the first style image, in the same places and with the
+    same design, now in their second, angrier stage exactly as the reference sheet shows it.
+    Keep every change the reference shows: the extra horns, spikes, wings, crowns, flames,
+    cracks, glowing eyes, new colours" (stage 3 adds "glowing aura rims").
+  - The specials' changes are named one by one: Rex's party hat and bandana, then his crown and
+    throne; ARCI's sunglasses, then a gold rim; Sefe's crown and chain, then a green rim and red
+    eyes; the Prophet's burning END! sign, then THE END.
+  - `tools/stage_review.py`: each one at stage 1, 2 and 3 side by side
+    (`sheets/review-guardian-stages-1`, `-2`, `-big`, `review-special-stages`,
+    `review-champion-stages`).
+  - The Reader (a big face) becomes a small winged, crowned figure in stages 2 and 3, as today's
+    stage pictures suggest. Kept.
+- **Credits:** 2775 before his look; 2151 after every hero, guardian, champion and prop, and
+  all their stages (624 spent, 66 of them on four tries kept as "rejected").
+- **Next:**
+  1. The elites: made from the new pictures (gold outline, darker), no credits.
+  2. Then his order: environments, foes (182), weapons and effects.
+  3. Then the engine's double detail and IPA 59.1.

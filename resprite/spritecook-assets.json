@@ -3982,6 +3982,2226 @@
    "model": "gemini-nano-banana-2.1 2K",
    "credits": 18,
    "sha12": null
+  },
+  {
+   "label": "reference: today's stage 2 pictures of sheet S2, in the same places, enlarged",
+   "kind": "reference",
+   "name": "stage_S2_s2",
+   "asset_id": "a1b69f95-5de3-4c67-8c4d-9cbbbfc2d78d",
+   "sha12": null
+  },
+  {
+   "label": "reference: today's stage 3 pictures of sheet S2, in the same places, enlarged",
+   "kind": "reference",
+   "name": "stage_S2_s3",
+   "asset_id": "693edb3b-9fc9-4065-a275-7f9281aef4d6",
+   "sha12": null
+  },
+  {
+   "label": "reference: today's stage 2 pictures of sheet C1, in the same places, enlarged",
+   "kind": "reference",
+   "name": "stage_C1_s2",
+   "asset_id": "8d68ca73-9e17-4e0a-803b-e91c76bd5e6d",
+   "sha12": null
+  },
+  {
+   "label": "reference: today's stage 3 pictures of sheet C1, in the same places, enlarged",
+   "kind": "reference",
+   "name": "stage_C1_s3",
+   "asset_id": "03c0c506-1de1-4c82-a370-f08fdf208652",
+   "sha12": null
+  },
+  {
+   "label": "reference: today's stage 2 pictures of sheet C2, in the same places, enlarged",
+   "kind": "reference",
+   "name": "stage_C2_s2",
+   "asset_id": "19b15099-f6b2-423d-b9e7-a66b174b1bd5",
+   "sha12": null
+  },
+  {
+   "label": "reference: today's stage 3 pictures of sheet C2, in the same places, enlarged",
+   "kind": "reference",
+   "name": "stage_C2_s3",
+   "asset_id": "5a7c79db-e3f7-40cd-93ad-34c01948849e",
+   "sha12": null
+  },
+  {
+   "label": "reference: today's stage 2 pictures of sheet C3, in the same places, enlarged",
+   "kind": "reference",
+   "name": "stage_C3_s2",
+   "asset_id": "ed24de23-b481-4202-813b-f75f50f3ff90",
+   "sha12": null
+  },
+  {
+   "label": "reference: today's stage 3 pictures of sheet C3, in the same places, enlarged",
+   "kind": "reference",
+   "name": "stage_C3_s3",
+   "asset_id": "4d3d18d5-085c-4fb1-bde1-f6f761241b20",
+   "sha12": null
+  },
+  {
+   "label": "reference: today's stage 2 pictures of sheet C4, in the same places, enlarged",
+   "kind": "reference",
+   "name": "stage_C4_s2",
+   "asset_id": "d597fc50-c5a7-45ab-b77f-102c5c7f9a59",
+   "sha12": null
+  },
+  {
+   "label": "reference: today's stage 3 pictures of sheet C4, in the same places, enlarged",
+   "kind": "reference",
+   "name": "stage_C4_s3",
+   "asset_id": "27f8a488-65e0-49eb-92ca-2e7cae8dbb04",
+   "sha12": null
+  },
+  {
+   "label": "reference: today's stage 2 pictures of sheet G1, in the same places, enlarged",
+   "kind": "reference",
+   "name": "stage_G1_s2",
+   "asset_id": "89e56334-4b21-44c2-846f-ffe041a21a59",
+   "sha12": null
+  },
+  {
+   "label": "reference: today's stage 3 pictures of sheet G1, in the same places, enlarged",
+   "kind": "reference",
+   "name": "stage_G1_s3",
+   "asset_id": "656bfb54-7831-409c-8a0a-5dbcc7ccdf86",
+   "sha12": null
+  },
+  {
+   "label": "reference: today's stage 2 pictures of sheet G2, in the same places, enlarged",
+   "kind": "reference",
+   "name": "stage_G2_s2",
+   "asset_id": "4aa07704-66db-44c2-b425-a37a648f0871",
+   "sha12": null
+  },
+  {
+   "label": "reference: today's stage 3 pictures of sheet G2, in the same places, enlarged",
+   "kind": "reference",
+   "name": "stage_G2_s3",
+   "asset_id": "af290ba1-b27d-4249-bea3-d3b937b4882b",
+   "sha12": null
+  },
+  {
+   "label": "reference: today's stage 2 pictures of sheet G3, in the same places, enlarged",
+   "kind": "reference",
+   "name": "stage_G3_s2",
+   "asset_id": "2dfb6c9a-eed8-40d6-99c5-d87719bde651",
+   "sha12": null
+  },
+  {
+   "label": "reference: today's stage 3 pictures of sheet G3, in the same places, enlarged",
+   "kind": "reference",
+   "name": "stage_G3_s3",
+   "asset_id": "74f64106-ae80-4424-b7a8-2fa829f8f5dc",
+   "sha12": null
+  },
+  {
+   "label": "reference: today's stage 2 pictures of sheet G4, in the same places, enlarged",
+   "kind": "reference",
+   "name": "stage_G4_s2",
+   "asset_id": "5fa94afb-2188-4b12-b54c-e3cb4cef5cb3",
+   "sha12": null
+  },
+  {
+   "label": "reference: today's stage 3 pictures of sheet G4, in the same places, enlarged",
+   "kind": "reference",
+   "name": "stage_G4_s3",
+   "asset_id": "7116ba57-2f4a-4043-a17d-b9d09efcac02",
+   "sha12": null
+  },
+  {
+   "label": "reference: today's stage 2 pictures of sheet S1, in the same places, enlarged",
+   "kind": "reference",
+   "name": "stage_S1_s2",
+   "asset_id": "261ed2c9-4872-468c-89ab-4b1fcd6d3720",
+   "sha12": null
+  },
+  {
+   "label": "reference: today's stage 3 pictures of sheet S1, in the same places, enlarged",
+   "kind": "reference",
+   "name": "stage_S1_s3",
+   "asset_id": "5e63d6d9-50a1-4d2c-988a-24bced071c83",
+   "sha12": null
+  },
+  {
+   "label": "guardian sheet g1, stage 2, in his bright look (2K), 21 Oct",
+   "kind": "sheet",
+   "name": "bright_g1_s2",
+   "asset_id": "9609cd26-d28c-4d35-9784-d2655fd668e0",
+   "job_id": "058b1548-ee57-4478-a227-501dcde815d5",
+   "reference": "89e56334-4b21-44c2-846f-ffe041a21a59",
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 18,
+   "cells": [
+    "colossus_s2",
+    "sporemother_s2",
+    "librarian_s2",
+    "tyrant_s2",
+    "rimewarden_s2",
+    "regent_s2",
+    "bogmatriarch_s2",
+    "ashwarlord_s2",
+    "frozenabbot_s2"
+   ],
+   "sha12": "457db3e72fe6"
+  },
+  {
+   "label": "colossus_s2, from sheet bright_g1_s2 cell 0",
+   "kind": "made",
+   "name": "colossus_s2",
+   "asset_id": "9609cd26-d28c-4d35-9784-d2655fd668e0",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "204e71e4e57c"
+  },
+  {
+   "label": "sporemother_s2, from sheet bright_g1_s2 cell 1",
+   "kind": "made",
+   "name": "sporemother_s2",
+   "asset_id": "9609cd26-d28c-4d35-9784-d2655fd668e0",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "d698ddb07961"
+  },
+  {
+   "label": "librarian_s2, from sheet bright_g1_s2 cell 2",
+   "kind": "made",
+   "name": "librarian_s2",
+   "asset_id": "9609cd26-d28c-4d35-9784-d2655fd668e0",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "a1a9ed4ed161"
+  },
+  {
+   "label": "tyrant_s2, from sheet bright_g1_s2 cell 3",
+   "kind": "made",
+   "name": "tyrant_s2",
+   "asset_id": "9609cd26-d28c-4d35-9784-d2655fd668e0",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "26059b5bd45c"
+  },
+  {
+   "label": "rimewarden_s2, from sheet bright_g1_s2 cell 4",
+   "kind": "made",
+   "name": "rimewarden_s2",
+   "asset_id": "9609cd26-d28c-4d35-9784-d2655fd668e0",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "207211631827"
+  },
+  {
+   "label": "regent_s2, from sheet bright_g1_s2 cell 5",
+   "kind": "made",
+   "name": "regent_s2",
+   "asset_id": "9609cd26-d28c-4d35-9784-d2655fd668e0",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "7e47e85cea79"
+  },
+  {
+   "label": "bogmatriarch_s2, from sheet bright_g1_s2 cell 6",
+   "kind": "made",
+   "name": "bogmatriarch_s2",
+   "asset_id": "9609cd26-d28c-4d35-9784-d2655fd668e0",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "048e4aa1d50b"
+  },
+  {
+   "label": "ashwarlord_s2, from sheet bright_g1_s2 cell 7",
+   "kind": "made",
+   "name": "ashwarlord_s2",
+   "asset_id": "9609cd26-d28c-4d35-9784-d2655fd668e0",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "a32d942f544f"
+  },
+  {
+   "label": "frozenabbot_s2, from sheet bright_g1_s2 cell 8",
+   "kind": "made",
+   "name": "frozenabbot_s2",
+   "asset_id": "9609cd26-d28c-4d35-9784-d2655fd668e0",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "9536311357b3"
+  },
+  {
+   "label": "special guardian sheet s1, stage 2, in his bright look (2K), 21 Oct",
+   "kind": "sheet",
+   "name": "bright_s1_s2",
+   "asset_id": "83c02145-14a4-4fc9-9027-1bdc7a575924",
+   "job_id": "3216564d-cdac-441a-bd6c-bdd19dc3fb9c",
+   "reference": "261ed2c9-4872-468c-89ab-4b1fcd6d3720",
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 18,
+   "cells": [
+    "seraph_s2",
+    "rex_s2",
+    "rex_lie_s2",
+    "arci_s2",
+    "arci_lie_s2",
+    "arci_run_s2",
+    "sefe_s2",
+    "sefe_drink_s2",
+    "sefe_out_s2"
+   ],
+   "sha12": "fa88dc34cc51"
+  },
+  {
+   "label": "seraph_s2, from sheet bright_s1_s2 cell 0",
+   "kind": "made",
+   "name": "seraph_s2",
+   "asset_id": "83c02145-14a4-4fc9-9027-1bdc7a575924",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "671cfa98ff9d"
+  },
+  {
+   "label": "rex_s2, from sheet bright_s1_s2 cell 1",
+   "kind": "made",
+   "name": "rex_s2",
+   "asset_id": "83c02145-14a4-4fc9-9027-1bdc7a575924",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "530a99de6186"
+  },
+  {
+   "label": "rex_lie_s2, from sheet bright_s1_s2 cell 2",
+   "kind": "made",
+   "name": "rex_lie_s2",
+   "asset_id": "83c02145-14a4-4fc9-9027-1bdc7a575924",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "dff0e8ed519c"
+  },
+  {
+   "label": "arci_s2, from sheet bright_s1_s2 cell 3",
+   "kind": "made",
+   "name": "arci_s2",
+   "asset_id": "83c02145-14a4-4fc9-9027-1bdc7a575924",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "211012d13954"
+  },
+  {
+   "label": "arci_lie_s2, from sheet bright_s1_s2 cell 4",
+   "kind": "made",
+   "name": "arci_lie_s2",
+   "asset_id": "83c02145-14a4-4fc9-9027-1bdc7a575924",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "6e6ef403cfcf"
+  },
+  {
+   "label": "arci_run_s2, from sheet bright_s1_s2 cell 5",
+   "kind": "made",
+   "name": "arci_run_s2",
+   "asset_id": "83c02145-14a4-4fc9-9027-1bdc7a575924",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "c7ec1a2736e8"
+  },
+  {
+   "label": "sefe_s2, from sheet bright_s1_s2 cell 6",
+   "kind": "made",
+   "name": "sefe_s2",
+   "asset_id": "83c02145-14a4-4fc9-9027-1bdc7a575924",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "0b33a7a90921"
+  },
+  {
+   "label": "sefe_drink_s2, from sheet bright_s1_s2 cell 7",
+   "kind": "made",
+   "name": "sefe_drink_s2",
+   "asset_id": "83c02145-14a4-4fc9-9027-1bdc7a575924",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "0b508965b921"
+  },
+  {
+   "label": "sefe_out_s2, from sheet bright_s1_s2 cell 8",
+   "kind": "made",
+   "name": "sefe_out_s2",
+   "asset_id": "83c02145-14a4-4fc9-9027-1bdc7a575924",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "f35b5864aad6"
+  },
+  {
+   "label": "guardian sheet g1, stage 3, in his bright look (2K), 21 Oct",
+   "kind": "sheet",
+   "name": "bright_g1_s3",
+   "asset_id": "0a92ed7a-0f2d-472c-893e-0db6ba4f4335",
+   "job_id": "857350af-d470-4d2b-947b-c9806c89a1eb",
+   "reference": "656bfb54-7831-409c-8a0a-5dbcc7ccdf86",
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 18,
+   "cells": [
+    "colossus_s3",
+    "sporemother_s3",
+    "librarian_s3",
+    "tyrant_s3",
+    "rimewarden_s3",
+    "regent_s3",
+    "bogmatriarch_s3",
+    "ashwarlord_s3",
+    "frozenabbot_s3"
+   ],
+   "sha12": "25a56dc6028f"
+  },
+  {
+   "label": "colossus_s3, from sheet bright_g1_s3 cell 0",
+   "kind": "made",
+   "name": "colossus_s3",
+   "asset_id": "0a92ed7a-0f2d-472c-893e-0db6ba4f4335",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "1305e9ff1303"
+  },
+  {
+   "label": "sporemother_s3, from sheet bright_g1_s3 cell 1",
+   "kind": "made",
+   "name": "sporemother_s3",
+   "asset_id": "0a92ed7a-0f2d-472c-893e-0db6ba4f4335",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "744160645178"
+  },
+  {
+   "label": "librarian_s3, from sheet bright_g1_s3 cell 2",
+   "kind": "made",
+   "name": "librarian_s3",
+   "asset_id": "0a92ed7a-0f2d-472c-893e-0db6ba4f4335",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "1f45a1e74f5e"
+  },
+  {
+   "label": "tyrant_s3, from sheet bright_g1_s3 cell 3",
+   "kind": "made",
+   "name": "tyrant_s3",
+   "asset_id": "0a92ed7a-0f2d-472c-893e-0db6ba4f4335",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "7bcf1dc00266"
+  },
+  {
+   "label": "rimewarden_s3, from sheet bright_g1_s3 cell 4",
+   "kind": "made",
+   "name": "rimewarden_s3",
+   "asset_id": "0a92ed7a-0f2d-472c-893e-0db6ba4f4335",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "86521bb85b36"
+  },
+  {
+   "label": "regent_s3, from sheet bright_g1_s3 cell 5",
+   "kind": "made",
+   "name": "regent_s3",
+   "asset_id": "0a92ed7a-0f2d-472c-893e-0db6ba4f4335",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "772bd7b5c1c3"
+  },
+  {
+   "label": "bogmatriarch_s3, from sheet bright_g1_s3 cell 6",
+   "kind": "made",
+   "name": "bogmatriarch_s3",
+   "asset_id": "0a92ed7a-0f2d-472c-893e-0db6ba4f4335",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "764679adad6a"
+  },
+  {
+   "label": "ashwarlord_s3, from sheet bright_g1_s3 cell 7",
+   "kind": "made",
+   "name": "ashwarlord_s3",
+   "asset_id": "0a92ed7a-0f2d-472c-893e-0db6ba4f4335",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "6f95dfda568e"
+  },
+  {
+   "label": "frozenabbot_s3, from sheet bright_g1_s3 cell 8",
+   "kind": "made",
+   "name": "frozenabbot_s3",
+   "asset_id": "0a92ed7a-0f2d-472c-893e-0db6ba4f4335",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "29914a2c1a1a"
+  },
+  {
+   "label": "guardian sheet g2, stage 2, in his bright look (2K), 21 Oct",
+   "kind": "sheet",
+   "name": "bright_g2_s2",
+   "asset_id": "12ff35e9-0e3c-467c-88af-b360cc4be3b9",
+   "job_id": "64b0e5d2-3d11-41ba-b6c0-8e2c7358f4b0",
+   "reference": "4aa07704-66db-44c2-b425-a37a648f0871",
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 18,
+   "cells": [
+    "crowking_s2",
+    "umbralsun_s2",
+    "holycow_s2",
+    "judge_s2",
+    "cinderking_s2",
+    "unwritten_s2",
+    "stormcrown_s2",
+    "bilgehydra_s2",
+    "brassorgan_s2"
+   ],
+   "sha12": "1efc9216b588"
+  },
+  {
+   "label": "crowking_s2, from sheet bright_g2_s2 cell 0",
+   "kind": "made",
+   "name": "crowking_s2",
+   "asset_id": "12ff35e9-0e3c-467c-88af-b360cc4be3b9",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "986bc04b7d33"
+  },
+  {
+   "label": "umbralsun_s2, from sheet bright_g2_s2 cell 1",
+   "kind": "made",
+   "name": "umbralsun_s2",
+   "asset_id": "12ff35e9-0e3c-467c-88af-b360cc4be3b9",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "c066471e4dfb"
+  },
+  {
+   "label": "holycow_s2, from sheet bright_g2_s2 cell 2",
+   "kind": "made",
+   "name": "holycow_s2",
+   "asset_id": "12ff35e9-0e3c-467c-88af-b360cc4be3b9",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "91d7318761d3"
+  },
+  {
+   "label": "judge_s2, from sheet bright_g2_s2 cell 3",
+   "kind": "made",
+   "name": "judge_s2",
+   "asset_id": "12ff35e9-0e3c-467c-88af-b360cc4be3b9",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "b87897a302bd"
+  },
+  {
+   "label": "cinderking_s2, from sheet bright_g2_s2 cell 4",
+   "kind": "made",
+   "name": "cinderking_s2",
+   "asset_id": "12ff35e9-0e3c-467c-88af-b360cc4be3b9",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "e7688bf568b3"
+  },
+  {
+   "label": "unwritten_s2, from sheet bright_g2_s2 cell 5",
+   "kind": "made",
+   "name": "unwritten_s2",
+   "asset_id": "12ff35e9-0e3c-467c-88af-b360cc4be3b9",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "f49544163031"
+  },
+  {
+   "label": "stormcrown_s2, from sheet bright_g2_s2 cell 6",
+   "kind": "made",
+   "name": "stormcrown_s2",
+   "asset_id": "12ff35e9-0e3c-467c-88af-b360cc4be3b9",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "86070ddcfd33"
+  },
+  {
+   "label": "bilgehydra_s2, from sheet bright_g2_s2 cell 7",
+   "kind": "made",
+   "name": "bilgehydra_s2",
+   "asset_id": "12ff35e9-0e3c-467c-88af-b360cc4be3b9",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "1aae3102a6ee"
+  },
+  {
+   "label": "brassorgan_s2, from sheet bright_g2_s2 cell 8",
+   "kind": "made",
+   "name": "brassorgan_s2",
+   "asset_id": "12ff35e9-0e3c-467c-88af-b360cc4be3b9",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "547c30b9ab6b"
+  },
+  {
+   "label": "guardian sheet g2, stage 3, in his bright look (2K), 21 Oct",
+   "kind": "sheet",
+   "name": "bright_g2_s3",
+   "asset_id": "f55865e2-9876-48d9-b62a-9ad758f71645",
+   "job_id": "0ab2964c-351a-4afd-aca3-59befca98eda",
+   "reference": "af290ba1-b27d-4249-bea3-d3b937b4882b",
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 18,
+   "cells": [
+    "crowking_s3",
+    "umbralsun_s3",
+    "holycow_s3",
+    "judge_s3",
+    "cinderking_s3",
+    "unwritten_s3",
+    "stormcrown_s3",
+    "bilgehydra_s3",
+    "brassorgan_s3"
+   ],
+   "sha12": "c7a8ff76b015"
+  },
+  {
+   "label": "crowking_s3, from sheet bright_g2_s3 cell 0",
+   "kind": "made",
+   "name": "crowking_s3",
+   "asset_id": "f55865e2-9876-48d9-b62a-9ad758f71645",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "6b10dc707068"
+  },
+  {
+   "label": "umbralsun_s3, from sheet bright_g2_s3 cell 1",
+   "kind": "made",
+   "name": "umbralsun_s3",
+   "asset_id": "f55865e2-9876-48d9-b62a-9ad758f71645",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "45a16ddbc6a6"
+  },
+  {
+   "label": "holycow_s3, from sheet bright_g2_s3 cell 2",
+   "kind": "made",
+   "name": "holycow_s3",
+   "asset_id": "f55865e2-9876-48d9-b62a-9ad758f71645",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "2e0a9cffedd9"
+  },
+  {
+   "label": "judge_s3, from sheet bright_g2_s3 cell 3",
+   "kind": "made",
+   "name": "judge_s3",
+   "asset_id": "f55865e2-9876-48d9-b62a-9ad758f71645",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "ec0c171dd561"
+  },
+  {
+   "label": "cinderking_s3, from sheet bright_g2_s3 cell 4",
+   "kind": "made",
+   "name": "cinderking_s3",
+   "asset_id": "f55865e2-9876-48d9-b62a-9ad758f71645",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "4a6f01ce9505"
+  },
+  {
+   "label": "unwritten_s3, from sheet bright_g2_s3 cell 5",
+   "kind": "made",
+   "name": "unwritten_s3",
+   "asset_id": "f55865e2-9876-48d9-b62a-9ad758f71645",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "96bb708227b0"
+  },
+  {
+   "label": "stormcrown_s3, from sheet bright_g2_s3 cell 6",
+   "kind": "made",
+   "name": "stormcrown_s3",
+   "asset_id": "f55865e2-9876-48d9-b62a-9ad758f71645",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "8d607fbc2070"
+  },
+  {
+   "label": "bilgehydra_s3, from sheet bright_g2_s3 cell 7",
+   "kind": "made",
+   "name": "bilgehydra_s3",
+   "asset_id": "f55865e2-9876-48d9-b62a-9ad758f71645",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "aea70cf1bda0"
+  },
+  {
+   "label": "brassorgan_s3, from sheet bright_g2_s3 cell 8",
+   "kind": "made",
+   "name": "brassorgan_s3",
+   "asset_id": "f55865e2-9876-48d9-b62a-9ad758f71645",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "fff9776f2a6b"
+  },
+  {
+   "label": "guardian sheet g3, stage 2, in his bright look (2K), 21 Oct",
+   "kind": "sheet",
+   "name": "bright_g3_s2",
+   "asset_id": "6312b911-dad2-4599-921a-2c039a948924",
+   "job_id": "ca7fb474-f011-4cde-8f28-29cad37c9fa9",
+   "reference": "2dfb6c9a-eed8-40d6-99c5-d87719bde651",
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 18,
+   "cells": [
+    "greatengine_s2",
+    "glacialmaw_s2",
+    "inkleviathan_s2",
+    "thebinder_s2",
+    "author_s2",
+    "redactor_s2",
+    "lexicon_s2",
+    "erratum_s2",
+    "reader_s2"
+   ],
+   "sha12": "a94349e143b2"
+  },
+  {
+   "label": "greatengine_s2, from sheet bright_g3_s2 cell 0",
+   "kind": "made",
+   "name": "greatengine_s2",
+   "asset_id": "6312b911-dad2-4599-921a-2c039a948924",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "0aba0e6935c4"
+  },
+  {
+   "label": "glacialmaw_s2, from sheet bright_g3_s2 cell 1",
+   "kind": "made",
+   "name": "glacialmaw_s2",
+   "asset_id": "6312b911-dad2-4599-921a-2c039a948924",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "8d3c66971ce7"
+  },
+  {
+   "label": "inkleviathan_s2, from sheet bright_g3_s2 cell 2",
+   "kind": "made",
+   "name": "inkleviathan_s2",
+   "asset_id": "6312b911-dad2-4599-921a-2c039a948924",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "dd1289491e30"
+  },
+  {
+   "label": "thebinder_s2, from sheet bright_g3_s2 cell 3",
+   "kind": "made",
+   "name": "thebinder_s2",
+   "asset_id": "6312b911-dad2-4599-921a-2c039a948924",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "3e49be1ee450"
+  },
+  {
+   "label": "author_s2, from sheet bright_g3_s2 cell 4",
+   "kind": "made",
+   "name": "author_s2",
+   "asset_id": "6312b911-dad2-4599-921a-2c039a948924",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "406bc8165928"
+  },
+  {
+   "label": "redactor_s2, from sheet bright_g3_s2 cell 5",
+   "kind": "made",
+   "name": "redactor_s2",
+   "asset_id": "6312b911-dad2-4599-921a-2c039a948924",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "35a4362cc133"
+  },
+  {
+   "label": "lexicon_s2, from sheet bright_g3_s2 cell 6",
+   "kind": "made",
+   "name": "lexicon_s2",
+   "asset_id": "6312b911-dad2-4599-921a-2c039a948924",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "5aac0e12ebfe"
+  },
+  {
+   "label": "erratum_s2, from sheet bright_g3_s2 cell 7",
+   "kind": "made",
+   "name": "erratum_s2",
+   "asset_id": "6312b911-dad2-4599-921a-2c039a948924",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "1fe0e81eaac0"
+  },
+  {
+   "label": "reader_s2, from sheet bright_g3_s2 cell 8",
+   "kind": "made",
+   "name": "reader_s2",
+   "asset_id": "6312b911-dad2-4599-921a-2c039a948924",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "a7d202da2585"
+  },
+  {
+   "label": "guardian sheet g3, stage 3, in his bright look (2K), 21 Oct",
+   "kind": "sheet",
+   "name": "bright_g3_s3",
+   "asset_id": "915d8858-40cd-4db8-9c9c-d5c915810183",
+   "job_id": "f75217ff-452b-4e37-b613-95a0d54ccdb8",
+   "reference": "74f64106-ae80-4424-b7a8-2fa829f8f5dc",
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 18,
+   "cells": [
+    "greatengine_s3",
+    "glacialmaw_s3",
+    "inkleviathan_s3",
+    "thebinder_s3",
+    "author_s3",
+    "redactor_s3",
+    "lexicon_s3",
+    "erratum_s3",
+    "reader_s3"
+   ],
+   "sha12": "7ec92ca131a8"
+  },
+  {
+   "label": "greatengine_s3, from sheet bright_g3_s3 cell 0",
+   "kind": "made",
+   "name": "greatengine_s3",
+   "asset_id": "915d8858-40cd-4db8-9c9c-d5c915810183",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "45907fc93438"
+  },
+  {
+   "label": "glacialmaw_s3, from sheet bright_g3_s3 cell 1",
+   "kind": "made",
+   "name": "glacialmaw_s3",
+   "asset_id": "915d8858-40cd-4db8-9c9c-d5c915810183",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "317746dfa9c4"
+  },
+  {
+   "label": "inkleviathan_s3, from sheet bright_g3_s3 cell 2",
+   "kind": "made",
+   "name": "inkleviathan_s3",
+   "asset_id": "915d8858-40cd-4db8-9c9c-d5c915810183",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "ccd1966b3f9c"
+  },
+  {
+   "label": "thebinder_s3, from sheet bright_g3_s3 cell 3",
+   "kind": "made",
+   "name": "thebinder_s3",
+   "asset_id": "915d8858-40cd-4db8-9c9c-d5c915810183",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "c43780775f83"
+  },
+  {
+   "label": "author_s3, from sheet bright_g3_s3 cell 4",
+   "kind": "made",
+   "name": "author_s3",
+   "asset_id": "915d8858-40cd-4db8-9c9c-d5c915810183",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "f67d864bfba4"
+  },
+  {
+   "label": "redactor_s3, from sheet bright_g3_s3 cell 5",
+   "kind": "made",
+   "name": "redactor_s3",
+   "asset_id": "915d8858-40cd-4db8-9c9c-d5c915810183",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "652e15dd7636"
+  },
+  {
+   "label": "lexicon_s3, from sheet bright_g3_s3 cell 6",
+   "kind": "made",
+   "name": "lexicon_s3",
+   "asset_id": "915d8858-40cd-4db8-9c9c-d5c915810183",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "52e7c2addfc8"
+  },
+  {
+   "label": "erratum_s3, from sheet bright_g3_s3 cell 7",
+   "kind": "made",
+   "name": "erratum_s3",
+   "asset_id": "915d8858-40cd-4db8-9c9c-d5c915810183",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "4c0563fd3ddb"
+  },
+  {
+   "label": "reader_s3, from sheet bright_g3_s3 cell 8",
+   "kind": "made",
+   "name": "reader_s3",
+   "asset_id": "915d8858-40cd-4db8-9c9c-d5c915810183",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "2d539081faf4"
+  },
+  {
+   "label": "guardian sheet g4, stage 2, in his bright look (2K), 21 Oct",
+   "kind": "sheet",
+   "name": "bright_g4_s2",
+   "asset_id": "e3610a69-623c-4f13-bec8-b2190340acda",
+   "job_id": "b174e392-fcfd-4976-8977-46b1815a5408",
+   "reference": "5fa94afb-2188-4b12-b54c-e3cb4cef5cb3",
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 18,
+   "cells": [
+    "shelver_s2",
+    "hush_s2",
+    "critic_s2",
+    "admiral_s2",
+    "golemking_s2",
+    "archmage_s2",
+    "phoenix_s2",
+    "wyrm_s2",
+    "chainfiend_s2"
+   ],
+   "sha12": "eeddf017ed63"
+  },
+  {
+   "label": "shelver_s2, from sheet bright_g4_s2 cell 0",
+   "kind": "made",
+   "name": "shelver_s2",
+   "asset_id": "e3610a69-623c-4f13-bec8-b2190340acda",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "388e77f6c6a1"
+  },
+  {
+   "label": "hush_s2, from sheet bright_g4_s2 cell 1",
+   "kind": "made",
+   "name": "hush_s2",
+   "asset_id": "e3610a69-623c-4f13-bec8-b2190340acda",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "fd5b8b59703b"
+  },
+  {
+   "label": "critic_s2, from sheet bright_g4_s2 cell 2",
+   "kind": "made",
+   "name": "critic_s2",
+   "asset_id": "e3610a69-623c-4f13-bec8-b2190340acda",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "4db8342f7443"
+  },
+  {
+   "label": "admiral_s2, from sheet bright_g4_s2 cell 3",
+   "kind": "made",
+   "name": "admiral_s2",
+   "asset_id": "e3610a69-623c-4f13-bec8-b2190340acda",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "8c104576aa65"
+  },
+  {
+   "label": "golemking_s2, from sheet bright_g4_s2 cell 4",
+   "kind": "made",
+   "name": "golemking_s2",
+   "asset_id": "e3610a69-623c-4f13-bec8-b2190340acda",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "573b9240940c"
+  },
+  {
+   "label": "archmage_s2, from sheet bright_g4_s2 cell 5",
+   "kind": "made",
+   "name": "archmage_s2",
+   "asset_id": "e3610a69-623c-4f13-bec8-b2190340acda",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "23e36c68565a"
+  },
+  {
+   "label": "phoenix_s2, from sheet bright_g4_s2 cell 6",
+   "kind": "made",
+   "name": "phoenix_s2",
+   "asset_id": "e3610a69-623c-4f13-bec8-b2190340acda",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "438fbb8dfbaa"
+  },
+  {
+   "label": "wyrm_s2, from sheet bright_g4_s2 cell 7",
+   "kind": "made",
+   "name": "wyrm_s2",
+   "asset_id": "e3610a69-623c-4f13-bec8-b2190340acda",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "34298950875b"
+  },
+  {
+   "label": "chainfiend_s2, from sheet bright_g4_s2 cell 8",
+   "kind": "made",
+   "name": "chainfiend_s2",
+   "asset_id": "e3610a69-623c-4f13-bec8-b2190340acda",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "6e3841feba3d"
+  },
+  {
+   "label": "guardian sheet g4, stage 3, in his bright look (2K), 21 Oct",
+   "kind": "sheet",
+   "name": "bright_g4_s3",
+   "asset_id": "61547230-7e98-4181-959b-be6b0ccb49b3",
+   "job_id": "45d35803-863e-4428-b7d6-b2c02bcf5353",
+   "reference": "7116ba57-2f4a-4043-a17d-b9d09efcac02",
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 18,
+   "cells": [
+    "shelver_s3",
+    "hush_s3",
+    "critic_s3",
+    "admiral_s3",
+    "golemking_s3",
+    "archmage_s3",
+    "phoenix_s3",
+    "wyrm_s3",
+    "chainfiend_s3"
+   ],
+   "sha12": "98737af519f0"
+  },
+  {
+   "label": "shelver_s3, from sheet bright_g4_s3 cell 0",
+   "kind": "made",
+   "name": "shelver_s3",
+   "asset_id": "61547230-7e98-4181-959b-be6b0ccb49b3",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "a9cf2c0f946b"
+  },
+  {
+   "label": "hush_s3, from sheet bright_g4_s3 cell 1",
+   "kind": "made",
+   "name": "hush_s3",
+   "asset_id": "61547230-7e98-4181-959b-be6b0ccb49b3",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "30971d5d979d"
+  },
+  {
+   "label": "critic_s3, from sheet bright_g4_s3 cell 2",
+   "kind": "made",
+   "name": "critic_s3",
+   "asset_id": "61547230-7e98-4181-959b-be6b0ccb49b3",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "033740208d6a"
+  },
+  {
+   "label": "admiral_s3, from sheet bright_g4_s3 cell 3",
+   "kind": "made",
+   "name": "admiral_s3",
+   "asset_id": "61547230-7e98-4181-959b-be6b0ccb49b3",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "a0ffede8ef33"
+  },
+  {
+   "label": "golemking_s3, from sheet bright_g4_s3 cell 4",
+   "kind": "made",
+   "name": "golemking_s3",
+   "asset_id": "61547230-7e98-4181-959b-be6b0ccb49b3",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "1365306c4ba8"
+  },
+  {
+   "label": "archmage_s3, from sheet bright_g4_s3 cell 5",
+   "kind": "made",
+   "name": "archmage_s3",
+   "asset_id": "61547230-7e98-4181-959b-be6b0ccb49b3",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "e23e7c0a5564"
+  },
+  {
+   "label": "phoenix_s3, from sheet bright_g4_s3 cell 6",
+   "kind": "made",
+   "name": "phoenix_s3",
+   "asset_id": "61547230-7e98-4181-959b-be6b0ccb49b3",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "88a631cc34ba"
+  },
+  {
+   "label": "wyrm_s3, from sheet bright_g4_s3 cell 7",
+   "kind": "made",
+   "name": "wyrm_s3",
+   "asset_id": "61547230-7e98-4181-959b-be6b0ccb49b3",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "337c2ed88b31"
+  },
+  {
+   "label": "chainfiend_s3, from sheet bright_g4_s3 cell 8",
+   "kind": "made",
+   "name": "chainfiend_s3",
+   "asset_id": "61547230-7e98-4181-959b-be6b0ccb49b3",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "73e9b51ae5c3"
+  },
+  {
+   "label": "special guardian sheet s1, stage 3, in his bright look (2K), 21 Oct",
+   "kind": "sheet",
+   "name": "bright_s1_s3",
+   "asset_id": "7c5004c4-99db-464d-b15e-3c45b15f21d0",
+   "job_id": "a493dcd2-8982-49e0-b25f-108f54ba05ac",
+   "reference": "5e63d6d9-50a1-4d2c-988a-24bced071c83",
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 18,
+   "cells": [
+    "seraph_s3",
+    "rex_s3",
+    "rex_lie_s3",
+    "arci_s3",
+    "arci_lie_s3",
+    "arci_run_s3",
+    "sefe_s3",
+    "sefe_drink_s3",
+    "sefe_out_s3"
+   ],
+   "sha12": "f7a8eb2126cd"
+  },
+  {
+   "label": "seraph_s3, from sheet bright_s1_s3 cell 0",
+   "kind": "made",
+   "name": "seraph_s3",
+   "asset_id": "7c5004c4-99db-464d-b15e-3c45b15f21d0",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "28c0796df074"
+  },
+  {
+   "label": "rex_s3, from sheet bright_s1_s3 cell 1",
+   "kind": "made",
+   "name": "rex_s3",
+   "asset_id": "7c5004c4-99db-464d-b15e-3c45b15f21d0",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "7e103e9e392a"
+  },
+  {
+   "label": "rex_lie_s3, from sheet bright_s1_s3 cell 2",
+   "kind": "made",
+   "name": "rex_lie_s3",
+   "asset_id": "7c5004c4-99db-464d-b15e-3c45b15f21d0",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "bcbd0dc26b38"
+  },
+  {
+   "label": "arci_s3, from sheet bright_s1_s3 cell 3",
+   "kind": "made",
+   "name": "arci_s3",
+   "asset_id": "7c5004c4-99db-464d-b15e-3c45b15f21d0",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "fec4f4af4553"
+  },
+  {
+   "label": "arci_lie_s3, from sheet bright_s1_s3 cell 4",
+   "kind": "made",
+   "name": "arci_lie_s3",
+   "asset_id": "7c5004c4-99db-464d-b15e-3c45b15f21d0",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "e44ffe08dde4"
+  },
+  {
+   "label": "arci_run_s3, from sheet bright_s1_s3 cell 5",
+   "kind": "made",
+   "name": "arci_run_s3",
+   "asset_id": "7c5004c4-99db-464d-b15e-3c45b15f21d0",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "8d488a61bb31"
+  },
+  {
+   "label": "sefe_s3, from sheet bright_s1_s3 cell 6",
+   "kind": "made",
+   "name": "sefe_s3",
+   "asset_id": "7c5004c4-99db-464d-b15e-3c45b15f21d0",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "0972251aa436"
+  },
+  {
+   "label": "sefe_drink_s3, from sheet bright_s1_s3 cell 7",
+   "kind": "made",
+   "name": "sefe_drink_s3",
+   "asset_id": "7c5004c4-99db-464d-b15e-3c45b15f21d0",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "2079debf902e"
+  },
+  {
+   "label": "sefe_out_s3, from sheet bright_s1_s3 cell 8",
+   "kind": "made",
+   "name": "sefe_out_s3",
+   "asset_id": "7c5004c4-99db-464d-b15e-3c45b15f21d0",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "f3302ba36650"
+  },
+  {
+   "label": "special guardian sheet s2, stage 2, in his bright look (2K), 21 Oct",
+   "kind": "sheet",
+   "name": "bright_s2_s2",
+   "asset_id": "a4b522e8-54cb-48f1-9165-92328851c9cc",
+   "job_id": "4c171863-11c4-41b9-9e4f-b849992c96e9",
+   "reference": "a1b69f95-5de3-4c67-8c4d-9cbbbfc2d78d",
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 18,
+   "cells": [
+    "sefe_squat_s2",
+    "sefe_zoned_s2",
+    "braysalot_s2",
+    "scalesworth_s2",
+    "prophet_s2",
+    "chonk_s2",
+    "-",
+    "-",
+    "-"
+   ],
+   "sha12": "fe755e3ca790"
+  },
+  {
+   "label": "sefe_squat_s2, from sheet bright_s2_s2 cell 0",
+   "kind": "made",
+   "name": "sefe_squat_s2",
+   "asset_id": "a4b522e8-54cb-48f1-9165-92328851c9cc",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "42e2ea06d4a9"
+  },
+  {
+   "label": "sefe_zoned_s2, from sheet bright_s2_s2 cell 1",
+   "kind": "made",
+   "name": "sefe_zoned_s2",
+   "asset_id": "a4b522e8-54cb-48f1-9165-92328851c9cc",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "e52493e650fd"
+  },
+  {
+   "label": "braysalot_s2, from sheet bright_s2_s2 cell 2",
+   "kind": "made",
+   "name": "braysalot_s2",
+   "asset_id": "a4b522e8-54cb-48f1-9165-92328851c9cc",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "1e4cca0c1a2c"
+  },
+  {
+   "label": "scalesworth_s2, from sheet bright_s2_s2 cell 3",
+   "kind": "made",
+   "name": "scalesworth_s2",
+   "asset_id": "a4b522e8-54cb-48f1-9165-92328851c9cc",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "e1a539fb6642"
+  },
+  {
+   "label": "prophet_s2, from sheet bright_s2_s2 cell 4",
+   "kind": "made",
+   "name": "prophet_s2",
+   "asset_id": "a4b522e8-54cb-48f1-9165-92328851c9cc",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "e95902c0c33a"
+  },
+  {
+   "label": "chonk_s2, from sheet bright_s2_s2 cell 5",
+   "kind": "made",
+   "name": "chonk_s2",
+   "asset_id": "a4b522e8-54cb-48f1-9165-92328851c9cc",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "c2d0c01e9894"
+  },
+  {
+   "label": "special guardian sheet s2, stage 3, in his bright look (2K), 21 Oct",
+   "kind": "sheet",
+   "name": "bright_s2_s3",
+   "asset_id": "d2f15757-70cd-4388-a403-1c1ed3b7c640",
+   "job_id": "f7cff16b-2e92-4a26-9b4f-841d6989f187",
+   "reference": "693edb3b-9fc9-4065-a275-7f9281aef4d6",
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 18,
+   "cells": [
+    "sefe_squat_s3",
+    "sefe_zoned_s3",
+    "braysalot_s3",
+    "scalesworth_s3",
+    "prophet_s3",
+    "chonk_s3",
+    "-",
+    "-",
+    "-"
+   ],
+   "sha12": "284f70842a49"
+  },
+  {
+   "label": "sefe_squat_s3, from sheet bright_s2_s3 cell 0",
+   "kind": "made",
+   "name": "sefe_squat_s3",
+   "asset_id": "d2f15757-70cd-4388-a403-1c1ed3b7c640",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "f22a92ea782a"
+  },
+  {
+   "label": "sefe_zoned_s3, from sheet bright_s2_s3 cell 1",
+   "kind": "made",
+   "name": "sefe_zoned_s3",
+   "asset_id": "d2f15757-70cd-4388-a403-1c1ed3b7c640",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "e3e1141381d6"
+  },
+  {
+   "label": "braysalot_s3, from sheet bright_s2_s3 cell 2",
+   "kind": "made",
+   "name": "braysalot_s3",
+   "asset_id": "d2f15757-70cd-4388-a403-1c1ed3b7c640",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "237559af7d1d"
+  },
+  {
+   "label": "scalesworth_s3, from sheet bright_s2_s3 cell 3",
+   "kind": "made",
+   "name": "scalesworth_s3",
+   "asset_id": "d2f15757-70cd-4388-a403-1c1ed3b7c640",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "e3ad4bd70cfb"
+  },
+  {
+   "label": "prophet_s3, from sheet bright_s2_s3 cell 4",
+   "kind": "made",
+   "name": "prophet_s3",
+   "asset_id": "d2f15757-70cd-4388-a403-1c1ed3b7c640",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "df4820d43352"
+  },
+  {
+   "label": "chonk_s3, from sheet bright_s2_s3 cell 5",
+   "kind": "made",
+   "name": "chonk_s3",
+   "asset_id": "d2f15757-70cd-4388-a403-1c1ed3b7c640",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "a216e32ca4a6"
+  },
+  {
+   "label": "champion sheet c1, stage 2, in his bright look, 21 Oct",
+   "kind": "sheet",
+   "name": "bright_c1_s2",
+   "asset_id": "a7fb654a-f13c-4f7d-9347-185d6f073363",
+   "job_id": "84921ad0-f911-4aac-b728-276e993c463a",
+   "reference": "8d68ca73-9e17-4e0a-803b-e91c76bd5e6d",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "cells": [
+    "mirehulk_s2",
+    "ironcaptain_s2",
+    "stoneabbot_s2",
+    "enforcer_s2",
+    "herald_s2",
+    "turnkey_s2",
+    "carrionknight_s2",
+    "broker_s2",
+    "mayor_s2"
+   ],
+   "sha12": "6d55eb0d2e72"
+  },
+  {
+   "label": "mirehulk_s2, from sheet bright_c1_s2 cell 0",
+   "kind": "made",
+   "name": "mirehulk_s2",
+   "asset_id": "a7fb654a-f13c-4f7d-9347-185d6f073363",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "a724d7333be1"
+  },
+  {
+   "label": "ironcaptain_s2, from sheet bright_c1_s2 cell 1",
+   "kind": "made",
+   "name": "ironcaptain_s2",
+   "asset_id": "a7fb654a-f13c-4f7d-9347-185d6f073363",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "7a450c99cec7"
+  },
+  {
+   "label": "stoneabbot_s2, from sheet bright_c1_s2 cell 2",
+   "kind": "made",
+   "name": "stoneabbot_s2",
+   "asset_id": "a7fb654a-f13c-4f7d-9347-185d6f073363",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "5ea5dd7b6853"
+  },
+  {
+   "label": "enforcer_s2, from sheet bright_c1_s2 cell 3",
+   "kind": "made",
+   "name": "enforcer_s2",
+   "asset_id": "a7fb654a-f13c-4f7d-9347-185d6f073363",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "9c0eb97db6d6"
+  },
+  {
+   "label": "herald_s2, from sheet bright_c1_s2 cell 4",
+   "kind": "made",
+   "name": "herald_s2",
+   "asset_id": "a7fb654a-f13c-4f7d-9347-185d6f073363",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "1d1b4a4e9c87"
+  },
+  {
+   "label": "turnkey_s2, from sheet bright_c1_s2 cell 5",
+   "kind": "made",
+   "name": "turnkey_s2",
+   "asset_id": "a7fb654a-f13c-4f7d-9347-185d6f073363",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "8bed9a692346"
+  },
+  {
+   "label": "carrionknight_s2, from sheet bright_c1_s2 cell 6",
+   "kind": "made",
+   "name": "carrionknight_s2",
+   "asset_id": "a7fb654a-f13c-4f7d-9347-185d6f073363",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "1009d7212fc4"
+  },
+  {
+   "label": "broker_s2, from sheet bright_c1_s2 cell 7",
+   "kind": "made",
+   "name": "broker_s2",
+   "asset_id": "a7fb654a-f13c-4f7d-9347-185d6f073363",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "7f26b851633c"
+  },
+  {
+   "label": "mayor_s2, from sheet bright_c1_s2 cell 8",
+   "kind": "made",
+   "name": "mayor_s2",
+   "asset_id": "a7fb654a-f13c-4f7d-9347-185d6f073363",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "1f6dbd24050f"
+  },
+  {
+   "label": "champion sheet c1, stage 3, in his bright look, 21 Oct",
+   "kind": "sheet",
+   "name": "bright_c1_s3",
+   "asset_id": "2f1ea34c-8e16-4c2f-9632-b5b945975622",
+   "job_id": "1de793d0-912a-4907-a6b0-2ed8cdc06b4c",
+   "reference": "03c0c506-1de1-4c82-a370-f08fdf208652",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "cells": [
+    "mirehulk_s3",
+    "ironcaptain_s3",
+    "stoneabbot_s3",
+    "enforcer_s3",
+    "herald_s3",
+    "turnkey_s3",
+    "carrionknight_s3",
+    "broker_s3",
+    "mayor_s3"
+   ],
+   "sha12": "c5525d87fc81"
+  },
+  {
+   "label": "mirehulk_s3, from sheet bright_c1_s3 cell 0",
+   "kind": "made",
+   "name": "mirehulk_s3",
+   "asset_id": "2f1ea34c-8e16-4c2f-9632-b5b945975622",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "5c0b26e4050d"
+  },
+  {
+   "label": "ironcaptain_s3, from sheet bright_c1_s3 cell 1",
+   "kind": "made",
+   "name": "ironcaptain_s3",
+   "asset_id": "2f1ea34c-8e16-4c2f-9632-b5b945975622",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "9c153e9aa1d0"
+  },
+  {
+   "label": "stoneabbot_s3, from sheet bright_c1_s3 cell 2",
+   "kind": "made",
+   "name": "stoneabbot_s3",
+   "asset_id": "2f1ea34c-8e16-4c2f-9632-b5b945975622",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "3621d23855fc"
+  },
+  {
+   "label": "enforcer_s3, from sheet bright_c1_s3 cell 3",
+   "kind": "made",
+   "name": "enforcer_s3",
+   "asset_id": "2f1ea34c-8e16-4c2f-9632-b5b945975622",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "3dea4e24e802"
+  },
+  {
+   "label": "herald_s3, from sheet bright_c1_s3 cell 4",
+   "kind": "made",
+   "name": "herald_s3",
+   "asset_id": "2f1ea34c-8e16-4c2f-9632-b5b945975622",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "b87af99f5270"
+  },
+  {
+   "label": "turnkey_s3, from sheet bright_c1_s3 cell 5",
+   "kind": "made",
+   "name": "turnkey_s3",
+   "asset_id": "2f1ea34c-8e16-4c2f-9632-b5b945975622",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "a3935ea194a6"
+  },
+  {
+   "label": "carrionknight_s3, from sheet bright_c1_s3 cell 6",
+   "kind": "made",
+   "name": "carrionknight_s3",
+   "asset_id": "2f1ea34c-8e16-4c2f-9632-b5b945975622",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "afd026fc4f8d"
+  },
+  {
+   "label": "broker_s3, from sheet bright_c1_s3 cell 7",
+   "kind": "made",
+   "name": "broker_s3",
+   "asset_id": "2f1ea34c-8e16-4c2f-9632-b5b945975622",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "13299103e39c"
+  },
+  {
+   "label": "mayor_s3, from sheet bright_c1_s3 cell 8",
+   "kind": "made",
+   "name": "mayor_s3",
+   "asset_id": "2f1ea34c-8e16-4c2f-9632-b5b945975622",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "9b227582793a"
+  },
+  {
+   "label": "champion sheet c2, stage 2, in his bright look, 21 Oct",
+   "kind": "sheet",
+   "name": "bright_c2_s2",
+   "asset_id": "d7c4eecb-a0e0-4521-aaa0-bcd5bf2da247",
+   "job_id": "6e1d12c6-5249-44d8-a65b-d1492872bf20",
+   "reference": "19b15099-f6b2-423d-b9e7-a66b174b1bd5",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "cells": [
+    "rustbutcher_s2",
+    "landlord_s2",
+    "kingpin_s2",
+    "marshal_s2",
+    "galewarden_s2",
+    "rotking_s2",
+    "highcaliber_s2",
+    "squallheron_s2",
+    "tidecaptain_s2"
+   ],
+   "sha12": "c2cb7ff802a2"
+  },
+  {
+   "label": "rustbutcher_s2, from sheet bright_c2_s2 cell 0",
+   "kind": "made",
+   "name": "rustbutcher_s2",
+   "asset_id": "d7c4eecb-a0e0-4521-aaa0-bcd5bf2da247",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "9ce298dba218"
+  },
+  {
+   "label": "landlord_s2, from sheet bright_c2_s2 cell 1",
+   "kind": "made",
+   "name": "landlord_s2",
+   "asset_id": "d7c4eecb-a0e0-4521-aaa0-bcd5bf2da247",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "3cfee034a2cf"
+  },
+  {
+   "label": "kingpin_s2, from sheet bright_c2_s2 cell 2",
+   "kind": "made",
+   "name": "kingpin_s2",
+   "asset_id": "d7c4eecb-a0e0-4521-aaa0-bcd5bf2da247",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "81002f6fdd5c"
+  },
+  {
+   "label": "marshal_s2, from sheet bright_c2_s2 cell 3",
+   "kind": "made",
+   "name": "marshal_s2",
+   "asset_id": "d7c4eecb-a0e0-4521-aaa0-bcd5bf2da247",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "f8dabe317b22"
+  },
+  {
+   "label": "galewarden_s2, from sheet bright_c2_s2 cell 4",
+   "kind": "made",
+   "name": "galewarden_s2",
+   "asset_id": "d7c4eecb-a0e0-4521-aaa0-bcd5bf2da247",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "2e23a3bd54fd"
+  },
+  {
+   "label": "rotking_s2, from sheet bright_c2_s2 cell 5",
+   "kind": "made",
+   "name": "rotking_s2",
+   "asset_id": "d7c4eecb-a0e0-4521-aaa0-bcd5bf2da247",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "d26951f1785c"
+  },
+  {
+   "label": "highcaliber_s2, from sheet bright_c2_s2 cell 6",
+   "kind": "made",
+   "name": "highcaliber_s2",
+   "asset_id": "d7c4eecb-a0e0-4521-aaa0-bcd5bf2da247",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "efb75b3cad2d"
+  },
+  {
+   "label": "squallheron_s2, from sheet bright_c2_s2 cell 7",
+   "kind": "made",
+   "name": "squallheron_s2",
+   "asset_id": "d7c4eecb-a0e0-4521-aaa0-bcd5bf2da247",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "a310b5fa0c83"
+  },
+  {
+   "label": "tidecaptain_s2, from sheet bright_c2_s2 cell 8",
+   "kind": "made",
+   "name": "tidecaptain_s2",
+   "asset_id": "d7c4eecb-a0e0-4521-aaa0-bcd5bf2da247",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "9f59153e7c4a"
+  },
+  {
+   "label": "champion sheet c2, stage 3, in his bright look, 21 Oct",
+   "kind": "sheet",
+   "name": "bright_c2_s3",
+   "asset_id": "b9131596-f109-45e2-98f0-8f2be5e55f7b",
+   "job_id": "7aa93cc2-5b9d-41c8-8c15-535e54476b10",
+   "reference": "5a7c79db-e3f7-40cd-93ad-34c01948849e",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "cells": [
+    "rustbutcher_s3",
+    "landlord_s3",
+    "kingpin_s3",
+    "marshal_s3",
+    "galewarden_s3",
+    "rotking_s3",
+    "highcaliber_s3",
+    "squallheron_s3",
+    "tidecaptain_s3"
+   ],
+   "sha12": "60004cabd31d"
+  },
+  {
+   "label": "rustbutcher_s3, from sheet bright_c2_s3 cell 0",
+   "kind": "made",
+   "name": "rustbutcher_s3",
+   "asset_id": "b9131596-f109-45e2-98f0-8f2be5e55f7b",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "53e21aad1d7d"
+  },
+  {
+   "label": "landlord_s3, from sheet bright_c2_s3 cell 1",
+   "kind": "made",
+   "name": "landlord_s3",
+   "asset_id": "b9131596-f109-45e2-98f0-8f2be5e55f7b",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "223b6694fad2"
+  },
+  {
+   "label": "kingpin_s3, from sheet bright_c2_s3 cell 2",
+   "kind": "made",
+   "name": "kingpin_s3",
+   "asset_id": "b9131596-f109-45e2-98f0-8f2be5e55f7b",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "c4ea66726e6f"
+  },
+  {
+   "label": "marshal_s3, from sheet bright_c2_s3 cell 3",
+   "kind": "made",
+   "name": "marshal_s3",
+   "asset_id": "b9131596-f109-45e2-98f0-8f2be5e55f7b",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "475ac4ac6d8e"
+  },
+  {
+   "label": "galewarden_s3, from sheet bright_c2_s3 cell 4",
+   "kind": "made",
+   "name": "galewarden_s3",
+   "asset_id": "b9131596-f109-45e2-98f0-8f2be5e55f7b",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "8c09697c4855"
+  },
+  {
+   "label": "rotking_s3, from sheet bright_c2_s3 cell 5",
+   "kind": "made",
+   "name": "rotking_s3",
+   "asset_id": "b9131596-f109-45e2-98f0-8f2be5e55f7b",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "166746dde464"
+  },
+  {
+   "label": "highcaliber_s3, from sheet bright_c2_s3 cell 6",
+   "kind": "made",
+   "name": "highcaliber_s3",
+   "asset_id": "b9131596-f109-45e2-98f0-8f2be5e55f7b",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "dee2ad539266"
+  },
+  {
+   "label": "squallheron_s3, from sheet bright_c2_s3 cell 7",
+   "kind": "made",
+   "name": "squallheron_s3",
+   "asset_id": "b9131596-f109-45e2-98f0-8f2be5e55f7b",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "fd112422816c"
+  },
+  {
+   "label": "tidecaptain_s3, from sheet bright_c2_s3 cell 8",
+   "kind": "made",
+   "name": "tidecaptain_s3",
+   "asset_id": "b9131596-f109-45e2-98f0-8f2be5e55f7b",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "dfbe5bacc41a"
+  },
+  {
+   "label": "champion sheet c3, stage 2, in his bright look, 21 Oct",
+   "kind": "sheet",
+   "name": "bright_c3_s2",
+   "asset_id": "6bd27693-65fc-4133-87e4-25a9b29b2931",
+   "job_id": "f2c05c12-10b1-4b93-a576-4a20dcce5bd6",
+   "reference": "ed24de23-b481-4202-813b-f75f50f3ff90",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "cells": [
+    "bellringer_s2",
+    "shadow_s2",
+    "foreman_s2",
+    "hoarknight_s2",
+    "inkwidow_s2",
+    "bindingpress_s2",
+    "headscribe_s2",
+    "lexicant_s2",
+    "fineprint_s2"
+   ],
+   "sha12": "58cf38b17eb3"
+  },
+  {
+   "label": "bellringer_s2, from sheet bright_c3_s2 cell 0",
+   "kind": "made",
+   "name": "bellringer_s2",
+   "asset_id": "6bd27693-65fc-4133-87e4-25a9b29b2931",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "a47126ea5db5"
+  },
+  {
+   "label": "shadow_s2, from sheet bright_c3_s2 cell 1",
+   "kind": "made",
+   "name": "shadow_s2",
+   "asset_id": "6bd27693-65fc-4133-87e4-25a9b29b2931",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "e6ecd2c0a7c9"
+  },
+  {
+   "label": "foreman_s2, from sheet bright_c3_s2 cell 2",
+   "kind": "made",
+   "name": "foreman_s2",
+   "asset_id": "6bd27693-65fc-4133-87e4-25a9b29b2931",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "f9620ec41896"
+  },
+  {
+   "label": "hoarknight_s2, from sheet bright_c3_s2 cell 3",
+   "kind": "made",
+   "name": "hoarknight_s2",
+   "asset_id": "6bd27693-65fc-4133-87e4-25a9b29b2931",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "565a5f5ea2cf"
+  },
+  {
+   "label": "inkwidow_s2, from sheet bright_c3_s2 cell 4",
+   "kind": "made",
+   "name": "inkwidow_s2",
+   "asset_id": "6bd27693-65fc-4133-87e4-25a9b29b2931",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "5fcd10a0616d"
+  },
+  {
+   "label": "bindingpress_s2, from sheet bright_c3_s2 cell 5",
+   "kind": "made",
+   "name": "bindingpress_s2",
+   "asset_id": "6bd27693-65fc-4133-87e4-25a9b29b2931",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "3e88b77ec9e1"
+  },
+  {
+   "label": "headscribe_s2, from sheet bright_c3_s2 cell 6",
+   "kind": "made",
+   "name": "headscribe_s2",
+   "asset_id": "6bd27693-65fc-4133-87e4-25a9b29b2931",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "b554c51842cc"
+  },
+  {
+   "label": "lexicant_s2, from sheet bright_c3_s2 cell 7",
+   "kind": "made",
+   "name": "lexicant_s2",
+   "asset_id": "6bd27693-65fc-4133-87e4-25a9b29b2931",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "844d67c8406f"
+  },
+  {
+   "label": "fineprint_s2, from sheet bright_c3_s2 cell 8",
+   "kind": "made",
+   "name": "fineprint_s2",
+   "asset_id": "6bd27693-65fc-4133-87e4-25a9b29b2931",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "3d61aa9b0892"
+  },
+  {
+   "label": "champion sheet c3, stage 3, in his bright look, 21 Oct",
+   "kind": "sheet",
+   "name": "bright_c3_s3",
+   "asset_id": "57b25ad3-2c7f-447a-83ad-d757aaf122d8",
+   "job_id": "b6ab287e-20cd-47b0-9e0d-95d5e424622b",
+   "reference": "4d3d18d5-085c-4fb1-bde1-f6f761241b20",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "cells": [
+    "bellringer_s3",
+    "shadow_s3",
+    "foreman_s3",
+    "hoarknight_s3",
+    "inkwidow_s3",
+    "bindingpress_s3",
+    "headscribe_s3",
+    "lexicant_s3",
+    "fineprint_s3"
+   ],
+   "sha12": "65cf882d97c8"
+  },
+  {
+   "label": "bellringer_s3, from sheet bright_c3_s3 cell 0",
+   "kind": "made",
+   "name": "bellringer_s3",
+   "asset_id": "57b25ad3-2c7f-447a-83ad-d757aaf122d8",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "485aa8de2bce"
+  },
+  {
+   "label": "shadow_s3, from sheet bright_c3_s3 cell 1",
+   "kind": "made",
+   "name": "shadow_s3",
+   "asset_id": "57b25ad3-2c7f-447a-83ad-d757aaf122d8",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "fbc7f4966dd4"
+  },
+  {
+   "label": "foreman_s3, from sheet bright_c3_s3 cell 2",
+   "kind": "made",
+   "name": "foreman_s3",
+   "asset_id": "57b25ad3-2c7f-447a-83ad-d757aaf122d8",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "19986cf7f003"
+  },
+  {
+   "label": "hoarknight_s3, from sheet bright_c3_s3 cell 3",
+   "kind": "made",
+   "name": "hoarknight_s3",
+   "asset_id": "57b25ad3-2c7f-447a-83ad-d757aaf122d8",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "caf0b1ee9c07"
+  },
+  {
+   "label": "inkwidow_s3, from sheet bright_c3_s3 cell 4",
+   "kind": "made",
+   "name": "inkwidow_s3",
+   "asset_id": "57b25ad3-2c7f-447a-83ad-d757aaf122d8",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "1e0aac1bce18"
+  },
+  {
+   "label": "bindingpress_s3, from sheet bright_c3_s3 cell 5",
+   "kind": "made",
+   "name": "bindingpress_s3",
+   "asset_id": "57b25ad3-2c7f-447a-83ad-d757aaf122d8",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "d118ca9cb83a"
+  },
+  {
+   "label": "headscribe_s3, from sheet bright_c3_s3 cell 6",
+   "kind": "made",
+   "name": "headscribe_s3",
+   "asset_id": "57b25ad3-2c7f-447a-83ad-d757aaf122d8",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "c9515c86245e"
+  },
+  {
+   "label": "lexicant_s3, from sheet bright_c3_s3 cell 7",
+   "kind": "made",
+   "name": "lexicant_s3",
+   "asset_id": "57b25ad3-2c7f-447a-83ad-d757aaf122d8",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "ba18ac23e2a0"
+  },
+  {
+   "label": "fineprint_s3, from sheet bright_c3_s3 cell 8",
+   "kind": "made",
+   "name": "fineprint_s3",
+   "asset_id": "57b25ad3-2c7f-447a-83ad-d757aaf122d8",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "0d1b61617341"
+  },
+  {
+   "label": "champion sheet c4, stage 2, in his bright look, 21 Oct",
+   "kind": "sheet",
+   "name": "bright_c4_s2",
+   "asset_id": "9e929d86-e2d5-41aa-8dbb-812d886fc532",
+   "job_id": "3586f55a-cf99-4845-ba42-b3608c2f98c5",
+   "reference": "d597fc50-c5a7-45ab-b77f-102c5c7f9a59",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "cells": [
+    "colophon_s2",
+    "overdue_s2",
+    "quiet_s2",
+    "kindling_s2",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-"
+   ],
+   "sha12": "827c8fc6e1dc"
+  },
+  {
+   "label": "colophon_s2, from sheet bright_c4_s2 cell 0",
+   "kind": "made",
+   "name": "colophon_s2",
+   "asset_id": "9e929d86-e2d5-41aa-8dbb-812d886fc532",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "e1d4249fd849"
+  },
+  {
+   "label": "overdue_s2, from sheet bright_c4_s2 cell 1",
+   "kind": "made",
+   "name": "overdue_s2",
+   "asset_id": "9e929d86-e2d5-41aa-8dbb-812d886fc532",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "7faccfe4b211"
+  },
+  {
+   "label": "quiet_s2, from sheet bright_c4_s2 cell 2",
+   "kind": "made",
+   "name": "quiet_s2",
+   "asset_id": "9e929d86-e2d5-41aa-8dbb-812d886fc532",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "dfb277bc7220"
+  },
+  {
+   "label": "kindling_s2, from sheet bright_c4_s2 cell 3",
+   "kind": "made",
+   "name": "kindling_s2",
+   "asset_id": "9e929d86-e2d5-41aa-8dbb-812d886fc532",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "2442ca2c70c2"
+  },
+  {
+   "label": "champion sheet c4, stage 3, in his bright look, 21 Oct",
+   "kind": "sheet",
+   "name": "bright_c4_s3",
+   "asset_id": "3b910657-9765-49f6-adbb-aff3a2680a10",
+   "job_id": "ba8e8244-ea1f-45d4-be25-ffd0845c27ce",
+   "reference": "27f8a488-65e0-49eb-92ca-2e7cae8dbb04",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "cells": [
+    "colophon_s3",
+    "overdue_s3",
+    "quiet_s3",
+    "kindling_s3",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-"
+   ],
+   "sha12": "73f33510e3b9"
+  },
+  {
+   "label": "colophon_s3, from sheet bright_c4_s3 cell 0",
+   "kind": "made",
+   "name": "colophon_s3",
+   "asset_id": "3b910657-9765-49f6-adbb-aff3a2680a10",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "3855858cf52b"
+  },
+  {
+   "label": "overdue_s3, from sheet bright_c4_s3 cell 1",
+   "kind": "made",
+   "name": "overdue_s3",
+   "asset_id": "3b910657-9765-49f6-adbb-aff3a2680a10",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "6b129820caf0"
+  },
+  {
+   "label": "quiet_s3, from sheet bright_c4_s3 cell 2",
+   "kind": "made",
+   "name": "quiet_s3",
+   "asset_id": "3b910657-9765-49f6-adbb-aff3a2680a10",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "6ea1b7b30f27"
+  },
+  {
+   "label": "kindling_s3, from sheet bright_c4_s3 cell 3",
+   "kind": "made",
+   "name": "kindling_s3",
+   "asset_id": "3b910657-9765-49f6-adbb-aff3a2680a10",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "2e7d33b2da14"
   }
  ]
 }

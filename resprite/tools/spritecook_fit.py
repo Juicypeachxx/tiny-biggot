@@ -78,11 +78,13 @@ BOSS_SCALE = _boss_scales()
 
 def density(name, old, raw=None):
     """How many new pixels per old one: 2 (double detail), or 4 for a guardian the game draws at twice
-    size, when that stays within the atlas's 96 px (ARCI does not: 2) and SpriteCook drew it big enough.
-    A drawing under three quarters of double size (Sefe's long cigarette) stays at 1, the old size."""
+    size, when that stays within the atlas's 96 px height (ARCI does not: 2) and SpriteCook drew it big
+    enough: on its longer side, after the fit, at least 9/10 of the box (a stage's wide wings in today's
+    picture do not count against it). A drawing under three quarters of double size (Sefe's long
+    cigarette) stays at 1, the old size."""
     base = re.sub(r"_s[23]$", "", name)
-    four = BOSS_SCALE.get(base, 1.0) >= 2 and old.height * 4 <= 96 and old.width * 4 <= 128
-    if four and raw is not None and max(raw.size) < 0.9 * 4 * max(old.size):
+    four = BOSS_SCALE.get(base, 1.0) >= 2 and old.height * 4 <= 96
+    if four and raw is not None and max(raw.width / (4 * old.width), raw.height / (4 * old.height)) < 0.9:
         four = False
     if raw is not None and max(raw.width / (2 * old.width), raw.height / (2 * old.height)) < 0.75:
         return 1
