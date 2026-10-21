@@ -99,3 +99,9 @@ resprite the game and then you will package it to ipa". README.txt and PROMPT.tx
   4. Lay them out with `tools/review.py` (put them in `hd/`) and show him.
   5. Then batches: heroes, foes, guardians, people, items, a sheet each.
   6. Then the engine's double detail, the import, IPA 59.1 "Gemini Sprites".
+
+**21 Oct, later session:** the network now lets `mcp.spritecook.ai` (200) and `spritecook.ai` (307)
+through, but the SpriteCook tools were still missing: no SpriteCook plugin or connector on his
+claude.ai account (ListPlugins and ListConnectors found none for "sprite"). Nothing was made; no
+credits spent. He needs to add SpriteCook as a plugin or connector on claude.ai and start a new
+session.
