@@ -139,3 +139,30 @@ session.
   - That makes about 720 of the 792.
   - The EVOLVE and MINIS guardians' later phases come from the main picture through the art tools.
     The special guardians' extra poses come later.
+
+## 21 Oct: moving characters (his video: a wizard's idle loop)
+
+- **His ask:** "can he make move like this for all characters". The video is a small wizard in
+  an idle loop: breathing, the beard swaying, the hand with a flame bobbing. It was not made on his
+  account.
+- **What SpriteCook offers:** `animate_game_art` turns one of its pictures into a loop: idle,
+  walk, attack, hurt or death.
+  - About 20 credits a motion with the basic background removal.
+  - A walk from the character workflow also needs a walk pose (+12).
+- **Test:** the hexer's idle, 8 frames, 20 credits (772 left).
+  - Saved as `spritecook/hexer_idle.png` (8 frames of 94 px in a row).
+  - Fitted by `tools/spritecook_anim.py hexer idle 8`: every frame shrunk by the same amount and
+    stood in the same place → `hd/hexer_idle_0..7.png`.
+  - At game size the sway and the eyes' pulse survive. Small details flicker a little between
+    frames (the amulet).
+- **The free one:** `tools/idle_free.py`. Made from the still: the upper body breathes down a
+  pixel, and the bright details pulse. Simpler, no credits.
+- **What it costs for everything.**
+  - Idles: 34 heroes 680, 44 guardians 880.
+  - The stills still to make: about 720.
+  - So the stills and the hero idles together need about 1,400 credits.
+- **In the game.**
+  - Today a hero is one picture: a 1 px bob when walking, squashes for dodge and leap.
+  - Frames need the engine step (V2's double detail): pick the frame from time, each one a little
+    out of step, and all frames in the atlas (small: 34 x 8 x 24 x 28).
+  - The gear painted over the hero (`HeroGear.draw`) must follow each frame's head height.

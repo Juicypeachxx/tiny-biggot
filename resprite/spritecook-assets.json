@@ -90,6 +90,20 @@
     62
    ],
    "sha12": "04630707f3b3"
+  },
+  {
+   "label": "hexer idle, 8 frames, test 21 Oct (spritecook/hexer_idle.png, 8 x 94 px in a row)",
+   "kind": "animation",
+   "name": "hexer",
+   "motion": "idle",
+   "asset_id": "578f657c-df67-4a8b-a70a-050f14a32e6e",
+   "source_asset_id": "ccb4c907-2606-4457-a9b0-99aac952beb6",
+   "job_id": "ba9f9262-bef7-433c-a970-dad9c86c55ec",
+   "model": "pixel-engine-v1.1",
+   "credits": 20,
+   "frames": 8,
+   "fps": 8,
+   "sha12": "781665e70aa9"
   }
  ]
 }
