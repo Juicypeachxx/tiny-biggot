@@ -42,11 +42,14 @@ def fit(spr, w, h):
     small.putalpha(a)
     return frame(small, w, h)
 
-def frame(small, w, h):
-    """The shrunk picture stood at the bottom middle of a w x h canvas, with the outline."""
+def frame(small, w, h, outline=True):
+    """The shrunk picture stood at the bottom middle of a w x h canvas, with the outline (SpriteCook's
+    pictures bring their own: painting another one over the edge pixels eats thin parts)."""
     nw, nh = small.size
     out = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     out.alpha_composite(small, ((w - nw) // 2, h - nh))
+    if not outline:
+        return out
     px = out.load()
     src = out.copy().load()
     for y in range(h):   # the same thin dark outline as the rest of the look

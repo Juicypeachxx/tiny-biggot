@@ -166,3 +166,36 @@ session.
   - Frames need the engine step (V2's double detail): pick the frame from time, each one a little
     out of step, and all frames in the atlas (small: 34 x 8 x 24 x 28).
   - The gear painted over the hero (`HeroGear.draw`) must follow each frame's head height.
+
+## 21 Oct: the first sector (his ask: "finish one sector with those credits, at least bosses")
+
+- **The sector is floor 1, THE OSSUARY.**
+  - Foes: bat, slime, skeleton, mushroom.
+  - Guardian: ARCI (his border collie). Since 58 he guards floor 1 in the Colossus's place.
+  - Every run starts here, and floor 2 shares most of its foes.
+- **Made (Nano Banana 2.1, 12 credits each).** The references are today's sprites at x8,
+  uploaded with `create_asset_upload` now that `api.spritecook.ai` passes.
+  - The bat, slime, skeleton and mushroom.
+  - ARCI standing, lying and running, his frisbee and his stick.
+  - His catch: the first lying ARCI had his head the right way up on a body lying on its back.
+    An edit turned the head upside down (+12). The first try is kept as "rejected" in the manifest.
+  - 120 credits this round; 652 left.
+- **ARCI's stages are free:** `tools/arci_stages.py`, made the way today's stages are.
+  - Stage 2: steel-blue eyes under a dark brow, placed by hand for these pictures. The lying one
+    has its eyes shut, so its stage 2 is the same picture.
+  - Stage 3: stage 2 with a dotted gold rim.
+- **Fit changes.**
+  - No extra outline on SpriteCook pictures: they bring their own, and painting one over the edge
+    pixels ate the skeleton's thin bones. `frame(..., outline=False)`. The Gemini cuts are
+    unchanged.
+  - Density per sprite (`spritecook_fit.density`).
+    - 4 for a guardian the game draws at scale 2 (the colossus and spore mother are now 64 x 64,
+      about SpriteCook's own size).
+    - 2 for everything else, ARCI included: at 4 he would be 144 px tall, past the atlas's 96.
+  - `review.py` shows the new one at the same size on screen whatever its density.
+- **His GIF ask:** `floor1_cast.gif` is the cast at true game proportions, moving with
+  `idle_free` (no credits).
+- **His mob sheets (two small pictures in the chat).** They only reached the chat as small images,
+  not files, so nothing can be cut from them yet. Asked for the files and where they come from
+  (rule 3). Two of them look like well-known D&D monsters: leave those out.
+- **To finish floor 1:** the other 32 heroes (384 credits). Then the engine step and the IPA.

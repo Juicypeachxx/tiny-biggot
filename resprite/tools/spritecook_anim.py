@@ -7,7 +7,7 @@ from PIL import Image
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from inventory import G, ROOT
 from gemini_cut import frame
-from spritecook_fit import down, RAW, HD
+from spritecook_fit import down, density, RAW, HD
 
 def cut(sheet, n, cols):
     rows = (n + cols - 1) // cols
@@ -21,7 +21,7 @@ def fit_all(frames, w, h):
     frames = [f.crop(box) for f in frames]
     k = min(w / frames[0].width, h / frames[0].height)
     nw, nh = max(1, round(frames[0].width * k)), max(1, round(frames[0].height * k))
-    return [frame(down(f, nw, nh), w, h) for f in frames]
+    return [frame(down(f, nw, nh), w, h, outline=False) for f in frames]
 
 def preview(frames, out, unit=6, ms=125):
     bg = []
@@ -36,7 +36,8 @@ def main(name, motion, n, cols=None, gif=None):
     if cols is None:
         cols = n if sheet.width >= sheet.height * n - n else max(1, round(sheet.width / sheet.height))
     old = Image.open(os.path.join(G, name + ".png"))
-    frames = fit_all(cut(sheet, n, cols), old.width * 2, old.height * 2)
+    d = density(name, old)
+    frames = fit_all(cut(sheet, n, cols), old.width * d, old.height * d)
     for i, f in enumerate(frames):
         f.save(os.path.join(HD, "%s_%s_%d.png" % (name, motion, i)))
     if gif:

@@ -104,6 +104,210 @@
    "frames": 8,
    "fps": 8,
    "sha12": "781665e70aa9"
+  },
+  {
+   "label": "reference: the game's bat today, x8",
+   "kind": "reference",
+   "name": "bat",
+   "asset_id": "3d5c5cf0-b20c-4977-9d08-de3d3e5bdabc",
+   "sha12": null
+  },
+  {
+   "label": "reference: the game's slime today, x8",
+   "kind": "reference",
+   "name": "slime",
+   "asset_id": "7b16398f-881f-4ca0-a8e3-344f91c9da25",
+   "sha12": null
+  },
+  {
+   "label": "reference: the game's skeleton today, x8",
+   "kind": "reference",
+   "name": "skeleton",
+   "asset_id": "57d881ac-acac-4213-8d91-d016ced24ee9",
+   "sha12": null
+  },
+  {
+   "label": "reference: the game's mushroom today, x8",
+   "kind": "reference",
+   "name": "mushroom",
+   "asset_id": "52387fd4-5ca1-4ce6-b2d3-6003422a1b59",
+   "sha12": null
+  },
+  {
+   "label": "reference: the game's arci today, x8",
+   "kind": "reference",
+   "name": "arci",
+   "asset_id": "045c1695-3fa9-441a-8291-3466c05e7def",
+   "sha12": null
+  },
+  {
+   "label": "reference: the game's arci_lie today, x8",
+   "kind": "reference",
+   "name": "arci_lie",
+   "asset_id": "dc3c9ca3-3138-4934-90e7-9666eeb680d3",
+   "sha12": null
+  },
+  {
+   "label": "reference: the game's arci_run today, x8",
+   "kind": "reference",
+   "name": "arci_run",
+   "asset_id": "41070779-6202-4ec0-a0c0-b40bf99b77f1",
+   "sha12": null
+  },
+  {
+   "label": "reference: the game's arci_frisbee today, x8",
+   "kind": "reference",
+   "name": "arci_frisbee",
+   "asset_id": "77cfd4c5-c100-43cd-af25-95058c87e661",
+   "sha12": null
+  },
+  {
+   "label": "reference: the game's arci_stick today, x8",
+   "kind": "reference",
+   "name": "arci_stick",
+   "asset_id": "8d3bd9c7-1ae6-4d2e-8be1-5ea53e6b49f1",
+   "sha12": null
+  },
+  {
+   "label": "bat, floor 1, 21 Oct",
+   "kind": "made",
+   "name": "bat",
+   "asset_id": "27db83ba-c571-47bc-a46c-a678cc0a8289",
+   "job_id": "da15bc71-11f6-4cb6-90d7-1a0feab7d8be",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "size": [
+    86,
+    86
+   ],
+   "sha12": "d1848c853065"
+  },
+  {
+   "label": "slime, floor 1, 21 Oct",
+   "kind": "made",
+   "name": "slime",
+   "asset_id": "b49b1e6a-0898-44f5-ad16-055704b9669d",
+   "job_id": "05a5b71e-2dd8-40b7-915b-2f97cefb8800",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "size": [
+    160,
+    160
+   ],
+   "sha12": "f89a2588833e"
+  },
+  {
+   "label": "skeleton, floor 1, 21 Oct",
+   "kind": "made",
+   "name": "skeleton",
+   "asset_id": "b0e7023e-e120-4e7e-afaa-4011d5930e56",
+   "job_id": "ca08c0b8-b569-490a-b645-c9e176cb8f05",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "size": [
+    40,
+    40
+   ],
+   "sha12": "23997de7a3bb"
+  },
+  {
+   "label": "mushroom, floor 1, 21 Oct",
+   "kind": "made",
+   "name": "mushroom",
+   "asset_id": "3a8734cc-a5ea-47d2-8aaf-630af9311523",
+   "job_id": "c1781efc-010c-496c-aff2-9d445170e2f4",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "size": [
+    84,
+    84
+   ],
+   "sha12": "a9501ff5875f"
+  },
+  {
+   "label": "arci, floor 1 guardian, 21 Oct",
+   "kind": "made",
+   "name": "arci",
+   "asset_id": "ff172772-98ee-42dd-9b4a-6cc92d11f73c",
+   "job_id": "d57f30aa-4844-4462-8078-913cf9ed7d2d",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "size": [
+    92,
+    92
+   ],
+   "sha12": "e25453d91c47"
+  },
+  {
+   "label": "arci_lie, first try: head the right way up on a dog lying on its back (his catch)",
+   "kind": "rejected",
+   "name": "arci_lie",
+   "asset_id": "544eae95-4471-454e-9e63-9c22f4d3d433",
+   "job_id": "270a9ea8-41da-483a-8a82-d96bcd4691b8",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "size": [
+    114,
+    114
+   ],
+   "sha12": "23aa4a354910"
+  },
+  {
+   "label": "arci_run, floor 1 guardian, 21 Oct",
+   "kind": "made",
+   "name": "arci_run",
+   "asset_id": "36eed2f7-b593-4303-a47b-154d5db4379a",
+   "job_id": "d0001094-bdc8-4dcb-a368-03254666f4e2",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "size": [
+    114,
+    114
+   ],
+   "sha12": "cf19db61696f"
+  },
+  {
+   "label": "arci_frisbee, floor 1 guardian, 21 Oct",
+   "kind": "made",
+   "name": "arci_frisbee",
+   "asset_id": "3921df44-ee43-4bc1-af0b-18bddb734903",
+   "job_id": "9f654d5e-d1f3-41fa-a98f-b4d566fa247e",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "size": [
+    96,
+    96
+   ],
+   "sha12": "0b996dc1d97c"
+  },
+  {
+   "label": "arci_stick, floor 1 guardian, 21 Oct",
+   "kind": "made",
+   "name": "arci_stick",
+   "asset_id": "39b10f26-35bb-4447-96b5-2831354d8fe7",
+   "job_id": "f517378a-8034-4a51-b642-9d9f6aaf2016",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "size": [
+    112,
+    112
+   ],
+   "sha12": "eb2b1a52fdbf"
+  },
+  {
+   "label": "arci_lie, the head turned upside down (an edit of the first try), 21 Oct",
+   "kind": "made",
+   "name": "arci_lie",
+   "asset_id": "9ba85a6c-b1a8-4d16-b0b6-f867e5bb4cd5",
+   "job_id": "3b64f02f-6161-4f22-a243-269924b0aaa0",
+   "edit_of": "544eae95-4471-454e-9e63-9c22f4d3d433",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "size": [
+    116,
+    116
+   ],
+   "sha12": "31a67c3e31e9"
   }
  ]
 }

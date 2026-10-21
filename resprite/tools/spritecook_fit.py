@@ -2,7 +2,7 @@
 resprite/spritecook/<name>.png (saved as SpriteCook gave it) -> resprite/hd/<name>.png, and the
 file's sha12 into resprite/spritecook-assets.json. python3 resprite/tools/spritecook_fit.py [NAME...]
 Fresh download links: the SpriteCook tool get_asset_metadata(asset_id); they last an hour."""
-import hashlib, json, os, sys
+import hashlib, json, os, re, sys
 from PIL import Image
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from inventory import G, ROOT
@@ -67,7 +67,20 @@ def down(spr, nw, nh):
 def fit(spr, w, h):
     k = min(w / spr.width, h / spr.height)
     nw, nh = max(1, round(spr.width * k)), max(1, round(spr.height * k))
-    return frame(down(spr, nw, nh), w, h)
+    return frame(down(spr, nw, nh), w, h, outline=False)
+
+def _boss_scales():
+    src = open(os.path.join(ROOT, "tiny_biggot_godot", "scripts", "data", "game_data.gd")).read()
+    block = src[src.index("const BOSSES := {"):src.index("const FLOORS := [")]
+    return {m.group(1): float(m.group(2)) for m in re.finditer(r'"sprite":\s*"([^"]+)".*?"scale":\s*([0-9.]+)', block)}
+
+BOSS_SCALE = _boss_scales()
+
+def density(name, old):
+    """How many new pixels per old one: 2 (double detail), or 4 for a guardian the game draws at twice
+    size, when that stays within the atlas's 96 px (ARCI does not: 2)."""
+    base = re.sub(r"_s[23]$", "", name)
+    return 4 if BOSS_SCALE.get(base, 1.0) >= 2 and old.height * 4 <= 96 and old.width * 4 <= 128 else 2
 
 def trim(im):
     box = im.getchannel("A").point(lambda v: 255 if v >= 128 else 0).getbbox()
@@ -87,7 +100,8 @@ def main(names):
             continue
         a["sha12"] = sha12(raw)
         old = Image.open(os.path.join(G, n + ".png"))
-        fit(trim(Image.open(raw).convert("RGBA")), old.width * 2, old.height * 2).save(os.path.join(HD, n + ".png"))
+        d = density(n, old)
+        fit(trim(Image.open(raw).convert("RGBA")), old.width * d, old.height * d).save(os.path.join(HD, n + ".png"))
         done += 1
     with open(MANIFEST, "w") as f:
         json.dump(man, f, indent=1)

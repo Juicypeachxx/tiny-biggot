@@ -35,7 +35,8 @@ def sheet(out, names, per_row=6, unit=4):
         x = 10 + (i % per_row) * cw
         y = 10 + (i // per_row) * ch
         o2 = old.resize((old.width * unit * 2, old.height * unit * 2), Image.NEAREST)
-        n2 = new.resize((new.width * unit, new.height * unit), Image.NEAREST)
+        f = max(1, old.width * 2 * unit // new.width)        # the new one at the same size on screen
+        n2 = new.resize((new.width * f, new.height * f), Image.NEAREST)
         img.alpha_composite(o2, (x + (side - o2.width) // 2, y + side - o2.height))
         img.alpha_composite(n2, (x + side + 12 + (side - n2.width) // 2, y + side - n2.height))
         tag = "  (SpriteCook)" if n in SPRITECOOK else "  (Gemini)" if hand else ""
