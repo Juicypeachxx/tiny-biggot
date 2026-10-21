@@ -1523,6 +1523,605 @@
    "model": "gpt-image-2 low 2K",
    "credits": 0,
    "sha12": "9d3218d93aca"
+  },
+  {
+   "label": "sheet champ_c1 (gritty), 21 Oct",
+   "kind": "sheet",
+   "name": "champ_c1",
+   "asset_id": "da40bd72-0d96-465d-bde5-bedf4fbdd5ab",
+   "job_id": "5d71f543-8a67-43f7-879d-24848912612e",
+   "reference": "a347844e-5033-4336-b780-a00620ff81cb",
+   "model": "gpt-image-2 low",
+   "credits": 2,
+   "cells": [
+    "mirehulk",
+    "ironcaptain",
+    "stoneabbot",
+    "enforcer",
+    "herald",
+    "turnkey",
+    "carrionknight",
+    "broker",
+    "mayor"
+   ],
+   "sha12": "b10eadb5d9db"
+  },
+  {
+   "label": "mirehulk, from champ_c1 cell 0",
+   "kind": "made",
+   "name": "mirehulk",
+   "asset_id": "da40bd72-0d96-465d-bde5-bedf4fbdd5ab",
+   "sheet_cell": 0,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "a793cecaf208"
+  },
+  {
+   "label": "ironcaptain, from champ_c1 cell 1",
+   "kind": "made",
+   "name": "ironcaptain",
+   "asset_id": "da40bd72-0d96-465d-bde5-bedf4fbdd5ab",
+   "sheet_cell": 1,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "57d7804628a9"
+  },
+  {
+   "label": "stoneabbot, from champ_c1 cell 2",
+   "kind": "made",
+   "name": "stoneabbot",
+   "asset_id": "da40bd72-0d96-465d-bde5-bedf4fbdd5ab",
+   "sheet_cell": 2,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "013d9f2c5b88"
+  },
+  {
+   "label": "enforcer, from champ_c1 cell 3",
+   "kind": "made",
+   "name": "enforcer",
+   "asset_id": "da40bd72-0d96-465d-bde5-bedf4fbdd5ab",
+   "sheet_cell": 3,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "8b6fbcb5a9f3"
+  },
+  {
+   "label": "herald, from champ_c1 cell 4",
+   "kind": "made",
+   "name": "herald",
+   "asset_id": "da40bd72-0d96-465d-bde5-bedf4fbdd5ab",
+   "sheet_cell": 4,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "e9ed1e8ef7f6"
+  },
+  {
+   "label": "turnkey, from champ_c1 cell 5",
+   "kind": "made",
+   "name": "turnkey",
+   "asset_id": "da40bd72-0d96-465d-bde5-bedf4fbdd5ab",
+   "sheet_cell": 5,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "b5f0b18edac9"
+  },
+  {
+   "label": "carrionknight, from champ_c1 cell 6",
+   "kind": "made",
+   "name": "carrionknight",
+   "asset_id": "da40bd72-0d96-465d-bde5-bedf4fbdd5ab",
+   "sheet_cell": 6,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "b1186e1dfa3b"
+  },
+  {
+   "label": "broker, from champ_c1 cell 7",
+   "kind": "made",
+   "name": "broker",
+   "asset_id": "da40bd72-0d96-465d-bde5-bedf4fbdd5ab",
+   "sheet_cell": 7,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "67128e8c827a"
+  },
+  {
+   "label": "mayor, from champ_c1 cell 8",
+   "kind": "made",
+   "name": "mayor",
+   "asset_id": "da40bd72-0d96-465d-bde5-bedf4fbdd5ab",
+   "sheet_cell": 8,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "6631d0f19d3d"
+  },
+  {
+   "label": "sheet champ_c2 (gritty), 21 Oct",
+   "kind": "sheet",
+   "name": "champ_c2",
+   "asset_id": "54cfadad-bfc7-4c83-ad1b-59414a1cf72b",
+   "job_id": "4851bd69-3b4e-41cb-b0b7-3d19d466d62c",
+   "reference": "cbdd120d-71d2-43b6-8814-14fdc629e3bc",
+   "model": "gpt-image-2 low",
+   "credits": 2,
+   "cells": [
+    "rustbutcher",
+    "landlord",
+    "kingpin",
+    "marshal",
+    "galewarden",
+    "rotking",
+    "highcaliber",
+    "squallheron",
+    "tidecaptain"
+   ],
+   "sha12": "4da14779fe42"
+  },
+  {
+   "label": "rustbutcher, from champ_c2 cell 0",
+   "kind": "made",
+   "name": "rustbutcher",
+   "asset_id": "54cfadad-bfc7-4c83-ad1b-59414a1cf72b",
+   "sheet_cell": 0,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "0c764c08f484"
+  },
+  {
+   "label": "landlord, from champ_c2 cell 1",
+   "kind": "made",
+   "name": "landlord",
+   "asset_id": "54cfadad-bfc7-4c83-ad1b-59414a1cf72b",
+   "sheet_cell": 1,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "3f4191922db3"
+  },
+  {
+   "label": "kingpin, from champ_c2 cell 2",
+   "kind": "made",
+   "name": "kingpin",
+   "asset_id": "54cfadad-bfc7-4c83-ad1b-59414a1cf72b",
+   "sheet_cell": 2,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "4a1af6a817ac"
+  },
+  {
+   "label": "marshal, from champ_c2 cell 3",
+   "kind": "made",
+   "name": "marshal",
+   "asset_id": "54cfadad-bfc7-4c83-ad1b-59414a1cf72b",
+   "sheet_cell": 3,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "e9a2423ef8d9"
+  },
+  {
+   "label": "galewarden, from champ_c2 cell 4",
+   "kind": "made",
+   "name": "galewarden",
+   "asset_id": "54cfadad-bfc7-4c83-ad1b-59414a1cf72b",
+   "sheet_cell": 4,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "7825f55b8612"
+  },
+  {
+   "label": "rotking, from champ_c2 cell 5",
+   "kind": "made",
+   "name": "rotking",
+   "asset_id": "54cfadad-bfc7-4c83-ad1b-59414a1cf72b",
+   "sheet_cell": 5,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "7fb123d612f0"
+  },
+  {
+   "label": "highcaliber, from champ_c2 cell 6",
+   "kind": "made",
+   "name": "highcaliber",
+   "asset_id": "54cfadad-bfc7-4c83-ad1b-59414a1cf72b",
+   "sheet_cell": 6,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "f80aa5ea7bcd"
+  },
+  {
+   "label": "squallheron, from champ_c2 cell 7",
+   "kind": "made",
+   "name": "squallheron",
+   "asset_id": "54cfadad-bfc7-4c83-ad1b-59414a1cf72b",
+   "sheet_cell": 7,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "d06116cde26d"
+  },
+  {
+   "label": "tidecaptain, from champ_c2 cell 8",
+   "kind": "made",
+   "name": "tidecaptain",
+   "asset_id": "54cfadad-bfc7-4c83-ad1b-59414a1cf72b",
+   "sheet_cell": 8,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "b6d8ddd58374"
+  },
+  {
+   "label": "sheet champ_c3 (gritty), 21 Oct",
+   "kind": "sheet",
+   "name": "champ_c3",
+   "asset_id": "b85a55ca-9794-4471-8895-d6866e1b9f99",
+   "job_id": "72cb6616-d445-4f32-ab1c-58775a82a57a",
+   "reference": "defb2fc7-3cbd-4da4-b6e0-d1cb59940a1d",
+   "model": "gpt-image-2 low",
+   "credits": 2,
+   "cells": [
+    "bellringer",
+    "shadow",
+    "foreman",
+    "hoarknight",
+    "inkwidow",
+    "bindingpress",
+    "headscribe",
+    "lexicant",
+    "fineprint"
+   ],
+   "sha12": "2730551f9288"
+  },
+  {
+   "label": "bellringer, from champ_c3 cell 0",
+   "kind": "made",
+   "name": "bellringer",
+   "asset_id": "b85a55ca-9794-4471-8895-d6866e1b9f99",
+   "sheet_cell": 0,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "261665715773"
+  },
+  {
+   "label": "shadow, from champ_c3 cell 1",
+   "kind": "made",
+   "name": "shadow",
+   "asset_id": "b85a55ca-9794-4471-8895-d6866e1b9f99",
+   "sheet_cell": 1,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "b6a54c699e3b"
+  },
+  {
+   "label": "foreman, from champ_c3 cell 2",
+   "kind": "made",
+   "name": "foreman",
+   "asset_id": "b85a55ca-9794-4471-8895-d6866e1b9f99",
+   "sheet_cell": 2,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "4ea249643d5d"
+  },
+  {
+   "label": "hoarknight, from champ_c3 cell 3",
+   "kind": "made",
+   "name": "hoarknight",
+   "asset_id": "b85a55ca-9794-4471-8895-d6866e1b9f99",
+   "sheet_cell": 3,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "939c98df36cc"
+  },
+  {
+   "label": "inkwidow, from champ_c3 cell 4",
+   "kind": "made",
+   "name": "inkwidow",
+   "asset_id": "b85a55ca-9794-4471-8895-d6866e1b9f99",
+   "sheet_cell": 4,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "68bebca27673"
+  },
+  {
+   "label": "bindingpress, from champ_c3 cell 5",
+   "kind": "made",
+   "name": "bindingpress",
+   "asset_id": "b85a55ca-9794-4471-8895-d6866e1b9f99",
+   "sheet_cell": 5,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "50cf13365d81"
+  },
+  {
+   "label": "headscribe, from champ_c3 cell 6",
+   "kind": "made",
+   "name": "headscribe",
+   "asset_id": "b85a55ca-9794-4471-8895-d6866e1b9f99",
+   "sheet_cell": 6,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "9a0416f9a8ed"
+  },
+  {
+   "label": "lexicant, from champ_c3 cell 7",
+   "kind": "made",
+   "name": "lexicant",
+   "asset_id": "b85a55ca-9794-4471-8895-d6866e1b9f99",
+   "sheet_cell": 7,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "acad8956c52f"
+  },
+  {
+   "label": "fineprint, from champ_c3 cell 8",
+   "kind": "made",
+   "name": "fineprint",
+   "asset_id": "b85a55ca-9794-4471-8895-d6866e1b9f99",
+   "sheet_cell": 8,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "9fed158e2772"
+  },
+  {
+   "label": "sheet champ_c4 (gritty), 21 Oct",
+   "kind": "sheet",
+   "name": "champ_c4",
+   "asset_id": "98cd4337-fbe1-40ac-a96f-97f8e54c5239",
+   "job_id": "f7b0842f-cae5-4a0e-8772-f1e2aad7807d",
+   "reference": "ccb15ffa-9436-4830-b022-0f45ee014cce",
+   "model": "gpt-image-2 low",
+   "credits": 2,
+   "cells": [
+    "colophon",
+    "overdue",
+    "quiet",
+    "kindling",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-"
+   ],
+   "sha12": "2b4c57aed5f5"
+  },
+  {
+   "label": "colophon, from champ_c4 cell 0",
+   "kind": "made",
+   "name": "colophon",
+   "asset_id": "98cd4337-fbe1-40ac-a96f-97f8e54c5239",
+   "sheet_cell": 0,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "1d1d45b70b15"
+  },
+  {
+   "label": "overdue, from champ_c4 cell 1",
+   "kind": "made",
+   "name": "overdue",
+   "asset_id": "98cd4337-fbe1-40ac-a96f-97f8e54c5239",
+   "sheet_cell": 1,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "abcb4c83de89"
+  },
+  {
+   "label": "quiet, from champ_c4 cell 2",
+   "kind": "made",
+   "name": "quiet",
+   "asset_id": "98cd4337-fbe1-40ac-a96f-97f8e54c5239",
+   "sheet_cell": 2,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "c2b879fe3619"
+  },
+  {
+   "label": "kindling, from champ_c4 cell 3",
+   "kind": "made",
+   "name": "kindling",
+   "asset_id": "98cd4337-fbe1-40ac-a96f-97f8e54c5239",
+   "sheet_cell": 3,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "7bc85e1401ef"
+  },
+  {
+   "label": "sheet prop_p1 (gritty), 21 Oct",
+   "kind": "sheet",
+   "name": "prop_p1",
+   "asset_id": "de60ad75-c71b-4df4-b152-348bfe8cf32d",
+   "job_id": "00cb92f3-1303-4d89-8c00-399690712f42",
+   "reference": "220f2243-fbf1-444b-8f23-d316d4c34c54",
+   "model": "gpt-image-2 low",
+   "credits": 2,
+   "cells": [
+    "rex_bowl",
+    "rex_hay",
+    "rex_mat",
+    "rex_potato",
+    "rex_potatoes",
+    "rex_shades",
+    "rex_sword",
+    "arci_frisbee",
+    "arci_stick"
+   ],
+   "sha12": "40fad1f038c0"
+  },
+  {
+   "label": "rex_bowl, from prop_p1 cell 0",
+   "kind": "made",
+   "name": "rex_bowl",
+   "asset_id": "de60ad75-c71b-4df4-b152-348bfe8cf32d",
+   "sheet_cell": 0,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "d9717ab11278"
+  },
+  {
+   "label": "rex_hay, from prop_p1 cell 1",
+   "kind": "made",
+   "name": "rex_hay",
+   "asset_id": "de60ad75-c71b-4df4-b152-348bfe8cf32d",
+   "sheet_cell": 1,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "ee9de6ed8482"
+  },
+  {
+   "label": "rex_mat, from prop_p1 cell 2",
+   "kind": "made",
+   "name": "rex_mat",
+   "asset_id": "de60ad75-c71b-4df4-b152-348bfe8cf32d",
+   "sheet_cell": 2,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "25a52a80cfc5"
+  },
+  {
+   "label": "rex_potato, from prop_p1 cell 3",
+   "kind": "made",
+   "name": "rex_potato",
+   "asset_id": "de60ad75-c71b-4df4-b152-348bfe8cf32d",
+   "sheet_cell": 3,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "16f0a47d8eae"
+  },
+  {
+   "label": "rex_shades, from prop_p1 cell 5",
+   "kind": "made",
+   "name": "rex_shades",
+   "asset_id": "de60ad75-c71b-4df4-b152-348bfe8cf32d",
+   "sheet_cell": 5,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "d480312870aa"
+  },
+  {
+   "label": "arci_frisbee, from prop_p1 cell 7",
+   "kind": "made",
+   "name": "arci_frisbee",
+   "asset_id": "de60ad75-c71b-4df4-b152-348bfe8cf32d",
+   "sheet_cell": 7,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "556f07d3593a"
+  },
+  {
+   "label": "sheet prop_p2 (gritty), 21 Oct",
+   "kind": "sheet",
+   "name": "prop_p2",
+   "asset_id": "ad3c6174-e05c-44a6-98cb-431a95b68886",
+   "job_id": "e7dd539b-992d-4700-b382-feb518930fe6",
+   "reference": "995436a0-d338-402d-bcab-b757a8ec8b82",
+   "model": "gpt-image-2 low",
+   "credits": 2,
+   "cells": [
+    "sefe_axe",
+    "sefe_can",
+    "sefe_chainsaw",
+    "sefe_cone",
+    "sefe_smoke",
+    "-",
+    "-",
+    "-",
+    "-"
+   ],
+   "sha12": "608459b3f248"
+  },
+  {
+   "label": "sefe_axe, from prop_p2 cell 0",
+   "kind": "made",
+   "name": "sefe_axe",
+   "asset_id": "ad3c6174-e05c-44a6-98cb-431a95b68886",
+   "sheet_cell": 0,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "df0c37773392"
+  },
+  {
+   "label": "sefe_can, from prop_p2 cell 1",
+   "kind": "made",
+   "name": "sefe_can",
+   "asset_id": "ad3c6174-e05c-44a6-98cb-431a95b68886",
+   "sheet_cell": 1,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "bc1920030087"
+  },
+  {
+   "label": "sefe_chainsaw, from prop_p2 cell 2",
+   "kind": "made",
+   "name": "sefe_chainsaw",
+   "asset_id": "ad3c6174-e05c-44a6-98cb-431a95b68886",
+   "sheet_cell": 2,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "daa6875a295a"
+  },
+  {
+   "label": "sefe_cone, from prop_p2 cell 3",
+   "kind": "made",
+   "name": "sefe_cone",
+   "asset_id": "ad3c6174-e05c-44a6-98cb-431a95b68886",
+   "sheet_cell": 3,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "f59d1a362cc7"
+  },
+  {
+   "label": "sefe_smoke, from prop_p2 cell 4",
+   "kind": "made",
+   "name": "sefe_smoke",
+   "asset_id": "ad3c6174-e05c-44a6-98cb-431a95b68886",
+   "sheet_cell": 4,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "97fb73122de4"
+  },
+  {
+   "label": "prop sheet p3: the stick sword, fetch stick and potato planter lying flat (first tries were diagonal or a tall crate)",
+   "kind": "sheet",
+   "name": "prop_p3",
+   "asset_id": "00fced30-5d32-4356-b4ab-c1445c01b2ef",
+   "job_id": "83cc6fd0-f2d6-48b0-82d8-b9cc82ae0c64",
+   "reference": "d73fb63a-a68d-4e4a-9481-a04a87e9d467",
+   "model": "gpt-image-2 low",
+   "credits": 2,
+   "cells": [
+    "rex_sword",
+    "arci_stick",
+    "rex_potatoes",
+    "-"
+   ],
+   "sha12": "ecb8d9b9b951"
+  },
+  {
+   "label": "rex_sword, from prop_p3 cell 0",
+   "kind": "made",
+   "name": "rex_sword",
+   "asset_id": "00fced30-5d32-4356-b4ab-c1445c01b2ef",
+   "sheet_cell": 0,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "de99fbc0e0cf"
+  },
+  {
+   "label": "arci_stick, from prop_p3 cell 1",
+   "kind": "made",
+   "name": "arci_stick",
+   "asset_id": "00fced30-5d32-4356-b4ab-c1445c01b2ef",
+   "sheet_cell": 1,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "592d83e2f77f"
+  },
+  {
+   "label": "rex_potatoes, from prop_p3 cell 2",
+   "kind": "made",
+   "name": "rex_potatoes",
+   "asset_id": "00fced30-5d32-4356-b4ab-c1445c01b2ef",
+   "sheet_cell": 2,
+   "model": "gpt-image-2 low",
+   "credits": 0,
+   "sha12": "76a81ddbf964"
   }
  ]
 }
