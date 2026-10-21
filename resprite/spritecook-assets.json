@@ -1,0 +1,95 @@
+{
+ "about": "Everything made on SpriteCook for V2. asset_id is the key; sha12 is the first 12 hex of the SHA-256 of the saved file (filled in by tools/spritecook_fit.py).",
+ "assets": [
+  {
+   "label": "style guide: 10 of his Gemini Style 1 foes at x4 (resprite/spritecook/style-guide.png)",
+   "kind": "style",
+   "asset_id": "72f63eb6-56ab-4b3d-a719-79549fdca3ec",
+   "sha12": "b6992f606524"
+  },
+  {
+   "label": "reference: the game's hexer today, enlarged",
+   "kind": "reference",
+   "name": "hexer",
+   "asset_id": "7484a0cf-35cb-4a8e-b8ce-0883d393ca79",
+   "sha12": null
+  },
+  {
+   "label": "reference: the game's brute today, enlarged",
+   "kind": "reference",
+   "name": "brute",
+   "asset_id": "f6bca0be-dc2b-4b4f-ab43-91d3dd220ccc",
+   "sha12": null
+  },
+  {
+   "label": "reference: the game's colossus today, enlarged",
+   "kind": "reference",
+   "name": "colossus",
+   "asset_id": "d86c38c2-8757-428d-b27c-cab70a355eb0",
+   "sha12": null
+  },
+  {
+   "label": "reference: the game's sporemother today, enlarged",
+   "kind": "reference",
+   "name": "sporemother",
+   "asset_id": "040898fa-cb84-414e-b145-19629f01fea9",
+   "sha12": null
+  },
+  {
+   "label": "hexer, test 21 Oct",
+   "kind": "made",
+   "name": "hexer",
+   "asset_id": "ccb4c907-2606-4457-a9b0-99aac952beb6",
+   "job_id": "72585ea6-db65-46be-8e4d-67ab69f0323b",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "size": [
+    82,
+    82
+   ],
+   "sha12": null
+  },
+  {
+   "label": "brute, test 21 Oct",
+   "kind": "made",
+   "name": "brute",
+   "asset_id": "ccf051ec-3d80-42f3-b040-dacf0f270d83",
+   "job_id": "d67edad1-7b28-45fb-84f3-0f47b6ac80de",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "size": [
+    30,
+    30
+   ],
+   "sha12": null
+  },
+  {
+   "label": "colossus, test 21 Oct",
+   "kind": "made",
+   "name": "colossus",
+   "asset_id": "fff0ee57-723c-490b-b765-5d0f8691b1a3",
+   "job_id": "b23247a3-32c2-4a42-8c83-ce276f0dfcb7",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "size": [
+    66,
+    66
+   ],
+   "sha12": null
+  },
+  {
+   "label": "sporemother, test 21 Oct",
+   "kind": "made",
+   "name": "sporemother",
+   "asset_id": "9d63d647-0dd2-469c-8706-007f1172d71b",
+   "job_id": "23aff0f0-e8f5-41ca-b9f5-664459a4d7b8",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "size": [
+    62,
+    62
+   ],
+   "sha12": null
+  }
+ ]
+}

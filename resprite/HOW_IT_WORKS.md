@@ -105,3 +105,36 @@ through, but the SpriteCook tools were still missing: no SpriteCook plugin or co
 claude.ai account (ListPlugins and ListConnectors found none for "sprite"). Nothing was made; no
 credits spent. He needs to add SpriteCook as a plugin or connector on claude.ai and start a new
 session.
+
+## 21 Oct: SpriteCook connected, first test made
+
+- **The connector works** in session 2ee66c08 (his paid account). Pictures cost credits: Nano
+  Banana 2.1 is 12 a picture, Nano Banana 2 Lite 8, GPT 2.5 Flare 5/8/25 (low/medium/high).
+  About 792 credits were left after the test.
+- **The test (his ask: "first resprite characters and bosses").**
+  - Made: 2 heroes (hexer, brute) and 2 guardians (colossus, sporemother), Nano Banana 2.1,
+    48 credits.
+  - The style guide is `spritecook/style-guide.png`: 10 of his Gemini foes at x4.
+  - The reference for each is the game's sprite today, enlarged.
+  - All four came back. SpriteCook sizes: 82, 30, 66 and 62 px square.
+- **Blocked: the container cannot download them.**
+  - The pictures are at `api.spritecook.ai`, which the network settings still refuse (403).
+  - `spritecook.ai` and `mcp.spritecook.ai` pass.
+  - He has to add `api.spritecook.ai` under Allowed domains. A change there reached this running
+    session last time; no new session is needed.
+- **`spritecook-assets.json`** holds every asset id: the style guide, the references and the four
+  made.
+- **Once it passes:**
+  1. `get_asset_metadata(asset_id)` for each made one: fresh links, which last an hour.
+  2. Save each as `spritecook/<name>.png`, exactly as given.
+  3. Run `python3 resprite/tools/spritecook_fit.py`. It trims the picture, fits it to the
+     sprite's double size in `hd/` (same fit as the Gemini cuts: 24 colours, the dark outline)
+     and writes the sha12 into the manifest.
+  4. Run `python3 resprite/tools/review.py OUT.png hexer brute colossus sporemother` and show
+     him.
+- **If he likes it:**
+  - The other 32 heroes at 12 credits (384).
+  - The other 42 guardians' main pictures on Lite at 8 (336), if Lite holds up on one first.
+  - That makes about 720 of the 792.
+  - The EVOLVE and MINIS guardians' later phases come from the main picture through the art tools.
+    The special guardians' extra poses come later.
