@@ -2815,6 +2815,1173 @@
    "model": "gemini-nano-banana-2.1",
    "credits": 0,
    "sha12": "e071262604cd"
+  },
+  {
+   "label": "guardian sheet g2 in his bright look (2K), 21 Oct",
+   "kind": "sheet",
+   "name": "bright_g2",
+   "asset_id": "ab67870f-6f67-4342-8f59-fd2217c5cb96",
+   "job_id": "4cfdd99b-4b3a-497f-8475-c82dcceec66a",
+   "reference": "999ef30f-5cc0-4e35-bc58-5c9e692f83a2",
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 18,
+   "cells": [
+    "crowking",
+    "umbralsun",
+    "holycow",
+    "judge",
+    "cinderking",
+    "unwritten",
+    "stormcrown",
+    "bilgehydra",
+    "brassorgan"
+   ],
+   "sha12": "0a608d0346ed"
+  },
+  {
+   "label": "crowking, from sheet bright_g2 cell 0",
+   "kind": "made",
+   "name": "crowking",
+   "asset_id": "ab67870f-6f67-4342-8f59-fd2217c5cb96",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "858656d5ad28"
+  },
+  {
+   "label": "umbralsun, from sheet bright_g2 cell 1",
+   "kind": "made",
+   "name": "umbralsun",
+   "asset_id": "ab67870f-6f67-4342-8f59-fd2217c5cb96",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "c1a50bdce818"
+  },
+  {
+   "label": "holycow, from sheet bright_g2 cell 2",
+   "kind": "made",
+   "name": "holycow",
+   "asset_id": "ab67870f-6f67-4342-8f59-fd2217c5cb96",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "3d8021b99488"
+  },
+  {
+   "label": "judge, from sheet bright_g2 cell 3",
+   "kind": "made",
+   "name": "judge",
+   "asset_id": "ab67870f-6f67-4342-8f59-fd2217c5cb96",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "9589d8b99407"
+  },
+  {
+   "label": "cinderking, from sheet bright_g2 cell 4",
+   "kind": "made",
+   "name": "cinderking",
+   "asset_id": "ab67870f-6f67-4342-8f59-fd2217c5cb96",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "2545704ea230"
+  },
+  {
+   "label": "unwritten, from sheet bright_g2 cell 5",
+   "kind": "made",
+   "name": "unwritten",
+   "asset_id": "ab67870f-6f67-4342-8f59-fd2217c5cb96",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "8ffe5a207cb5"
+  },
+  {
+   "label": "stormcrown, from sheet bright_g2 cell 6",
+   "kind": "made",
+   "name": "stormcrown",
+   "asset_id": "ab67870f-6f67-4342-8f59-fd2217c5cb96",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "09f164482c96"
+  },
+  {
+   "label": "bilgehydra, from sheet bright_g2 cell 7",
+   "kind": "made",
+   "name": "bilgehydra",
+   "asset_id": "ab67870f-6f67-4342-8f59-fd2217c5cb96",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "992edb0436b0"
+  },
+  {
+   "label": "brassorgan, from sheet bright_g2 cell 8",
+   "kind": "made",
+   "name": "brassorgan",
+   "asset_id": "ab67870f-6f67-4342-8f59-fd2217c5cb96",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "4e2007fa0af6"
+  },
+  {
+   "label": "guardian sheet g3 in his bright look (2K), 21 Oct",
+   "kind": "sheet",
+   "name": "bright_g3",
+   "asset_id": "1baffeac-95b4-4753-a303-62eb7971a48d",
+   "job_id": "deb6359f-a68f-405e-9913-399e98907ae0",
+   "reference": "852f7312-9a95-4d7d-8c83-690128540b6d",
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 18,
+   "cells": [
+    "greatengine",
+    "glacialmaw",
+    "inkleviathan",
+    "thebinder",
+    "author",
+    "redactor",
+    "lexicon",
+    "erratum",
+    "reader"
+   ],
+   "sha12": "50d738dcea77"
+  },
+  {
+   "label": "greatengine, from sheet bright_g3 cell 0",
+   "kind": "made",
+   "name": "greatengine",
+   "asset_id": "1baffeac-95b4-4753-a303-62eb7971a48d",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "159c0e023f45"
+  },
+  {
+   "label": "glacialmaw, from sheet bright_g3 cell 1",
+   "kind": "made",
+   "name": "glacialmaw",
+   "asset_id": "1baffeac-95b4-4753-a303-62eb7971a48d",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "f04d976ab3d7"
+  },
+  {
+   "label": "inkleviathan, from sheet bright_g3 cell 2",
+   "kind": "made",
+   "name": "inkleviathan",
+   "asset_id": "1baffeac-95b4-4753-a303-62eb7971a48d",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "d07731649a48"
+  },
+  {
+   "label": "thebinder, from sheet bright_g3 cell 3",
+   "kind": "made",
+   "name": "thebinder",
+   "asset_id": "1baffeac-95b4-4753-a303-62eb7971a48d",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "33e9e6ccb87e"
+  },
+  {
+   "label": "author, from sheet bright_g3 cell 4",
+   "kind": "made",
+   "name": "author",
+   "asset_id": "1baffeac-95b4-4753-a303-62eb7971a48d",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "5dc4b11cb678"
+  },
+  {
+   "label": "redactor, from sheet bright_g3 cell 5",
+   "kind": "made",
+   "name": "redactor",
+   "asset_id": "1baffeac-95b4-4753-a303-62eb7971a48d",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "174bf41706b6"
+  },
+  {
+   "label": "lexicon, from sheet bright_g3 cell 6",
+   "kind": "made",
+   "name": "lexicon",
+   "asset_id": "1baffeac-95b4-4753-a303-62eb7971a48d",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "f20def0c85f6"
+  },
+  {
+   "label": "erratum, from sheet bright_g3 cell 7",
+   "kind": "made",
+   "name": "erratum",
+   "asset_id": "1baffeac-95b4-4753-a303-62eb7971a48d",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "21b23d2dafa2"
+  },
+  {
+   "label": "reader, from sheet bright_g3 cell 8",
+   "kind": "made",
+   "name": "reader",
+   "asset_id": "1baffeac-95b4-4753-a303-62eb7971a48d",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "4bc0ab749066"
+  },
+  {
+   "label": "guardian sheet g4 in his bright look (2K), 21 Oct",
+   "kind": "sheet",
+   "name": "bright_g4",
+   "asset_id": "f784cd4b-0d26-42b4-a0a1-35cabe47beae",
+   "job_id": "0ed30b40-bdc5-47a6-ad06-2d3d263cb1c9",
+   "reference": "45aa8a5a-3255-42fc-83bb-7d8e28add81e",
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 18,
+   "cells": [
+    "shelver",
+    "hush",
+    "critic",
+    "admiral",
+    "golemking",
+    "archmage",
+    "phoenix",
+    "wyrm",
+    "chainfiend"
+   ],
+   "sha12": "d342f4e7a764"
+  },
+  {
+   "label": "shelver, from sheet bright_g4 cell 0",
+   "kind": "made",
+   "name": "shelver",
+   "asset_id": "f784cd4b-0d26-42b4-a0a1-35cabe47beae",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "3fd187740193"
+  },
+  {
+   "label": "hush, from sheet bright_g4 cell 1",
+   "kind": "made",
+   "name": "hush",
+   "asset_id": "f784cd4b-0d26-42b4-a0a1-35cabe47beae",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "ef9bef61a97f"
+  },
+  {
+   "label": "critic, from sheet bright_g4 cell 2",
+   "kind": "made",
+   "name": "critic",
+   "asset_id": "f784cd4b-0d26-42b4-a0a1-35cabe47beae",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "78d4897c6edd"
+  },
+  {
+   "label": "admiral, from sheet bright_g4 cell 3",
+   "kind": "made",
+   "name": "admiral",
+   "asset_id": "f784cd4b-0d26-42b4-a0a1-35cabe47beae",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "b4a8107ee76c"
+  },
+  {
+   "label": "golemking, from sheet bright_g4 cell 4",
+   "kind": "made",
+   "name": "golemking",
+   "asset_id": "f784cd4b-0d26-42b4-a0a1-35cabe47beae",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "2f772178f11c"
+  },
+  {
+   "label": "archmage, from sheet bright_g4 cell 5",
+   "kind": "made",
+   "name": "archmage",
+   "asset_id": "f784cd4b-0d26-42b4-a0a1-35cabe47beae",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "047af5ce9616"
+  },
+  {
+   "label": "phoenix, from sheet bright_g4 cell 6",
+   "kind": "made",
+   "name": "phoenix",
+   "asset_id": "f784cd4b-0d26-42b4-a0a1-35cabe47beae",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "a4f95e8b49e2"
+  },
+  {
+   "label": "wyrm, from sheet bright_g4 cell 7",
+   "kind": "made",
+   "name": "wyrm",
+   "asset_id": "f784cd4b-0d26-42b4-a0a1-35cabe47beae",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "2aa55b91df53"
+  },
+  {
+   "label": "chainfiend, from sheet bright_g4 cell 8",
+   "kind": "made",
+   "name": "chainfiend",
+   "asset_id": "f784cd4b-0d26-42b4-a0a1-35cabe47beae",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "70f3cfb36e02"
+  },
+  {
+   "label": "special guardian sheet s2 in his bright look (2K), 21 Oct",
+   "kind": "sheet",
+   "name": "bright_s2",
+   "asset_id": "b233e31e-d4f4-47d3-885b-31910444c1a5",
+   "job_id": "294f217e-d17c-4143-9871-e6001ba11d87",
+   "reference": "f3c35f63-65b9-4372-a162-f25d3623db18",
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 18,
+   "cells": [
+    "sefe_squat",
+    "sefe_zoned",
+    "braysalot",
+    "scalesworth",
+    "prophet",
+    "chonk",
+    "-",
+    "-",
+    "-"
+   ],
+   "sha12": "ff69007c3392"
+  },
+  {
+   "label": "sefe_squat, from sheet bright_s2 cell 0",
+   "kind": "made",
+   "name": "sefe_squat",
+   "asset_id": "b233e31e-d4f4-47d3-885b-31910444c1a5",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "5e2ae43d4620"
+  },
+  {
+   "label": "sefe_zoned, from sheet bright_s2 cell 1",
+   "kind": "made",
+   "name": "sefe_zoned",
+   "asset_id": "b233e31e-d4f4-47d3-885b-31910444c1a5",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "6d6ed49502b0"
+  },
+  {
+   "label": "braysalot, from sheet bright_s2 cell 2",
+   "kind": "made",
+   "name": "braysalot",
+   "asset_id": "b233e31e-d4f4-47d3-885b-31910444c1a5",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "207b852612b2"
+  },
+  {
+   "label": "scalesworth, from sheet bright_s2 cell 3",
+   "kind": "made",
+   "name": "scalesworth",
+   "asset_id": "b233e31e-d4f4-47d3-885b-31910444c1a5",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "a09bd8149f7a"
+  },
+  {
+   "label": "prophet, from sheet bright_s2 cell 4",
+   "kind": "made",
+   "name": "prophet",
+   "asset_id": "b233e31e-d4f4-47d3-885b-31910444c1a5",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "6ed4e636ff05"
+  },
+  {
+   "label": "chonk, from sheet bright_s2 cell 5",
+   "kind": "made",
+   "name": "chonk",
+   "asset_id": "b233e31e-d4f4-47d3-885b-31910444c1a5",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "841ae13d923e"
+  },
+  {
+   "label": "special guardian sheet s1, first try in the bright look: came out coarse (140 px for 9) and the Seraph had no face",
+   "kind": "rejected",
+   "name": "bright_s1_try1",
+   "asset_id": "fbf2ce8e-3d87-4927-b733-839288802daa",
+   "job_id": "67c3929a-97a3-45d3-a229-c4a43cce31e3",
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 18,
+   "sha12": null
+  },
+  {
+   "label": "special guardian sheet s1 in his bright look (2K, second try), 21 Oct",
+   "kind": "sheet",
+   "name": "bright_s1",
+   "asset_id": "ea18035e-79c1-4409-973f-b62f8f330e48",
+   "job_id": "b586f738-9368-4601-a086-18ec6c80c3c1",
+   "reference": "20658941-3df5-40d8-b310-4effcf8bd178",
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 18,
+   "cells": [
+    "seraph",
+    "rex",
+    "rex_lie",
+    "arci",
+    "arci_lie",
+    "arci_run",
+    "sefe",
+    "sefe_drink",
+    "sefe_out"
+   ],
+   "sha12": "1516a0b0b698"
+  },
+  {
+   "label": "seraph, from sheet bright_s1 cell 0",
+   "kind": "made",
+   "name": "seraph",
+   "asset_id": "ea18035e-79c1-4409-973f-b62f8f330e48",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "6689d1a16d85"
+  },
+  {
+   "label": "rex, from sheet bright_s1 cell 1",
+   "kind": "made",
+   "name": "rex",
+   "asset_id": "ea18035e-79c1-4409-973f-b62f8f330e48",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "335cf07b2421"
+  },
+  {
+   "label": "rex_lie, from sheet bright_s1 cell 2",
+   "kind": "made",
+   "name": "rex_lie",
+   "asset_id": "ea18035e-79c1-4409-973f-b62f8f330e48",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "7c635265dfe1"
+  },
+  {
+   "label": "arci, from sheet bright_s1 cell 3",
+   "kind": "made",
+   "name": "arci",
+   "asset_id": "ea18035e-79c1-4409-973f-b62f8f330e48",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "23e32cc7b53e"
+  },
+  {
+   "label": "arci_lie, from sheet bright_s1 cell 4",
+   "kind": "made",
+   "name": "arci_lie",
+   "asset_id": "ea18035e-79c1-4409-973f-b62f8f330e48",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "0df67fb396e5"
+  },
+  {
+   "label": "arci_run, from sheet bright_s1 cell 5",
+   "kind": "made",
+   "name": "arci_run",
+   "asset_id": "ea18035e-79c1-4409-973f-b62f8f330e48",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "e3685a701ecb"
+  },
+  {
+   "label": "sefe, from sheet bright_s1 cell 6",
+   "kind": "made",
+   "name": "sefe",
+   "asset_id": "ea18035e-79c1-4409-973f-b62f8f330e48",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "3ca7baa25e32"
+  },
+  {
+   "label": "sefe_drink, from sheet bright_s1 cell 7",
+   "kind": "made",
+   "name": "sefe_drink",
+   "asset_id": "ea18035e-79c1-4409-973f-b62f8f330e48",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "ff2c3134d816"
+  },
+  {
+   "label": "sefe_out, from sheet bright_s1 cell 8",
+   "kind": "made",
+   "name": "sefe_out",
+   "asset_id": "ea18035e-79c1-4409-973f-b62f8f330e48",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "fad991ca1518"
+  },
+  {
+   "label": "champion sheet c1 in his bright look, 21 Oct",
+   "kind": "sheet",
+   "name": "bright_c1",
+   "asset_id": "2d13490f-93d9-45c8-96dd-a0ad5b9a7f67",
+   "job_id": "c8737317-e5de-4135-a4fd-c55d88e5cefb",
+   "reference": "a347844e-5033-4336-b780-a00620ff81cb",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "cells": [
+    "mirehulk",
+    "ironcaptain",
+    "stoneabbot",
+    "enforcer",
+    "herald",
+    "turnkey",
+    "carrionknight",
+    "broker",
+    "mayor"
+   ],
+   "sha12": "6a618d07d974"
+  },
+  {
+   "label": "mirehulk, from sheet bright_c1 cell 0",
+   "kind": "made",
+   "name": "mirehulk",
+   "asset_id": "2d13490f-93d9-45c8-96dd-a0ad5b9a7f67",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "475432cd2d35"
+  },
+  {
+   "label": "ironcaptain, from sheet bright_c1 cell 1",
+   "kind": "made",
+   "name": "ironcaptain",
+   "asset_id": "2d13490f-93d9-45c8-96dd-a0ad5b9a7f67",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "c3cc110921b5"
+  },
+  {
+   "label": "stoneabbot, from sheet bright_c1 cell 2",
+   "kind": "made",
+   "name": "stoneabbot",
+   "asset_id": "2d13490f-93d9-45c8-96dd-a0ad5b9a7f67",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "2115a8cdca78"
+  },
+  {
+   "label": "enforcer, from sheet bright_c1 cell 3",
+   "kind": "made",
+   "name": "enforcer",
+   "asset_id": "2d13490f-93d9-45c8-96dd-a0ad5b9a7f67",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "c51b0009a615"
+  },
+  {
+   "label": "herald, from sheet bright_c1 cell 4",
+   "kind": "made",
+   "name": "herald",
+   "asset_id": "2d13490f-93d9-45c8-96dd-a0ad5b9a7f67",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "799f6cc3e39d"
+  },
+  {
+   "label": "turnkey, from sheet bright_c1 cell 5",
+   "kind": "made",
+   "name": "turnkey",
+   "asset_id": "2d13490f-93d9-45c8-96dd-a0ad5b9a7f67",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "dd2079f5a5f6"
+  },
+  {
+   "label": "carrionknight, from sheet bright_c1 cell 6",
+   "kind": "made",
+   "name": "carrionknight",
+   "asset_id": "2d13490f-93d9-45c8-96dd-a0ad5b9a7f67",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "46864727a501"
+  },
+  {
+   "label": "broker, from sheet bright_c1 cell 7",
+   "kind": "made",
+   "name": "broker",
+   "asset_id": "2d13490f-93d9-45c8-96dd-a0ad5b9a7f67",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "15e7e3853cbd"
+  },
+  {
+   "label": "mayor, from sheet bright_c1 cell 8",
+   "kind": "made",
+   "name": "mayor",
+   "asset_id": "2d13490f-93d9-45c8-96dd-a0ad5b9a7f67",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "0ddc61db7de6"
+  },
+  {
+   "label": "champion sheet c2 in his bright look, 21 Oct",
+   "kind": "sheet",
+   "name": "bright_c2",
+   "asset_id": "99113173-cf5b-47b2-9e3e-9d98c3456644",
+   "job_id": "6ac4f081-23c6-4745-b0a1-7ac26cefea4d",
+   "reference": "cbdd120d-71d2-43b6-8814-14fdc629e3bc",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "cells": [
+    "rustbutcher",
+    "landlord",
+    "kingpin",
+    "marshal",
+    "galewarden",
+    "rotking",
+    "highcaliber",
+    "squallheron",
+    "tidecaptain"
+   ],
+   "sha12": "21fc2f303a99"
+  },
+  {
+   "label": "rustbutcher, from sheet bright_c2 cell 0",
+   "kind": "made",
+   "name": "rustbutcher",
+   "asset_id": "99113173-cf5b-47b2-9e3e-9d98c3456644",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "4f2bf87e771c"
+  },
+  {
+   "label": "landlord, from sheet bright_c2 cell 1",
+   "kind": "made",
+   "name": "landlord",
+   "asset_id": "99113173-cf5b-47b2-9e3e-9d98c3456644",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "72c89f430e46"
+  },
+  {
+   "label": "kingpin, from sheet bright_c2 cell 2",
+   "kind": "made",
+   "name": "kingpin",
+   "asset_id": "99113173-cf5b-47b2-9e3e-9d98c3456644",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "2f167512d392"
+  },
+  {
+   "label": "marshal, from sheet bright_c2 cell 3",
+   "kind": "made",
+   "name": "marshal",
+   "asset_id": "99113173-cf5b-47b2-9e3e-9d98c3456644",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "c1c6c027eb8c"
+  },
+  {
+   "label": "galewarden, from sheet bright_c2 cell 4",
+   "kind": "made",
+   "name": "galewarden",
+   "asset_id": "99113173-cf5b-47b2-9e3e-9d98c3456644",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "2d619fe9cf62"
+  },
+  {
+   "label": "rotking, from sheet bright_c2 cell 5",
+   "kind": "made",
+   "name": "rotking",
+   "asset_id": "99113173-cf5b-47b2-9e3e-9d98c3456644",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "c57678f87c5d"
+  },
+  {
+   "label": "highcaliber, from sheet bright_c2 cell 6",
+   "kind": "made",
+   "name": "highcaliber",
+   "asset_id": "99113173-cf5b-47b2-9e3e-9d98c3456644",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "24192aa20309"
+  },
+  {
+   "label": "squallheron, from sheet bright_c2 cell 7",
+   "kind": "made",
+   "name": "squallheron",
+   "asset_id": "99113173-cf5b-47b2-9e3e-9d98c3456644",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "8b0603de1130"
+  },
+  {
+   "label": "tidecaptain, from sheet bright_c2 cell 8",
+   "kind": "made",
+   "name": "tidecaptain",
+   "asset_id": "99113173-cf5b-47b2-9e3e-9d98c3456644",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "dc0221bffa2e"
+  },
+  {
+   "label": "champion sheet c3 in his bright look, 21 Oct",
+   "kind": "sheet",
+   "name": "bright_c3",
+   "asset_id": "da4c9bc2-a704-42cf-851d-cff0b9991da5",
+   "job_id": "a6590b33-c4ad-4c63-8d7f-788968d09a59",
+   "reference": "defb2fc7-3cbd-4da4-b6e0-d1cb59940a1d",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "cells": [
+    "bellringer",
+    "shadow",
+    "foreman",
+    "hoarknight",
+    "inkwidow",
+    "bindingpress",
+    "headscribe",
+    "lexicant",
+    "fineprint"
+   ],
+   "sha12": "88e02392b7f7"
+  },
+  {
+   "label": "bellringer, from sheet bright_c3 cell 0",
+   "kind": "made",
+   "name": "bellringer",
+   "asset_id": "da4c9bc2-a704-42cf-851d-cff0b9991da5",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "f467fc779e3f"
+  },
+  {
+   "label": "shadow, from sheet bright_c3 cell 1",
+   "kind": "made",
+   "name": "shadow",
+   "asset_id": "da4c9bc2-a704-42cf-851d-cff0b9991da5",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "be7c079feee9"
+  },
+  {
+   "label": "foreman, from sheet bright_c3 cell 2",
+   "kind": "made",
+   "name": "foreman",
+   "asset_id": "da4c9bc2-a704-42cf-851d-cff0b9991da5",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "b7533019077a"
+  },
+  {
+   "label": "hoarknight, from sheet bright_c3 cell 3",
+   "kind": "made",
+   "name": "hoarknight",
+   "asset_id": "da4c9bc2-a704-42cf-851d-cff0b9991da5",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "4f54004b3bc9"
+  },
+  {
+   "label": "inkwidow, from sheet bright_c3 cell 4",
+   "kind": "made",
+   "name": "inkwidow",
+   "asset_id": "da4c9bc2-a704-42cf-851d-cff0b9991da5",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "259a691bb561"
+  },
+  {
+   "label": "bindingpress, from sheet bright_c3 cell 5",
+   "kind": "made",
+   "name": "bindingpress",
+   "asset_id": "da4c9bc2-a704-42cf-851d-cff0b9991da5",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "dd53e97a78e5"
+  },
+  {
+   "label": "headscribe, from sheet bright_c3 cell 6",
+   "kind": "made",
+   "name": "headscribe",
+   "asset_id": "da4c9bc2-a704-42cf-851d-cff0b9991da5",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "97448529e59c"
+  },
+  {
+   "label": "lexicant, from sheet bright_c3 cell 7",
+   "kind": "made",
+   "name": "lexicant",
+   "asset_id": "da4c9bc2-a704-42cf-851d-cff0b9991da5",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "9046a93edb95"
+  },
+  {
+   "label": "fineprint, from sheet bright_c3 cell 8",
+   "kind": "made",
+   "name": "fineprint",
+   "asset_id": "da4c9bc2-a704-42cf-851d-cff0b9991da5",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "8e74d4ea527d"
+  },
+  {
+   "label": "champion sheet c4 in his bright look, 21 Oct",
+   "kind": "sheet",
+   "name": "bright_c4",
+   "asset_id": "15e259af-a1f2-4e78-9bd6-8450b900dbf7",
+   "job_id": "520fde1d-e52e-4a83-8657-c55a19774dee",
+   "reference": "ccb15ffa-9436-4830-b022-0f45ee014cce",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "cells": [
+    "colophon",
+    "overdue",
+    "quiet",
+    "kindling",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-"
+   ],
+   "sha12": "cd0879f8476c"
+  },
+  {
+   "label": "colophon, from sheet bright_c4 cell 0",
+   "kind": "made",
+   "name": "colophon",
+   "asset_id": "15e259af-a1f2-4e78-9bd6-8450b900dbf7",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "9c2fff383f82"
+  },
+  {
+   "label": "overdue, from sheet bright_c4 cell 1",
+   "kind": "made",
+   "name": "overdue",
+   "asset_id": "15e259af-a1f2-4e78-9bd6-8450b900dbf7",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "90a696594bc2"
+  },
+  {
+   "label": "quiet, from sheet bright_c4 cell 2",
+   "kind": "made",
+   "name": "quiet",
+   "asset_id": "15e259af-a1f2-4e78-9bd6-8450b900dbf7",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "b54e6813051b"
+  },
+  {
+   "label": "kindling, from sheet bright_c4 cell 3",
+   "kind": "made",
+   "name": "kindling",
+   "asset_id": "15e259af-a1f2-4e78-9bd6-8450b900dbf7",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "2f8c48700864"
+  },
+  {
+   "label": "prop sheet p1 in his bright look (the stick sword and fetch stick came out diagonal: those two are taken from a flat-lying sheet), 21 Oct",
+   "kind": "sheet",
+   "name": "bright_p1",
+   "asset_id": "ca88e9cf-e185-4fbb-827f-c390e844059c",
+   "job_id": "fc2a5b65-b866-41c6-826d-dbff4cf9e0d9",
+   "reference": "220f2243-fbf1-444b-8f23-d316d4c34c54",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "cells": [
+    "rex_bowl",
+    "rex_hay",
+    "rex_mat",
+    "rex_potato",
+    "rex_potatoes",
+    "rex_shades",
+    "-",
+    "arci_frisbee",
+    "-"
+   ],
+   "sha12": "ddf1bb140da5"
+  },
+  {
+   "label": "rex_bowl, from sheet bright_p1 cell 0",
+   "kind": "made",
+   "name": "rex_bowl",
+   "asset_id": "ca88e9cf-e185-4fbb-827f-c390e844059c",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "b4e5e89b8a5e"
+  },
+  {
+   "label": "rex_hay, from sheet bright_p1 cell 1",
+   "kind": "made",
+   "name": "rex_hay",
+   "asset_id": "ca88e9cf-e185-4fbb-827f-c390e844059c",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "c3f37bc2cdb6"
+  },
+  {
+   "label": "rex_mat, from sheet bright_p1 cell 2",
+   "kind": "made",
+   "name": "rex_mat",
+   "asset_id": "ca88e9cf-e185-4fbb-827f-c390e844059c",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "c5a88ed74850"
+  },
+  {
+   "label": "rex_potato, from sheet bright_p1 cell 3",
+   "kind": "made",
+   "name": "rex_potato",
+   "asset_id": "ca88e9cf-e185-4fbb-827f-c390e844059c",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "9ec0f244d871"
+  },
+  {
+   "label": "rex_potatoes, from sheet bright_p1 cell 4",
+   "kind": "made",
+   "name": "rex_potatoes",
+   "asset_id": "ca88e9cf-e185-4fbb-827f-c390e844059c",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "cfcf460dced5"
+  },
+  {
+   "label": "rex_shades, from sheet bright_p1 cell 5",
+   "kind": "made",
+   "name": "rex_shades",
+   "asset_id": "ca88e9cf-e185-4fbb-827f-c390e844059c",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "23b924b3614e"
+  },
+  {
+   "label": "arci_frisbee, from sheet bright_p1 cell 7",
+   "kind": "made",
+   "name": "arci_frisbee",
+   "asset_id": "ca88e9cf-e185-4fbb-827f-c390e844059c",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "69b4528ce150"
+  },
+  {
+   "label": "prop sheet p2 in his bright look, 21 Oct",
+   "kind": "sheet",
+   "name": "bright_p2",
+   "asset_id": "7fff001c-b232-4ed0-bbed-afb98a8fe775",
+   "job_id": "b3f4624b-08ef-45d3-9d39-76376b40f538",
+   "reference": "995436a0-d338-402d-bcab-b757a8ec8b82",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "cells": [
+    "sefe_axe",
+    "sefe_can",
+    "sefe_chainsaw",
+    "sefe_cone",
+    "sefe_smoke",
+    "-",
+    "-",
+    "-",
+    "-"
+   ],
+   "sha12": "d1bf90e66eee"
+  },
+  {
+   "label": "sefe_axe, from sheet bright_p2 cell 0",
+   "kind": "made",
+   "name": "sefe_axe",
+   "asset_id": "7fff001c-b232-4ed0-bbed-afb98a8fe775",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "bb11656cb9ae"
+  },
+  {
+   "label": "sefe_can, from sheet bright_p2 cell 1",
+   "kind": "made",
+   "name": "sefe_can",
+   "asset_id": "7fff001c-b232-4ed0-bbed-afb98a8fe775",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "d5282dff5830"
+  },
+  {
+   "label": "sefe_chainsaw, from sheet bright_p2 cell 2",
+   "kind": "made",
+   "name": "sefe_chainsaw",
+   "asset_id": "7fff001c-b232-4ed0-bbed-afb98a8fe775",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "90bcc1de69f2"
+  },
+  {
+   "label": "sefe_cone, from sheet bright_p2 cell 3",
+   "kind": "made",
+   "name": "sefe_cone",
+   "asset_id": "7fff001c-b232-4ed0-bbed-afb98a8fe775",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "d182a6e1bbf4"
+  },
+  {
+   "label": "sefe_smoke, from sheet bright_p2 cell 4",
+   "kind": "made",
+   "name": "sefe_smoke",
+   "asset_id": "7fff001c-b232-4ed0-bbed-afb98a8fe775",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "6d344316ccf6"
+  },
+  {
+   "label": "prop sheet p3 in the bright look, first try: coarse (131 px wide for three), and the planter box is worse than the crate on p1",
+   "kind": "rejected",
+   "name": "bright_p3_try1",
+   "asset_id": "c10e39ff-a88a-483e-968e-1a13fa5c65ad",
+   "job_id": "e19423f0-5264-4785-8c1c-bceee359e579",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "sha12": null
+  },
+  {
+   "label": "prop sheet p3 in his bright look: the stick sword and fetch stick lying flat (2K), 21 Oct",
+   "kind": "sheet",
+   "name": "bright_p3",
+   "asset_id": "625d7b14-2968-4f12-96a2-6815048e0e2d",
+   "job_id": "34b8c0b5-c36b-419b-bdb7-96a3c4617833",
+   "reference": "d73fb63a-a68d-4e4a-9481-a04a87e9d467",
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 18,
+   "cells": [
+    "rex_sword",
+    "arci_stick"
+   ],
+   "sha12": "81f761dabde5"
+  },
+  {
+   "label": "rex_sword, from sheet bright_p3 cell 0",
+   "kind": "made",
+   "name": "rex_sword",
+   "asset_id": "625d7b14-2968-4f12-96a2-6815048e0e2d",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "388569bed5d5"
+  },
+  {
+   "label": "arci_stick, from sheet bright_p3 cell 1",
+   "kind": "made",
+   "name": "arci_stick",
+   "asset_id": "625d7b14-2968-4f12-96a2-6815048e0e2d",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 0,
+   "sha12": "4b8a76c6099d"
+  },
+  {
+   "label": "Sefe and the potato crate again on a 2 by 2 sheet, to get them bigger: Nano Banana drew them the same size as before (a person is about 74 px), so not used",
+   "kind": "rejected",
+   "name": "bright_sefe_big_try",
+   "asset_id": "9e03419c-bbd0-43ad-ad08-ccb421750954",
+   "job_id": "5a474790-ee10-4864-abbd-a8eadac92b2e",
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 18,
+   "sha12": null
+  },
+  {
+   "label": "the cigarette and chainsaw again, side by side, to get them bigger: the same size as before, so not used",
+   "kind": "rejected",
+   "name": "bright_cone_saw_try",
+   "asset_id": "182e87c8-889e-4998-a286-55251e1e60ee",
+   "job_id": "96353be3-16bf-4148-961e-289db7918a16",
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 18,
+   "sha12": null
   }
  ]
 }
