@@ -1,7 +1,8 @@
 """A floor kit in the new look, at double detail: SpriteCook draws the floor as one seamless texture
-(mode "texture"), shrunk to stones of about a tile and calmer; the walls, the pillar and the rest are today's pieces at x2, recoloured to that
-texture's colours, so a kit costs one picture.
-python3 resprite/tools/kit_build.py KIT TEXTURE.png
+(mode "texture"), shrunk to stones of about a tile and calmer; the walls, the pillar and the rest are
+today's pieces at x2 in their own colours (recoloured to the floor's colours they lost each place's
+look: the red cathedral, the white Redacted), so a kit costs one picture.
+python3 resprite/tools/kit_build.py KIT TEXTURE.png    (or --all: every kit in resprite/spritecook/kits/)
 -> resprite/hd/<kit>_floor.png (the texture, seamless, any size: the game repeats it over the room)
    resprite/hd/<kit>.png (today's kit layout at x2: floor tiles cut from the texture, walls, pillar)"""
 import os, sys
@@ -41,6 +42,7 @@ def fill_holes(im):
     return im
 
 SIZE = 136   # the texture's longer side at double detail: stones about the size of the old tiles
+SIZES = {"kit_burb": 256}   # kept bigger: the kitchen's checker squares (at 136 they are crumbs)
 
 def resize(tex, size=SIZE):
     """The texture with its longer side at `size`, still seamless: shrunk as a 3 x 3 patch and the
@@ -58,7 +60,8 @@ def resize(tex, size=SIZE):
 
 def calm(tex, keep=0.6, light=0.88, most=125):
     """Less contrast and a little darker, so the bright characters stand out on the floor; a pale floor
-    (frost, marble) no lighter than `most` on average."""
+    (frost, marble) no lighter than `most` on average (build: 125, or today's floor where that is
+    paler, so heaven stays cream)."""
     px = list(_pixels(tex.convert("RGB")))
     mean = [sum(c[i] for c in px) / len(px) for i in range(3)]
     light = min(light, most / max(1.0, lum(mean)))
@@ -70,33 +73,12 @@ def calm(tex, keep=0.6, light=0.88, most=125):
             o[x, y] = tuple(max(0, min(255, round((mean[i] + (c[i] - mean[i]) * keep) * light))) for i in range(3)) + (255,)
     return out
 
-def ramp(tex, n=24):
-    """The texture's colours from dark to light, n steps."""
-    cols = sorted(_pixels(tex.convert("RGB")), key=lum)
-    return [cols[min(len(cols) - 1, int((i + 0.5) * len(cols) / n))] for i in range(n)]
-
-def recolour(piece, old_lo, old_hi, steps, lo=0.0, hi=1.0):
-    """Today's piece in the texture's colours: each pixel's lightness picks a step of the ramp."""
-    out = piece.copy()
-    px = out.load()
-    for y in range(out.height):
-        for x in range(out.width):
-            c = px[x, y]
-            if c[3] == 0:
-                continue
-            t = (lum(c) - old_lo) / max(1.0, old_hi - old_lo)
-            t = lo + max(0.0, min(1.0, t)) * (hi - lo)
-            r = steps[min(len(steps) - 1, int(t * len(steps)))]
-            px[x, y] = (r[0], r[1], r[2], c[3])
-    return out
-
-def build(kit, texture, size=SIZE):
-    tex = calm(resize(fill_holes(Image.open(texture)), size))
-    tex.save(os.path.join(HD, kit + "_floor.png"))
+def build(kit, texture):
     old = Image.open(os.path.join(G, kit + ".png")).convert("RGBA")
-    vis = [c for c in _pixels(old) if c[3]]
-    old_lo, old_hi = min(lum(c) for c in vis), max(lum(c) for c in vis)
-    steps = ramp(tex)
+    floor = [c for c in _pixels(old.crop((0, 0, old.width, 16))) if c[3]]
+    today = sum(lum(c) for c in floor) / len(floor)
+    tex = calm(resize(fill_holes(Image.open(texture)), SIZES.get(kit, SIZE)), most=max(125, today))
+    tex.save(os.path.join(HD, kit + "_floor.png"))
     hd = Image.new("RGBA", (old.width * 2, old.height * 2), (0, 0, 0, 0))
     for v in range(16):                                   # floor tiles: pieces of the texture in a row
         x = (v * 32) % tex.width
@@ -104,12 +86,15 @@ def build(kit, texture, size=SIZE):
         for k in range(32):
             strip.paste(tex.crop(((x + k) % tex.width, 0, (x + k) % tex.width + 1, 32)), (k, 0))
         hd.paste(strip, (v * 32, 0))
-    rest = old.crop((0, 16, old.width, old.height))       # walls, pillar, sky: today's at x2, recoloured
-    rest = rest.resize((rest.width * 2, rest.height * 2), Image.NEAREST)
-    hd.alpha_composite(recolour(rest, old_lo, old_hi, steps), (0, 32))
+    rest = old.crop((0, 16, old.width, old.height))       # walls, pillar, sky: today's at x2, own colours
+    hd.alpha_composite(rest.resize((rest.width * 2, rest.height * 2), Image.NEAREST), (0, 32))
     hd.save(os.path.join(HD, kit + ".png"))
     return tex.size
 
 if __name__ == "__main__":
-    # a third number keeps a pattern bigger (the kitchen's checker squares: 256, not shrunk)
-    print(build(sys.argv[1], sys.argv[2], int(sys.argv[3]) if len(sys.argv) > 3 else SIZE))
+    if sys.argv[1] == "--all":
+        KITS = os.path.join(os.path.dirname(HD), "spritecook", "kits")
+        for f in sorted(os.listdir(KITS)):
+            print(f[:-4], build(f[:-4], os.path.join(KITS, f)))
+    else:
+        print(build(sys.argv[1], sys.argv[2]))

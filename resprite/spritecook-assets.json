@@ -7649,6 +7649,160 @@
    "sha12": "89fac746f70b"
   },
   {
+   "label": "floor texture for kit_gaol: dark slate-grey prison flagstones with worn edges, 21 Oct",
+   "kind": "floor",
+   "name": "kit_gaol",
+   "asset_id": "327e8c22-4680-49c8-b7dd-cc8559ea2956",
+   "job_id": "4cccca35-bcf5-4c24-aff0-f2a5ef0cb358",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "file": "spritecook/kits/kit_gaol.png",
+   "sha12": "6f0ed9f4fc7a"
+  },
+  {
+   "label": "floor texture for kit_heaven: pale cream and gold marble floor tiles with soft white veins, 21 Oct",
+   "kind": "floor",
+   "name": "kit_heaven",
+   "asset_id": "5a6b57c3-aaa1-455e-9f5e-dbdbbb223333",
+   "job_id": "acbeeac7-3f9d-4fba-ad5e-eb73c45a712b",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "file": "spritecook/kits/kit_heaven.png",
+   "sha12": "3128cbbaa63f"
+  },
+  {
+   "label": "floor texture for kit_heist: dark grey asphalt with fine grit, small cracks and faded paint flecks, 21 Oct",
+   "kind": "floor",
+   "name": "kit_heist",
+   "asset_id": "8a5c92b8-8bd1-4ce2-9067-513b8e76c497",
+   "job_id": "1ecc8914-ccee-4746-9384-c3f35622e054",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "file": "spritecook/kits/kit_heist.png",
+   "sha12": "b7b66c0b1f6d"
+  },
+  {
+   "label": "floor texture for kit_hell: dark red hellstone slabs with thin glowing orange cracks, 21 Oct",
+   "kind": "floor",
+   "name": "kit_hell",
+   "asset_id": "559372d0-8ec7-4c66-a2a5-ba5f31d4df2c",
+   "job_id": "f1b45d90-f7ce-44dd-9c46-bc1c3f188b7d",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "file": "spritecook/kits/kit_hell.png",
+   "sha12": "333343aa301d"
+  },
+  {
+   "label": "floor texture for kit_neon: dark navy metal floor plates with thin glowing cyan seams, 21 Oct",
+   "kind": "floor",
+   "name": "kit_neon",
+   "asset_id": "f6a50ea3-d767-4cc3-a73e-5b70ef8ace73",
+   "job_id": "e1f33c48-668b-4cc8-a407-26a013df6c57",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "file": "spritecook/kits/kit_neon.png",
+   "sha12": "704a7ba277fe"
+  },
+  {
+   "label": "floor texture for kit_parlour: deep plum-purple polished stone floor tiles with thin gold seams, 21 Oct",
+   "kind": "floor",
+   "name": "kit_parlour",
+   "asset_id": "cc2a7501-a2b2-41f1-894f-734dd577c893",
+   "job_id": "c290fa1c-9bc1-49b5-858f-bafc865c98cb",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "file": "spritecook/kits/kit_parlour.png",
+   "sha12": "450f1d403bb4"
+  },
+  {
+   "label": "floor texture for kit_pasture: bright green meadow grass with small clover patches and tiny white flowers, 21 Oct",
+   "kind": "floor",
+   "name": "kit_pasture",
+   "asset_id": "b0deb40e-b733-48da-99cc-a6e7fc1d4ad1",
+   "job_id": "6f3077c9-febb-4935-bb35-a7eb7488c593",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "file": "spritecook/kits/kit_pasture.png",
+   "sha12": "8516b22e2e85"
+  },
+  {
+   "label": "floor texture for kit_redact: black stone floor tiles with thin pale grey seams, 21 Oct",
+   "kind": "floor",
+   "name": "kit_redact",
+   "asset_id": "d3344ad8-1625-4db9-aa01-47b0aea22f21",
+   "job_id": "dd0ed3c3-6a6d-4be3-8c2d-8958008d5a45",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "file": "spritecook/kits/kit_redact.png",
+   "sha12": "af2f97676e15"
+  },
+  {
+   "label": "floor texture for kit_rimefrost: steel-blue ice slabs with white frost in the cracks, 21 Oct",
+   "kind": "floor",
+   "name": "kit_rimefrost",
+   "asset_id": "a746b124-c9fe-48e1-a666-8b9bad266cc8",
+   "job_id": "8d32d9de-a57b-46b3-937b-ac7f0d741550",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "file": "spritecook/kits/kit_rimefrost.png",
+   "sha12": "2f59cbd283dd"
+  },
+  {
+   "label": "floor texture for kit_seam: dark slate-grey stone tiles with faint pale pencil-sketch lines, 21 Oct",
+   "kind": "floor",
+   "name": "kit_seam",
+   "asset_id": "1f3eaee4-134f-46c5-8223-a0908327b600",
+   "job_id": "5f37e43f-7224-4aef-9e78-c4dd11351310",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "file": "spritecook/kits/kit_seam.png",
+   "sha12": "d29f81338a0c"
+  },
+  {
+   "label": "floor texture for kit_senate: pale grey-beige marble floor tiles with soft veins, 21 Oct",
+   "kind": "floor",
+   "name": "kit_senate",
+   "asset_id": "7bae126f-bc25-4da7-b671-0f109fca803d",
+   "job_id": "f8958148-061e-4982-a612-c1ade5a84653",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "file": "spritecook/kits/kit_senate.png",
+   "sha12": "5ace6cbec137"
+  },
+  {
+   "label": "floor texture for kit_skyreach: pale cream stone tiles with thin green grass in the seams, 21 Oct",
+   "kind": "floor",
+   "name": "kit_skyreach",
+   "asset_id": "d94eab61-cdfd-44e8-bfc2-344870bd378c",
+   "job_id": "35a41bdd-5a1d-4619-b54e-5fe77dd06030",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "file": "spritecook/kits/kit_skyreach.png",
+   "sha12": "3fb9b74069a1"
+  },
+  {
+   "label": "floor texture for kit_spire: warm bronze metal floor plates with small rivets and faint gear engravings, 21 Oct",
+   "kind": "floor",
+   "name": "kit_spire",
+   "asset_id": "17f4fdd6-8ca4-4111-bb78-9ded8104d23c",
+   "job_id": "83e631e4-ed8e-4ed2-84db-2957f139e4b5",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "file": "spritecook/kits/kit_spire.png",
+   "sha12": "6d9ffd6ead33"
+  },
+  {
+   "label": "floor texture for kit_streets: dark grey square paving slabs, a little cracked, with faded yellow and pink paint flecks, 21 Oct",
+   "kind": "floor",
+   "name": "kit_streets",
+   "asset_id": "0dab14ef-6f87-4057-8138-218b7e08c21e",
+   "job_id": "50f1be83-4789-4e93-88d2-090738ada3da",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "file": "spritecook/kits/kit_streets.png",
+   "sha12": "3c9eaaba912c"
+  },
+  {
    "label": "floor try not used: background removal ate it (32 px)",
    "kind": "rejected",
    "name": "kit2_try1",
@@ -7717,6 +7871,16 @@
    "model": "gemini-nano-banana-2.1",
    "credits": 0,
    "sha12": null
+  },
+  {
+   "label": "floor try not used: squares with gold corners collapsed to a 32 px plaid",
+   "kind": "rejected",
+   "name": "kit_parlour_try1",
+   "asset_id": "b40181b9-d5d5-42c5-a5ee-87b4ad07fa7e",
+   "job_id": "e79f0044-ded5-4f0d-82a6-f1e7e1898c3f",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "sha12": "5f1a24b155e3"
   }
  ]
 }

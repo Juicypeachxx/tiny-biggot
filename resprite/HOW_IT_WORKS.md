@@ -267,3 +267,40 @@ session.
   1. The elites: made from the new pictures (gold outline, darker), no credits.
   2. Then his order: environments, foes (182), weapons and effects.
   3. Then the engine's double detail and IPA 59.1.
+
+## 21 Oct: environments (room objects and floors)
+
+- **Room objects (91):** props, wall dressing, chests and furniture, in six 4 x 4 sheets
+  (`spritecook/sheets/bright_e1` to `e6`, Nano Banana 2.1, 12 credits each). Reference: today's
+  pictures enlarged in a grid, as for the characters. Review: `sheets/review-room-things`, `-2`,
+  `-3`.
+- **Floors (43 sets, one texture each):** `tools/kit_build.py KIT TEXTURE` (or `--all`).
+  - SpriteCook draws each floor as one seamless texture: `generate_game_art(mode="texture",
+    bg_mode="include", smart_crop=false, width=32, height=32, pixel=true)`, his picture as the
+    style image. The prompt: "seamless tileable top-down floor texture for <the place>:
+    <material>. Clean bright pixel art in the look of the style guide, soft shading, calm and
+    low contrast so characters stand out on it. No objects, no text." Each material follows
+    today's floor colours; the manifest (kind "floor") has every one.
+  - The pixel output (about 278 px) is seamless; the raw 1024 one is not. The transparent
+    background mode cut holes in light stones, so always "include" (`fill_holes` mends holes).
+  - Stones and tiles "of different sizes" work. Planks, carpet and small squares can make the
+    pixel step collapse the picture (12 px, 32 px): asked again as stone or tiles. 8 tries are
+    kept as "rejected" (one was the service being down, refunded).
+  - Shrunk to 136 px (stones about the size of the old tiles), never enlarged; the kitchen's
+    checker stays at 256 (`SIZES`). Calmed: contrast x0.6, a little darker, and no lighter than
+    125 on average unless today's floor is paler (heaven stays cream).
+  - Walls, the pillar and the rest: today's pieces at x2, in their own colours. Recoloured to the
+    floor they lost each place's look (the red cathedral, the white Redacted), so that was dropped.
+  - Lighter than today, his call: the first floor (grey-mauve stone, was purple), kit13
+    (lavender, was dark purple), kit15 (orange sandstone, was dark brown).
+  - Files: `spritecook/kits/<kit>.png` (as drawn), `hd/<kit>_floor.png` (the floor, to repeat
+    over the room), `hd/<kit>.png` (today's kit layout at x2).
+  - Review: `sheets/review-floors-1.png` (the numbered floors) and `-2` (the named places):
+    today's floor and walls left, the new ones right. `sheets/review-rooms.png`: four mock rooms
+    with the new floors, objects and characters (a mock, not the game's own drawing).
+- **The engine needs (double-detail step):** to draw `<kit>_floor.png` repeated over the room
+  instead of a random tile per cell. Row 0 of `hd/<kit>.png` (16 pieces of the texture) is only
+  a stand-in: its pieces do not join up with each other.
+- **Credits:** 2151 before, 1479 after (672: room objects 72, floors 516, tries 84).
+- **Next (his order):** foes and people (4 x 4 sheets), then weapons, items and effects; the
+  elites are made from the new pictures. Then the engine's double detail and IPA 59.1.
