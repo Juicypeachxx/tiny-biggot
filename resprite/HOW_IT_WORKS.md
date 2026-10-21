@@ -64,3 +64,38 @@ resprite the game and then you will package it to ipa". README.txt and PROMPT.tx
   - a double-detail V2 (sprites drawn at 2x and shown at half size, so Gemini's detail survives:
     a bigger job);
   - or keep today's art.
+
+## 21 Oct: the look he picked, and where it stands
+
+- **His pick.** His word: "keep the vibe and theme of it, make same art style vibe on all sprites
+  in the game and show me sprite sheets of what you made step by step and then when all is good
+  we will upload and package it". The look is Gemini's "Style 1, gritty dark fantasy"
+  (`gemini/style-sheet-21oct.jpg`), on **every** sprite.
+- **Double detail.** Every sprite at twice its size (a 16 px foe becomes 32 px), drawn at half
+  size in the game: today's size, twice the detail. The engine work is still to do:
+  - the viewport at 896 x 576 and every canvas at x2;
+  - Gfx and Img knowing which pictures are double;
+  - touch and mouse positions halved;
+  - the atlas bigger.
+- **Rule 3.** Take the look, never other works' characters: two of Gemini's warriors are
+  practically Guts (Berserk) and Geralt (The Witcher).
+- **Done.**
+  - `tools/gritty.py`: an automatic gritty remaster at x2 (`gritty` gentle, `gritty2` stronger).
+    Shown to him: it keeps every creature and adds light, grit and colour, but not Gemini's
+    detail.
+  - `tools/gemini_cut.py`: his 14 Gemini foes that match a foe, in `hd/`. The bat, crawler,
+    bandsman and biker come out too dark at game size.
+  - `tools/review.py`: the review sheets (today next to new).
+- **His last word.** He then asked for all sprites truly like Gemini's.
+  - Gemini's API is blocked from the container: generativelanguage.googleapis.com was refused.
+  - He added the SpriteCook and CellCog plugins and opened `mcp.spritecook.ai` and `cellcog.ai`
+    in the environment's network settings.
+  - `spritecook.ai` was still refused at the last check.
+  - Their MCP servers connect at session start, so this needs a new session.
+- **Next** (a new session, with the SpriteCook tools there):
+  1. Its workflow-essentials and generate-sprites skills first; then `get_credit_balance`.
+  2. Upload his style sheet as the style reference.
+  3. Make 6 to 8 of sheet 02's foes at 32 x 32 in that look.
+  4. Lay them out with `tools/review.py` (put them in `hd/`) and show him.
+  5. Then batches: heroes, foes, guardians, people, items, a sheet each.
+  6. Then the engine's double detail, the import, IPA 59.1 "Gemini Sprites".
