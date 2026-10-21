@@ -827,6 +827,702 @@
    "model": "gpt-image-2 low",
    "credits": 0,
    "sha12": "4833ed36e51a"
+  },
+  {
+   "label": "guardian sheet 2, first try: coarse (55 px) and the Umbral Sun drawn as a ship's wheel",
+   "kind": "rejected",
+   "name": "boss_g2",
+   "asset_id": "e043a019-88fb-4af4-a0b1-e1237704b9f5",
+   "job_id": "223be50a-9bd4-44fc-92f1-acddb19cc2ab",
+   "model": "gpt-image-2 low 2K",
+   "credits": 2,
+   "sha12": null
+  },
+  {
+   "label": "guardian sheet boss_g1 (gritty, 2K), 21 Oct",
+   "kind": "sheet",
+   "name": "boss_g1",
+   "asset_id": "b028f1b7-a2ca-493f-8736-1d2a93dc5794",
+   "job_id": "e641fb61-9783-4a98-be97-2a03e00823d7",
+   "reference": "bfe3dd1f-b89a-4dd1-8773-a97a57c0cb21",
+   "model": "gpt-image-2 low 2K",
+   "credits": 2,
+   "cells": [
+    "colossus",
+    "sporemother",
+    "librarian",
+    "tyrant",
+    "rimewarden",
+    "regent",
+    "bogmatriarch",
+    "ashwarlord",
+    "frozenabbot"
+   ],
+   "sha12": "1174636be903"
+  },
+  {
+   "label": "colossus, from boss_g1 cell 0",
+   "kind": "made",
+   "name": "colossus",
+   "asset_id": "b028f1b7-a2ca-493f-8736-1d2a93dc5794",
+   "sheet_cell": 0,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "ac0226bdf2f6"
+  },
+  {
+   "label": "sporemother, from boss_g1 cell 1",
+   "kind": "made",
+   "name": "sporemother",
+   "asset_id": "b028f1b7-a2ca-493f-8736-1d2a93dc5794",
+   "sheet_cell": 1,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "251a84544ccc"
+  },
+  {
+   "label": "librarian, from boss_g1 cell 2",
+   "kind": "made",
+   "name": "librarian",
+   "asset_id": "b028f1b7-a2ca-493f-8736-1d2a93dc5794",
+   "sheet_cell": 2,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "bcc77f5ac835"
+  },
+  {
+   "label": "tyrant, from boss_g1 cell 3",
+   "kind": "made",
+   "name": "tyrant",
+   "asset_id": "b028f1b7-a2ca-493f-8736-1d2a93dc5794",
+   "sheet_cell": 3,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "281d48c494ce"
+  },
+  {
+   "label": "rimewarden, from boss_g1 cell 4",
+   "kind": "made",
+   "name": "rimewarden",
+   "asset_id": "b028f1b7-a2ca-493f-8736-1d2a93dc5794",
+   "sheet_cell": 4,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "5ddf58b3812d"
+  },
+  {
+   "label": "regent, from boss_g1 cell 5",
+   "kind": "made",
+   "name": "regent",
+   "asset_id": "b028f1b7-a2ca-493f-8736-1d2a93dc5794",
+   "sheet_cell": 5,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "b12388861635"
+  },
+  {
+   "label": "bogmatriarch, from boss_g1 cell 6",
+   "kind": "made",
+   "name": "bogmatriarch",
+   "asset_id": "b028f1b7-a2ca-493f-8736-1d2a93dc5794",
+   "sheet_cell": 6,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "20f21ea16603"
+  },
+  {
+   "label": "ashwarlord, from boss_g1 cell 7",
+   "kind": "made",
+   "name": "ashwarlord",
+   "asset_id": "b028f1b7-a2ca-493f-8736-1d2a93dc5794",
+   "sheet_cell": 7,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "9e8e19ed956b"
+  },
+  {
+   "label": "frozenabbot, from boss_g1 cell 8",
+   "kind": "made",
+   "name": "frozenabbot",
+   "asset_id": "b028f1b7-a2ca-493f-8736-1d2a93dc5794",
+   "sheet_cell": 8,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "c66cb93ea4d7"
+  },
+  {
+   "label": "guardian sheet boss_g2b (gritty, 2K), 21 Oct: coarser (about 60 px a guardian), redone with 'small fine pixels'",
+   "kind": "rejected",
+   "name": "boss_g2b",
+   "asset_id": "30a98eec-4b8a-499c-acc4-1908e37e1a32",
+   "job_id": "a2e8e530-2fc7-4f09-81f3-2c6ee865c47a",
+   "reference": "999ef30f-5cc0-4e35-bc58-5c9e692f83a2",
+   "model": "gpt-image-2 low 2K",
+   "credits": 2,
+   "cells": [
+    "crowking",
+    "umbralsun",
+    "holycow",
+    "judge",
+    "cinderking",
+    "unwritten",
+    "stormcrown",
+    "bilgehydra",
+    "brassorgan"
+   ],
+   "sha12": "95a5389967c6"
+  },
+  {
+   "label": "guardian sheet boss_g3 (gritty, 2K), 21 Oct",
+   "kind": "sheet",
+   "name": "boss_g3",
+   "asset_id": "d8d3e940-e2c3-4d86-918d-a5a02146f5f5",
+   "job_id": "d2584bfa-d6a2-4084-b766-3eece29245ed",
+   "reference": "852f7312-9a95-4d7d-8c83-690128540b6d",
+   "model": "gpt-image-2 low 2K",
+   "credits": 2,
+   "cells": [
+    "greatengine",
+    "glacialmaw",
+    "inkleviathan",
+    "thebinder",
+    "author",
+    "redactor",
+    "lexicon",
+    "erratum",
+    "reader"
+   ],
+   "sha12": "da84bf1ed197"
+  },
+  {
+   "label": "greatengine, from boss_g3 cell 0",
+   "kind": "made",
+   "name": "greatengine",
+   "asset_id": "d8d3e940-e2c3-4d86-918d-a5a02146f5f5",
+   "sheet_cell": 0,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "544280992560"
+  },
+  {
+   "label": "glacialmaw, from boss_g3 cell 1",
+   "kind": "made",
+   "name": "glacialmaw",
+   "asset_id": "d8d3e940-e2c3-4d86-918d-a5a02146f5f5",
+   "sheet_cell": 1,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "80a5ae222b86"
+  },
+  {
+   "label": "inkleviathan, from boss_g3 cell 2",
+   "kind": "made",
+   "name": "inkleviathan",
+   "asset_id": "d8d3e940-e2c3-4d86-918d-a5a02146f5f5",
+   "sheet_cell": 2,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "f2f63e513eaa"
+  },
+  {
+   "label": "thebinder, from boss_g3 cell 3",
+   "kind": "made",
+   "name": "thebinder",
+   "asset_id": "d8d3e940-e2c3-4d86-918d-a5a02146f5f5",
+   "sheet_cell": 3,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "736fd88253a6"
+  },
+  {
+   "label": "author, from boss_g3 cell 4",
+   "kind": "made",
+   "name": "author",
+   "asset_id": "d8d3e940-e2c3-4d86-918d-a5a02146f5f5",
+   "sheet_cell": 4,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "ec324d08542a"
+  },
+  {
+   "label": "redactor, from boss_g3 cell 5",
+   "kind": "made",
+   "name": "redactor",
+   "asset_id": "d8d3e940-e2c3-4d86-918d-a5a02146f5f5",
+   "sheet_cell": 5,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "b9086ed14244"
+  },
+  {
+   "label": "lexicon, from boss_g3 cell 6",
+   "kind": "made",
+   "name": "lexicon",
+   "asset_id": "d8d3e940-e2c3-4d86-918d-a5a02146f5f5",
+   "sheet_cell": 6,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "0d396bf06e38"
+  },
+  {
+   "label": "erratum, from boss_g3 cell 7",
+   "kind": "made",
+   "name": "erratum",
+   "asset_id": "d8d3e940-e2c3-4d86-918d-a5a02146f5f5",
+   "sheet_cell": 7,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "e63ff107741e"
+  },
+  {
+   "label": "reader, from boss_g3 cell 8",
+   "kind": "made",
+   "name": "reader",
+   "asset_id": "d8d3e940-e2c3-4d86-918d-a5a02146f5f5",
+   "sheet_cell": 8,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "10fa5c927ab6"
+  },
+  {
+   "label": "guardian sheet boss_g4 (gritty, 2K), 21 Oct: coarser (about 55 px a guardian), redone with 'small fine pixels'",
+   "kind": "rejected",
+   "name": "boss_g4",
+   "asset_id": "aa79d187-0a6e-49db-a3f0-778047ee0c12",
+   "job_id": "9b0f26f0-0773-467a-a7e9-957dcbf823e3",
+   "reference": "45aa8a5a-3255-42fc-83bb-7d8e28add81e",
+   "model": "gpt-image-2 low 2K",
+   "credits": 2,
+   "cells": [
+    "shelver",
+    "hush",
+    "critic",
+    "admiral",
+    "golemking",
+    "archmage",
+    "phoenix",
+    "wyrm",
+    "chainfiend"
+   ],
+   "sha12": "ae1cbcd53ec3"
+  },
+  {
+   "label": "guardian sheet boss_s1 (gritty, 2K), 21 Oct",
+   "kind": "sheet",
+   "name": "boss_s1",
+   "asset_id": "ce597393-daa6-4527-a7bb-22c553459887",
+   "job_id": "a381ffa8-0f27-44a8-a410-987796f7fed4",
+   "reference": "20658941-3df5-40d8-b310-4effcf8bd178",
+   "model": "gpt-image-2 low 2K",
+   "credits": 2,
+   "cells": [
+    "seraph",
+    "rex",
+    "rex_lie",
+    "arci",
+    "arci_lie",
+    "arci_run",
+    "sefe",
+    "sefe_drink",
+    "sefe_out"
+   ],
+   "sha12": "97c8ab9ecf82"
+  },
+  {
+   "label": "seraph, from boss_s1 cell 0",
+   "kind": "made",
+   "name": "seraph",
+   "asset_id": "ce597393-daa6-4527-a7bb-22c553459887",
+   "sheet_cell": 0,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "ee5d32ae6712"
+  },
+  {
+   "label": "rex, from boss_s1 cell 1",
+   "kind": "made",
+   "name": "rex",
+   "asset_id": "ce597393-daa6-4527-a7bb-22c553459887",
+   "sheet_cell": 1,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "de175f29395a"
+  },
+  {
+   "label": "rex_lie, from boss_s1 cell 2",
+   "kind": "made",
+   "name": "rex_lie",
+   "asset_id": "ce597393-daa6-4527-a7bb-22c553459887",
+   "sheet_cell": 2,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "a1510757f88a"
+  },
+  {
+   "label": "arci, from boss_s1 cell 3",
+   "kind": "made",
+   "name": "arci",
+   "asset_id": "ce597393-daa6-4527-a7bb-22c553459887",
+   "sheet_cell": 3,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "655caafa8642"
+  },
+  {
+   "label": "arci_lie, from boss_s1 cell 4",
+   "kind": "made",
+   "name": "arci_lie",
+   "asset_id": "ce597393-daa6-4527-a7bb-22c553459887",
+   "sheet_cell": 4,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "2465aa5e825a"
+  },
+  {
+   "label": "arci_run, from boss_s1 cell 5",
+   "kind": "made",
+   "name": "arci_run",
+   "asset_id": "ce597393-daa6-4527-a7bb-22c553459887",
+   "sheet_cell": 5,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "7d2da1ed939f"
+  },
+  {
+   "label": "sefe, from boss_s1 cell 6",
+   "kind": "made",
+   "name": "sefe",
+   "asset_id": "ce597393-daa6-4527-a7bb-22c553459887",
+   "sheet_cell": 6,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "7129d0da7050"
+  },
+  {
+   "label": "sefe_drink, from boss_s1 cell 7",
+   "kind": "made",
+   "name": "sefe_drink",
+   "asset_id": "ce597393-daa6-4527-a7bb-22c553459887",
+   "sheet_cell": 7,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "b3aa5cbdc498"
+  },
+  {
+   "label": "sefe_out, from boss_s1 cell 8",
+   "kind": "made",
+   "name": "sefe_out",
+   "asset_id": "ce597393-daa6-4527-a7bb-22c553459887",
+   "sheet_cell": 8,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "ccf5b20bca9f"
+  },
+  {
+   "label": "guardian sheet boss_s2 (gritty, 2K), 21 Oct",
+   "kind": "sheet",
+   "name": "boss_s2",
+   "asset_id": "6bbf889c-995e-4688-b394-a09d46fed29b",
+   "job_id": "d87b2cbd-7be7-413a-9b25-539c3a1053b3",
+   "reference": "f3c35f63-65b9-4372-a162-f25d3623db18",
+   "model": "gpt-image-2 low 2K",
+   "credits": 2,
+   "cells": [
+    "sefe_squat",
+    "sefe_zoned",
+    "braysalot",
+    "scalesworth",
+    "prophet",
+    "chonk",
+    "-",
+    "-",
+    "-"
+   ],
+   "sha12": "9a43bff1c9d9"
+  },
+  {
+   "label": "sefe_squat, from boss_s2 cell 0",
+   "kind": "made",
+   "name": "sefe_squat",
+   "asset_id": "6bbf889c-995e-4688-b394-a09d46fed29b",
+   "sheet_cell": 0,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "0e7db0677d26"
+  },
+  {
+   "label": "sefe_zoned, from boss_s2 cell 1",
+   "kind": "made",
+   "name": "sefe_zoned",
+   "asset_id": "6bbf889c-995e-4688-b394-a09d46fed29b",
+   "sheet_cell": 1,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "598b82162a8e"
+  },
+  {
+   "label": "braysalot, from boss_s2 cell 2",
+   "kind": "made",
+   "name": "braysalot",
+   "asset_id": "6bbf889c-995e-4688-b394-a09d46fed29b",
+   "sheet_cell": 2,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "c9fa6c6ab1e9"
+  },
+  {
+   "label": "scalesworth, from boss_s2 cell 3",
+   "kind": "made",
+   "name": "scalesworth",
+   "asset_id": "6bbf889c-995e-4688-b394-a09d46fed29b",
+   "sheet_cell": 3,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "4f2e8a63b545"
+  },
+  {
+   "label": "prophet, from boss_s2 cell 4",
+   "kind": "made",
+   "name": "prophet",
+   "asset_id": "6bbf889c-995e-4688-b394-a09d46fed29b",
+   "sheet_cell": 4,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "ce33e829550a"
+  },
+  {
+   "label": "chonk, from boss_s2 cell 5",
+   "kind": "made",
+   "name": "chonk",
+   "asset_id": "6bbf889c-995e-4688-b394-a09d46fed29b",
+   "sheet_cell": 5,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "95d2d88e46ca"
+  },
+  {
+   "label": "guardian sheet boss_g2c (gritty, 2K, small fine pixels), 21 Oct",
+   "kind": "sheet",
+   "name": "boss_g2c",
+   "asset_id": "13207f8f-2597-4fc5-a2ea-4933e5695d5c",
+   "job_id": "2b7fe527-0f87-4039-bea9-f7e1d139d629",
+   "reference": "999ef30f-5cc0-4e35-bc58-5c9e692f83a2",
+   "model": "gpt-image-2 low 2K",
+   "credits": 2,
+   "cells": [
+    "crowking",
+    "umbralsun",
+    "holycow",
+    "judge",
+    "cinderking",
+    "unwritten",
+    "stormcrown",
+    "bilgehydra",
+    "brassorgan"
+   ],
+   "sha12": "b6e2dcaf89ee"
+  },
+  {
+   "label": "crowking, from boss_g2c cell 0",
+   "kind": "made",
+   "name": "crowking",
+   "asset_id": "13207f8f-2597-4fc5-a2ea-4933e5695d5c",
+   "sheet_cell": 0,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "5480aae7092e"
+  },
+  {
+   "label": "umbralsun, from boss_g2c cell 1",
+   "kind": "made",
+   "name": "umbralsun",
+   "asset_id": "13207f8f-2597-4fc5-a2ea-4933e5695d5c",
+   "sheet_cell": 1,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "269ef29267c0"
+  },
+  {
+   "label": "holycow, from boss_g2c cell 2",
+   "kind": "made",
+   "name": "holycow",
+   "asset_id": "13207f8f-2597-4fc5-a2ea-4933e5695d5c",
+   "sheet_cell": 2,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "f3f8b163560b"
+  },
+  {
+   "label": "judge, from boss_g2c cell 3",
+   "kind": "made",
+   "name": "judge",
+   "asset_id": "13207f8f-2597-4fc5-a2ea-4933e5695d5c",
+   "sheet_cell": 3,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "2229cfd6c8d8"
+  },
+  {
+   "label": "cinderking, from boss_g2c cell 4",
+   "kind": "made",
+   "name": "cinderking",
+   "asset_id": "13207f8f-2597-4fc5-a2ea-4933e5695d5c",
+   "sheet_cell": 4,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "5bf283df786a"
+  },
+  {
+   "label": "unwritten, from boss_g2c cell 5",
+   "kind": "made",
+   "name": "unwritten",
+   "asset_id": "13207f8f-2597-4fc5-a2ea-4933e5695d5c",
+   "sheet_cell": 5,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "177dc2735531"
+  },
+  {
+   "label": "stormcrown, from boss_g2c cell 6",
+   "kind": "made",
+   "name": "stormcrown",
+   "asset_id": "13207f8f-2597-4fc5-a2ea-4933e5695d5c",
+   "sheet_cell": 6,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "2b65a27c6799"
+  },
+  {
+   "label": "bilgehydra, from boss_g2c cell 7",
+   "kind": "made",
+   "name": "bilgehydra",
+   "asset_id": "13207f8f-2597-4fc5-a2ea-4933e5695d5c",
+   "sheet_cell": 7,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "55be824a36a7"
+  },
+  {
+   "label": "brassorgan, from boss_g2c cell 8",
+   "kind": "made",
+   "name": "brassorgan",
+   "asset_id": "13207f8f-2597-4fc5-a2ea-4933e5695d5c",
+   "sheet_cell": 8,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "66e735519d90"
+  },
+  {
+   "label": "guardian sheet boss_g4b (gritty, 2K, small fine pixels), 21 Oct",
+   "kind": "sheet",
+   "name": "boss_g4b",
+   "asset_id": "f7fd2b2c-24b6-466d-9620-d5a0a554709e",
+   "job_id": "79884cf4-620a-4f17-984e-b590e2479008",
+   "reference": "45aa8a5a-3255-42fc-83bb-7d8e28add81e",
+   "model": "gpt-image-2 low 2K",
+   "credits": 2,
+   "cells": [
+    "shelver",
+    "hush",
+    "critic",
+    "admiral",
+    "golemking",
+    "archmage",
+    "phoenix",
+    "wyrm",
+    "chainfiend"
+   ],
+   "sha12": "140211cece1b"
+  },
+  {
+   "label": "shelver, from boss_g4b cell 0",
+   "kind": "made",
+   "name": "shelver",
+   "asset_id": "f7fd2b2c-24b6-466d-9620-d5a0a554709e",
+   "sheet_cell": 0,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "59379c73db2e"
+  },
+  {
+   "label": "hush, from boss_g4b cell 1",
+   "kind": "made",
+   "name": "hush",
+   "asset_id": "f7fd2b2c-24b6-466d-9620-d5a0a554709e",
+   "sheet_cell": 1,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "9bde6dd0f276"
+  },
+  {
+   "label": "critic, from boss_g4b cell 2",
+   "kind": "made",
+   "name": "critic",
+   "asset_id": "f7fd2b2c-24b6-466d-9620-d5a0a554709e",
+   "sheet_cell": 2,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "b1ec3e1ddf27"
+  },
+  {
+   "label": "admiral, from boss_g4b cell 3",
+   "kind": "made",
+   "name": "admiral",
+   "asset_id": "f7fd2b2c-24b6-466d-9620-d5a0a554709e",
+   "sheet_cell": 3,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "a529ec49305d"
+  },
+  {
+   "label": "golemking, from boss_g4b cell 4",
+   "kind": "made",
+   "name": "golemking",
+   "asset_id": "f7fd2b2c-24b6-466d-9620-d5a0a554709e",
+   "sheet_cell": 4,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "f68a3c726bb8"
+  },
+  {
+   "label": "archmage, from boss_g4b cell 5",
+   "kind": "made",
+   "name": "archmage",
+   "asset_id": "f7fd2b2c-24b6-466d-9620-d5a0a554709e",
+   "sheet_cell": 5,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "e823f1ef50be"
+  },
+  {
+   "label": "phoenix, from boss_g4b cell 6",
+   "kind": "made",
+   "name": "phoenix",
+   "asset_id": "f7fd2b2c-24b6-466d-9620-d5a0a554709e",
+   "sheet_cell": 6,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "21217865ad45"
+  },
+  {
+   "label": "wyrm, from boss_g4b cell 7",
+   "kind": "made",
+   "name": "wyrm",
+   "asset_id": "f7fd2b2c-24b6-466d-9620-d5a0a554709e",
+   "sheet_cell": 7,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "abeee6ae1c0f"
+  },
+  {
+   "label": "chainfiend, from boss_g4b cell 8",
+   "kind": "made",
+   "name": "chainfiend",
+   "asset_id": "f7fd2b2c-24b6-466d-9620-d5a0a554709e",
+   "sheet_cell": 8,
+   "model": "gpt-image-2 low 2K",
+   "credits": 0,
+   "sha12": "9d3218d93aca"
   }
  ]
 }

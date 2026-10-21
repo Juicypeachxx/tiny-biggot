@@ -65,7 +65,7 @@ def down(spr, nw, nh):
     return out
 
 def fit(spr, w, h):
-    k = min(w / spr.width, h / spr.height)
+    k = min(w / spr.width, h / spr.height, 1.0)              # never enlarged: uneven pixels
     nw, nh = max(1, round(spr.width * k)), max(1, round(spr.height * k))
     return frame(down(spr, nw, nh), w, h, outline=False)
 
@@ -76,11 +76,14 @@ def _boss_scales():
 
 BOSS_SCALE = _boss_scales()
 
-def density(name, old):
+def density(name, old, raw=None):
     """How many new pixels per old one: 2 (double detail), or 4 for a guardian the game draws at twice
-    size, when that stays within the atlas's 96 px (ARCI does not: 2)."""
+    size, when that stays within the atlas's 96 px (ARCI does not: 2) and SpriteCook drew it big enough."""
     base = re.sub(r"_s[23]$", "", name)
-    return 4 if BOSS_SCALE.get(base, 1.0) >= 2 and old.height * 4 <= 96 and old.width * 4 <= 128 else 2
+    four = BOSS_SCALE.get(base, 1.0) >= 2 and old.height * 4 <= 96 and old.width * 4 <= 128
+    if four and raw is not None and max(raw.size) < 0.9 * 4 * max(old.size):
+        four = False
+    return 4 if four else 2
 
 def trim(im):
     box = im.getchannel("A").point(lambda v: 255 if v >= 128 else 0).getbbox()
@@ -100,8 +103,9 @@ def main(names):
             continue
         a["sha12"] = sha12(raw)
         old = Image.open(os.path.join(G, n + ".png"))
-        d = density(n, old)
-        fit(trim(Image.open(raw).convert("RGBA")), old.width * d, old.height * d).save(os.path.join(HD, n + ".png"))
+        spr = trim(Image.open(raw).convert("RGBA"))
+        d = density(n, old, spr)
+        fit(spr, old.width * d, old.height * d).save(os.path.join(HD, n + ".png"))
         done += 1
     with open(MANIFEST, "w") as f:
         json.dump(man, f, indent=1)
