@@ -434,3 +434,34 @@ The second half of his "do weapons and mobs then".
 - **Credits:** 1083 before, 891 after (192 for 16 sheets: 11, and 5 tries again).
 - **Next (his order):** the other items: gear (285), relics (140), traits (464), and the other
   items and icons (238). Then the engine's double detail and IPA 59.1.
+
+## 22 Oct: gear, relics and icons
+
+His "ok" to all the rest (after asking what it would cost: about 450 to 500 credits).
+
+- **Redrawn (629 pictures, every one at double detail, exactly today's size x 2):**
+  - gear (313): every `g_*` helm, hat, hood, crown, mask, armour, robe, cloak, boots, gloves,
+    amulet, ring and charm, and the 28 offhands (`o_*`);
+  - relics (140): every `relic_*`;
+  - icons (176): food and golden food, drinks and draughts, fish and catches, charms, infusions,
+    dice, keys, coins, bombs, hearts, map icons, the stat icons (`mi_*`), the rarity frames.
+- **Method** (`tools/item_sheets.py GROUP` makes the references and prompts into
+  `spritecook/refs/`; `<group>_plan.json` keeps each sheet's prompt and ids):
+  - 18 sheets of 36 (6 x 6), sorted by kind. Gear and relics are named by their names in the
+    game; icons by a few plain words ("a red heart", "golden food: bun").
+  - Every prompt says never to write the names: none of the 19 sheets wrote any.
+  - Nano Banana 2.1, with his picture, `bright_c1`, `bright_w01` and the first gear sheet
+    `bright_g01` as style images.
+  - Fitted like the weapons (`tools/weapon_fit.py`): each one inside today's drawn outline at
+    double size, centred on it, so a pickup or an inventory icon sits where it does today.
+- **Not here, on purpose:**
+  - The traits (464): the game paints them in their family's colour. They need white shapes;
+    see the next section.
+  - Five pictures that belong to a character, not an item (the bat's second frame, the believer
+    flexing, the hydra's head and neck, the bullet saint): they are made to match their
+    character.
+  - The foes' shot orbs (`orb_*`) were done with the effects.
+- **One try again:** g06 came back 96 pixels across (far too small) the first time.
+- **Review:** `sheets/review-gear-01` to `-09`, `review-relics-01` to `-04`, `review-icons-01`
+  to `-05`.
+- **Credits:** 891 before, 663 after (228 for 19 sheets).

@@ -7,10 +7,11 @@
 - effects and skills (108 pictures; his word, 22 Oct: before the mobs, "super cool", keep the
   original forms);
 - foes, people and pets (206 pictures; his word, 22 Oct: "do weapons and mobs then");
-- weapons (396 pictures, each fitted where today's sits in the hand).
+- weapons (396 pictures, each fitted where today's sits in the hand);
+- gear, relics and icons (629 pictures; his "ok" to all the rest, 22 Oct).
 
-Next: the other items (gear, relics, traits, icons). Where it stands:
-`resprite/HOW_IT_WORKS.md`, last section.
+Next: the traits (464, white shapes the game colours) and five character pictures; then the
+engine's double detail and the IPA. Where it stands: `resprite/HOW_IT_WORKS.md`, last section.
 
 **10 Oct: his trait pictures.** 146 traits and 14 infusions to add (TRAITS_PLAN.md), in
 Stages 40 to 44 (STR, DEX, INT, SUPER/PSYCHIC/AUGMENT, infusions), then 45 the alignment shops.
