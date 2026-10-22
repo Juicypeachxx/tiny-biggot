@@ -465,3 +465,49 @@ His "ok" to all the rest (after asking what it would cost: about 450 to 500 cred
 - **Review:** `sheets/review-gear-01` to `-09`, `review-relics-01` to `-04`, `review-icons-01`
   to `-05`.
 - **Credits:** 891 before, 663 after (228 for 19 sheets).
+
+## 22 Oct: traits and the odd pictures
+
+The rest of his "ok" to all the rest.
+
+- **Redrawn:**
+  - every trait picture (464 `tr_*`), at double detail;
+  - the five pictures that belong to a character: the bat's second wing beat (`bat2`), the
+    believer flexing (`believer_flex`), the Bilge Hydra's head and neck piece (`hydrahead`,
+    `hydraneck`) and the bullet saint (`bullet_saint`).
+- **Traits, how** (`tools/trait_sheets.py` makes the references and prompts into
+  `spritecook/refs/`; `traits_plan.json` keeps each sheet's prompt and ids):
+  - The game paints a trait picture in its family's colour (`trait_view.gd`, the cube). So the
+    new ones are white shapes with grey shading: the prompt asks for white and greys only, and
+    `tools/trait_fit.py` turns what comes back into greys with its lightest pixel white. The
+    family colour shows as strongly as on today's flat white shapes, and the shading shows as
+    darker shades of it.
+  - 13 sheets of 36 (6 x 6), sorted by family. The references are drawn on the game's dark
+    colour: white shapes vanish on white.
+  - Nano Banana 2.1, with his picture, `bright_g01` and the first trait sheet `bright_t01` as
+    style pictures.
+  - Fitted like the weapons: inside today's drawn outline at double size, centred on it.
+- **Drawn again:**
+  - t09 came back 133 pixels across (too small) the first time.
+  - 18 traits came back as something else (a piggy bank as a wolf, a glass cannon as a sword, a
+    shark fin as mountains). They were drawn again on one sheet with plain words for each
+    (`trait_sheets.py fix`), each twice, and the better try kept (`tf2`). A first sheet with
+    each once (`tf1`) came back with its top row cut off and the pictures in grey metal: not
+    used.
+  - OVERCRIT's two little sparkles under its stars were taken away, so its stars fill today's
+    flat outline.
+- **The odd pictures** (`tools/odd_sheet.py`, one 4 x 4 sheet, `bright_o1`):
+  - The reference shows the new bat and believer beside today's second frame, and the prompt asks
+    for the same one in the other pose: they match. Today's `bat2` is a red bat while `bat` is
+    purple; the new one has the new bat's colours.
+  - The hydra's new look (`bright_g2`) is a style picture for its head and neck. The neck piece
+    came back curled round a hole, and the game draws six of them in a row: the hole is filled
+    (`odd_sheet.py fill hydraneck`).
+  - Their elite looks (`bat2_elite`, `believer_flex_elite`) are made from them at import, like
+    every elite.
+- **Review:** `sheets/review-traits-01` to `-13` (the final pictures), `review-traits-fix` (the
+  18 drawn again), `review-odd`.
+- **Credits:** 663 before, 459 after (192 for 16 trait sheets, 12 for the odd sheet).
+- **Every picture is now redrawn:** `tools/inventory.py` finds none missing in any group. The
+  308 elite looks and guardian phases are made from the new pictures at import. Next: the
+  engine's double detail and the IPA.

@@ -23541,16 +23541,6 @@
    "sha12": "5b9be0ae67fd"
   },
   {
-   "label": "tr_str_hammer, from sheet bright_t03 cell 24",
-   "kind": "made",
-   "name": "tr_str_hammer",
-   "asset_id": "d21a0961-431c-455c-a459-0de52538b074",
-   "sheet_cell": 24,
-   "model": "gemini-nano-banana-2.1",
-   "credits": 0,
-   "sha12": "17e91fef2ab8"
-  },
-  {
    "label": "tr_str_heavystride, from sheet bright_t03 cell 25",
    "kind": "made",
    "name": "tr_str_heavystride",
@@ -23579,16 +23569,6 @@
    "model": "gemini-nano-banana-2.1",
    "credits": 0,
    "sha12": "67d59ef71324"
-  },
-  {
-   "label": "tr_str_irondiscipline, from sheet bright_t03 cell 28",
-   "kind": "made",
-   "name": "tr_str_irondiscipline",
-   "asset_id": "d21a0961-431c-455c-a459-0de52538b074",
-   "sheet_cell": 28,
-   "model": "gemini-nano-banana-2.1",
-   "credits": 0,
-   "sha12": "78318d195a5e"
   },
   {
    "label": "tr_str_musclememory, from sheet bright_t03 cell 29",
@@ -23890,16 +23870,6 @@
    "sha12": "537dbaf44da3"
   },
   {
-   "label": "tr_o_engineer, from sheet bright_t04 cell 18",
-   "kind": "made",
-   "name": "tr_o_engineer",
-   "asset_id": "ca40da71-8381-4540-952d-0ebfaf3c4431",
-   "sheet_cell": 18,
-   "model": "gemini-nano-banana-2.1",
-   "credits": 0,
-   "sha12": "d6075e6f9f45"
-  },
-  {
    "label": "tr_o_souls, from sheet bright_t04 cell 19",
    "kind": "made",
    "name": "tr_o_souls",
@@ -24169,16 +24139,6 @@
    "sha12": "9d20a9e52eac"
   },
   {
-   "label": "tr_shrapnel, from sheet bright_t05 cell 5",
-   "kind": "made",
-   "name": "tr_shrapnel",
-   "asset_id": "b2099911-45b1-428b-bf9b-146a0ee9c7a2",
-   "sheet_cell": 5,
-   "model": "gemini-nano-banana-2.1",
-   "credits": 0,
-   "sha12": "95cd8bec6506"
-  },
-  {
    "label": "tr_str_blastinghands, from sheet bright_t05 cell 6",
    "kind": "made",
    "name": "tr_str_blastinghands",
@@ -24419,16 +24379,6 @@
    "sha12": "0e49cb2339e4"
   },
   {
-   "label": "tr_e_cascade, from sheet bright_t05 cell 30",
-   "kind": "made",
-   "name": "tr_e_cascade",
-   "asset_id": "b2099911-45b1-428b-bf9b-146a0ee9c7a2",
-   "sheet_cell": 30,
-   "model": "gemini-nano-banana-2.1",
-   "credits": 0,
-   "sha12": "57bf306d527e"
-  },
-  {
    "label": "tr_e_exploit, from sheet bright_t05 cell 31",
    "kind": "made",
    "name": "tr_e_exploit",
@@ -24457,16 +24407,6 @@
    "model": "gemini-nano-banana-2.1",
    "credits": 0,
    "sha12": "4bcc66254783"
-  },
-  {
-   "label": "tr_e_overcrit, from sheet bright_t05 cell 34",
-   "kind": "made",
-   "name": "tr_e_overcrit",
-   "asset_id": "b2099911-45b1-428b-bf9b-146a0ee9c7a2",
-   "sheet_cell": 34,
-   "model": "gemini-nano-banana-2.1",
-   "credits": 0,
-   "sha12": "fca28484ddd1"
   },
   {
    "label": "tr_e_precise, from sheet bright_t05 cell 35",
@@ -24828,16 +24768,6 @@
    "sha12": "0e315aa4bb13"
   },
   {
-   "label": "tr_g_invest, from sheet bright_t06 cell 30",
-   "kind": "made",
-   "name": "tr_g_invest",
-   "asset_id": "8b7b6aa6-6e65-4a5e-869c-6283bca524ea",
-   "sheet_cell": 30,
-   "model": "gemini-nano-banana-2.1",
-   "credits": 0,
-   "sha12": "dcc0bb4fef79"
-  },
-  {
    "label": "tr_g_skim, from sheet bright_t06 cell 31",
    "kind": "made",
    "name": "tr_g_skim",
@@ -24965,16 +24895,6 @@
    "model": "gemini-nano-banana-2.1",
    "credits": 0,
    "sha12": "c410583027a3"
-  },
-  {
-   "label": "tr_n_coinflip, from sheet bright_t07 cell 3",
-   "kind": "made",
-   "name": "tr_n_coinflip",
-   "asset_id": "cc955cd0-0634-4193-ac6c-3e7c0725255d",
-   "sheet_cell": 3,
-   "model": "gemini-nano-banana-2.1",
-   "credits": 0,
-   "sha12": "b94b152e4a48"
   },
   {
    "label": "tr_n_silvertongue, from sheet bright_t07 cell 4",
@@ -25217,16 +25137,6 @@
    "sha12": "e43b4c8fd7d3"
   },
   {
-   "label": "tr_int_iceconj, from sheet bright_t07 cell 28",
-   "kind": "made",
-   "name": "tr_int_iceconj",
-   "asset_id": "cc955cd0-0634-4193-ac6c-3e7c0725255d",
-   "sheet_cell": 28,
-   "model": "gemini-nano-banana-2.1",
-   "credits": 0,
-   "sha12": "1a1a20110701"
-  },
-  {
    "label": "tr_n_coldsnap, from sheet bright_t07 cell 29",
    "kind": "made",
    "name": "tr_n_coldsnap",
@@ -25356,16 +25266,6 @@
    "sha12": "1b4e4e4d7241"
   },
   {
-   "label": "tr_y_frostwake, from sheet bright_t08 cell 1",
-   "kind": "made",
-   "name": "tr_y_frostwake",
-   "asset_id": "dce4c56c-1bd1-42d1-9ea1-b6345a77815c",
-   "sheet_cell": 1,
-   "model": "gemini-nano-banana-2.1",
-   "credits": 0,
-   "sha12": "eae94fa543ee"
-  },
-  {
    "label": "tr_f_anger, from sheet bright_t08 cell 2",
    "kind": "made",
    "name": "tr_f_anger",
@@ -25444,16 +25344,6 @@
    "model": "gemini-nano-banana-2.1",
    "credits": 0,
    "sha12": "944ab8b0d456"
-  },
-  {
-   "label": "tr_j_brawler, from sheet bright_t08 cell 10",
-   "kind": "made",
-   "name": "tr_j_brawler",
-   "asset_id": "dce4c56c-1bd1-42d1-9ea1-b6345a77815c",
-   "sheet_cell": 10,
-   "model": "gemini-nano-banana-2.1",
-   "credits": 0,
-   "sha12": "980b84420fff"
   },
   {
    "label": "tr_j_hollowleg, from sheet bright_t08 cell 11",
@@ -25694,16 +25584,6 @@
    "model": "gemini-nano-banana-2.1",
    "credits": 0,
    "sha12": "09d5dcb9cd29"
-  },
-  {
-   "label": "tr_x_glass, from sheet bright_t08 cell 35",
-   "kind": "made",
-   "name": "tr_x_glass",
-   "asset_id": "dce4c56c-1bd1-42d1-9ea1-b6345a77815c",
-   "sheet_cell": 35,
-   "model": "gemini-nano-banana-2.1",
-   "credits": 0,
-   "sha12": "255df7ae66ae"
   },
   {
    "label": "trait sheet t10 in his look, white and greys, 22 Oct",
@@ -26194,16 +26074,6 @@
    "sha12": "1006518def4a"
   },
   {
-   "label": "tr_q_longshadow, from sheet bright_t11 cell 3",
-   "kind": "made",
-   "name": "tr_q_longshadow",
-   "asset_id": "2c53b6f2-dbfa-47b5-8528-69bd73702d3b",
-   "sheet_cell": 3,
-   "model": "gemini-nano-banana-2.1",
-   "credits": 0,
-   "sha12": "af666e20fde5"
-  },
-  {
    "label": "tr_q_totaleclipse, from sheet bright_t11 cell 4",
    "kind": "made",
    "name": "tr_q_totaleclipse",
@@ -26374,16 +26244,6 @@
    "sha12": "30115447ecc9"
   },
   {
-   "label": "tr_int_staticblows, from sheet bright_t11 cell 21",
-   "kind": "made",
-   "name": "tr_int_staticblows",
-   "asset_id": "2c53b6f2-dbfa-47b5-8528-69bd73702d3b",
-   "sheet_cell": 21,
-   "model": "gemini-nano-banana-2.1",
-   "credits": 0,
-   "sha12": "7ad2ac33fe98"
-  },
-  {
    "label": "tr_int_twice, from sheet bright_t11 cell 22",
    "kind": "made",
    "name": "tr_int_twice",
@@ -26422,16 +26282,6 @@
    "model": "gemini-nano-banana-2.1",
    "credits": 0,
    "sha12": "6bdc04771707"
-  },
-  {
-   "label": "tr_n_sparkplug, from sheet bright_t11 cell 26",
-   "kind": "made",
-   "name": "tr_n_sparkplug",
-   "asset_id": "2c53b6f2-dbfa-47b5-8528-69bd73702d3b",
-   "sheet_cell": 26,
-   "model": "gemini-nano-banana-2.1",
-   "credits": 0,
-   "sha12": "5ca67a7b3ba8"
   },
   {
    "label": "tr_n_tempest, from sheet bright_t11 cell 27",
@@ -26821,16 +26671,6 @@
    "model": "gemini-nano-banana-2.1",
    "credits": 0,
    "sha12": "c023fe9b0c07"
-  },
-  {
-   "label": "tr_y_dreadlord, from sheet bright_t09 cell 25",
-   "kind": "made",
-   "name": "tr_y_dreadlord",
-   "asset_id": "e8fe0841-017e-4e40-9bbc-a49ce4aaa850",
-   "sheet_cell": 25,
-   "model": "gemini-nano-banana-2.1",
-   "credits": 0,
-   "sha12": "1a0e2099b261"
   },
   {
    "label": "tr_z_hexback, from sheet bright_t09 cell 26",
@@ -27302,16 +27142,6 @@
    "sha12": "5e10898f6299"
   },
   {
-   "label": "tr_q_sharkweek, from sheet bright_t12 cell 32",
-   "kind": "made",
-   "name": "tr_q_sharkweek",
-   "asset_id": "d34609dd-9f0e-4ef2-92af-bd8a0acfd559",
-   "sheet_cell": 32,
-   "model": "gemini-nano-banana-2.1",
-   "credits": 0,
-   "sha12": "300cd84a1c7f"
-  },
-  {
    "label": "tr_q_wispwarden, from sheet bright_t12 cell 33",
    "kind": "made",
    "name": "tr_q_wispwarden",
@@ -27509,16 +27339,6 @@
    "model": "gemini-nano-banana-2.1",
    "credits": 0,
    "sha12": "fad3e2defffe"
-  },
-  {
-   "label": "tr_n_forked, from sheet bright_t13 cell 12",
-   "kind": "made",
-   "name": "tr_n_forked",
-   "asset_id": "4b6fa850-5e1c-41be-86b4-ca03322e9bfb",
-   "sheet_cell": 12,
-   "model": "gemini-nano-banana-2.1",
-   "credits": 0,
-   "sha12": "64bc747ffe42"
   },
   {
    "label": "tr_n_vipers, from sheet bright_t13 cell 13",
@@ -27788,6 +27608,235 @@
    "model": "gemini-nano-banana-2.1",
    "credits": 0,
    "sha12": "2d33ef38755a"
+  },
+  {
+   "label": "trait fix sheet tf2 (18 drawn again, twice each), white and greys, 22 Oct",
+   "kind": "sheet",
+   "name": "bright_tf2",
+   "asset_id": "a5de911f-650c-4042-ab7c-9789a3962834",
+   "job_id": "e4862bb9-1bf7-4fd7-9294-757bfc269894",
+   "reference": "b86d4a97-a9a5-4a08-b81c-824bb94f386d",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "cells": [
+    "tr_str_hammer",
+    "tr_str_irondiscipline",
+    "tr_o_engineer",
+    "-",
+    "tr_e_cascade",
+    "tr_e_overcrit",
+    "tr_g_invest",
+    "-",
+    "tr_int_iceconj",
+    "-",
+    "tr_j_brawler",
+    "tr_x_glass",
+    "tr_y_dreadlord",
+    "tr_int_staticblows",
+    "tr_n_sparkplug",
+    "tr_q_sharkweek",
+    "tr_q_longshadow",
+    "tr_n_forked",
+    "-",
+    "-",
+    "-",
+    "tr_shrapnel",
+    "-",
+    "-",
+    "-",
+    "tr_n_coinflip",
+    "-",
+    "tr_y_frostwake",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-"
+   ],
+   "sha12": "ded87ab15a08"
+  },
+  {
+   "label": "tr_str_hammer, from sheet bright_tf2 cell 0",
+   "kind": "made",
+   "name": "tr_str_hammer",
+   "asset_id": "a5de911f-650c-4042-ab7c-9789a3962834",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "4b15138b6e60"
+  },
+  {
+   "label": "tr_str_irondiscipline, from sheet bright_tf2 cell 1",
+   "kind": "made",
+   "name": "tr_str_irondiscipline",
+   "asset_id": "a5de911f-650c-4042-ab7c-9789a3962834",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "32665e5f9d3c"
+  },
+  {
+   "label": "tr_o_engineer, from sheet bright_tf2 cell 2",
+   "kind": "made",
+   "name": "tr_o_engineer",
+   "asset_id": "a5de911f-650c-4042-ab7c-9789a3962834",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "3c5daad5b0bb"
+  },
+  {
+   "label": "tr_e_cascade, from sheet bright_tf2 cell 4",
+   "kind": "made",
+   "name": "tr_e_cascade",
+   "asset_id": "a5de911f-650c-4042-ab7c-9789a3962834",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "19ac41092fc4"
+  },
+  {
+   "label": "tr_e_overcrit, from sheet bright_tf2 cell 5",
+   "kind": "made",
+   "name": "tr_e_overcrit",
+   "asset_id": "a5de911f-650c-4042-ab7c-9789a3962834",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "12a88e1e41f1"
+  },
+  {
+   "label": "tr_g_invest, from sheet bright_tf2 cell 6",
+   "kind": "made",
+   "name": "tr_g_invest",
+   "asset_id": "a5de911f-650c-4042-ab7c-9789a3962834",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "e9580ddeb864"
+  },
+  {
+   "label": "tr_int_iceconj, from sheet bright_tf2 cell 8",
+   "kind": "made",
+   "name": "tr_int_iceconj",
+   "asset_id": "a5de911f-650c-4042-ab7c-9789a3962834",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "ae9c6caab4e2"
+  },
+  {
+   "label": "tr_j_brawler, from sheet bright_tf2 cell 10",
+   "kind": "made",
+   "name": "tr_j_brawler",
+   "asset_id": "a5de911f-650c-4042-ab7c-9789a3962834",
+   "sheet_cell": 10,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "d6b9bf4de52a"
+  },
+  {
+   "label": "tr_x_glass, from sheet bright_tf2 cell 11",
+   "kind": "made",
+   "name": "tr_x_glass",
+   "asset_id": "a5de911f-650c-4042-ab7c-9789a3962834",
+   "sheet_cell": 11,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "354ed5054d1c"
+  },
+  {
+   "label": "tr_y_dreadlord, from sheet bright_tf2 cell 12",
+   "kind": "made",
+   "name": "tr_y_dreadlord",
+   "asset_id": "a5de911f-650c-4042-ab7c-9789a3962834",
+   "sheet_cell": 12,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "7e1e0fa43df5"
+  },
+  {
+   "label": "tr_int_staticblows, from sheet bright_tf2 cell 13",
+   "kind": "made",
+   "name": "tr_int_staticblows",
+   "asset_id": "a5de911f-650c-4042-ab7c-9789a3962834",
+   "sheet_cell": 13,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "f12e9a5a50a1"
+  },
+  {
+   "label": "tr_n_sparkplug, from sheet bright_tf2 cell 14",
+   "kind": "made",
+   "name": "tr_n_sparkplug",
+   "asset_id": "a5de911f-650c-4042-ab7c-9789a3962834",
+   "sheet_cell": 14,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "9a0bbb914b77"
+  },
+  {
+   "label": "tr_q_sharkweek, from sheet bright_tf2 cell 15",
+   "kind": "made",
+   "name": "tr_q_sharkweek",
+   "asset_id": "a5de911f-650c-4042-ab7c-9789a3962834",
+   "sheet_cell": 15,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "ca31cf9670f2"
+  },
+  {
+   "label": "tr_q_longshadow, from sheet bright_tf2 cell 16",
+   "kind": "made",
+   "name": "tr_q_longshadow",
+   "asset_id": "a5de911f-650c-4042-ab7c-9789a3962834",
+   "sheet_cell": 16,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "6d0fdc3e151b"
+  },
+  {
+   "label": "tr_n_forked, from sheet bright_tf2 cell 17",
+   "kind": "made",
+   "name": "tr_n_forked",
+   "asset_id": "a5de911f-650c-4042-ab7c-9789a3962834",
+   "sheet_cell": 17,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "71cea7db60a9"
+  },
+  {
+   "label": "tr_shrapnel, from sheet bright_tf2 cell 21",
+   "kind": "made",
+   "name": "tr_shrapnel",
+   "asset_id": "a5de911f-650c-4042-ab7c-9789a3962834",
+   "sheet_cell": 21,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "8842a110f3d7"
+  },
+  {
+   "label": "tr_n_coinflip, from sheet bright_tf2 cell 25",
+   "kind": "made",
+   "name": "tr_n_coinflip",
+   "asset_id": "a5de911f-650c-4042-ab7c-9789a3962834",
+   "sheet_cell": 25,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "ba77f1c5a614"
+  },
+  {
+   "label": "tr_y_frostwake, from sheet bright_tf2 cell 27",
+   "kind": "made",
+   "name": "tr_y_frostwake",
+   "asset_id": "a5de911f-650c-4042-ab7c-9789a3962834",
+   "sheet_cell": 27,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "2c34e295a1df"
   }
  ]
 }

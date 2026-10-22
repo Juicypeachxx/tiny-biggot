@@ -8,10 +8,13 @@
   original forms);
 - foes, people and pets (206 pictures; his word, 22 Oct: "do weapons and mobs then");
 - weapons (396 pictures, each fitted where today's sits in the hand);
-- gear, relics and icons (629 pictures; his "ok" to all the rest, 22 Oct).
+- gear, relics and icons (629 pictures; his "ok" to all the rest, 22 Oct);
+- traits (464, white shapes with grey shading, the game colours them) and the five odd
+  character pictures (the bat's second frame, the believer flexing, the hydra's head and neck,
+  the bullet saint).
 
-Next: the traits (464, white shapes the game colours) and five character pictures; then the
-engine's double detail and the IPA. Where it stands: `resprite/HOW_IT_WORKS.md`, last section.
+Every picture is now redrawn (459 credits left). Next: the engine's double detail and the IPA.
+Where it stands: `resprite/HOW_IT_WORKS.md`, last section.
 
 **10 Oct: his trait pictures.** 146 traits and 14 infusions to add (TRAITS_PLAN.md), in
 Stages 40 to 44 (STR, DEX, INT, SUPER/PSYCHIC/AUGMENT, infusions), then 45 the alignment shops.
