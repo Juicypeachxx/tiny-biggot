@@ -304,3 +304,66 @@ session.
 - **Credits:** 2151 before, 1479 after (672: room objects 72, floors 516, tries 84).
 - **Next (his order):** foes and people (4 x 4 sheets), then weapons, items and effects; the
   elites are made from the new pictures. Then the engine's double detail and IPA 59.1.
+  (22 Oct he moved the effects first: see the next section.)
+
+## 22 Oct: effects and skills
+
+His word: "Before mobs can you do the effects and make super cool ones also keep original forms,
+after effects and skills do the mobs". So the order is now: effects and skills (done here), then
+foes and people, then weapons and items.
+
+- **Redrawn (108 pictures):**
+  - every effect strip (`fx_*`): the explosions in three sizes and five colours, shatter, zap,
+    crit star, smoke, flames, dust, poison pool, scorch, falling rock, bubbles, frost, stars, and
+    the marks over foes;
+  - the attacks: `swing_*`, `slash_arc`, hit star, cut mark, cast ring, flare, muzzle flash, plus;
+  - the foes' shots: `eb_*` with their rims `ebr_*`, and `orb_*`/`orbr_*`;
+  - your shots: `shot_*`, all 17 weapon families.
+- **Skills** have no pictures of their own. Hero skills are drawn from these pictures, plus lines
+  and rings drawn in code, which stay as they are.
+- **Method** (`tools/fx_ref.py`, `fx_fit.py`; `fx_make.sh` rebuilds everything in about 5 s):
+  - **Reference:** today's frames enlarged x4 in a grid, on the game's dark colour (#1a1423).
+  - **The ask:** the prompt names each cell's animation. Nano Banana 2.1, background "include"
+    (flat dark navy, keyed out), his picture and the first new explosion as style images.
+  - **Size:** Nano Banana draws an effect sheet about 175 pixels across whatever the grid, and
+    keeps the reference's place for each frame. So a frame comes back at about
+    `fill x 175 / (cols x biggest frame)` times today's size.
+  - **Density:** the grids were chosen for density 1 (the game's own size: the big explosions,
+    the swings, the marks) or 2 (the small explosion, shatter, zap, smoke, the foes' shots, your
+    shots).
+  - **Cutting:** the cutter looks a quarter of a frame round each cell and takes the window that
+    lies best on today's frame (the sheets came back 3 to 4 pixels higher than the grid). A frame
+    drawn a little bigger or smaller than its density is scaled; when it shrinks, its pixels are
+    averaged.
+  - **Forms, `--clip`:** the new art is kept inside today's form plus one game pixel, not across a
+    thin shape such as a bolt. Used for the swings, the hit star, flare, cast ring, muzzle flash,
+    the foes' shots and your shots. SpriteCook drew the slash as a big centred crescent; clipped,
+    it sits where today's does.
+  - **Forms, `--under`:** today's frame goes under the new one where SpriteCook drew less (the cut
+    mark).
+  - **Grey:** the strips the game tints (a hit in the weapon's colour, the swings, the cast ring,
+    the muzzle flash, the flare, the plus) are kept grey (`--grey`), so the tint still works.
+  - **Colour swap:** today each explosion colour and each weapon family is one drawing in several
+    palettes, pixel for pixel. So the explosions' other colours (frost, gold, venom, void) and
+    your shots' other 16 families are the new drawing with its colours swapped
+    (`fx_recolour.py`, `fx_shots.py`): each new pixel takes the twin of today's colour nearest
+    it, at its own lightness.
+  - **Kept from today:** the big explosion's last two frames (a few embers, in the new colours)
+    and the bubble's first frame (SpriteCook drew that 3-pixel dot cyan).
+  - **Rims:** the foes' shot rims (35.3) are made again round the new shots (`fx_rims.py`), one
+    game pixel wide.
+- **Measured:**
+  - Every new picture is exactly today's size x 1 or x 2.
+  - For the big frames, the new art covers 70 to 95% of today's outline. Thin sparks and specks
+    cover less; by eye they match.
+- **Review:** `sheets/review-effects-explosions`, `-skills`, `-attacks`, `-foe-shots` (the .gif
+  plays them with today on the left and the new one on the right; the .png shows every frame),
+  and `sheets/review-shots.png`.
+- **The engine needs (double-detail step):**
+  - Effects at density 2 need the strip code (Vfx._strip, Afx, the shot shader's rects, EBullets)
+    to read a strip's density (its height divided by today's) and draw it at today's size.
+  - Density-1 effects can replace today's files as they are.
+  - The swapped colours are already in `hd/` as full sheets, in today's layout.
+- **Credits:** 1479 before, 1263 after (216 for 18 sheets).
+- **Next (his order):** foes and people, then weapons and items; the elites from the new
+  pictures. Then the engine's double detail and IPA 59.1.

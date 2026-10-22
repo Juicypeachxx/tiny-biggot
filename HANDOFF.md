@@ -1,8 +1,13 @@
 # Handoff: where the work stands
 
 **V2 (branch tiny-biggot-V2 only, his test): every sprite redrawn on SpriteCook in his bright look
-(21 Oct).** Done: characters and bosses (all stages), then environments (91 room objects, 43
-floors). Next, when he says: foes, then weapons and effects. Where it stands:
+(21 Oct).** Done:
+- characters and bosses (all stages);
+- environments (91 room objects, 43 floors);
+- effects and skills (108 pictures; his word, 22 Oct: before the mobs, "super cool", keep the
+  original forms).
+
+Next, when he says: foes and people, then weapons and items. Where it stands:
 `resprite/HOW_IT_WORKS.md`, last section.
 
 **10 Oct: his trait pictures.** 146 traits and 14 infusions to add (TRAITS_PLAN.md), in

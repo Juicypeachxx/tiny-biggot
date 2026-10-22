@@ -7881,6 +7881,348 @@
    "model": "gemini-nano-banana-2.1",
    "credits": 12,
    "sha12": "5f1a24b155e3"
+  },
+  {
+   "label": "effect sheet fx01: medium explosion, his bright look, 22 Oct",
+   "kind": "sheet",
+   "name": "bright_fx01",
+   "asset_id": "fe5a0aec-3981-476a-8c3b-7c9831a14050",
+   "job_id": "7940bd5f-ed2f-429d-81ce-ecdc815e7964",
+   "reference": "592e7c9c-3629-4b48-8aee-27b8b38c320f",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "fit": "1 3 4 fx_blast_m_fire:9",
+   "sha12": "28eaf0c91645"
+  },
+  {
+   "label": "effect sheet fx02: big explosion frames 1-4, his bright look, 22 Oct",
+   "kind": "sheet",
+   "name": "bright_fx02",
+   "asset_id": "67d04959-58bc-4247-992a-31b2df3c74d4",
+   "job_id": "599fdf6e-260c-4997-893c-4e3c9aa4de4c",
+   "reference": "f75ae5af-92d2-4b09-b599-d4d62f8f5fa4",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "fit": "1 2 4 --fill 0.89 fx_blast_l_fire:10@0-3",
+   "sha12": "06bf702bd597"
+  },
+  {
+   "label": "effect sheet fx03: big explosion frames 5-8, his bright look, 22 Oct",
+   "kind": "sheet",
+   "name": "bright_fx03",
+   "asset_id": "b2fe4251-8d98-4c1c-b6fa-4639cbd38005",
+   "job_id": "65705c10-840c-4f24-ae9f-37a37524109b",
+   "reference": "32b376c4-7379-44a3-9abc-964953de8a49",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "fit": "1 2 4 --fill 0.89 fx_blast_l_fire:10@4-7",
+   "sha12": "27ef3a8a47e2"
+  },
+  {
+   "label": "effect sheet fx05: small explosion, his bright look, 22 Oct",
+   "kind": "sheet",
+   "name": "bright_fx05",
+   "asset_id": "dd9527d6-4e16-43c1-b892-32f19bffc9a5",
+   "job_id": "a1cd9f44-1706-493e-8a1d-8394c925b527",
+   "reference": "f8144432-734d-449a-8163-00c15ddcb2e0",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "fit": "2 3 4 fx_blast_s_fire:8",
+   "sha12": "ab56b3d2712a"
+  },
+  {
+   "label": "effect sheet fx06: ice shatter, his bright look, 22 Oct",
+   "kind": "sheet",
+   "name": "bright_fx06",
+   "asset_id": "8915a5f5-04a8-4be8-9137-d8334905398f",
+   "job_id": "4083ff44-e251-4e2d-a267-0c4fcb18b261",
+   "reference": "20035f88-f173-471a-b072-618533a9e177",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "fit": "2 3 4 --fill 0.54 fx_shatter:7",
+   "sha12": "882b8a195e59"
+  },
+  {
+   "label": "effect sheet fx07: zap, crit star, smoke, his bright look, 22 Oct",
+   "kind": "sheet",
+   "name": "bright_fx07",
+   "asset_id": "471e521a-86e5-417c-9d96-b29414335847",
+   "job_id": "e4c56eb1-8e04-45fc-b0c5-4c564008349a",
+   "reference": "87ad8597-5621-4862-a01b-5fcdd287f59a",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "fit": "2 4 4 --fill 0.89 fx_zap:5 fx_crit:5 fx_smoke:6",
+   "sha12": "92d406801888"
+  },
+  {
+   "label": "effect sheet fx08: ring, hit star, flare, muzzle flash, plus (grey: the game colours them), his bright look, 22 Oct",
+   "kind": "sheet",
+   "name": "bright_fx08",
+   "asset_id": "67047b8d-2989-4dff-8b5d-07525da4c965",
+   "job_id": "9048e832-677b-4851-83dd-f4300d16d139",
+   "reference": "64dd2d5b-60d8-4b9a-8860-c2f424c673a0",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "fit": "1 --grey --clip 4 4 --fill 0.56 fx_cast:4 fx_hit:4 fx_flare:4 fx_muzzle:3 fx_plus:1",
+   "sha12": "5b7f354e2576"
+  },
+  {
+   "label": "effect sheet fx09: sword slash and its edge (grey), his bright look, 22 Oct",
+   "kind": "sheet",
+   "name": "bright_fx09",
+   "asset_id": "4bbc0980-3471-40a2-9a46-fb041d467fd2",
+   "job_id": "7ec05f08-a059-4168-b733-d7ba319a7d76",
+   "reference": "45297578-7d55-446d-9111-cfa18c9131ee",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "fit": "1 --grey --clip 3 4 swing_slash:4 swing_slash_edge:4",
+   "sha12": "123eea7a55b5"
+  },
+  {
+   "label": "effect sheet fx10: spear thrust and whip (grey), his bright look, 22 Oct",
+   "kind": "sheet",
+   "name": "bright_fx10",
+   "asset_id": "ad69f708-4807-48d2-989c-01c2ed3455b0",
+   "job_id": "a920ef34-a8fb-4c52-8c3c-59d4b7bf85e8",
+   "reference": "8b00f725-bb47-4258-9a94-2c38c849f92e",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "fit": "1 --grey 3 4 --fill 0.95 swing_thrust:3 swing_whip:3 - - -",
+   "sha12": "2594f20953d0"
+  },
+  {
+   "label": "effect sheet fx11: flames big and small, his bright look, 22 Oct",
+   "kind": "sheet",
+   "name": "bright_fx11",
+   "asset_id": "94074f96-a56a-4306-863c-11a1259f711d",
+   "job_id": "7d478ef6-311b-4773-953a-62a49582d261",
+   "reference": "592ed766-dcb5-4cda-a5ae-971071b55688",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "fit": "1 4 4 --fill 0.67 fx_flame:8 fx_flame_s:8",
+   "sha12": "71beba280c9e"
+  },
+  {
+   "label": "effect sheet fx12: nine foe shots, his bright look, 22 Oct",
+   "kind": "sheet",
+   "name": "bright_fx12",
+   "asset_id": "2ccda095-454e-4e3c-886a-3f512891f544",
+   "job_id": "fa46bbc2-9e7d-4d33-b063-6014b7e3a339",
+   "reference": "cd88cb3e-7de3-4c34-a010-5cefef3fb80d",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "fit": "2 --clip 6 4 --fill 0.74 eb_red:4 eb_bone:4 eb_water:4 eb_ice:4 eb_spore:4 eb_dark:4 eb_fire:4 eb_cyan:4 eb_page:4",
+   "sha12": "825dc4e881ec"
+  },
+  {
+   "label": "effect sheet fx13: four big foe shots, his bright look, 22 Oct",
+   "kind": "sheet",
+   "name": "bright_fx13",
+   "asset_id": "e60f03b3-925a-4784-84c5-94095b3062cc",
+   "job_id": "1f8a3c62-d0cf-44f1-8d57-a6b6910a50c2",
+   "reference": "f8427dd3-af70-4a70-b3fc-62a90f7a81bc",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "fit": "1 --clip 4 4 --fill 0.67 eb_redBig:4 eb_darkBig:4 eb_fireBig:4 eb_iceBig:4",
+   "sha12": "a0ace609ceb2"
+  },
+  {
+   "label": "effect sheet fx14: orbs and the marks over foes, his bright look, 22 Oct",
+   "kind": "sheet",
+   "name": "bright_fx14",
+   "asset_id": "04f25841-c75a-4f77-be34-dca06f898b18",
+   "job_id": "72acca17-93b7-4b9b-bdba-746849e7ba51",
+   "reference": "c911c14f-0ec8-4485-a793-7f22700ac207",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "fit": "1 --clip 6 4 --fill 0.87 orb_red:1 orb_redBig:1 orb_bone:1 orb_water:1 orb_ice:1 orb_iceBig:1 orb_spore:1 orb_dark:1 orb_darkBig:1 orb_fire:1 orb_fireBig:1 orb_cyan:1 orb_page:1 orb_clod:1 orb_flask:1 orb_gold:1 orb_hex:1 orb_hexBig:1 orb_moon:1 fx_skull:1 fx_weak:1 fx_mark:1 fx_star:2 fx_frost:2 fx_bubble:4 - - - - - -",
+   "sha12": "ba980afeb284"
+  },
+  {
+   "label": "effect sheet fx15: dust, poison pool, scorch, rock, his bright look, 22 Oct",
+   "kind": "sheet",
+   "name": "bright_fx15",
+   "asset_id": "100522c4-b093-41bc-991e-ef07b7f40be3",
+   "job_id": "823c355e-db32-4d12-bba7-c50684da32bf",
+   "reference": "e1d52359-0f85-4688-a5c6-2000082b242f",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "fit": "2 3 4 --fill 0.9 fx_dust:5 fx_pool:1 fx_scorch:1 fx_rock:1",
+   "sha12": "cca5f1772e8c"
+  },
+  {
+   "label": "effect sheet fx16: cut mark and slash arc (grey), his bright look, 22 Oct",
+   "kind": "sheet",
+   "name": "bright_fx16",
+   "asset_id": "5ef4e63d-0bd3-4a60-9964-e94074d20576",
+   "job_id": "6b2fc30e-a8f4-4890-be9d-74b2468390cb",
+   "reference": "0aa64805-e6e5-43d7-8c42-83eb86fd6413",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "fit": "1 --grey --clip --under 3 4 fx_cut:4 slash_arc:1 - - - -",
+   "sha12": "9d9a77daec0b"
+  },
+  {
+   "label": "effect sheet fx17: your shots: big orb, whirl, flask, pellet (pyre family), his bright look, 22 Oct",
+   "kind": "sheet",
+   "name": "bright_fx17",
+   "asset_id": "a088eb16-4232-4475-af2b-4104b8c674a1",
+   "job_id": "e52f1045-235c-43f5-846c-f471f2632abe",
+   "reference": "fc0224a5-0d71-42bc-be04-11392902583d",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "fit": "2 --clip 3 4 shot_hexBig:4#2 shot_whirl:2#2 shot_flask:1#2 shot_pellet:2#2",
+   "sha12": "6e80a4f15e72"
+  },
+  {
+   "label": "effect sheet fx18: your shots: orb, pulse, spark, flame (pyre family), his bright look, 22 Oct",
+   "kind": "sheet",
+   "name": "bright_fx18",
+   "asset_id": "c3d32bcb-fe4e-457d-bb11-871fef003e73",
+   "job_id": "9f92291d-9767-4284-986d-e75a0250bb42",
+   "reference": "af16cc04-d540-463e-bd1c-f32d2b6e7ab5",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "fit": "2 --clip 4 4 --fill 0.78 shot_hex:4#2 shot_pulse:4#2 shot_spark:4#2 shot_fire:4#2",
+   "sha12": "db8b360e0ded"
+  },
+  {
+   "label": "effect sheet fx19: your shots: rail and bolt (pyre family), his bright look, 22 Oct",
+   "kind": "sheet",
+   "name": "bright_fx19",
+   "asset_id": "acf52bbf-b899-4a46-8166-c73f6471be5c",
+   "job_id": "d246ebf8-f880-4699-92da-7a585ffc238f",
+   "reference": "560d44ea-bbd8-476b-b22a-b35a52a7422e",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "fit": "2 --clip 2 4 shot_rail:2#2 shot_bolt:2#2",
+   "sha12": "4d9a14b8077b"
+  },
+  {
+   "label": "reference fx01: today's frames enlarged on the game's dark (medium explosion)",
+   "kind": "reference",
+   "name": "fxref_fx01",
+   "asset_id": "592e7c9c-3629-4b48-8aee-27b8b38c320f",
+   "sha12": "93eadea70229"
+  },
+  {
+   "label": "reference fx02: today's frames enlarged on the game's dark (big explosion frames 1-4)",
+   "kind": "reference",
+   "name": "fxref_fx02",
+   "asset_id": "f75ae5af-92d2-4b09-b599-d4d62f8f5fa4",
+   "sha12": "61eb1f170f5c"
+  },
+  {
+   "label": "reference fx03: today's frames enlarged on the game's dark (big explosion frames 5-8)",
+   "kind": "reference",
+   "name": "fxref_fx03",
+   "asset_id": "32b376c4-7379-44a3-9abc-964953de8a49",
+   "sha12": "3f47711c26c5"
+  },
+  {
+   "label": "reference fx05: today's frames enlarged on the game's dark (small explosion)",
+   "kind": "reference",
+   "name": "fxref_fx05",
+   "asset_id": "f8144432-734d-449a-8163-00c15ddcb2e0",
+   "sha12": "e176d3cb78b8"
+  },
+  {
+   "label": "reference fx06: today's frames enlarged on the game's dark (ice shatter)",
+   "kind": "reference",
+   "name": "fxref_fx06",
+   "asset_id": "20035f88-f173-471a-b072-618533a9e177",
+   "sha12": "99948882b0c0"
+  },
+  {
+   "label": "reference fx07: today's frames enlarged on the game's dark (zap, crit star, smoke)",
+   "kind": "reference",
+   "name": "fxref_fx07",
+   "asset_id": "87ad8597-5621-4862-a01b-5fcdd287f59a",
+   "sha12": "2add5453083b"
+  },
+  {
+   "label": "reference fx08: today's frames enlarged on the game's dark (ring, hit star, flare, muzzle flash, plus (grey: the game colours them))",
+   "kind": "reference",
+   "name": "fxref_fx08",
+   "asset_id": "64dd2d5b-60d8-4b9a-8860-c2f424c673a0",
+   "sha12": "cff431f05755"
+  },
+  {
+   "label": "reference fx09: today's frames enlarged on the game's dark (sword slash and its edge (grey))",
+   "kind": "reference",
+   "name": "fxref_fx09",
+   "asset_id": "45297578-7d55-446d-9111-cfa18c9131ee",
+   "sha12": "5f47aa59c989"
+  },
+  {
+   "label": "reference fx10: today's frames enlarged on the game's dark (spear thrust and whip (grey))",
+   "kind": "reference",
+   "name": "fxref_fx10",
+   "asset_id": "8b00f725-bb47-4258-9a94-2c38c849f92e",
+   "sha12": "358ad439b3fc"
+  },
+  {
+   "label": "reference fx11: today's frames enlarged on the game's dark (flames big and small)",
+   "kind": "reference",
+   "name": "fxref_fx11",
+   "asset_id": "592ed766-dcb5-4cda-a5ae-971071b55688",
+   "sha12": "391ff6325639"
+  },
+  {
+   "label": "reference fx12: today's frames enlarged on the game's dark (nine foe shots)",
+   "kind": "reference",
+   "name": "fxref_fx12",
+   "asset_id": "cd88cb3e-7de3-4c34-a010-5cefef3fb80d",
+   "sha12": "3d1cb4550d8c"
+  },
+  {
+   "label": "reference fx13: today's frames enlarged on the game's dark (four big foe shots)",
+   "kind": "reference",
+   "name": "fxref_fx13",
+   "asset_id": "f8427dd3-af70-4a70-b3fc-62a90f7a81bc",
+   "sha12": "1ac4f9865665"
+  },
+  {
+   "label": "reference fx14: today's frames enlarged on the game's dark (orbs and the marks over foes)",
+   "kind": "reference",
+   "name": "fxref_fx14",
+   "asset_id": "c911c14f-0ec8-4485-a793-7f22700ac207",
+   "sha12": "d619fd4b1452"
+  },
+  {
+   "label": "reference fx15: today's frames enlarged on the game's dark (dust, poison pool, scorch, rock)",
+   "kind": "reference",
+   "name": "fxref_fx15",
+   "asset_id": "e1d52359-0f85-4688-a5c6-2000082b242f",
+   "sha12": "f4fe16035b0c"
+  },
+  {
+   "label": "reference fx16: today's frames enlarged on the game's dark (cut mark and slash arc (grey))",
+   "kind": "reference",
+   "name": "fxref_fx16",
+   "asset_id": "0aa64805-e6e5-43d7-8c42-83eb86fd6413",
+   "sha12": "811ec67bfb05"
+  },
+  {
+   "label": "reference fx17: today's frames enlarged on the game's dark (your shots: big orb, whirl, flask, pellet (pyre family))",
+   "kind": "reference",
+   "name": "fxref_fx17",
+   "asset_id": "fc0224a5-0d71-42bc-be04-11392902583d",
+   "sha12": "838ff69a1bd1"
+  },
+  {
+   "label": "reference fx18: today's frames enlarged on the game's dark (your shots: orb, pulse, spark, flame (pyre family))",
+   "kind": "reference",
+   "name": "fxref_fx18",
+   "asset_id": "af16cc04-d540-463e-bd1c-f32d2b6e7ab5",
+   "sha12": "820878fba402"
+  },
+  {
+   "label": "reference fx19: today's frames enlarged on the game's dark (your shots: rail and bolt (pyre family))",
+   "kind": "reference",
+   "name": "fxref_fx19",
+   "asset_id": "560d44ea-bbd8-476b-b22a-b35a52a7422e",
+   "sha12": "25c7cea12899"
   }
  ]
 }
