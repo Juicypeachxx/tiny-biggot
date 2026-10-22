@@ -17,7 +17,8 @@ Every picture is now redrawn (459 credits left). His "ok do the engine and make 
 the engine draws at double detail (screen 896 x 576, every layer x2, every picture at today's size
 with its finer pixels; the new pictures in `tiny_biggot_godot/assets/graphics_hd`), floors are one
 repeating texture, the elites are made from the new pictures. The rules are unchanged (every replay
-identical). IPA 59.1 "Bright Sprites" from this branch; he tests it on the iPad. Where it stands:
+identical; tools/check.sh: CHECK PASSED). IPA 59.1 "Bright Sprites" from this branch; he tests it on
+the iPad. Where it stands:
 `resprite/HOW_IT_WORKS.md`, last section.
 
 **10 Oct: his trait pictures.** 146 traits and 14 infusions to add (TRAITS_PLAN.md), in

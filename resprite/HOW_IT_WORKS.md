@@ -547,7 +547,8 @@ His word: "ok do the engine and make the ipa".
   - The same draw calls as today in a heavy fight (300 foe shots: peak 49 to 58 both).
   - The atlas loads in 1.25 s here (0.2 s today): 80 MB of pixels to unpack. A cloud machine is
     slow at this; the iPad should be well under a second.
-  - The rules are unchanged: the replays are compared by `tools/check.sh`.
+  - The rules are unchanged: all 14 replays identical (classic and core). `tools/check.sh`:
+    CHECK PASSED (the six unit tests that tap the screen now tap in the screen's pixels).
 - **Not changed, on purpose:** the gear painted over the hero is still made of today's 12 x 14
   shapes, so a robe or hood still shows, over the new hero, in today's bigger pixels.
 - **IPA 59.1 "Bright Sprites"** from this branch (`ipa-59` stays his normal build).
