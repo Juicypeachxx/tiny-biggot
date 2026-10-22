@@ -27709,6 +27709,85 @@
    "model": "gemini-nano-banana-2.1",
    "credits": 0,
    "sha12": "f9156cb8e36a"
+  },
+  {
+   "label": "odd pictures sheet o1 in his bright look, 22 Oct",
+   "kind": "sheet",
+   "name": "bright_o1",
+   "asset_id": "3155b5ea-c14c-44a7-979e-96c721ff00d9",
+   "job_id": "25085bc8-da82-4c95-bcfb-ef3d5473b145",
+   "reference": "3032215e-f991-4e30-aaf5-e1ec8f1dfbf5",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "cells": [
+    "-",
+    "bat2",
+    "-",
+    "believer_flex",
+    "hydrahead",
+    "hydraneck",
+    "bullet_saint",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-"
+   ],
+   "sha12": "58886b436afb"
+  },
+  {
+   "label": "bat2, from sheet bright_o1 cell 1",
+   "kind": "made",
+   "name": "bat2",
+   "asset_id": "3155b5ea-c14c-44a7-979e-96c721ff00d9",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "fce433792271"
+  },
+  {
+   "label": "believer_flex, from sheet bright_o1 cell 3",
+   "kind": "made",
+   "name": "believer_flex",
+   "asset_id": "3155b5ea-c14c-44a7-979e-96c721ff00d9",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "8ebaf145c96e"
+  },
+  {
+   "label": "hydrahead, from sheet bright_o1 cell 4",
+   "kind": "made",
+   "name": "hydrahead",
+   "asset_id": "3155b5ea-c14c-44a7-979e-96c721ff00d9",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "433f3178d519"
+  },
+  {
+   "label": "hydraneck, from sheet bright_o1 cell 5",
+   "kind": "made",
+   "name": "hydraneck",
+   "asset_id": "3155b5ea-c14c-44a7-979e-96c721ff00d9",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "8d44d6389512"
+  },
+  {
+   "label": "bullet_saint, from sheet bright_o1 cell 6",
+   "kind": "made",
+   "name": "bullet_saint",
+   "asset_id": "3155b5ea-c14c-44a7-979e-96c721ff00d9",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "2d33ef38755a"
   }
  ]
 }
