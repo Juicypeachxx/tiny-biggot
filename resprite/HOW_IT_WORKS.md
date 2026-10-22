@@ -511,3 +511,43 @@ The rest of his "ok" to all the rest.
 - **Every picture is now redrawn:** `tools/inventory.py` finds none missing in any group. The
   308 elite looks and guardian phases are made from the new pictures at import. Next: the
   engine's double detail and the IPA.
+
+## 22 Oct: the engine (double detail) and IPA 59.1
+
+His word: "ok do the engine and make the ipa".
+
+- **The new pictures in the game.** `tools/elite_hd.py` makes the 215 elite looks from the new
+  pictures (a gold outline two of their pixels deep, as thick as today's, and a richer, darker
+  body); the wisps and the kitten keep today's, as they have no new picture. Then
+  `tools/hd_import.py` copies every new picture into `tiny_biggot_godot/assets/graphics_hd/`
+  under its game name: 2494 (69 at today's size, 2280 with twice the detail, 102 guardians with
+  four times, 43 floors). It checks each is exactly today's size x 1, 2 or 4; it makes a floor's
+  odd side even; and the two floor marks that came back solid (`fx_scorch`, `fx_pool`) keep
+  today's see-through shape (solid, a blast's scorch was a dark box on the floor).
+- **The screen** (`project.godot`, `main.gd`, `TB.D`): 896 x 576, two pixels to each of the
+  game's. The game still works in its own 448 x 288 pixels; the world and every layer over it
+  (`_canvas`) are drawn twice over, and so are the floor's baked pictures (`world_view.gd`).
+  Touch and mouse come in the screen's pixels and are halved (`TB.to_game`). It fills the iPad
+  at a fractional scale (about 2.6 x), not the integer 5 x of 448 x 288: at an integer scale it
+  would have been 2 x, a smaller picture than today.
+- **The pictures** (`scripts/core/img.gd`):
+  - The atlas holds every picture at two pixels to the game's: its new picture, or today's drawn
+    twice. Its texture says it is half the size it is (`set_size_override`), and so does each
+    picture's place in it: the game draws and measures every picture at today's size as before
+    (Gfx, the effect strips, the shot shader's tables), and the finer pixels show. 2507 pictures,
+    4096 x 2432, a 5 MB ready-made file (`tools/bake_atlas.sh`; the test checks it).
+  - A guardian's picture at four times is a texture of its own (all its detail); so is a floor.
+  - A tint's silhouette is made at the same detail and drawn at the picture's size.
+- **Floors** (`world_view.gd`, `_paint_bg`): the room's floor is `<kit>_floor` repeated over it,
+  where it has one; else today's tiles.
+- **Traits** (`trait_view.gd`, the cube): the picture is drawn with its colour laid over it, so
+  its grey shading shows as darker shades of the colour (today's flat white shapes took the
+  colour whole, as a silhouette).
+- **Measured** (the container, no iPad):
+  - The same draw calls as today in a heavy fight (300 foe shots: peak 49 to 58 both).
+  - The atlas loads in 1.25 s here (0.2 s today): 80 MB of pixels to unpack. A cloud machine is
+    slow at this; the iPad should be well under a second.
+  - The rules are unchanged: the replays are compared by `tools/check.sh`.
+- **Not changed, on purpose:** the gear painted over the hero is still made of today's 12 x 14
+  shapes, so a robe or hood still shows, over the new hero, in today's bigger pixels.
+- **IPA 59.1 "Bright Sprites"** from this branch (`ipa-59` stays his normal build).

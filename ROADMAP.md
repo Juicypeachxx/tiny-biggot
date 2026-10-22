@@ -1838,3 +1838,9 @@ each point); the rest, proposed in the order it would be felt most, with names o
   Finger guns, the MOG stare, smoke breaks, beer and foam, zoned out; the crown and the chain at
   half health: the big one, a chainsaw, an axe. Beaten, he passes out. His drop: ŠEFE'S FINGER GUNS.
   IPA 59 "King of the Blok".
+- 22 Oct 2026: V2 (branch tiny-biggot-V2 only, his test; resprite/HOW_IT_WORKS.md). Every picture
+  redrawn on SpriteCook in his bright clean colourful look (his picture of 21 Oct), with twice the
+  detail; his "ok do the engine and make the ipa": the screen draws at twice the detail (896 x 576,
+  every layer x2), every picture keeps today's size with its finer pixels, floors are one repeating
+  texture each, the elites' gold outline is made from the new pictures. The rules are unchanged.
+  IPA 59.1 "Bright Sprites" (59 stays his normal build).

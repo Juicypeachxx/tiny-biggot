@@ -13,8 +13,12 @@
   character pictures (the bat's second frame, the believer flexing, the hydra's head and neck,
   the bullet saint).
 
-Every picture is now redrawn (459 credits left). Next: the engine's double detail and the IPA.
-Where it stands: `resprite/HOW_IT_WORKS.md`, last section.
+Every picture is now redrawn (459 credits left). His "ok do the engine and make the ipa" (22 Oct):
+the engine draws at double detail (screen 896 x 576, every layer x2, every picture at today's size
+with its finer pixels; the new pictures in `tiny_biggot_godot/assets/graphics_hd`), floors are one
+repeating texture, the elites are made from the new pictures. The rules are unchanged (every replay
+identical). IPA 59.1 "Bright Sprites" from this branch; he tests it on the iPad. Where it stands:
+`resprite/HOW_IT_WORKS.md`, last section.
 
 **10 Oct: his trait pictures.** 146 traits and 14 infusions to add (TRAITS_PLAN.md), in
 Stages 40 to 44 (STR, DEX, INT, SUPER/PSYCHIC/AUGMENT, infusions), then 45 the alignment shops.

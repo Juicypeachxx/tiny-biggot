@@ -10,6 +10,11 @@ extends RefCounted
 
 const SW := 448
 const SH := 288
+## 59.1 (V2, his test, 22 Oct: every picture redrawn in his bright look with twice the detail): the
+## screen has D pixels to each of the game's. The game is still SW x SH of its own pixels and draws
+## in them; every layer is drawn at D times (main.gd), and a picture keeps today's size with D times
+## the pixels (Img). Touch and mouse positions come in the screen's pixels: TB.to_game().
+const D := 2
 const TS := 16
 const COLS := 28
 const ROWS := 18
@@ -18,6 +23,10 @@ const IY0 := 2
 const IW := 26
 const IH := 15
 const DT := 1.0 / 60.0
+
+## A touch or mouse event in the game's pixels (it comes in the screen's: D to each of the game's).
+static func to_game(event: InputEvent) -> InputEvent:
+	return event.xformed_by(Transform2D(0.0, Vector2(1.0 / D, 1.0 / D), 0.0, Vector2.ZERO))
 
 # ---------- Random (Ruby rand / rint / pick) ----------
 static func rnd() -> float:

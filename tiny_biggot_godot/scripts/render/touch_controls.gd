@@ -104,6 +104,7 @@ func _layout() -> void:
 				aim_r = maxf(aim_r, aim_center.distance_to(b["pos"]) + b["r"])
 
 func _input(event: InputEvent) -> void:
+	event = TB.to_game(event)   # 59.1: it comes in the screen's pixels
 	if G.state == &"stars":
 		# The constellation reads fingers itself: drag, pinch, hold (scripts/render/star_view.gd).
 		if event is InputEventScreenTouch or event is InputEventScreenDrag:

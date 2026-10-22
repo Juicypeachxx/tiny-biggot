@@ -30,13 +30,13 @@ gdscript/warnings/unused_parameter=0
 
 [display]
 
-window/size/viewport_width=448
-window/size/viewport_height=288
+window/size/viewport_width=896
+window/size/viewport_height=576
 window/size/window_width_override=1344
 window/size/window_height_override=864
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
-window/stretch/scale_mode="integer"
+window/stretch/scale_mode="fractional"
 window/handheld/orientation=4
 
 [input_devices]

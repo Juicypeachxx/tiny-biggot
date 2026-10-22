@@ -8,7 +8,8 @@ extends Node
 ##   3. Beside each sprite is its silhouette: the same picture in white with the same alpha,
 ##      and that is what the game hands out for a tint. The texture itself is the sprites only,
 ##      the size it has always been.
-##   4. Every sprite handed out is its own file: the same size, the same pixels.
+##   4. Every sprite handed out is its own file: the same size, the same pixels. (59.1: handed out
+##      at its file's size, with TB.D pixels to each: its new picture's, else its file's drawn D times.)
 ##   5. Without a ready-made file the game packs at start-up and makes the same silhouettes,
 ##      from memory.
 ##   6. A ready-made file is refused unless it was made from exactly these graphics: another
@@ -47,12 +48,9 @@ func _ready() -> void:
 	print("atlas test: PASSED" if fails == 0 else "atlas test: FAILED (%d)" % fails)
 	get_tree().quit(0 if fails == 0 else 1)
 
+## The picture the atlas holds for a graphic: TB.D pixels to each of its file's (59.1).
 func _file_image(name: String) -> Image:
-	var img: Image = load(Img.GFX + name + ".png").get_image().duplicate()
-	if img.is_compressed():
-		img.decompress()
-	img.convert(Image.FORMAT_RGBA8)
-	return img
+	return Img.detail(name, load(Img.GFX + name + ".png"))
 
 func _check() -> void:
 	var names := Img.folder_names()
@@ -87,7 +85,7 @@ func _check() -> void:
 		return
 	var src: Image = packed["image"]
 	var h := src.get_height()
-	var w: int = Img.ATLAS_W
+	var w: int = Img.ATLAS_W * TB.D       # the atlas's own pixels (59.1)
 	if baked.get_width() != w * 2 or baked.get_height() != h or m.get("white_dx") != w or baked.get_format() != Image.FORMAT_RGBA8:
 		fail("the atlas is %dx%d, expected %dx%d with the silhouettes %d to the right" % [baked.get_width(), baked.get_height(), w * 2, h, w])
 		return
@@ -111,7 +109,9 @@ func _check() -> void:
 		# 4
 		var tex := Img.t(name)
 		var file := _file_image(name)
-		if not (tex is AtlasTexture) or Vector2i(tex.get_size()) != file.get_size() or Rect2i(tex.region) != r:
+		var size: Vector2i = load(Img.GFX + name + ".png").get_size()
+		if not (tex is AtlasTexture) or Vector2i(tex.get_size()) != size or file.get_size() != size * TB.D \
+				or Rect2i(tex.region) != Rect2i(r.position / TB.D, r.size / TB.D):
 			bad_size += 1
 		if Img.image(name).get_data() != file.get_data():
 			bad_pixels += 1
@@ -137,8 +137,8 @@ func _check() -> void:
 	if bad_white > 0:
 		fail("%d silhouettes are not their sprites in white" % bad_white)
 	var atlas_tex: Texture2D = (Img.t(pn[0]) as AtlasTexture).atlas
-	if Vector2i(atlas_tex.get_size()) != Vector2i(w, h):
-		fail("the atlas texture is %s, not the %dx%d it has always been" % [atlas_tex.get_size(), w, h])
+	if Vector2i(atlas_tex.get_size()) != Vector2i(w, h) / TB.D:
+		fail("the atlas texture is %s, not the %dx%d of the game's pixels it should say" % [atlas_tex.get_size(), w / TB.D, h / TB.D])
 	if bad_alt > 0:
 		fail("%d silhouettes made on demand differ from the ready-made ones" % bad_alt)
 	# A graphic outside the atlas still works (it is read back from its own texture).
@@ -255,7 +255,8 @@ func _check_fingerprint(names: PackedStringArray, m: Dictionary, stamp: String) 
 		r[at] = value
 		return changed.call("rects", r)
 	var bad_places := {
-		"a sprite's place reaching into the silhouettes' half": Img.picture_fits(with_rect.call(2, Img.ATLAS_W + 1)),
+		"a sprite's place reaching into the silhouettes' half": Img.picture_fits(with_rect.call(2, Img.ATLAS_W * TB.D + TB.D)),
+		"a sprite's place between two of the game's pixels": Img.picture_fits(with_rect.call(0, 1)),
 		"a sprite's place reaching below the picture": Img.picture_fits(with_rect.call(1, m["height"] - 1)),
 		"a sprite's place with no height": Img.picture_fits(with_rect.call(3, 0)),
 		"a sprite's place left of the picture": Img.picture_fits(with_rect.call(0, -1)),
@@ -355,7 +356,7 @@ func _check_own_file(script: GDScript, names: PackedStringArray, packed: Diction
 	# A whole file whose notes are wrong (a sprite's place reaching outside the picture): not used.
 	var wrong: Dictionary = Img.read_file(Img.BAKED)
 	var places: PackedInt32Array = wrong["rects"].duplicate()
-	places[2] = Img.ATLAS_W + 1
+	places[2] = Img.ATLAS_W * TB.D + TB.D
 	wrong["rects"] = places
 	Img.write_whole(path, Img.file_bytes(wrong))
 	var crafted = script.new()

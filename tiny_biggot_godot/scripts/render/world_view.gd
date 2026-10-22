@@ -53,7 +53,7 @@ const PICKUP_SPRITE := { "coin": "coin", "heart": "heartPick", "potion": "potion
 func _ready() -> void:
 	if not DebugArgs.has("no-floor-bake"):
 		_bake = SubViewport.new()
-		_bake.size = Vector2i(TB.SW, TB.SH)
+		_bake.size = Vector2i(TB.SW * TB.D, TB.SH * TB.D)      # 59.1: at the screen's detail, drawn D times over
 		_bake.transparent_bg = false
 		_bake.disable_3d = true
 		_bake.canvas_item_default_texture_filter = Viewport.DEFAULT_CANVAS_ITEM_TEXTURE_FILTER_NEAREST
@@ -61,6 +61,7 @@ func _ready() -> void:
 		_bake.snap_2d_vertices_to_pixel = true
 		_bake.render_target_update_mode = SubViewport.UPDATE_DISABLED
 		add_child(_bake)
+		_bake.canvas_transform = Transform2D(0.0, Vector2(TB.D, TB.D), 0.0, Vector2.ZERO)   # (once it is in the tree)
 		# The tiles are kept as they were drawn on entering the room (the bg layer was drawn only
 		# then, and some of what it reads changes during a fight), in a picture of their own inside
 		# the bake: a viewport inside another is always drawn first.
@@ -73,11 +74,14 @@ func _ready() -> void:
 		_floor.snap_2d_vertices_to_pixel = true
 		_floor.render_target_update_mode = SubViewport.UPDATE_DISABLED
 		_bake.add_child(_floor)
+		_floor.canvas_transform = _bake.canvas_transform
 		_floor_layer = DrawLayer.new(_paint_bg)
+		_floor_layer.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED    # the floor's texture repeats (59.1)
 		_floor.add_child(_floor_layer)
 		_bake_layer = DrawLayer.new(_paint_floor)
 		_bake.add_child(_bake_layer)
 	bg = _layer(_paint_bg_layer)
+	bg.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
 	dyn = _layer(_paint_dyn)
 	lower = _layer(_paint_lower)
 	ents = _layer(_paint_ents)
@@ -244,12 +248,12 @@ func _on_room_changed() -> void:
 ## The floor bake (see _bake): the tiles as drawn on entering the room, then the remains, as bg
 ## and dyn drew them before.
 func _paint_floor(ci: CanvasItem) -> void:
-	ci.draw_texture(_floor.get_texture(), Vector2.ZERO)
+	ci.draw_texture_rect(_floor.get_texture(), Rect2(0, 0, TB.SW, TB.SH), false)   # at the game's size: TB.D pixels to each
 	Remains.paint(ci, G.room)
 
 func _paint_bg_layer(ci: CanvasItem) -> void:
 	if _bake != null:
-		ci.draw_texture(_bake.get_texture(), Vector2.ZERO)
+		ci.draw_texture_rect(_bake.get_texture(), Rect2(0, 0, TB.SW, TB.SH), false)
 	else:
 		_paint_bg(ci)
 
@@ -297,13 +301,18 @@ func _paint_bg(ci: CanvasItem) -> void:
 		return
 	var ts := TB.TS
 	# A rift world has its own tiles.
-	var kit := Img.t(room.kit if room.kit != "" else (room.theme["kit"] if not room.theme.is_empty() else "kit%d" % G.floor_index))
+	var kit_name: String = room.kit if room.kit != "" else (room.theme["kit"] if not room.theme.is_empty() else "kit%d" % G.floor_index)
+	var kit := Img.t(kit_name)
 	ci.draw_rect(Rect2(0, 0, TB.SW, TB.SH), TB.c("#140f1c"))
-	var rng := SeedRng.new(room.seed_value ^ 0x5bd1e995)
-	for r in range(TB.IY0, TB.IY0 + TB.IH):
-		for c in range(TB.IX0, TB.IX0 + TB.IW):
-			var v := rng.int_range(0, 7) * 2 + (0 if (r + c) % 2 == 1 else 1)
-			ci.draw_texture_rect_region(kit, Rect2(c * ts, r * ts, ts, ts), Rect2(v * ts, 0, ts, ts))
+	if Img.has(kit_name + "_floor"):
+		# 59.1: the floor is one texture, repeated over the room (it has no tiles to pick from).
+		ci.draw_texture_rect(Img.t(kit_name + "_floor"), Rect2(TB.IX0 * ts, TB.IY0 * ts, TB.IW * ts, TB.IH * ts), true)
+	else:
+		var rng := SeedRng.new(room.seed_value ^ 0x5bd1e995)
+		for r in range(TB.IY0, TB.IY0 + TB.IH):
+			for c in range(TB.IX0, TB.IX0 + TB.IW):
+				var v := rng.int_range(0, 7) * 2 + (0 if (r + c) % 2 == 1 else 1)
+				ci.draw_texture_rect_region(kit, Rect2(c * ts, r * ts, ts, ts), Rect2(v * ts, 0, ts, ts))
 	# RGSS fill_rect replaced these pixels with (10,6,16) at alpha 90 over a black screen.
 	var k := 90.0 / 255.0
 	ci.draw_rect(Rect2(ts, TB.IY0 * ts, TB.IW * ts, 5), Color(10 / 255.0 * k, 6 / 255.0 * k, 16 / 255.0 * k))

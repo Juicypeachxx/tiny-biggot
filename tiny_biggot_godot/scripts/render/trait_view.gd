@@ -141,8 +141,16 @@ static func cube(ci: CanvasItem, x: float, y: float, tr: Dictionary, z: int = 2,
 	if not known:
 		return
 	var pic: String = "tr_" + tr["id"]
-	if Img.has(pic):   # its own picture, one flat colour
-		Gfx.sp(ci, pic, x + s / 2, y + 18 * z, z, z, 0.0, false, a, col)
+	if Img.has(pic):
+		# Its own picture in the colour. 59.1: the new pictures are white with grey shading, so the
+		# colour is laid over it (where today's flat white shape took the colour whole): its shading
+		# shows as darker shades of the colour. Placed as Gfx.sp places it.
+		var tex := Img.t(pic)
+		var tw := tex.get_width()
+		var th := tex.get_height()
+		var px := roundf(x + s / 2)
+		var py := roundf(y + 18 * z)
+		ci.draw_texture_rect(tex, Rect2(px - (tw / 2) * z, py - th * z, tw * z, th * z), false, Color(col, a))
 	else:   # the 10 px family glyph, a size up, in the same colour
 		var fi: String = FAM_ICON.get(tr["fam"], "fam_core")
 		var fz := z * 3 / 2

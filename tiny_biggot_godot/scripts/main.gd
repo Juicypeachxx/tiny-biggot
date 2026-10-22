@@ -21,6 +21,13 @@ var _shot_path := ""
 var _shot_frame := -1
 var _boss_key := ""
 
+## A layer over the world, drawn TB.D times over like it (59.1).
+func _canvas(n: int) -> CanvasLayer:
+	var l := CanvasLayer.new()
+	l.layer = n
+	l.scale = Vector2(TB.D, TB.D)
+	return l
+
 func _ready() -> void:
 	if DebugArgs.has("seed"):
 		seed(DebugArgs.get_int("seed"))
@@ -48,38 +55,34 @@ func _ready() -> void:
 		monkey = DebugMonkey.new()   # random buttons everywhere (ROADMAP 4.10)
 	if DebugArgs.has("trace"):
 		_trace = FileAccess.open(DebugArgs.get_str("trace"), FileAccess.WRITE)
+	# 59.1: the screen has TB.D pixels to each of the game's; every layer is drawn D times over.
+	get_viewport().canvas_transform = Transform2D(0.0, Vector2(TB.D, TB.D), 0.0, Vector2.ZERO)
 	if not DebugArgs.has("no-warmup"):
 		add_child(Warmup.new())   # under everything, for the first frames: see scripts/render/warmup.gd
 	world = WorldView.new()
 	add_child(world)
 	if DebugArgs.has("seed"):
 		world._vr.seed = DebugArgs.get_int("seed")
-	var hud_layer := CanvasLayer.new()
-	hud_layer.layer = 10
+	var hud_layer := _canvas(10)
 	add_child(hud_layer)
 	hud = HudView.new()
 	hud_layer.add_child(hud)
-	var over_layer := CanvasLayer.new()
-	over_layer.layer = 20
+	var over_layer := _canvas(20)
 	add_child(over_layer)
 	overlay = OverlayView.new()
 	over_layer.add_child(overlay)
-	var menu_layer := CanvasLayer.new()
-	menu_layer.layer = 25
+	var menu_layer := _canvas(25)
 	add_child(menu_layer)
 	menus = MenuView.new()
 	menu_layer.add_child(menus)
-	var star_layer := CanvasLayer.new()
-	star_layer.layer = 26   # the constellation screen, over the menus
+	var star_layer := _canvas(26)   # the constellation screen, over the menus
 	add_child(star_layer)
 	star_layer.add_child(StarView.new())
-	var top := CanvasLayer.new()
-	top.layer = 50
+	var top := _canvas(50)
 	add_child(top)
 	fade_view = FadeView.new()
 	top.add_child(fade_view)
-	var touch_layer := CanvasLayer.new()
-	touch_layer.layer = 60
+	var touch_layer := _canvas(60)
 	add_child(touch_layer)
 	touch_layer.add_child(TouchControls.new())
 	G.god = DebugArgs.has("god")

@@ -7,6 +7,13 @@ extends Node
 ## modulate: src * (1 - a) + col * a, exactly what RGSS does.
 
 const GFX := "res://assets/graphics/"
+## 59.1 (V2, his test, 22 Oct): the new pictures, by the same names (resprite/tools/hd_import.py).
+## Each is today's picture's size times 1, 2 or 4 (a guardian, drawn at twice its size, has four of
+## its pixels to one of today's). The game draws every picture at today's size: a new one shows
+## its finer pixels, because the screen has TB.D pixels to each of the game's. The pictures with
+## no new one (the font, dots, glows, shadows) are drawn as they are, each pixel D times.
+## A floor's texture (<kit>_floor) has no picture of today's: it is at D, and repeats.
+const HD := "res://assets/graphics_hd/"
 
 var _cache := {}
 var _white := {}
@@ -18,6 +25,12 @@ var _missing := {}
 ## numbers into a few draw calls instead of one per texture switch (the main
 ## GPU cost in big fights on iPad). Looks identical: nearest filtering and 1 px
 ## transparent padding between sprites.
+##
+## 59.1: the atlas holds every picture at TB.D pixels to each of the game's (its new picture, or
+## today's drawn D times; a guardian's at four, too big for it, is a texture of its own). Its
+## texture says it is D times smaller than it is, and so does each picture's place in it: the game
+## draws and measures every picture in its own pixels as before, and the finer pixels show on the
+## screen. Places in the ready-made file and in _rects are in the atlas's own pixels.
 ##
 ## The atlas is made ahead of time and loaded as one file: the sprites on the
 ## left, a white silhouette of each the same distance to the right. The left
@@ -56,13 +69,13 @@ const CACHED := "user://sprite_atlas.tbatlas"
 ## Raise this whenever pack(), whiten() or what a ready-made file holds changes: the files
 ## games have already written for themselves are then made again. (The sizes below are part
 ## of the fingerprint, so changing one of those needs nothing more.)
-const BAKE_VERSION := 5
+const BAKE_VERSION := 6
 ## A ready-made file: these four letters, 16 bytes of checksum (MD5 of everything after them),
 ## the size of the notes once unpacked (4 bytes), then the notes, packed.
 const FILE_MAGIC := "TBAT"
 const FILE_HEAD := 24
-const FILE_MAX := 1 << 26       # no notes unpack to more than this (64 MB)
-const ATLAS_W := 1024
+const FILE_MAX := 1 << 28       # no notes unpack to more than this (256 MB; 59.1: about 80 at double detail)
+const ATLAS_W := 2048          # in the game's pixels: the texture is TB.D times as wide
 const ATLAS_MAX_W := 1024
 const ATLAS_MAX_H := 96
 const ATLAS_SKIP := ["vignette"]
@@ -169,10 +182,11 @@ func graphics_stamp(names: PackedStringArray, dir: String = imported_dir()) -> S
 			by_key[key] = [f]
 	var files_of := func(name: String) -> Array:
 		var out := []
-		var files: Array = by_key.get("%s.png-%s" % [name, (GFX + name + ".png").md5_text()], [])
-		files.sort()
-		for f in files:
-			out.append([f, FileAccess.get_file_as_bytes(dir + f)])
+		for folder in [GFX, HD]:      # 59.1: and its new picture's, if it has one
+			var files: Array = by_key.get("%s.png-%s" % [name, (folder + name + ".png").md5_text()], [])
+			files.sort()
+			for f in files:
+				out.append([f, FileAccess.get_file_as_bytes(dir + f)])
 		return out
 	return stamp_of(names, files_of)
 
@@ -181,8 +195,8 @@ func graphics_stamp(names: PackedStringArray, dir: String = imported_dir()) -> S
 static func stamp_of(names: PackedStringArray, files_of: Callable) -> String:
 	var ctx := HashingContext.new()
 	ctx.start(HashingContext.HASH_MD5)
-	ctx.update(("atlas %d: %d wide, graphics up to %dx%d, without %s\n" % [BAKE_VERSION, ATLAS_W, ATLAS_MAX_W, ATLAS_MAX_H,
-		ATLAS_SKIP]).to_utf8_buffer())
+	ctx.update(("atlas %d: %d wide, graphics up to %dx%d, without %s, %d pixels to the game's\n" % [BAKE_VERSION, ATLAS_W,
+		ATLAS_MAX_W, ATLAS_MAX_H, ATLAS_SKIP, TB.D]).to_utf8_buffer())
 	for name in names:
 		var files: Array = files_of.call(name)
 		if files.is_empty():
@@ -217,17 +231,20 @@ static func bake_fits(m, names: PackedStringArray, stamp: String) -> bool:
 		return false
 	if not (packed is PackedStringArray) or not (rects is PackedInt32Array) or rects.size() != packed.size() * 4:
 		return false
-	if not (dx is int) or dx != ATLAS_W or not (w is int) or w != ATLAS_W * 2 or not (h is int) or h < 1 or h > 4096:
+	if not (dx is int) or dx != ATLAS_W * TB.D or not (w is int) or w != ATLAS_W * TB.D * 2 or not (h is int) or h < 1 or h > 4096 or h % TB.D != 0:
 		return false
 	return px is PackedByteArray and px.size() == w * h * 4
 
-## Whether every sprite's place in the notes lies inside the picture's sprite half.
+## Whether every sprite's place in the notes lies inside the picture's sprite half, on whole pixels
+## of the game's (TB.D of the atlas's).
 static func picture_fits(m: Dictionary) -> bool:
 	var h: int = m["height"]
 	var rects: PackedInt32Array = m["rects"]
 	var i := 0
 	while i < rects.size():
-		if rects[i] < 0 or rects[i + 1] < 0 or rects[i + 2] < 1 or rects[i + 3] < 1 or rects[i] + rects[i + 2] > ATLAS_W or rects[i + 1] + rects[i + 3] > h:
+		if rects[i] < 0 or rects[i + 1] < 0 or rects[i + 2] < 1 or rects[i + 3] < 1 or rects[i] + rects[i + 2] > ATLAS_W * TB.D or rects[i + 1] + rects[i + 3] > h:
+			return false
+		if rects[i] % TB.D != 0 or rects[i + 1] % TB.D != 0 or rects[i + 2] % TB.D != 0 or rects[i + 3] % TB.D != 0:
 			return false
 		i += 4
 	return true
@@ -303,8 +320,9 @@ func _load_baked(path: String, names: PackedStringArray, stamp: String, source: 
 	_adopt(img, m["names"], m["rects"], m["white_dx"], source)
 	return true
 
-## Packs the small graphics into one image (shelves, tallest first). Returns the image, the
-## names packed and their rects as x, y, w, h runs; empty if they do not fit.
+## Packs the small graphics into one image (shelves, tallest first), each at TB.D pixels to the
+## game's with a game pixel clear round it. Returns the image, the names packed and their rects
+## (in the image's pixels) as x, y, w, h runs; empty if they do not fit.
 func pack(names: PackedStringArray) -> Dictionary:
 	var imgs := []
 	for name in names:
@@ -317,38 +335,35 @@ func pack(names: PackedStringArray) -> Dictionary:
 		var h: int = tex.get_height()
 		if w > ATLAS_MAX_W or h > ATLAS_MAX_H:
 			continue
-		var img: Image = tex.get_image()
+		var img := detail(name, tex)
 		if img == null:
 			continue
-		if img.is_compressed():
-			img.decompress()
-		img.convert(Image.FORMAT_RGBA8)
 		imgs.append([name, img])
 	# Shelf packing, tallest first.
 	imgs.sort_custom(func(a, b): return a[1].get_height() > b[1].get_height() or (a[1].get_height() == b[1].get_height() and a[0] < b[0]))
+	var d := TB.D
+	var aw := ATLAS_W * d
 	var spots := []
 	var x := 0
 	var y := 0
 	var shelf := 0
 	for it in imgs:
 		var img: Image = it[1]
-		var w := img.get_width() + 2
-		var h := img.get_height() + 2
-		if x + w > ATLAS_W:
+		var w := img.get_width() + 2 * d
+		var h := img.get_height() + 2 * d
+		if x + w > aw:
 			x = 0
 			y += shelf
 			shelf = 0
-		spots.append(Vector2i(x + 1, y + 1))
+		spots.append(Vector2i(x + d, y + d))
 		x += w
 		shelf = maxi(shelf, h)
 	var total_h := y + shelf
-	var ah := 64
-	while ah < total_h:
-		ah *= 2
+	var ah := (total_h + 63) / 64 * 64      # 59.1: no longer a power of two (4096 x 2432, not 4096 x 4096)
 	if ah > 4096:
 		push_warning("Img: atlas too tall, using separate textures")
 		return {}
-	var atlas := Image.create(ATLAS_W, ah, false, Image.FORMAT_RGBA8)
+	var atlas := Image.create(aw, ah, false, Image.FORMAT_RGBA8)
 	var out_names := PackedStringArray()
 	var out_rects := PackedInt32Array()
 	for i in imgs.size():
@@ -358,18 +373,45 @@ func pack(names: PackedStringArray) -> Dictionary:
 		out_rects.append_array([spots[i].x, spots[i].y, img.get_width(), img.get_height()])
 	return { "image": atlas, "names": out_names, "rects": out_rects }
 
+## A picture at TB.D pixels to each of the game's, as the atlas holds it: its new picture (at D, or
+## at today's size drawn D times), else today's drawn D times. Null for a new picture finer than
+## D (a guardian's, at four): it is a texture of its own (t), with all its pixels.
+func detail(name: String, base: Texture2D) -> Image:
+	var w := base.get_width()
+	var h := base.get_height()
+	var src: Image
+	if ResourceLoader.exists(HD + name + ".png"):
+		var hd: Texture2D = load(HD + name + ".png")
+		if hd == null or hd.get_width() > w * TB.D:
+			return null
+		src = hd.get_image()
+	else:
+		src = base.get_image()
+	if src == null:
+		return null
+	if src.is_compressed():
+		src.decompress()
+	src.convert(Image.FORMAT_RGBA8)
+	if src.get_width() != w * TB.D or src.get_height() != h * TB.D:
+		src.resize(w * TB.D, h * TB.D, Image.INTERPOLATE_NEAREST)
+	return src
+
 ## Takes an atlas image into use: one texture (the sprites; not the silhouettes beside them),
-## and a region of it per name.
+## and a region of it per name. The texture and the regions are in the game's pixels (TB.D of
+## the image's to each), so every picture is drawn and measured at today's size.
 func _adopt(img: Image, names: PackedStringArray, rects: PackedInt32Array, white_dx: int, source: String) -> void:
 	_atlas_img = img
-	_atlas_tex = ImageTexture.create_from_image(img.get_region(Rect2i(0, 0, white_dx, img.get_height())) if white_dx > 0 else img)
+	var sprites := img.get_region(Rect2i(0, 0, white_dx, img.get_height())) if white_dx > 0 else img
+	var tex := ImageTexture.create_from_image(sprites)
+	tex.set_size_override(Vector2i(sprites.get_width() / TB.D, sprites.get_height() / TB.D))
+	_atlas_tex = tex
 	_white_dx = white_dx
 	for i in names.size():
 		var r := Rect2i(rects[i * 4], rects[i * 4 + 1], rects[i * 4 + 2], rects[i * 4 + 3])
 		_rects[names[i]] = r
 		var at := AtlasTexture.new()
 		at.atlas = _atlas_tex
-		at.region = Rect2(r)
+		at.region = Rect2(Vector2(r.position) / TB.D, Vector2(r.size) / TB.D)
 		_cache[names[i]] = at
 	atlas_count = names.size()
 	atlas_source = source
@@ -394,18 +436,21 @@ func save_bake(packed: Dictionary, names: PackedStringArray, stamp: String, path
 	probe.close()
 	var src: Image = packed["image"]
 	var h := src.get_height()
-	var out := Image.create(ATLAS_W * 2, h, false, Image.FORMAT_RGBA8)
-	out.blit_rect(src, Rect2i(0, 0, ATLAS_W, h), Vector2i.ZERO)
-	out.blit_rect(whiten(src), Rect2i(0, 0, ATLAS_W, h), Vector2i(ATLAS_W, 0))
+	var aw := ATLAS_W * TB.D
+	var out := Image.create(aw * 2, h, false, Image.FORMAT_RGBA8)
+	out.blit_rect(src, Rect2i(0, 0, aw, h), Vector2i.ZERO)
+	out.blit_rect(whiten(src), Rect2i(0, 0, aw, h), Vector2i(aw, 0))
 	return write_whole(path, file_bytes({ "version": BAKE_VERSION, "folder": names, "stamp": stamp, "names": packed["names"],
-		"rects": packed["rects"], "white_dx": ATLAS_W, "width": ATLAS_W * 2, "height": h, "pixels": out.get_data() }))
+		"rects": packed["rects"], "white_dx": aw, "width": aw * 2, "height": h, "pixels": out.get_data() }))
 
 func t(name: String) -> Texture2D:
 	var tex = _cache.get(name)
 	if tex != null:
 		return tex
 	var path := GFX + name + ".png"
-	if ResourceLoader.exists(path):
+	if ResourceLoader.exists(HD + name + ".png"):
+		tex = _own(load(HD + name + ".png"), load(path) if ResourceLoader.exists(path) else null)
+	elif ResourceLoader.exists(path):
 		tex = load(path)
 	else:
 		if not _missing.has(name):
@@ -415,11 +460,29 @@ func t(name: String) -> Texture2D:
 	_cache[name] = tex
 	return tex
 
-func has(name: String) -> bool:
-	return _cache.has(name) or ResourceLoader.exists(GFX + name + ".png")
+## A new picture as a texture of its own (not in the atlas: a guardian's at four, a floor, or
+## everything when there is no atlas), drawn and measured at today's picture's size (a floor:
+## TB.D times smaller than it is), all its pixels kept.
+func _own(hd: Texture2D, base: Texture2D) -> Texture2D:
+	var w := base.get_width() if base != null else hd.get_width() / TB.D
+	var h := base.get_height() if base != null else hd.get_height() / TB.D
+	if hd.get_width() == w and hd.get_height() == h:
+		return hd
+	var img := hd.get_image()
+	if img == null:
+		return hd
+	if img.is_compressed():
+		img.decompress()
+	var tex := ImageTexture.create_from_image(img)
+	tex.set_size_override(Vector2i(w, h))
+	return tex
 
-## A sprite's pixels (RGBA8). Sprites in the atlas are cut from the copy kept in memory; only a
-## graphic outside it is read back from its texture.
+func has(name: String) -> bool:
+	return _cache.has(name) or ResourceLoader.exists(GFX + name + ".png") or ResourceLoader.exists(HD + name + ".png")
+
+## A sprite's pixels (RGBA8), all of them (59.1: TB.D or more to each of the game's when it has a
+## new picture). Sprites in the atlas are cut from the copy kept in memory; only a graphic outside
+## it is read back from its texture.
 func image(name: String) -> Image:
 	var r = _rects.get(name)
 	if r != null and _atlas_img != null:
@@ -439,12 +502,15 @@ func white(name: String) -> Texture2D:
 	if tex != null:
 		return tex
 	var r = _rects.get(name)
+	var drawn := t(name)      # the size it is drawn at: the silhouette is drawn over it at that size
 	if r != null and _white_dx > 0:
 		# Ready-made: cut from the copy in memory.
 		tex = ImageTexture.create_from_image(_atlas_img.get_region(Rect2i(r.position.x + _white_dx, r.position.y, r.size.x, r.size.y)))
 	else:
 		var img := image(name)
-		tex = ImageTexture.create_from_image(whiten(img)) if img != null else t(name)
+		tex = ImageTexture.create_from_image(whiten(img)) if img != null else drawn
+	if tex is ImageTexture and (tex.get_width() != drawn.get_width() or tex.get_height() != drawn.get_height()):
+		tex.set_size_override(Vector2i(drawn.get_width(), drawn.get_height()))
 	_white[name] = tex
 	return tex
 

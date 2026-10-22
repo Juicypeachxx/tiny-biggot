@@ -186,6 +186,7 @@ static func _release_tap(pos: Vector2) -> void:
 func _input(event: InputEvent) -> void:
 	if G.state != &"stars":
 		return
+	event = TB.to_game(event)   # 59.1: it comes in the screen's pixels
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP and event.pressed:
 			zoom = clampf(zoom * 1.12, ZMIN, ZMAX)
