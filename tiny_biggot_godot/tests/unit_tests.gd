@@ -69,7 +69,7 @@ func _test_keyboard() -> void:
 	G.state = &"play"   # the stick moves the hero in play (47.3: on the title, that corner is the menu)
 	var touch := InputEventScreenTouch.new()
 	touch.pressed = true
-	touch.position = tc.stick_home + Vector2(tc.stick_r, 0)
+	touch.position = (tc.stick_home + Vector2(tc.stick_r, 0)) * TB.D   # a finger comes in the screen's pixels (59.1)
 	tc._input(touch)
 	_eq("touch holds move_right", tc._held.has(&"move_right"), true)
 	var key := InputEventKey.new()
@@ -94,11 +94,12 @@ func _test_keyboard() -> void:
 	tc.queue_free()
 	G.state = state_was
 
+## A tap at pos, in the game's pixels (59.1: it comes in the screen's, TB.D to each).
 func _tap(tc: TouchControls, pos: Vector2) -> void:
 	for pressed in [true, false]:
 		var e := InputEventScreenTouch.new()
 		e.pressed = pressed
-		e.position = pos
+		e.position = pos * TB.D
 		tc._input(e)
 	# Injected actions are buffered until the next frame; deliver them now.
 	Input.flush_buffered_events()
@@ -132,11 +133,11 @@ func _test_menu_taps() -> void:
 	# A drag that ends off the card does nothing.
 	var e := InputEventScreenTouch.new()
 	e.pressed = true
-	e.position = Taps.zones()[0]["rect"].get_center()
+	e.position = Taps.zones()[0]["rect"].get_center() * TB.D
 	tc._input(e)
 	e = InputEventScreenTouch.new()
 	e.pressed = false
-	e.position = Vector2(2, 2)
+	e.position = Vector2(2, 2) * TB.D
 	tc._input(e)
 	_eq("tap released elsewhere is ignored", G.tchoice["idx"], 2)
 	G.state = &"dead"
