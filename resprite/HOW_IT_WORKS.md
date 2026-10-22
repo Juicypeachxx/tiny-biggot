@@ -396,3 +396,41 @@ His word: "do weapons and mobs then". So the order is now: the mobs (done here),
 - **Credits:** 1263 before, 1083 after (180 for 15 sheets).
 - **Next (his order):** weapons (382 `w_*`), then the other items; the elites from the new
   pictures. Then the engine's double detail and IPA 59.1.
+
+## 22 Oct: weapons
+
+The second half of his "do weapons and mobs then".
+
+- **Redrawn (396 pictures, every one at double detail, exactly today's size x 2):** every `w_*`
+  weapon. That includes 14 magic staffs that are mostly a soft glow, which the inventory's count
+  of 382 leaves out.
+- **Method** (`tools/weapon_sheets.py` makes the references and prompts into
+  `spritecook/refs/`; `weapons_plan.json` keeps each sheet's prompt, ids and failed tries):
+  - 11 sheets of 36 (6 x 6), sorted by kind (the swords together, the staffs together).
+  - Each one named in the prompt by its name in the game and its kind ("hunting bow",
+    "acid jar (potion flask)").
+  - Nano Banana 2.1, with his picture, the champions' sheet `bright_c1` and the first weapon
+    sheet `bright_w01` as style images.
+  - Each keeps the direction it points today: a sword up and to the right, a gun to the right,
+    a bow sideways.
+- **Fitting** (`tools/weapon_fit.py`, after `sheet_add.py`):
+  - The game turns a held weapon round the middle of its picture (`world_view.gd`,
+    `_draw_weapon`). So each new drawing is shrunk into today's drawn outline at double size and
+    centred on it, not stood at the bottom of its box like a foe.
+  - Today's half-see-through pixels (the glow round 32 weapons) stay, enlarged, under the new
+    drawing.
+- **Trouble, and what was done:**
+  - On 5 of 16 tries Nano Banana wrote each weapon's name under it, though asked not to. A later
+    try added "never write any names" (w10). w02 was finally drawn from plain words with no names
+    ("a pair of playing cards", "a crossbow"). The names on w06 were taken away
+    (`tools/strip_labels.py`; `bright_w06_labels.png` is the sheet as drawn). Lesson: for item
+    sheets, plain words invite fewer captions than names.
+  - w08's second try drew 7 rows and tilted the guns. So its rifles, shotguns and last row come
+    from its first try, which was drawn at half the detail; that is enough for thin guns.
+  - A few follow their name more than today's picture: the fusion core is now an orb, and the
+    bone reaper a sickle.
+- **Review:** `sheets/review-weapons-01` to `-11` (today on the left, the new one on the right,
+  at the same size on screen).
+- **Credits:** 1083 before, 891 after (192 for 16 sheets: 11, and 5 tries again).
+- **Next (his order):** the other items: gear (285), relics (140), traits (464), and the other
+  items and icons (238). Then the engine's double detail and IPA 59.1.
