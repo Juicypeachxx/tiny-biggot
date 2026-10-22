@@ -5,9 +5,10 @@
 - characters and bosses (all stages);
 - environments (91 room objects, 43 floors);
 - effects and skills (108 pictures; his word, 22 Oct: before the mobs, "super cool", keep the
-  original forms).
+  original forms);
+- foes, people and pets (206 pictures; his word, 22 Oct: "do weapons and mobs then").
 
-Next, when he says: foes and people, then weapons and items. Where it stands:
+Next: weapons (382 `w_*`), then the other items. Where it stands:
 `resprite/HOW_IT_WORKS.md`, last section.
 
 **10 Oct: his trait pictures.** 146 traits and 14 infusions to add (TRAITS_PLAN.md), in

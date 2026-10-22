@@ -367,3 +367,32 @@ foes and people, then weapons and items.
 - **Credits:** 1479 before, 1263 after (216 for 18 sheets).
 - **Next (his order):** foes and people, then weapons and items; the elites from the new
   pictures. Then the engine's double detail and IPA 59.1.
+
+## 22 Oct: foes, people and pets
+
+His word: "do weapons and mobs then". So the order is now: the mobs (done here), then the weapons
+(382 `w_*` pictures), then the other items.
+
+- **Redrawn (206 pictures, every one at double detail, exactly today's size x 2):**
+  - all 147 foes, in the order of ENEMIES in `game_data.gd`;
+  - the 59 people and pets: the town's people (`npc_*`), the camp cat, the familiars (`fam_*`),
+    the pets (`pet_*`) and the summons (`s_*`).
+- **Method** (`tools/mob_sheets.py` makes the references and prompts into
+  `spritecook/refs/`; `mobs_plan.json` keeps each sheet's prompt and SpriteCook ids):
+  - 13 sheets of 16 (4 x 4), the same way as the characters: today's sprites enlarged on clear
+    as the reference, a few words for each in the prompt ("a skeleton archer", "a pet owl"),
+    Nano Banana 2.1, his picture and the champions' sheet `bright_c1` as style images.
+  - `tools/sheet_add.py` cuts each sheet and fits each sprite at double detail (24 pixels for
+    today's 12).
+- **Second takes:** 12 had drifted from today's picture, because the name misled it (the biting
+  book came back a little dragon, the walking card an empty frame, the friendly archivist a hooded
+  figure). Sheet `r2` described today's picture instead of the name, and all 12 came back right.
+  A first try at a 2 x 2 sheet (`r1`) is not used: it draws them about 80 pixels high, and they
+  turn to mush when shrunk to 24. Keep 4 x 4 sheets (about 50 pixels) for 12-16 pixel sprites.
+- **His Gemini foes** (17 of them, 20 Oct) are kept in `gemini/foes/`; the new ones replace them
+  in `hd/`, so all foes share one look.
+- **Review:** `sheets/review-mobs-01` to `-13` and `-retry` (today on the left, the new one on the
+  right).
+- **Credits:** 1263 before, 1083 after (180 for 15 sheets).
+- **Next (his order):** weapons (382 `w_*`), then the other items; the elites from the new
+  pictures. Then the engine's double detail and IPA 59.1.
