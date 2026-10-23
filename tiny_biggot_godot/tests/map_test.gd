@@ -209,7 +209,7 @@ func _walk() -> void:
 			fail("hidden: the opened wall is not a door of the map")
 		else:
 			_go(d)
-			if G.room.cell != hid or G.room.type != "secret":
+			if G.room.cell != hid or not G.room.type in ["secret", "barn"]:   # (V2: Rex's barn is a hidden room too)
 				fail("hidden: walked into %s (%s)" % [G.room.cell, G.room.type])
 			_go(World.OPP[d])
 			if G.room.cell != par:
