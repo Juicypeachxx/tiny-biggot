@@ -35,7 +35,7 @@ func _ready() -> void:
 	get_tree().quit()
 
 func _data() -> void:
-	if Pets.IDS.size() != 10 or Pets.PETS.size() != 11:
+	if Pets.IDS.size() != 20 or Pets.PETS.size() != 21:   # V2: his sheet's 10 (each on an old pet's "base")
 		fail("%d pets in cages, %d in all" % [Pets.IDS.size(), Pets.PETS.size()])
 	if "rex" in Pets.IDS or not Pets.PETS.has("rex"):
 		fail("rex must come only from his barn")
@@ -105,22 +105,23 @@ func _fight(id: String) -> void:
 	var seen := {}
 	var zones0 := G.zones.size()
 	var ok := false
+	var b := Pets.base(id)   # V2: his sheet's pets each do what an old pet does
 	for k in 60 * 15:
-		if id == "biscuit" and k == 30:
+		if b == "biscuit" and k == 30:
 			var h := Combat.drop_pickup("heart", 4.0 * TB.TS, 5.0 * TB.TS)
 			h.vx = 0.0
 			h.vy = 0.0
-		if id == "gulp" and k % 20 == 0:
+		if b == "gulp" and k % 20 == 0:
 			Combat.eshot(Pets.x + 40, Pets.y, PI, 60, "red")
 		_tick(1)
 		p.x = 14.0 * TB.TS
 		p.y = 12.0 * TB.TS
-		if id == "cindertail":
+		if b == "cindertail":
 			# It leaves fire only while you walk: a loop through the foes.
 			p.x += cos(k * 0.04) * 40.0
 			p.y += sin(k * 0.04) * 24.0 - 20.0
 		seen[Pets.st] = true
-		match id:
+		match b:
 			"biscuit": ok = ok or seen.has("carry")
 			"zappy": ok = ok or not Pets.bolts.is_empty()
 			"cindertail": ok = ok or G.zones.size() > zones0
@@ -137,7 +138,7 @@ func _fight(id: String) -> void:
 	var hp1 := 0.0
 	for e in foes:
 		hp1 += maxf(0.0, e.hp)
-	if id in ["zappy", "bramble", "hoots", "snip", "kaboomba", "cindertail", "rex"] and hp1 >= hp0:
+	if b in ["zappy", "bramble", "hoots", "snip", "kaboomba", "cindertail", "rex"] and hp1 >= hp0:
 		fail("%s did no damage" % id)
 	notes.append("%s: the foes lost %d health in 15 s (the hero not firing)" % [id, roundi(hp0 - hp1)])
 
