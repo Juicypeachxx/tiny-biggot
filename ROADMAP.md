@@ -1883,3 +1883,13 @@ each point); the rest, proposed in the order it would be felt most, with names o
     boss's belt drop). Not run: tools/check.sh (his word); run: the scripts load, the atlas test,
     30 s of play with five of the new pets and weapons. Next: hats and wearables, toys and
     gadgets, the fish (resprite/icon_sheet/README.md).
+  - Done (his "Go next"): IPA 59.6 "Hats and Toys": 58 hats and wearables (gear on the shapes the
+    hero drawing knows: hats, hoods, crowns, helms, masks, glasses and pins as trinkets, scarves,
+    a watch, packs), 60 toys and gadgets as relics (each with its own effect: the medals, the
+    boombox's sound waves, the instant camera's stunning flash, the mystery box's chaos, the toy
+    dinosaur's wisp, the sandcastle's turret, the treasure map's gems...), 29 fish (each catch
+    gives what Fishing.REWARD says). The relics and fish keep the old ones' size (an icon drawn as
+    it is sat on its neighbours in the HUD; the fish were twice the old ones): each is the
+    double-detail picture of a picture half its size (resprite/tools/icon_hd.py). The camp's fish
+    wall and the cook's larder were laid out for 16 fish and ran off the screen with 45: the wall is
+    four rows on a wider board, the larder ten to a row. The full check owed since 59.5 was run.

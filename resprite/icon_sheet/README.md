@@ -15,3 +15,9 @@ notes (ROADMAP.md, 59.5) are these.
 Used so far (59.5): 26 weapons (w_*), 10 pets (pet_*), 31 foods (f_*), 10 drinks (c_*). Each
 picture is the icon as it is, one pixel to each of the game's (no new-look picture: the game draws
 it as it is). Weapons sit on an even square so they turn about their middle in the hand.
+
+Then (59.6): 58 hats and wearables (g_*: drawn as they are, like the above; the hero wears them in
+the shapes the game draws), 60 toys and gadgets as relics (relic_*) and 29 fish (fish_*). A relic or
+a fish drawn as it is would be too big (a relic sat on its neighbours in the HUD, a fish was twice
+the old ones), so each of those is the double-detail picture of a picture half its size:
+`python3 ../tools/icon_hd.py OUT` (the numbers are in it), then `hd_import.py`.
