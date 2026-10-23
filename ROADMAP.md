@@ -1867,5 +1867,11 @@ each point); the rest, proposed in the order it would be felt most, with names o
     note: personal use only, no sharing or public use). Not copied: this repo and its IPA releases
     are public, the sheet has real logos (YouTube, TikTok, ...), and rule 3. Instead, his pick of
     kinds: our own new items in that chunky look, each working in the game: weapons, food and
-    drinks, hats and wearables, toys and gadgets (relics), pets and animals. One SpriteCook sheet of
-    36 (12 of the 21 credits), shown to him first. After IPA 59.4.
+    drinks, hats and wearables, toys and gadgets (relics), pets and animals.
+  - Then his pick (23 Oct): "Go private, use the artist's icons" (he had made the repo public only
+    because the private repo ran out of build minutes). The order: IPA 59.4 while the repo is still
+    public; he makes the repo private; he sends the sheet as a file (the copy in the chat never
+    reached the files); then the icons go in as working items of his five kinds, on tiny-biggot-V2
+    only (never claude/dev, ios-build or windows-build, never a shared copy), without the brand
+    logos, flags, letter badges and emoji faces. A note under rule 3 in CLAUDE.md on that branch.
+    Nothing of the sheet goes in while the repo is public.
