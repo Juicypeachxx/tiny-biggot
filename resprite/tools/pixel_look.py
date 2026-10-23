@@ -15,7 +15,7 @@ near-black outline. So, on a new picture (two of its pixels to one of the game's
 - today's outline: one of the game's pixels thick (half on the old edge, half outside it),
   near-black leaning to the picture's main hue, as today's pictures have it; very dark lines
   inside take the same colour.
-Floors and the room kits: six colours and bigger pixels, no outline (a floor runs on). The traits (white shapes the game tints): three greys and bigger pixels. A picture already
+Floors and the room kits: seven colours, each stone flat, the joints kept sharp, no outline. The traits (white shapes the game tints): three greys and bigger pixels. A picture already
 at the game's pixel (the effect strips, the orbs) is left as it is."""
 import colorsys, hashlib, os, sys
 import numpy as np
@@ -189,15 +189,29 @@ def sprite(im, name, px):
     return Image.fromarray(img, "RGBA")
 
 def flat(im, name, px):
-    """A floor, a room kit: six colours and bigger pixels, no outline (a floor runs on).
-    (Drawn in the game's own pixels, the stones' joints came out ragged: 23 Oct.)"""
+    """A floor, a room kit: seven colours, and each stone flat (every pixel takes the colour most
+    of the nine around it have, the dark joints left out of the count and kept), no outline (a
+    floor runs on). A floor wraps round at its sides, so it still tiles. (Six colours and the
+    sprites' bigger pixels broke the joints into dots and the stones into blotches: 23 Oct.)"""
     rgba = np.asarray(im.convert("RGBA"))
-    idx, pal = quantize(rgba, 6, _seed(name))
+    idx, pal = quantize(rgba, 7, _seed(name))
     if not len(pal):
         return im
-    idx = snap(despeckle(idx), oklab(pal))
-    img = _paint(idx, punch(pal, 1.1, 0.95))
-    img[..., 3] = np.where(idx >= 0, rgba[..., 3], 0)
+    lum = 0.299 * pal[:, 0] + 0.587 * pal[:, 1] + 0.114 * pal[:, 2]
+    joint = int(np.argmin(lum))
+    H, W = idx.shape
+    p = np.pad(idx, 1, mode="wrap" if name.endswith("_floor") else "edge")
+    out = idx.copy()
+    for y in range(H):
+        for x in range(W):
+            if idx[y, x] < 0 or idx[y, x] == joint:
+                continue
+            nb = p[y:y + 3, x:x + 3].ravel()
+            nb = nb[(nb >= 0) & (nb != joint)]
+            if len(nb):
+                out[y, x] = np.bincount(nb).argmax()
+    img = _paint(out, punch(pal, 1.1, 0.95))
+    img[..., 3] = np.where(out >= 0, rgba[..., 3], 0)
     return Image.fromarray(img, "RGBA")
 
 def trait(im, name):

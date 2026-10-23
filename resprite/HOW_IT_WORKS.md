@@ -577,3 +577,43 @@ His word: "make the armour on the hero in the new look too and package it to tes
   the hero's picture; the same outfit twice is the same pixels. With `--sheet=PATH` it draws every
   hero bare and in five outfits.
 - **IPA 59.2 "Bright Armour"** from this branch.
+
+## 23 Oct: the pixel look (IPA 59.3)
+
+His word: "can you make all sprites and textures little bit more pixelated and to fit my previous
+style, now it feels all ai and sterile". Then, of the items: "this in my opinion does not look
+good, you have some credits left if you find anything like this resprite it", and his picks
+(asked with pictures): "Test 2 for all items" and the pixel look for the characters.
+
+- **What made it look made by a machine:** many soft shades, thin pale edges, a speck of detail
+  everywhere. His previous style (today's pictures) is a few flat colours inside a thick
+  near-black outline, in big pixels.
+- **Tried and left:** the new pictures shrunk to the game's own pixels (the faces turned into
+  blobs); the floors in six colours with the sprites' bigger pixels (the joints broke into dots).
+- **The pixel look** (`tools/pixel_look.py`; `hd_import.py` runs it on every picture going into
+  the game, resprite/hd keeps them as they came; `python3 resprite/tools/pixel_look.py OUT NAMES`
+  draws today / 59.2 / the pixel look in rows):
+  - heroes, foes, guardians, people, pets, props: 5 to 16 colours (Oklab), no specks, bigger
+    pixels where a game pixel's four agree (an eye or a line stays), more saturated with lighter
+    middle tones, and today's outline: one game pixel thick, near-black leaning to the picture's
+    main hue; dark lines inside take the same colour;
+  - elites: made again from the pixel look (`elite_hd.elite`), so the gold is the outermost line;
+  - floors and room kits: seven colours, each stone flat, the joints kept sharp, no outline;
+  - traits: white and two greys, bigger pixels;
+  - effects, shots and the pictures already at the game's pixel: left as they are.
+- **The items drawn again** (`tools/pixel_sheets.py`, SpriteCook NB 2.1, 12 credits a sheet):
+  - test 1, from today's (old) pictures: came back almost the same as the old pictures (kept as
+    "rejected"); test 2, from the 59.2 pictures: his pick;
+  - the reference is the sheet's 59.2 pictures x4; the style guide is the game's own pictures
+    before V2 (`spritecook/style-old.png`, asset e6c03a1e-168d-461e-88ed-ab83464147f5);
+  - SpriteCook gives a sheet back at about 32 of its pixels to a cell: each drawing goes into
+    resprite/hd as it is (centred where today's picture is drawn), only one too big is shrunk;
+  - 29 sheets, 1023 items: weapons w01-w11, gear g01-g09, relics r01-r04, icons i01-i05 (i02
+    drew five of its six rows: its first four charms went onto i05b); the "made" pictures carry
+    "look": "pixel" and go into the game as they are;
+  - not yet: ch_clover and ch_coin (sheet i06 planned; SpriteCook was down) have the pixel look.
+  - Pixel Engine (6 credits, true pixel art at the exact size) was down all day: worth a try.
+- **The armour on the hero** keeps the hero's own near-black outline and lines (`_lines` in
+  `hero_gear.gd`), so an armoured hero is outlined like a bare one.
+- Credits: 459 before, 99 after (30 sheets).
+- **IPA 59.3 "Pixel Look"** from this branch.

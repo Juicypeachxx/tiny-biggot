@@ -12,6 +12,9 @@ extends RefCounted
 ## of that hero's own picture, and its folds and lights: each of the hero's pixels there is given
 ## the shade of its brightness among them, in the item's colours. What goes on the head, the
 ## neck, the belt, the rings and the shield in the off hand are shapes of their own.
+## 59.3 (his "little bit more pixelated and to fit my previous style"): the heroes have a thick
+## near-black outline and dark lines now; armour over them keeps those (_lines), so an armoured
+## hero is outlined like a bare one.
 
 const W := 12      # the hero, in the game's pixels
 const H := 14
@@ -229,6 +232,13 @@ static func _offhand() -> Dictionary:
 		c[p] = "4"
 	return _outline(c)
 
+## The hero's own near-black outline and lines stay over the armour.
+static func _lines(hi: Dictionary, c: Dictionary) -> Dictionary:
+	for p: Vector2i in c:
+		if hi["bright"][p.y * DW + p.x] < 0.1:
+			c[p] = "o"
+	return c
+
 # ---------- on the body, the feet and the hands: the hero's own shape ----------
 static func _body(shape: String, hi: Dictionary) -> Dictionary:
 	var top: int = hi["neck"] + 1
@@ -266,7 +276,7 @@ static func _body(shape: String, hi: Dictionary) -> Dictionary:
 		var clasp := shape == "cloak" and p.y == top and (p.x == 11 or p.x == 12)
 		if (_edge(hi, p.x, p.y) or p.y == top) and not clasp:
 			c[p] = "o"
-	return c
+	return _lines(hi, c)
 
 static func _feet(shape: String, hi: Dictionary) -> Dictionary:
 	var top := 24 if shape == "boots" else 21      # greaves come up over the shins
@@ -280,7 +290,7 @@ static func _feet(shape: String, hi: Dictionary) -> Dictionary:
 			c[p] = "3"
 		if _edge(hi, p.x, p.y):
 			c[p] = "o"
-	return c
+	return _lines(hi, c)
 
 static func _hands(hi: Dictionary) -> Dictionary:
 	var cells := []
@@ -295,7 +305,7 @@ static func _hands(hi: Dictionary) -> Dictionary:
 			c[p] = "3"
 		if _edge(hi, p.x, p.y):
 			c[p] = "o"
-	return c
+	return _lines(hi, c)
 
 # ---------- small pieces ----------
 ## An amulet: its chain, and the stone on the chest.
