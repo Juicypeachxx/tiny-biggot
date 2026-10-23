@@ -14,13 +14,15 @@ python3 resprite/tools/hd_import.py   -> tiny_biggot_godot/assets/graphics_hd/
 - The pixel look (23 Oct, his "little bit more pixelated and to fit my previous style"):
   pixel_look.look() on every picture as it goes in; resprite/hd keeps them as they came. An
   elite look (X_elite) is made again from X in the pixel look (elite_hd.elite), so its gold
-  outline is the outermost one."""
+  outline is the outermost one. A picture SpriteCook drew again as chunky pixel art (the items,
+  tools/pixel_sheets.py: "look": "pixel" in the manifest) goes in as it is."""
 import os, sys
 from PIL import Image, ImageChops
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from inventory import G, ROOT
 from pixel_look import look
 from elite_hd import elite
+import json
 
 HD = os.path.join(ROOT, "resprite", "hd")
 SOFT = ("fx_scorch", "fx_pool")
@@ -37,6 +39,8 @@ def _save(im, dst):
 
 def main():
     os.makedirs(OUT, exist_ok=True)
+    with open(os.path.join(ROOT, "resprite", "spritecook-assets.json")) as fh:
+        drawn = {a["name"] for a in json.load(fh)["assets"] if a["kind"] == "made" and a.get("look") == "pixel"}
     kits = {f[:-4] for f in os.listdir(G) if f.startswith("kit") and f.endswith(".png")}
     put, bad, by = set(), [], {1: 0, 2: 0, 4: 0, "floor": 0}
     for f in sorted(os.listdir(HD)):
@@ -71,6 +75,8 @@ def main():
             b = Image.open(os.path.join(HD, base + ".png"))
             bo = Image.open(os.path.join(G, base + ".png")).size
             _save(elite(look(base, b, bo), b.width // bo[0]), dst)
+        elif n in drawn:
+            _save(im, dst)
         else:
             _save(look(n, im, (ow, oh)), dst)
         put.add(f)
