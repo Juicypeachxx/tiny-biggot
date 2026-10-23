@@ -31,6 +31,17 @@ traits in three greys; effects left as they are). The armour keeps the hero's ou
 "Pixel Look". He tests it on the iPad. Where it stands:
 `resprite/HOW_IT_WORKS.md`, last section.
 
+**23 Oct: VID, THE HURIKAN SLAVE (V2 only).** His "can we make new boss?", his picks (from his
+life, a photo; a floor guardian; only the new look), five photos of his friend Vid and his words
+(LED walls, cables, beer, always tired, One Piece; "floor 2"; "for stage 2 and 3 he transforms in
+his metal form because he is metal head who watches a lot of anime"). He saw the nine poses
+first and said where. Drawn on SpriteCook (four sheets, 66 credits, 21 left;
+`resprite/tools/vid_sheets.py`), the fight in `scripts/entities/vid.gd` like ŠEFE's
+(`BOSS_STAGES.md`, last section), `tests/vid_test`. The second floor is his in the expanded game;
+its three guardians are met on the fifth floor with THE RIME WARDEN, with its health there.
+Core replays re-recorded on purpose (content added); classic replays identical. IPA 59.4
+"Hurikan Slave".
+
 **10 Oct: his trait pictures.** 146 traits and 14 infusions to add (TRAITS_PLAN.md), in
 Stages 40 to 44 (STR, DEX, INT, SUPER/PSYCHIC/AUGMENT, infusions), then 45 the alignment shops.
 Stage 40 done (IPA 40 "Strength Traits"), Stage 41 done (IPA 41 "Dexterity Traits"), and his

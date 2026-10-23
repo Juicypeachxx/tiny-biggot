@@ -197,3 +197,50 @@ always". Expanded game only (`--classic` keeps THE DROWNED LIBRARIAN on floor 3)
   floor's own; 4 heroes, 2 seeds, the build a player has there by then): ŠEFE fell in 57 s (the
   middle of eight; 46 to 96 s), THE DROWNED LIBRARIAN in 59 s (47 to 94 s) on the same builds: the
   third floor is no quicker and no slower than it was.
+
+## V2: VID, THE HURIKAN SLAVE, the second floor's guardian (his word, 23 Oct, with five photos; branch tiny-biggot-V2 only)
+
+"can we make new boss?"; his picks: from his life (a photo), a floor guardian, only in the new look.
+His photos of his friend Vid and his words: "Vid the hurikan slave"; "he works in video engineering
+building LED walls and connecting cables, also he is drinking a lot of beer and work a lot he is
+always tired and loves One Piece manga"; after seeing the nine poses: "floor 2, for stage 2 and 3
+he transforms in his metal form because he is metal head who watches a lot of anime". Expanded game
+only (`--classic` keeps THE SPORE MOTHER on floor 2).
+- Where: `GameData.OWN_GUARDIANS` (the Spore Mother's floor has him, always). The second floor's three
+  (THE SPORE MOTHER, THE WALRUS ADMIRAL, out of `ALT_GUARDIANS`, and THE BONE COLOSSUS) are now
+  `MORE_GUARDIANS` of THE RIME WARDEN's floor, the fifth, which had no second guardian: each of the
+  four a quarter of the time (`Game.start_floor`: a floor with more guardians and no second one rolls
+  too). There they have THE RIME WARDEN's health (`Game` where the floor's guardian comes), so the
+  fifth floor's fight is as long as it was. The bestiary lists them under RIMEFROST VAULT.
+- His fight: `scripts/entities/vid.gd`, on the RiftBosses model like ŠEFE (two phases at half
+  health, the grace between them, a third stage at a quarter with his own lines, RESOLVE, his
+  signature PINWHEEL then GRID when UNBROKEN, patterns of his own only in his second phase). Moves:
+  PEACE (the peace sign, then volleys of five shots flying as a V, its tip at you; four in phase 2),
+  LED WALL (6 x 4 panels laid round you, then half of them light up at a time: a checkerboard, the
+  other half, rows, columns; each blinks first; a lit panel burns; three flashes, four in phase 2),
+  CABLES (three lanes across the room, the first right where you stand, shown first; then the
+  cables go live and spark; four in phase 2, five in full metal), BEER (ŠE ENO PIVO!, he drinks and
+  throws the bottle where you stand, its landing shown; it smashes into a ring of glass; three
+  bottles in phase 2), POWER NAP (ŠE PET MINUT...: asleep on his flight case: x1.5 and harmless, but
+  his snores drift at you; ŽE?! when he wakes), ONE MORE CHAPTER (ŠE EN CHAPTER...: he reads, manga
+  pages fly out in a slow spiral). Phase 2, METAL FORM (long hair, studs, the horns, a purple
+  lightning; 15% faster): HURIKAN (he spins after you, a spiral of shots off him), LASSO (its reach
+  shown first, a live cable swung a turn and a half round him), WALL OF DEATH (a wall of shots from
+  each side runs at the other, each with a gap shown first in gold), STAGE DIVE (he leaps and lands
+  where you stood, shown first: a ring of shock; harmless in the air). Plans: phase 1 PEACE, LED
+  WALL, CABLES, BEER, PEACE, POWER NAP, ONE MORE CHAPTER; phase 2 HURIKAN, PEACE, LASSO, WALL OF
+  DEATH, LED WALL, STAGE DIVE, BEER, CABLES, POWER NAP. At a quarter, FULL METAL: a second wall of
+  death, a third arm to the spin, five cables. His shots: cyan, purple in his metal form, ice white
+  in full metal.
+- He is drawn about 78 px tall (as ŠEFE): `Vid.TOP_Y` keeps his head below the top bar.
+- Looks (`Vid.sprite`, `Stages.look`): standing, the peace sign, the lasso, the LED panel, the
+  bottle, asleep on the flight case, reading, the spin and knocked out, each plain, `_s2` (metal
+  form) and `_s3` (full metal). Props: the bottle, an LED panel off and on, a manga page (the foes'
+  own "page" shot flies for it), his cable. `resprite/tools/vid_sheets.py` (SpriteCook, our own
+  cartoon of him: no brand, and the manga is only a manga).
+- Beaten: "VID CLOCKED OUT", "OVERTIME IS OVER"; he sleeps in his cables where he fell (the object
+  `vid_rest`), and the floor goes on. His drop: VID'S CABLE (a whip: hits arc to near foes; 15% of
+  hits short a foe out, stunned 1 s; `BossLoot`, never rolled elsewhere).
+- Tests: `tests/vid_test` (floors, the fifth floor's four and their health, the font, each move ends
+  and hurts a hero in its way, the nap, the metal form at half health and full metal at a quarter,
+  every picture, beaten). `tests/stage58_test` follows the Colossus to the fifth floor.

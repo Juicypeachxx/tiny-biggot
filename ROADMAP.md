@@ -1853,15 +1853,10 @@ each point); the rest, proposed in the order it would be felt most, with names o
   item drawn again as chunky pixel art (SpriteCook, the old pictures as the style guide); the
   rest in the pixel look (the old thick outline, fewer flat colours, bigger pixels; flat floor
   stones). IPA 59.3 "Pixel Look".
-- 23 Oct 2026, next (his ask: "can we make new boss?"; his picks: someone from his life, from a
-  photo he sends, like ARČI and ŠEFE; a floor guardian; only in the new look, branch
-  tiny-biggot-V2). His photos and words (23 Oct): "Vid the hurikan slave"; "he works in video
-  engineering building LED walls and connecting cables, also he is drinking a lot of beer and work
-  a lot, he is always tired and loves One Piece manga". The photos: messy brown hair, stubble,
-  mirrored sunglasses, teal and grey shirts, grey shorts, coffee, the peace sign, a river rock.
-  - Drawn (sheet `resprite/spritecook/sheets/bright_vid.png`, 18 credits, 69 left): nine poses
-    (standing with a cable coil, peace sign, cable lasso, LED panel, beer, asleep on a flight case,
-    reading manga, hurricane spin, knocked out in cable). Sent to him; waiting for his yes.
-  - Then: his stage 2 and 3 looks and props on SpriteCook; the fight built like arci.gd and
-    sefe.gd (BOSS_STAGES.md); tests; an IPA. One Piece only as "manga": no character or logo
-    from it (rule 3).
+- 23 Oct 2026, done (his ask: "can we make new boss?"; his picks: someone from his life, from a
+  photo, like ARČI and ŠEFE; a floor guardian; only in the new look, branch tiny-biggot-V2). His
+  photos and words: "Vid the hurikan slave"; LED walls, cables, beer, always tired, One Piece; then
+  "floor 2, for stage 2 and 3 he transforms in his metal form because he is metal head who watches
+  a lot of anime". VID, THE HURIKAN SLAVE guards the second floor (BOSS_STAGES.md, last section);
+  the floor's three guardians are met on the fifth floor. Drawn on SpriteCook (66 credits, 21 left).
+  IPA 59.4 "Hurikan Slave". One Piece only as "manga": no character or logo from it (rule 3).

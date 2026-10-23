@@ -617,3 +617,23 @@ good, you have some credits left if you find anything like this resprite it", an
   `hero_gear.gd`), so an armoured hero is outlined like a bare one.
 - Credits: 459 before, 87 after (31 sheets, the two tests among them).
 - **IPA 59.3 "Pixel Look"** from this branch.
+
+## 23 Oct: VID, THE HURIKAN SLAVE (IPA 59.4)
+
+A new floor guardian from his photos (V2 only). `tools/vid_sheets.py` does it all again from the
+four sheets in `spritecook/sheets/` (the ids are in the manifest).
+- **His nine poses** (`bright_vid`, Nano Banana 2.1 at 2K, 18 credits): described in words from his
+  photos (no photo was uploaded), with his picture of the bright look and the two special guardian
+  sheets (ŠEFE drawn right) as style images. He saw them in the pixel look beside ŠEFE first.
+- **His stage looks:** `bright_vid_s2` is an edit of that sheet (his metal form: long hair, studded
+  leather, the horns, a purple lightning), `bright_vid_s3` an edit of the s2 sheet (full metal:
+  chrome, silver hair, a storm). An edit keeps the nine places and the size: the cut needs nothing
+  else. 18 credits each.
+- **His props** (`bright_vid_props`, 12 credits): the bottle and his cable (the drop) are used. The
+  LED panels and the manga page came out right but lost their dots and frames in the pixel look,
+  so they are drawn in code (`led`, `page`: "look": "pixel", put in as they are); the plug is not
+  used.
+- **Fitting:** each pose at 0.88 of its size on the sheet (he stands as tall as ŠEFE), on a picture
+  of even sides, his feet at the bottom and their middle in the middle (no jump from pose to pose).
+  Today's-size pictures (assets/graphics) are the same at half size: the game measures by them.
+  hd_import.py puts them in the game in the pixel look. Credits: 87 before, 21 after.
