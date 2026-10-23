@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c8bxywjgj73m1"
-path="res://.godot/imported/relic_coinpurse.png-5a563b257703b0c08622ac6178f04f3b.ctex"
+uid="uid://542qu3qu3pfm"
+path="res://.godot/imported/relic_coinpouch.png-7eba51ceb38baba7e34c9233a4df558e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/graphics/relic_coinpurse.png"
-dest_files=["res://.godot/imported/relic_coinpurse.png-5a563b257703b0c08622ac6178f04f3b.ctex"]
+source_file="res://assets/graphics_hd/relic_coinpouch.png"
+dest_files=["res://.godot/imported/relic_coinpouch.png-7eba51ceb38baba7e34c9233a4df558e.ctex"]
 
 [params]
 

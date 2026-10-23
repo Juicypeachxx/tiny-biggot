@@ -41356,9 +41356,9 @@
    "sha12": "e4a0c4a678d1"
   },
   {
-   "label": "relic_treasuremap: his icon sheet, icon 114 (resprite/icon_sheet, personal use)",
+   "label": "relic_piratemap: his icon sheet, icon 114 (resprite/icon_sheet, personal use)",
    "kind": "made",
-   "name": "relic_treasuremap",
+   "name": "relic_piratemap",
    "look": "pixel",
    "asset_id": null,
    "credits": 0,
@@ -41410,9 +41410,9 @@
    "sha12": "b2931963e8d4"
   },
   {
-   "label": "relic_luckystar: his icon sheet, icon 122 (resprite/icon_sheet, personal use)",
+   "label": "relic_wishingstar: his icon sheet, icon 122 (resprite/icon_sheet, personal use)",
    "kind": "made",
-   "name": "relic_luckystar",
+   "name": "relic_wishingstar",
    "look": "pixel",
    "asset_id": null,
    "credits": 0,
@@ -41518,9 +41518,9 @@
    "sha12": "699bcb0e7d1d"
   },
   {
-   "label": "relic_coinpurse: his icon sheet, icon 300 (resprite/icon_sheet, personal use)",
+   "label": "relic_coinpouch: his icon sheet, icon 300 (resprite/icon_sheet, personal use)",
    "kind": "made",
-   "name": "relic_coinpurse",
+   "name": "relic_coinpouch",
    "look": "pixel",
    "asset_id": null,
    "credits": 0,

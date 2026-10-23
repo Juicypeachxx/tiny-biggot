@@ -43,9 +43,15 @@ Core replays re-recorded on purpose (content added); classic replays identical; 
 CHECK PASSED (the map test now lets a hidden room be Rex's barn: Vid's floor moved its dice). IPA
 59.4 "Hurikan Slave". Then his icon sheet (another artist's, personal use only: CLAUDE.md rule 3,
 `resprite/icon_sheet/README.md`; the repo is private now): IPA 59.5 "Pets and Weapons" (26 weapons,
-10 pets, 31 foods, 10 drinks), packaged without tools/check.sh at his word. The full check and
-the replays are owed: run them first next time (the new foods and weapons will change the core
-replays: re-record on purpose).
+10 pets, 31 foods, 10 drinks), packaged without tools/check.sh at his word. Then his "Go next":
+58 hats and wearables (gear), 60 toys and gadgets (relics), 29 fish; the relics and fish at the
+old ones' size (`resprite/tools/icon_hd.py`), the camp's fish wall and the larder laid out for 45
+fish. The full check owed since 59.5 found five slips, all fixed: a ';' in two fishing rods'
+text (not in the font), the jar of jam gave no attribute (every food does: now +1 INT), three
+relics shared an id or a name with older items (now PIRATE MAP, COIN POUCH, WISHING STAR), the
+pets test did not know his sheet's pets (it now checks each by the old pet it is based on).
+Core replays re-recorded on purpose (content added); classic replays identical. IPA 59.6 "Hats
+and Toys" once tools/check.sh passes.
 
 **10 Oct: his trait pictures.** 146 traits and 14 infusions to add (TRAITS_PLAN.md), in
 Stages 40 to 44 (STR, DEX, INT, SUPER/PSYCHIC/AUGMENT, infusions), then 45 the alignment shops.

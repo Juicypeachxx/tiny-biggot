@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxkq2bavakq3c"
-path="res://.godot/imported/relic_luckystar.png-9b5e09e72b06e8ceb70545a244f7d2d5.ctex"
+uid="uid://caqosnve3et70"
+path="res://.godot/imported/relic_wishingstar.png-bb7e87660d3fb758c7ab406fbe97daea.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/graphics_hd/relic_luckystar.png"
-dest_files=["res://.godot/imported/relic_luckystar.png-9b5e09e72b06e8ceb70545a244f7d2d5.ctex"]
+source_file="res://assets/graphics_hd/relic_wishingstar.png"
+dest_files=["res://.godot/imported/relic_wishingstar.png-bb7e87660d3fb758c7ab406fbe97daea.ctex"]
 
 [params]
 

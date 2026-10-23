@@ -57,7 +57,7 @@ const FOODS := {
 	"f_croissant": ["CROISSANT", "+1 STR +1 INT", [["attr", "str", 1], ["attr", "int", 1]]],
 	"f_breakfast": ["BIG BREAKFAST", "+2 STR +1 DEX, HEALS A HEART", [["attr", "str", 2], ["attr", "dex", 1], ["add_cap", "hp", 2, "max_hp"]]],
 	"f_candy": ["SWEETS", "+1 INT", [["attr", "int", 1]]],
-	"f_jam": ["JAR OF JAM", "HEALS A HEART AND A HALF", [["add_cap", "hp", 3, "max_hp"]]],
+	"f_jam": ["JAR OF JAM", "+1 INT, HEALS A HEART AND A HALF", [["attr", "int", 1], ["add_cap", "hp", 3, "max_hp"]]],
 }
 const FOOD_W := { "f_bread": 6, "f_berries": 6, "f_mushroom": 6, "f_drumstick": 3, "f_carrot": 3, "f_turnip": 3,
 	"f_fishpie": 3, "f_nuts": 3, "f_plum": 3, "f_cheese": 2,
@@ -177,7 +177,7 @@ static func stock_shop(r: Room, cx: float, cy: float) -> void:
 static var labels: Array = []
 
 ## Short labels for the floor where the full text is long.
-const LABEL := { "f_orangeslice": "+1 DEX +HEAL", "f_icepop": "+1 DEX +HEAL", "f_orange": "+1 STR +HEAL", "f_watermelon": "+1 DEX +HEAL", "f_seaweed": "+1 INT +HEAL", "f_pancakes": "+2 STR +HEAL", "f_muffin": "+1 STR +HEAL", "f_popcorn": "+1 DEX +ARMOR", "f_gingerbread": "+1 DEX +ARMOR", "f_cakeslice": "+1 ALL", "f_breakfast": "+3 +HEAL", "f_jam": "HEAL", "f_cheese": "+1 DRINK", "gf_loaf": "+10% NO-CRIT", "gf_sunfruit": "+3% CRIT", "gf_quince": "+3% RATE", "gf_tart": "+15% CRIT DMG", "gf_egg": "+1 BEST STAT", "gf_bun": "+10% ALLIES", "gf_jelly": "+10% EFFECTS", "gf_cookie": "+3% LUCKY", "gf_date": "+1 HEART", "gf_honeycomb": "+1 ALL STATS" }
+const LABEL := { "f_orangeslice": "+1 DEX +HEAL", "f_icepop": "+1 DEX +HEAL", "f_orange": "+1 STR +HEAL", "f_watermelon": "+1 DEX +HEAL", "f_seaweed": "+1 INT +HEAL", "f_pancakes": "+2 STR +HEAL", "f_muffin": "+1 STR +HEAL", "f_popcorn": "+1 DEX +ARMOR", "f_gingerbread": "+1 DEX +ARMOR", "f_cakeslice": "+1 ALL", "f_breakfast": "+3 +HEAL", "f_jam": "+1 INT +HEAL", "f_cheese": "+1 DRINK", "gf_loaf": "+10% NO-CRIT", "gf_sunfruit": "+3% CRIT", "gf_quince": "+3% RATE", "gf_tart": "+15% CRIT DMG", "gf_egg": "+1 BEST STAT", "gf_bun": "+10% ALLIES", "gf_jelly": "+10% EFFECTS", "gf_cookie": "+3% LUCKY", "gf_date": "+1 HEART", "gf_honeycomb": "+1 ALL STATS" }
 
 ## Its label over it on the floor (world_view), as the stat pickups have.
 static func draw_label(ci: CanvasItem, k: Pickup, wob: float) -> void:

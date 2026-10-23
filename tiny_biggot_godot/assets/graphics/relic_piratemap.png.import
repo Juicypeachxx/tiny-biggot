@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://mtlgxgjelpcv"
-path="res://.godot/imported/relic_treasuremap.png-db38543c90609faecceb0bca72f3477d.ctex"
+uid="uid://wu6vmxugwc21"
+path="res://.godot/imported/relic_piratemap.png-ecfc7c10669e06b080412806b36a4018.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/graphics_hd/relic_treasuremap.png"
-dest_files=["res://.godot/imported/relic_treasuremap.png-db38543c90609faecceb0bca72f3477d.ctex"]
+source_file="res://assets/graphics/relic_piratemap.png"
+dest_files=["res://.godot/imported/relic_piratemap.png-ecfc7c10669e06b080412806b36a4018.ctex"]
 
 [params]
 
