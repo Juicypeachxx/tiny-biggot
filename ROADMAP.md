@@ -1860,3 +1860,12 @@ each point); the rest, proposed in the order it would be felt most, with names o
   a lot of anime". VID, THE HURIKAN SLAVE guards the second floor (BOSS_STAGES.md, last section);
   the floor's three guardians are met on the fifth floor. Drawn on SpriteCook (66 credits, 21 left).
   IPA 59.4 "Hurikan Slave". One Piece only as "manga": no character or logo from it (rule 3).
+- 23 Oct 2026, his next asks (V2 branch):
+  - "can we pixelate just a little bit": shown three levels on the characters, then the items at the
+    game's own pixel (his sheet of small icons as the look); his pick both times: keep as now.
+  - "can you add those items in my game and make them work" (an icon sheet by another artist; its
+    note: personal use only, no sharing or public use). Not copied: this repo and its IPA releases
+    are public, the sheet has real logos (YouTube, TikTok, ...), and rule 3. Instead, his pick of
+    kinds: our own new items in that chunky look, each working in the game: weapons, food and
+    drinks, hats and wearables, toys and gadgets (relics), pets and animals. One SpriteCook sheet of
+    36 (12 of the 21 credits), shown to him first. After IPA 59.4.
