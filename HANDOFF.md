@@ -53,7 +53,8 @@ pets test did not know his sheet's pets (it now checks each by the old pet it is
 Core replays re-recorded on purpose (content added); classic replays identical. The second
 full run: every test and all 14 replays passed but one, the GILDED LOAF's measure in the food
 test, which missed by luck (40 hits of random size; it passed 9 runs of 9 alone): now 400 hits.
-IPA 59.6 "Hats and Toys" built from this branch, with a third full run alongside.
+IPA 59.6 "Hats and Toys" built from this branch (release ipa-59.6, 36 MB, built in 3 min); the
+third full run alongside it: CHECK PASSED, all 14 replays identical. He tests it on the iPad.
 
 **10 Oct: his trait pictures.** 146 traits and 14 infusions to add (TRAITS_PLAN.md), in
 Stages 40 to 44 (STR, DEX, INT, SUPER/PSYCHIC/AUGMENT, infusions), then 45 the alignment shops.
