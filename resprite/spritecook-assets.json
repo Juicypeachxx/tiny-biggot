@@ -40829,6 +40829,405 @@
     "vid_out"
    ],
    "sha12": "e56272dcbd10"
+  },
+  {
+   "label": "vid_plug, VID, THE HURIKAN SLAVE, cell 5",
+   "kind": "made",
+   "name": "vid_plug",
+   "asset_id": "840339d1-d57b-4095-b19b-aff66e25ef30",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "48ba3a494f2e"
+  },
+  {
+   "label": "VID, THE HURIKAN SLAVE: his metal form for stage 2 (his word: \"for stage 2 and 3 he transforms in his metal form because he is metal head who watches alot of anime\"): an edit of bright_vid, 23 Oct",
+   "kind": "sheet",
+   "name": "bright_vid_s2",
+   "asset_id": "0ee13a02-34e6-43db-9244-6fcf30784b68",
+   "job_id": "b3b9596e-9bb6-4543-a958-3329c85ca9be",
+   "style": [
+    "8e43ad1a-3a19-479b-89b7-89575ada6626"
+   ],
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 18,
+   "cells": [
+    "vid_s2",
+    "vid_peace_s2",
+    "vid_lasso_s2",
+    "vid_panel_s2",
+    "vid_drink_s2",
+    "vid_nap_s2",
+    "vid_manga_s2",
+    "vid_spin_s2",
+    "vid_out_s2"
+   ],
+   "sha12": "fe1bf521a263"
+  },
+  {
+   "label": "VID, THE HURIKAN SLAVE: his full metal form for stage 3: an edit of bright_vid_s2, 23 Oct",
+   "kind": "sheet",
+   "name": "bright_vid_s3",
+   "asset_id": "071446fc-001c-4bcd-ab3f-aeeb3087f371",
+   "job_id": "faf0e26c-74e5-476d-91d1-c199eb87b84b",
+   "style": [
+    "8e43ad1a-3a19-479b-89b7-89575ada6626"
+   ],
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 18,
+   "cells": [
+    "vid_s3",
+    "vid_peace_s3",
+    "vid_lasso_s3",
+    "vid_panel_s3",
+    "vid_drink_s3",
+    "vid_nap_s3",
+    "vid_manga_s3",
+    "vid_spin_s3",
+    "vid_out_s3"
+   ],
+   "sha12": "1a5425511de3"
+  },
+  {
+   "label": "VID, THE HURIKAN SLAVE: his props: the bottle, an LED panel off and on, a manga page, his cable (his drop), a plug, 23 Oct",
+   "kind": "sheet",
+   "name": "bright_vid_props",
+   "asset_id": "840339d1-d57b-4095-b19b-aff66e25ef30",
+   "job_id": "30677544-6131-4bb1-87b0-39a9e2607651",
+   "style": [
+    "8e43ad1a-3a19-479b-89b7-89575ada6626"
+   ],
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "cells": [
+    "vid_bottle",
+    "-",
+    "-",
+    "-",
+    "w_vidcable",
+    "-",
+    "-",
+    "-",
+    "-"
+   ],
+   "sha12": "0f378d98c67a"
+  },
+  {
+   "label": "vid, VID, THE HURIKAN SLAVE, cell 0",
+   "kind": "made",
+   "name": "vid",
+   "asset_id": "25167620-dabe-4f9a-a89f-cd26b8cab56d",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "008be0c886a9"
+  },
+  {
+   "label": "vid_peace, VID, THE HURIKAN SLAVE, cell 1",
+   "kind": "made",
+   "name": "vid_peace",
+   "asset_id": "25167620-dabe-4f9a-a89f-cd26b8cab56d",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "71e1e741b632"
+  },
+  {
+   "label": "vid_lasso, VID, THE HURIKAN SLAVE, cell 2",
+   "kind": "made",
+   "name": "vid_lasso",
+   "asset_id": "25167620-dabe-4f9a-a89f-cd26b8cab56d",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "4a0768070d12"
+  },
+  {
+   "label": "vid_panel, VID, THE HURIKAN SLAVE, cell 3",
+   "kind": "made",
+   "name": "vid_panel",
+   "asset_id": "25167620-dabe-4f9a-a89f-cd26b8cab56d",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "c59015f9c820"
+  },
+  {
+   "label": "vid_drink, VID, THE HURIKAN SLAVE, cell 4",
+   "kind": "made",
+   "name": "vid_drink",
+   "asset_id": "25167620-dabe-4f9a-a89f-cd26b8cab56d",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "36f983299397"
+  },
+  {
+   "label": "vid_nap, VID, THE HURIKAN SLAVE, cell 5",
+   "kind": "made",
+   "name": "vid_nap",
+   "asset_id": "25167620-dabe-4f9a-a89f-cd26b8cab56d",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "01954d13f024"
+  },
+  {
+   "label": "vid_manga, VID, THE HURIKAN SLAVE, cell 6",
+   "kind": "made",
+   "name": "vid_manga",
+   "asset_id": "25167620-dabe-4f9a-a89f-cd26b8cab56d",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "5d0f308ce7e4"
+  },
+  {
+   "label": "vid_spin, VID, THE HURIKAN SLAVE, cell 7",
+   "kind": "made",
+   "name": "vid_spin",
+   "asset_id": "25167620-dabe-4f9a-a89f-cd26b8cab56d",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "23b5b9ab792f"
+  },
+  {
+   "label": "vid_out, VID, THE HURIKAN SLAVE, cell 8",
+   "kind": "made",
+   "name": "vid_out",
+   "asset_id": "25167620-dabe-4f9a-a89f-cd26b8cab56d",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "3150ef4c273c"
+  },
+  {
+   "label": "vid_s2, VID, THE HURIKAN SLAVE, cell 0",
+   "kind": "made",
+   "name": "vid_s2",
+   "asset_id": "0ee13a02-34e6-43db-9244-6fcf30784b68",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "44c91a6f6c8b"
+  },
+  {
+   "label": "vid_peace_s2, VID, THE HURIKAN SLAVE, cell 1",
+   "kind": "made",
+   "name": "vid_peace_s2",
+   "asset_id": "0ee13a02-34e6-43db-9244-6fcf30784b68",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "3bc3a52bbedc"
+  },
+  {
+   "label": "vid_lasso_s2, VID, THE HURIKAN SLAVE, cell 2",
+   "kind": "made",
+   "name": "vid_lasso_s2",
+   "asset_id": "0ee13a02-34e6-43db-9244-6fcf30784b68",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "6a05e7681d10"
+  },
+  {
+   "label": "vid_panel_s2, VID, THE HURIKAN SLAVE, cell 3",
+   "kind": "made",
+   "name": "vid_panel_s2",
+   "asset_id": "0ee13a02-34e6-43db-9244-6fcf30784b68",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "d23a34160d99"
+  },
+  {
+   "label": "vid_drink_s2, VID, THE HURIKAN SLAVE, cell 4",
+   "kind": "made",
+   "name": "vid_drink_s2",
+   "asset_id": "0ee13a02-34e6-43db-9244-6fcf30784b68",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "8d412bb56514"
+  },
+  {
+   "label": "vid_nap_s2, VID, THE HURIKAN SLAVE, cell 5",
+   "kind": "made",
+   "name": "vid_nap_s2",
+   "asset_id": "0ee13a02-34e6-43db-9244-6fcf30784b68",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "f0c6a0dfa5f6"
+  },
+  {
+   "label": "vid_manga_s2, VID, THE HURIKAN SLAVE, cell 6",
+   "kind": "made",
+   "name": "vid_manga_s2",
+   "asset_id": "0ee13a02-34e6-43db-9244-6fcf30784b68",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "00fe3cc22b54"
+  },
+  {
+   "label": "vid_spin_s2, VID, THE HURIKAN SLAVE, cell 7",
+   "kind": "made",
+   "name": "vid_spin_s2",
+   "asset_id": "0ee13a02-34e6-43db-9244-6fcf30784b68",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "25c76409f5cd"
+  },
+  {
+   "label": "vid_out_s2, VID, THE HURIKAN SLAVE, cell 8",
+   "kind": "made",
+   "name": "vid_out_s2",
+   "asset_id": "0ee13a02-34e6-43db-9244-6fcf30784b68",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "678dd085a52f"
+  },
+  {
+   "label": "vid_s3, VID, THE HURIKAN SLAVE, cell 0",
+   "kind": "made",
+   "name": "vid_s3",
+   "asset_id": "071446fc-001c-4bcd-ab3f-aeeb3087f371",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "bdfc533e159b"
+  },
+  {
+   "label": "vid_peace_s3, VID, THE HURIKAN SLAVE, cell 1",
+   "kind": "made",
+   "name": "vid_peace_s3",
+   "asset_id": "071446fc-001c-4bcd-ab3f-aeeb3087f371",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "d0ceb4addb11"
+  },
+  {
+   "label": "vid_lasso_s3, VID, THE HURIKAN SLAVE, cell 2",
+   "kind": "made",
+   "name": "vid_lasso_s3",
+   "asset_id": "071446fc-001c-4bcd-ab3f-aeeb3087f371",
+   "sheet_cell": 2,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "e7147e49de0f"
+  },
+  {
+   "label": "vid_panel_s3, VID, THE HURIKAN SLAVE, cell 3",
+   "kind": "made",
+   "name": "vid_panel_s3",
+   "asset_id": "071446fc-001c-4bcd-ab3f-aeeb3087f371",
+   "sheet_cell": 3,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "9290d643eeb1"
+  },
+  {
+   "label": "vid_drink_s3, VID, THE HURIKAN SLAVE, cell 4",
+   "kind": "made",
+   "name": "vid_drink_s3",
+   "asset_id": "071446fc-001c-4bcd-ab3f-aeeb3087f371",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "38270f38d3ff"
+  },
+  {
+   "label": "vid_nap_s3, VID, THE HURIKAN SLAVE, cell 5",
+   "kind": "made",
+   "name": "vid_nap_s3",
+   "asset_id": "071446fc-001c-4bcd-ab3f-aeeb3087f371",
+   "sheet_cell": 5,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "4bccfcac4c6d"
+  },
+  {
+   "label": "vid_manga_s3, VID, THE HURIKAN SLAVE, cell 6",
+   "kind": "made",
+   "name": "vid_manga_s3",
+   "asset_id": "071446fc-001c-4bcd-ab3f-aeeb3087f371",
+   "sheet_cell": 6,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "e360700d58d1"
+  },
+  {
+   "label": "vid_spin_s3, VID, THE HURIKAN SLAVE, cell 7",
+   "kind": "made",
+   "name": "vid_spin_s3",
+   "asset_id": "071446fc-001c-4bcd-ab3f-aeeb3087f371",
+   "sheet_cell": 7,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "67c32e5f1222"
+  },
+  {
+   "label": "vid_out_s3, VID, THE HURIKAN SLAVE, cell 8",
+   "kind": "made",
+   "name": "vid_out_s3",
+   "asset_id": "071446fc-001c-4bcd-ab3f-aeeb3087f371",
+   "sheet_cell": 8,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "ca7b3953d0b6"
+  },
+  {
+   "label": "vid_bottle, VID, THE HURIKAN SLAVE, cell 0",
+   "kind": "made",
+   "name": "vid_bottle",
+   "asset_id": "840339d1-d57b-4095-b19b-aff66e25ef30",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "947852035231"
+  },
+  {
+   "label": "w_vidcable, VID, THE HURIKAN SLAVE, cell 4",
+   "kind": "made",
+   "name": "w_vidcable",
+   "asset_id": "840339d1-d57b-4095-b19b-aff66e25ef30",
+   "sheet_cell": 4,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "aee255344cf5"
+  },
+  {
+   "label": "vid_led, VID, THE HURIKAN SLAVE: drawn in code (vid_sheets.py)",
+   "kind": "made",
+   "name": "vid_led",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "3f2c59eedc75"
+  },
+  {
+   "label": "vid_led_on, VID, THE HURIKAN SLAVE: drawn in code (vid_sheets.py)",
+   "kind": "made",
+   "name": "vid_led_on",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "21f97efb6568"
+  },
+  {
+   "label": "vid_page, VID, THE HURIKAN SLAVE: drawn in code (vid_sheets.py)",
+   "kind": "made",
+   "name": "vid_page",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "b832326c8cf3"
   }
  ]
 }
