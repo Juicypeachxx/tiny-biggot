@@ -40803,6 +40803,32 @@
    "model": "gemini-nano-banana-2.1",
    "credits": 0,
    "sha12": "1c075e4b842c"
+  },
+  {
+   "label": "VID, THE HURIKAN SLAVE, the new floor guardian (his photos and his words, 23 Oct): nine poses in the bright look, 2K",
+   "kind": "sheet",
+   "name": "bright_vid",
+   "asset_id": "25167620-dabe-4f9a-a89f-cd26b8cab56d",
+   "job_id": "704649ab-fc46-4c6a-80c6-8e573e1e599e",
+   "style": [
+    "8e43ad1a-3a19-479b-89b7-89575ada6626",
+    "b233e31e-d4f4-47d3-885b-31910444c1a5",
+    "ea18035e-79c1-4409-973f-b62f8f330e48"
+   ],
+   "model": "gemini-nano-banana-2.1 2K",
+   "credits": 18,
+   "cells": [
+    "vid",
+    "vid_peace",
+    "vid_lasso",
+    "vid_panel",
+    "vid_drink",
+    "vid_nap",
+    "vid_manga",
+    "vid_spin",
+    "vid_out"
+   ],
+   "sha12": "e56272dcbd10"
   }
  ]
 }

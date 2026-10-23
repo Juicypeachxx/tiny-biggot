@@ -1855,6 +1855,13 @@ each point); the rest, proposed in the order it would be felt most, with names o
   stones). IPA 59.3 "Pixel Look".
 - 23 Oct 2026, next (his ask: "can we make new boss?"; his picks: someone from his life, from a
   photo he sends, like ARČI and ŠEFE; a floor guardian; only in the new look, branch
-  tiny-biggot-V2). Waiting for his photo and a few words about them. Then: drawn on SpriteCook
-  in the pixel look (one sheet: the guardian, its stages and poses; 87 credits left), shown to
-  him first; the fight built like arci.gd and sefe.gd (BOSS_STAGES.md); tests; an IPA.
+  tiny-biggot-V2). His photos and words (23 Oct): "Vid the hurikan slave"; "he works in video
+  engineering building LED walls and connecting cables, also he is drinking a lot of beer and work
+  a lot, he is always tired and loves One Piece manga". The photos: messy brown hair, stubble,
+  mirrored sunglasses, teal and grey shirts, grey shorts, coffee, the peace sign, a river rock.
+  - Drawn (sheet `resprite/spritecook/sheets/bright_vid.png`, 18 credits, 69 left): nine poses
+    (standing with a cable coil, peace sign, cable lasso, LED panel, beer, asleep on a flight case,
+    reading manga, hurricane spin, knocked out in cable). Sent to him; waiting for his yes.
+  - Then: his stage 2 and 3 looks and props on SpriteCook; the fight built like arci.gd and
+    sefe.gd (BOSS_STAGES.md); tests; an IPA. One Piece only as "manga": no character or logo
+    from it (rule 3).
