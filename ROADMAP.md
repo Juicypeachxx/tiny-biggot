@@ -1853,3 +1853,8 @@ each point); the rest, proposed in the order it would be felt most, with names o
   item drawn again as chunky pixel art (SpriteCook, the old pictures as the style guide); the
   rest in the pixel look (the old thick outline, fewer flat colours, bigger pixels; flat floor
   stones). IPA 59.3 "Pixel Look".
+- 23 Oct 2026, next (his ask: "can we make new boss?"; his picks: someone from his life, from a
+  photo he sends, like ARČI and ŠEFE; a floor guardian; only in the new look, branch
+  tiny-biggot-V2). Waiting for his photo and a few words about them. Then: drawn on SpriteCook
+  in the pixel look (one sheet: the guardian, its stages and poses; 87 credits left), shown to
+  him first; the fight built like arci.gd and sefe.gd (BOSS_STAGES.md); tests; an IPA.
