@@ -41228,6 +41228,807 @@
    "asset_id": null,
    "credits": 0,
    "sha12": "b832326c8cf3"
+  },
+  {
+   "label": "relic_binoculars: his icon sheet, icon 10 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_binoculars",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "fb3402fe37c3"
+  },
+  {
+   "label": "relic_sandbucket: his icon sheet, icon 12 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_sandbucket",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "c894c395322f"
+  },
+  {
+   "label": "relic_seashell: his icon sheet, icon 29 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_seashell",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "ed7f0579fbac"
+  },
+  {
+   "label": "relic_raffleticket: his icon sheet, icon 52 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_raffleticket",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "0395d4de6049"
+  },
+  {
+   "label": "relic_windupkey: his icon sheet, icon 53 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_windupkey",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "c0777b1c16ad"
+  },
+  {
+   "label": "relic_filmreel: his icon sheet, icon 71 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_filmreel",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "523bfc0a2577"
+  },
+  {
+   "label": "relic_diary: his icon sheet, icon 74 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_diary",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "d67d2fffa66e"
+  },
+  {
+   "label": "relic_gamepad: his icon sheet, icon 75 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_gamepad",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "383eac77d145"
+  },
+  {
+   "label": "relic_boombox: his icon sheet, icon 76 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_boombox",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "477d9d57c094"
+  },
+  {
+   "label": "relic_clapperboard: his icon sheet, icon 91 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_clapperboard",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "4ef5f5125ff2"
+  },
+  {
+   "label": "relic_palette: his icon sheet, icon 92 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_palette",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "8bce44bb6b3f"
+  },
+  {
+   "label": "relic_bookstack: his icon sheet, icon 94 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_bookstack",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "f81ef2e1c89a"
+  },
+  {
+   "label": "relic_handheld: his icon sheet, icon 95 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_handheld",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "38af04f687e2"
+  },
+  {
+   "label": "relic_mixtape: his icon sheet, icon 96 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_mixtape",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "e4a0c4a678d1"
+  },
+  {
+   "label": "relic_treasuremap: his icon sheet, icon 114 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_treasuremap",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "556a6201011e"
+  },
+  {
+   "label": "relic_vinyl: his icon sheet, icon 116 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_vinyl",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "d7338987db53"
+  },
+  {
+   "label": "relic_goldmedal: his icon sheet, icon 77 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_goldmedal",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "d886a02fcd81"
+  },
+  {
+   "label": "relic_silvermedal: his icon sheet, icon 97 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_silvermedal",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "b25b6148768e"
+  },
+  {
+   "label": "relic_bronzemedal: his icon sheet, icon 117 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_bronzemedal",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "4dcbc98aad9e"
+  },
+  {
+   "label": "relic_starbadge: his icon sheet, icon 82 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_starbadge",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "b2931963e8d4"
+  },
+  {
+   "label": "relic_luckystar: his icon sheet, icon 122 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_luckystar",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "5e77e2a5158c"
+  },
+  {
+   "label": "relic_racecup: his icon sheet, icon 159 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_racecup",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "714d189461de"
+  },
+  {
+   "label": "relic_championcup: his icon sheet, icon 160 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_championcup",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "7a0b6d8ccf7e"
+  },
+  {
+   "label": "relic_bugnet: his icon sheet, icon 180 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_bugnet",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "28786a41b62b"
+  },
+  {
+   "label": "relic_sandcastle: his icon sheet, icon 182 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_sandcastle",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "95fc6c0fe270"
+  },
+  {
+   "label": "relic_glowsticks: his icon sheet, icon 183 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_glowsticks",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "a549c4b13c11"
+  },
+  {
+   "label": "relic_picnicset: his icon sheet, icon 184 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_picnicset",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "874abf6df37e"
+  },
+  {
+   "label": "relic_goldnuggets: his icon sheet, icon 260 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_goldnuggets",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "3248d8604c1a"
+  },
+  {
+   "label": "relic_lunchbag: his icon sheet, icon 263 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_lunchbag",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "ca047b7d5316"
+  },
+  {
+   "label": "relic_cauldron: his icon sheet, icon 273 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_cauldron",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "3cd3540b8c1f"
+  },
+  {
+   "label": "relic_turtleshell: his icon sheet, icon 296 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_turtleshell",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "5f70dda8f315"
+  },
+  {
+   "label": "relic_balloons: his icon sheet, icon 297 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_balloons",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "699bcb0e7d1d"
+  },
+  {
+   "label": "relic_coinpurse: his icon sheet, icon 300 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_coinpurse",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "07edb9b4fbb2"
+  },
+  {
+   "label": "relic_ruby: his icon sheet, icon 301 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_ruby",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "21368b5c86bc"
+  },
+  {
+   "label": "relic_butterfly: his icon sheet, icon 374 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_butterfly",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "7c3897b73022"
+  },
+  {
+   "label": "relic_teddybear: his icon sheet, icon 375 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_teddybear",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "3710c5f42cee"
+  },
+  {
+   "label": "relic_rainbow: his icon sheet, icon 377 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_rainbow",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "b58169432e75"
+  },
+  {
+   "label": "relic_cherryblossom: his icon sheet, icon 380 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_cherryblossom",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "2669d00a9e31"
+  },
+  {
+   "label": "relic_smartphone: his icon sheet, icon 335 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_smartphone",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "5d3664012a13"
+  },
+  {
+   "label": "relic_microphone: his icon sheet, icon 336 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_microphone",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "6ecfb1fd1084"
+  },
+  {
+   "label": "relic_luckycard: his icon sheet, icon 338 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_luckycard",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "23f446b8dbfa"
+  },
+  {
+   "label": "relic_sparkler: his icon sheet, icon 339 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_sparkler",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "37aeacfdd0b6"
+  },
+  {
+   "label": "relic_present: his icon sheet, icon 340 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_present",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "2b0124c04c3b"
+  },
+  {
+   "label": "relic_partycracker: his icon sheet, icon 341 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_partycracker",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "9c4e8e667a23"
+  },
+  {
+   "label": "relic_camera: his icon sheet, icon 358 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_camera",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "6388559e322f"
+  },
+  {
+   "label": "relic_firecracker: his icon sheet, icon 359 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_firecracker",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "2d3fa6b816f6"
+  },
+  {
+   "label": "relic_toydrum: his icon sheet, icon 360 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_toydrum",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "5b7eddd79f5f"
+  },
+  {
+   "label": "relic_briefcase: his icon sheet, icon 361 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_briefcase",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "7bbfebeae03b"
+  },
+  {
+   "label": "relic_photoframe: his icon sheet, icon 381 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_photoframe",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "6ca97bc45b36"
+  },
+  {
+   "label": "relic_chessknight: his icon sheet, icon 382 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_chessknight",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "73840135b895"
+  },
+  {
+   "label": "relic_oldjournal: his icon sheet, icon 384 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_oldjournal",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "34ef3dc7bb6c"
+  },
+  {
+   "label": "relic_mysterybox: his icon sheet, icon 385 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_mysterybox",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "161532f5c53c"
+  },
+  {
+   "label": "relic_toydino: his icon sheet, icon 387 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_toydino",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "03da5ccdb751"
+  },
+  {
+   "label": "relic_goldenbell: his icon sheet, icon 171 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_goldenbell",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "ec152399ff01"
+  },
+  {
+   "label": "relic_bouquet: his icon sheet, icon 354 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_bouquet",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "ae8dc890eb71"
+  },
+  {
+   "label": "relic_bonsai: his icon sheet, icon 357 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_bonsai",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "8d91dc6c7ca5"
+  },
+  {
+   "label": "relic_victorybanner: his icon sheet, icon 353 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_victorybanner",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "f8d2767b1c1f"
+  },
+  {
+   "label": "relic_rainbowfan: his icon sheet, icon 331 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_rainbowfan",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "864826b6ab2b"
+  },
+  {
+   "label": "relic_maracas: his icon sheet, icon 333 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_maracas",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "3b9ba06444ee"
+  },
+  {
+   "label": "relic_papermoth: his icon sheet, icon 328 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "relic_papermoth",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "b8154f1e0f5d"
+  },
+  {
+   "label": "fish_mantaray: his icon sheet, icon 14 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_mantaray",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "99af50537930"
+  },
+  {
+   "label": "fish_rockfish: his icon sheet, icon 15 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_rockfish",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "fd91a6950bb2"
+  },
+  {
+   "label": "fish_clownfish: his icon sheet, icon 16 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_clownfish",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "4af38ee0e656"
+  },
+  {
+   "label": "fish_pufferfish: his icon sheet, icon 17 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_pufferfish",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "3701d1e2881b"
+  },
+  {
+   "label": "fish_bass: his icon sheet, icon 18 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_bass",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "07c642e21011"
+  },
+  {
+   "label": "fish_parrotfish: his icon sheet, icon 19 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_parrotfish",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "2f4237552e32"
+  },
+  {
+   "label": "fish_blueseahorse: his icon sheet, icon 20 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_blueseahorse",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "d8fb41026142"
+  },
+  {
+   "label": "fish_blueshark: his icon sheet, icon 35 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_blueshark",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "7b84b717e7f5"
+  },
+  {
+   "label": "fish_crayfish: his icon sheet, icon 36 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_crayfish",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "79ca11a62cab"
+  },
+  {
+   "label": "fish_squid: his icon sheet, icon 37 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_squid",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "c7c0424a32df"
+  },
+  {
+   "label": "fish_koi: his icon sheet, icon 38 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_koi",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "2e48af91e0e9"
+  },
+  {
+   "label": "fish_goldfish: his icon sheet, icon 39 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_goldfish",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "bd089e8f375d"
+  },
+  {
+   "label": "fish_mackerel: his icon sheet, icon 40 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_mackerel",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "6b1fec2506d1"
+  },
+  {
+   "label": "fish_bluetang: his icon sheet, icon 41 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_bluetang",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "d183a7ea7c55"
+  },
+  {
+   "label": "fish_catfish: his icon sheet, icon 56 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_catfish",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "d651a20321d6"
+  },
+  {
+   "label": "fish_redsnapper: his icon sheet, icon 57 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_redsnapper",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "2ac195fa46d6"
+  },
+  {
+   "label": "fish_trout: his icon sheet, icon 58 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_trout",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "c0edfc2fdf11"
+  },
+  {
+   "label": "fish_angelfish: his icon sheet, icon 59 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_angelfish",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "130c3298591e"
+  },
+  {
+   "label": "fish_perch: his icon sheet, icon 60 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_perch",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "8c60d41ddda0"
+  },
+  {
+   "label": "fish_wrasse: his icon sheet, icon 61 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_wrasse",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "4d19d144f080"
+  },
+  {
+   "label": "fish_swordfish: his icon sheet, icon 62 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_swordfish",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "61308ae6fa6b"
+  },
+  {
+   "label": "fish_goldseahorse: his icon sheet, icon 78 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_goldseahorse",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "428cfc2103f2"
+  },
+  {
+   "label": "fish_devilfish: his icon sheet, icon 79 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_devilfish",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "9e0189ec26f4"
+  },
+  {
+   "label": "fish_mudshark: his icon sheet, icon 80 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_mudshark",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "edf4e54d7233"
+  },
+  {
+   "label": "fish_sunfish: his icon sheet, icon 99 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_sunfish",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "0137f165e62c"
+  },
+  {
+   "label": "fish_greatshark: his icon sheet, icon 100 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_greatshark",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "62aa3784a2bf"
+  },
+  {
+   "label": "fish_anglerfish: his icon sheet, icon 119 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_anglerfish",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "5ba48634fb65"
+  },
+  {
+   "label": "fish_dolphin: his icon sheet, icon 120 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_dolphin",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "01c7522d51a5"
+  },
+  {
+   "label": "fish_hermitcrab: his icon sheet, icon 121 (resprite/icon_sheet, personal use)",
+   "kind": "made",
+   "name": "fish_hermitcrab",
+   "look": "pixel",
+   "asset_id": null,
+   "credits": 0,
+   "sha12": "3768a43f4f23"
   }
  ]
 }

@@ -190,14 +190,16 @@ static func paint_static(ci: CanvasItem, room: Room, rng: SeedRng) -> void:
 			var x := 120.0 + bi * 30.0
 			RoomDress._banner(ci, x, TB.c(e[1]).darkened(0.25), TB.c("#f4ecd8"))
 			bi += 1
-	# The fish wall by the pond: every fish, dark until caught.
+	# The fish wall by the pond: every fish, dark until caught. V2: four rows, as many to a row as
+	# it takes (45 fish: 12), on a board that starts left of the old one (the tree on its right).
 	var caught: Dictionary = Meta.meta["fish"] if Meta.meta.get("fish") is Dictionary else {}
-	ci.draw_rect(Rect2(204, 238, 100, 32), TB.c("#5a3a22"))
-	ci.draw_rect(Rect2(206, 240, 96, 28), TB.c("#7a5236"))
+	ci.draw_rect(Rect2(170, 228, 136, 42), TB.c("#5a3a22"))
+	ci.draw_rect(Rect2(172, 230, 132, 38), TB.c("#7a5236"))
+	var per_row := ceili(Fishing.FISH.size() / 4.0)
 	var k2 := 0
 	for id in Fishing.FISH:
-		var fx := 214 + (k2 % 6) * 15
-		var fy := 252 + (k2 / 6) * 10
+		var fx := 172.0 + (float(k2 % per_row) + 0.5) * 132.0 / per_row
+		var fy := 240 + (k2 / per_row) * 9
 		var spr := Fishing.sprite_of(id)
 		Gfx.sp(ci, spr, fx, fy, 1, 1, 0.0, false, 1.0 if caught.has(id) else 0.6, Color(0, 0, 0, 0) if caught.has(id) else Color(0.2, 0.14, 0.1, 1))
 		k2 += 1

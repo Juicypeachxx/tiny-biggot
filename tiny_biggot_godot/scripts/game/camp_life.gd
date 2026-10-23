@@ -582,13 +582,13 @@ static func draw_kitchen(ci: CanvasItem) -> void:
 		Gfx.text(ci, "(IT TAKES THE PLACE OF " + MEALS[m][0] + ")", x0, y + 10, "dim")
 	if CampBuild.built("garden"):
 		Gfx.text(ci, "THE HERB GARDEN: +1 MAX HEART WITH IT", x0, y + 22, "lime")
-	# The larder along the bottom.
+	# The larder along the bottom (V2: ten to a row, for 45 fish).
 	Gfx.text(ci, "THE LARDER", 16, 172, "tan")
 	var k2 := 0
 	for f in Fishing.FISH:
 		var n := int(larder().get(f, 0))
-		var fx := 22 + (k2 % 8) * 52
-		var fy := 196 + (k2 / 8) * 22
+		var fx := 22 + (k2 % 10) * 42
+		var fy := 192 + (k2 / 10) * 15
 		Gfx.sp(ci, Fishing.sprite_of(f), fx, fy, 1, 1, 0.0, false, 1.0 if n > 0 else 0.4)
 		Gfx.text(ci, "X%d" % n, fx + 10, fy - 7, "white" if n > 0 else "dim")
 		k2 += 1
