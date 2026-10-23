@@ -39,8 +39,9 @@ first and said where. Drawn on SpriteCook (four sheets, 66 credits, 21 left;
 `resprite/tools/vid_sheets.py`), the fight in `scripts/entities/vid.gd` like ŠEFE's
 (`BOSS_STAGES.md`, last section), `tests/vid_test`. The second floor is his in the expanded game;
 its three guardians are met on the fifth floor with THE RIME WARDEN, with its health there.
-Core replays re-recorded on purpose (content added); classic replays identical. IPA 59.4
-"Hurikan Slave".
+Core replays re-recorded on purpose (content added); classic replays identical; tools/check.sh:
+CHECK PASSED (the map test now lets a hidden room be Rex's barn: Vid's floor moved its dice). IPA
+59.4 "Hurikan Slave". Next (his word): his icon sheet's items, food and drinks first (ROADMAP.md).
 
 **10 Oct: his trait pictures.** 146 traits and 14 infusions to add (TRAITS_PLAN.md), in
 Stages 40 to 44 (STR, DEX, INT, SUPER/PSYCHIC/AUGMENT, infusions), then 45 the alignment shops.
