@@ -50,8 +50,10 @@ fish. The full check owed since 59.5 found five slips, all fixed: a ';' in two f
 text (not in the font), the jar of jam gave no attribute (every food does: now +1 INT), three
 relics shared an id or a name with older items (now PIRATE MAP, COIN POUCH, WISHING STAR), the
 pets test did not know his sheet's pets (it now checks each by the old pet it is based on).
-Core replays re-recorded on purpose (content added); classic replays identical. IPA 59.6 "Hats
-and Toys" once tools/check.sh passes.
+Core replays re-recorded on purpose (content added); classic replays identical. The second
+full run: every test and all 14 replays passed but one, the GILDED LOAF's measure in the food
+test, which missed by luck (40 hits of random size; it passed 9 runs of 9 alone): now 400 hits.
+IPA 59.6 "Hats and Toys" built from this branch, with a third full run alongside.
 
 **10 Oct: his trait pictures.** 146 traits and 14 infusions to add (TRAITS_PLAN.md), in
 Stages 40 to 44 (STR, DEX, INT, SUPER/PSYCHIC/AUGMENT, infusions), then 45 the alignment shops.

@@ -79,7 +79,7 @@ func _ready() -> void:
 	var gf_keep: float = p.gf["nocrit_dmg"]
 	var plain := 0.0
 	var loaf := 0.0
-	for i in 40:   # (hits roll within a damage range: an average)
+	for i in 400:   # (hits roll within a damage range: an average; 40 pairs missed by luck about 1 run in 60)
 		p.gf["nocrit_dmg"] = 0.0
 		e.hp = 1e9
 		Combat.damage_enemy(e, 100.0, { "no_crit": true, "silent": true })
