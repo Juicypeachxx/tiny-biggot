@@ -35,6 +35,71 @@ const FISH := {
 	"sunkenchest": ["SUNKEN CHEST", "#8a6a4a", "rare", 1.5, "A PIECE OF GEAR", []],
 	"moonkoi": ["MOONLIT KOI", "#c8f0ff", "legend", 2.2, "A RELIC AND FULL HEALTH", []],
 	"oldone": ["THE OLD ONE", "#3f7a5a", "legend", 2.5, "A RELIC AND +1 MAX HEART", []],
+	# V2 (his word, 23 Oct): the fish of his icon sheet (another artist's, for his own use only: CLAUDE.md,
+	# rule 3; branch tiny-biggot-V2 only, the repo private). Anywhere; what each catch gives: REWARD.
+	"mantaray": ["MANTA RAY", "#3a3a44", "rare", 1.6, "2 ARMOR", []],
+	"rockfish": ["ROCKFISH", "#d8443c", "common", 1.1, "12 GOLD", []],
+	"clownfish": ["CLOWNFISH", "#e8873a", "common", 1.0, "HEALS HALF A HEART", []],
+	"pufferfish": ["PUFFERFISH", "#f2c94c", "common", 1.2, "A BOMB", []],
+	"bass": ["LARGEMOUTH BASS", "#63b84f", "common", 1.2, "A MEAL", []],
+	"parrotfish": ["PARROTFISH", "#4dc8c8", "common", 1.1, "A GEM", []],
+	"blueseahorse": ["BLUE SEAHORSE", "#4d9be6", "rare", 1.5, "A KEY AND 15 GOLD", []],
+	"blueshark": ["BLUE SHARK", "#4d9be6", "rare", 1.9, "+1 WEAPON LEVEL", []],
+	"crayfish": ["CRAYFISH", "#d8643c", "common", 1.0, "8 GOLD", []],
+	"squid": ["SQUID", "#e86fb4", "common", 1.2, "A POTION", []],
+	"koi": ["KOI", "#f4ecd8", "rare", 1.6, "+1 LUCK", []],
+	"goldfish": ["GOLDFISH", "#f2a03c", "common", 0.9, "5 GOLD", []],
+	"mackerel": ["MACKEREL", "#6fd3e0", "common", 1.1, "A MEAL", []],
+	"bluetang": ["BLUE TANG", "#2a5ad8", "common", 1.1, "HEALS A HEART", []],
+	"catfish": ["CATFISH", "#7a5a3a", "common", 1.3, "A STAT PICKUP", []],
+	"redsnapper": ["RED SNAPPER", "#e8645a", "common", 1.1, "10 GOLD", []],
+	"trout": ["TROUT", "#a8a8b0", "common", 1.0, "A MEAL", []],
+	"angelfish": ["ANGELFISH", "#f2d24c", "rare", 1.5, "FULL HEALTH", []],
+	"perch": ["PERCH", "#9ad07a", "common", 1.0, "HEALS HALF A HEART", []],
+	"wrasse": ["TEAL WRASSE", "#3fb8b0", "common", 1.1, "A GEM", []],
+	"swordfish": ["SWORDFISH", "#2a4a8a", "rare", 1.9, "+1 WEAPON LEVEL", []],
+	"goldseahorse": ["GOLDEN SEAHORSE", "#f2a03c", "rare", 1.7, "50 GOLD", []],
+	"devilfish": ["RED DEVILFISH", "#c83c3c", "rare", 1.8, "A STAT PICKUP AND A BOMB", []],
+	"mudshark": ["MUD SHARK", "#6a5a4a", "rare", 1.8, "3 ARMOR", []],
+	"sunfish": ["SUNFISH", "#f2c94c", "rare", 1.6, "+1 TO YOUR BEST ATTRIBUTE", []],
+	"greatshark": ["GREAT SHARK", "#4d7ad8", "legend", 2.4, "A RELIC AND 2 ARMOR", []],
+	"anglerfish": ["ANGLERFISH", "#3fa8c8", "legend", 2.3, "A RELIC AND A KEY", []],
+	"dolphin": ["DOLPHIN", "#a8a8c8", "rare", 1.4, "IT SMILES AND SWIMS OFF: +1 LUCK", []],
+	"hermitcrab": ["HERMIT CRAB", "#c87a5a", "junk", 0.8, "3 GOLD", []],
+}
+## V2: what a fish of his sheet gives: ["gold", n], ["heal", n], ["armor", n], ["drop", pickup], ["food"]
+## (a meal), ["stat"] (a stat pickup), ["luck"] (+1 for the run), ["upgrade"] (+1 weapon level),
+## ["attr"] (+1 to the best attribute), ["relic"].
+const REWARD := {
+	"mantaray": [["armor", 2]],
+	"rockfish": [["gold", 12]],
+	"clownfish": [["heal", 1]],
+	"pufferfish": [["drop", "bomb"]],
+	"bass": [["food"]],
+	"parrotfish": [["drop", "gem"]],
+	"blueseahorse": [["drop", "key"], ["gold", 15]],
+	"blueshark": [["upgrade"]],
+	"crayfish": [["gold", 8]],
+	"squid": [["drop", "potion"]],
+	"koi": [["luck"]],
+	"goldfish": [["gold", 5]],
+	"mackerel": [["food"]],
+	"bluetang": [["heal", 2]],
+	"catfish": [["stat"]],
+	"redsnapper": [["gold", 10]],
+	"trout": [["food"]],
+	"angelfish": [["heal", 99]],
+	"perch": [["heal", 1]],
+	"wrasse": [["drop", "gem"]],
+	"swordfish": [["upgrade"]],
+	"goldseahorse": [["gold", 50]],
+	"devilfish": [["stat"], ["drop", "bomb"]],
+	"mudshark": [["armor", 3]],
+	"sunfish": [["attr"]],
+	"greatshark": [["relic"], ["armor", 2]],
+	"anglerfish": [["relic"], ["drop", "key"]],
+	"dolphin": [["luck"]],
+	"hermitcrab": [["gold", 3]],
 }
 const WEIGHT := { "common": 60, "junk": 22, "rare": 14, "legend": 4 }
 const RARITY_COL := { "common": "white", "junk": "grey", "rare": "gold", "legend": "pink" }
@@ -252,6 +317,9 @@ static func _reward(id: String) -> void:
 	var p := G.player
 	var x: float = pond["x"]
 	var y: float = pond["y"] + 12
+	if REWARD.has(id):   # V2: a fish of his sheet
+		_give(id, x, y)
+		return
 	match id:
 		"mudfin": p.heal(1)
 		"bonecarp": _gold(6)
@@ -279,6 +347,27 @@ static func _reward(id: String) -> void:
 			else:
 				p.max_hp += 2
 				p.hp += 2
+
+## V2: a fish of his sheet: what REWARD says.
+static func _give(id: String, x: float, y: float) -> void:
+	var p := G.player
+	for r in REWARD[id]:
+		match r[0]:
+			"gold": _gold(int(r[1]))
+			"heal": p.heal(int(r[1]))
+			"armor":
+				for i in int(r[1]):
+					Combat.drop_pickup("armor", x, y)
+			"drop": Combat.drop_pickup(r[1], x, y)
+			"food": Combat.drop_pickup(Food.roll_meal(), x, y)
+			"stat": StatDrops.maybe(1.0, x, y)
+			"luck": p.luck += 1
+			"upgrade": WeaponInfo.upgrade(p, 1)
+			"attr": Attributes.add(p, Attributes.highest(p), 1)
+			"relic":
+				var rel := G.roll_relics(1, "iron")
+				if not rel.is_empty():
+					G.add_relic(p, rel[0])
 
 static func _gold(n: int) -> void:
 	G.player.gold += n
