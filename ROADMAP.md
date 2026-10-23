@@ -1847,3 +1847,9 @@ each point); the rest, proposed in the order it would be felt most, with names o
 - 23 Oct 2026: V2 (his word: "make the armour on the hero in the new look too and package it to
   test"). The gear on the hero is drawn at double detail like the new heroes, shaded from the
   hero's own picture in the item's colours, fitted to every hero. IPA 59.2 "Bright Armour".
+- 23 Oct 2026: V2 (his word: "make all sprites and textures little bit more pixelated and to fit
+  my previous style, now it feels all ai and sterile"; then "if you find anything like this
+  resprite it", and his picks: test 2 for all items, the pixel look for the characters). Every
+  item drawn again as chunky pixel art (SpriteCook, the old pictures as the style guide); the
+  rest in the pixel look (the old thick outline, fewer flat colours, bigger pixels; flat floor
+  stones). IPA 59.3 "Pixel Look".

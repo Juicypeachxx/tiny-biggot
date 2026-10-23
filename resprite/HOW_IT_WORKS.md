@@ -608,12 +608,12 @@ good, you have some credits left if you find anything like this resprite it", an
     before V2 (`spritecook/style-old.png`, asset e6c03a1e-168d-461e-88ed-ab83464147f5);
   - SpriteCook gives a sheet back at about 32 of its pixels to a cell: each drawing goes into
     resprite/hd as it is (centred where today's picture is drawn), only one too big is shrunk;
-  - 29 sheets, 1023 items: weapons w01-w11, gear g01-g09, relics r01-r04, icons i01-i05 (i02
+  - 30 sheets, 1025 items: weapons w01-w11, gear g01-g09, relics r01-r04, icons i01-i05 (i02
     drew five of its six rows: its first four charms went onto i05b); the "made" pictures carry
     "look": "pixel" and go into the game as they are;
-  - not yet: ch_clover and ch_coin (sheet i06 planned; SpriteCook was down) have the pixel look.
+  - i06: the last two charms (ch_clover, ch_coin), once SpriteCook was back.
   - Pixel Engine (6 credits, true pixel art at the exact size) was down all day: worth a try.
 - **The armour on the hero** keeps the hero's own near-black outline and lines (`_lines` in
   `hero_gear.gd`), so an armoured hero is outlined like a bare one.
-- Credits: 459 before, 99 after (30 sheets).
+- Credits: 459 before, 87 after (31 sheets, the two tests among them).
 - **IPA 59.3 "Pixel Look"** from this branch.

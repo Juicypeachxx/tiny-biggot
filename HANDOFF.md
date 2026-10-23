@@ -21,7 +21,14 @@ identical; tools/check.sh: CHECK PASSED). IPA 59.1 "Bright Sprites" built from t
 ipa-59.1, also ipa-latest; 40 MB, built in 4 min). His "make the armour on the hero in the new look
 too" (23 Oct): the gear painted on the hero is drawn at double detail, fitted to each new hero
 (tests/gear_look_test); tools/check.sh: CHECK PASSED, every replay identical; IPA 59.2 "Bright
-Armour". He tests it on the iPad. Where it stands:
+Armour". His "make all sprites and textures little bit more pixelated and to fit my previous
+style, now it feels all ai and sterile" (23 Oct), and his picks from the test pictures: every
+item (1025 weapons, gear, relics, icons) drawn again on SpriteCook as chunky pixel art from its
+59.2 picture with the old pictures as the style guide (30 sheets; 87 credits left), and the pixel
+look on everything else (tools/pixel_look.py, run by hd_import.py: the old thick near-black
+outline, fewer and brighter flat colours, bigger pixels; flat floor stones with sharp joints;
+traits in three greys; effects left as they are). The armour keeps the hero's outline. IPA 59.3
+"Pixel Look". He tests it on the iPad. Where it stands:
 `resprite/HOW_IT_WORKS.md`, last section.
 
 **10 Oct: his trait pictures.** 146 traits and 14 infusions to add (TRAITS_PLAN.md), in

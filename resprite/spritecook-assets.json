@@ -20927,8 +20927,8 @@
    "sha12": "995dd2b6e0b6"
   },
   {
-   "label": "ch_clover, from sheet bright_i02 cell 4",
-   "kind": "made",
+   "label": "ch_clover, from sheet bright_i02 cell 4 (the 59.2 look; drawn again as chunky pixel art, 23 Oct)",
+   "kind": "alternative",
    "name": "ch_clover",
    "asset_id": "0b706230-b05e-40ae-a543-f63b4178a91a",
    "sheet_cell": 4,
@@ -20937,8 +20937,8 @@
    "sha12": "f10aed155868"
   },
   {
-   "label": "ch_coin, from sheet bright_i02 cell 5",
-   "kind": "made",
+   "label": "ch_coin, from sheet bright_i02 cell 5 (the 59.2 look; drawn again as chunky pixel art, 23 Oct)",
+   "kind": "alternative",
    "name": "ch_coin",
    "asset_id": "0b706230-b05e-40ae-a543-f63b4178a91a",
    "sheet_cell": 5,
@@ -40725,6 +40725,84 @@
    "model": "gemini-nano-banana-2.1",
    "credits": 0,
    "sha12": "55a52c2af6ca"
+  },
+  {
+   "label": "reference: the last two charms as in 59.2, x4 (resprite/spritecook/refs2/icons_i06_new.png)",
+   "kind": "reference",
+   "name": "icons_i06_new",
+   "asset_id": "f3598351-b8ce-46da-b5b4-13e400506e64"
+  },
+  {
+   "label": "icons sheet i06 as chunky pixel art (his pick, test 2), 23 Oct",
+   "kind": "sheet",
+   "name": "pixel_i06",
+   "asset_id": "87a60eb7-f6b7-4c8c-82ef-789604e4f004",
+   "job_id": "b6445f4f-2c3e-40da-9a33-f435a3479505",
+   "reference": "f3598351-b8ce-46da-b5b4-13e400506e64",
+   "style": "e6c03a1e-168d-461e-88ed-ab83464147f5",
+   "model": "gemini-nano-banana-2.1",
+   "credits": 12,
+   "cells": [
+    "ch_clover",
+    "ch_coin",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-"
+   ],
+   "sha12": "2b7b9325180e"
+  },
+  {
+   "label": "ch_clover, from sheet pixel_i06 cell 0",
+   "kind": "made",
+   "name": "ch_clover",
+   "look": "pixel",
+   "asset_id": "87a60eb7-f6b7-4c8c-82ef-789604e4f004",
+   "sheet_cell": 0,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "8de827de369e"
+  },
+  {
+   "label": "ch_coin, from sheet pixel_i06 cell 1",
+   "kind": "made",
+   "name": "ch_coin",
+   "look": "pixel",
+   "asset_id": "87a60eb7-f6b7-4c8c-82ef-789604e4f004",
+   "sheet_cell": 1,
+   "model": "gemini-nano-banana-2.1",
+   "credits": 0,
+   "sha12": "1c075e4b842c"
   }
  ]
 }
