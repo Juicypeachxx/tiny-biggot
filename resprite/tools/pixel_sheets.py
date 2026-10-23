@@ -3,8 +3,9 @@
 this resprite it"): the 59.2 designs, chunkier, with a bold outline and flat bright colours.
     python3 resprite/tools/pixel_sheets.py ref GROUP KEY
         -> resprite/spritecook/refs2/<group>_<key>_new.png and _prompt.txt
-    python3 resprite/tools/pixel_sheets.py add GROUP KEY ASSET_ID JOB_ID REFERENCE_ID
-        (the sheet downloaded to resprite/spritecook/sheets/pixel_<key>.png first)
+    python3 resprite/tools/pixel_sheets.py add GROUP KEY ASSET_ID JOB_ID REFERENCE_ID [ROWS SKIP]
+        (the sheet downloaded to resprite/spritecook/sheets/pixel_<key>.png first; ROWS and SKIP
+        for a sheet that came back short: i02 drew rows 2 to 6 only, so "5 6")
 GROUP is weapons, gear, relics or icons; KEY a sheet of its plan (refs/<group>_plan.json).
 - The reference: the sheet's pictures as they are in 59.2 (resprite/hd), x4 in the same 6 x 6
   grid. The style guide: the game's own pictures before V2 (spritecook/style-old.png, asset
@@ -59,9 +60,9 @@ def ref(group, key):
     os.makedirs(REFS2, exist_ok=True)
     out = os.path.join(REFS2, "%s_%s_new.png" % (group, key))
     sheet.save(out)
-    lead = p["prompt"].split(" The words are only")[0]
-    lead = lead.replace("keeps its shape, its colours and the way it faces", "keeps its design, its parts, its colours and the way it faces")
-    prompt = lead + " " + TAIL % across(cells)
+    lead = p["prompt"].split(" Each a clean")[0].split(" The words are only")[0]    # the names, row by row
+    lead = lead.replace("keeps its shape, its colours", "keeps its design, its parts, its colours")
+    prompt = lead + " " + TAIL % across(cells) + (" No hands, no frames." if group == "weapons" else "")
     open(os.path.join(REFS2, "%s_%s_prompt.txt" % (group, key)), "w").write(prompt + "\n")
     print(out, os.path.getsize(out), "bytes; prompt in", "%s_%s_prompt.txt" % (group, key))
 
@@ -80,12 +81,12 @@ def place(name):
     out.alpha_composite(spr, (x, y))
     out.save(os.path.join(HD, name + ".png"))
 
-def add(group, key, asset_id, job_id, reference):
-    cells = plan(group, key)["cells"]
+def add(group, key, asset_id, job_id, reference, rows=COLS, skip=0):
+    cells = plan(group, key)["cells"][skip:skip + rows * COLS]
     sheet = "pixel_%s" % key
     path = os.path.join(SHEETS, sheet + ".png")
     os.makedirs(RAW, exist_ok=True)
-    report, extra = cut(path, COLS, COLS, cells, out_dir=RAW)
+    report, extra = cut(path, COLS, rows, cells, out_dir=RAW)
     names = [n for n in cells if n != "-"]
     with open(MANIFEST) as f:
         man = json.load(f)
@@ -119,4 +120,4 @@ if __name__ == "__main__":
     if a[0] == "ref":
         ref(a[1], a[2])
     elif a[0] == "add":
-        add(a[1], a[2], a[3], a[4], a[5])
+        add(a[1], a[2], a[3], a[4], a[5], *(int(v) for v in a[6:8]))
