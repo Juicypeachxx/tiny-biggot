@@ -10,15 +10,30 @@ python3 resprite/tools/hd_import.py   -> tiny_biggot_godot/assets/graphics_hd/
   (a soft dark patch, a faint puddle): they keep today's see-through shape, with the new colours.
   (Solid, a scorch was a dark box on the floor.)
 - Not copied: the hexer's idle frames (a test of 21 Oct the game does not use).
-- A file that is no longer a new picture is taken away (with its .import)."""
+- A file that is no longer a new picture is taken away (with its .import).
+- The pixel look (23 Oct, his "little bit more pixelated and to fit my previous style"):
+  pixel_look.look() on every picture as it goes in; resprite/hd keeps them as they came. An
+  elite look (X_elite) is made again from X in the pixel look (elite_hd.elite), so its gold
+  outline is the outermost one."""
 import os, sys
 from PIL import Image, ImageChops
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from inventory import G, ROOT
+from pixel_look import look
+from elite_hd import elite
 
 HD = os.path.join(ROOT, "resprite", "hd")
 SOFT = ("fx_scorch", "fx_pool")
 OUT = os.path.join(ROOT, "tiny_biggot_godot", "assets", "graphics_hd")
+
+def _save(im, dst):
+    """Writes the picture only when it changed (so Godot does not import it again)."""
+    tmp = dst + ".new.png"
+    im.save(tmp, optimize=True)
+    if os.path.exists(dst) and open(dst, "rb").read() == open(tmp, "rb").read():
+        os.remove(tmp)
+    else:
+        os.replace(tmp, dst)
 
 def main():
     os.makedirs(OUT, exist_ok=True)
@@ -33,7 +48,7 @@ def main():
             w, h = im.size
             if w % 2 or h % 2:
                 im = im.convert("RGBA").resize((w + w % 2, h + h % 2), Image.NEAREST)
-            im.save(os.path.join(OUT, f))
+            _save(look(n, im, None), os.path.join(OUT, f))
             put.add(f)
             by["floor"] += 1
             continue
@@ -46,13 +61,18 @@ def main():
             bad.append("%s: %dx%d, today %dx%d" % (n, im.width, im.height, ow, oh))
             continue
         dst = os.path.join(OUT, f)
+        base = n.replace("_elite", "")
         if n in SOFT:
             im = im.convert("RGBA")
             soft = Image.open(old).convert("RGBA").getchannel("A").resize(im.size, Image.NEAREST)
             im.putalpha(ImageChops.darker(im.getchannel("A"), soft))     # the lesser of the two
-            im.save(dst)
-        elif not os.path.exists(dst) or open(dst, "rb").read() != open(os.path.join(HD, f), "rb").read():
-            open(dst, "wb").write(open(os.path.join(HD, f), "rb").read())
+            _save(im, dst)
+        elif base != n and os.path.exists(os.path.join(HD, base + ".png")) and os.path.exists(os.path.join(G, base + ".png")):
+            b = Image.open(os.path.join(HD, base + ".png"))
+            bo = Image.open(os.path.join(G, base + ".png")).size
+            _save(elite(look(base, b, bo), b.width // bo[0]), dst)
+        else:
+            _save(look(n, im, (ow, oh)), dst)
         put.add(f)
         by[k] += 1
     gone = 0
