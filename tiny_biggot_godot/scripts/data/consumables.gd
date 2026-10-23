@@ -18,6 +18,17 @@ const KINDS := {
 	"c_cider": { "name": "APPLE CIDER", "desc": "+2 TIPSY. BUFF: +10% ATTACK SPEED", "col": "#c8d84a" },
 	"c_grog": { "name": "SAILOR'S GROG", "desc": "+3 TIPSY. BUFF: +10% MOVE SPEED", "col": "#8a6a3a" },
 	"c_wine": { "name": "PLUM WINE", "desc": "+2 TIPSY. BUFF: +5% CRIT CHANCE", "col": "#a35bd6" },
+	# V2: the drinks of his icon sheet (they come with food: Food.MEAL_DRINKS).
+	"c_smoothie": { "name": "BERRY SMOOTHIE", "desc": "HEALS HALF A HEART. BUFF: +10% SHOT SPEED", "col": "#e86fb4" },
+	"c_cocoa": { "name": "HOT COCOA", "desc": "HEALS HALF A HEART. BUFF: +10% CRIT DAMAGE", "col": "#8a5a3a" },
+	"c_milk": { "name": "STRAWBERRY MILK", "desc": "+1 ARMOR. BUFF: +3% LUCKY HITS", "col": "#f4b8c8" },
+	"c_cocktail": { "name": "SUNSET COCKTAIL", "desc": "+2 TIPSY. BUFF: +5% ATTACK SPEED, +2% CRIT CHANCE", "col": "#e8873a" },
+	"c_matcha": { "name": "MATCHA", "desc": "BUFF: +10% RANGE", "col": "#9ad07a" },
+	"c_coconutwater": { "name": "COCONUT WATER", "desc": "HEALS A HEART. BUFF: +10 THORNS", "col": "#f4ecd8" },
+	"c_bubbletea": { "name": "BUBBLE TEA", "desc": "BUFF: +8% ATTACK SPEED", "col": "#c8a878" },
+	"c_coffee": { "name": "COFFEE", "desc": "BUFF: +12% MOVE SPEED", "col": "#6b4a2a" },
+	"c_juice": { "name": "JUICE BOX", "desc": "HEALS HALF A HEART. BUFF: +4% CRIT CHANCE", "col": "#f2c94c" },
+	"c_tankard": { "name": "TANKARD OF BEER", "desc": "+3 TIPSY. BUFF: +8% DAMAGE", "col": "#e8b84a" },
 }
 
 static func is_kind(k: String) -> bool:
@@ -33,7 +44,8 @@ static func data(k: String) -> Dictionary:
 static func random_kind() -> String:
 	if randf() < 0.35:
 		return Infusions.roll()
-	var pool: Array = KINDS.keys() + (Draughts.KINDS.keys() if Draughts.on() else [])   # 49.2: the room draughts too
+	var pool: Array = KINDS.keys().filter(func(k): return not k in Food.MEAL_DRINKS) \
+		+ (Draughts.KINDS.keys() if Draughts.on() else [])   # 49.2: the room draughts too (V2: not the meal drinks)
 	return pool[randi() % pool.size()]
 
 ## Picks up a consumable into the belt; false when the belt is full.
@@ -82,6 +94,20 @@ static func use(p: Player, i: int) -> void:
 		"c_cider", "c_wine":
 			Tipsy.add(p, 2)
 		"c_grog":
+			Tipsy.add(p, 3)
+		"c_smoothie":
+			p.heal(1)
+		"c_cocoa":
+			p.heal(1)
+		"c_milk":
+			p.armor += 1
+		"c_cocktail":
+			Tipsy.add(p, 2)
+		"c_coconutwater":
+			p.heal(2)
+		"c_juice":
+			p.heal(1)
+		"c_tankard":
 			Tipsy.add(p, 3)
 	Food.drink(p, kind)   # 36.3: its buff for 10 rooms
 	Snd.play("heal")

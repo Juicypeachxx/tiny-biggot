@@ -24,9 +24,44 @@ const FOODS := {
 	"f_nuts": ["SPICED NUTS", "+1 STR +1 DEX", [["attr", "str", 1], ["attr", "dex", 1]]],
 	"f_plum": ["DUSK PLUM", "+1 DEX +1 INT", [["attr", "dex", 1], ["attr", "int", 1]]],
 	"f_cheese": ["WHEEL OF CHEESE", "+1 DRINK BUFF AT ONCE", [["hook", "drink_slots", 1]]],
+	# V2 (his word, 23 Oct): the food of his icon sheet (another artist's, for his own use only:
+	# CLAUDE.md, rule 3; branch tiny-biggot-V2 only, the repo private). Drawn as they are, one pixel
+	# to each of the game's.
+	"f_strawberry": ["STRAWBERRY", "+1 DEX", [["attr", "dex", 1]]],
+	"f_orangeslice": ["ORANGE SLICE", "+1 DEX, HEALS HALF A HEART", [["attr", "dex", 1], ["add_cap", "hp", 1, "max_hp"]]],
+	"f_icecream": ["ICE CREAM", "+1 DEX +1 INT", [["attr", "dex", 1], ["attr", "int", 1]]],
+	"f_mango": ["MANGO", "+2 DEX", [["attr", "dex", 2]]],
+	"f_toadstool": ["TOADSTOOL", "+2 INT", [["attr", "int", 2]]],
+	"f_banana": ["BANANA", "+1 STR +1 DEX", [["attr", "str", 1], ["attr", "dex", 1]]],
+	"f_bubblegum": ["BUBBLEGUM", "+1 DEX", [["attr", "dex", 1]]],
+	"f_icepop": ["ICE POP", "+1 DEX, HEALS HALF A HEART", [["attr", "dex", 1], ["add_cap", "hp", 1, "max_hp"]]],
+	"f_coconut": ["COCONUT", "+2 STR", [["attr", "str", 2]]],
+	"f_orange": ["ORANGE", "+1 STR, HEALS HALF A HEART", [["attr", "str", 1], ["add_cap", "hp", 1, "max_hp"]]],
+	"f_watermelon": ["WATERMELON", "+1 DEX, HEALS A HEART", [["attr", "dex", 1], ["add_cap", "hp", 2, "max_hp"]]],
+	"f_pineapple": ["PINEAPPLE", "+1 STR +1 DEX", [["attr", "str", 1], ["attr", "dex", 1]]],
+	"f_seaweed": ["SEAWEED", "+1 INT, HEALS HALF A HEART", [["attr", "int", 1], ["add_cap", "hp", 1, "max_hp"]]],
+	"f_peapod": ["PEA POD", "+1 STR +1 INT", [["attr", "str", 1], ["attr", "int", 1]]],
+	"f_chili": ["CHILI PEPPER", "+3 STR", [["attr", "str", 3]]],
+	"f_cheesewedge": ["CHEESE WEDGE", "+1 STR +1 INT", [["attr", "str", 1], ["attr", "int", 1]]],
+	"f_eggplant": ["EGGPLANT", "+2 INT", [["attr", "int", 2]]],
+	"f_pancakes": ["PANCAKES", "+2 STR, HEALS HALF A HEART", [["attr", "str", 2], ["add_cap", "hp", 1, "max_hp"]]],
+	"f_cookie": ["COOKIE", "+1 DEX +1 INT", [["attr", "dex", 1], ["attr", "int", 1]]],
+	"f_donut": ["DONUT", "+2 DEX", [["attr", "dex", 2]]],
+	"f_popcorn": ["POPCORN", "+1 DEX, +1 ARMOR", [["attr", "dex", 1], ["grant", "armor", 1]]],
+	"f_cakeslice": ["CAKE SLICE", "+1 STR +1 DEX +1 INT", [["attr", "str", 1], ["attr", "dex", 1], ["attr", "int", 1]]],
+	"f_chocolate": ["CHOCOLATE BAR", "+2 INT", [["attr", "int", 2]]],
+	"f_muffin": ["MUFFIN", "+1 STR, HEALS HALF A HEART", [["attr", "str", 1], ["add_cap", "hp", 1, "max_hp"]]],
+	"f_burger": ["BURGER", "+3 STR", [["attr", "str", 3]]],
+	"f_stickybun": ["STICKY BUN", "+1 STR +1 DEX", [["attr", "str", 1], ["attr", "dex", 1]]],
+	"f_gingerbread": ["GINGERBREAD MAN", "+1 DEX, +1 ARMOR", [["attr", "dex", 1], ["grant", "armor", 1]]],
+	"f_croissant": ["CROISSANT", "+1 STR +1 INT", [["attr", "str", 1], ["attr", "int", 1]]],
+	"f_breakfast": ["BIG BREAKFAST", "+2 STR +1 DEX, HEALS A HEART", [["attr", "str", 2], ["attr", "dex", 1], ["add_cap", "hp", 2, "max_hp"]]],
+	"f_candy": ["SWEETS", "+1 INT", [["attr", "int", 1]]],
+	"f_jam": ["JAR OF JAM", "HEALS A HEART AND A HALF", [["add_cap", "hp", 3, "max_hp"]]],
 }
 const FOOD_W := { "f_bread": 6, "f_berries": 6, "f_mushroom": 6, "f_drumstick": 3, "f_carrot": 3, "f_turnip": 3,
-	"f_fishpie": 3, "f_nuts": 3, "f_plum": 3, "f_cheese": 2 }
+	"f_fishpie": 3, "f_nuts": 3, "f_plum": 3, "f_cheese": 2,
+	"f_strawberry": 2, "f_orangeslice": 2, "f_icecream": 2, "f_mango": 1, "f_toadstool": 1, "f_banana": 2, "f_bubblegum": 2, "f_icepop": 2, "f_coconut": 1, "f_orange": 2, "f_watermelon": 1, "f_pineapple": 2, "f_seaweed": 2, "f_peapod": 2, "f_chili": 1, "f_cheesewedge": 2, "f_eggplant": 1, "f_pancakes": 1, "f_cookie": 2, "f_donut": 1, "f_popcorn": 1, "f_cakeslice": 1, "f_chocolate": 1, "f_muffin": 2, "f_burger": 1, "f_stickybun": 2, "f_gingerbread": 1, "f_croissant": 2, "f_breakfast": 1, "f_candy": 2, "f_jam": 1 }
 const GOLDEN := {
 	"gf_loaf": ["GILDED LOAF", "+10% DAMAGE OF HITS THAT DO NOT CRIT", [["hook", "nocrit_dmg", 0.1]]],
 	"gf_sunfruit": ["SUNFRUIT", "+3% CRIT CHANCE", [["add", "crit", 0.03]]],
@@ -51,7 +86,22 @@ const DRINKS := {
 	"c_cider": ["CIDER", "+10% ATTACK SPEED", [["mul", "rate", 1.1]]],
 	"c_grog": ["GROG", "+10% MOVE SPEED", [["mul", "speed", 1.1]]],
 	"c_wine": ["PLUM WINE", "+5% CRIT CHANCE", [["add", "crit", 0.05]]],
+	# V2: the drinks of his icon sheet (they come with food: MEAL_DRINKS).
+	"c_smoothie": ["SMOOTHIE", "+10% SHOT SPEED", [["mul", "shot_speed", 1.1]]],
+	"c_cocoa": ["COCOA", "+10% CRIT DAMAGE", [["add", "crit_mult", 0.1]]],
+	"c_milk": ["MILK", "+3% LUCKY HITS", [["hook", "lucky", 0.03]]],
+	"c_cocktail": ["COCKTAIL", "+5% RATE +2% CRIT", [["mul", "rate", 1.05], ["add", "crit", 0.02]]],
+	"c_matcha": ["MATCHA", "+10% RANGE", [["mul", "life", 1.1]]],
+	"c_coconutwater": ["COCONUT WATER", "+10 THORNS", [["add", "thorns", 10]]],
+	"c_bubbletea": ["BUBBLE TEA", "+8% ATTACK SPEED", [["mul", "rate", 1.08]]],
+	"c_coffee": ["COFFEE", "+12% MOVE SPEED", [["mul", "speed", 1.12]]],
+	"c_juice": ["JUICE", "+4% CRIT CHANCE", [["add", "crit", 0.04]]],
+	"c_tankard": ["BEER", "+8% DAMAGE", [["pct", "dmg", 0.08]]],
 }
+## V2: a meal (a room's food reward, an elite's food) is now and then one of these drinks; they are
+## never the boss's or the elite's belt consumable (Consumables.random_kind leaves them out).
+const MEAL_DRINKS := ["c_smoothie", "c_cocoa", "c_milk", "c_cocktail", "c_matcha", "c_coconutwater", "c_bubbletea", "c_coffee", "c_juice", "c_tankard"]
+const DRINK_CHANCE := 0.2
 const SLOTS := 3
 const ROOMS := 10
 
@@ -71,6 +121,10 @@ static func info(k: String) -> Array:
 
 static func roll() -> String:
 	return TB.weighted(FOOD_W)
+
+## A food, or now and then a drink of his sheet (V2).
+static func roll_meal() -> String:
+	return MEAL_DRINKS.pick_random() if randf() < DRINK_CHANCE else roll()
 
 static func roll_golden() -> String:
 	return TB.pick(GOLDEN.keys())
@@ -96,7 +150,7 @@ static func take(p: Player, k: String) -> void:
 ## A chance of food at x, y (elites).
 static func maybe(chance: float, x: float, y: float) -> void:
 	if on() and randf() < chance:
-		Combat.drop_pickup(roll(), x, y)
+		Combat.drop_pickup(roll_meal(), x, y)
 
 ## Room rewards: "food" (a small meal) and "golden".
 static func reward(kind: String, cx: float, cy: float) -> void:
@@ -104,7 +158,7 @@ static func reward(kind: String, cx: float, cy: float) -> void:
 		Combat.drop_pickup(roll_golden(), cx, cy)
 		return
 	for i in 2 + (1 if randf() < 0.5 else 0):
-		Combat.drop_pickup(roll(), cx + (i - 1) * 14.0, cy)
+		Combat.drop_pickup(roll_meal(), cx + (i - 1) * 14.0, cy)
 
 ## World.roll_reward's extra rewards (expanded game only; classic keeps its weights).
 static func reward_weights(w: Dictionary, floor_index: int) -> void:
@@ -123,7 +177,7 @@ static func stock_shop(r: Room, cx: float, cy: float) -> void:
 static var labels: Array = []
 
 ## Short labels for the floor where the full text is long.
-const LABEL := { "f_cheese": "+1 DRINK", "gf_loaf": "+10% NO-CRIT", "gf_sunfruit": "+3% CRIT", "gf_quince": "+3% RATE", "gf_tart": "+15% CRIT DMG", "gf_egg": "+1 BEST STAT", "gf_bun": "+10% ALLIES", "gf_jelly": "+10% EFFECTS", "gf_cookie": "+3% LUCKY", "gf_date": "+1 HEART", "gf_honeycomb": "+1 ALL STATS" }
+const LABEL := { "f_orangeslice": "+1 DEX +HEAL", "f_icepop": "+1 DEX +HEAL", "f_orange": "+1 STR +HEAL", "f_watermelon": "+1 DEX +HEAL", "f_seaweed": "+1 INT +HEAL", "f_pancakes": "+2 STR +HEAL", "f_muffin": "+1 STR +HEAL", "f_popcorn": "+1 DEX +ARMOR", "f_gingerbread": "+1 DEX +ARMOR", "f_cakeslice": "+1 ALL", "f_breakfast": "+3 +HEAL", "f_jam": "HEAL", "f_cheese": "+1 DRINK", "gf_loaf": "+10% NO-CRIT", "gf_sunfruit": "+3% CRIT", "gf_quince": "+3% RATE", "gf_tart": "+15% CRIT DMG", "gf_egg": "+1 BEST STAT", "gf_bun": "+10% ALLIES", "gf_jelly": "+10% EFFECTS", "gf_cookie": "+3% LUCKY", "gf_date": "+1 HEART", "gf_honeycomb": "+1 ALL STATS" }
 
 ## Its label over it on the floor (world_view), as the stat pickups have.
 static func draw_label(ci: CanvasItem, k: Pickup, wob: float) -> void:

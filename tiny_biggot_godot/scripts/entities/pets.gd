@@ -50,8 +50,32 @@ const PETS := {
 		"EVERY 5S, A BIGGER BLAST", "EVERY 4S, AND THE BLAST LEAVES FIRE"] },
 	"rex": { "name": "REX", "kind": "A VERY GOOD BOY", "special": true, "lv": ["EVERY 8S FLOPS ONTO THE BIGGEST CROWD OF FOES",
 		"EVERY 7S, AND THE FLOP STUNS", "EVERY 6S. SUNGLASSES ON: THE FLOP THROWS A RING OF SHOTS"] },
+	# V2 (his word, 23 Oct): the animals of his icon sheet (another artist's, for his own use only: CLAUDE.md,
+	# rule 3; branch tiny-biggot-V2 only, the repo private). Each does what the pet it is "base"d on does
+	# (its own name, look and words); "fly": false for one that walks where its base flies.
+	"patch": { "name": "PATCH", "kind": "A SPOTTED PUP", "base": "biscuit", "lv": ["FETCHES WHAT DROPS AND BRINGS IT TO YOU",
+		"ALSO DIGS UP A COIN IN EVERY ROOM YOU CLEAR", "DIGS UP TWO, AND SOMETIMES A KEY"] },
+	"marmalade": { "name": "MARMALADE", "kind": "A GINGER CAT", "base": "snip", "lv": ["SCRATCHES FOES BESIDE YOU. EVERY 15 SCRATCHES: 1 ARMOR",
+		"SCRATCHES FASTER", "SCRATCHES FASTER STILL"] },
+	"ribbit": { "name": "RIBBIT", "kind": "A POND FROG", "base": "gulp", "lv": ["CATCHES ENEMY SHOTS WITH ITS TONGUE. EVERY 25: A COIN",
+		"CATCHES FASTER", "FASTER STILL. EVERY 25: A COIN AND A RING OF SHOTS"] },
+	"shelly": { "name": "SHELLY", "kind": "A SEA TURTLE", "base": "gloop", "lv": ["TAKES A HIT FOR YOU ON ITS SHELL, ONCE A ROOM",
+		"ALSO READY AGAIN 20S AFTER IT TAKES ONE", "AND ITS SHELL BURSTS INTO TEN SHOTS WHEN IT DOES"] },
+	"puff": { "name": "PUFF", "kind": "A PUFFERFISH", "base": "kaboomba", "lv": ["EVERY 6S RUSHES A FOE AND PUFFS UP: A BLAST. THEN PUFFS BACK DOWN",
+		"EVERY 5S, A BIGGER BLAST", "EVERY 4S, AND ITS SPINES LEAVE FIRE"] },
+	"bubbles": { "name": "BUBBLES", "kind": "A GOLDFISH IN A BOWL", "base": "zappy", "fly": false, "lv": ["SPITS A BUBBLE AT THE NEAREST FOE EVERY 1.4S",
+		"EVERY 1.1S", "EVERY 0.8S, AND THE BUBBLE JUMPS TO A SECOND FOE"] },
+	"capy": { "name": "CAPY", "kind": "A CALM CAPYBARA", "base": "glimmer", "fly": false, "lv": ["FOES NEAR IT RELAX: THEY TAKE 20% MORE DAMAGE. SNIFFS OUT HOLLOW WALLS",
+		"FOES NEAR IT TAKE 30% MORE", "40% MORE, AND A HOLLOW WALL OPENS WHERE IT SNIFFS"] },
+	"nibbles": { "name": "NIBBLES", "kind": "A HAMSTER IN A BALL", "base": "bramble", "lv": ["ROLLS INTO FOES EVERY 3S: THEY BLEED. KNOCKS SHOTS AWAY",
+		"ROLLS EVERY 2.4S AND HITS HARDER", "ROLLS EVERY 1.8S AND BOUNCES ON TO A SECOND FOE"] },
+	"peanut": { "name": "PEANUT", "kind": "A BABY ELEPHANT", "base": "rex", "lv": ["EVERY 8S STOMPS ONTO THE BIGGEST CROWD OF FOES",
+		"EVERY 7S, AND THE STOMP STUNS", "EVERY 6S. SUNGLASSES ON: THE STOMP THROWS A RING OF SHOTS"] },
+	"inky": { "name": "INKY", "kind": "A LITTLE OCTOPUS", "base": "hoots", "fly": false, "lv": ["EVERY 7S MARKS THE TOUGHEST FOE AND LASHES IT: A HEAVY BLOW",
+		"EVERY 6S, HARDER", "EVERY 5S. A FOE IT KILLS DROPS A GEM"] },
 }
-const IDS := ["biscuit", "zappy", "cindertail", "bramble", "glimmer", "gulp", "gloop", "hoots", "snip", "kaboomba"]
+const IDS := ["biscuit", "zappy", "cindertail", "bramble", "glimmer", "gulp", "gloop", "hoots", "snip", "kaboomba",
+	"patch", "marmalade", "ribbit", "shelly", "puff", "bubbles", "capy", "nibbles", "peanut", "inky"]   # V2: his sheet's
 
 # The pet's body: where it is and what it is doing (reset in each room).
 static var x := 0.0
@@ -74,6 +98,14 @@ static var hop_to := Vector2.ZERO       # rex: where he lands
 
 static func active(p: Player) -> bool:
 	return p != null and p.pet != ""
+
+## What a pet does: its own id, or the pet it is based on (V2: his sheet's animals).
+static func base(id: String) -> String:
+	return PETS[id].get("base", id) if PETS.has(id) else id
+
+## A pet that flies (it bobs higher and casts a smaller shadow).
+static func flies(id: String) -> bool:
+	return PETS.get(id, {}).get("fly", base(id) in ["zappy", "glimmer", "hoots"])
 
 static func lv_mult(p: Player) -> float:
 	return [1.0, 1.0, 1.4, 1.8][p.pet_lv]
@@ -109,7 +141,7 @@ static func enter_room(p: Player) -> void:
 	_mark = -1.0
 	if not active(p) or G.room == null:
 		return
-	if p.pet == "glimmer" and not G.room.secret_dirs.is_empty():
+	if base(p.pet) == "glimmer" and not G.room.secret_dirs.is_empty():
 		for d in ["e", "w", "n"]:
 			if G.room.secret_dirs.has(d):
 				wall = d
@@ -130,7 +162,7 @@ static func on_room_clear() -> void:
 	var p := G.player
 	if not active(p):
 		return
-	if p.pet == "biscuit" and p.pet_lv >= 2:
+	if base(p.pet) == "biscuit" and p.pet_lv >= 2:
 		# A good dig: coins, and now and then a key.
 		for i in (2 if p.pet_lv >= 3 else 1):
 			Combat.drop_pickup("coin", x, y)
@@ -140,7 +172,7 @@ static func on_room_clear() -> void:
 
 ## Gloop takes the hit (Combat._hurt_player_base): true when it did.
 static func absorb(p: Player) -> bool:
-	if not active(p) or p.pet != "gloop" or not ready or st == "splat":
+	if not active(p) or base(p.pet) != "gloop" or not ready or st == "splat":
 		return false
 	ready = false
 	st = "splat"
@@ -168,7 +200,7 @@ static func update(p: Player, dt: float) -> void:
 			keep.append(b)
 	bolts = keep
 	var fighting := G.enemies_active()
-	match p.pet:
+	match base(p.pet):
 		"biscuit": _biscuit(p, dt)
 		"zappy": _zappy(p, dt, fighting)
 		"cindertail": _cindertail(p, dt)
@@ -600,10 +632,10 @@ static func draw(ci: CanvasItem, p: Player, t0: float) -> void:
 	if not active(p) or st == "gone":
 		return
 	var spr := "pet_" + p.pet
-	var fly: bool = p.pet in ["zappy", "glimmer", "hoots"]
+	var fly: bool = flies(p.pet)
 	var bob := roundf(sin(t0 * (8.0 if fly else 5.0)) * (2.0 if fly else 0.6)) - (6.0 if fly else 0.0)
 	var flip := p.x < x if st == "follow" else false
-	match p.pet:
+	match base(p.pet):
 		"gloop":
 			if st == "splat":
 				ci.draw_rect(Rect2(roundf(x) - 6, roundf(y) + 2, 12, 3), Color(0.43, 0.83, 0.88, 0.7))
@@ -619,10 +651,10 @@ static func draw(ci: CanvasItem, p: Player, t0: float) -> void:
 		"glimmer":
 			ci.draw_circle(Vector2(x, y + bob - 4), 56.0, Color(1.0, 0.9, 0.5, 0.05))
 			ci.draw_circle(Vector2(x, y + bob - 4), 30.0, Color(1.0, 0.9, 0.5, 0.06))
-	if p.pet == "rex" and st == "hop":
+	if base(p.pet) == "rex" and st == "hop":
 		bob -= sin(minf(1.0, -t / 0.55) * PI) * 22.0
 	Gfx.sp(ci, spr, x, y + 6 + bob, 1.0, 1.0, 0.0, flip)
-	if p.pet == "rex" and p.pet_lv >= 3:
+	if base(p.pet) == "rex" and p.pet_lv >= 3:
 		ci.draw_rect(Rect2(roundf(x) - (5 if not flip else -1), roundf(y + bob) - 3, 5, 1), TB.c("#140f1c"))   # sunglasses
 	if p.pet_lv >= 2:
 		for i in p.pet_lv - 1:
@@ -635,13 +667,13 @@ static func draw_over(ci: CanvasItem, p: Player, t0: float) -> void:
 	for b in bolts:
 		ci.draw_line(b["a"], b["b"], Color(0.43, 0.83, 0.88, 0.9), 2.0)
 		ci.draw_line(b["a"], b["b"], Color(1, 1, 1, 1), 1.0)
-	if p.pet == "rex" and st == "hop":
+	if base(p.pet) == "rex" and st == "hop":
 		Afx.landing(ci, hop_to.x, hop_to.y + 4, 34.0, minf(1.0, -t / 0.55), TB.c("#f2c94c"), t0)
-	if p.pet == "hoots" and st == "mark":
+	if base(p.pet) == "hoots" and st == "mark":
 		var e := _foe()
 		if e != null:
 			Afx.landing(ci, e.x, e.y + e.r * 0.6, e.r + 8.0, 1.0 - _mark / 0.5, TB.c("#f2c94c"), t0)
-	if p.pet == "glimmer" and wall != "":
+	if base(p.pet) == "glimmer" and wall != "":
 		var at := World.door_center(wall)
 		if floori(t0 * 6) % 2 == 0:
 			ci.draw_circle(at, 10.0, Color(1.0, 0.9, 0.5, 0.25))

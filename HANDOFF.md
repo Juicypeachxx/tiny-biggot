@@ -41,7 +41,11 @@ first and said where. Drawn on SpriteCook (four sheets, 66 credits, 21 left;
 its three guardians are met on the fifth floor with THE RIME WARDEN, with its health there.
 Core replays re-recorded on purpose (content added); classic replays identical; tools/check.sh:
 CHECK PASSED (the map test now lets a hidden room be Rex's barn: Vid's floor moved its dice). IPA
-59.4 "Hurikan Slave". Next (his word): his icon sheet's items, food and drinks first (ROADMAP.md).
+59.4 "Hurikan Slave". Then his icon sheet (another artist's, personal use only: CLAUDE.md rule 3,
+`resprite/icon_sheet/README.md`; the repo is private now): IPA 59.5 "Pets and Weapons" (26 weapons,
+10 pets, 31 foods, 10 drinks), packaged without tools/check.sh at his word. The full check and
+the replays are owed: run them first next time (the new foods and weapons will change the core
+replays: re-record on purpose).
 
 **10 Oct: his trait pictures.** 146 traits and 14 infusions to add (TRAITS_PLAN.md), in
 Stages 40 to 44 (STR, DEX, INT, SUPER/PSYCHIC/AUGMENT, infusions), then 45 the alignment shops.

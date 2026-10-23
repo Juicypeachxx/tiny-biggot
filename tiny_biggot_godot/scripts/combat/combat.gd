@@ -1883,7 +1883,8 @@ const PICKUP_KINDS := ["coin", "gem", "heart", "potion", "bomb", "key", "armor",
 	"c_fury", "c_smoke", "c_whet", "c_insight",   # Rogues-layer belt consumables
 	"c_ale", "c_stout", "c_mead",   # 33.2 THE TAVERN's drinks
 	"die_reroll", "die_alter", "die_banish",   # 35.1 DICE (dice.gd)
-	"c_cider", "c_grog", "c_wine"]   # 36.3 more drinks (food.gd has the foods: Food.is_kind)
+	"c_cider", "c_grog", "c_wine",   # 36.3 more drinks (food.gd has the foods: Food.is_kind)
+	"c_smoothie", "c_cocoa", "c_milk", "c_cocktail", "c_matcha", "c_coconutwater", "c_bubbletea", "c_coffee", "c_juice", "c_tankard"]   # V2: his icon sheet's drinks
 
 ## Rogues layer: past this many pickups on the floor, new coins go straight
 ## into your purse (same gold), so long fights with gold-on-hit builds don't

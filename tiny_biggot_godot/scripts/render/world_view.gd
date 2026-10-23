@@ -806,7 +806,7 @@ func _paint_shadows(ci: CanvasItem, room: Room) -> void:
 	var p := G.player
 	shadow(ci, p.x, p.y + 5, 10 - p.air * 0.2)   # smaller while a leap carries the hero up
 	if Pets.active(p) and not Pets.st in ["gone", "splat"]:
-		shadow(ci, Pets.x, Pets.y + 5, 5 if p.pet in ["zappy", "glimmer", "hoots"] else 7)
+		shadow(ci, Pets.x, Pets.y + 5, 5 if Pets.flies(p.pet) else 7)
 
 # ---------- Entities (sorted by y) ----------
 func _enemy_sprite(e: Enemy) -> String:

@@ -24,6 +24,11 @@ cloud container).
 3. **Art is original.** The look takes ideas from Tiny Rogues, Dead Cells,
    Aion and League of Legends. No sprite, character, name or logo from any
    game is copied or traced.
+   His one exception (23 Oct, branch tiny-biggot-V2 only): the icon sheet in
+   `resprite/icon_sheet/` (another artist's, for personal use only). Only
+   while the repo is private, only in the game he plays himself: never on
+   claude/dev, ios-build or windows-build, never in a shared copy, no logos,
+   flags or emoji from it. Read its README before using it.
 4. **The expanded game is the core** (his word, 6 Oct). Everything added so
    far is part of the game and is kept, the same as the original. It is
    what he plays: classic rules only exist behind the test switch

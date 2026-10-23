@@ -1875,3 +1875,11 @@ each point); the rest, proposed in the order it would be felt most, with names o
     only (never claude/dev, ios-build or windows-build, never a shared copy), without the brand
     logos, flags, letter badges and emoji faces. A note under rule 3 in CLAUDE.md on that branch.
     Nothing of the sheet goes in while the repo is public.
+  - Done (his "start with weapons and pets", then "do weapons and pets and package it without
+    test"): IPA 59.5 "Pets and Weapons": 26 weapons (each on a family the game has: the fishing
+    rod hooks, the beach ball rolls, the paintbrush paints, the shooting star is a comet, the party
+    popper pops shots, guitars and the lyre are sound), 10 pets (each does what an old pet does:
+    `Pets.base`), and the food: 31 foods and 10 drinks (a meal is now and then a drink; never a
+    boss's belt drop). Not run: tools/check.sh (his word); run: the scripts load, the atlas test,
+    30 s of play with five of the new pets and weapons. Next: hats and wearables, toys and
+    gadgets, the fish (resprite/icon_sheet/README.md).
