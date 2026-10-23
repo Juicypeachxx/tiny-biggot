@@ -40,6 +40,11 @@ timeout 900 "$GODOT" --headless --path . --quit-after 400000 res://tests/atlas_t
 grep -E "^\[atlas\]|atlas test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:|WARNING" "$LOG"; then status=1; fi
 
+echo "== the gear painted on the hero, in the new look (59.1): every kind on every hero"
+timeout 900 "$GODOT" --headless --path . --quit-after 400000 res://tests/gear_look_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[gear\]|gear look test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== 10 s of play with the atlas packed at start-up instead, and with no atlas at all"
 for extra in "--no-bake" "--no-atlas"; do
   "$GODOT" --headless --path . --fixed-fps 60 --quit-after 600 -- --bot --smart-bot --god --seed=6 --hero=2 --room=elite $extra --no-save >"$LOG" 2>&1

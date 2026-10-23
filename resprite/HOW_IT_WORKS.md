@@ -552,3 +552,28 @@ His word: "ok do the engine and make the ipa".
 - **Not changed, on purpose:** the gear painted over the hero is still made of today's 12 x 14
   shapes, so a robe or hood still shows, over the new hero, in today's bigger pixels.
 - **IPA 59.1 "Bright Sprites"** from this branch (`ipa-59` stays his normal build).
+
+## 23 Oct: the armour on the hero in the new look (IPA 59.2)
+
+His word: "make the armour on the hero in the new look too and package it to test".
+
+- **Before:** the gear painted over the hero was today's 12 x 14 shapes in flat colours, in the
+  game's big pixels, over the new heroes.
+- **Now** (`scripts/render/hero_gear.gd`): drawn like the new heroes, two pixels to each of the
+  game's (24 x 28 over the 12 x 14 hero), with a dark outline and five shades from the item's
+  own colour (the commonest in its new icon), lit from the top left.
+  - **Body, feet, hands** (robe, plate, leather, cloak; boots, greaves; gloves) take the shape of
+    each hero's own picture, and its folds and lights: each of the hero's pixels there is given
+    the shade of its brightness among them, in the item's colours. Then each kind its marks: the
+    plate's seams, the leather's belt and buckle, the robe's sash and folds, the cloak hanging at
+    the sides with its clasp. The new heroes are all drawn alike (head in the top third, the neck
+    the narrowest row between, feet at the bottom), so one rule fits all 34.
+  - **Head:** a helm (its dome, cheek guards and nose guard, the face left open), a hood (the
+    face in its shadow), a hat, a crown, a mask: shapes of their own, over the head.
+  - **Small pieces:** the amulet's chain and stone, a charm at the belt, a ring on each hand, a
+    shield in the off hand.
+- **Test:** `tests/gear_look_test` (in `tools/check.sh`): every kind of gear (18) on every hero
+  (34) makes an outfit drawn at the hero's size; what goes on the body, feet and hands stays on
+  the hero's picture; the same outfit twice is the same pixels. With `--sheet=PATH` it draws every
+  hero bare and in five outfits.
+- **IPA 59.2 "Bright Armour"** from this branch.

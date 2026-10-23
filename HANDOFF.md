@@ -18,7 +18,9 @@ the engine draws at double detail (screen 896 x 576, every layer x2, every pictu
 with its finer pixels; the new pictures in `tiny_biggot_godot/assets/graphics_hd`), floors are one
 repeating texture, the elites are made from the new pictures. The rules are unchanged (every replay
 identical; tools/check.sh: CHECK PASSED). IPA 59.1 "Bright Sprites" built from this branch (release
-ipa-59.1, also ipa-latest; 40 MB, built in 4 min); he tests it on the iPad. Where it stands:
+ipa-59.1, also ipa-latest; 40 MB, built in 4 min). His "make the armour on the hero in the new look
+too" (23 Oct): the gear painted on the hero is drawn at double detail, fitted to each new hero
+(tests/gear_look_test); IPA 59.2 "Bright Armour". He tests it on the iPad. Where it stands:
 `resprite/HOW_IT_WORKS.md`, last section.
 
 **10 Oct: his trait pictures.** 146 traits and 14 infusions to add (TRAITS_PLAN.md), in

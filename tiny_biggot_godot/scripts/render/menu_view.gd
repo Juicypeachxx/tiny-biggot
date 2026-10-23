@@ -35,7 +35,7 @@ func _paint_sprites(ci: CanvasItem) -> void:
 	for s in _sprites:
 		Gfx.sp(ci, s[0], s[1], s[2], s[3], s[3], 0.0, s[4], s[5], s[6])
 		if s.size() > 7:
-			HeroGear.draw(ci, s[7], s[1], s[2], s[3], s[3], s[4], s[5])
+			HeroGear.draw(ci, s[7], s[1], s[2], s[3], s[3], s[4], s[5], s[0])
 
 func _shade(ci: CanvasItem, a: int) -> void:
 	ci.draw_rect(Rect2(0, 0, TB.SW, TB.SH), TB.rgba(13, 10, 18, a))

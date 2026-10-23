@@ -1844,3 +1844,6 @@ each point); the rest, proposed in the order it would be felt most, with names o
   every layer x2), every picture keeps today's size with its finer pixels, floors are one repeating
   texture each, the elites' gold outline is made from the new pictures. The rules are unchanged.
   IPA 59.1 "Bright Sprites" (59 stays his normal build).
+- 23 Oct 2026: V2 (his word: "make the armour on the hero in the new look too and package it to
+  test"). The gear on the hero is drawn at double detail like the new heroes, shaded from the
+  hero's own picture in the item's colours, fitted to every hero. IPA 59.2 "Bright Armour".
