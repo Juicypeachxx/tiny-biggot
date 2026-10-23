@@ -267,10 +267,12 @@ func start_floor() -> void:
 	floor_d = World.new_floor(floor_index)
 	var own: String = GameData.floors()[floor_index]["boss"] if floor_index < GameData.floors().size() else ""
 	if GameData.rogues() and GameData.OWN_GUARDIANS.has(own):
-		floor_d["guardian"] = GameData.OWN_GUARDIANS[own]   # 58: ARČI guards the first floor; 59: ŠEFE the third
-	elif GameData.rogues() and GameData.ALT_GUARDIANS.has(floor_index):
-		# 9.3: the floor's second guardian half the time; 58: with a third, each a third of the time.
-		var alts: Array = [GameData.ALT_GUARDIANS[floor_index]] + GameData.MORE_GUARDIANS.get(own, [])
+		floor_d["guardian"] = GameData.OWN_GUARDIANS[own]   # 58: ARČI guards the first floor; 59: ŠEFE the third; V2: VID the second
+	elif GameData.rogues() and (GameData.ALT_GUARDIANS.has(floor_index) or GameData.MORE_GUARDIANS.has(own)):
+		# 9.3: the floor's second guardian half the time; 58: with a third, each a third of the time;
+		# V2: the fifth floor, with no second guardian before, has the second floor's three (each a quarter).
+		var alts: Array = ([GameData.ALT_GUARDIANS[floor_index]] if GameData.ALT_GUARDIANS.has(floor_index) else []) \
+			+ GameData.MORE_GUARDIANS.get(own, [])
 		var r := randf()
 		if r < 1.0 - 1.0 / (alts.size() + 1):
 			floor_d["guardian"] = alts[int(r * (alts.size() + 1))]
@@ -1050,6 +1052,8 @@ func on_boss_dead(b: Enemy) -> void:
 		Arci.on_beaten(b)   # 58: a good boy rolls over; the floor goes on as after any guardian
 	elif b.boss == "sefe":
 		Sefe.on_beaten(b)   # 59: he passes out; the floor goes on
+	elif b.boss == "vid":
+		Vid.on_beaten(b)   # V2: he clocks out; the floor goes on
 	if Daily.is_on("giants"):
 		for rel in roll_relics(2, "boss"):   # 18.1 BIG GAME
 			add_relic(player, rel)
@@ -2768,7 +2772,14 @@ func update_play(dt: float) -> void:
 				else:
 					show_banner(boss.d["name"], "GUARDIAN OF " + room.theme["name"])
 			else:
-				Combat.spawn_boss(floor_d.get("guardian", GameData.floors()[floor_index]["boss"]))   # 9.3: maybe the second guardian
+				var own: String = GameData.floors()[floor_index]["boss"]
+				Combat.spawn_boss(floor_d.get("guardian", own))   # 9.3: maybe the second guardian
+				if GameData.rogues() and own == "rimewarden" and boss.boss != own:
+					# V2: the second floor's three, met on the fifth floor now (VID took theirs), have THE RIME
+					# WARDEN's health there: the fifth floor's fight is as long as it was.
+					var k := float(GameData.BOSSES[own]["hp"]) / float(boss.d["hp"])
+					boss.hp *= k
+					boss.max_hp *= k
 				show_banner(boss.d["name"], boss.d.get("line", ""))
 	if win_timer != null:
 		win_timer -= dt

@@ -50,6 +50,7 @@ const PLANS := {
 	"rex": [["flop", "zoomies", "dig", "woof", "nap"], ["spin", "leap", "fetch", "flop", "wave", "woof"]],   # rex.gd
 	"arci": [["frisbee", "boop", "dropit", "herd", "frisbee", "cat", "crash"], ["frenzy", "stick", "dropit", "bounce", "boop", "frisbee", "cat", "crash"]],   # arci.gd
 	"sefe": [["fingerguns", "mog", "smoke", "fingerguns", "beer", "zoned"], ["bigone", "fingerguns", "chainsaw", "mog", "axe", "beer", "smoke", "zoned"]],   # sefe.gd
+	"vid": [["peace", "ledwall", "cables", "beer", "peace", "nap", "manga"], ["hurikan", "peace", "lasso", "walldeath", "ledwall", "dive", "beer", "cables", "nap"]],   # vid.gd
 }
 const PHASE_LINE := {
 	"squallheron": "THE SQUALL BREAKS", "stormcrown": "THE EYE OF THE STORM OPENS",
@@ -58,9 +59,10 @@ const PHASE_LINE := {
 	"rex": "SUNGLASSES ON. HE FOUND A MOLDY LOAF IN THE HAY",
 	"arci": "SUNGLASSES ON. TOO COOL TO STOP",
 	"sefe": "THE CROWN GOES ON. RESPECT THE BLOK",
+	"vid": "HE TRANSFORMS: METAL FORM!",
 }
 const COL := { "squallheron": "#9fc3ee", "stormcrown": "#6fd3e0", "tidecaptain": "#63b84f", "bilgehydra": "#b8e05a",
-	"bellringer": "#f2c94c", "brassorgan": "#e8873a", "rex": "#f2c94c", "arci": "#e86fb4", "sefe": "#9ad07a" }
+	"bellringer": "#f2c94c", "brassorgan": "#e8873a", "rex": "#f2c94c", "arci": "#e86fb4", "sefe": "#9ad07a", "vid": "#3fb8b0" }
 ## The organ's pipes: column and top row in its 40 x 28 picture (drawn twice as large).
 const PIPE_COL := [3.5, 7.5, 10.5, 13.5, 16.5, 19.5, 22.5, 25.5, 28.5, 31.5, 35.5]
 const PIPE_ROW := [4, 1, 6, 1, 6, 1, 6, 1, 6, 1, 4]
@@ -110,6 +112,8 @@ static func adjust_damage(e: Enemy, dmg: float) -> float:
 		return Arci.adjust_damage(e, dmg)
 	if e.boss == "sefe":
 		return Sefe.adjust_damage(e, dmg)
+	if e.boss == "vid":
+		return Vid.adjust_damage(e, dmg)
 	return dmg
 
 ## A mini-boss down (Combat.kill_enemy): its things stop, and it leaves a little hoard.
@@ -151,6 +155,8 @@ static func update(e: Enemy, dt: float) -> void:
 			Arci.to_cool(e, dt)
 		if k == "sefe":
 			Sefe.to_king(e, dt)
+		if k == "vid":
+			Vid.to_metal(e, dt)
 		_idle_parts(e, k, dt)
 		if e.st >= PHASE_T:
 			e.phase = 2
@@ -181,6 +187,7 @@ static func update(e: Enemy, dt: float) -> void:
 		"rex": Rex.attack(e, p, dt)
 		"arci": Arci.attack(e, p, dt)
 		"sefe": Sefe.attack(e, p, dt)
+		"vid": Vid.attack(e, p, dt)
 	_idle_parts(e, k, dt)
 
 static func _setup(e: Enemy, k: String) -> void:
@@ -202,6 +209,8 @@ static func _setup(e: Enemy, k: String) -> void:
 			e.parts = [{ "kind": "arci", "discs": [], "cat": {}, "out": false }]
 		"sefe":
 			e.parts = [{ "kind": "sefe", "hits": 0, "can": {}, "axes": [], "out": false }]
+		"vid":
+			e.parts = [{ "kind": "vid", "wall": {}, "cables": [], "bottles": [], "out": false }]
 		_:
 			e.parts = [{ "kind": "none" }]
 
@@ -271,6 +280,8 @@ static func _rest_move(e: Enemy, k: String, p: Player, dt: float) -> void:
 			Arci.rest_move(e, p, dt)
 		"sefe":
 			Sefe.rest_move(e, p, dt)
+		"vid":
+			Vid.rest_move(e, p, dt)
 
 static func _pull(e: Enemy, p: Player, dt: float) -> void:
 	if p.dodge_t > 0 or p.leap_max > 0:
@@ -283,7 +294,7 @@ static func _pull(e: Enemy, p: Player, dt: float) -> void:
 
 static func _shot(k: String) -> String:
 	return { "squallheron": "cyan", "stormcrown": "cyan", "tidecaptain": "spore", "bilgehydra": "spore",
-		"bellringer": "bone", "brassorgan": "fire", "rex": "bone", "arci": "bone", "sefe": "red" }[k]
+		"bellringer": "bone", "brassorgan": "fire", "rex": "bone", "arci": "bone", "sefe": "red", "vid": "cyan" }[k]
 
 ## A point kept inside the room.
 static func _inside(v: Vector2) -> Vector2:
@@ -1139,6 +1150,8 @@ static func draw_ground(ci: CanvasItem, t: float) -> void:
 				Arci.draw_ground(ci, e, t)
 			"sefe":
 				Sefe.draw_ground(ci, e, t)
+			"vid":
+				Vid.draw_ground(ci, e, t)
 			"tidecaptain":
 				if e.state == &"anchor" and e.sub == 1:
 					Afx.lane(ci, e.x, e.y, e.ca, 5.0, e.aux2, e.st / 0.6, Afx.C_WARN, t)
@@ -1354,6 +1367,8 @@ static func draw_parts(ci: CanvasItem, e: Enemy, foot: float, t: float) -> void:
 			Arci.draw_parts(ci, e, foot, t)
 		"sefe":
 			Sefe.draw_parts(ci, e, foot, t)
+		"vid":
+			Vid.draw_parts(ci, e, foot, t)
 		"tidecaptain":
 			if e.parts[0]["out"]:
 				var hand := Vector2(e.x + 6 * e.face, e.y + 2)

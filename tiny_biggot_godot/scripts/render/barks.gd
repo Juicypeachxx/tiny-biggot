@@ -98,6 +98,7 @@ const BOSS_LINES := {
 	"archmage": "A LESSON, THEN.", "phoenix": "I RISE.", "wyrm": "YOU ARE SMALL.", "chainfiend": "THE CHAINS HUNGER.",
 	"seraph": "BE JUDGED.", "rex": "WOOF.", "arci": "FRISBEE?! THROW THE FRISBEE!",   # 58: his border collie
 	"sefe": "KAJ GLEDAŠ?! THIS IS MY BLOK.",   # 59
+	"vid": "OVERTIME AGAIN? FINE. PEACE.",   # V2
 	"braysalot": "HEE-HAW! I AM THE HERO OF THIS STORY!", "scalesworth": "VOTE FOR ME. OR ELSE.",   # 55 THE LAST LAUGH
 	"prophet": "THE END IS NIGH! I TOLD YOU ALL!", "chonk": "YOU ARE IN MY SPOT.",
 }

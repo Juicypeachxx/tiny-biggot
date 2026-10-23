@@ -638,6 +638,8 @@ func _paint_lower(ci: CanvasItem) -> void:
 				Arci.draw_rest(ci, o, t)   # 58: a good boy, asleep where he fell
 			"sefe_rest":
 				Sefe.draw_rest(ci, o, t)   # 59: passed out where he stood
+			"vid_rest":
+				Vid.draw_rest(ci, o, t)   # V2: clocked out where he stood
 			"jukebox":
 				Gfx.sp(ci, "jukebox", x, y + 10, 2, 2)
 				if not o.get("used", false) and floori(t * 4) % 2 == 0:
@@ -812,6 +814,8 @@ func _enemy_sprite(e: Enemy) -> String:
 		return Arci.sprite(e)   # 58: standing, running, asleep on his back; sunglasses from his second phase
 	if e.boss == "sefe":
 		return Sefe.sprite(e)   # 59: standing, the squat, the can, zoned out; the crown from his second phase
+	if e.boss == "vid":
+		return Vid.sprite(e)   # V2: a pose for each move; his metal form from his second phase
 	if e.boss == "rex":
 		var rs := Rex.sprite(e)   # lying down to sleep, nap and run
 		var rl := Stages.look(e)   # 6.2: party Rex, then super Rex (his ask: cute, not scary)

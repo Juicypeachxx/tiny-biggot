@@ -1,8 +1,9 @@
 extends Node
 ## Stage 58 (his word, 12 Oct, with ten photos of his dog): ARČI THE PUSSY SLAYER guards the first
 ## floor (arci.gd). Run: godot --headless --path . res://tests/stage58_test.tscn -- --no-save
-## 1 Floors: the expanded game's first floor has him (--classic: THE BONE COLOSSUS); the second
-##   floor has THE SPORE MOTHER, THE WALRUS ADMIRAL or THE BONE COLOSSUS, each about a third of the time.
+## 1 Floors: the expanded game's first floor has him (--classic: THE BONE COLOSSUS); the Colossus is
+##   met on the fifth floor (V2: VID took the second), with THE RIME WARDEN, THE SPORE MOTHER and THE
+##   WALRUS ADMIRAL, each about a quarter of the time.
 ## 2 His name in the pixel font: Č, Š and Ž are C, S and Z (with a hook drawn over them).
 ## 3 Each of his moves plays out and ends, and hurts a hero standing where it was shown: BOOP, FRISBEE,
 ##   HERDING, CAT!, STICK, FRENZY, BOUNCE; CRASH: asleep on his back he takes half again as much, and
@@ -70,23 +71,24 @@ func _floors() -> void:
 	_run(0)
 	if G.floor_d.get("guardian", "") != "arci":
 		fail("the first floor's guardian is %s (want arci)" % G.floor_d.get("guardian", GameData.floors()[0]["boss"]))
+	# V2 (23 Oct): VID took the second floor; its three (the Colossus with them) are met on the fifth.
 	var seen := {}
 	for i in 300:
-		G.floor_index = 1
+		G.floor_index = 4
 		G.start_floor()
-		var k: String = G.floor_d.get("guardian", GameData.floors()[1]["boss"])
+		var k: String = G.floor_d.get("guardian", GameData.floors()[4]["boss"])
 		seen[k] = seen.get(k, 0) + 1
-	for k in ["sporemother", "admiral", "colossus"]:
-		if seen.get(k, 0) < 60 or seen.get(k, 0) > 140:
-			fail("the second floor had %s %d times in 300 (want about 100): %s" % [k, seen.get(k, 0), seen])
-	if seen.size() != 3:
-		fail("the second floor's guardians: %s (want the three)" % seen)
+	for k in ["rimewarden", "sporemother", "admiral", "colossus"]:
+		if seen.get(k, 0) < 40 or seen.get(k, 0) > 110:
+			fail("the fifth floor had %s %d times in 300 (want about 75): %s" % [k, seen.get(k, 0), seen])
+	if seen.size() != 4:
+		fail("the fifth floor's guardians: %s (want the four)" % seen)
 	GameData.force_classic = true
 	_run(0)
 	if G.floor_d.has("guardian"):
 		fail("--classic: the first floor's guardian is %s (want the Colossus)" % G.floor_d["guardian"])
 	GameData.force_classic = false
-	print("[stage58] floor 1: arci; floor 2 in 300: %s; --classic floor 1: colossus" % seen)
+	print("[stage58] floor 1: arci; floor 5 in 300: %s; --classic floor 1: colossus" % seen)
 
 # ---------- 2 ----------
 func _font() -> void:

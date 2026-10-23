@@ -422,6 +422,11 @@ timeout 900 "$GODOT" --headless --path . res://tests/stage59_test.tscn -- --no-s
 grep -E "^\[stage59\]|stage59 test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== V2 VID, THE HURIKAN SLAVE, the second floor's guardian: floors, the font, his moves, his forms, beaten"
+timeout 900 "$GODOT" --headless --path . res://tests/vid_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[vid\]|vid test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== 18.1 the daily trial"
 timeout 300 "$GODOT" --headless --path . res://tests/daily_test.tscn -- --no-save >"$LOG" 2>&1
 grep -E "daily test" "$LOG"

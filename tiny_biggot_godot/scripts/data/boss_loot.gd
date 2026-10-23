@@ -18,6 +18,7 @@ const DROPS := {
 	"rex": ["weapon", "moldyloaf"],
 	"arci": ["weapon", "arcifrisbee"],   # 58
 	"sefe": ["weapon", "sefefingerguns"],   # 59
+	"vid": ["weapon", "vidcable"],   # V2
 	"tidecaptain": ["weapon", "captainsanchor"],
 	"enforcer": ["weapon", "enforcergun"],
 	"carrionknight": ["weapon", "carrionlance"],

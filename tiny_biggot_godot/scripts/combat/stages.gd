@@ -9,7 +9,8 @@ extends RefCounted
 
 const LINES := ["IT GROWS FURIOUS", "IT FIGHTS FOR ITS LIFE"]
 const OWN_LINES := { "arci": ["HE FOUND HIS SECOND WIND", "HE WILL NEVER, EVER BE TIRED"],   # 58: his dog
-	"sefe": ["HE OPENS ANOTHER ONE", "THE BLOK NEVER SLEEPS"] }   # 59
+	"sefe": ["HE OPENS ANOTHER ONE", "THE BLOK NEVER SLEEPS"],   # 59
+	"vid": ["THE COFFEE KICKS IN", "FULL METAL HURIKAN"] }   # V2
 
 static func applies(e: Enemy) -> bool:
 	if not GameData.rogues() or e.type == "dummy":

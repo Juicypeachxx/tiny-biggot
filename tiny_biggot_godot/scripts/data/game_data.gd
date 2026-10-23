@@ -673,15 +673,20 @@ const ENEMIES := {
 }
 
 ## 9.3 (his ask, 6 Oct): seven floors have a second guardian, met half the time (game.start_floor).
-const ALT_GUARDIANS := { 1: "admiral", 3: "golemking", 5: "archmage", 6: "phoenix", 8: "wyrm", 9: "chainfiend", 10: "seraph" }
+## V2 (23 Oct): THE WALRUS ADMIRAL left the second floor with VID (below): MORE_GUARDIANS.
+const ALT_GUARDIANS := { 3: "golemking", 5: "archmage", 6: "phoenix", 8: "wyrm", 9: "chainfiend", 10: "seraph" }
 ## 58 (his word, 12 Oct): ARČI, his border collie, guards the first floor of the expanded game in
 ## THE BONE COLOSSUS's place (Game.start_floor), and the Colossus is one more guardian a floor with
 ## THE SPORE MOTHER may have (his pick: "Floor 2, sometimes"): each of the floor's guardians as often.
 ## 59 (his word, 13 Oct): ŠEFE, KING OF THE BLOK, guards the third floor in THE DROWNED LIBRARIAN's
 ## place (his pick: "Floor 3, always"), and the Librarian is one more guardian of THE FORGE TYRANT's
 ## floor (with THE GOLEM KING: a third each).
-const OWN_GUARDIANS := { "colossus": "arci", "librarian": "sefe" }
-const MORE_GUARDIANS := { "sporemother": ["colossus"], "tyrant": ["librarian"] }
+## V2 (his word, 23 Oct, branch tiny-biggot-V2): VID, THE HURIKAN SLAVE guards the second floor in THE
+## SPORE MOTHER's place (his pick: "floor 2"), and the second floor's three guardians (THE SPORE
+## MOTHER, THE WALRUS ADMIRAL, THE BONE COLOSSUS) are met on the fifth floor, which had only THE
+## RIME WARDEN: each of the four a quarter of the time.
+const OWN_GUARDIANS := { "colossus": "arci", "sporemother": "vid", "librarian": "sefe" }
+const MORE_GUARDIANS := { "tyrant": ["librarian"], "rimewarden": ["sporemother", "admiral", "colossus"] }
 
 const BOSSES := {
 	"colossus": { "name": "THE BONE COLOSSUS", "sprite": "colossus", "hp": 420, "r": 13, "scale": 2 },
@@ -738,6 +743,9 @@ const BOSSES := {
 	# 59 (his word, 13 Oct): the third floor's guardian (sefe.gd).
 	"sefe": { "name": "ŠEFE, KING OF THE BLOK", "sprite": "sefe", "hp": 640, "r": 12, "scale": 2, "rule": "phase",
 		"line": "HE RUNS THIS BLOK. KAJ GLEDAŠ?!" },
+	# V2 (his word, 23 Oct): the second floor's guardian (vid.gd).
+	"vid": { "name": "VID, THE HURIKAN SLAVE", "sprite": "vid", "hp": 540, "r": 12, "scale": 2, "rule": "phase", "shot": "cyan",
+		"line": "LED WALLS, CABLES, BEER. ALWAYS TIRED." },
 	# 55 THE LAST LAUGH (his word, 11 Oct; scripts/entities/finale.gd): the final final boss, in the form
 	# of the alignment gathered most. Three forms each (BossAI stages). Our own characters.
 	"braysalot": { "name": "SIR BRAYSALOT", "sprite": "braysalot", "hp": 3600, "r": 14, "scale": 1.8, "rule": "finale" },

@@ -90,7 +90,7 @@ static func tick(dt: float) -> void:
 		else:
 			e.resolve = maxf(0.0, e.resolve - drain() * dt)
 		if RiftBosses.handles(e) and e.state != &"intro" and e.state != &"phase" and not e.hidden \
-				and (not e.boss in ["arci", "sefe"] or e.phase >= 2):   # 58, 59: his own guardians add them only in their second phase
+				and (not e.boss in ["arci", "sefe", "vid"] or e.phase >= 2):   # 58, 59, V2: his own guardians add them only in their second phase
 			e.pat_t -= dt
 			if e.pat_t <= 0:
 				e.pat_t = RIFT_GAP

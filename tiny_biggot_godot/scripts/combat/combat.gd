@@ -483,7 +483,7 @@ static func kill_enemy(e: Enemy, o: Dictionary = {}) -> void:
 	Oddities.on_kill(e)   # a frozen foe shatters
 	var boss := e.is_boss()
 	var cols := ["#f4ecd8", "#f2c94c", "#d8443c", "#a35bd6"] if boss else ["#f4ecd8", "#8b8f9c", GameData.SPRITE_COLOR.get(e.d["sprite"], "#d8443c")]
-	var good_boy := boss and e.boss in ["rex", "arci", "sefe"]   # 58: Arči too; 59: Šefe passes out
+	var good_boy := boss and e.boss in ["rex", "arci", "sefe", "vid"]   # 58: Arči too; 59: Šefe passes out; Vid clocks out
 	if good_boy:
 		cols = ["#e86fb4", "#d8443c", "#f4ecd8"]   # a good boy rolls over: hearts, no blasts
 	Fx.burst(e.x, e.y, cols, 60 if boss else 14, 140 if boss else 70, 1.0 if boss else 0.45)
@@ -834,7 +834,8 @@ static func update_enemies(dt: float) -> void:
 			if absf(e.kx) < 2: e.kx = 0.0
 			if absf(e.ky) < 2: e.ky = 0.0
 		if not e.hidden and TB.dist(e, p) < e.r + p.r and not e.d.has("no_touch") and e.puppet_t <= 0 and e.charm_t <= 0 and e.shrink_t <= 0 \
-				and not (e.boss == "arci" and Arci.harmless(e)) and not (e.boss == "sefe" and Sefe.harmless(e)):   # 58, 59
+				and not (e.boss == "arci" and Arci.harmless(e)) and not (e.boss == "sefe" and Sefe.harmless(e)) \
+				and not (e.boss == "vid" and Vid.harmless(e)):   # 58, 59, Vid
 			if e.type == "haggler":
 				Brazil.caught(e)
 				break
