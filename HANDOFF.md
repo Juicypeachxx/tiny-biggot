@@ -11,8 +11,15 @@ League of Legends with very cool effects, or rather an effects revamp; "show me"
 as Stage 60 (ROADMAP.md: an effects revamp for every weapon, then 16 legendary weapons with
 effects of their own, in three IPAs). Prices read (free): Nano Banana 2.1 2 credits a 2K sheet,
 1.5 at 1K; GPT Image 2.5 0.25 / 0.5 / 1.5 (low, medium, high at 1K); AutoSprite 2 for 8 frames.
-The preview (4 credits) could not be made: the environment's network blocks upload.higgsfield.ai
-and d2ol7oe51mr4n9.cloudfront.net (CONNECT 403). Waiting for him to allow both and say go.
+He allowed upload.higgsfield.ai and d2ol7oe51mr4n9.cloudfront.net; the preview was made (4 credits,
+56 left): Nano Banana 2.1 2K, the style references pixel_w01 x4, style-old x2 and bright_fx01 x4
+(media 48fca983-..., e3c30b65-..., 8d1b10a7-...). Weapons, the 16 in the plan's order (job
+bbcbdcea-de60-413d-9c65-43e5b8ddc392):
+https://d8j0ntlcm91z4.cloudfront.net/user_3LEK49LttYotXy5VYq9f3uGPVkw/hf_20261026_174411_bbcbdcea-de60-413d-9c65-43e5b8ddc392.png
+Effects, 4 rows of 4 frames: ground split, holy blast, whirlwind, rocket hit (job
+5c2574ff-1432-4e10-a281-f69f28fabf1f):
+https://d8j0ntlcm91z4.cloudfront.net/user_3LEK49LttYotXy5VYq9f3uGPVkw/hf_20261026_174508_5c2574ff-1432-4e10-a281-f69f28fabf1f.png
+The results come from a third host, d8j0ntlcm91z4.cloudfront.net, also blocked: asked him to allow it.
 
 **V2 (branch tiny-biggot-V2 only, his test): every sprite redrawn on SpriteCook in his bright look
 (21 Oct).** Done:

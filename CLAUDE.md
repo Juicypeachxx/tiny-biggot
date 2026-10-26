@@ -90,8 +90,9 @@ model: `GAOLBIRD.md`. Rooms, events and rift bosses: `RIFTS.md`, `BIOMES.md`. Th
 are in `HANDOFF.md`). Higgsfield is connected too (his word, 26 Oct: "from now on we have
 higgsfield intergration with 60 credits"; the Higgsfield tools of the session: images, video,
 sound, 3D; check the balance with its `balance` tool, which costs nothing; reference pictures go
-up to `upload.higgsfield.ai` and pictures come back from `d2ol7oe51mr4n9.cloudfront.net`, so the
-environment's network access must allow both: on 26 Oct it did not). Credits are his money:
+up to `upload.higgsfield.ai` (shown back from `d2ol7oe51mr4n9.cloudfront.net`) and finished
+pictures come from `d8j0ntlcm91z4.cloudfront.net`, so the environment's network access must allow
+all three). Credits are his money:
 spend them only on something he asked for, say the cost before a big batch, and write what is left
 in `HANDOFF.md` after each use. Rule 3 still holds for whatever they make.
 
