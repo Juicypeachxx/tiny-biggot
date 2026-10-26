@@ -23,7 +23,9 @@ cloud container).
 2. **A steady 60 frames a second on the iPad Air M1.**
 3. **Art is original.** The look takes ideas from Tiny Rogues, Dead Cells,
    Aion and League of Legends. No sprite, character, name or logo from any
-   game is copied or traced.
+   game is copied or traced. His word, 26 Oct: the authentic hand-made pixel
+   vibe of Dead Cells, Enter the Gungeon, Noita, Terraria, Soulbound,
+   Iconoclasts and Tiny Rogues (their look as an idea, never their art).
    His one exception (23 Oct, branch tiny-biggot-V2 only): the icon sheet in
    `resprite/icon_sheet/` (another artist's, for personal use only). Only
    while the repo is private, only in the game he plays himself: never on
@@ -92,7 +94,8 @@ higgsfield intergration with 60 credits"; the Higgsfield tools of the session: i
 sound, 3D; check the balance with its `balance` tool, which costs nothing; reference pictures go
 up to `upload.higgsfield.ai` (shown back from `d2ol7oe51mr4n9.cloudfront.net`) and finished
 pictures come from `d8j0ntlcm91z4.cloudfront.net`, so the environment's network access must allow
-all three). Credits are his money:
+all three). PixelLab too (his word, 26 Oct: "i have https://www.pixellab.ai/mcp subscription"),
+true pixel art at an exact size: his pick for the weapon pictures of Stage 60. Credits are his money:
 spend them only on something he asked for, say the cost before a big batch, and write what is left
 in `HANDOFF.md` after each use. Rule 3 still holds for whatever they make.
 

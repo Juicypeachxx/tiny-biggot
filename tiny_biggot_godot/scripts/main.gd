@@ -412,8 +412,14 @@ func _physics_process(_delta: float) -> void:
 	# just step N (picture tests, and so that every effect painter runs in the checks).
 	if (DebugArgs.has("fx-demo") or DebugArgs.has("fx-only")) and _ticks % 30 == 0 and G.player != null and G.state == &"play":
 		_fx_demo(DebugArgs.get_int("fx-only", _ticks / 30))
-	if _shot_path != "" and _ticks == _shot_frame:
-		_take_shot()
+	if _shot_path != "" and _ticks >= _shot_frame:
+		var every := DebugArgs.get_int("shot-every", 0)
+		var count := DebugArgs.get_int("shot-count", 1)
+		if every <= 0 or count <= 1:
+			if _ticks == _shot_frame:
+				_take_shot()
+		elif (_ticks - _shot_frame) % every == 0 and (_ticks - _shot_frame) / every < count:
+			_take_shot((_ticks - _shot_frame) / every, (_ticks - _shot_frame) / every == count - 1)
 
 const FX_STEPS := 14
 func _fx_demo(step: int) -> void:
@@ -527,14 +533,19 @@ func _bench_feed() -> void:
 		e.max_hp = 1e9
 		e.hp = 1e9
 
-func _take_shot() -> void:
+## One picture (and quit); or, with --shot-every and --shot-count, picture n of a series (its number
+## added to the name), quitting after the last (60.1: short animations of the effects).
+func _take_shot(n: int = -1, last: bool = true) -> void:
 	await RenderingServer.frame_post_draw
 	var img := get_viewport().get_texture().get_image()
 	var path := _shot_path
 	if not path.is_absolute_path():
 		path = ProjectSettings.globalize_path("res://" + path)
+	if n >= 0:
+		path = path.get_basename() + "_%03d.png" % n
 	img.save_png(path)
 	print("screenshot saved: ", path)
 	if G.player != null:
 		print("[shot] hero %d %d" % [G.player.x, G.player.y])
-	get_tree().quit()
+	if last:
+		get_tree().quit()

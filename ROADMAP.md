@@ -1548,6 +1548,17 @@ each point); the rest, proposed in the order it would be felt most, with names o
         debris, scorch); embers, ice shards, forked lightning, bubbles, light pillars, dark
         tendrils; a pop when a foe dies. Code, plus about 8 new effect sheets. Still under
         OPTIONS > FANCY EFFECTS; 60 fps. IPA.
+  His "yes go" (26 Oct) to all of it, the legendary weapons a third bigger than today's. Then (26 Oct):
+  "i have https://www.pixellab.ai/mcp subscription can you make sprites there just the way you did
+  in higgsfild": the 16 weapons' pictures (60.2 to 60.4) are made with PixelLab, true pixel art at
+  the exact size (the Higgsfield sheet went muddy when shrunk); he adds it as a connector
+  (claude.ai/customize/connectors), so it is there from the next session on.
+  His next words (26 Oct): "after u drain higgsfild tokens switch to pixlelab ... but first test
+  the connection": the Higgsfield credits (56) go first, on the effect pictures, then PixelLab for
+  the weapons, its connection tested before anything is made. And "i want to feel authentic pixle
+  vibe like in dead cells, enter the gungeon, and noita, terraria, soulbound, Iconoclasts, tiny
+  rouges": the new pictures and effects aim at that hand-made look (ideas only, rule 3). The name
+  IRON SLAB is taken (a rare hammer): the legendary greatsword gets another.
   - [ ] 60.2 Six legendary weapons, each with an effect no other weapon has: THE IRON SLAB (the
         ground cracks with every swing), IRON HAND CANNON (point-blank blast into the walls),
         CRANK REPEATER (bolts that pin foes), SILVER OATH (rune sword, a fire sign every 4th

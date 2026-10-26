@@ -122,15 +122,18 @@ static func shot_col(kind: String, tag: String) -> Color:
 static func hit(x: float, y: float, tag: String) -> void:
 	if Vfx.enabled:
 		_add(K_HIT, x, y, 0.0, TB.c(Weapons.TAG_COLS[tag][2]) if Weapons.TAG_COLS.has(tag) else C_WHITE)
+		Bits.hit(x, y, tag)   # 60.1: streaks and the family's particles
 
 ## A critical hit: a bigger gold star.
 static func crit(x: float, y: float) -> void:
 	_add(K_CRIT, x, y, 0.0, C_WHITE)
+	Bits.crit(x, y)   # 60.1
 
 ## A blade lands on a foe: a cut mark across it, turned to the blow (along = a thrust).
 static func cut(x: float, y: float, a: float, along: bool) -> void:
 	if Vfx.enabled:
 		_add(K_CUT, x, y - 2.0, a + (0.0 if along else PI * 0.5) + _rng.randf_range(-0.45, 0.45), C_WHITE)
+		Bits.cut(x, y - 2.0, a, along)   # 60.1: streaks along the blow; a blunt blow cracks the floor
 
 ## A volley of enemy shots leaves here: a ring flash in the shots' colour.
 static func cast(x: float, y: float, spr: String) -> void:
@@ -140,6 +143,7 @@ static func cast(x: float, y: float, spr: String) -> void:
 ## Something heavy lands or crashes: dust along the floor.
 static func dust(x: float, y: float) -> void:
 	_add(K_DUST, x, y, 0.0, C_WHITE)
+	Bits.heavy(x, y, 1.0)   # 60.1: the floor cracks, stones fly
 
 ## A guardian blinks out or in: a void burst.
 static func warp(x: float, y: float) -> void:
@@ -259,6 +263,11 @@ static func draw_swings(ci: CanvasItem, t: float) -> void:
 				var f := clampi(int((1.0 - k) * 4.0), 0, 3)
 				var z: float = w["r"] / 22.5
 				var zy: float = z * w["arc"] / deg_to_rad(140.0) * flip
+				# 60.1: an echo of the smear just behind it, fading: the blade's afterimage.
+				var echo := bright
+				echo.a = 0.35 * k
+				ci.draw_set_transform(Vector2(roundf(x), roundf(y)), a - 0.38 * flip, Vector2(z * 0.92, zy * 0.92))
+				ci.draw_texture_rect_region(body[0], Rect2(-24, -24, 48, 48), Rect2(f * 48, 0, 48, 48), echo)
 				ci.draw_set_transform(Vector2(roundf(x), roundf(y)), a, Vector2(z, zy))
 				ci.draw_texture_rect_region(body[0], Rect2(-24, -24, 48, 48), Rect2(f * 48, 0, 48, 48), bright)
 				ci.draw_texture_rect_region(edge[0], Rect2(-24, -24, 48, 48), Rect2(f * 48, 0, 48, 48), C_WHITE)

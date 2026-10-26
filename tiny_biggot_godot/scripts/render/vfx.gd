@@ -111,6 +111,7 @@ static func reset() -> void:
 	next_delay = 0.0
 	_tick_blasts = 0
 	Afx.reset()
+	Bits.reset()   # 60.1
 	# The shots' look follows the same switch: live shots are sorted again under the other rules.
 	if ShotBatch.fancy != enabled:
 		ShotBatch.fancy = enabled
@@ -195,6 +196,8 @@ static func blast(x: float, y: float, r: float, col: String = "") -> void:
 	elif busy > 22:
 		tier = mini(tier, 1)
 	var dticks := roundi(delay / TB.DT)
+	if delay <= 0.0:
+		Bits.blast(x, y - 2.0, r, ramp)   # 60.1: debris, a crack, the colour's particles
 	var glow_col: Color = TB.c(RAMP_HEX[ramp])
 	var large := tier >= 2 and ramp in HAS_LARGE
 	var size := "s" if tier == 0 else ("l" if large else "m")

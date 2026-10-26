@@ -85,6 +85,7 @@ static func kill(e: Enemy, sprite: String) -> void:
 		flash(0.2)
 	if pops.size() > 24:
 		pops.pop_front()
+	Bits.pop(e, sprite)   # 60.1: it bursts into bits of its own colours
 
 static func hurt() -> void:
 	hurt_t = 0.35
@@ -257,6 +258,7 @@ static func update(dt: float, p: Player) -> void:
 				i += 1
 	WeaponFx.update(p)
 	Vfx.update(dt)
+	Bits.update(dt)   # 60.1
 	if spark_n > SPARK_MAX:
 		_drop_sparks(spark_n - SPARK_MAX)
 	hurt_t = maxf(0.0, hurt_t - dt)

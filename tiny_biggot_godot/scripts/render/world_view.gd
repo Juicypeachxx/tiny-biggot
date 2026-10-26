@@ -564,6 +564,7 @@ func _paint_lower(ci: CanvasItem) -> void:
 		if not night:
 			Afx.draw_ground(ci, t)
 		Vfx.draw_ground(ci, t)
+		Bits.draw_ground(ci)   # 60.1: cracks in the floor
 	# Zone motes (z 5): the plain look, when FANCY EFFECTS is off.
 	for z in ([] if fancy else G.zones):
 		match z["kind"]:
@@ -1410,6 +1411,7 @@ func _paint_bars(ci: CanvasItem) -> void:
 func _paint_swings(ci: CanvasItem) -> void:
 	if Vfx.enabled:
 		Afx.draw_swings(ci, G.time)   # smears, lances, lashes, beams and the hit flashes
+		Bits.draw(ci)   # 60.1: debris, streaks, embers, slivers, bubbles, sparks of light, wisps
 		return
 	for w in G.swings:
 		var k: float = w["t"] / w["max"]

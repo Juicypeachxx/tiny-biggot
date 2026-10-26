@@ -467,6 +467,11 @@ timeout 900 "$GODOT" --headless --path . --quit-after 400000 res://tests/afx_tes
 grep -E "^\[afx\]|afx test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 60.1 the effects revamp: off is off, bounded, the game's random numbers untouched, every kind drawn"
+timeout 600 "$GODOT" --headless --path . res://tests/bits_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[bits\]|bits test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== guardian attacks on screen (20 s each: charges and lanes, beams and blinks, slams)"
 for fl in 3 5 0; do
   "$GODOT" --headless --path . --fixed-fps 60 --quit-after 1200 -- --bot --smart-bot --god --seed=4 --hero=6 --floor=$fl --room=boss --no-save >"$LOG" 2>&1

@@ -28,6 +28,29 @@ the game's 24 x 24 (double detail) the dark iron ones (the slab, the arm cannon,
 star bomb, the katana's wind) go muddy; a third bigger (32 x 32) they read better. For the real
 thing: draw them again as true small pixel art, brighter metal (2 credits), legendary ones a third
 bigger than today's weapons. Waiting for his OK on the plan.
+His "yes go" (26 Oct): Stage 60.1, the effects revamp. `scripts/render/bits.gd` (class Bits): debris
+that flies, bounces (a shaded underside) and settles; spark streaks on every hit and cut (a
+starburst on a crit); each weapon family's particles on a hit (pyre and fury embers, frost slivers,
+venom bubbles, storm forks of lightning, blood drops, shadow and malice wisps, arcane, fortune and
+swarm specks of light, demolition stones); a blunt weapon's blow (Might.BLUNT_SHAPES) and every
+Afx.dust (slams, crashes) crack the floor (jagged, thick from the blow, a lit rim, glowing at first
+when hot; only on open floor; at most 10); explosions (Vfx.blast) throw debris, crack the floor
+when big and throw their colour's particles; a dying foe bursts into bits of its own colour
+(GameData.SPRITE_COLOR); afflicted foes give off their affliction's particles (a few foes looked at
+a tick). The slash's smear has an echo behind it (Afx.draw_swings). Drawing only, under FANCY
+EFFECTS, its own random numbers, called only from Afx, Vfx and Juice (the rules gain no line), at
+most 256 particles and 48 new a tick. tests/bits_test (in check.sh): off is off; bounded under
+10000 hooks; the game's random numbers untouched; cracks only on floor; afflictions; every kind
+drawn. Timed (xvfb on this container's CPU, the same seeded fights before and after): a rocket
+launcher on floor 1, 30 s: logic 0.92 / 0.92 ms, script drawing 1.31 / 1.29 ms (worst 1.90 / 2.36),
+draw calls at most 149 / 154; floor 5, 60 s: logic 1.08 / 1.28, drawing 1.44 / 1.69 (worst 2.23 /
+2.21), calls 180 / 190. The same frames before and after differ only where the effects are (the
+game plays the same). main.gd: --shot-every=K --shot-count=M saves a series of screenshots. The
+name IRON SLAB is taken (a rare hammer): the legendary greatsword of 60.2 needs another. His word:
+use up the Higgsfield credits first (56 left, on effect pictures), then PixelLab (weapons), its
+connection tested first; and the pixel vibe of Dead Cells, Enter the Gungeon, Noita, Terraria,
+Soulbound, Iconoclasts and Tiny Rogues (ideas only, rule 3). His PixelLab key is his: never in the
+repo; a session gets it from him.
 
 **V2 (branch tiny-biggot-V2 only, his test): every sprite redrawn on SpriteCook in his bright look
 (21 Oct).** Done:

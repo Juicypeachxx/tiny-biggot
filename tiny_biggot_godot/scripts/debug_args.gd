@@ -3,6 +3,8 @@ extends RefCounted
 ## Command-line options for testing, passed after `--`:
 ##   --shot=res_or_abs_path.png   save a screenshot ...
 ##   --shot-frame=N               ... after N logic ticks, then quit
+##   --shot-every=K --shot-count=M  60.1: M pictures, one every K ticks from --shot-frame on, each
+##                                named NAME_000.png and on (short animations), then quit
 ##   --hero=N                     hero index; starts a run straight away (skips the title)
 ##   --quick                      start a run straight away with the default hero
 ##   --floor=N                    start on floor N (0-5)
