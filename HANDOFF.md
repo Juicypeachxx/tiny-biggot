@@ -19,7 +19,15 @@ https://d8j0ntlcm91z4.cloudfront.net/user_3LEK49LttYotXy5VYq9f3uGPVkw/hf_2026102
 Effects, 4 rows of 4 frames: ground split, holy blast, whirlwind, rocket hit (job
 5c2574ff-1432-4e10-a281-f69f28fabf1f):
 https://d8j0ntlcm91z4.cloudfront.net/user_3LEK49LttYotXy5VYq9f3uGPVkw/hf_20261026_174508_5c2574ff-1432-4e10-a281-f69f28fabf1f.png
-The results come from a third host, d8j0ntlcm91z4.cloudfront.net, also blocked: asked him to allow it.
+The results come from a third host, d8j0ntlcm91z4.cloudfront.net: he allowed it too, and both
+sheets are kept in resprite/higgsfield/ (s60_*_try1.png, with reviews at the game's size made by
+s60_preview.py and s60_preview2.py there). Found: the effects hold up at the game's size (a hero
+beside them for scale), except the ground split, drawn on its own grey floor squares: that row is
+to be drawn again as the crack and the rocks only. The weapons' designs are right, but shrunk to
+the game's 24 x 24 (double detail) the dark iron ones (the slab, the arm cannon, the crossbow, the
+star bomb, the katana's wind) go muddy; a third bigger (32 x 32) they read better. For the real
+thing: draw them again as true small pixel art, brighter metal (2 credits), legendary ones a third
+bigger than today's weapons. Waiting for his OK on the plan.
 
 **V2 (branch tiny-biggot-V2 only, his test): every sprite redrawn on SpriteCook in his bright look
 (21 Oct).** Done:
