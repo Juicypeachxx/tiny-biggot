@@ -1893,3 +1893,6 @@ each point); the rest, proposed in the order it would be felt most, with names o
     double-detail picture of a picture half its size (resprite/tools/icon_hd.py). The camp's fish
     wall and the cook's larder were laid out for 16 fish and ran off the screen with 45: the wall is
     four rows on a wider board, the larder ten to a row. The full check owed since 59.5 was run.
+- 26 Oct 2026: his word: "v2 is latest version with new sprites": the work lives on
+  tiny-biggot-V2 from now on (CLAUDE.md, Git). And "from now on we have higgsfield intergration
+  with 60 credits": Higgsfield connected, 60 credits (CLAUDE.md: spend only on his asks).

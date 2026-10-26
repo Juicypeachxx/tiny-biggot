@@ -86,6 +86,13 @@ Items are data (an id and a list of effects): `scripts/effects/`,
 model: `GAOLBIRD.md`. Rooms, events and rift bosses: `RIFTS.md`, `BIOMES.md`. The final final boss after every won run: `FINALE.md`. Guardians' stages, plates, RESOLVE and attack patterns, the first guardian (his dog ARČI, `arci.gd`) and the third (ŠEFE, `sefe.gd`): `BOSS_STAGES.md`. Pets: `PETS.md`. Effects:
 `EFFECTS.md`, `ATTACK_EFFECTS.md`. Speed: `PERFORMANCE.md`, `IOS_BUILD.md`.
 
+**Paid art tools.** SpriteCook made V2's pictures (`resprite/HOW_IT_WORKS.md`; its credits left
+are in `HANDOFF.md`). Higgsfield is connected too (his word, 26 Oct: "from now on we have
+higgsfield intergration with 60 credits"; the Higgsfield tools of the session: images, video,
+sound, 3D; check the balance with its `balance` tool, which costs nothing). Credits are his money:
+spend them only on something he asked for, say the cost before a big batch, and write what is left
+in `HANDOFF.md` after each use. Rule 3 still holds for whatever they make.
+
 ## Checks before anything is called done
 
 - `tools/check.sh` ends with `CHECK PASSED`.
@@ -114,17 +121,22 @@ every commit. Follow it with `gh run list` and `gh run watch <id>`.
 
 ## Git
 
-**The work lives on the branch `claude/dev`.** Start from it. When a step is
-done, its commits must be on `claude/dev` on GitHub: push there directly if
-the session may, otherwise open a pull request into `claude/dev` and tell him
+**The work lives on the branch `tiny-biggot-V2`** (his word, 26 Oct: "v2 is
+latest version with new sprites"). Start from it. When a step is done, its
+commits must be on `tiny-biggot-V2` on GitHub: push there directly if the
+session may, otherwise open a pull request into `tiny-biggot-V2` and tell him
 to press Merge. A step that is only on a session's own branch is lost to the
-next session.
+next session. `claude/dev` is the line before the new sprites (up to IPA 59):
+it stays as it is, and V2 is never merged into it (rule 3: his icon sheet
+stays on V2).
 
 **The iOS and Windows lines** (his word, 12 Oct: "if i work on multiplayer addon
 on windows it wont be pushed on ios"). `ios-build` and `windows-build` are his
 build branches. Every iPad build from `claude/dev` moves `ios-build` up to it,
 merges it into `windows-build` and builds the Windows game (`build-ipa.yml`, the
-job "windows"; `WINDOWS_BUILD.md` on `windows-build`). Windows-only work is done
+job "windows"; `WINDOWS_BUILD.md` on `windows-build`). An IPA built from
+`tiny-biggot-V2` touches neither, so the Windows game (co-op) still has the
+old look. Windows-only work is done
 on `windows-build` and **never merged into `claude/dev` or `ios-build`**: that
 would put it on the iPad. No IPA is ever built from `windows-build`.
 

@@ -1,5 +1,12 @@
 # Handoff: where the work stands
 
+**26 Oct: V2 is the main line now** (his word: "v2 is latest version with new sprites"): the work
+lives on `tiny-biggot-V2` (CLAUDE.md, Git); `claude/dev` stays at IPA 59 (plus two notes: IPA 59
+built, and W4 on windows-build: in Windows co-op everything hurts every hero). The Windows game is
+built from `claude/dev`'s line, so it still has the old look. **Higgsfield** is connected (his word:
+"from now on we have higgsfield intergration with 60 credits"): 60 credits, free plan (its balance
+read 26 Oct). Nothing spent yet.
+
 **V2 (branch tiny-biggot-V2 only, his test): every sprite redrawn on SpriteCook in his bright look
 (21 Oct).** Done:
 - characters and bosses (all stages);
