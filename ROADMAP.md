@@ -1535,6 +1535,32 @@ each point); the rest, proposed in the order it would be felt most, with names o
         SUPERCONDUCT, CRACKLE, FEEDBACK; tests/stage50_test passes.
   - [x] 50.3 A test for all of it, the replays (classic unchanged), IPA 50. Done with 53.3: one IPA 53
         carries 50, 52 and 53.
+- [ ] Stage 60 (his ask, 26 Oct, V2: "new set of weapons with cool effect matching pixleart sprites
+      from berserk, witcher, worms, crimson desert, league of legends ... make the credits count
+      ... better will it be to revamp effect, make them like really really good ... show me soo i
+      can aggre"). PROPOSED, waiting for his OK and a preview (the preview waits for the network:
+      upload.higgsfield.ai and d2ol7oe51mr4n9.cloudfront.net blocked on 26 Oct). Rule 3: the feel
+      of those games, our own weapons and names. Higgsfield Nano Banana 2.1 (the model V2 used):
+      2 credits a 2K sheet (16 weapons, or 4 effects of 4 frames); the work is the limit, not the
+      credits. Planned spend about 40 of 60, 20 kept for his changes.
+  - [ ] 60.1 Effects revamp for every weapon: impact flash, shockwave, cracks and debris on heavy
+        blows; trails and afterimages on swings; layered explosions (flash, fireball, smoke,
+        debris, scorch); embers, ice shards, forked lightning, bubbles, light pillars, dark
+        tendrils; a pop when a foe dies. Code, plus about 8 new effect sheets. Still under
+        OPTIONS > FANCY EFFECTS; 60 fps. IPA.
+  - [ ] 60.2 Six legendary weapons, each with an effect no other weapon has: THE IRON SLAB (the
+        ground cracks with every swing), IRON HAND CANNON (point-blank blast into the walls),
+        CRANK REPEATER (bolts that pin foes), SILVER OATH (rune sword, a fire sign every 4th
+        swing), SIGNWEAVER'S HAND (fire cone, force wave, trap circle in turn), STARFIRE BOMB
+        (dancing fire stars). IPA.
+  - [ ] 60.3 Six more: HALLOWED GRENADE (a choir, a light pillar, a huge golden blast), BUNCH
+        BOMB (five bouncing bananas), WOOLLY WARHEAD (a hopping sheep that explodes), CRIMSON
+        RUSH (a dash whose path bursts into cuts), SUPLEX GAUNTLETS (grab and slam), STORMCALLER
+        SPEAR (lightning down the thrust). IPA.
+  - [ ] 60.4 The last four: SHARKMOUTH (shark rockets, a huge one every 5th), GALE KATANA (a
+        tornado that throws foes up), BLOODSPIN AXE (bleeds; at five a giant axe falls),
+        TRUESHOT GAUNTLET (a laser across the room every 6th shot). Tests, replays, full check,
+        IPA 60.
 - [ ] Stage 51: run modes: THE NARROW WAY (no map), IRON VOW (after 5 wins: one life). (OMENS:
       his 16 cinders became DREAD to 16 in Stage 48.)
 - [x] Stage 52 (his word, 11 Oct, with Stage 50): SPIRIT (the special's charge and power) and LUCK as

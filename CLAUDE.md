@@ -89,7 +89,9 @@ model: `GAOLBIRD.md`. Rooms, events and rift bosses: `RIFTS.md`, `BIOMES.md`. Th
 **Paid art tools.** SpriteCook made V2's pictures (`resprite/HOW_IT_WORKS.md`; its credits left
 are in `HANDOFF.md`). Higgsfield is connected too (his word, 26 Oct: "from now on we have
 higgsfield intergration with 60 credits"; the Higgsfield tools of the session: images, video,
-sound, 3D; check the balance with its `balance` tool, which costs nothing). Credits are his money:
+sound, 3D; check the balance with its `balance` tool, which costs nothing; reference pictures go
+up to `upload.higgsfield.ai` and pictures come back from `d2ol7oe51mr4n9.cloudfront.net`, so the
+environment's network access must allow both: on 26 Oct it did not). Credits are his money:
 spend them only on something he asked for, say the cost before a big batch, and write what is left
 in `HANDOFF.md` after each use. Rule 3 still holds for whatever they make.
 

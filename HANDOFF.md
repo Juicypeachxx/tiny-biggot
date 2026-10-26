@@ -6,6 +6,13 @@ built, and W4 on windows-build: in Windows co-op everything hurts every hero). T
 built from `claude/dev`'s line, so it still has the old look. **Higgsfield** is connected (his word:
 "from now on we have higgsfield intergration with 60 credits"): 60 credits, free plan (its balance
 read 26 Oct). Nothing spent yet.
+Then his ask (26 Oct): new weapons inspired by Berserk, the Witcher, Worms, Crimson Desert and
+League of Legends with very cool effects, or rather an effects revamp; "show me" first. Proposed
+as Stage 60 (ROADMAP.md: an effects revamp for every weapon, then 16 legendary weapons with
+effects of their own, in three IPAs). Prices read (free): Nano Banana 2.1 2 credits a 2K sheet,
+1.5 at 1K; GPT Image 2.5 0.25 / 0.5 / 1.5 (low, medium, high at 1K); AutoSprite 2 for 8 frames.
+The preview (4 credits) could not be made: the environment's network blocks upload.higgsfield.ai
+and d2ol7oe51mr4n9.cloudfront.net (CONNECT 403). Waiting for him to allow both and say go.
 
 **V2 (branch tiny-biggot-V2 only, his test): every sprite redrawn on SpriteCook in his bright look
 (21 Oct).** Done:
