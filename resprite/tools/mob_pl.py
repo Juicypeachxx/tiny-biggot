@@ -57,12 +57,14 @@ def main():
             im = Image.open(p).convert("RGBA")
         if os.path.exists(os.path.join(HD, n + ".png")):
             old = Image.open(os.path.join(HD, n + ".png")).size
-        else:   # only the small picture so far: the box it had, at double detail
+        elif os.path.exists(os.path.join(GFX, n + ".png")):   # only the small picture so far: its box, at double detail
             w, h = Image.open(os.path.join(GFX, n + ".png")).size
             old = (w * 2, h * 2)
+        else:   # a picture the game did not have (an elite look never drawn before)
+            old = (0, 0)
         hd = fit(im, old)
-        if n == "bat2":   # the same box as the first beat, so the bat does not jump
-            hd = fit(im, Image.open(os.path.join(HD, "bat.png")).size)
+        if n.startswith("bat2"):   # the same box as the first beat (bat, bat_elite), so the bat does not jump
+            hd = fit(im, Image.open(os.path.join(HD, "bat" + n[4:] + ".png")).size)
         small = hd.resize((hd.width // 2, hd.height // 2), Image.NEAREST)
         hd.save(os.path.join(HD, n + ".png"))
         small.save(os.path.join(GFX, n + ".png"))
