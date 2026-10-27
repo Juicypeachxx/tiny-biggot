@@ -1639,6 +1639,12 @@ each point); the rest, proposed in the order it would be felt most, with names o
           (rule 3: no creature or sprite copied): elites as their own bigger, heavier drawings, not
           a gold rim on the normal one; chunky bodies and armour, thick dark outline, strong
           saturated colours with bright rim light, a soft shadow under each, a three-quarter view.
+          His picks: mushroom 4 (normal) and 16 (elite brute), in the game. His word, 27 Oct: "go and
+          try to use higsfield credits too soo we can resprite everything untill new credits come";
+          then (stopping a 16-foes-a-canvas test): weapons, armour, relics and items already redrawn
+          stay; for the others he picks a version he likes; weapon effects and animations from
+          Higgsfield if better ("when you have lightning swort you can see lighting effects on the
+          sword sizzeling"). Waiting for his go on the plan and its costs.
     - [ ] 64.2 Every foe and elite, floor by floor.
     - [ ] 64.3 People, pets, guardians and bosses.
     - [ ] 64.4 The full check; IPA 64.
