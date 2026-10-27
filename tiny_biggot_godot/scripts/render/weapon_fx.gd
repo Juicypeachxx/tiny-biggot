@@ -127,3 +127,79 @@ static func _swing_burst(w: Dictionary) -> void:
 			for i in 5:
 				var d := len * (0.3 + 0.7 * i / 4.0)
 				emit(tag, w["x"] + cos(w["a"]) * d, w["y"] + sin(w["a"]) * d, 0.8)
+
+# ---------- 64 (his ask, 27 Oct: "when you have lightning swort you can see lighting effects on
+# the sword sizzeling"): the held weapon shows its element all the time ----------
+## A number from 0 to 1 that stays put for a moment (drawing only: no dice of the game are used).
+static func _h(n: float) -> float:
+	var x := sin(n * 12.9898) * 43758.5453
+	return x - floorf(x)
+
+## Over the weapon in the hero's hand: from (hx, hy) along the aim `a`, `reach` pixels of blade.
+## `strong` (rare and better) doubles it.
+static func draw_held(ci: CanvasItem, tag: String, hx: float, hy: float, a: float, reach: float, t: float, strong: bool) -> void:
+	var th := theme_of(tag)
+	if th.is_empty():
+		return
+	var cols: Array = th["cols"]
+	var d := Vector2(cos(a), sin(a))
+	var n := Vector2(-d.y, d.x)
+	var base := Vector2(hx, hy) + d * 2.0
+	var k := 2 if strong else 1
+	match tag:
+		"storm":
+			var tip := base + d * reach
+			ci.draw_circle(tip, 3.0 + sin(t * 23.0), Color(TB.c(cols[1]), 0.25), true, -1.0, false)   # a crackling glow
+			for j in k + 1:   # forks of lightning running along the blade and off it, re-drawn every few frames
+				var step := floorf(t * 16.0) + j * 7.0
+				if _h(step * 0.37) < 0.15:
+					continue
+				var pts := PackedVector2Array()
+				var out := 3.0 + j * 3.0
+				for i in 6:
+					var f := i / 5.0
+					pts.append(base + d * (f * (reach + out)) + n * ((_h(step + i) - 0.5) * (6.0 + j * 3.0)))
+				ci.draw_polyline(pts, TB.c(cols[1]), 1.5)
+				ci.draw_polyline(pts, Color(1, 1, 1, 0.95), 0.75)
+			if _h(floorf(t * 11.0)) > 0.4:   # a spark jumping off the tip
+				var sp := tip + Vector2(_h(floorf(t * 11.0) + 3.0) - 0.5, _h(floorf(t * 11.0) + 5.0) - 0.5) * 10.0
+				ci.draw_line(tip, sp, Color(1, 1, 1, 0.9), 1.0)
+		"pyre", "fury", "demolition":
+			for i in 3 * k:   # tongues of flame rising off the blade
+				var f := fmod(_h(i * 3.1) + t * 1.6, 1.0)
+				var at := base + d * (reach * (0.25 + 0.7 * _h(i * 1.7))) + Vector2(sin(t * 7.0 + i) * 1.0, -f * 7.0)
+				var s := 2.0 * (1.0 - f) + 0.5
+				ci.draw_rect(Rect2(at.x - s * 0.5, at.y - s, s, s * 1.5), Color(TB.c(cols[i % cols.size()]), 0.9 * (1.0 - f)))
+		"frost":
+			for i in 2 * k:   # twinkles on the blade and mist falling off it
+				var at := base + d * (reach * _h(i * 2.3 + floorf(t * 3.0)))
+				if fmod(t * 2.0 + i * 0.4, 1.0) < 0.3:
+					ci.draw_rect(Rect2(at.x, at.y - 2, 1, 5), Color(1, 1, 1, 0.9))
+					ci.draw_rect(Rect2(at.x - 2, at.y, 5, 1), Color(1, 1, 1, 0.9))
+				var f := fmod(t * 0.8 + i * 0.5, 1.0)
+				var m := base + d * (reach * _h(i * 5.1)) + Vector2(0, f * 6.0)
+				ci.draw_rect(Rect2(m.x, m.y, 1, 1), Color(TB.c(cols[1]), 0.7 * (1.0 - f)))
+		"venom", "blood":
+			for i in k:   # a drop gathers at the tip and falls
+				var f := fmod(t * 0.9 + i * 0.5, 1.0)
+				var tip := base + d * reach * (0.8 + 0.2 * i)
+				if f < 0.5:
+					ci.draw_rect(Rect2(tip.x - 0.5, tip.y, 1, 1 + f * 2.0), TB.c(cols[0]))
+				else:
+					ci.draw_rect(Rect2(tip.x - 0.5, tip.y + (f - 0.5) * 14.0, 1, 2), Color(TB.c(cols[0]), 1.6 - f * 1.6))
+		"shadow", "malice":
+			for i in 2 * k:   # dark wisps curling up from the blade
+				var f := fmod(t * 0.7 + i * 0.37, 1.0)
+				var at := base + d * (reach * _h(i * 4.1)) + Vector2(sin(t * 3.0 + i * 2.0) * 2.0, -f * 9.0)
+				ci.draw_circle(at, 1.5 * (1.0 - f) + 0.5, Color(TB.c(cols[i % 2]), 0.6 * (1.0 - f)), true, -1.0, false)
+		"arcane":
+			for i in 2 * k:   # motes circling the blade
+				var ang := t * 4.0 + i * TAU / (2 * k)
+				var at := base + d * (reach * 0.6) + Vector2(cos(ang) * 5.0, sin(ang) * 2.5)
+				ci.draw_rect(Rect2(at.x, at.y, 1, 1), TB.c(cols[i % cols.size()]))
+		"fortune", "edge":
+			var g := fmod(t * 0.8, 1.0)   # a glint sliding up the blade
+			if g < 0.4:
+				var at := base + d * (reach * g / 0.4)
+				ci.draw_rect(Rect2(at.x, at.y - 2, 1, 5), Color(1, 1, 0.9, 0.85))
+				ci.draw_rect(Rect2(at.x - 2, at.y, 5, 1), Color(1, 1, 0.9, 0.85))

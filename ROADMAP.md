@@ -1650,8 +1650,8 @@ each point); the rest, proposed in the order it would be felt most, with names o
           how it fights (flyer, archer, brute, caster) but free to change into the dark-fantasy
           theme (the modern ones become fantasy ones). Foes now drawn about twice as big; hitboxes
           as they were. Elites in his elite-sheet look after that.
-    - [ ] 64.2 Every foe and elite, floor by floor.
-    - [ ] 64.3 People, pets, guardians and bosses.
+    - [x] 64.2 (done 27 Oct, IPA 64) Every foe and elite, floor by floor.
+    - [x] 64.3 (done 27 Oct, IPA 64: heroes, pets, evolved forms, bosses; his own guardians kept, a preview drawn) People, pets, guardians and bosses.
     - [ ] 64.4 The full check; IPA 64.
   - [ ] 65 Weapons (PixelLab, ~650, next month's allowance after 26 Nov): every weapon Higgsfield
         did not draw.

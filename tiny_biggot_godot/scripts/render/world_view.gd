@@ -975,6 +975,9 @@ func _draw_weapon(ci: CanvasItem, p: Player) -> void:
 		Gfx.sprite(ci, "glow_small", hx - 12, hy - 12, 0, 0, 1, 1, 0.0, false, 0.55 + 0.25 * sin(G.time * 5),
 			Color(gc.r, gc.g, gc.b, 0.6))
 	Gfx.sprite(ci, wn, hx, hy, wb.get_width() / 2, wb.get_height() / 2, 1, 1, rot, left)
+	if GameData.rogues() and Vfx.enabled:   # 64: its element on the blade, all the time
+		WeaponFx.draw_held(ci, WeaponFx.weapon_tag(p.weapon), hx, hy, p.aim_a, maxf(10.0, wb.get_width() * 0.8), G.time,
+			p.weapon.get("rarity", "") in ["rare", "epic", "legend", "mythic"])
 	if Juice.recoil > 0.6:
 		var mx := roundf(hx + cos(p.aim_a) * 8)
 		var my := roundf(hy + sin(p.aim_a) * 6)

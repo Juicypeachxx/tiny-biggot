@@ -71,6 +71,21 @@ create_image_pixen, 1 generation): real pixel art at the exact size, a clean out
 Keep it up to date when a task is done: read it (Artifact action read with that url), change it,
 publish it with the same url. His OK on the floor 1 look (27 Oct: "Ok continiue"): 61.2 next.
 
+**64 done: the monster remaster (IPA 64 "Monster Remaster")**. His word: "ok do the rest". PixelLab Pro
+calls (resprite/pixellab/<set>/batches.json lists what each call drew, named/ the pictures):
+- elites (178, his elite sheet as the style picture), each its own drawing (resprite/pixellab/elites);
+- the evolved forms: 31 foes' stage 2 and 3, 18 elites' (stages);
+- 37 bosses at 80 px, three a call with their stage 2 and 3 (bosses). His own guardians (Arci, Sefe,
+  Vid, Rex) and the final-final four are as they were; six drawn as a preview only:
+  resprite/pixellab/bosses/custom_preview.png (his "just to see the difference");
+- 34 heroes at 48 x 56 (24 x 28 in the game, twice the old): hero_gear.gd draws the outfit at the
+  hero's size (size_of, big); menus halve a big hero's zoom; the held weapon sits higher and further
+  out. The armour's pixels are now coarser than the hero's (its grid stays 24 x 28).
+- weapon_fx.gd draw_held: the held weapon shows its element all the time (storm arcs, fire, frost,
+  venom, shadow, arcane, glints), stronger on rare and better; drawing only, no game dice.
+Short calls (5 names) drift into copies of the first: list 20 or more. PixelLab left: 1172 (resets 26
+Nov). Drawing only: the rules and replays are not touched. Not done yet: animations.
+
 **64.1 done: every foe redrawn (IPA 64.1 "New Monsters")**. His word: "do your thing", "make them in
 the theme of what we do now", "i like b01.png". PixelLab Pro (create_image_pro, 48 x 48, the style
 picture resprite/pixellab/mobs_all/style.png = the four he liked) gives 25 versions a 10-generation
