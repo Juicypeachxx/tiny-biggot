@@ -1658,8 +1658,8 @@ each point); the rest, proposed in the order it would be felt most, with names o
         did not draw. His word, 27 Oct: "lets do weapons and armors and equipment then test run",
         then "after that animation of heros and bosses" (66.2, bosses added). His icon sheet's
         weapons and wearables stay as they are. PixelLab Pro at 32 px: 64 a 10-generation call.
-    - [ ] 65.1 Pilot: ten weapons, shown to him first.
-    - [ ] 65.2 All the rest. The full check; IPA 65.
+    - [x] 65.1 (done 27 Oct) Pilot: ten weapons, shown to him first.
+    - [x] 65.2 (done 27 Oct, IPA 65: weapons, armour, equipment; his old/new picks on a page) All the rest. The full check; IPA 65.
   - [ ] 66 Super cool weapons and animations (~150).
     - [ ] 66.1 The 16 legendary weapons with effects no other weapon has (Stage 60.2 to 60.4; the
           greatsword needs a new name: IRON SLAB is taken).

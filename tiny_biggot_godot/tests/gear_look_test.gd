@@ -41,12 +41,15 @@ func _ready() -> void:
 	for h: Dictionary in heroes:
 		var hero: String = h["sprite"]
 		var body := Img.image(hero)
+		if body != null and body.get_size() != Vector2i(HeroGear.DW, HeroGear.DH):   # 64.5: a bigger hero, seen at the outfit's grid as the game does
+			body = body.duplicate()
+			body.resize(HeroGear.DW, HeroGear.DH, Image.INTERPOLATE_NEAREST)
 		for k in kinds:
 			var p := Player.new(h)
 			p.gear[k[0]] = k[1]
 			var tex := HeroGear.texture(p, hero)
 			outfits += 1
-			if tex == null or tex.get_size() != Vector2(HeroGear.W, HeroGear.H):
+			if tex == null or tex.get_size() != Vector2(HeroGear.size_of(hero)):   # 64.5: the hero's own size (twice the old for the new heroes)
 				fail("%s in %s: no outfit, or not drawn at the hero's size" % [hero, k[1]["id"]])
 				continue
 			var img := tex.get_image()

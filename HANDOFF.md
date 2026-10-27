@@ -71,7 +71,7 @@ create_image_pixen, 1 generation): real pixel art at the exact size, a clean out
 Keep it up to date when a task is done: read it (Artifact action read with that url), change it,
 publish it with the same url. His OK on the floor 1 look (27 Oct: "Ok continiue"): 61.2 next.
 
-**65 (in progress): weapons, armour and equipment redrawn; he chooses old or new for each**. His word, 27
+**65 done (IPA 65 "New Armoury"): weapons, armour and equipment redrawn; he chose old or new for each**. His word: "ok i like most of new designs go dor it"; his page kept 3 old (w_dragonbreath, w_flasksling, g_wandercape: resprite/pixellab/weapons/kept_old.txt), the other 710 are in (even box, small copy half). Test run: items_test, content_test and gear_look_test PASSED (gear_look_test now checks at the hero's own size, scaled to the outfit grid as the game does), four 40 s bot plays with four weapons, no errors.. His word, 27
 Oct: "lets do weapons and armors and equipment then test run", "after that animation of heros and
 bosses", "i want to choose what version to take in game new or old". PixelLab Pro at 32 px, about 50
 names a call (64 versions): 399 weapon pictures (resprite/pixellab/weapons, 8 calls) and 314 gear
