@@ -71,6 +71,13 @@ create_image_pixen, 1 generation): real pixel art at the exact size, a clean out
 Keep it up to date when a task is done: read it (Artifact action read with that url), change it,
 publish it with the same url. His OK on the floor 1 look (27 Oct: "Ok continiue"): 61.2 next.
 
+**64.6: brighter (IPA 64.6 "Brighter Days")**. His word, 27 Oct: "can you make graphic and mobs les
+grimmy and dark". resprite/tools/brighten.py lifts dark tones (gamma), adds colour and a little
+gain, and leaves the near-black outline: strength 2.0 on every new character picture (621 names, full
+and small copies), 1.2 on every place picture (kit*_, set_*, bf_*: 336). Done once, in place; the
+list is resprite/pixellab/brightened.txt. Redoing a picture from resprite/pixellab means brightening
+it again. No credits used.
+
 **64 done: the monster remaster (IPA 64 "Monster Remaster")**. His word: "ok do the rest". PixelLab Pro
 calls (resprite/pixellab/<set>/batches.json lists what each call drew, named/ the pictures):
 - elites (178, his elite sheet as the style picture), each its own drawing (resprite/pixellab/elites);

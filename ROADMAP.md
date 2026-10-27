@@ -1651,6 +1651,7 @@ each point); the rest, proposed in the order it would be felt most, with names o
           theme (the modern ones become fantasy ones). Foes now drawn about twice as big; hitboxes
           as they were. Elites in his elite-sheet look after that.
     - [x] 64.2 (done 27 Oct, IPA 64) Every foe and elite, floor by floor.
+    - [x] 64.6 (his word, 27 Oct: "can you make graphic and mobs les grimmy and dark"; done: IPA 64.6) Brighter monsters and places.
     - [x] 64.3 (done 27 Oct, IPA 64: heroes, pets, evolved forms, bosses; his own guardians kept, a preview drawn) People, pets, guardians and bosses.
     - [ ] 64.4 The full check; IPA 64.
   - [ ] 65 Weapons (PixelLab, ~650, next month's allowance after 26 Nov): every weapon Higgsfield
