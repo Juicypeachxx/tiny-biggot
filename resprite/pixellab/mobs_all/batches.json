@@ -194,5 +194,32 @@
   "believer",
   "kitten",
   "mushroom"
+ ],
+ "b09": [
+  "intern",
+  "believer",
+  "kitten",
+  "mushroom",
+  "bat2",
+  "pet_biscuit",
+  "pet_bramble",
+  "pet_cindertail",
+  "pet_glimmer",
+  "pet_gloop",
+  "pet_gulp",
+  "pet_hoots",
+  "pet_kaboomba",
+  "pet_snip",
+  "pet_zappy",
+  "hero_hexer",
+  "hero_poacher",
+  "hero_brute",
+  "hero_gravedigger",
+  "hero_alchemist",
+  "hero_warden",
+  "hero_gaolbird",
+  "hero_banehunter",
+  "hero_oathbreaker",
+  "hero_wayfarer"
  ]
 }

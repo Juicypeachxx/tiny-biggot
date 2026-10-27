@@ -55,14 +55,18 @@ def main():
             im = fold_wings(Image.open(os.path.join(src, "bat.png")).convert("RGBA"))
         else:
             im = Image.open(p).convert("RGBA")
-        old = Image.open(os.path.join(HD, n + ".png")).size
+        if os.path.exists(os.path.join(HD, n + ".png")):
+            old = Image.open(os.path.join(HD, n + ".png")).size
+        else:   # only the small picture so far: the box it had, at double detail
+            w, h = Image.open(os.path.join(GFX, n + ".png")).size
+            old = (w * 2, h * 2)
         hd = fit(im, old)
         if n == "bat2":   # the same box as the first beat, so the bat does not jump
             hd = fit(im, Image.open(os.path.join(HD, "bat.png")).size)
         small = hd.resize((hd.width // 2, hd.height // 2), Image.NEAREST)
         hd.save(os.path.join(HD, n + ".png"))
         small.save(os.path.join(GFX, n + ".png"))
-        if not n.endswith("_elite") and n + "_elite" not in named and os.path.exists(os.path.join(HD, n + "_elite.png")):
+        if not n.endswith("_elite") and n + "_elite" not in named and (os.path.exists(os.path.join(HD, n + "_elite.png")) or os.path.exists(os.path.join(GFX, n + "_elite.png"))):
             elite(hd, 1).save(os.path.join(HD, n + "_elite.png"))   # (a thin rim: the new art has thin parts)
             elite(small, 1).save(os.path.join(GFX, n + "_elite.png"))
         print(n, old, "->", hd.size)
