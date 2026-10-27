@@ -953,6 +953,9 @@ func _draw_player(ci: CanvasItem, p: Player, t: float) -> void:
 	if not behind:
 		_draw_weapon(ci, p)
 
+## 66.4: how big a big hero's weapon is drawn, of its icon's size.
+const HELD_SCALE := 0.62
+
 func _draw_weapon(ci: CanvasItem, p: Player) -> void:
 	if p.weapon == null or p.dodge_t > 0 or p.leap_max > 0:
 		return
@@ -969,10 +972,12 @@ func _draw_weapon(ci: CanvasItem, p: Player) -> void:
 	# of lying across the hero; its middle (hx, hy) is where it was measured from before.
 	var gx := 0.5
 	var gy := 0.5
+	var ws := 1.0
 	if big:
+		ws = HELD_SCALE   # 66.4 (his recording, 27 Oct: "still looking wierd and not natural"): a weapon at its icon's size is three quarters of the hero
 		var gpx := p.x + cos(p.aim_a) * (6.0 - kick)
 		var gpy := p.y + sin(p.aim_a) * (3.0 - kick * 0.6)
-		var reach := wb.get_width() * 0.4
+		var reach := wb.get_width() * 0.4 * ws
 		hx = gpx + cos(p.aim_a) * reach
 		hy = gpy + sin(p.aim_a) * reach
 		gx = 0.78 if left else 0.22
@@ -988,12 +993,12 @@ func _draw_weapon(ci: CanvasItem, p: Player) -> void:
 		Gfx.sprite(ci, "glow_small", hx - 12, hy - 12, 0, 0, 1, 1, 0.0, false, 0.55 + 0.25 * sin(G.time * 5),
 			Color(gc.r, gc.g, gc.b, 0.6))
 	if big:
-		Gfx.sprite(ci, wn, hx - cos(p.aim_a) * wb.get_width() * 0.4, hy - sin(p.aim_a) * wb.get_width() * 0.4,
-			wb.get_width() * gx, wb.get_height() * gy, 1, 1, rot, left)
+		Gfx.sprite(ci, wn, hx - cos(p.aim_a) * wb.get_width() * 0.4 * ws, hy - sin(p.aim_a) * wb.get_width() * 0.4 * ws,
+			wb.get_width() * gx, wb.get_height() * gy, ws, ws, rot, left)
 	else:
 		Gfx.sprite(ci, wn, hx, hy, wb.get_width() / 2, wb.get_height() / 2, 1, 1, rot, left)
 	if GameData.rogues() and Vfx.enabled:   # 64: its element on the blade, all the time
-		WeaponFx.draw_held(ci, WeaponFx.weapon_tag(p.weapon), hx, hy, p.aim_a, maxf(10.0, wb.get_width() * 0.8), G.time,
+		WeaponFx.draw_held(ci, WeaponFx.weapon_tag(p.weapon), hx, hy, p.aim_a, maxf(10.0 * ws, wb.get_width() * 0.8 * ws), G.time,
 			p.weapon.get("rarity", "") in ["rare", "epic", "legend", "mythic"])
 	if Juice.recoil > 0.6:
 		var mx := roundf(hx + cos(p.aim_a) * 8)

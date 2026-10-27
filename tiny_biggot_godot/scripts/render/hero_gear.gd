@@ -470,7 +470,7 @@ static func _drawn(hi: Dictionary, key: String) -> Dictionary:
 
 static func _piece(slot: String, g: Dictionary, hi: Dictionary) -> Dictionary:
 	var shape: String = g.get("shape", "")
-	var key := { "hands": "gloves", "offhand": "shield" }.get(slot, shape)
+	var key: String = { "hands": "gloves", "offhand": "shield" }.get(slot, shape)
 	if slot in ["head", "body", "feet", "hands", "offhand"]:
 		var d := _drawn(hi, key)
 		if not d.is_empty():
