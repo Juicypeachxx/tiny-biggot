@@ -55,7 +55,9 @@ func _ready() -> void:
 			if img.get_size() != Vector2i(bw, bh):
 				fail("%s in %s: the outfit is %s, not %dx%d" % [hero, k[1]["id"], img.get_size(), bw, bh])
 				continue
-			if k[0] in ["body", "feet", "hands"]:
+			var key: String = { "hands": "gloves" }.get(k[0], k[1]["shape"])
+			var drawn := not HeroGear._drawn(HeroGear._hero(hero), key).is_empty()   # 66.4: a piece drawn on the hero may reach past its outline (a robe, a boot)
+			if k[0] in ["body", "feet", "hands"] and not drawn:
 				var out := 0
 				for y in bh:
 					for x in bw:

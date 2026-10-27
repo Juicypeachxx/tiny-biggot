@@ -1,5 +1,12 @@
 # Handoff: where the work stands
 
+**27 Oct, IPA 66.4 Natural Hold:** big heroes' weapons at 62% of their icon (world_view.gd
+HELD_SCALE), held by the handle. Armour pieces drawn on each hero on PixelLab (442 edits, one a hero
+and shape; resprite/tools/gear_pieces.py cuts them into assets/gear_pieces/<hero>.png; hero_gear.gd
+_drawn paints them in the item's colours, falling back to the old shapes). In this IPA: the heroes
+done so far (alphabetical up to executioner). The batch was still running (scratchpad pl.run, jobs
+in pixellab/pieces): when done, run gear_pieces.py again, re-import, gear look test, next IPA.
+
 **27 Oct, IPA 66.3 Fitted Gear:** armour drawn at the hero picture's own pixels and placed by the
 hero's measured head/chest/hips/legs (hero_gear.gd); all 34 heroes' own held weapons and items
 erased on PixelLab (edit_image_pixen, 35 generations; old pictures in
