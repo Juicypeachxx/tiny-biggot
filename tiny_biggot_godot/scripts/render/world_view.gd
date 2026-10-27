@@ -350,9 +350,9 @@ func _paint_bg(ci: CanvasItem) -> void:
 
 ## 61 (his plan, 27 Oct: "with pixle lab you will start with maps and enviroments first"): a floor
 ## with its own PixelLab pictures (resprite/tools/pl_kit.py). Slabs picked by the room's seed (the
-## plainest of <kit>_tiles most, its last row rarely), soft shadows where the walls meet the floor, the top wall in
-## panels of 4 x 2 tiles (BiomeDeco.panels) with a column over every join, and the tops of the side
-## and bottom walls. Drawn once, when the room is entered; its own random numbers.
+## plainest of <kit>_tiles most, its last row rarely), soft shadows where the walls meet the floor,
+## the top wall in panels of 4 x 2 tiles (BiomeDeco.panels) with a column over every join, and the
+## tops of the side and bottom walls. Drawn once, when the room is entered; its own random numbers.
 func _paint_place(ci: CanvasItem, room: Room, kit_name: String) -> void:
 	var ts := TB.TS
 	var rng := SeedRng.new(room.seed_value ^ 0x3c6ef372)

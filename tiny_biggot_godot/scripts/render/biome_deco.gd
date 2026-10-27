@@ -142,7 +142,7 @@ static func paint_prop(ci: CanvasItem, room: Room, c: int, r: int) -> void:
 	var tex := Img.t(k)
 	var x := float(c * TB.TS) + floorf((TB.TS - tex.get_width()) / 2.0)   # 61: a narrower one in the middle
 	var y := float((r + 1) * TB.TS + 1 - tex.get_height())
-	ci.draw_rect(Rect2(x + 2, (r + 1) * TB.TS - 2, 12, 3), Color(0, 0, 0, 0.35))
+	ci.draw_rect(Rect2(c * TB.TS + 2, (r + 1) * TB.TS - 2, 12, 3), Color(0, 0, 0, 0.35))
 	ci.draw_texture(tex, Vector2(x, y))
 	if LIT.has(k):
 		_lights.append([LIT[k][0], x + LIT[k][1], y + LIT[k][2]])
@@ -257,6 +257,10 @@ static func paint_air(ci: CanvasItem, t: float) -> void:
 # ---------- floor pieces ----------
 static func _paint_pits(ci: CanvasItem, room: Room, kind: String, rng: SeedRng) -> void:
 	var pc: Array = PITS[kind]
+	# 61.5: a floor drawn on PixelLab shows the pit's far wall in its own stone, going down into
+	# the dark, and lit edges where the floor ends
+	var walls := "kit%d_walls" % G.floor_index
+	var face: Texture2D = Img.t(walls) if Img.has(walls) else null
 	for r in range(TB.IY0, TB.IY0 + TB.IH):
 		for c in range(TB.IX0, TB.IX0 + TB.IW):
 			if room.tile(c, r) != World.T_VOID:
@@ -264,7 +268,16 @@ static func _paint_pits(ci: CanvasItem, room: Room, kind: String, rng: SeedRng) 
 			var x := c * TB.TS
 			var y := r * TB.TS
 			ci.draw_rect(Rect2(x, y, TB.TS, TB.TS), _col(pc[0]))
-			if room.tile(c, r - 1) != World.T_VOID:
+			if room.tile(c, r - 1) != World.T_VOID and face != null:
+				# (the bottom walls' tops: no lip down their sides)
+				ci.draw_texture_rect_region(face, Rect2(x, y, TB.TS, 9), Rect2(rng.int_range(0, 3) * TB.TS, TB.TS + 2, TB.TS, 9))
+				var deep := _col(pc[1])
+				for i in 18:     # the stone darkens as it goes down (half a pixel at a time)
+					deep.a = 0.15 + 0.85 * i / 17.0
+					ci.draw_rect(Rect2(x, y + i * 0.5, TB.TS, 0.5), deep)
+				ci.draw_rect(Rect2(x, y, TB.TS, 0.5), _col(pc[2], 0.9))   # the lip, catching the light
+				ci.draw_rect(Rect2(x, y + 0.5, TB.TS, 0.5), _col(pc[2], 0.35))
+			elif room.tile(c, r - 1) != World.T_VOID:
 				ci.draw_rect(Rect2(x, y, TB.TS, 5), _col(pc[1]))   # the far wall of the pit, in shadow
 				ci.draw_rect(Rect2(x, y, TB.TS, 1), _col(pc[2], 0.8))   # the lip
 			for k in 3:
