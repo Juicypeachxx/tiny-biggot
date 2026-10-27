@@ -1611,7 +1611,7 @@ each point); the rest, proposed in the order it would be felt most, with names o
           and the barn.
     - [x] 61.5 Pits drawn with depth to match (a lip, the drop); the full check; IPA 61.
   - [ ] 62 Rooms that live (~40 pictures; mostly code). Tests, core replays re-recorded on purpose.
-    - [ ] 62.1 Traps that fit each place (spikes, swinging blades, fire jets, darts from the walls,
+    - [x] 62.1 (done 27 Oct: the first six floors; floors 7 to 11 and the rift worlds had theirs) Traps that fit each place (spikes, swinging blades, fire jets, darts from the walls,
           collapsing floors, falling icicles...): warned before they strike, so they are fair, and
           they hurt foes too.
     - [ ] 62.2 Mazes and new room shapes for each place (crypt corridors, flooded walkways, forge

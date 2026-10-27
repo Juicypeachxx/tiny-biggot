@@ -26,6 +26,7 @@ var hazards: Array = []
 var strike := ""
 var strike_t := 0.0
 var marks: Array = []
+var traps: Array = []    # 62.1: the first six floors' own traps (traps.gd)
 # Rift worlds (scripts/data/themes.gd) and event rooms; empty/zero for ordinary rooms.
 var theme := {}          # the rift world this room belongs to
 var rift_step := 0       # 0, 1: its fights; 2: its champion

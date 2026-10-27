@@ -376,6 +376,7 @@ func enter_room(r: Room) -> void:
 		room.objects_ready = true
 		setup_objects(room)
 		Hazards.setup(room, floor_index)
+		Traps.setup(room, floor_index)   # 62.1
 		RiftExtras.setup(room)
 	if GameData.rogues() and room.type == "start":
 		# Rogues layer: two training dummies to test your damage.

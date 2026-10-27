@@ -71,6 +71,16 @@ create_image_pixen, 1 generation): real pixel art at the exact size, a clean out
 Keep it up to date when a task is done: read it (Artifact action read with that url), change it,
 publish it with the same url. His OK on the floor 1 look (27 Oct: "Ok continiue"): 61.2 next.
 
+**27 Oct: Stage 62 started (his "ok go" after IPA 61). 62.1 done: traps on the first six floors**
+(scripts/world/traps.gd, expanded game only; floors 7 to 11 and rift worlds keep their own hazards):
+the Ossuary's bone spike plates, the Mirewood's thorn plates, the Sunken Archive's scalding water
+jets, the Cinderforge's fire jets, the Rimefrost Vault's frost jets, the Hollow Throne's swinging
+blades. Two to four a fight room, laid with the game's random numbers when the room is first
+entered, never in a doorway's way; they warn (0.7 s) before they strike, hurt the hero (a roll
+dodges) and foes (not guardians), and rest while the room is clear. Drawn procedurally (lower
+layer, and over the dark on night floors). tests/traps_test (in check.sh). The core replays change
+with them: to be re-recorded on purpose at the end of 62; classic must stay identical.
+
 **27 Oct: Stage 61 done, IPA 61 "Living Places".** 61.3 and 61.4: the chapter floors (kit11 to
 kit19), the 13 rift worlds, the final places and the barn each have their own floor slabs, two wall
 panels, column and wall tops (resprite/pixellab/<kit>/, pl_kit.py place()); rooms with no props of

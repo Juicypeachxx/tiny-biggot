@@ -472,6 +472,11 @@ timeout 600 "$GODOT" --headless --path . res://tests/bits_test.tscn -- --no-save
 grep -E "^\[bits\]|bits test" "$LOG"
 if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
 
+echo "== 62.1 the first six floors' traps: laid on each floor, strike only when warned, hurt hero and foes, none in classic"
+timeout 600 "$GODOT" --headless --path . res://tests/traps_test.tscn -- --no-save >"$LOG" 2>&1
+grep -E "^\[traps\]|traps test" "$LOG"
+if grep -E "FAIL|SCRIPT ERROR|Parse Error|ERROR:" "$LOG"; then status=1; fi
+
 echo "== guardian attacks on screen (20 s each: charges and lanes, beams and blinks, slams)"
 for fl in 3 5 0; do
   "$GODOT" --headless --path . --fixed-fps 60 --quit-after 1200 -- --bot --smart-bot --god --seed=4 --hero=6 --floor=$fl --room=boss --no-save >"$LOG" 2>&1

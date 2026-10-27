@@ -86,6 +86,7 @@ static func update(dt: float) -> void:
 	Resolve.tick(dt)   # 56.3 RESOLVE
 	Patterns.tick(dt)   # 56.4 the new attack patterns
 	Sefe.tick(dt)   # 59 ŠEFE's smoke and beer foam
+	Traps.tick(room, dt)   # 62.1 the floors' own traps
 	if room.hazards.is_empty() and room.strike == "" and room.marks.is_empty():
 		return
 	var active := G.enemies_active()

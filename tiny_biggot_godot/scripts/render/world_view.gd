@@ -115,6 +115,7 @@ func _ready() -> void:
 ## 22.1: on a night floor, what warns of danger shows over the dark (the floor layer leaves it out).
 func _paint_danger(ci: CanvasItem, t: float) -> void:
 	Hazards.draw_floor(ci, t)
+	Traps.draw(ci, t)   # 62.1
 	EnemyAI2.draw_goo(ci, t)
 	RiftBosses.draw_ground(ci, t)
 	Chaos.draw_ground(ci, t)
@@ -592,6 +593,7 @@ func _paint_lower(ci: CanvasItem) -> void:
 	var night := Weather.here() == "dark"
 	if not night:   # (22.1: on a night floor these are drawn over the dark: _paint_danger)
 		Hazards.draw_floor(ci, t)
+		Traps.draw(ci, t)   # 62.1
 	Rex.draw_floor(ci, t)
 	if not night:
 		EnemyAI2.draw_goo(ci, t)
