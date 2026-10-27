@@ -1,0 +1,62 @@
+{
+ "bat": {
+  "tool": "create_image_pixen",
+  "args": {
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true,
+   "description": "a small dark purple cave bat flying, wings spread wide and raised up, glowing red eyes, tiny fangs, dark fantasy monster, facing the viewer",
+   "width": 24,
+   "height": 24
+  }
+ },
+ "bat2": {
+  "tool": "create_image_pixen",
+  "args": {
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true,
+   "description": "a small dark purple cave bat flying, wings folded down below its body mid flap, glowing red eyes, tiny fangs, dark fantasy monster, facing the viewer",
+   "width": 24,
+   "height": 24
+  }
+ },
+ "slime": {
+  "tool": "create_image_pixen",
+  "args": {
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true,
+   "description": "a small bright green translucent slime blob with a glossy highlight and two little dark eyes, dungeon monster",
+   "width": 24,
+   "height": 24
+  }
+ },
+ "skeleton": {
+  "tool": "create_image_pixen",
+  "args": {
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true,
+   "description": "a small skeleton archer holding a wooden bow, cracked bones, tattered dark cloth at the hips, dark fantasy dungeon monster, facing right",
+   "width": 24,
+   "height": 24
+  }
+ },
+ "mushroom": {
+  "tool": "create_image_pixen",
+  "args": {
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true,
+   "description": "a small walking mushroom monster with a big red cap with white spots, a pale stubby body, tiny angry eyes, dungeon monster",
+   "width": 24,
+   "height": 24
+  }
+ }
+}

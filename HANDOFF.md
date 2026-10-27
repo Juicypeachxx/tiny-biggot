@@ -71,6 +71,15 @@ create_image_pixen, 1 generation): real pixel art at the exact size, a clean out
 Keep it up to date when a task is done: read it (Artifact action read with that url), change it,
 publish it with the same url. His OK on the floor 1 look (27 Oct: "Ok continiue"): 61.2 next.
 
+**64.1 pilot made, waiting for his OK**: floor 1's foes drawn on PixelLab (resprite/pixellab/mobs1, 5
+generations; 1,645 left): bat, slime, skeleton archer, mushroom at 24 x 24 (PixelLab wants a square
+canvas under 32 px). bat2 (the other wing beat) is bat with its wings folded down in code.
+resprite/tools/mob_pl.py trims each, sets it in a box at least the old size (feet at the bottom),
+writes graphics_hd and the half-size graphics copy (the game sizes a picture by it), and makes the
+elite from it with a 1-pixel gold rim (2 drowned the thin skeleton). Atlas baked (test PASSED);
+drawing only, no rule touched; 30 s of play without errors. Before and after:
+resprite/pixellab/mobs1/review_before_after.png. Not in an IPA yet. On his OK: 64.2, every foe.
+
 **63 done: THE EMBER FIRE** (scripts/world/bonfire.gd; his "bonfires from darksouls", our own design):
 expanded game, once a floor, the first fight room cleared halfway down (room.depth >= total / 2 - 1)
 raises a ring of standing stones, cold, with kindling beside it (never on the room's middle piece).

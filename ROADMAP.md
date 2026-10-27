@@ -1630,7 +1630,8 @@ each point); the rest, proposed in the order it would be felt most, with names o
     - [x] 63.2 (done 27 Oct: counted in the run, in all runs, 2 EMBER SHARDS a fire at the end; flame and sparks drawn live) Lit fires remembered; the flame animated. Test; IPA 63.
   - [ ] 64 Mobs (PixelLab, ~550): every foe, person, pet and guardian (with its stage looks) redrawn
         in that vibe.
-    - [ ] 64.1 Pilot: floor 1's foes, shown to him first.
+    - [ ] 64.1 Pilot: floor 1's foes, shown to him first. (27 Oct: drawn and in the game on V2, 5 generations;
+          his OK on resprite/pixellab/mobs1/review_before_after.png awaited before 64.2.)
     - [ ] 64.2 Every foe and elite, floor by floor.
     - [ ] 64.3 People, pets, guardians and bosses.
     - [ ] 64.4 The full check; IPA 64.
