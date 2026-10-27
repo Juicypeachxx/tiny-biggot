@@ -1625,9 +1625,9 @@ each point); the rest, proposed in the order it would be felt most, with names o
           on a stage ends with the tests that cover its changes, the replays and a short play; the
           full tools/check.sh only when he asks.)
   - [ ] 63 Bonfires (his word: "from darksouls"; our own design; ~10).
-    - [ ] 63.1 A rest fire on each floor: sit to mend, refill the potions, kindle it to make it
+    - [x] 63.1 (done 27 Oct: bonfire.gd, THE EMBER FIRE) A rest fire on each floor: sit to mend, refill the potions, kindle it to make it
           stronger.
-    - [ ] 63.2 Lit fires remembered; the flame animated. Test; IPA 63.
+    - [x] 63.2 (done 27 Oct: counted in the run, in all runs, 2 EMBER SHARDS a fire at the end; flame and sparks drawn live) Lit fires remembered; the flame animated. Test; IPA 63.
   - [ ] 64 Mobs (PixelLab, ~550): every foe, person, pet and guardian (with its stage looks) redrawn
         in that vibe.
     - [ ] 64.1 Pilot: floor 1's foes, shown to him first.

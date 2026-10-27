@@ -126,6 +126,13 @@ func _ready() -> void:
 				break
 			rm = World.make_room(G.floor_d, kind, "gold" if kind == "combat" else "", "s")
 		G.enter_room(rm)
+		if DebugArgs.has("bonfire"):   # 63: the floor's ember fire in this room
+			rm.depth = 99
+			Bonfire.on_clear(rm)
+			for o in rm.objects:   # --bonfire-lit=N: lit, and kindled N times
+				if o["kind"] == "bonfire" and DebugArgs.has("bonfire-lit"):
+					o["lit"] = true
+					o["level"] = DebugArgs.get_int("bonfire-lit", 0)
 	# --rift=ID [--step=0..3] jumps into a rift world (3: a new world's guardian), --event=NAME into an event room.
 	if DebugArgs.has("rift"):
 		var step := DebugArgs.get_int("step", 0)

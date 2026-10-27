@@ -688,6 +688,8 @@ func _paint_lower(ci: CanvasItem) -> void:
 				Tricks.draw(ci, o, t)   # 62.3
 			"setpiece":
 				SetPieces.draw(ci, o, t)   # 62.4
+			"bonfire", "kindling":
+				Bonfire.draw(ci, o, t)   # 63
 			"enchanter", "e_breath", "e_runesmith", "e_contraband", "e_branch":
 				Enchant.draw(ci, o, t)   # 46.1
 			"x_bowl":
@@ -1190,6 +1192,9 @@ func _paint_glow(ci: CanvasItem) -> void:
 				if not o.get("opened", false): Gfx.at(ci, "glow_purple", x - 30, y - 30)
 			"campfire":
 				Gfx.at(ci, "glow_torch", x - 36, y - 40, (120 if o.get("used", false) else 220) / 255.0)
+			"bonfire":   # 63: brighter with each kindling
+				if o["lit"]:
+					Gfx.at(ci, "glow_torch", x - 36, y - 44, minf(1.0, (150 + o["level"] * 40) / 255.0 + 0.08 * sin(G.time * 9.0)))
 			"altar":
 				if not o.get("used", false): Gfx.at(ci, "glow_red", x - 30, y - 34)
 			"portal", "loopportal", "exitportal", "soulgate", "pageportal":

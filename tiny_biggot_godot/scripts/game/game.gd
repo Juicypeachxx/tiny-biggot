@@ -989,6 +989,7 @@ func room_cleared() -> void:
 		room_changed.emit()
 		show_banner("FLAWLESS!", "NOT A SCRATCH: A HIDDEN DOOR OPENS")
 	Pace.on_clear(room)   # 35.2 CLEAR RUSH and the FIRST SPOILS
+	Bonfire.on_clear(room)   # 63: the floor's ember fire, halfway down
 	Draughts.on_clear(player)   # 49.2: the room draughts end
 	if p.g("room_armor") > 0:
 		p.armor += int(p.g("room_armor"))
@@ -1259,6 +1260,7 @@ func award_embers(win: bool) -> void:
 	var p := player
 	var parts := [["FLOORS", (floor_index + (1 if win else 0)) * 6], ["GUARDIANS", r["bosses"] * 12], ["FOES", r["kills"] / 8],
 		["EMBER SHARDS", p.embers_found], ["SECRETS", r["secrets"] * 5], ["LEVEL", p.level]]
+	Bonfire.award(parts)   # 63: the ember fires lit
 	if win or run_stats.get("throne", false):
 		parts.append(["VICTORY", 40])
 	if win and run_stats.get("throne", false):
@@ -1368,6 +1370,8 @@ func interact(o: Dictionary) -> void:
 		return Tricks.interact(o)   # 62.3
 	if SetPieces.handles(o["kind"]):
 		return SetPieces.interact(o)   # 62.4
+	if Bonfire.handles(o["kind"]):
+		return Bonfire.interact(o)   # 63
 	var p := player
 	# 05b_items.rb: weapons and gear on the floor or for sale.
 	if o["kind"] == "item" and (o["item"] as Dictionary).get("item", "") == "charm":   # 37.2 a charm

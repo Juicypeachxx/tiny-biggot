@@ -71,6 +71,17 @@ create_image_pixen, 1 generation): real pixel art at the exact size, a clean out
 Keep it up to date when a task is done: read it (Artifact action read with that url), change it,
 publish it with the same url. His OK on the floor 1 look (27 Oct: "Ok continiue"): 61.2 next.
 
+**63 done: THE EMBER FIRE** (scripts/world/bonfire.gd; his "bonfires from darksouls", our own design):
+expanded game, once a floor, the first fight room cleared halfway down (room.depth >= total / 2 - 1)
+raises a ring of standing stones, cold, with kindling beside it (never on the room's middle piece).
+Light it (free; counted in run_stats["fires"] and Meta "fires"), kindle it for gold up to twice
+(price (12 + floor x 3) x (level + 1)), then sit once: mends 50 / 75 / 100% of the hearts, fills the
+potions and rolls, +10% damage a kindling for 120 s. Each fire lit pays 2 EMBER SHARDS at the run's
+end. Pictures on PixelLab (resprite/pixellab/bonfire, 3 generations: bf_fire_cold, bf_fire_lit,
+bf_kindling in graphics_hd); the flame, its flare and sparks are drawn in code. Test options
+--bonfire (with --room) and --bonfire-lit=N. tests/bonfire_test (PASSED). PixelLab: 1,650 left.
+IPA 62 built (release ipa-62).
+
 **62.5 done: IPA 62 "Rooms That Live"** (VERSION 62). His word, 27 Oct: "you dont need to run full test
 suite do partial of only new changes, major tests we will do after i say so" (now in CLAUDE.md): the
 tests checked were tests/traps_test (traps, mazes, tricks, set pieces: PASSED), four 30 s bot plays on
