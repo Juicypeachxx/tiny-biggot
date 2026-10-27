@@ -1,0 +1,1618 @@
+{
+ "seraph_s2": {
+  "kind": "boss",
+  "stage": "done",
+  "id": "494a9c6f-e039-4ddf-811e-ab9324ff4c9c",
+  "ox": 0,
+  "oy": 2,
+  "size": [
+   128,
+   70
+  ],
+  "asked": [
+   "walk",
+   "attack"
+  ],
+  "frames": 7
+ },
+ "alchemist": {
+  "kind": "hero",
+  "stage": "moving",
+  "id": "5439e088-1a2c-4d10-aed2-9c4dbb12f33b",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ],
+  "asked": [
+   "walk",
+   "attack"
+  ]
+ },
+ "banehunter": {
+  "kind": "hero",
+  "stage": "moving",
+  "id": "5ac21bad-cdc7-4aa0-9330-bf0f2c72ee08",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ],
+  "asked": [
+   "walk",
+   "attack"
+  ]
+ },
+ "beastmaster": {
+  "kind": "hero",
+  "stage": "moving",
+  "id": "6283b4a4-e460-460c-be8d-367a8294703d",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ],
+  "asked": [
+   "walk",
+   "attack"
+  ]
+ },
+ "beekeeper": {
+  "kind": "hero",
+  "stage": "moving",
+  "id": "6fe27eda-5f31-4775-832e-ec902d43eb2c",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ],
+  "asked": [
+   "walk",
+   "attack"
+  ]
+ },
+ "berserker": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "b75add86-5ff1-4742-9ae2-66a0956224ba",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "bonecaller_hero": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "e59cc7c9-5a75-4ba7-916c-6d922e75e54d",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "boneweaver": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "27901663-c529-4e2f-8339-ec68b694d137",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "brute": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "eaccc2ca-1b16-4fe8-8715-c26bb3077c42",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "cartomancer": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "d534cfff-d7bd-44cf-93b9-be77ef4317c2",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "clockmaker": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "7c021e7d-23aa-42d2-a305-1fa2cf852490",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "condemned": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "2341f5ce-7787-4d0d-af35-4f85e1cd39ac",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "demolitionist": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "d06c0402-d16a-4c17-90fc-f5965707969b",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "executioner": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "caea8dd4-4979-4d24-aebc-a353aae39870",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "forsaken": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "27e095fe-5490-4026-b2aa-f1db201ad2bc",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "frostwitch": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "c87fa147-27be-411e-b2c6-cc3c91b0fdff",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "gaolbird": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "eff5e442-71da-4ec1-be5e-cf92365c3279",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "gravedigger": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "f2d30700-62e6-4244-8345-bdf78489ac95",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "hexer": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "7ac360cd-3de5-4bea-baf1-e6d2aff281af",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "inkling_hero": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "5793462e-34df-4faa-b99b-8de618b39796",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "jester": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "601125af-014b-42da-aa27-8a48c8703a45",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "mindwarden_hero": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "eda85cdf-1573-4f72-a43c-58afe0292d6f",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "minstrel": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "65b71c91-ddb7-46bf-ae23-4194641a358d",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "mirrorknight": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "4623608b-1918-49c4-afca-921089f64784",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "oathbreaker": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "1a8003ee-f938-41a6-be70-5693c2840a86",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "pilgrim": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "7c6d94cd-161b-46da-8fe4-daa40e42d933",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "plaguesaint": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "92ff2243-3d04-482a-ac87-92854ec864ad",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "poacher": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "c2d9605a-a366-4b9c-8302-21c5633e51c5",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "racketeer": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "7875e65d-55d4-4854-a49a-e73e0a43e0c4",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "sellsword": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "b81b4787-1685-473a-9aa1-3d187e110dc1",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "tavernknight_hero": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "f7b25a27-96bc-40dc-8c4d-e8dbd7395575",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "tinkerer": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "94d1d57b-13b3-4fb0-bd11-01905230966f",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "trickshot_hero": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "b8b0ff57-d3d1-496e-a092-362a1f941cc8",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "warden": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "794c74d0-077d-443f-80f5-6340897789dd",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "wayfarer": {
+  "kind": "hero",
+  "stage": "object",
+  "id": "d6ba6215-6174-448d-8b6b-178f3478b8c0",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ]
+ },
+ "colossus": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "db1917b4-bb00-453b-a592-a4c8ea8344da",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   64,
+   68
+  ]
+ },
+ "colossus_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "2172ea14-6e37-437a-94cc-546437877e20",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   72,
+   80
+  ]
+ },
+ "colossus_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "cdfbecb1-f556-428e-acae-6c3be947bffa",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   104,
+   92
+  ]
+ },
+ "sporemother": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "08f475cc-7914-4571-9904-ec5ca8e3412d",
+  "ox": 1,
+  "oy": 0,
+  "size": [
+   70,
+   64
+  ]
+ },
+ "sporemother_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "d2133c7f-cd7b-476a-b0a8-700d61570584",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   72,
+   68
+  ]
+ },
+ "sporemother_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "6b2ef02d-41b4-43a3-a045-df26e73b2f35",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   80,
+   72
+  ]
+ },
+ "librarian": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "37e5db8e-d236-4e29-bd0c-a8bfb9e43119",
+  "ox": 1,
+  "oy": 2,
+  "size": [
+   70,
+   66
+  ]
+ },
+ "librarian_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "e2d06d59-593c-47b3-8e3c-632200269d1c",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   72,
+   76
+  ]
+ },
+ "librarian_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "c182439d-e7b2-4759-95c7-865813850c2d",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   128,
+   88
+  ]
+ },
+ "tyrant": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "7434f05b-22de-419e-aa22-e95362c501a4",
+  "ox": 0,
+  "oy": 2,
+  "size": [
+   64,
+   66
+  ]
+ },
+ "tyrant_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "1b8b3473-b8c4-43a3-bfbb-4ab95c628022",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   88,
+   84
+  ]
+ },
+ "tyrant_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "6a351462-97cc-442d-9153-435edea339a4",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   104,
+   88
+  ]
+ },
+ "rimewarden": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "5ac4915e-adc8-4d35-a365-1c9179c0a876",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   64,
+   68
+  ]
+ },
+ "rimewarden_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "77475e38-3074-4bd0-acb1-76dd16fe6840",
+  "ox": 0,
+  "oy": 2,
+  "size": [
+   88,
+   70
+  ]
+ },
+ "rimewarden_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "7ae8fecc-49a4-4c42-a059-fe86b04e4f0d",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   112,
+   88
+  ]
+ },
+ "regent": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "83ff1da6-68ae-468a-ab07-11a84d18e2d6",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   64,
+   68
+  ]
+ },
+ "regent_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "f51d29f7-3f31-4a2d-9169-5b3f12e20af8",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   72,
+   80
+  ]
+ },
+ "regent_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "0a126b70-eee6-4d51-accd-a936ce30f231",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   136,
+   92
+  ]
+ },
+ "bogmatriarch": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "d4152e10-09be-4d44-8a9e-c302de034efb",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   68,
+   64
+  ]
+ },
+ "bogmatriarch_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "eafa5a73-dcbc-43db-acb9-e6eb78c8fc02",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   72,
+   68
+  ]
+ },
+ "bogmatriarch_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "c5256ce8-77bd-49fd-bb6c-a3532ce19a9f",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   88,
+   84
+  ]
+ },
+ "ashwarlord": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "1e0d5b62-a136-46ff-ae5c-aa30cc196a2a",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   64,
+   64
+  ]
+ },
+ "ashwarlord_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "0b06504b-3a27-4faa-ad06-e94fc16f3957",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   96,
+   88
+  ]
+ },
+ "ashwarlord_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "e35aec0d-9197-412b-b367-02c7fc325335",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   136,
+   96
+  ]
+ },
+ "frozenabbot": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "ecc6d3b8-b63f-4eb4-b518-723f1087e953",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   64,
+   64
+  ]
+ },
+ "frozenabbot_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "a0583cd0-0055-4e80-abbe-83e086c9ada3",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   88,
+   68
+  ]
+ },
+ "frozenabbot_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "3f2bee1c-675f-42d9-9e4a-d5a7858b3349",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   104,
+   88
+  ]
+ },
+ "crowking": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "e629ceb3-3e84-42a0-8e87-7817100ca22a",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   64,
+   68
+  ]
+ },
+ "crowking_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "31c5af5b-824a-4cca-bce3-28afefc87306",
+  "ox": 0,
+  "oy": 2,
+  "size": [
+   120,
+   74
+  ]
+ },
+ "crowking_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "c27b8902-969e-441b-bb15-31ec063b4c09",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   136,
+   84
+  ]
+ },
+ "umbralsun": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "5b7917ca-d149-44ab-9b3d-11d4c67cc02c",
+  "ox": 0,
+  "oy": 2,
+  "size": [
+   64,
+   66
+  ]
+ },
+ "umbralsun_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "75d534a9-c20d-4be1-bcd0-2a463e2ac819",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   76,
+   76
+  ]
+ },
+ "umbralsun_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "ab0fc7b1-69f6-4da0-885e-55f79c8f0ab0",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   112,
+   76
+  ]
+ },
+ "holycow": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "1223943e-2692-484b-8d7b-4ea6ee062c0e",
+  "ox": 1,
+  "oy": 0,
+  "size": [
+   66,
+   68
+  ]
+ },
+ "holycow_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "fa0aef78-5b6f-4b8e-8270-e1ee92ee90b8",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   88,
+   76
+  ]
+ },
+ "holycow_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "e98cc9d7-7c9c-4ffc-bf7b-5a13c8b54899",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   136,
+   88
+  ]
+ },
+ "judge": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "c4463ada-a623-4a7b-be1f-309323fe31a9",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   64,
+   64
+  ]
+ },
+ "judge_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "e2b7bd88-bec6-4b9b-85c1-7f593c1c92dc",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   112,
+   68
+  ]
+ },
+ "judge_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "da330dce-57dc-46f4-ae99-d4652508b798",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   136,
+   84
+  ]
+ },
+ "cinderking": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "a4cc5282-7834-4b0a-80d3-0657b312f9d6",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   64,
+   64
+  ]
+ },
+ "cinderking_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "db04a23e-f616-4a6b-aa22-a4ecbd38a73f",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   80,
+   84
+  ]
+ },
+ "cinderking_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "3d724817-48a7-4180-9680-6b1bdfbf71a5",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   136,
+   92
+  ]
+ },
+ "unwritten": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "c533d6dc-ed67-4116-82bc-33922720d9eb",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   64,
+   64
+  ]
+ },
+ "unwritten_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "db000c10-a53d-4434-b689-d5b18e238aa9",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   72,
+   68
+  ]
+ },
+ "unwritten_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "d6f55219-46c4-444c-9d6a-66607e891d2a",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   80,
+   88
+  ]
+ },
+ "stormcrown": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "22d38a35-793d-4f1d-b475-6800daf6b6dc",
+  "ox": 1,
+  "oy": 0,
+  "size": [
+   66,
+   64
+  ]
+ },
+ "stormcrown_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "11860f95-8dec-4c31-850f-dfa3239c4f45",
+  "ox": 0,
+  "oy": 2,
+  "size": [
+   68,
+   66
+  ]
+ },
+ "stormcrown_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "ff5dc654-f7e4-4c3e-bb2e-be73da15049c",
+  "ox": 1,
+  "oy": 0,
+  "size": [
+   70,
+   68
+  ]
+ },
+ "bilgehydra": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "50b6b344-8056-4991-b8c1-3fdef9f809b3",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   96,
+   96
+  ]
+ },
+ "bilgehydra_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "06cac2a8-3c96-4fcd-90f3-39c787e51d7b",
+  "ox": 1,
+  "oy": 0,
+  "size": [
+   70,
+   68
+  ]
+ },
+ "bilgehydra_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "971a1601-4a58-4262-bb60-31f00c0fb354",
+  "ox": 1,
+  "oy": 2,
+  "size": [
+   70,
+   70
+  ]
+ },
+ "brassorgan": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "6a42c275-31f0-4e0e-895e-eaf1eb4d0c0d",
+  "ox": 1,
+  "oy": 0,
+  "size": [
+   82,
+   68
+  ]
+ },
+ "brassorgan_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "33c2c526-7e7e-4562-9a9b-2e1a2252c28c",
+  "ox": 1,
+  "oy": 0,
+  "size": [
+   98,
+   68
+  ]
+ },
+ "brassorgan_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "32e945ec-d9f7-4fa5-bfb9-fffeae63601b",
+  "ox": 1,
+  "oy": 2,
+  "size": [
+   102,
+   70
+  ]
+ },
+ "greatengine": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "42b03518-2f9d-4348-83e3-4bd84a99fd69",
+  "ox": 1,
+  "oy": 2,
+  "size": [
+   66,
+   70
+  ]
+ },
+ "greatengine_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "4683c41f-3b4b-442d-986b-beea17c2a5b5",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   88,
+   84
+  ]
+ },
+ "greatengine_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "fed0d3a9-e6c8-4570-afb3-83fd671328c0",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   104,
+   92
+  ]
+ },
+ "glacialmaw": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "a654870f-8b7d-4554-a9eb-ccc25999dd82",
+  "ox": 1,
+  "oy": 0,
+  "size": [
+   66,
+   64
+  ]
+ },
+ "glacialmaw_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "b606e469-9c31-4cc4-93d3-de7aee0f9ac7",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   88,
+   84
+  ]
+ },
+ "glacialmaw_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "f0ad16b0-45b1-44aa-9fb2-59f095d625f5",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   104,
+   92
+  ]
+ },
+ "inkleviathan": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "9f383c52-ccc7-46c3-9af5-c67e10004c27",
+  "ox": 1,
+  "oy": 0,
+  "size": [
+   66,
+   64
+  ]
+ },
+ "inkleviathan_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "c2b7bf3a-f0c5-4a4e-8526-3d48b0621f4c",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   80,
+   80
+  ]
+ },
+ "inkleviathan_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "a594dc21-aaa7-4083-9e16-019485ee7489",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   104,
+   92
+  ]
+ },
+ "thebinder": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "cd7ea0f0-9022-4a9a-952b-496fab3d8a19",
+  "ox": 1,
+  "oy": 0,
+  "size": [
+   66,
+   64
+  ]
+ },
+ "thebinder_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "dff96deb-b4dd-4dc2-8b12-17e5442d7b38",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   88,
+   68
+  ]
+ },
+ "thebinder_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "4df90e46-ff5a-4d89-8546-a045cbf6547e",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   104,
+   88
+  ]
+ },
+ "author": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "d36648b9-066c-45c8-a122-4ea1d1e5bf1c",
+  "ox": 0,
+  "oy": 2,
+  "size": [
+   64,
+   66
+  ]
+ },
+ "author_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "4d1a29c1-4dbc-43b0-beb5-03374af303b8",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   128,
+   68
+  ]
+ },
+ "author_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "3b5b0044-2705-468a-b917-044974602cdf",
+  "ox": 0,
+  "oy": 2,
+  "size": [
+   68,
+   70
+  ]
+ },
+ "redactor": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "98e63e36-46c9-4d24-8237-4347a4eb6df4",
+  "ox": 0,
+  "oy": 2,
+  "size": [
+   64,
+   66
+  ]
+ },
+ "redactor_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "3752c126-a367-4e09-8a75-1b478942f64a",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   128,
+   68
+  ]
+ },
+ "redactor_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "65c033ce-7668-40d5-9b2e-8d4d63a66938",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   136,
+   88
+  ]
+ },
+ "lexicon": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "153070a9-c197-4cae-bc7a-6bca3058b26a",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   64,
+   64
+  ]
+ },
+ "lexicon_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "3a3f1f32-d1aa-4195-9317-4337241287c2",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   72,
+   80
+  ]
+ },
+ "lexicon_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "6e3600f8-fd3f-4c36-a815-550504d5380a",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   136,
+   88
+  ]
+ },
+ "erratum": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "bedbc637-0b3d-4183-b851-d8ab2ea5e21c",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   64,
+   64
+  ]
+ },
+ "erratum_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "5d7c2c93-e789-4267-a794-9e7576d42b90",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   88,
+   68
+  ]
+ },
+ "erratum_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "d8a03b5c-6fe7-4544-903e-ab3af448ea72",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   104,
+   92
+  ]
+ },
+ "reader": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "bdcd89b4-f5fc-4334-8dc5-8030ab4ddb7c",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   64,
+   64
+  ]
+ },
+ "reader_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "4a12df13-2139-4872-9a95-d64c0a886f5f",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   128,
+   68
+  ]
+ },
+ "reader_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "3c93d700-c590-40d3-99a4-9ee19dc10c44",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   136,
+   88
+  ]
+ },
+ "shelver": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "1db76711-bce1-4737-a90e-9ec948993ad9",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   64,
+   64
+  ]
+ },
+ "shelver_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "cce253e9-a60c-4886-9144-6dd92e9e9278",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   88,
+   80
+  ]
+ },
+ "shelver_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "dfd47b3b-4f15-49c8-bf29-c8a3f6023d6e",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   104,
+   88
+  ]
+ },
+ "hush": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "8bd0bf96-8e02-4581-9568-c39985b9c270",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   64,
+   64
+  ]
+ },
+ "hush_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "ddaee45c-d3ad-40bd-a936-bc368df30737",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   128,
+   68
+  ]
+ },
+ "hush_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "edd2c5a4-f622-41b1-8588-2f205684a012",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   136,
+   72
+  ]
+ },
+ "critic": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "d8ddac47-7e16-4b91-87a0-242fd03d95a6",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   64,
+   64
+  ]
+ },
+ "critic_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "d08bbdf2-8d09-4463-a80c-84f19d1e5238",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   72,
+   76
+  ]
+ },
+ "critic_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "c7d55def-6af5-4be0-a660-8c10dc8942fd",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   136,
+   92
+  ]
+ },
+ "admiral": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "c86eca63-280a-4e58-875f-5f03001b4757",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   72,
+   64
+  ]
+ },
+ "admiral_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "a2b171ff-142b-42d4-90bb-9334a6df61fc",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   72,
+   76
+  ]
+ },
+ "admiral_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "9f2b4e37-c45f-4648-92e0-f9bf36dc9822",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   80,
+   88
+  ]
+ },
+ "golemking": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "0788b7a0-668d-4848-9b14-e15bf23973bf",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   64,
+   68
+  ]
+ },
+ "golemking_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "daf413a4-a74b-4ec8-a87a-6f3d59f292c9",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   88,
+   68
+  ]
+ },
+ "golemking_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "9116246a-9d04-48ef-98a3-3a3ec2ec3824",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   104,
+   88
+  ]
+ },
+ "archmage": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "822879b4-606f-43f1-bafe-a2c51e2b202e",
+  "ox": 0,
+  "oy": 2,
+  "size": [
+   64,
+   66
+  ]
+ },
+ "archmage_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "e90907d9-4b21-418b-843c-d241259668c0",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   72,
+   68
+  ]
+ },
+ "archmage_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "1a41dbf7-52e5-4aab-9c71-487738a37d31",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   80,
+   84
+  ]
+ },
+ "phoenix": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "d2f77287-c958-4a3c-8c37-73c2d5883f7a",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   64,
+   68
+  ]
+ },
+ "phoenix_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "5efaa4c5-1086-401d-aa39-23da0925ebfc",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   72,
+   80
+  ]
+ },
+ "phoenix_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "bbf6c021-36fc-4e9b-8c75-fbe36572b504",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   136,
+   88
+  ]
+ },
+ "wyrm": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "b89bc803-f329-46dc-a165-c3f0e79f557d",
+  "ox": 1,
+  "oy": 0,
+  "size": [
+   66,
+   64
+  ]
+ },
+ "wyrm_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "ab811a47-1b5a-4215-97de-1e5192cec7c1",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   88,
+   84
+  ]
+ },
+ "wyrm_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "8f46cd28-f001-4da1-a0c0-83e551108fa7",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   136,
+   92
+  ]
+ },
+ "chainfiend": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "2bc17ddc-4732-441c-835c-f961ecde661d",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   64,
+   64
+  ]
+ },
+ "chainfiend_s2": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "b77dd053-b77d-4069-b752-1d23a21ae220",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   80,
+   84
+  ]
+ },
+ "chainfiend_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "b94f39ee-fa62-4301-8b11-1a87267863c8",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   104,
+   92
+  ]
+ },
+ "seraph": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "9df50b88-ef13-45ef-8c7c-73b7c05cd0d9",
+  "ox": 0,
+  "oy": 2,
+  "size": [
+   76,
+   70
+  ]
+ },
+ "seraph_s3": {
+  "kind": "boss",
+  "stage": "object",
+  "id": "0c80ecb7-44c8-414e-8f15-fe10f2bce818",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   136,
+   72
+  ]
+ }
+}
