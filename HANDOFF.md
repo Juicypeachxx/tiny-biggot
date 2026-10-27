@@ -66,6 +66,28 @@ answers, the pictures come inline and from api.pixellab.ai/mcp/images/<job>/down
 generations a month (reset 26 Nov) and a daily bonus of 20. One test (a 32 x 32 greatsword,
 create_image_pixen, 1 generation): real pixel art at the exact size, a clean outline, readable.
 
+**27 Oct: Stage 61 pilot, floor 1 (the Ossuary) drawn on PixelLab** (his plan, ROADMAP part THE
+LIVING PIXEL WORLD: environments first). 14 generations (and the 1 test before): 1985 of 2000 left
+this month (resets 26 Nov; a daily bonus of 20 on top). The pictures as they came and the words
+they were made from: resprite/pixellab/kit0/ (prompts.json). resprite/tools/pl_kit.py makes them
+ready (cut, recoloured to the floor's hue, fitted) into graphics_hd as kit0_*: 16 floor slabs
+(kit0_tiles, the last row rare), the top wall in panels (kit0_wallface: skulls and bones; an
+alcove with candles), a column over every join (kit0_pilaster), the tops of the side and bottom
+walls (kit0_walls), props (bone pile, wooden coffin, candles on a skull that light the room, the
+old urn kept), wall dressing (skull niche, chains) and things on the floor (kit0_decals: bones,
+a hand, bits of bone, stones). world_view.gd _paint_place draws a floor that has <kit>_wallface
+(once per room, its own random numbers; shadows where the walls meet the floor, the top of the
+wall darker under the HUD); BiomeDeco.panels, PANEL_X (the dressing on plain panels, clear of the
+torches and the door), PIC_DECALS. These pictures are not in the atlas (no picture of today's by
+their name): drawn only into the room's background, once. Found on PixelLab: create_image_pixen
+128 x 128 "a 4 by 4 grid of square flagstones" gives 16 slabs exactly on the 32-pixel grid (a
+busier prompt gave 3 x 3: floor_slabs_b, not used); the standard Wang tileset came out flat (not
+used); a sheet of small things on no background drew a floor patch behind some (only the separate
+ones cut); a soft floor (calm() in pl_kit.py) keeps foes and shots easy to see; at most 8 jobs at
+a time. Checked: floors 2 to 11 are pixel-identical to before for their first 75 frames (later
+frames differ between any two runs, even of one build: the effects' own random numbers are not
+seeded); the atlas test passes. Shown to him for his OK before the other floors.
+
 **V2 (branch tiny-biggot-V2 only, his test): every sprite redrawn on SpriteCook in his bright look
 (21 Oct).** Done:
 - characters and bosses (all stages);

@@ -12,7 +12,7 @@ extends RefCounted
 
 ## Per floor: props (instead of the pillar), wall dressing, floor decals, set piece, air, pit.
 const BIOMES := [
-	{ "props": ["prop_bonepile", "prop_coffin", "prop_urn"], "wall": ["wall_skullniche", "wall_chains"], "decals": ["bones", "crack", "crack", "pebbles", "cobweb"], "piece": "mosaic", "air": "dust", "pit": "chasm" },
+	{ "props": ["kit0_bonepile", "kit0_coffin", "prop_urn", "kit0_candles"], "wall": ["kit0_skullniche", "kit0_chains"], "decals": ["bones", "crack", "crack", "pebbles", "cobweb"], "piece": "mosaic", "air": "dust", "pit": "chasm" },
 	{ "props": ["prop_stump", "prop_shroom", "prop_mossrock"], "wall": ["wall_vines", "wall_glowshroom"], "decals": ["moss", "moss", "grass", "puddle", "shroomlets"], "piece": "mossring", "air": "spores", "pit": "water" },
 	{ "props": ["prop_shelf", "prop_bookpile", "prop_bust"], "wall": ["wall_books", "wall_window"], "decals": ["pages", "puddle", "crack", "weed"], "piece": "pool", "air": "bubbles", "pit": "water" },
 	{ "props": ["prop_anvil", "prop_brazier", "prop_ironbarrel"], "wall": ["wall_vent", "wall_chains"], "decals": ["lavacrack", "soot", "coal", "plate"], "piece": "grate", "air": "embers", "pit": "lava" },
@@ -26,9 +26,16 @@ const BIOMES := [
 ]
 ## Props that give light: glow sprite and its offset from the prop's top left.
 const LIT := { "prop_brazier": ["glow_torch", 8, 2], "prop_candelabra": ["glow_torch", 8, 1], "prop_lamppost": ["glow_torch", 3, 7],
-	"prop_stonelantern": ["glow_torch", 8, 6], "prop_obelisk": ["glow_red", 8, 8] }
+	"prop_stonelantern": ["glow_torch", 8, 6], "prop_obelisk": ["glow_red", 8, 8], "kit0_candles": ["glow_torch", 7, 3] }
 ## Spots on the top wall face for dressing (x of a 16-wide piece), clear of the torches and the door.
 const WALL_X := [24, 56, 136, 160, 272, 296, 376, 408]
+## 61: a floor drawn on PixelLab (world_view.gd _paint_place) has its top wall in seven panels of 4
+## tiles. Its dressing goes on plain panels only, one spot each, clear of the columns over the joins,
+## the torches (in panels 1 and 5) and the door (panel 3).
+const PANEL_X := { 0: 12, 1: 12, 2: 12, 4: 12, 5: 44, 6: 12 }
+## 61: small things lying on the floor drawn on PixelLab (<kit>_decals, a tile each): which of
+## them stand for which of the floor's decals.
+const PIC_DECALS := { "kit0": { "bones": [0, 1, 2, 3], "pebbles": [4, 5, 6] } }
 ## Pits (World.T_VOID in a floor's own rooms): fill, deep, lip, detail colours.
 const PITS := { "chasm": ["#0b0810", "#050308", "#4e4a5e", "#1c1626"], "water": ["#1d4a5a", "#123341", "#6fd3e0", "#2f6f7f"],
 	"lava": ["#8a2a1a", "#5a160e", "#f2c94c", "#e8873a"], "ice": ["#2b4f8a", "#1b3566", "#e8f6ff", "#9fc3ee"],
@@ -60,11 +67,18 @@ static func paint_floor(ci: CanvasItem, room: Room) -> void:
 	if room.type != "start" and rng.next_f() < 0.6:
 		_piece(ci, room, b["piece"], rng)
 	var decals: Array = b["decals"]
+	var pics: Dictionary = PIC_DECALS.get("kit%d" % G.floor_index, {})
 	for i in 22 + rng.int_range(0, 10):
 		var c := rng.int_range(TB.IX0, TB.IX0 + TB.IW - 1)
 		var r := rng.int_range(TB.IY0, TB.IY0 + TB.IH - 1)
 		var k: String = decals[rng.int_range(0, decals.size() - 1)]
 		if room.tile(c, r) != World.T_FLOOR or (room.type == "start" and r >= 7 and r <= 9):
+			continue
+		if pics.has(k):
+			var cells: Array = pics[k]
+			var v: int = cells[rng.int_range(0, cells.size() - 1)]
+			ci.draw_texture_rect_region(Img.t("kit%d_decals" % G.floor_index), Rect2(c * TB.TS + rng.int_range(-3, 3), r * TB.TS + rng.int_range(-3, 3),
+				TB.TS, TB.TS), Rect2(v * TB.TS, 0, TB.TS, TB.TS))
 			continue
 		_decal(ci, k, c * TB.TS + rng.int_range(1, 11), r * TB.TS + rng.int_range(1, 11), rng)
 
@@ -88,7 +102,14 @@ static func paint_wall(ci: CanvasItem, room: Room) -> void:
 				if (x - seg[0]) % 7 == 3:
 					ci.draw_rect(Rect2(x - 1, y + 1, 4, 5), _col(cols[(x / 7) % cols.size()], 0.9))
 	var spots := WALL_X.duplicate()
-	for i in 3 + rng.int_range(0, 2):
+	var face := "kit%d_wallface" % G.floor_index
+	if Img.has(face):
+		var panel := panels(room, int(Img.t(face).get_width()) / (4 * TB.TS))
+		spots = []
+		for k: int in PANEL_X:
+			if panel[k] == 0:
+				spots.append(k * 4 * TB.TS + PANEL_X[k])
+	for i in mini(3 + rng.int_range(0, 2), spots.size()):
 		var x: int = spots.pop_at(rng.int_range(0, spots.size() - 1))
 		var k: String = kinds[rng.int_range(0, kinds.size() - 1)]
 		match k:
@@ -104,19 +125,31 @@ static func paint_wall(ci: CanvasItem, room: Room) -> void:
 				ci.draw_rect(Rect2(x + 9, 29, 3, 2), _col(c1))
 			_:
 				var tex := Img.t(k)
-				ci.draw_texture(tex, Vector2(x, 2 * TB.TS - 1 - tex.get_height()))
+				ci.draw_texture(tex, Vector2(x + floorf((TB.TS - tex.get_width()) / 2.0), 2 * TB.TS - 1 - tex.get_height()))
 
 ## A pillar tile's prop (in place of the plain square pillar), with a soft shadow at its foot.
 static func paint_prop(ci: CanvasItem, room: Room, c: int, r: int) -> void:
 	var props: Array = biome()["props"]
 	var k: String = props[absi((c * 73856093) ^ (r * 19349663) ^ room.seed_value) % props.size()]
 	var tex := Img.t(k)
-	var x := float(c * TB.TS)
+	var x := float(c * TB.TS) + floorf((TB.TS - tex.get_width()) / 2.0)   # 61: a narrower one in the middle
 	var y := float((r + 1) * TB.TS + 1 - tex.get_height())
 	ci.draw_rect(Rect2(x + 2, (r + 1) * TB.TS - 2, 12, 3), Color(0, 0, 0, 0.35))
 	ci.draw_texture(tex, Vector2(x, y))
 	if LIT.has(k):
 		_lights.append([LIT[k][0], x + LIT[k][1], y + LIT[k][2]])
+
+## 61: which of its panels (<kit>_wallface, `kinds` of them: the first plain) stands in each of
+## the top wall's seven places; the others only where no torch or door is (places 1, 3 and 5).
+static func panels(room: Room, kinds: int) -> Array:
+	var rng := SeedRng.new(room.seed_value ^ 0x1b873593)
+	var out := []
+	for k in TB.COLS / 4:
+		var v := 0
+		if kinds > 1 and not k in [1, 3, 5] and rng.next_f() < 0.4:
+			v = rng.int_range(1, kinds - 1)
+		out.append(v)
+	return out
 
 ## Called before a room's background is drawn: forget the old room's lights and air.
 static func begin(room: Room) -> void:

@@ -1594,6 +1594,9 @@ each point); the rest, proposed in the order it would be felt most, with names o
   - [ ] 61 Environments (PixelLab): for each of the 20 kits and the named places, walls (still
         today's pictures x2 in V2), floors with variety, and the room objects, in that vibe. Pilot:
         the first floor, then the rest. IPA.
+        Pilot done (27 Oct, 14 generations): floor 1 (the Ossuary): slabs, walls in panels with
+        columns, wall tops, props, wall dressing, floor bits (resprite/tools/pl_kit.py). Shown to
+        him; the other floors wait for his OK on the look.
   - [ ] 62 Rooms that live: set pieces that belong to each place, mazes, traps that fit it (spikes,
         swinging blades, fire jets, collapsing floors, darts...), hidden rooms found by their place's
         own trick (a cracked wall to blast, a lever, a false bookcase, a draught of air); laid out so

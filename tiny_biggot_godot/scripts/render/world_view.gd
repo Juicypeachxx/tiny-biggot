@@ -304,7 +304,9 @@ func _paint_bg(ci: CanvasItem) -> void:
 	var kit_name: String = room.kit if room.kit != "" else (room.theme["kit"] if not room.theme.is_empty() else "kit%d" % G.floor_index)
 	var kit := Img.t(kit_name)
 	ci.draw_rect(Rect2(0, 0, TB.SW, TB.SH), TB.c("#140f1c"))
-	if Img.has(kit_name + "_floor"):
+	if Img.has(kit_name + "_wallface"):
+		_paint_place(ci, room, kit_name)   # 61: a floor drawn on PixelLab
+	elif Img.has(kit_name + "_floor"):
 		# 59.1: the floor is one texture, repeated over the room (it has no tiles to pick from).
 		ci.draw_texture_rect(Img.t(kit_name + "_floor"), Rect2(TB.IX0 * ts, TB.IY0 * ts, TB.IW * ts, TB.IH * ts), true)
 	else:
@@ -313,16 +315,17 @@ func _paint_bg(ci: CanvasItem) -> void:
 			for c in range(TB.IX0, TB.IX0 + TB.IW):
 				var v := rng.int_range(0, 7) * 2 + (0 if (r + c) % 2 == 1 else 1)
 				ci.draw_texture_rect_region(kit, Rect2(c * ts, r * ts, ts, ts), Rect2(v * ts, 0, ts, ts))
-	# RGSS fill_rect replaced these pixels with (10,6,16) at alpha 90 over a black screen.
-	var k := 90.0 / 255.0
-	ci.draw_rect(Rect2(ts, TB.IY0 * ts, TB.IW * ts, 5), Color(10 / 255.0 * k, 6 / 255.0 * k, 16 / 255.0 * k))
-	for c in TB.COLS:
-		ci.draw_texture_rect_region(kit, Rect2(c * ts, 0, ts, ts), Rect2(0, ts, ts, ts))
-		ci.draw_texture_rect_region(kit, Rect2(c * ts, ts, ts, ts), Rect2(ts, ts, ts, ts))
-		ci.draw_texture_rect_region(kit, Rect2(c * ts, 17 * ts, ts, ts), Rect2(2 * ts, ts, ts, ts))
-	for r in range(TB.IY0, TB.ROWS - 1):
-		ci.draw_texture_rect_region(kit, Rect2(0, r * ts, ts, ts), Rect2(3 * ts, ts, ts, ts))
-		ci.draw_texture_rect_region(kit, Rect2(27 * ts, r * ts, ts, ts), Rect2(4 * ts, ts, ts, ts))
+	if not Img.has(kit_name + "_wallface"):
+		# RGSS fill_rect replaced these pixels with (10,6,16) at alpha 90 over a black screen.
+		var k := 90.0 / 255.0
+		ci.draw_rect(Rect2(ts, TB.IY0 * ts, TB.IW * ts, 5), Color(10 / 255.0 * k, 6 / 255.0 * k, 16 / 255.0 * k))
+		for c in TB.COLS:
+			ci.draw_texture_rect_region(kit, Rect2(c * ts, 0, ts, ts), Rect2(0, ts, ts, ts))
+			ci.draw_texture_rect_region(kit, Rect2(c * ts, ts, ts, ts), Rect2(ts, ts, ts, ts))
+			ci.draw_texture_rect_region(kit, Rect2(c * ts, 17 * ts, ts, ts), Rect2(2 * ts, ts, ts, ts))
+		for r in range(TB.IY0, TB.ROWS - 1):
+			ci.draw_texture_rect_region(kit, Rect2(0, r * ts, ts, ts), Rect2(3 * ts, ts, ts, ts))
+			ci.draw_texture_rect_region(kit, Rect2(27 * ts, r * ts, ts, ts), Rect2(4 * ts, ts, ts, ts))
 	_paint_decor(ci, room)
 	_paint_void(ci, room, kit)
 	# The expanded game: each floor's own floor marks, wall dressing and props (ROADMAP 4.7 part B).
@@ -339,6 +342,47 @@ func _paint_bg(ci: CanvasItem) -> void:
 				else:
 					ci.draw_texture_rect_region(kit, Rect2(c * ts, r * ts - 4, ts + 1, 2 * ts), Rect2(0, 2 * ts, ts + 1, 2 * ts))
 	RoomDress.paint_static(ci, room)   # 16: each kind of room furnished
+
+## 61 (his plan, 27 Oct: "with pixle lab you will start with maps and enviroments first"): a floor
+## with its own PixelLab pictures (resprite/tools/pl_kit.py). Slabs picked by the room's seed (the
+## last row of <kit>_tiles rarely), soft shadows where the walls meet the floor, the top wall in
+## panels of 4 x 2 tiles (BiomeDeco.panels) with a column over every join, and the tops of the side
+## and bottom walls. Drawn once, when the room is entered; its own random numbers.
+func _paint_place(ci: CanvasItem, room: Room, kit_name: String) -> void:
+	var ts := TB.TS
+	var rng := SeedRng.new(room.seed_value ^ 0x3c6ef372)
+	var slabs := Img.t(kit_name + "_tiles")
+	for r in range(TB.IY0, TB.IY0 + TB.IH):
+		for c in range(TB.IX0, TB.IX0 + TB.IW):
+			var v := rng.int_range(12, 15) if rng.next_f() < 0.06 else rng.int_range(0, 11)
+			ci.draw_texture_rect_region(slabs, Rect2(c * ts, r * ts, ts, ts), Rect2((v % 4) * ts, (v / 4) * ts, ts, ts))
+	var shade := Color(0.03, 0.01, 0.05)
+	for i in 12:     # deep under the top wall (half a pixel at a time: the picture's own pixels)
+		shade.a = 0.62 * pow(1.0 - i / 12.0, 1.6)
+		ci.draw_rect(Rect2(ts, TB.IY0 * ts + i * 0.5, TB.IW * ts, 0.5), shade)
+	for i in 6:      # and a little along the others
+		shade.a = 0.4 * (1.0 - i / 6.0)
+		ci.draw_rect(Rect2(ts + i * 0.5, TB.IY0 * ts, 0.5, TB.IH * ts), shade)
+		ci.draw_rect(Rect2((TB.COLS - 1) * ts - (i + 1) * 0.5, TB.IY0 * ts, 0.5, TB.IH * ts), shade)
+		ci.draw_rect(Rect2(ts, (TB.ROWS - 1) * ts - (i + 1) * 0.5, TB.IW * ts, 0.5), shade)
+	var face := Img.t(kit_name + "_wallface")
+	var kinds := int(face.get_width()) / (4 * ts)
+	var panels := BiomeDeco.panels(room, kinds)
+	for k in panels.size():
+		ci.draw_texture_rect_region(face, Rect2(k * 4 * ts, 0, 4 * ts, 2 * ts), Rect2(panels[k] * 4 * ts, 0, 4 * ts, 2 * ts))
+	var walls := Img.t(kit_name + "_walls")
+	for r in range(TB.IY0, TB.ROWS - 1):
+		ci.draw_texture_rect_region(walls, Rect2(0, r * ts, ts, ts), Rect2(rng.int_range(0, 3) * ts, 0, ts, ts))
+		ci.draw_texture_rect_region(walls, Rect2((TB.COLS - 1) * ts, r * ts, ts, ts), Rect2(rng.int_range(4, 7) * ts, 0, ts, ts))
+	for c in TB.COLS:
+		var v := 4 if c == 0 else (5 if c == TB.COLS - 1 else rng.int_range(0, 3))
+		ci.draw_texture_rect_region(walls, Rect2(c * ts, (TB.ROWS - 1) * ts, ts, ts), Rect2(v * ts, ts, ts, ts))
+	var pil := Img.t(kit_name + "_pilaster")
+	for k in panels.size() + 1:
+		ci.draw_texture(pil, Vector2(clampf(k * 4 * ts - ts / 2.0, 0.0, TB.SW - ts), 0.0))
+	for i in 20:     # the wall darker towards its top, under the HUD (its icons stay easy to read)
+		shade.a = 0.5 * (1.0 - i / 20.0)
+		ci.draw_rect(Rect2(0, i * 1.0, TB.SW, 1.0), shade)
 
 ## 10.5 (his ask, 6 Oct, from his trailer clips: an option, the usual look stays the default): black
 ## floors and thin bright walls in the floor's own colour (a rift world's accent in its rooms).
