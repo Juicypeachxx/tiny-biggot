@@ -81,7 +81,11 @@ drawing only, no rule touched; 30 s of play without errors. Before and after:
 resprite/pixellab/mobs1/review_before_after.png. Not in an IPA yet. On his OK: 64.2, every foe.
 His word on it (27 Oct): "I like fat shroom art style" (asked: the old fat mushroom or the new one).
 Every changed picture so far, before and after: resprite/pixellab/review_all_updated.png.
-Credits (27 Oct): PixelLab 1,645 of 2,000 (resets 26 Nov); Higgsfield 53 (free plan).
+His word (27 Oct): "we need to work on the mobs"; two fat-style tries of floor 1's foes made (resprite/
+pixellab/mobs1_fat, 8 generations, review.png); he offered example pictures of how foes should
+look: PixelLab takes a style picture (create_image_pro, create_character, create_object_pro_flash:
+style_image), as a guide only (rule 3: nothing copied or traced).
+Credits (27 Oct, before the fat tries): PixelLab 1,645 of 2,000 (resets 26 Nov); Higgsfield 53 (free plan).
 
 **63 done: THE EMBER FIRE** (scripts/world/bonfire.gd; his "bonfires from darksouls", our own design):
 expanded game, once a floor, the first fight room cleared halfway down (room.depth >= total / 2 - 1)
