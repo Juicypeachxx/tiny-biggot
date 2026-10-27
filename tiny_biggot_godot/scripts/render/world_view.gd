@@ -947,7 +947,7 @@ func _draw_player(ci: CanvasItem, p: Player, t: float) -> void:
 		zx = 0.9 if rising else 1.1
 		zy = 1.15 if rising else 0.9
 		py = p.y + 6 - p.air
-	Gfx.sp(ci, Moves.hero(p, name, t), p.x, py, zx, zy, Tipsy.sway(p, t), p.face < 0)   # 33.2: a tipsy hero sways; 66.2: walks and attacks
+	Gfx.sp(ci, name, p.x, py, zx, zy, Tipsy.sway(p, t), p.face < 0)   # 33.2: a tipsy hero sways
 	# Equipped gear is painted over the hero (visual only).
 	HeroGear.draw(ci, p, p.x, py, zx, zy, p.face < 0)
 	if not behind:
@@ -964,6 +964,19 @@ func _draw_weapon(ci: CanvasItem, p: Player) -> void:
 	var hx := p.x + cos(p.aim_a) * ((9.0 if big else 6.0) - kick)
 	var hy := p.y - (6.0 if big else 1.0) + sin(p.aim_a) * ((5.0 if big else 4.0) - kick * 0.6)
 	var left := cos(p.aim_a) < 0
+	# 66.3 (his word, 27 Oct: "weapons dont look good equipted"): a big hero holds it by the handle (the
+	# icon's lower corner), in the hand at its side at the hips, so it points out from the hand instead
+	# of lying across the hero; its middle (hx, hy) is where it was measured from before.
+	var gx := 0.5
+	var gy := 0.5
+	if big:
+		var gpx := p.x + cos(p.aim_a) * (6.0 - kick)
+		var gpy := p.y + sin(p.aim_a) * (3.0 - kick * 0.6)
+		var reach := wb.get_width() * 0.4
+		hx = gpx + cos(p.aim_a) * reach
+		hy = gpy + sin(p.aim_a) * reach
+		gx = 0.78 if left else 0.22
+		gy = 0.78
 	# The icon points up and to the right, so aiming right turns it by (aim - 45 degrees).
 	# Aiming left is the mirror image of aiming right: the flipped sprite turns the other
 	# way round. (The first port turned it the same way, so a weapon aimed up-left pointed down-left.)
@@ -974,7 +987,11 @@ func _draw_weapon(ci: CanvasItem, p: Player) -> void:
 		var gc := TB.c(th["cols"][0] if not th.is_empty() else "#f2c94c")
 		Gfx.sprite(ci, "glow_small", hx - 12, hy - 12, 0, 0, 1, 1, 0.0, false, 0.55 + 0.25 * sin(G.time * 5),
 			Color(gc.r, gc.g, gc.b, 0.6))
-	Gfx.sprite(ci, wn, hx, hy, wb.get_width() / 2, wb.get_height() / 2, 1, 1, rot, left)
+	if big:
+		Gfx.sprite(ci, wn, hx - cos(p.aim_a) * wb.get_width() * 0.4, hy - sin(p.aim_a) * wb.get_width() * 0.4,
+			wb.get_width() * gx, wb.get_height() * gy, 1, 1, rot, left)
+	else:
+		Gfx.sprite(ci, wn, hx, hy, wb.get_width() / 2, wb.get_height() / 2, 1, 1, rot, left)
 	if GameData.rogues() and Vfx.enabled:   # 64: its element on the blade, all the time
 		WeaponFx.draw_held(ci, WeaponFx.weapon_tag(p.weapon), hx, hy, p.aim_a, maxf(10.0, wb.get_width() * 0.8), G.time,
 			p.weapon.get("rarity", "") in ["rare", "epic", "legend", "mythic"])
@@ -1003,8 +1020,6 @@ func _draw_enemy(ci: CanvasItem, e: Enemy, t: float, line := Color(0, 0, 0, 0)) 
 	if boss and e.hidden:
 		return
 	var name := _enemy_sprite(e)
-	if boss:
-		name = Moves.boss(e, name, t)   # 66.2: a guardian walks and attacks
 	var sc := e.scale * (0.55 if e.shrink_t > 0 else 1.0)   # shrunk by the shrink ray (oddities.gd)
 	var foot := e.y + e.r + (2 if boss else 0)
 	var sx := 1.0

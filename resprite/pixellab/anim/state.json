@@ -17,7 +17,7 @@
  },
  "alchemist": {
   "kind": "hero",
-  "stage": "moving",
+  "stage": "done",
   "id": "5439e088-1a2c-4d10-aed2-9c4dbb12f33b",
   "ox": 0,
   "oy": 0,
@@ -28,11 +28,12 @@
   "asked": [
    "walk",
    "attack"
-  ]
+  ],
+  "frames": 7
  },
  "banehunter": {
   "kind": "hero",
-  "stage": "moving",
+  "stage": "done",
   "id": "5ac21bad-cdc7-4aa0-9330-bf0f2c72ee08",
   "ox": 0,
   "oy": 0,
@@ -43,11 +44,12 @@
   "asked": [
    "walk",
    "attack"
-  ]
+  ],
+  "frames": 7
  },
  "beastmaster": {
   "kind": "hero",
-  "stage": "moving",
+  "stage": "done",
   "id": "6283b4a4-e460-460c-be8d-367a8294703d",
   "ox": 0,
   "oy": 0,
@@ -58,12 +60,285 @@
   "asked": [
    "walk",
    "attack"
-  ]
+  ],
+  "frames": 7
  },
  "beekeeper": {
   "kind": "hero",
-  "stage": "moving",
+  "stage": "done",
   "id": "6fe27eda-5f31-4775-832e-ec902d43eb2c",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ],
+  "asked": [
+   "walk",
+   "attack"
+  ],
+  "frames": 7
+ },
+ "berserker": {
+  "kind": "hero",
+  "stage": "done",
+  "id": "b75add86-5ff1-4742-9ae2-66a0956224ba",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ],
+  "asked": [
+   "walk",
+   "attack"
+  ],
+  "frames": 7
+ },
+ "bonecaller_hero": {
+  "kind": "hero",
+  "stage": "done",
+  "id": "e59cc7c9-5a75-4ba7-916c-6d922e75e54d",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ],
+  "asked": [
+   "walk",
+   "attack"
+  ],
+  "frames": 7
+ },
+ "boneweaver": {
+  "kind": "hero",
+  "stage": "done",
+  "id": "27901663-c529-4e2f-8339-ec68b694d137",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ],
+  "asked": [
+   "walk",
+   "attack"
+  ],
+  "frames": 7
+ },
+ "brute": {
+  "kind": "hero",
+  "stage": "done",
+  "id": "eaccc2ca-1b16-4fe8-8715-c26bb3077c42",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ],
+  "asked": [
+   "walk",
+   "attack"
+  ],
+  "frames": 7
+ },
+ "cartomancer": {
+  "kind": "hero",
+  "stage": "done",
+  "id": "d534cfff-d7bd-44cf-93b9-be77ef4317c2",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ],
+  "asked": [
+   "walk",
+   "attack"
+  ],
+  "frames": 7
+ },
+ "clockmaker": {
+  "kind": "hero",
+  "stage": "done",
+  "id": "7c021e7d-23aa-42d2-a305-1fa2cf852490",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ],
+  "asked": [
+   "walk",
+   "attack"
+  ],
+  "frames": 7
+ },
+ "condemned": {
+  "kind": "hero",
+  "stage": "done",
+  "id": "2341f5ce-7787-4d0d-af35-4f85e1cd39ac",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ],
+  "asked": [
+   "walk",
+   "attack"
+  ],
+  "frames": 7
+ },
+ "demolitionist": {
+  "kind": "hero",
+  "stage": "done",
+  "id": "d06c0402-d16a-4c17-90fc-f5965707969b",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ],
+  "asked": [
+   "walk",
+   "attack"
+  ],
+  "frames": 7
+ },
+ "executioner": {
+  "kind": "hero",
+  "stage": "done",
+  "id": "caea8dd4-4979-4d24-aebc-a353aae39870",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ],
+  "asked": [
+   "walk",
+   "attack"
+  ],
+  "frames": 7
+ },
+ "forsaken": {
+  "kind": "hero",
+  "stage": "done",
+  "id": "27e095fe-5490-4026-b2aa-f1db201ad2bc",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ],
+  "asked": [
+   "walk",
+   "attack"
+  ],
+  "frames": 7
+ },
+ "frostwitch": {
+  "kind": "hero",
+  "stage": "done",
+  "id": "c87fa147-27be-411e-b2c6-cc3c91b0fdff",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ],
+  "asked": [
+   "walk",
+   "attack"
+  ],
+  "frames": 7
+ },
+ "gaolbird": {
+  "kind": "hero",
+  "stage": "done",
+  "id": "eff5e442-71da-4ec1-be5e-cf92365c3279",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ],
+  "asked": [
+   "walk",
+   "attack"
+  ],
+  "frames": 7
+ },
+ "gravedigger": {
+  "kind": "hero",
+  "stage": "done",
+  "id": "f2d30700-62e6-4244-8345-bdf78489ac95",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ],
+  "asked": [
+   "walk",
+   "attack"
+  ],
+  "frames": 7
+ },
+ "hexer": {
+  "kind": "hero",
+  "stage": "done",
+  "id": "7ac360cd-3de5-4bea-baf1-e6d2aff281af",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ],
+  "asked": [
+   "walk",
+   "attack"
+  ],
+  "frames": 7
+ },
+ "inkling_hero": {
+  "kind": "hero",
+  "stage": "done",
+  "id": "5793462e-34df-4faa-b99b-8de618b39796",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ],
+  "asked": [
+   "walk",
+   "attack"
+  ],
+  "frames": 7
+ },
+ "jester": {
+  "kind": "hero",
+  "stage": "done",
+  "id": "601125af-014b-42da-aa27-8a48c8703a45",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   48,
+   56
+  ],
+  "asked": [
+   "walk",
+   "attack"
+  ],
+  "frames": 7
+ },
+ "mindwarden_hero": {
+  "kind": "hero",
+  "stage": "moving",
+  "id": "eda85cdf-1573-4f72-a43c-58afe0292d6f",
   "ox": 0,
   "oy": 0,
   "size": [
@@ -75,202 +350,19 @@
    "attack"
   ]
  },
- "berserker": {
-  "kind": "hero",
-  "stage": "object",
-  "id": "b75add86-5ff1-4742-9ae2-66a0956224ba",
-  "ox": 0,
-  "oy": 0,
-  "size": [
-   48,
-   56
-  ]
- },
- "bonecaller_hero": {
-  "kind": "hero",
-  "stage": "object",
-  "id": "e59cc7c9-5a75-4ba7-916c-6d922e75e54d",
-  "ox": 0,
-  "oy": 0,
-  "size": [
-   48,
-   56
-  ]
- },
- "boneweaver": {
-  "kind": "hero",
-  "stage": "object",
-  "id": "27901663-c529-4e2f-8339-ec68b694d137",
-  "ox": 0,
-  "oy": 0,
-  "size": [
-   48,
-   56
-  ]
- },
- "brute": {
-  "kind": "hero",
-  "stage": "object",
-  "id": "eaccc2ca-1b16-4fe8-8715-c26bb3077c42",
-  "ox": 0,
-  "oy": 0,
-  "size": [
-   48,
-   56
-  ]
- },
- "cartomancer": {
-  "kind": "hero",
-  "stage": "object",
-  "id": "d534cfff-d7bd-44cf-93b9-be77ef4317c2",
-  "ox": 0,
-  "oy": 0,
-  "size": [
-   48,
-   56
-  ]
- },
- "clockmaker": {
-  "kind": "hero",
-  "stage": "object",
-  "id": "7c021e7d-23aa-42d2-a305-1fa2cf852490",
-  "ox": 0,
-  "oy": 0,
-  "size": [
-   48,
-   56
-  ]
- },
- "condemned": {
-  "kind": "hero",
-  "stage": "object",
-  "id": "2341f5ce-7787-4d0d-af35-4f85e1cd39ac",
-  "ox": 0,
-  "oy": 0,
-  "size": [
-   48,
-   56
-  ]
- },
- "demolitionist": {
-  "kind": "hero",
-  "stage": "object",
-  "id": "d06c0402-d16a-4c17-90fc-f5965707969b",
-  "ox": 0,
-  "oy": 0,
-  "size": [
-   48,
-   56
-  ]
- },
- "executioner": {
-  "kind": "hero",
-  "stage": "object",
-  "id": "caea8dd4-4979-4d24-aebc-a353aae39870",
-  "ox": 0,
-  "oy": 0,
-  "size": [
-   48,
-   56
-  ]
- },
- "forsaken": {
-  "kind": "hero",
-  "stage": "object",
-  "id": "27e095fe-5490-4026-b2aa-f1db201ad2bc",
-  "ox": 0,
-  "oy": 0,
-  "size": [
-   48,
-   56
-  ]
- },
- "frostwitch": {
-  "kind": "hero",
-  "stage": "object",
-  "id": "c87fa147-27be-411e-b2c6-cc3c91b0fdff",
-  "ox": 0,
-  "oy": 0,
-  "size": [
-   48,
-   56
-  ]
- },
- "gaolbird": {
-  "kind": "hero",
-  "stage": "object",
-  "id": "eff5e442-71da-4ec1-be5e-cf92365c3279",
-  "ox": 0,
-  "oy": 0,
-  "size": [
-   48,
-   56
-  ]
- },
- "gravedigger": {
-  "kind": "hero",
-  "stage": "object",
-  "id": "f2d30700-62e6-4244-8345-bdf78489ac95",
-  "ox": 0,
-  "oy": 0,
-  "size": [
-   48,
-   56
-  ]
- },
- "hexer": {
-  "kind": "hero",
-  "stage": "object",
-  "id": "7ac360cd-3de5-4bea-baf1-e6d2aff281af",
-  "ox": 0,
-  "oy": 0,
-  "size": [
-   48,
-   56
-  ]
- },
- "inkling_hero": {
-  "kind": "hero",
-  "stage": "object",
-  "id": "5793462e-34df-4faa-b99b-8de618b39796",
-  "ox": 0,
-  "oy": 0,
-  "size": [
-   48,
-   56
-  ]
- },
- "jester": {
-  "kind": "hero",
-  "stage": "object",
-  "id": "601125af-014b-42da-aa27-8a48c8703a45",
-  "ox": 0,
-  "oy": 0,
-  "size": [
-   48,
-   56
-  ]
- },
- "mindwarden_hero": {
-  "kind": "hero",
-  "stage": "object",
-  "id": "eda85cdf-1573-4f72-a43c-58afe0292d6f",
-  "ox": 0,
-  "oy": 0,
-  "size": [
-   48,
-   56
-  ]
- },
  "minstrel": {
   "kind": "hero",
-  "stage": "object",
+  "stage": "moving",
   "id": "65b71c91-ddb7-46bf-ae23-4194641a358d",
   "ox": 0,
   "oy": 0,
   "size": [
    48,
    56
+  ],
+  "asked": [
+   "walk",
+   "attack"
   ]
  },
  "mirrorknight": {

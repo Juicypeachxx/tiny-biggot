@@ -2,8 +2,8 @@ extends Node
 ## 59.1 (V2, his word, 23 Oct: "make the armour on the hero in the new look too"): the gear painted
 ## over the hero (scripts/render/hero_gear.gd).
 ## Run: godot --headless --path . res://tests/gear_look_test.tscn -- --no-save [--sheet=PATH]
-##   1. Every kind of gear on every hero makes an outfit of 24 x 28 pixels, drawn at the hero's
-##      12 x 14 (two pixels to each of the game's).
+##   1. Every kind of gear on every hero makes an outfit of the hero picture's own pixels (66.3:
+##      48 x 56 for the new heroes), drawn at the hero's size in the game.
 ##   2. What goes on the body, the feet and the hands lies on the hero's own picture.
 ##   3. The same outfit twice is the same pixels.
 ## With --sheet=PATH it also writes a picture: every hero bare, then in five outfits.
@@ -41,9 +41,8 @@ func _ready() -> void:
 	for h: Dictionary in heroes:
 		var hero: String = h["sprite"]
 		var body := Img.image(hero)
-		if body != null and body.get_size() != Vector2i(HeroGear.DW, HeroGear.DH):   # 64.5: a bigger hero, seen at the outfit's grid as the game does
-			body = body.duplicate()
-			body.resize(HeroGear.DW, HeroGear.DH, Image.INTERPOLATE_NEAREST)
+		var bw := body.get_width()
+		var bh := body.get_height()
 		for k in kinds:
 			var p := Player.new(h)
 			p.gear[k[0]] = k[1]
@@ -53,13 +52,13 @@ func _ready() -> void:
 				fail("%s in %s: no outfit, or not drawn at the hero's size" % [hero, k[1]["id"]])
 				continue
 			var img := tex.get_image()
-			if img.get_size() != Vector2i(HeroGear.DW, HeroGear.DH):
-				fail("%s in %s: the outfit is %s, not %dx%d" % [hero, k[1]["id"], img.get_size(), HeroGear.DW, HeroGear.DH])
+			if img.get_size() != Vector2i(bw, bh):
+				fail("%s in %s: the outfit is %s, not %dx%d" % [hero, k[1]["id"], img.get_size(), bw, bh])
 				continue
 			if k[0] in ["body", "feet", "hands"]:
 				var out := 0
-				for y in HeroGear.DH:
-					for x in HeroGear.DW:
+				for y in bh:
+					for x in bw:
 						if img.get_pixel(x, y).a > 0.0 and body.get_pixel(x, y).a < 0.5:
 							out += 1
 				if out > 0:
@@ -73,7 +72,7 @@ func _ready() -> void:
 	print("gear look test: PASSED" if fails == 0 else "gear look test: FAILED (%d)" % fails)
 	get_tree().quit(0 if fails == 0 else 1)
 
-## Every hero bare, then in five outfits, four times the size.
+## Every hero bare, then in five outfits, three times the picture's size.
 func _sheet(heroes: Array, path: String) -> void:
 	var sets := [
 		{ "head": _first("head", "helm"), "body": _first("body", "plate"), "feet": _first("feet", "greaves"), "hands": _first("hands", "gloves") },
@@ -82,24 +81,24 @@ func _sheet(heroes: Array, path: String) -> void:
 		{ "head": _first("head", "crown"), "body": _first("body", "cloak"), "trinket": _first("trinket", "charm"), "ring1": _first("ring", "ring"), "ring2": _first("ring", "ring") },
 		{ "head": _first("head", "mask"), "body": _first("body", "leather"), "feet": _first("feet", "boots") },
 	]
-	var k := 4
-	var cw := HeroGear.DW * k + 6
-	var chh := HeroGear.DH * k + 6
+	var k := 3
+	var cw := 48 * k + 6
+	var chh := 56 * k + 6
 	var sheet := Image.create(cw * heroes.size(), chh * (sets.size() + 1), false, Image.FORMAT_RGBA8)
 	sheet.fill(Color8(70, 80, 100))
 	for i in heroes.size():
 		var h: Dictionary = heroes[i]
 		var hero: String = h["sprite"]
 		for j in sets.size() + 1:
-			var im := Img.image(hero).duplicate()
-			if im.get_size() != Vector2i(HeroGear.DW, HeroGear.DH):
-				im.resize(HeroGear.DW, HeroGear.DH, Image.INTERPOLATE_NEAREST)
+			var im: Image = Img.image(hero).duplicate()
+			var iw := im.get_width()
+			var ih := im.get_height()
 			if j > 0:
 				var p := Player.new(h)
 				for slot in sets[j - 1]:
 					p.gear[slot] = sets[j - 1][slot]
 				var o := HeroGear.texture(p, hero).get_image()
-				im.blend_rect(o, Rect2i(0, 0, HeroGear.DW, HeroGear.DH), Vector2i.ZERO)
-			im.resize(HeroGear.DW * k, HeroGear.DH * k, Image.INTERPOLATE_NEAREST)
+				im.blend_rect(o, Rect2i(0, 0, iw, ih), Vector2i.ZERO)
+			im.resize(iw * k, ih * k, Image.INTERPOLATE_NEAREST)
 			sheet.blend_rect(im, Rect2i(Vector2i.ZERO, im.get_size()), Vector2i(i * cw + 3, j * chh + 3))
 	print("[gear] sheet: %s: %s" % [path, error_string(sheet.save_png(path))])
