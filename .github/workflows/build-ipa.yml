@@ -139,11 +139,15 @@ jobs:
           ls "build/Payload/$NAME" | head -n 40
 
       - name: Keep the IPA with this run
+        # Only a spare copy (the release below is the real one): a full artifact store (GitHub's
+        # quota, 27 Oct) must not stop the release, and the copy goes after three days.
+        continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
           name: TinyBiggot-ipa
           path: build/${{ env.IPA }}
           if-no-files-found: error
+          retention-days: 3
 
       - name: Publish it as the "latest iPad build" release, and as its own version
         env:
@@ -194,9 +198,11 @@ jobs:
 
       - name: Keep the logs
         if: always()
+        continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
           name: build-logs
+          retention-days: 7
           path: |
             build/import.log
             build/smoke.log

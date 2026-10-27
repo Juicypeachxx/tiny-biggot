@@ -55,7 +55,10 @@ The full check of 60.1 passed (CHECK PASSED; all 14 replays identical): IPA 60.1
 Its first build was cancelled: the roadmap push two minutes after it fell in the same concurrency
 group (build-ipa.yml cancels a run in progress when the same branch is pushed). The group now
 counts only builds ([ipa] or Run workflow), so a later push without [ipa] leaves a build alone;
-built again from the commit that fixed it.
+built again from the commit that fixed it. That build made the IPA but failed to keep a copy of it
+as a run artifact (GitHub's artifact storage quota was full), which stopped the release step after
+it: both artifact steps now go on when they fail (the release is the real copy) and their copies
+are kept 3 and 7 days instead of 90.
 PixelLab works since 27 Oct (his account's Secret was refused with 401 for a while, then accepted:
 the same key, nothing changed on our side). Used straight over HTTP from the container (a small
 MCP client in the session's scratchpad, the key in a file there, never in the repo): api.pixellab.ai
