@@ -91,7 +91,10 @@ slime / bat / spider foes, tiny chunky foes with thick black outlines. Ideas onl
 Test with PixelLab Pro (create_image_pro: 10 generations a call, 64 versions at 32 px, 25 at 48 px;
 the download URLs give all of them free): resprite/pixellab/mobs_pro (mushroom_n: 64 normal fat
 mushrooms, words only; mushroom_e: 25 elite brutes, his elite sheet as the style picture). Much
-better than pixen. Waiting for his pick. Plan: normal foes 32 px, elites 48 px (drawn bigger only).
+better than pixen. His pick (27 Oct): "small mushroom is 4 big is 16": in the game (mob_pl.py mobs_pro/all
+mushroom=mushroom_n_4 mushroom_elite=mushroom_e_16; the elite is its own drawing now, 34 x 40, and
+elites are drawn 1.2x). Atlas test PASSED. Note: floor 2's red mushroom prop looks like the foe.
+Plan: normal foes 32 px, elites 48 px (drawn bigger only).
 Credits (27 Oct, before the fat tries): PixelLab 1,645 of 2,000 (resets 26 Nov); Higgsfield 53 (free plan).
 
 **63 done: THE EMBER FIRE** (scripts/world/bonfire.gd; his "bonfires from darksouls", our own design):

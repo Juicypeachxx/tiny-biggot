@@ -1,5 +1,7 @@
 """Foes drawn on PixelLab into the game (64, his plan THE LIVING PIXEL WORLD: "then mobs").
 python3 resprite/tools/mob_pl.py mobs1 bat bat2 slime skeleton mushroom
+python3 resprite/tools/mob_pl.py mobs_pro/all mushroom=mushroom_n_4 mushroom_elite=mushroom_e_16
+  (name=picture: that picture for that name; an elite given so is its own drawing, not a rim)
 - resprite/pixellab/<set>/<name>.png: the picture as it came (24 x 24: PixelLab wants a square
   canvas under 32). bat2 (the second wing beat) is made from bat: its wings folded down.
 - Trimmed to what is drawn, then set in a box at least as big as the old picture's, its feet on
@@ -44,8 +46,11 @@ def fit(im, old):
 
 def main():
     src = os.path.join(ROOT, "resprite", "pixellab", sys.argv[1])
-    for n in sys.argv[2:]:
-        p = os.path.join(src, n + ".png")
+    args = sys.argv[2:]
+    named = [a.split("=")[0] for a in args]
+    for a in args:
+        n, pic = (a.split("=") + [None])[:2]
+        p = os.path.join(src, (pic or n) + ".png")
         if n == "bat2" and not os.path.exists(p):
             im = fold_wings(Image.open(os.path.join(src, "bat.png")).convert("RGBA"))
         else:
@@ -57,7 +62,7 @@ def main():
         small = hd.resize((hd.width // 2, hd.height // 2), Image.NEAREST)
         hd.save(os.path.join(HD, n + ".png"))
         small.save(os.path.join(GFX, n + ".png"))
-        if os.path.exists(os.path.join(HD, n + "_elite.png")):
+        if not n.endswith("_elite") and n + "_elite" not in named and os.path.exists(os.path.join(HD, n + "_elite.png")):
             elite(hd, 1).save(os.path.join(HD, n + "_elite.png"))   # (a thin rim: the new art has thin parts)
             elite(small, 1).save(os.path.join(GFX, n + "_elite.png"))
         print(n, old, "->", hd.size)
