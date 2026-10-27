@@ -85,6 +85,13 @@ His word (27 Oct): "we need to work on the mobs"; two fat-style tries of floor 1
 pixellab/mobs1_fat, 8 generations, review.png); he offered example pictures of how foes should
 look: PixelLab takes a style picture (create_image_pro, create_character, create_object_pro_flash:
 style_image), as a guide only (rule 3: nothing copied or traced).
+He then sent four reference sheets (27 Oct): big elite monsters (only this one came as a file:
+scratchpad refs/elite_ref.png, not kept in the repo), small 32-px normal foes, detailed mushroom /
+slime / bat / spider foes, tiny chunky foes with thick black outlines. Ideas only (rule 3).
+Test with PixelLab Pro (create_image_pro: 10 generations a call, 64 versions at 32 px, 25 at 48 px;
+the download URLs give all of them free): resprite/pixellab/mobs_pro (mushroom_n: 64 normal fat
+mushrooms, words only; mushroom_e: 25 elite brutes, his elite sheet as the style picture). Much
+better than pixen. Waiting for his pick. Plan: normal foes 32 px, elites 48 px (drawn bigger only).
 Credits (27 Oct, before the fat tries): PixelLab 1,645 of 2,000 (resets 26 Nov); Higgsfield 53 (free plan).
 
 **63 done: THE EMBER FIRE** (scripts/world/bonfire.gd; his "bonfires from darksouls", our own design):
