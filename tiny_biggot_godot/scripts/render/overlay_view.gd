@@ -204,7 +204,11 @@ func draw_prompt(ci: CanvasItem, o: Dictionary) -> void:
 	var title := ""
 	var desc := ""
 	var extra := ""
-	if Dice.handles(o["kind"]):   # 35.1 the DICE CUP
+	if Tricks.handles(o["kind"]):   # 62.3 a hidden wall's trick
+		var tl := Tricks.prompt(o)
+		title = tl[0]
+		desc = tl[1]
+	elif Dice.handles(o["kind"]):   # 35.1 the DICE CUP
 		var dl := Dice.prompt(o)
 		title = dl[0]
 		desc = dl[1]

@@ -377,6 +377,7 @@ func enter_room(r: Room) -> void:
 		setup_objects(room)
 		Hazards.setup(room, floor_index)
 		Traps.setup(room, floor_index)   # 62.1
+		Tricks.setup(room, floor_index)   # 62.3
 		RiftExtras.setup(room)
 	if GameData.rogues() and room.type == "start":
 		# Rogues layer: two training dummies to test your damage.
@@ -997,13 +998,13 @@ func room_cleared() -> void:
 	if not p.procs.is_empty():
 		Effects.fire("on_room_clear")
 
-func open_secret_door(d: String) -> void:
+func open_secret_door(d: String, how := "THE CRACKED WALL GIVES WAY") -> void:
 	if not room.secret_dirs.has(d):
 		return
 	World.open_secret(room, d)
 	dyn_dirty = true
 	room_changed.emit()
-	show_banner("A HIDDEN ROOM", "THE CRACKED WALL GIVES WAY")
+	show_banner("A HIDDEN ROOM", how)
 	Snd.play("unlock")
 
 func on_boss_dead(b: Enemy) -> void:
@@ -1362,6 +1363,8 @@ func interact(o: Dictionary) -> void:
 		return Rex.interact(o)
 	if Dice.handles(o["kind"]):
 		return Dice.interact(o)   # 35.1 the DICE CUP
+	if Tricks.handles(o["kind"]):
+		return Tricks.interact(o)   # 62.3
 	var p := player
 	# 05b_items.rb: weapons and gear on the floor or for sale.
 	if o["kind"] == "item" and (o["item"] as Dictionary).get("item", "") == "charm":   # 37.2 a charm

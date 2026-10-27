@@ -1616,7 +1616,7 @@ each point); the rest, proposed in the order it would be felt most, with names o
           they hurt foes too.
     - [x] 62.2 (done 27 Oct: mazes of props or pits on floors 1 to 11) Mazes and new room shapes for each place (crypt corridors, flooded walkways, forge
           catwalks...), laid out so no two rooms feel the same.
-    - [ ] 62.3 Hidden rooms found by the place's own trick: a cracked wall to blast, a lever, a
+    - [x] 62.3 (done 27 Oct: tricks.gd, a lever, a bookcase, a draught or a slab by every hidden wall) Hidden rooms found by the place's own trick: a cracked wall to blast, a lever, a
           false bookcase, a draught of air you can see, a loose slab.
     - [ ] 62.4 Set pieces that belong to each place (an altar, a forge, a frozen fountain...) and
           small life (dripping water, flickering torches, rats running off).

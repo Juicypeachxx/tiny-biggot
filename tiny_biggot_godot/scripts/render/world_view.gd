@@ -683,6 +683,8 @@ func _paint_lower(ci: CanvasItem) -> void:
 				Pets.draw_cage(ci, o, t)
 			"dicecup":
 				Dice.draw(ci, o, t)   # 35.1
+			"trick":
+				Tricks.draw(ci, o, t)   # 62.3
 			"enchanter", "e_breath", "e_runesmith", "e_contraband", "e_branch":
 				Enchant.draw(ci, o, t)   # 46.1
 			"x_bowl":

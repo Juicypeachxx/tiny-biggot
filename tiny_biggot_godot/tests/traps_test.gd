@@ -8,6 +8,8 @@ extends Node
 ## 3 Every kind is drawn.
 ## 4 62.2 mazes: on each of the first chapter's floors some fight rooms are mazes (of props or pits);
 ##   in every one each floor tile and each doorway can be walked to from the middle.
+## 5 62.3 tricks: a room with a hidden wall has its floor's trick beside it, on open floor; using it
+##   opens the wall; classic rooms have none.
 ## Prints "traps test: PASSED" or a FAIL line per problem.
 
 var fails := 0
@@ -23,6 +25,7 @@ func _ready() -> void:
 	_laying()
 	_striking()
 	_mazes()
+	_tricks()
 	await _drawing()
 	print("traps test: PASSED" if fails == 0 else "traps test: %d FAILED" % fails)
 	get_tree().quit()
@@ -136,10 +139,58 @@ func _mazes() -> void:
 		if mazes < 4:
 			fail("floor %d: only %d mazes in 60 rooms" % [f, mazes])
 
+func _tricks() -> void:
+	for f in 11:
+		var found := 0
+		for i in 40:
+			G.floor_index = f
+			G.start_floor()
+			var room := World.make_room(G.floor_d, "combat", "", "s", {})
+			if room.secret_dirs.is_empty():
+				continue
+			room.objects = []
+			Tricks.setup(room, f)
+			var tr: Array = room.objects.filter(func(o): return o["kind"] == "trick")
+			if tr.is_empty():
+				fail("floor %d: a hidden wall without its trick (layout %d)" % [f, room.layout])
+				continue
+			found += 1
+			var o: Dictionary = tr[0]
+			if o["trick"] != Tricks.kind_for(f):
+				fail("floor %d has a %s" % [f, o["trick"]])
+			var c := floori(o["x"] / TB.TS)
+			var r := floori(o["y"] / TB.TS)
+			if o["trick"] != "draught" and room.tile(c, r) != World.T_FLOOR:
+				fail("floor %d: the %s is not on open floor" % [f, o["trick"]])
+			if found == 1:   # using it opens the wall
+				G.enter_room(room)
+				var d: String = o["dir"]
+				G.interact(o)
+				if room.secret_dirs.has(d) or not room.exits.has(d):
+					fail("floor %d: the %s did not open the wall" % [f, o["trick"]])
+		print("[tricks] floor %d (%s): %d hidden walls with their trick" % [f, Tricks.kind_for(f), found])
+		if found == 0:
+			fail("floor %d: no hidden wall in 40 rooms" % f)
+	GameData.force_classic = true
+	G.floor_index = 0
+	G.start_floor()
+	var room := World.make_room(G.floor_d, "combat", "", "s", {})
+	room.secret_dirs["e"] = true
+	room.objects = []
+	Tricks.setup(room, 0)
+	GameData.force_classic = false
+	if not room.objects.is_empty():
+		fail("a classic room has a trick")
+
 class Canvas extends Node2D:
 	var done := false
 	func _draw() -> void:
 		Traps.draw(self, 1.0)
+		for o in G.room.objects:
+			if o["kind"] == "trick":
+				Tricks.draw(self, o, 1.0)
+				o["used"] = true
+				Tricks.draw(self, o, 1.0)
 		done = true
 
 func _drawing() -> void:
@@ -152,6 +203,8 @@ func _drawing() -> void:
 		x += 4
 	var foe := Combat.spawn_enemy("skeleton", 100, 100, false, true)
 	foe.spawn_t = 0.0
+	for k in Tricks.NAME.keys():
+		room.objects.append({ "kind": "trick", "trick": k, "dir": "e", "x": 200.0, "y": 150.0 })
 	var cv := Canvas.new()
 	add_child(cv)
 	cv.queue_redraw()

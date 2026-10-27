@@ -120,7 +120,12 @@ func _ready() -> void:
 		if kind == "mini":   # stage 7: the floor's mini-boss room
 			kind = "elite"
 			G.floor_d["depth"] = G.floor_d["total"] - 2
-		G.enter_room(World.make_room(G.floor_d, kind, "gold" if kind == "combat" else "", "s"))
+		var rm := World.make_room(G.floor_d, kind, "gold" if kind == "combat" else "", "s")
+		for i in 200:   # --secret: a room with a hidden wall (62.3: and its trick)
+			if not DebugArgs.has("secret") or not rm.secret_dirs.is_empty():
+				break
+			rm = World.make_room(G.floor_d, kind, "gold" if kind == "combat" else "", "s")
+		G.enter_room(rm)
 	# --rift=ID [--step=0..3] jumps into a rift world (3: a new world's guardian), --event=NAME into an event room.
 	if DebugArgs.has("rift"):
 		var step := DebugArgs.get_int("step", 0)

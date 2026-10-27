@@ -71,6 +71,14 @@ create_image_pixen, 1 generation): real pixel art at the exact size, a clean out
 Keep it up to date when a task is done: read it (Artifact action read with that url), change it,
 publish it with the same url. His OK on the floor 1 look (27 Oct: "Ok continiue"): 61.2 next.
 
+**62.3 done: hidden walls have the place's own trick** (scripts/world/tricks.gd, expanded game only):
+every fight room with a hidden (cracked) wall also has a trick beside it, by floor: a lever (Ossuary,
+Cinderforge, floor 9), a draught of dust, leaves or snow seeping through the wall (Mirewood, Rimefrost,
+floor 10), a crooked bookcase with a dark gap down one side (Archive, floor 8), a loose rocking slab
+(Hollow Throne, floors 7 and 11). Use it (the use button, its own prompt) and the wall opens with the
+trick's own line; bombs still open it. Drawn in code, no new pictures. Test option --secret (with
+--room). tests/traps_test part 5.
+
 **62.2 done: mazes** (world.gd _maze, layouts 21 and 22): on the first chapter's eleven floors
 about one fight room in five (expanded game, not a champion's or a rift's) is a maze: wall segments
 along a lattice every four tiles, of the place's own props (21: the Ossuary, the Archive's shelves,
