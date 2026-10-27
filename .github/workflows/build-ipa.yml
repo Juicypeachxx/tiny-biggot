@@ -17,7 +17,8 @@ permissions:
   contents: write        # to publish the IPA as a release you can download with one tap
 
 concurrency:
-  group: ipa-${{ github.ref }}
+  # Only builds share a group: a push without [ipa] right after one must not cancel the build in progress.
+  group: ipa-${{ github.ref }}-${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[ipa]') }}
   cancel-in-progress: true
 
 jobs:

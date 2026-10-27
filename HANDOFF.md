@@ -52,6 +52,10 @@ connection tested first; and the pixel vibe of Dead Cells, Enter the Gungeon, No
 Soulbound, Iconoclasts and Tiny Rogues (ideas only, rule 3). His PixelLab key is his: never in the
 repo; a session gets it from him.
 The full check of 60.1 passed (CHECK PASSED; all 14 replays identical): IPA 60.1 "Crack and Spark".
+Its first build was cancelled: the roadmap push two minutes after it fell in the same concurrency
+group (build-ipa.yml cancels a run in progress when the same branch is pushed). The group now
+counts only builds ([ipa] or Run workflow), so a later push without [ipa] leaves a build alone;
+built again from the commit that fixed it.
 PixelLab works since 27 Oct (his account's Secret was refused with 401 for a while, then accepted:
 the same key, nothing changed on our side). Used straight over HTTP from the container (a small
 MCP client in the session's scratchpad, the key in a file there, never in the repo): api.pixellab.ai
