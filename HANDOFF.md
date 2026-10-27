@@ -66,6 +66,11 @@ answers, the pictures come inline and from api.pixellab.ai/mcp/images/<job>/down
 generations a month (reset 26 Nov) and a daily bonus of 20. One test (a 32 x 32 greatsword,
 create_image_pixen, 1 generation): real pixel art at the exact size, a clean outline, readable.
 
+**His roadmap page** (his ask, 27 Oct: "make me road map of tasks"): https://claude.ai/artifact/AqubdAbBPN4pmbC931Gcu6
+(the part THE LIVING PIXEL WORLD as tasks, the same as ROADMAP.md 61.1 to 67.2, with the credits).
+Keep it up to date when a task is done: read it (Artifact action read with that url), change it,
+publish it with the same url. His OK on the floor 1 look (27 Oct: "Ok continiue"): 61.2 next.
+
 **27 Oct: Stage 61 pilot, floor 1 (the Ossuary) drawn on PixelLab** (his plan, ROADMAP part THE
 LIVING PIXEL WORLD: environments first). 14 generations (and the 1 test before): 1985 of 2000 left
 this month (resets 26 Nov; a daily bonus of 20 on top). The pictures as they came and the words

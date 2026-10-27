@@ -1591,26 +1591,59 @@ each point); the rest, proposed in the order it would be felt most, with names o
       sees, then the rest; failed tries are counted; HANDOFF has what is left after each.
       Budget: environments ~550, mobs ~550 (this month); weapons ~650 and animations ~150 (next
       month's allowance); the rage hero ~40; bonfires and traps ~60.
-  - [ ] 61 Environments (PixelLab): for each of the 20 kits and the named places, walls (still
-        today's pictures x2 in V2), floors with variety, and the room objects, in that vibe. Pilot:
-        the first floor, then the rest. IPA.
-        Pilot done (27 Oct, 14 generations): floor 1 (the Ossuary): slabs, walls in panels with
-        columns, wall tops, props, wall dressing, floor bits (resprite/tools/pl_kit.py). Shown to
-        him; the other floors wait for his OK on the look.
-  - [ ] 62 Rooms that live: set pieces that belong to each place, mazes, traps that fit it (spikes,
-        swinging blades, fire jets, collapsing floors, darts...), hidden rooms found by their place's
-        own trick (a cracked wall to blast, a lever, a false bookcase, a draught of air); laid out so
-        no two rooms feel the same. Tests, replays re-recorded on purpose. IPA.
-  - [ ] 63 Bonfires (his word: "from darksouls"; our own design): a rest fire on the way through each
-        floor: rest to mend, refill and kindle; lit fires remembered. IPA.
-  - [ ] 64 Mobs (PixelLab): every foe, person, pet and guardian (with its stage looks) redrawn in
-        that vibe. Pilot first. IPA.
-  - [ ] 65 Weapons (PixelLab): every weapon Higgsfield did not draw. IPA.
-  - [ ] 66 Super cool weapons (Stage 60.2 to 60.4: the 16 legendaries and their effects) and the
-        heroes' animations (idle, walk, attack). IPA.
+      His OK on the floor 1 pilot (27 Oct): "Ok continiue and make me road map of tasks". So the
+      part is split into tasks below, and he has the same list as a page (an artifact, kept up to
+      date when a task is done). Credits per stage are PixelLab generations, estimated.
+  - [ ] 61 Environments (PixelLab, ~350): every place's floor, walls and room objects in that vibe
+        (resprite/tools/pl_kit.py; world_view.gd _paint_place).
+    - [x] 61.1 Floor 1, THE OSSUARY (the pilot, 14): slabs, wall panels with columns, wall tops,
+          props, wall dressing, things on the floor. Done; his OK on the look.
+    - [ ] 61.2 Chapter I, floors 2 to 11 (~120, about 12 each): MIREWOOD GROTTO, THE SUNKEN
+          ARCHIVE, THE CINDERFORGE, RIMEFROST VAULT, THE HOLLOW THRONE, RAINMARSH HAMLET, ASHEN
+          WARFRONT, FROSTPEAK MONASTERY, NIGHTSPIRE ROOFTOPS, THE ECLIPSE (the camp has floor 2's).
+    - [ ] 61.3 Chapters II to IV (~65): THE INKWELL, THE BINDERY, THE QUILL SPIRE, THE GLOSSARY,
+          THE FOOTNOTES, THE COVER, THE STACKS, THE READING ROOM, THE HEARTH.
+    - [ ] 61.4 The special places (~140): the rift worlds (BLACKROCK GAOL, THE BRANDED FIELD, NEON
+          UNDERCITY, RIOT ALLEY, ASHFALL TOWN, MAPLE COURT, HEIST CITY, DUSTWATER, SKYREACH ISLES,
+          THE DROWNED BASTION, THE CALIBER CATHEDRAL, THE CLOCKWORK SPIRE, THE RIMEFROST HOLLOWS),
+          the final places (THE GILDED EMPYREAN, THE SCORCHED DEEP, BRAZIL, THE UNWRITTEN PAGE, THE
+          REDACTED, THE NOBLE PASTURE, THE GRAND CHAMBER, THE END OF THE WORLD, THE CAT'S PARLOUR)
+          and the barn.
+    - [ ] 61.5 Pits drawn with depth to match (a lip, the drop); the full check; IPA 61.
+  - [ ] 62 Rooms that live (~40 pictures; mostly code). Tests, core replays re-recorded on purpose.
+    - [ ] 62.1 Traps that fit each place (spikes, swinging blades, fire jets, darts from the walls,
+          collapsing floors, falling icicles...): warned before they strike, so they are fair, and
+          they hurt foes too.
+    - [ ] 62.2 Mazes and new room shapes for each place (crypt corridors, flooded walkways, forge
+          catwalks...), laid out so no two rooms feel the same.
+    - [ ] 62.3 Hidden rooms found by the place's own trick: a cracked wall to blast, a lever, a
+          false bookcase, a draught of air you can see, a loose slab.
+    - [ ] 62.4 Set pieces that belong to each place (an altar, a forge, a frozen fountain...) and
+          small life (dripping water, flickering torches, rats running off).
+    - [ ] 62.5 The full check; IPA 62.
+  - [ ] 63 Bonfires (his word: "from darksouls"; our own design; ~10).
+    - [ ] 63.1 A rest fire on each floor: sit to mend, refill the potions, kindle it to make it
+          stronger.
+    - [ ] 63.2 Lit fires remembered; the flame animated. Test; IPA 63.
+  - [ ] 64 Mobs (PixelLab, ~550): every foe, person, pet and guardian (with its stage looks) redrawn
+        in that vibe.
+    - [ ] 64.1 Pilot: floor 1's foes, shown to him first.
+    - [ ] 64.2 Every foe and elite, floor by floor.
+    - [ ] 64.3 People, pets, guardians and bosses.
+    - [ ] 64.4 The full check; IPA 64.
+  - [ ] 65 Weapons (PixelLab, ~650, next month's allowance after 26 Nov): every weapon Higgsfield
+        did not draw.
+    - [ ] 65.1 Pilot: ten weapons, shown to him first.
+    - [ ] 65.2 All the rest. The full check; IPA 65.
+  - [ ] 66 Super cool weapons and animations (~150).
+    - [ ] 66.1 The 16 legendary weapons with effects no other weapon has (Stage 60.2 to 60.4; the
+          greatsword needs a new name: IRON SLAB is taken).
+    - [ ] 66.2 The heroes' animations: standing, walking, attacking. The full check; IPA 66.
   - [ ] 67 A rage hero (his word: "kinda super saian carachter with rage meter and fitted armor and
-        weapons"; our own): a rage meter that fills in the fight and transforms him (a golden aura,
-        his hair and armour changing, his weapons too). IPA.
+        weapons"; our own; ~40).
+    - [ ] 67.1 A new hero with a rage meter that fills in the fight.
+    - [ ] 67.2 At full rage he transforms: a golden aura, his hair and armour change, his weapons
+          too. The full check; IPA 67.
   - Then the next stages (his word).
 - [ ] Stage 51: run modes: THE NARROW WAY (no map), IRON VOW (after 5 wins: one life). (OMENS:
       his 16 cinders became DREAD to 16 in Stage 48.)
@@ -1980,3 +2013,5 @@ each point); the rest, proposed in the order it would be felt most, with names o
 - 27 Oct 2026: his plan written in as one part, THE LIVING PIXEL WORLD (61 to 67): PixelLab
   environments, rooms that live (mazes, traps, hidden rooms), bonfires, mobs, weapons, the
   legendary weapons and animations, a rage hero; with a credit budget.
+- 27 Oct 2026: his OK on the floor 1 pilot drawn on PixelLab: "Ok continiue and make me road map of
+  tasks". The part split into tasks (61.1 to 67.2), and the same list made into a page for him.
