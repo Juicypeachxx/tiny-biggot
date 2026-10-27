@@ -1572,6 +1572,43 @@ each point); the rest, proposed in the order it would be felt most, with names o
         tornado that throws foes up), BLOODSPIN AXE (bleeds; at five a giant axe falls),
         TRUESHOT GAUNTLET (a laser across the room every 6th shot). Tests, replays, full check,
         IPA 60.
+- [ ] PART: THE LIVING PIXEL WORLD (his plan, 27 Oct: "mark this this is our one part of a plan for
+      this game"). His words: "with pixle lab you will start with maps and enviroments first, then
+      mobs, then weapons that were not updated by higgsfild also you will make all mobs and
+      enviroments from the games that i mentionet it needs to capture the pileaer vibe also you will
+      things to rooms to feel mote thematic and vibed and alive not boring, like mazes traps hidden
+      room mechanic it needs to click with enviroment and feel like always new and cool, after that
+      you will add some super cool weapons and charachter animations, also you can add some kinda
+      super saian carachter with rage meter and fitted armor and weapons, after that we will move to
+      next stages, also add bonfires from darksouls game ... check all the credits soo we wont spare
+      stuff on stupid stuff we need to make the best value for money". The look: the hand-made pixel
+      vibe of Dead Cells, Enter the Gungeon, Noita, Terraria, Soulbound, Iconoclasts, Tiny Rogues
+      (rule 3: their look as an idea; every creature, place and name our own). V2 only.
+      Credits (27 Oct): PixelLab Tier 1, 2000 generations a month (resets 26 Nov) + 20 a day:
+      single pictures and tilesets 1 each, a character 2, an animation 1 a direction, the animated
+      effects maker free; Pro 10 to 25 a call (only for showpieces). Higgsfield 56 credits: kept
+      for big illustrations PixelLab cannot do (his pick). Every batch starts with a small pilot he
+      sees, then the rest; failed tries are counted; HANDOFF has what is left after each.
+      Budget: environments ~550, mobs ~550 (this month); weapons ~650 and animations ~150 (next
+      month's allowance); the rage hero ~40; bonfires and traps ~60.
+  - [ ] 61 Environments (PixelLab): for each of the 20 kits and the named places, walls (still
+        today's pictures x2 in V2), floors with variety, and the room objects, in that vibe. Pilot:
+        the first floor, then the rest. IPA.
+  - [ ] 62 Rooms that live: set pieces that belong to each place, mazes, traps that fit it (spikes,
+        swinging blades, fire jets, collapsing floors, darts...), hidden rooms found by their place's
+        own trick (a cracked wall to blast, a lever, a false bookcase, a draught of air); laid out so
+        no two rooms feel the same. Tests, replays re-recorded on purpose. IPA.
+  - [ ] 63 Bonfires (his word: "from darksouls"; our own design): a rest fire on the way through each
+        floor: rest to mend, refill and kindle; lit fires remembered. IPA.
+  - [ ] 64 Mobs (PixelLab): every foe, person, pet and guardian (with its stage looks) redrawn in
+        that vibe. Pilot first. IPA.
+  - [ ] 65 Weapons (PixelLab): every weapon Higgsfield did not draw. IPA.
+  - [ ] 66 Super cool weapons (Stage 60.2 to 60.4: the 16 legendaries and their effects) and the
+        heroes' animations (idle, walk, attack). IPA.
+  - [ ] 67 A rage hero (his word: "kinda super saian carachter with rage meter and fitted armor and
+        weapons"; our own): a rage meter that fills in the fight and transforms him (a golden aura,
+        his hair and armour changing, his weapons too). IPA.
+  - Then the next stages (his word).
 - [ ] Stage 51: run modes: THE NARROW WAY (no map), IRON VOW (after 5 wins: one life). (OMENS:
       his 16 cinders became DREAD to 16 in Stage 48.)
 - [x] Stage 52 (his word, 11 Oct, with Stage 50): SPIRIT (the special's charge and power) and LUCK as
@@ -1937,3 +1974,6 @@ each point); the rest, proposed in the order it would be felt most, with names o
   spark streaks, each weapon family's particles, foes bursting into bits, afflicted foes smoking,
   an afterimage on swings; drawing only, the game plays the same (every replay identical, the full
   check passed). IPA 60.1 "Crack and Spark".
+- 27 Oct 2026: his plan written in as one part, THE LIVING PIXEL WORLD (61 to 67): PixelLab
+  environments, rooms that live (mazes, traps, hidden rooms), bonfires, mobs, weapons, the
+  legendary weapons and animations, a rage hero; with a credit budget.
