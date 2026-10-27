@@ -94,6 +94,10 @@ mushrooms, words only; mushroom_e: 25 elite brutes, his elite sheet as the style
 better than pixen. His pick (27 Oct): "small mushroom is 4 big is 16": in the game (mob_pl.py mobs_pro/all
 mushroom=mushroom_n_4 mushroom_elite=mushroom_e_16; the elite is its own drawing now, 34 x 40, and
 elites are drawn 1.2x). Atlas test PASSED. Note: floor 2's red mushroom prop looks like the foe.
+Grid test (resprite/pixellab/mobs_grid, 10 generations, ran although he stopped it): asked for 16
+foes on a 128 px canvas; it gave 4 versions, each ONE foe (the first four named: bat, slime,
+skeleton archer, cultist), good and in the mushroom's style. So about 2.5 generations a foe.
+PixelLab left: 1,607.
 Plan: normal foes 32 px, elites 48 px (drawn bigger only).
 Credits (27 Oct, before the fat tries): PixelLab 1,645 of 2,000 (resets 26 Nov); Higgsfield 53 (free plan).
 

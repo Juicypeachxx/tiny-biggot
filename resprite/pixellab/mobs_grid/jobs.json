@@ -1,0 +1,14 @@
+{
+ "grid16": {
+  "tool": "create_image_pro",
+  "id": "188b6ef1-c11c-4398-884d-6db3e5340137",
+  "args": {
+   "description": "a sprite sheet of 16 different dungeon monsters in a 4 by 4 grid, one monster centred in each square cell, no borders, same chunky dark-fantasy pixel art style for all, thick dark outline, rich colours, glowing eyes, three-quarter view. Row by row: a purple cave bat with red eyes; a green slime blob with angry eyes; a skeleton archer with a bow; a hooded red cultist with a dagger; a small red flying imp with horns; an armoured knight with a sword and shield; a pale floating ghost; a flying book monster with teeth; a drowned blue-green zombie with seaweed; a blue fire wisp; a heavy stone golem; a swamp bog creature; a tiny buzzing gnat insect; a swamp witch with a crooked staff; a longbow archer in a green hood; a lancer with a long spear",
+   "width": 128,
+   "height": 128,
+   "no_background": true,
+   "style_image_base64": "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAEeUlEQVR4nM2Xa2wUVRTHfzOzM92VllUWMIFqsaEFTBqxxjT9QttozJr0g4lZCAlGsvVTUUHA+MA2UUIEBZFnwMam/WS0YIg0WBNsfWFtDNiEhNJHCgtLbdouZVlqm53uXj8MO3S6M2WLGvwnk91777nn/M/jnrkjKUjcT8j31fr/gYDrXjapkizs5nWRnHU+Z0VAdRmGv1+7DoBY8xnL+gs3rwikBPpk5kSkTItQlWSxb14BVe0fmXOnSzZbZEKy4c/GaG/GJDKqAVWSxWfZ+XjiCUfjq0I/8dKlVgD2eQsc0zQdd41AynNPPMFC18w63V7jtzvm4qoOu2O9d62LGQlMNV7U/B6aR2N4dQ0AE1F4tuMTU/aX5+5E5EpEYlxT6EHiULRnxnQ4pkCVZLE1x+p5ds6Dad7a4VGfwBNPsKt9Fxu8hTOmwzYCqiSLYM5SnlCNtbzkJABLHnczeG3ClJuI3tkzldBE1CjIq7oxHlclDl3vsU2H4zGcd5uYJ54gpBnKvjmvAwoA0cmkRd573RrMt37dS13JG07qTaRFQHXJYoO3EI9uRO1illWx7+klMyocvDiAGoub47ykoWdcT1If60uLQnoEbp+06wiGshQmFj/A4kULzeWSsiKL+NitKSm5Nc7SZbn0dYcBuDYwxLnIGL4JiTzVvtzSCSgG26EsxfS25/wlCoseY+0rz+P1zUXzaMTH42lbo5GbAPR1h7k2MGQQXwSR3y8Tku0PQhotfTIp1cf6AGMjwI34X1SuWYU/sIXS8iDD4RE0j8Yfv10AQPNoHNn1Jf7AFvyrN1G5ZhVjkTHASImeo9E80m3fExQk28ftUoRb0cznh68PCLekiIpHVogjfr948uE8Eer6Vpxs3CnckiKO+paLwqyHhFvRjLnUXkkRbkkRTnYyeheoiipamvYQi40RCNZCMkH3hWaLzLKiShAKTfUfABAI1qIn9Lsqz6gVNzXsIH9FnmV+alO6FbuRtq+jrZPqt3f/81bc1LADwEIgPh6ntDxoDGSjL7S31qF5NFOmvytETs4c/C9umpGEIwHVJYuWrz7F65sLYCofDo/gD2zhbHujRf6p0pdpb61Lk/X65lL6TNDxfWB7OFWXLD5+51UATp84Q/jyn6bC9zceNo13tHXS0dYJwNn2Rjav22kaP/VFG/29YaKRmxzesdW8zEyHfSu+3Yz6e8PU7G+gpWkPAAty53PweK1ptKRipUkE4ODxWlPF8pX5BNZvI5VCJzi+C+Zku6l+dy9ICdP7BbnzLYZTmD7u7woZf2SFQLDWSE0CW9gS0EVSqt62W+iJpKRKsujvDVvWU0SmI2V4eHCU/IJcUvfD0vKgcCrEzPqAJIvtm6oAI7ROGB4cJTI4CkDNgc8zuhdmfCv+se0cZRXFHN17jLKKYtzZHsv6dyeNG3JZRTGnjv2cqdoMI+CSxfbXqsxxzf4GW7ntr68HwJ3t4c0PD/6LEbApoOltVlVUkTI+G2T+XTDlHDt5prpkQQJQnGXumcB/hfv+cfo3kQLLdXQLsXMAAAAASUVORK5CYII="
+  },
+  "done": true
+ }
+}
