@@ -1594,22 +1594,22 @@ each point); the rest, proposed in the order it would be felt most, with names o
       His OK on the floor 1 pilot (27 Oct): "Ok continiue and make me road map of tasks". So the
       part is split into tasks below, and he has the same list as a page (an artifact, kept up to
       date when a task is done). Credits per stage are PixelLab generations, estimated.
-  - [ ] 61 Environments (PixelLab, ~350): every place's floor, walls and room objects in that vibe
+  - [x] 61 Environments (PixelLab, ~350; done, 341 generations, IPA 61): every place's floor, walls and room objects in that vibe
         (resprite/tools/pl_kit.py; world_view.gd _paint_place).
     - [x] 61.1 Floor 1, THE OSSUARY (the pilot, 14): slabs, wall panels with columns, wall tops,
           props, wall dressing, things on the floor. Done; his OK on the look.
     - [x] 61.2 Chapter I, floors 2 to 11 (~120, about 12 each; done, 131): MIREWOOD GROTTO, THE SUNKEN
           ARCHIVE, THE CINDERFORGE, RIMEFROST VAULT, THE HOLLOW THRONE, RAINMARSH HAMLET, ASHEN
           WARFRONT, FROSTPEAK MONASTERY, NIGHTSPIRE ROOFTOPS, THE ECLIPSE (the camp has floor 2's).
-    - [ ] 61.3 Chapters II to IV (~65): THE INKWELL, THE BINDERY, THE QUILL SPIRE, THE GLOSSARY,
+    - [x] 61.3 Chapters II to IV (~65): THE INKWELL, THE BINDERY, THE QUILL SPIRE, THE GLOSSARY,
           THE FOOTNOTES, THE COVER, THE STACKS, THE READING ROOM, THE HEARTH.
-    - [ ] 61.4 The special places (~140): the rift worlds (BLACKROCK GAOL, THE BRANDED FIELD, NEON
+    - [x] 61.4 The special places (~140): the rift worlds (BLACKROCK GAOL, THE BRANDED FIELD, NEON
           UNDERCITY, RIOT ALLEY, ASHFALL TOWN, MAPLE COURT, HEIST CITY, DUSTWATER, SKYREACH ISLES,
           THE DROWNED BASTION, THE CALIBER CATHEDRAL, THE CLOCKWORK SPIRE, THE RIMEFROST HOLLOWS),
           the final places (THE GILDED EMPYREAN, THE SCORCHED DEEP, BRAZIL, THE UNWRITTEN PAGE, THE
           REDACTED, THE NOBLE PASTURE, THE GRAND CHAMBER, THE END OF THE WORLD, THE CAT'S PARLOUR)
           and the barn.
-    - [ ] 61.5 Pits drawn with depth to match (a lip, the drop); the full check; IPA 61.
+    - [x] 61.5 Pits drawn with depth to match (a lip, the drop); the full check; IPA 61.
   - [ ] 62 Rooms that live (~40 pictures; mostly code). Tests, core replays re-recorded on purpose.
     - [ ] 62.1 Traps that fit each place (spikes, swinging blades, fire jets, darts from the walls,
           collapsing floors, falling icicles...): warned before they strike, so they are fair, and

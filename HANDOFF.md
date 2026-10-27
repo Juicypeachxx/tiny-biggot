@@ -71,6 +71,19 @@ create_image_pixen, 1 generation): real pixel art at the exact size, a clean out
 Keep it up to date when a task is done: read it (Artifact action read with that url), change it,
 publish it with the same url. His OK on the floor 1 look (27 Oct: "Ok continiue"): 61.2 next.
 
+**27 Oct: Stage 61 done, IPA 61 "Living Places".** 61.3 and 61.4: the chapter floors (kit11 to
+kit19), the 13 rift worlds, the final places and the barn each have their own floor slabs, two wall
+panels, column and wall tops (resprite/pixellab/<kit>/, pl_kit.py place()); rooms with no props of
+their own stand the place's column on their pillars. 196 generations for the 32 places (160, then
+36 redraws; floors asked as "a 4 by 4 grid of 16 small square tiles of ONE material" come out right,
+"square X tiles" often gave 2 x 2). Known and kept: some places' plain wall panels are whole scenes
+(a sky, a doorway: the barn, the bank, the sky temple, the bastion, the spire, the ice hollows, the
+end of the world): asking for "a seamless repeating wall texture" drew tiny repeated buildings, worse,
+so the first ones stay; they sit under the HUD, darkened. THE REDACTED's floor is one big X cut up.
+61.5: pits on floors 1 to 11 show their far wall in the floor's stone. PixelLab: 1664 of 2000 left
+(reset 26 Nov). Checked: the full check passed (CHECK PASSED, 14 replays identical) on the code;
+after it only pictures changed (atlas test passed); screenshots of every floor and place.
+
 **27 Oct: 61.2 done, floors 2 to 11 drawn on PixelLab** (his OK on the pilot): each floor's slabs,
 two wall panels, column, wall tops, three props, wall dressing and things on the floor
 (resprite/pixellab/kit1 to kit10, with prompts.json: the words, and how many tries each took).
