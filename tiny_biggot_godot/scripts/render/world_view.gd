@@ -960,8 +960,9 @@ func _draw_weapon(ci: CanvasItem, p: Player) -> void:
 	var wb := Img.t(wn)
 	# Polish: the weapon kicks back a little when it fires.
 	var kick := Juice.recoil * 2.0
-	var hx := p.x + cos(p.aim_a) * (6 - kick)
-	var hy := p.y - 1 + sin(p.aim_a) * (4 - kick * 0.6)
+	var big := HeroGear.big(p.hero["sprite"])   # 64.5: a hero drawn twice the old size holds it higher and further out
+	var hx := p.x + cos(p.aim_a) * ((9.0 if big else 6.0) - kick)
+	var hy := p.y - (6.0 if big else 1.0) + sin(p.aim_a) * ((5.0 if big else 4.0) - kick * 0.6)
 	var left := cos(p.aim_a) < 0
 	# The icon points up and to the right, so aiming right turns it by (aim - 45 degrees).
 	# Aiming left is the mirror image of aiming right: the flipped sprite turns the other

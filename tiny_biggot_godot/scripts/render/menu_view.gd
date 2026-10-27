@@ -23,8 +23,15 @@ func refresh() -> void:
 	for l in [_base, _glow, _spr]:
 		l.queue_redraw()
 
+var _hero_sprites := {}
+
 func _sprite(name: String, x: float, y: float, zoom: float = 1.0, mirror: bool = false, alpha: float = 1.0,
 		tint: Color = Color(0, 0, 0, 0)) -> void:
+	if _hero_sprites.is_empty():
+		for h in GameData.HEROES:
+			_hero_sprites[h["sprite"]] = true
+	if _hero_sprites.has(name) and HeroGear.big(name):
+		zoom *= 0.5   # 64.5: the new heroes are drawn twice as big; a menu keeps them their old size
 	_sprites.append([name, x, y, zoom, mirror, alpha, tint])
 
 func _paint_glow(ci: CanvasItem) -> void:

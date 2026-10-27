@@ -356,6 +356,17 @@ static func _piece(slot: String, g: Dictionary, hi: Dictionary) -> Dictionary:
 	return {}
 
 ## The outfit texture for the player's current gear on this hero, or null with nothing equipped.
+## 64.5: the hero's size in the game (12 x 14 the old heroes, 24 x 28 the ones drawn on PixelLab):
+## the outfit is drawn over it at that size (its grid stays 24 x 28, so on a new hero each of
+## its pixels is one of the game's).
+static func size_of(hero: String) -> Vector2i:
+	var t := Img.t(hero)
+	return Vector2i(t.get_size()) if t != null else Vector2i(W, H)
+
+## A hero drawn twice the old size (64.5): menus show it at half their zoom, so it keeps its place.
+static func big(hero: String) -> bool:
+	return size_of(hero).x >= W * 2
+
 static func texture(p: Player, hero: String) -> Texture2D:
 	var key := hero + "|"
 	for slot in ORDER:
@@ -379,7 +390,7 @@ static func texture(p: Player, hero: String) -> Texture2D:
 	var tex: Texture2D = null
 	if any:
 		var it := ImageTexture.create_from_image(img)
-		it.set_size_override(Vector2i(W, H))      # drawn at the hero's size, with the finer pixels
+		it.set_size_override(size_of(hero))      # drawn at the hero's size, with the finer pixels
 		tex = it
 	if _cache.size() > 256:
 		_cache.clear()
@@ -397,10 +408,12 @@ static func draw(ci: CanvasItem, p: Player, x: float, y: float, zx: float = 1.0,
 	var px := roundf(x)
 	var py := roundf(y)
 	var mod := Color(1, 1, 1, alpha)
+	var w := float(tex.get_width())
+	var h := float(tex.get_height())
 	if zx == 1.0 and zy == 1.0 and not mirror:
-		ci.draw_texture(tex, Vector2(px - W / 2, py - H), mod)
+		ci.draw_texture(tex, Vector2(px - w / 2, py - h), mod)
 		return
 	ci.draw_set_transform(Vector2(px, py), 0.0, Vector2(zx, zy))
-	var r := Rect2(-W / 2, -H, -W, H) if mirror else Rect2(-W / 2, -H, W, H)   # negative width: flipped in place
+	var r := Rect2(-w / 2, -h, -w, h) if mirror else Rect2(-w / 2, -h, w, h)   # negative width: flipped in place
 	ci.draw_texture_rect(tex, r, false, mod)
 	ci.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
