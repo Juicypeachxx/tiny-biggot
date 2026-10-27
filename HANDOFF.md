@@ -71,6 +71,17 @@ create_image_pixen, 1 generation): real pixel art at the exact size, a clean out
 Keep it up to date when a task is done: read it (Artifact action read with that url), change it,
 publish it with the same url. His OK on the floor 1 look (27 Oct: "Ok continiue"): 61.2 next.
 
+**64.1 done: every foe redrawn (IPA 64.1 "New Monsters")**. His word: "do your thing", "make them in
+the theme of what we do now", "i like b01.png". PixelLab Pro (create_image_pro, 48 x 48, the style
+picture resprite/pixellab/mobs_all/style.png = the four he liked) gives 25 versions a 10-generation
+call, and listing 25 foes in order gives one foe a version: 179 foes in 8 calls (a call listing only 5
+drifted into 5 goblins: list about 25). foes.json the words, batches.json what each call listed,
+named/ the pictures (resprite/tools/pl_batch_get.py fetches them; mob_pl.py puts them in, falling back
+to the small picture's box where there was no full-detail one). 10 pets and 10 hero previews (hero_*,
+not in the game) in one more call. bat2 is made from bat. Elites: a gold rim on the new picture until
+their own batch; the mushroom's elite is its own brute (mobs_pro 16). Not redrawn yet: the evolved
+looks (*_s2, *_s3: 44), guardians and bosses, heroes. PixelLab left: 1517.
+
 **64.1 pilot made, waiting for his OK**: floor 1's foes drawn on PixelLab (resprite/pixellab/mobs1, 5
 generations; 1,645 left): bat, slime, skeleton archer, mushroom at 24 x 24 (PixelLab wants a square
 canvas under 32 px). bat2 (the other wing beat) is bat with its wings folded down in code.
