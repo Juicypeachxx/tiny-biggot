@@ -1644,7 +1644,12 @@ each point); the rest, proposed in the order it would be felt most, with names o
           then (stopping a 16-foes-a-canvas test): weapons, armour, relics and items already redrawn
           stay; for the others he picks a version he likes; weapon effects and animations from
           Higgsfield if better ("when you have lightning swort you can see lighting effects on the
-          sword sizzeling"). Waiting for his go on the plan and its costs.
+          sword sizzeling"). Then: "do your thing"; "it is not necessarely to keep redraws who they are, make them in the theme
+          of what we do now"; "i like b01.png". So: every foe redrawn in the b01 look (PixelLab Pro,
+          48 px, 25 foes a 10-generation call, the four he liked as the style picture), each keeping
+          how it fights (flyer, archer, brute, caster) but free to change into the dark-fantasy
+          theme (the modern ones become fantasy ones). Foes now drawn about twice as big; hitboxes
+          as they were. Elites in his elite-sheet look after that.
     - [ ] 64.2 Every foe and elite, floor by floor.
     - [ ] 64.3 People, pets, guardians and bosses.
     - [ ] 64.4 The full check; IPA 64.
