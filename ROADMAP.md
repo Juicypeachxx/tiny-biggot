@@ -1663,6 +1663,13 @@ each point); the rest, proposed in the order it would be felt most, with names o
   - [ ] 66 Super cool weapons and animations (~150).
     - [ ] 66.1 The 16 legendary weapons with effects no other weapon has (Stage 60.2 to 60.4; the
           greatsword needs a new name: IRON SLAB is taken).
+    - [x] 66.3 (his word, 27 Oct, a picture of a floating helm: "stopp animating fix this armor doesnt
+      fit and weapons dont look good equipted"; "change the default weapon soo it looks the weapon i
+      pickup it belongs to charachter"): armour placed by each hero's own body, the heroes' own
+      weapons erased, weapons held by the handle. IPA 66.3. Animations stopped (21 of 145 made, kept).
+    - [ ] 66.4 (his word, 27 Oct, a picture of the plate set and the red robe: "to še vedno deluje
+      smešno in out of the place, kar naredi IPA potem se ukvarjaj z tem"): the armour on the
+      heroes still looks funny and out of place. Make it look right.
     - [ ] 66.2 The heroes' animations: standing, walking, attacking. The full check; IPA 66.
   - [ ] 67 A rage hero (his word: "kinda super saian carachter with rage meter and fitted armor and
         weapons"; our own; ~40).

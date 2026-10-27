@@ -8,6 +8,7 @@ extends RefCounted
 ## with no quote or | inside, and add the new version's line at the top in its [ipa] commit.
 
 const LIST := [
+	"66.3|Fitted Gear|Armour placed on each hero by their own head, chest and legs; Heroes hold only the weapon you picked up (their own weapons erased); Weapons held by the handle",
 	"65|New Armoury|399 weapon pictures and 314 armour and equipment pictures drawn again in the new look (you kept three old ones); Your icon sheet's weapons and hats stay as they were",
 	"64.7|Legs Again|The heroes drawn again as full figures with legs and boots (the first new drawings stopped at the waist)",
 	"64.6|Brighter Days|Every monster, elite, boss, hero and pet drawn lighter and more colourful; Every floor, wall and prop lifted out of the gloom; Black outlines kept crisp",

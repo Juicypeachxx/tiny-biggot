@@ -1,5 +1,14 @@
 # Handoff: where the work stands
 
+**27 Oct, IPA 66.3 Fitted Gear:** armour drawn at the hero picture's own pixels and placed by the
+hero's measured head/chest/hips/legs (hero_gear.gd); all 34 heroes' own held weapons and items
+erased on PixelLab (edit_image_pixen, 35 generations; old pictures in
+resprite/pixellab/heroes2/with_items); big heroes hold the weapon by the handle (world_view.gd
+_draw_weapon). Animations stopped on his word (21 of 145 strips made, in resprite/pixellab/anim;
+the tool resprite/tools/anim_pl.py; the frame player was taken out). PixelLab: about 960 left.
+**Next (his word):** the armour still looks "funny and out of place" (plate set colours the whole
+body pale, robe colours it all red): ROADMAP 66.4.
+
 **26 Oct: V2 is the main line now** (his word: "v2 is latest version with new sprites"): the work
 lives on `tiny-biggot-V2` (CLAUDE.md, Git); `claude/dev` stays at IPA 59 (plus two notes: IPA 59
 built, and W4 on windows-build: in Windows co-op everything hurts every hero). The Windows game is
