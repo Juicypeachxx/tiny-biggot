@@ -29,6 +29,16 @@ const CX := 12.0
 ## Shades: o outline, 0 deepest, 2 dark, 1 main, 3 light, 4 shine.
 const ORDER := ["body", "feet", "hands", "head", "neck", "trinket", "ring1", "ring2", "offhand"]
 
+## 66.4 (his word, 27 Oct, of the painted armour: "to še vedno deluje smešno in out of the place"): each
+## hero has its pieces drawn on it on PixelLab (resprite/tools/gear_pieces.py): one strip a hero,
+## assets/gear_pieces/<hero>.png, a cell of the picture's size for each of these, in this order. A
+## piece worn is that cell in the item's colours (each pixel the shade of its brightness among the
+## piece's); a hero or a piece without a drawing falls back to the shapes below. Amulets, rings and
+## charms are small and stay shapes.
+const PIECES := ["helm", "hood", "hat", "crown", "mask", "plate", "leather", "robe", "cloak", "boots", "greaves", "gloves", "shield"]
+const PIECE_DIR := "res://assets/gear_pieces/"
+static var _strips := {}
+
 static var _cache := {}
 static var _pal := {}
 static var _heroes := {}
@@ -87,7 +97,7 @@ static func _hero(name: String) -> Dictionary:
 				ty = mini(ty, y)
 				by = maxi(by, y)
 			bright[y * w + x] = c.get_luminance()
-	var info := { "solid": solid, "bright": bright, "w": w, "h": h, "ty": ty, "by": by }
+	var info := { "name": name, "solid": solid, "bright": bright, "w": w, "h": h, "ty": ty, "by": by }
 	var u := float(h) / 56.0                    # the build is measured in a 56-high picture's pixels
 	var chin := by - roundi(25.0 * u)
 	var hip := by - roundi(10.0 * u)
@@ -417,8 +427,54 @@ static func _ring(hi: Dictionary, left: bool) -> Dictionary:
 	var x: int = r[0] + 1 if left else r[1] - 2
 	return { Vector2i(x, y): "4", Vector2i(x + 1, y): "1", Vector2i(x, y + 1): "1", Vector2i(x + 1, y + 1): "2" }
 
+## The piece drawn on this hero (66.4), shaded for the item's colours: {} when it has none.
+static func _drawn(hi: Dictionary, key: String) -> Dictionary:
+	var name: String = hi["name"]
+	if not _strips.has(name):
+		var img: Image = null
+		if ResourceLoader.exists(PIECE_DIR + name + ".png"):
+			var tex: Texture2D = load(PIECE_DIR + name + ".png")
+			img = tex.get_image()
+			if img != null:
+				if img.is_compressed():
+					img.decompress()
+				img.convert(Image.FORMAT_RGBA8)
+		_strips[name] = img
+	var strip: Image = _strips[name]
+	var i := PIECES.find(key)
+	var w: int = hi["w"]
+	var h: int = hi["h"]
+	if strip == null or i < 0 or strip.get_width() < (i + 1) * w or strip.get_height() != h:
+		return {}
+	var cells := []
+	var lum := {}
+	for y in h:
+		for x in w:
+			var c := strip.get_pixel(i * w + x, y)
+			if c.a >= 0.5:
+				cells.append(Vector2i(x, y))
+				lum[Vector2i(x, y)] = c.get_luminance()
+	if cells.size() < 6:
+		return {}
+	cells.sort_custom(func(a, b): return lum[a] < lum[b] or (lum[a] == lum[b] and (a.y < b.y or (a.y == b.y and a.x < b.x))))
+	var out := {}
+	var n := cells.size()
+	for k in n:
+		var p: Vector2i = cells[k]
+		var f := float(k) / maxf(1.0, n - 1)
+		if lum[p] < 0.1:
+			out[p] = "o"      # its own outline and dark lines stay dark
+		else:
+			out[p] = "0" if f < 0.12 else ("2" if f < 0.38 else ("1" if f < 0.72 else ("3" if f < 0.93 else "4")))
+	return out
+
 static func _piece(slot: String, g: Dictionary, hi: Dictionary) -> Dictionary:
 	var shape: String = g.get("shape", "")
+	var key := { "hands": "gloves", "offhand": "shield" }.get(slot, shape)
+	if slot in ["head", "body", "feet", "hands", "offhand"]:
+		var d := _drawn(hi, key)
+		if not d.is_empty():
+			return d
 	match slot:
 		"head": return _head(shape, hi)
 		"body": return _body(shape, hi)
