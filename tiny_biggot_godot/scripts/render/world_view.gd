@@ -339,13 +339,18 @@ func _paint_bg(ci: CanvasItem) -> void:
 			if room.tile(c, r) == World.T_PILLAR:
 				if deco:
 					BiomeDeco.paint_prop(ci, room, c, r)
+				elif Img.has(kit_name + "_pilaster"):
+					# 61: a place drawn on PixelLab stands its own column there, with a soft shadow
+					var pil := Img.t(kit_name + "_pilaster")
+					ci.draw_rect(Rect2(c * ts + 2, (r + 1) * ts - 2, ts - 4, 3), Color(0, 0, 0, 0.35))
+					ci.draw_texture(pil, Vector2(c * ts, (r + 1) * ts + 1 - pil.get_height()))
 				else:
 					ci.draw_texture_rect_region(kit, Rect2(c * ts, r * ts - 4, ts + 1, 2 * ts), Rect2(0, 2 * ts, ts + 1, 2 * ts))
 	RoomDress.paint_static(ci, room)   # 16: each kind of room furnished
 
 ## 61 (his plan, 27 Oct: "with pixle lab you will start with maps and enviroments first"): a floor
 ## with its own PixelLab pictures (resprite/tools/pl_kit.py). Slabs picked by the room's seed (the
-## last row of <kit>_tiles rarely), soft shadows where the walls meet the floor, the top wall in
+## plainest of <kit>_tiles most, its last row rarely), soft shadows where the walls meet the floor, the top wall in
 ## panels of 4 x 2 tiles (BiomeDeco.panels) with a column over every join, and the tops of the side
 ## and bottom walls. Drawn once, when the room is entered; its own random numbers.
 func _paint_place(ci: CanvasItem, room: Room, kit_name: String) -> void:
@@ -354,7 +359,8 @@ func _paint_place(ci: CanvasItem, room: Room, kit_name: String) -> void:
 	var slabs := Img.t(kit_name + "_tiles")
 	for r in range(TB.IY0, TB.IY0 + TB.IH):
 		for c in range(TB.IX0, TB.IX0 + TB.IW):
-			var v := rng.int_range(12, 15) if rng.next_f() < 0.06 else rng.int_range(0, 11)
+			var roll := rng.next_f()     # the sheet's plainest 8 most, the next 4 less, the last 4 rarely
+			var v := rng.int_range(0, 7) if roll < 0.8 else (rng.int_range(8, 11) if roll < 0.94 else rng.int_range(12, 15))
 			ci.draw_texture_rect_region(slabs, Rect2(c * ts, r * ts, ts, ts), Rect2((v % 4) * ts, (v / 4) * ts, ts, ts))
 	var shade := Color(0.03, 0.01, 0.05)
 	for i in 12:     # deep under the top wall (half a pixel at a time: the picture's own pixels)

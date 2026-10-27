@@ -71,6 +71,25 @@ create_image_pixen, 1 generation): real pixel art at the exact size, a clean out
 Keep it up to date when a task is done: read it (Artifact action read with that url), change it,
 publish it with the same url. His OK on the floor 1 look (27 Oct: "Ok continiue"): 61.2 next.
 
+**27 Oct: 61.2 done, floors 2 to 11 drawn on PixelLab** (his OK on the pilot): each floor's slabs,
+two wall panels, column, wall tops, three props, wall dressing and things on the floor
+(resprite/pixellab/kit1 to kit10, with prompts.json: the words, and how many tries each took).
+131 generations for the ten (106, then 25 redraws: walls that came out as whole scenes with sky
+or doors, wall tops drawn as one object, two floors mixing materials, a lamp post on a backdrop);
+the monastery's plain wall is made from its bell wall's repeating left part. PixelLab: 1819 of
+2000 left (26 Oct to 26 Nov), with 61.3 running. What helps the prompts (make_spec2.py in the
+session scratchpad is the model): walls "front view of a flat wall surface filling the whole
+picture, seen straight on, no doorway, no sky, no floor: ..."; wall tops "a uniform seamless
+tileable texture of ..., no objects, no border"; floors "a 4 by 4 grid of 16 small square tiles
+of ONE material ..., every tile different: ...". pl_kit.py now: slabs ordered plainest first (the
+game lays the first 8 most, the last 4 rarely), calm() per floor (the Cinderforge's lava and the
+Eclipse's glow dimmed so fire and purple foes stand out), decal sheets with a tile and a half per
+thing when they are bigger. biome_deco.gd: own() puts a floor's own picture in place of a prop or
+a piece of wall dressing of the same name (prop_stump -> kit1_stump); the lit ones glow (LIT).
+world_view.gd: a room with no props (the chapter floors, the special places) stands the place's
+own column on its pillars. Checked: screenshots of all 11 floors (readable in a fight); 30 s of
+play without errors. Not yet: the full check (at the end of 61).
+
 **27 Oct: Stage 61 pilot, floor 1 (the Ossuary) drawn on PixelLab** (his plan, ROADMAP part THE
 LIVING PIXEL WORLD: environments first). 14 generations (and the 1 test before): 1985 of 2000 left
 this month (resets 26 Nov; a daily bonus of 20 on top). The pictures as they came and the words

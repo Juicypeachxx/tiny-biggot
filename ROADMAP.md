@@ -1598,7 +1598,7 @@ each point); the rest, proposed in the order it would be felt most, with names o
         (resprite/tools/pl_kit.py; world_view.gd _paint_place).
     - [x] 61.1 Floor 1, THE OSSUARY (the pilot, 14): slabs, wall panels with columns, wall tops,
           props, wall dressing, things on the floor. Done; his OK on the look.
-    - [ ] 61.2 Chapter I, floors 2 to 11 (~120, about 12 each): MIREWOOD GROTTO, THE SUNKEN
+    - [x] 61.2 Chapter I, floors 2 to 11 (~120, about 12 each; done, 131): MIREWOOD GROTTO, THE SUNKEN
           ARCHIVE, THE CINDERFORGE, RIMEFROST VAULT, THE HOLLOW THRONE, RAINMARSH HAMLET, ASHEN
           WARFRONT, FROSTPEAK MONASTERY, NIGHTSPIRE ROOFTOPS, THE ECLIPSE (the camp has floor 2's).
     - [ ] 61.3 Chapters II to IV (~65): THE INKWELL, THE BINDERY, THE QUILL SPIRE, THE GLOSSARY,

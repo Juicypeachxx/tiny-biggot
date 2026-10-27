@@ -26,7 +26,9 @@ const BIOMES := [
 ]
 ## Props that give light: glow sprite and its offset from the prop's top left.
 const LIT := { "prop_brazier": ["glow_torch", 8, 2], "prop_candelabra": ["glow_torch", 8, 1], "prop_lamppost": ["glow_torch", 3, 7],
-	"prop_stonelantern": ["glow_torch", 8, 6], "prop_obelisk": ["glow_red", 8, 8], "kit0_candles": ["glow_torch", 7, 3] }
+	"prop_stonelantern": ["glow_torch", 8, 6], "prop_obelisk": ["glow_red", 8, 8], "kit0_candles": ["glow_torch", 7, 3],
+	"kit3_brazier": ["glow_torch", 8, 4], "kit5_candelabra": ["glow_torch", 6, 3], "kit8_stonelantern": ["glow_torch", 7, 9],
+	"kit6_lamppost": ["glow_torch", 5, 5], "kit10_obelisk": ["glow_purple", 6, 8], "kit10_shard": ["glow_purple", 6, 6] }
 ## Spots on the top wall face for dressing (x of a 16-wide piece), clear of the torches and the door.
 const WALL_X := [24, 56, 136, 160, 272, 296, 376, 408]
 ## 61: a floor drawn on PixelLab (world_view.gd _paint_place) has its top wall in seven panels of 4
@@ -34,8 +36,11 @@ const WALL_X := [24, 56, 136, 160, 272, 296, 376, 408]
 ## the torches (in panels 1 and 5) and the door (panel 3).
 const PANEL_X := { 0: 12, 1: 12, 2: 12, 4: 12, 5: 44, 6: 12 }
 ## 61: small things lying on the floor drawn on PixelLab (<kit>_decals, a tile each): which of
-## them stand for which of the floor's decals.
-const PIC_DECALS := { "kit0": { "bones": [0, 1, 2, 3], "pebbles": [4, 5, 6] } }
+## them stand for which of the floor's decals (an empty list: any of them).
+const PIC_DECALS := { "kit0": { "bones": [0, 1, 2, 3], "pebbles": [4, 5, 6] }, "kit1": { "grass": [], "shroomlets": [] },
+	"kit2": { "pages": [] }, "kit3": { "coal": [], "plate": [] }, "kit4": { "sparkle": [] }, "kit5": { "goldbits": [] },
+	"kit6": { "leaves": [], "grass": [] }, "kit7": { "arrows": [] }, "kit8": { "petals": [], "seam": [] },
+	"kit9": { "feather": [], "shingle": [] }, "kit10": { "rune": [] } }
 ## Pits (World.T_VOID in a floor's own rooms): fill, deep, lip, detail colours.
 const PITS := { "chasm": ["#0b0810", "#050308", "#4e4a5e", "#1c1626"], "water": ["#1d4a5a", "#123341", "#6fd3e0", "#2f6f7f"],
 	"lava": ["#8a2a1a", "#5a160e", "#f2c94c", "#e8873a"], "ice": ["#2b4f8a", "#1b3566", "#e8f6ff", "#9fc3ee"],
@@ -76,9 +81,12 @@ static func paint_floor(ci: CanvasItem, room: Room) -> void:
 			continue
 		if pics.has(k):
 			var cells: Array = pics[k]
-			var v: int = cells[rng.int_range(0, cells.size() - 1)]
-			ci.draw_texture_rect_region(Img.t("kit%d_decals" % G.floor_index), Rect2(c * TB.TS + rng.int_range(-3, 3), r * TB.TS + rng.int_range(-3, 3),
-				TB.TS, TB.TS), Rect2(v * TB.TS, 0, TB.TS, TB.TS))
+			var sheet := Img.t("kit%d_decals" % G.floor_index)
+			var cs := sheet.get_height()     # a tile, or a tile and a half for bigger things
+			var v: int = cells[rng.int_range(0, cells.size() - 1)] if not cells.is_empty() else rng.int_range(0, int(sheet.get_width() / cs) - 1)
+			var o := (TB.TS - cs) / 2.0
+			ci.draw_texture_rect_region(sheet, Rect2(c * TB.TS + o + rng.int_range(-3, 3), r * TB.TS + o + rng.int_range(-3, 3),
+				cs, cs), Rect2(v * cs, 0, cs, cs))
 			continue
 		_decal(ci, k, c * TB.TS + rng.int_range(1, 11), r * TB.TS + rng.int_range(1, 11), rng)
 
@@ -124,13 +132,13 @@ static func paint_wall(ci: CanvasItem, room: Room) -> void:
 				ci.draw_rect(Rect2(x + 4, 29, 3, 2), _col(c1))
 				ci.draw_rect(Rect2(x + 9, 29, 3, 2), _col(c1))
 			_:
-				var tex := Img.t(k)
+				var tex := Img.t(own(k))
 				ci.draw_texture(tex, Vector2(x + floorf((TB.TS - tex.get_width()) / 2.0), 2 * TB.TS - 1 - tex.get_height()))
 
 ## A pillar tile's prop (in place of the plain square pillar), with a soft shadow at its foot.
 static func paint_prop(ci: CanvasItem, room: Room, c: int, r: int) -> void:
 	var props: Array = biome()["props"]
-	var k: String = props[absi((c * 73856093) ^ (r * 19349663) ^ room.seed_value) % props.size()]
+	var k := own(props[absi((c * 73856093) ^ (r * 19349663) ^ room.seed_value) % props.size()])
 	var tex := Img.t(k)
 	var x := float(c * TB.TS) + floorf((TB.TS - tex.get_width()) / 2.0)   # 61: a narrower one in the middle
 	var y := float((r + 1) * TB.TS + 1 - tex.get_height())
@@ -138,6 +146,12 @@ static func paint_prop(ci: CanvasItem, room: Room, c: int, r: int) -> void:
 	ci.draw_texture(tex, Vector2(x, y))
 	if LIT.has(k):
 		_lights.append([LIT[k][0], x + LIT[k][1], y + LIT[k][2]])
+
+## 61: the floor's own PixelLab picture of a prop or a piece of wall dressing (prop_stump ->
+## kit1_stump on floor 2), when it has one; else the picture of that name.
+static func own(name: String) -> String:
+	var mine := "kit%d_%s" % [G.floor_index, name.trim_prefix("prop_").trim_prefix("wall_")]
+	return mine if Img.has(mine) else name
 
 ## 61: which of its panels (<kit>_wallface, `kinds` of them: the first plain) stands in each of
 ## the top wall's seven places; the others only where no torch or door is (places 1, 3 and 5).
