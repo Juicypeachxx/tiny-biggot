@@ -947,7 +947,7 @@ func _draw_player(ci: CanvasItem, p: Player, t: float) -> void:
 		zx = 0.9 if rising else 1.1
 		zy = 1.15 if rising else 0.9
 		py = p.y + 6 - p.air
-	Gfx.sp(ci, name, p.x, py, zx, zy, Tipsy.sway(p, t), p.face < 0)   # 33.2: a tipsy hero sways
+	Gfx.sp(ci, Moves.hero(p, name, t), p.x, py, zx, zy, Tipsy.sway(p, t), p.face < 0)   # 33.2: a tipsy hero sways; 66.2: walks and attacks
 	# Equipped gear is painted over the hero (visual only).
 	HeroGear.draw(ci, p, p.x, py, zx, zy, p.face < 0)
 	if not behind:
@@ -1003,6 +1003,8 @@ func _draw_enemy(ci: CanvasItem, e: Enemy, t: float, line := Color(0, 0, 0, 0)) 
 	if boss and e.hidden:
 		return
 	var name := _enemy_sprite(e)
+	if boss:
+		name = Moves.boss(e, name, t)   # 66.2: a guardian walks and attacks
 	var sc := e.scale * (0.55 if e.shrink_t > 0 else 1.0)   # shrunk by the shrink ray (oddities.gd)
 	var foot := e.y + e.r + (2 if boss else 0)
 	var sx := 1.0
