@@ -180,6 +180,10 @@ static func build_room(room: Room) -> void:
 		# Rogues layer: eight more layouts (9-16).
 		# ROADMAP 4.7 part B: four more (17-20), with the floor's own pits (BiomeDeco).
 		var pat := rng.int_range(0, 20 if GameData.rogues() else 8)
+		# 62.2 (his plan: "mazes"): on the eleven floors of the first chapter, a fight room is now and
+		# then a maze of the place's own props (stone halls) or of its pits (water, lava, drops).
+		if GameData.rogues() and room.theme.is_empty() and room.champion == "" and G.floor_index <= 10 and rng.next_f() < 0.22:
+			pat = 22 if G.floor_index in [1, 3, 6, 7, 9, 10] else 21
 		if room.champion != "":
 			pat = 0   # a champion gets an open arena
 		elif room.theme.get("layouts", "") == "isles":
@@ -279,12 +283,68 @@ static func build_room(room: Room) -> void:
 					for b in range(1, 7):
 						if (a + b) % 3 == 0:
 							_put(room, a, b, T_VOID)
+			21, 22:  # 62.2 a maze: walls of props (21) or pits (22) along a lattice, every floor tile reachable
+				_maze(room, rng, T_PILLAR if pat == 21 else T_VOID)
 		if pat > 200:
 			RiftExtras.layout(room, pat)
 		room.layout = pat
 	for d in room.doors.keys():
 		for cr in door_tiles(d):
 			room.set_tile(cr.x, cr.y, T_WALL if room.secret_dirs.has(d) else T_DOOR)
+
+## 62.2 A maze: wall segments three tiles long between posts every four tiles, each kept at random
+## (a little under half), never across the lanes from the four doors to the middle; then any floor
+## the middle cannot reach is opened up, so every corner can be walked to.
+static func _maze(room: Room, rng: SeedRng, t: int) -> void:
+	var lane := func(c: int, r: int) -> bool:
+		return (c >= 12 and c <= 15) or (r >= 8 and r <= 11) or (c >= 11 and c <= 16 and r >= 7 and r <= 12)
+	var place := func(c: int, r: int) -> void:
+		if c >= TB.IX0 and c < TB.IX0 + TB.IW and r >= TB.IY0 and r < TB.IY0 + TB.IH and not lane.call(c, r):
+			room.set_tile(c, r, t)
+	for py in range(TB.IY0 + 2, TB.IY0 + TB.IH, 4):
+		for px in range(TB.IX0 + 2, TB.IX0 + TB.IW, 4):
+			place.call(px, py)
+			if rng.next_f() < 0.45:
+				for k in range(1, 4):
+					place.call(px + k, py)
+			if rng.next_f() < 0.45:
+				for k in range(1, 4):
+					place.call(px, py + k)
+	# every floor tile reachable from the middle (walkers' way)
+	for _i in 40:
+		var seen := {}
+		var todo := [Vector2i(13, 9)]
+		seen[todo[0]] = true
+		while not todo.is_empty():
+			var at: Vector2i = todo.pop_back()
+			for d in DIRS.values():
+				var n: Vector2i = at + d
+				if not seen.has(n) and room.tile(n.x, n.y) in [T_FLOOR, T_CRATE]:
+					seen[n] = true
+					todo.append(n)
+		var shut := Vector2i(-1, -1)
+		for r in range(TB.IY0, TB.IY0 + TB.IH):
+			for c in range(TB.IX0, TB.IX0 + TB.IW):
+				if room.tile(c, r) == T_FLOOR and not seen.has(Vector2i(c, r)):
+					shut = Vector2i(c, r)
+					break
+			if shut.x >= 0:
+				break
+		if shut.x < 0:
+			return
+		# open the wall tile next to it that leads toward the middle
+		var step := Vector2i.ZERO
+		for d in [Vector2i(signi(13 - shut.x), 0), Vector2i(0, signi(9 - shut.y)), Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
+			if d != Vector2i.ZERO and room.tile(shut.x + d.x, shut.y + d.y) == t:
+				step = d
+				break
+		if step == Vector2i.ZERO:
+			room.set_tile(shut.x, shut.y, t)   # (a pocket with no wall of the maze around it: filled in)
+			continue
+		var at2 := shut + step
+		while room.tile(at2.x, at2.y) == t:
+			room.set_tile(at2.x, at2.y, T_FLOOR)
+			at2 += step
 
 static func door_tiles(d: String) -> Array:
 	match d:

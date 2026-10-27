@@ -66,7 +66,7 @@ static func update(dt: float) -> void:
 		_update_traffic(room, dt)
 	if room.theme.get("hazard", "") == "gusts" or not room.gusts.is_empty():
 		_update_gusts(room, dt)
-	if room.theme.get("layouts", "") == "isles" or (room.layout >= 17 and room.layout <= 20):
+	if room.theme.get("layouts", "") == "isles" or (room.layout >= 17 and room.layout <= 20) or room.layout == 22:
 		_off_the_edge(room)   # (17-20: a floor's own pits, ROADMAP 4.7 part B)
 	if not room.tides.is_empty() or not room.turrets.is_empty() or room.theme.get("hazard", "") == "tide":
 		RiftExtras.update(room, dt)

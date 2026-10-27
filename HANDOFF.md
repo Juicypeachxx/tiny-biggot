@@ -71,6 +71,14 @@ create_image_pixen, 1 generation): real pixel art at the exact size, a clean out
 Keep it up to date when a task is done: read it (Artifact action read with that url), change it,
 publish it with the same url. His OK on the floor 1 look (27 Oct: "Ok continiue"): 61.2 next.
 
+**62.2 done: mazes** (world.gd _maze, layouts 21 and 22): on the first chapter's eleven floors
+about one fight room in five (expanded game, not a champion's or a rift's) is a maze: wall segments
+along a lattice every four tiles, of the place's own props (21: the Ossuary, the Archive's shelves,
+the Rimefrost Vault, the Hollow Throne, the Frostpeak Monastery) or of its pits (22: water in the
+Mirewood and the Rainmarsh, lava in the Cinderforge and the Warfront, drops on the rooftops, the
+void in the Eclipse); the lanes from the four doors to the middle stay open, and any floor the middle
+cannot reach is opened up. tests/traps_test part 4: every tile of 60 rooms a floor reachable.
+
 **27 Oct: Stage 62 started (his "ok go" after IPA 61). 62.1 done: traps on the first six floors**
 (scripts/world/traps.gd, expanded game only; floors 7 to 11 and rift worlds keep their own hazards):
 the Ossuary's bone spike plates, the Mirewood's thorn plates, the Sunken Archive's scalding water

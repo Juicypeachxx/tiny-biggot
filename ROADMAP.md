@@ -1614,7 +1614,7 @@ each point); the rest, proposed in the order it would be felt most, with names o
     - [x] 62.1 (done 27 Oct: the first six floors; floors 7 to 11 and the rift worlds had theirs) Traps that fit each place (spikes, swinging blades, fire jets, darts from the walls,
           collapsing floors, falling icicles...): warned before they strike, so they are fair, and
           they hurt foes too.
-    - [ ] 62.2 Mazes and new room shapes for each place (crypt corridors, flooded walkways, forge
+    - [x] 62.2 (done 27 Oct: mazes of props or pits on floors 1 to 11) Mazes and new room shapes for each place (crypt corridors, flooded walkways, forge
           catwalks...), laid out so no two rooms feel the same.
     - [ ] 62.3 Hidden rooms found by the place's own trick: a cracked wall to blast, a lever, a
           false bookcase, a draught of air you can see, a loose slab.

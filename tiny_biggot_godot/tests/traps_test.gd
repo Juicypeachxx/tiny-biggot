@@ -6,6 +6,8 @@ extends Node
 ## 2 A plate, a jet and a blade: resting they hurt no one; striking they hurt the hero standing in
 ##   them (once a strike) and a foe; a cleared room rests them.
 ## 3 Every kind is drawn.
+## 4 62.2 mazes: on each of the first chapter's floors some fight rooms are mazes (of props or pits);
+##   in every one each floor tile and each doorway can be walked to from the middle.
 ## Prints "traps test: PASSED" or a FAIL line per problem.
 
 var fails := 0
@@ -20,6 +22,7 @@ func _ready() -> void:
 	G.new_run()
 	_laying()
 	_striking()
+	_mazes()
 	await _drawing()
 	print("traps test: PASSED" if fails == 0 else "traps test: %d FAILED" % fails)
 	get_tree().quit()
@@ -104,6 +107,34 @@ func _striking() -> void:
 		Traps.tick(G.room, 0.05)
 		if p.hp < hp0:
 			fail("%s hurt the hero in a cleared room" % kind)
+
+func _mazes() -> void:
+	for f in 11:
+		var mazes := 0
+		for i in 60:
+			G.floor_index = f
+			G.start_floor()
+			var room := World.make_room(G.floor_d, "combat", "", "s", {})
+			if room.layout != 21 and room.layout != 22:
+				continue
+			mazes += 1
+			var seen := {}
+			var todo := [Vector2i(13, 9)]
+			seen[todo[0]] = true
+			while not todo.is_empty():
+				var at: Vector2i = todo.pop_back()
+				for d in World.DIRS.values():
+					var n: Vector2i = at + d
+					if not seen.has(n) and room.tile(n.x, n.y) in [World.T_FLOOR, World.T_CRATE, World.T_DOOR]:
+						seen[n] = true
+						todo.append(n)
+			for r in TB.ROWS:
+				for c in TB.COLS:
+					if room.tile(c, r) in [World.T_FLOOR, World.T_DOOR] and not seen.has(Vector2i(c, r)):
+						fail("floor %d maze %d: tile (%d, %d) cannot be reached" % [f, room.layout, c, r])
+		print("[mazes] floor %d: %d mazes in 60 fight rooms" % [f, mazes])
+		if mazes < 4:
+			fail("floor %d: only %d mazes in 60 rooms" % [f, mazes])
 
 class Canvas extends Node2D:
 	var done := false
