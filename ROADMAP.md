@@ -1634,6 +1634,11 @@ each point); the rest, proposed in the order it would be felt most, with names o
           his OK on resprite/pixellab/mobs1/review_before_after.png awaited before 64.2.)
           His word, 27 Oct, on it: "I like fat shroom art style": the foes chunky and round like the
           old fat mushroom; which way he means (old or new mushroom) asked before 64.2.
+          His word, 27 Oct: "we need to work on the mobs"; he sent a sheet of 25 big monsters "for
+          reference for elite mobs" (a normal-foe sheet to follow). What it shows, as an idea only
+          (rule 3: no creature or sprite copied): elites as their own bigger, heavier drawings, not
+          a gold rim on the normal one; chunky bodies and armour, thick dark outline, strong
+          saturated colours with bright rim light, a soft shadow under each, a three-quarter view.
     - [ ] 64.2 Every foe and elite, floor by floor.
     - [ ] 64.3 People, pets, guardians and bosses.
     - [ ] 64.4 The full check; IPA 64.
