@@ -1655,7 +1655,9 @@ each point); the rest, proposed in the order it would be felt most, with names o
     - [x] 64.3 (done 27 Oct, IPA 64: heroes, pets, evolved forms, bosses; his own guardians kept, a preview drawn) People, pets, guardians and bosses.
     - [ ] 64.4 The full check; IPA 64.
   - [ ] 65 Weapons (PixelLab, ~650, next month's allowance after 26 Nov): every weapon Higgsfield
-        did not draw.
+        did not draw. His word, 27 Oct: "lets do weapons and armors and equipment then test run",
+        then "after that animation of heros and bosses" (66.2, bosses added). His icon sheet's
+        weapons and wearables stay as they are. PixelLab Pro at 32 px: 64 a 10-generation call.
     - [ ] 65.1 Pilot: ten weapons, shown to him first.
     - [ ] 65.2 All the rest. The full check; IPA 65.
   - [ ] 66 Super cool weapons and animations (~150).

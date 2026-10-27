@@ -1,0 +1,1258 @@
+[
+ [
+  "g_ember_hood",
+  "emberweave hood fire hood"
+ ],
+ [
+  "g_ember_robe",
+  "emberweave robe fire robe"
+ ],
+ [
+  "g_ember_boots",
+  "emberweave treads fire boots"
+ ],
+ [
+  "g_ember_ring",
+  "emberweave band fire ring"
+ ],
+ [
+  "g_frost_helm",
+  "hoarfrost crown ice crown"
+ ],
+ [
+  "g_frost_plate",
+  "hoarfrost plate ice plate armour chestpiece"
+ ],
+ [
+  "g_frost_boots",
+  "hoarfrost greaves ice leg greaves"
+ ],
+ [
+  "g_frost_amulet",
+  "hoarfrost locket ice amulet"
+ ],
+ [
+  "g_plague_mask",
+  "plague doctor's mask poison mask"
+ ],
+ [
+  "g_plague_coat",
+  "plague doctor's coat poison cloak"
+ ],
+ [
+  "g_plague_boots",
+  "plague doctor's boots poison boots"
+ ],
+ [
+  "g_plague_censer",
+  "plague censer poison amulet"
+ ],
+ [
+  "g_thunder_helm",
+  "thunderborn helm lightning helmet"
+ ],
+ [
+  "g_thunder_mail",
+  "thunderborn mail lightning plate armour chestpiece"
+ ],
+ [
+  "g_thunder_boots",
+  "thunderborn boots lightning boots"
+ ],
+ [
+  "g_thunder_ring",
+  "thunderborn signet lightning ring"
+ ],
+ [
+  "g_butcher_cap",
+  "butcher's cap blood hat"
+ ],
+ [
+  "g_butcher_apron",
+  "butcher's apron blood leather armour vest"
+ ],
+ [
+  "g_butcher_boots",
+  "butcher's clogs blood boots"
+ ],
+ [
+  "g_butcher_hook",
+  "butcher's hook blood charm"
+ ],
+ [
+  "g_bastion_helm",
+  "bastion greathelm iron helmet"
+ ],
+ [
+  "g_bastion_plate",
+  "bastion plate iron plate armour chestpiece"
+ ],
+ [
+  "g_bastion_boots",
+  "bastion sabatons iron leg greaves"
+ ],
+ [
+  "g_bastion_seal",
+  "bastion seal iron amulet"
+ ],
+ [
+  "g_night_hood",
+  "nightstalker cowl shadow hood"
+ ],
+ [
+  "g_night_cloak",
+  "nightstalker cloak shadow cloak"
+ ],
+ [
+  "g_night_boots",
+  "nightstalker softsteps shadow boots"
+ ],
+ [
+  "g_night_fang",
+  "nightstalker fang shadow charm"
+ ],
+ [
+  "g_arch_hat",
+  "archmage hat arcane hat"
+ ],
+ [
+  "g_arch_robe",
+  "archmage robe arcane robe"
+ ],
+ [
+  "g_arch_boots",
+  "archmage slippers arcane boots"
+ ],
+ [
+  "g_arch_orb",
+  "archmage orrery arcane amulet"
+ ],
+ [
+  "g_gild_crown",
+  "gilded circlet golden crown"
+ ],
+ [
+  "g_gild_vest",
+  "gilded vest golden leather armour vest"
+ ],
+ [
+  "g_gild_boots",
+  "gilded boots golden boots"
+ ],
+ [
+  "g_gild_ring",
+  "gilded ring golden ring"
+ ],
+ [
+  "g_sapper_helm",
+  "sapper's helmet explosive helmet"
+ ],
+ [
+  "g_sapper_vest",
+  "sapper's blast vest explosive plate armour chestpiece"
+ ],
+ [
+  "g_sapper_boots",
+  "sapper's boots explosive leg greaves"
+ ],
+ [
+  "g_sapper_fuse",
+  "sapper's fuse explosive charm"
+ ],
+ [
+  "g_shep_hat",
+  "shepherd's hat bee hat"
+ ],
+ [
+  "g_shep_cloak",
+  "shepherd's cloak bee cloak"
+ ],
+ [
+  "g_shep_boots",
+  "shepherd's sandals bee boots"
+ ],
+ [
+  "g_shep_crook",
+  "shepherd's bell bee amulet"
+ ],
+ [
+  "g_tinhelm",
+  "dented tin helm iron helmet"
+ ],
+ [
+  "g_leathercap",
+  "leather cap hat"
+ ],
+ [
+  "g_huntershood",
+  "hunter's hood shadow hood"
+ ],
+ [
+  "g_scholarcap",
+  "scholar's cap arcane hat"
+ ],
+ [
+  "g_ironmask",
+  "iron deathmask blood mask"
+ ],
+ [
+  "g_owlhelm",
+  "owl-eyed helm helmet"
+ ],
+ [
+  "g_crownofthorns",
+  "crown of thorns poison crown"
+ ],
+ [
+  "g_hornedhelm",
+  "horned warhelm blood helmet"
+ ],
+ [
+  "g_seerveil",
+  "seer's veil arcane hood"
+ ],
+ [
+  "g_kingscrown",
+  "crown of the lost king golden crown"
+ ],
+ [
+  "g_stormcrownhelm",
+  "tempest diadem lightning crown"
+ ],
+ [
+  "g_headsman",
+  "headsman's hood blood hood"
+ ],
+ [
+  "g_paddedjack",
+  "padded jack leather armour vest"
+ ],
+ [
+  "g_chainshirt",
+  "chain shirt iron plate armour chestpiece"
+ ],
+ [
+  "g_travelcloak",
+  "traveller's cloak shadow cloak"
+ ],
+ [
+  "g_acolyterobe",
+  "acolyte robe arcane robe"
+ ],
+ [
+  "g_bloodplate",
+  "bloodstained plate blood plate armour chestpiece"
+ ],
+ [
+  "g_spikedmail",
+  "spiked mail iron plate armour chestpiece"
+ ],
+ [
+  "g_hunterscoat",
+  "monster hunter's coat leather armour vest"
+ ],
+ [
+  "g_smugglercoat",
+  "smuggler's coat golden cloak"
+ ],
+ [
+  "g_mirrorplate",
+  "mirror plate arcane plate armour chestpiece"
+ ],
+ [
+  "g_berserkerhide",
+  "berserker hide blood leather armour vest"
+ ],
+ [
+  "g_phoenixmantle",
+  "phoenix mantle fire robe"
+ ],
+ [
+  "g_voidshroud",
+  "void shroud shadow cloak"
+ ],
+ [
+  "g_worntboots",
+  "worn boots boots"
+ ],
+ [
+  "g_ironboots",
+  "iron boots iron leg greaves"
+ ],
+ [
+  "g_sandals",
+  "pilgrim sandals boots"
+ ],
+ [
+  "g_runnersboots",
+  "courier boots golden boots"
+ ],
+ [
+  "g_ninjatabi",
+  "silent tabi shadow boots"
+ ],
+ [
+  "g_anchorboots",
+  "anchor boots iron leg greaves"
+ ],
+ [
+  "g_wingedboots",
+  "winged boots lightning boots"
+ ],
+ [
+  "g_coalwalkers",
+  "coalwalkers fire leg greaves"
+ ],
+ [
+  "g_sevenleague",
+  "seven-league boots boots"
+ ],
+ [
+  "g_luckycharm",
+  "rabbit's foot golden charm"
+ ],
+ [
+  "g_whetring",
+  "whetstone ring ring"
+ ],
+ [
+  "g_quickring",
+  "quicksilver ring ring"
+ ],
+ [
+  "g_vialbelt",
+  "belt of vials charm"
+ ],
+ [
+  "g_bombbag",
+  "powder bandolier explosive charm"
+ ],
+ [
+  "g_toothnecklace",
+  "wolf tooth necklace blood charm"
+ ],
+ [
+  "g_hourglassamulet",
+  "sands of escape shadow amulet"
+ ],
+ [
+  "g_emberheartgem",
+  "ember heart fire amulet"
+ ],
+ [
+  "g_frostshard",
+  "shard of winter ice amulet"
+ ],
+ [
+  "g_venomsac",
+  "venom sac poison charm"
+ ],
+ [
+  "g_stormbottle",
+  "bottled lightning lightning amulet"
+ ],
+ [
+  "g_ledger",
+  "merchant's ledger golden charm"
+ ],
+ [
+  "g_vampirefang",
+  "vampire fang blood charm"
+ ],
+ [
+  "g_eyeofstorm",
+  "eye of the storm lightning amulet"
+ ],
+ [
+  "g_hollowidol",
+  "hollow idol arcane amulet"
+ ],
+ [
+  "g_grimoire",
+  "black grimoire shadow amulet"
+ ],
+ [
+  "g_heartofglass",
+  "heart of glass arcane amulet"
+ ],
+ [
+  "g_dragonheart",
+  "dragon's heart fire amulet"
+ ],
+ [
+  "g_gamblerdie",
+  "gambler's last die golden charm"
+ ],
+ [
+  "g_leatherglove",
+  "brawler's wraps fire gloves"
+ ],
+ [
+  "g_ironglove",
+  "iron fist iron gloves"
+ ],
+ [
+  "g_shadowglove",
+  "pickpocket's gloves golden gloves"
+ ],
+ [
+  "g_venomglove",
+  "alchemist's mitts poison gloves"
+ ],
+ [
+  "g_emberglove",
+  "flint gloves fire gloves"
+ ],
+ [
+  "g_frostglove",
+  "frostgrip ice gloves"
+ ],
+ [
+  "g_clothglove",
+  "beastmaster's glove bee gloves"
+ ],
+ [
+  "g_goldglove",
+  "touch of midas golden gloves"
+ ],
+ [
+  "g_jester_cap",
+  "jester's cap golden hat"
+ ],
+ [
+  "g_jester_coat",
+  "jester's motley golden leather armour vest"
+ ],
+ [
+  "g_jester_shoes",
+  "jester's curly shoes golden boots"
+ ],
+ [
+  "g_jester_bauble",
+  "jester's bauble golden charm"
+ ],
+ [
+  "g_star_helm",
+  "starfall crown fire crown"
+ ],
+ [
+  "g_star_plate",
+  "starfall plate fire plate armour chestpiece"
+ ],
+ [
+  "g_star_gloves",
+  "starfall gauntlets fire gloves"
+ ],
+ [
+  "g_star_boots",
+  "starfall greaves fire leg greaves"
+ ],
+ [
+  "g_void_cowl",
+  "voidwalker cowl shadow hood"
+ ],
+ [
+  "g_void_wraps",
+  "voidwalker wraps shadow gloves"
+ ],
+ [
+  "g_void_amulet",
+  "voidwalker locket shadow amulet"
+ ],
+ [
+  "g_void_ring",
+  "voidwalker band dark ring"
+ ],
+ [
+  "g_magnethelm",
+  "magnet helm lightning helmet"
+ ],
+ [
+  "g_partyhat",
+  "party hat golden hat"
+ ],
+ [
+  "g_thirdeye",
+  "third eye arcane mask"
+ ],
+ [
+  "g_bombvest",
+  "powderkeg vest explosive plate armour chestpiece"
+ ],
+ [
+  "g_giantbelt",
+  "giant's girdle fire leather armour vest"
+ ],
+ [
+  "g_ghostsheet",
+  "bedsheet ghost shadow cloak"
+ ],
+ [
+  "g_hedgehogmail",
+  "hedgehog mail iron plate armour chestpiece"
+ ],
+ [
+  "g_rocketboots",
+  "rocket boots explosive leg greaves"
+ ],
+ [
+  "g_slipperysoles",
+  "buttered soles ice boots"
+ ],
+ [
+  "g_springheels",
+  "spring heels shadow boots"
+ ],
+ [
+  "g_goldengoose",
+  "golden goose golden charm"
+ ],
+ [
+  "g_chaosdie",
+  "chaos die arcane charm"
+ ],
+ [
+  "g_pocketsun",
+  "pocket sun fire amulet"
+ ],
+ [
+  "g_stormcloud",
+  "pet stormcloud lightning charm"
+ ],
+ [
+  "g_boxinggloves",
+  "boxing gloves fire gloves"
+ ],
+ [
+  "g_fireworkmitts",
+  "firework mitts fire gloves"
+ ],
+ [
+  "g_puppetstrings",
+  "puppeteer's strings bee gloves"
+ ],
+ [
+  "g_monkeypaw",
+  "monkey's paw dark gloves"
+ ],
+ [
+  "g_cowbell",
+  "loud cowbell fire amulet"
+ ],
+ [
+  "g_collapsedstar",
+  "collapsed star arcane amulet"
+ ],
+ [
+  "g_ricochetring",
+  "ring of rebounds arcane ring"
+ ],
+ [
+  "g_bigring",
+  "ring of bigness fire ring"
+ ],
+ [
+  "g_tinyring",
+  "ring of smallness shadow ring"
+ ],
+ [
+  "g_twinring",
+  "twin-soul ring arcane ring"
+ ],
+ [
+  "g_toadring",
+  "toad ring poison ring"
+ ],
+ [
+  "g_rime_hood",
+  "rimewarden hood ice hood"
+ ],
+ [
+  "g_rime_mantle",
+  "rimewarden mantle ice cloak"
+ ],
+ [
+  "g_rime_grip",
+  "rimewarden grip ice gloves"
+ ],
+ [
+  "g_rime_bell",
+  "rimewarden bell ice amulet"
+ ],
+ [
+  "g_blast_goggles",
+  "blastwright goggles explosive mask"
+ ],
+ [
+  "g_blast_apron",
+  "blastwright apron explosive leather armour vest"
+ ],
+ [
+  "g_blast_mitts",
+  "blastwright mitts explosive gloves"
+ ],
+ [
+  "g_blast_ring",
+  "blastwright band explosive ring"
+ ],
+ [
+  "g_bone_crown",
+  "bonecaller crown dark crown"
+ ],
+ [
+  "g_bone_ribs",
+  "bonecaller ribcage dark plate armour chestpiece"
+ ],
+ [
+  "g_bone_rattle",
+  "bonecaller rattle dark amulet"
+ ],
+ [
+  "g_bone_ring",
+  "bonecaller signet dark ring"
+ ],
+ [
+  "g_clock_monocle",
+  "clockwork monocle bee mask"
+ ],
+ [
+  "g_clock_coat",
+  "clockwork coat bee plate armour chestpiece"
+ ],
+ [
+  "g_clock_boots",
+  "clockwork boots bee boots"
+ ],
+ [
+  "g_clock_key",
+  "clockwork key bee charm"
+ ],
+ [
+  "g_lastriteshood",
+  "hood of last rites steel hood"
+ ],
+ [
+  "g_polishedcuirass",
+  "polished cuirass iron plate armour chestpiece"
+ ],
+ [
+  "g_ghoststeps",
+  "ghost steps shadow boots"
+ ],
+ [
+  "g_abbotsandals",
+  "abbot's sandals iron boots"
+ ],
+ [
+  "g_iceskates",
+  "ice skates ice boots"
+ ],
+ [
+  "g_magpieboots",
+  "magpie boots golden boots"
+ ],
+ [
+  "g_unscathedmedal",
+  "unscathed medal steel amulet"
+ ],
+ [
+  "g_bribepurse",
+  "bribe purse golden charm"
+ ],
+ [
+  "g_treasuremap",
+  "treasure map golden charm"
+ ],
+ [
+  "g_voodoodoll",
+  "voodoo doll dark charm"
+ ],
+ [
+  "g_leechgloves",
+  "leech gloves blood gloves"
+ ],
+ [
+  "g_catalystgloves",
+  "catalyst gloves poison gloves"
+ ],
+ [
+  "g_plaguehand",
+  "plague hand poison gloves"
+ ],
+ [
+  "g_pickpocketgloves",
+  "pickpocket gloves golden gloves"
+ ],
+ [
+  "g_bouncerknuckles",
+  "bouncer's knuckles fire gloves"
+ ],
+ [
+  "g_saintsmedallion",
+  "saint's medallion iron amulet"
+ ],
+ [
+  "g_mirrorpendant",
+  "mirror pendant arcane amulet"
+ ],
+ [
+  "g_howlertooth",
+  "howler's tooth fire amulet"
+ ],
+ [
+  "g_houndcollar",
+  "bloodhound collar blood amulet"
+ ],
+ [
+  "g_merchantscharm",
+  "merchant's charm golden amulet"
+ ],
+ [
+  "g_excessring",
+  "ring of excess fire ring"
+ ],
+ [
+  "g_frostbitering",
+  "frostbite ring ice ring"
+ ],
+ [
+  "g_returnring",
+  "ring of returning arcane ring"
+ ],
+ [
+  "g_kindlingring",
+  "kindling ring fire ring"
+ ],
+ [
+  "g_hagglerhat",
+  "haggler's hat golden hat"
+ ],
+ [
+  "g_foremanhat",
+  "foreman's hard hat iron helmet"
+ ],
+ [
+  "g_hoarhelm",
+  "hoarfrost helm iron helmet"
+ ],
+ [
+  "g_binderthread",
+  "the binder's thread iron amulet"
+ ],
+ [
+  "g_shelversarm",
+  "the shelver's arm fire gloves"
+ ],
+ [
+  "g_blackbar",
+  "the black bar dark helmet"
+ ],
+ [
+  "g_admiralhat",
+  "admiral's bicorne iron helmet"
+ ],
+ [
+  "g_golemplate",
+  "golem king's mantle iron plate armour chestpiece"
+ ],
+ [
+  "g_phoenixplume",
+  "phoenix plume fire amulet"
+ ],
+ [
+  "g_fiendchains",
+  "fiend's chains blood gloves"
+ ],
+ [
+  "g_storm_hood",
+  "stormcaller hood lightning hood"
+ ],
+ [
+  "g_storm_robe",
+  "stormcaller robe lightning robe"
+ ],
+ [
+  "g_storm_boots",
+  "stormcaller boots lightning boots"
+ ],
+ [
+  "g_storm_ring",
+  "stormcaller ring lightning ring"
+ ],
+ [
+  "g_blood_cap",
+  "bloodletter cap blood hat"
+ ],
+ [
+  "g_blood_coat",
+  "bloodletter coat blood plate armour chestpiece"
+ ],
+ [
+  "g_blood_gloves",
+  "bloodletter gloves blood gloves"
+ ],
+ [
+  "g_blood_fang",
+  "bloodletter fang blood amulet"
+ ],
+ [
+  "g_hex_veil",
+  "hexweaver veil dark hood"
+ ],
+ [
+  "g_hex_shroud",
+  "hexweaver shroud dark robe"
+ ],
+ [
+  "g_hex_gloves",
+  "hexweaver gloves dark gloves"
+ ],
+ [
+  "g_hex_ring",
+  "hexweaver ring dark ring"
+ ],
+ [
+  "g_viper_hood",
+  "viper hood poison hood"
+ ],
+ [
+  "g_viper_coat",
+  "viper coat poison cloak"
+ ],
+ [
+  "g_viper_tabi",
+  "viper tabi poison boots"
+ ],
+ [
+  "g_viper_fang",
+  "viper fang poison amulet"
+ ],
+ [
+  "g_war_helm",
+  "warlord helm fire helmet"
+ ],
+ [
+  "g_war_hide",
+  "warlord hide fire plate armour chestpiece"
+ ],
+ [
+  "g_war_fists",
+  "warlord fists fire gloves"
+ ],
+ [
+  "g_war_ring",
+  "warlord ring fire ring"
+ ],
+ [
+  "g_beast_helm",
+  "beastmaster helm bee helmet"
+ ],
+ [
+  "g_beast_cloak",
+  "beastmaster cloak bee cloak"
+ ],
+ [
+  "g_beast_glove",
+  "beastmaster glove bee gloves"
+ ],
+ [
+  "g_beast_collar",
+  "beastmaster collar bee amulet"
+ ],
+ [
+  "g_drift_hood",
+  "drifter hood shadow hood"
+ ],
+ [
+  "g_drift_cloak",
+  "drifter cloak shadow cloak"
+ ],
+ [
+  "g_drift_steps",
+  "drifter steps shadow boots"
+ ],
+ [
+  "g_drift_ring",
+  "drifter ring shadow ring"
+ ],
+ [
+  "g_worm_specs",
+  "bookworm spectacles arcane helmet"
+ ],
+ [
+  "g_worm_cardigan",
+  "bookworm cardigan arcane plate armour chestpiece"
+ ],
+ [
+  "g_worm_slippers",
+  "bookworm slippers arcane boots"
+ ],
+ [
+  "g_worm_mitts",
+  "bookworm mitts arcane gloves"
+ ],
+ [
+  "g_critic_hat",
+  "the critic's hat dark helmet"
+ ],
+ [
+  "g_critic_coat",
+  "the critic's coat dark plate armour chestpiece"
+ ],
+ [
+  "g_critic_shoes",
+  "the critic's shoes dark boots"
+ ],
+ [
+  "g_critic_gloves",
+  "the critic's gloves dark gloves"
+ ],
+ [
+  "g_critic_monocle",
+  "the critic's monocle dark amulet"
+ ],
+ [
+  "g_critic_signet",
+  "the critic's signet dark ring"
+ ],
+ [
+  "g_sun_crown",
+  "sunforged crown fire crown"
+ ],
+ [
+  "g_sun_cuirass",
+  "sunforged cuirass fire plate armour chestpiece"
+ ],
+ [
+  "g_sun_boots",
+  "sunforged boots fire boots"
+ ],
+ [
+  "g_sun_gauntlet",
+  "sunforged gauntlet fire gloves"
+ ],
+ [
+  "g_sun_heart",
+  "sunforged heart fire amulet"
+ ],
+ [
+  "g_sun_band",
+  "sunforged band fire ring"
+ ],
+ [
+  "g_void_crown",
+  "void regalia crown shadow crown"
+ ],
+ [
+  "g_void_mantle",
+  "void regalia mantle shadow cloak"
+ ],
+ [
+  "g_void_steps",
+  "void regalia steps shadow boots"
+ ],
+ [
+  "g_void_grip",
+  "void regalia grip shadow gloves"
+ ],
+ [
+  "g_void_star",
+  "void regalia star shadow amulet"
+ ],
+ [
+  "g_void_band",
+  "void regalia band shadow ring"
+ ],
+ [
+  "g_stormcrown",
+  "crown of the storm king lightning crown"
+ ],
+ [
+  "g_eternalaegis",
+  "aegis of eternity iron plate armour chestpiece"
+ ],
+ [
+  "g_voidstriders",
+  "striders of the void shadow boots"
+ ],
+ [
+  "g_makergauntlets",
+  "gauntlets of the maker steel gloves"
+ ],
+ [
+  "g_elementring",
+  "ring of all elements fire ring"
+ ],
+ [
+  "g_phoenixheart",
+  "heart of the phoenix fire amulet"
+ ],
+ [
+  "g_marchingboots",
+  "marching boots bee boots"
+ ],
+ [
+  "g_o_buckler",
+  "oak buckler iron shield"
+ ],
+ [
+  "g_o_kite",
+  "kite shield iron shield"
+ ],
+ [
+  "g_o_tower",
+  "tower shield iron shield"
+ ],
+ [
+  "g_o_mirrorshield",
+  "mirror shield iron shield"
+ ],
+ [
+  "g_o_spiketarge",
+  "spiked targe iron shield"
+ ],
+ [
+  "g_o_handmirror",
+  "hand mirror arcane shield"
+ ],
+ [
+  "g_o_quiver",
+  "leather quiver steel shield"
+ ],
+ [
+  "g_o_emberquiver",
+  "ember quiver fire shield"
+ ],
+ [
+  "g_o_rimequiver",
+  "rime quiver ice shield"
+ ],
+ [
+  "g_o_lantern",
+  "tin lantern fire shield"
+ ],
+ [
+  "g_o_soullantern",
+  "soul lantern dark shield"
+ ],
+ [
+  "g_o_starlantern",
+  "star lantern arcane shield"
+ ],
+ [
+  "g_o_primer",
+  "spell primer arcane shield"
+ ],
+ [
+  "g_o_blackgrimoire",
+  "black grimoire dark shield"
+ ],
+ [
+  "g_o_hipflask",
+  "hip flask fire shield"
+ ],
+ [
+  "g_o_redvial",
+  "red vial blood shield"
+ ],
+ [
+  "g_o_balloon",
+  "red balloon shadow shield"
+ ],
+ [
+  "g_o_balloons",
+  "balloon bunch shadow shield"
+ ],
+ [
+  "g_o_spareheart",
+  "spare heart iron shield"
+ ],
+ [
+  "g_o_ironheart",
+  "iron heart iron shield"
+ ],
+ [
+  "g_o_bombsatchel",
+  "bomb satchel explosive shield"
+ ],
+ [
+  "g_o_torch",
+  "pitch torch fire shield"
+ ],
+ [
+  "g_o_seerorb",
+  "seer's orb arcane shield"
+ ],
+ [
+  "g_o_warbanner",
+  "war banner bee shield"
+ ],
+ [
+  "g_o_graveskull",
+  "grave skull dark shield"
+ ],
+ [
+  "g_o_templebell",
+  "temple bell iron shield"
+ ],
+ [
+  "g_o_lute",
+  "traveller's lute golden shield"
+ ],
+ [
+  "g_saintsigil",
+  "saint's sigil iron amulet"
+ ],
+ [
+  "g_devilsbargain",
+  "devil's bargain dark ring"
+ ],
+ [
+  "g_magistrateseal",
+  "magistrate's seal iron charm"
+ ],
+ [
+  "g_madcapbells",
+  "madcap's bells fire hat"
+ ],
+ [
+  "g_o_dowsingrod",
+  "dowsing rod golden shield"
+ ],
+ [
+  "g_featheredcap",
+  "feathered cap shadow hat"
+ ],
+ [
+  "g_ironsallet",
+  "iron sallet iron helmet"
+ ],
+ [
+  "g_pointedhat",
+  "pointed hat arcane hat"
+ ],
+ [
+  "g_bullhelm",
+  "bull helm fire helmet"
+ ],
+ [
+  "g_pumpkinhead",
+  "pumpkin head fire mask"
+ ],
+ [
+  "g_thorncrown",
+  "crown of thorns blood crown"
+ ],
+ [
+  "g_plaguemask",
+  "plague mask poison mask"
+ ],
+ [
+  "g_minerscap",
+  "miner's cap golden hat"
+ ],
+ [
+  "g_whisperhood",
+  "hood of whispers shadow hood"
+ ],
+ [
+  "g_kabuto",
+  "war kabuto steel helmet"
+ ],
+ [
+  "g_circlet",
+  "sun circlet arcane crown"
+ ],
+ [
+  "g_froghood",
+  "frog hood poison hood"
+ ],
+ [
+  "g_beeveil",
+  "beekeeper's veil bee hood"
+ ],
+ [
+  "g_chefhat",
+  "chef's hat iron hat"
+ ],
+ [
+  "g_astrohood",
+  "astronomer's hood arcane hood"
+ ],
+ [
+  "g_skullhelm",
+  "skull helm dark helmet"
+ ],
+ [
+  "g_wandercape",
+  "wanderer's cape shadow cloak"
+ ],
+ [
+  "g_chainmail",
+  "chain mail iron plate armour chestpiece"
+ ],
+ [
+  "g_saffronrobe",
+  "saffron robe steel robe"
+ ],
+ [
+  "g_starrobe",
+  "starwoven robe arcane robe"
+ ],
+ [
+  "g_wolfpelt",
+  "wolf pelt fire leather armour vest"
+ ],
+ [
+  "g_alchemistapron",
+  "alchemist's apron poison leather armour vest"
+ ],
+ [
+  "g_knightplate",
+  "knight's plate iron plate armour chestpiece"
+ ],
+ [
+  "g_shadowleathers",
+  "shadow leathers shadow leather armour vest"
+ ],
+ [
+  "g_priestvestment",
+  "priest's vestment iron robe"
+ ],
+ [
+  "g_cultistrobe",
+  "cultist's robe dark robe"
+ ],
+ [
+  "g_barddoublet",
+  "bard's doublet golden leather armour vest"
+ ],
+ [
+  "g_gladiatorharness",
+  "gladiator's harness fire leather armour vest"
+ ],
+ [
+  "g_iceplate",
+  "rime plate ice plate armour chestpiece"
+ ],
+ [
+  "g_embercoat",
+  "ember coat fire cloak"
+ ],
+ [
+  "g_feathercloak",
+  "feather cloak shadow cloak"
+ ],
+ [
+  "g_bonearmor",
+  "bone armour dark plate armour chestpiece"
+ ],
+ [
+  "g_firststar",
+  "shard of the first star arcane charm"
+ ],
+ [
+  "g_scoutpack",
+  "scout pack bee leather armour vest"
+ ]
+]

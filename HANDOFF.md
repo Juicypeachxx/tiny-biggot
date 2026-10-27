@@ -71,6 +71,17 @@ create_image_pixen, 1 generation): real pixel art at the exact size, a clean out
 Keep it up to date when a task is done: read it (Artifact action read with that url), change it,
 publish it with the same url. His OK on the floor 1 look (27 Oct: "Ok continiue"): 61.2 next.
 
+**65 (in progress): weapons, armour and equipment redrawn; he chooses old or new for each**. His word, 27
+Oct: "lets do weapons and armors and equipment then test run", "after that animation of heros and
+bosses", "i want to choose what version to take in game new or old". PixelLab Pro at 32 px, about 50
+names a call (64 versions): 399 weapon pictures (resprite/pixellab/weapons, 8 calls) and 314 gear
+pictures (resprite/pixellab/gear, 7 calls); his icon sheet's 26 weapons and 58 wearables left out.
+todo.json: each picture's weapon or gear row; items.json the words; clean/ = despeck.py (stray dots
+off) + brighten 2.0, what goes in. His choice page: https://claude.ai/artifact/RzXPwrTX9unBUZmbjWiVpe
+(scratchpad picker/armoury.html; db collection "picks": a doc per picture id with {pick: "old"};
+missing = new). Read it with ArtifactData list (limit 1000), then put the new pictures in for every
+id not picked old, bake, test run, IPA. PixelLab left: 1002.
+
 **64.7: heroes with legs (IPA 64.7 "Legs Again")**. His word, 27 Oct, on the heroes sheet: "where are
 their legs". The first PixelLab heroes (resprite/pixellab/heroes) were drawn from the waist up; redrawn
 full body (resprite/pixellab/heroes2: "FULL BODY from head to feet, standing, legs and boots visible,
