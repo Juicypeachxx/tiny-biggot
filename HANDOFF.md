@@ -71,6 +71,15 @@ create_image_pixen, 1 generation): real pixel art at the exact size, a clean out
 Keep it up to date when a task is done: read it (Artifact action read with that url), change it,
 publish it with the same url. His OK on the floor 1 look (27 Oct: "Ok continiue"): 61.2 next.
 
+**62.4 done: set pieces and drips** (scripts/world/set_pieces.gd): about one fight room in four on the
+first chapter's floors (not mazes, not rifts) holds its place's set piece, 48 x 48 pictures drawn on
+PixelLab (resprite/pixellab/setpieces, 11 generations; assets/graphics_hd/set_*.png, not in the atlas):
+a bone altar (+1 armor), a mossy spring (+1 heart), a reading lectern (XP), a forge (+20% damage 90 s),
+a frozen fountain (4 gems), an empty throne (gold), a well (+1 heart), a war drum (+15% speed 90 s), a
+temple gong (+1 armor), a pigeon coop (a key), a void altar (+25% damage 60 s). Used once, then grey.
+Water drips and ripples on the wet floors (2, 3, 5, 7), drawn only. Test option --setpiece.
+tests/traps_test part 6. PixelLab left: 1,653 of 2,000 (resets 26 Nov).
+
 **62.3 done: hidden walls have the place's own trick** (scripts/world/tricks.gd, expanded game only):
 every fight room with a hidden (cracked) wall also has a trick beside it, by floor: a lever (Ossuary,
 Cinderforge, floor 9), a draught of dust, leaves or snow seeping through the wall (Mirewood, Rimefrost,

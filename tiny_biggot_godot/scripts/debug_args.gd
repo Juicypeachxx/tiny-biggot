@@ -13,6 +13,7 @@ extends RefCounted
 ##   --chapter=2|3|4              Chapter II, III or IV: --floor=0-2 are its three floors (12.2, 14.4, 20.3)
 ##   --room=KIND                  jump straight into a room of that type (combat, boss, mini, ...)
 ##   --secret                     with --room: a room with a hidden wall (62.3: and its floor's trick)
+##   --setpiece                   62.4: every fight room that can hold its place's set piece holds it
 ##   --seed=N                     fixed random seed
 ##   --bot                        autopilot that moves, aims and rolls (soak test)
 ##   --monkey                     random buttons in every menu and in play, seeded by --seed (ROADMAP 4.10)

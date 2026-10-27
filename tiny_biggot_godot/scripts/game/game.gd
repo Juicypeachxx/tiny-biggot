@@ -378,6 +378,7 @@ func enter_room(r: Room) -> void:
 		Hazards.setup(room, floor_index)
 		Traps.setup(room, floor_index)   # 62.1
 		Tricks.setup(room, floor_index)   # 62.3
+		SetPieces.setup(room, floor_index)   # 62.4
 		RiftExtras.setup(room)
 	if GameData.rogues() and room.type == "start":
 		# Rogues layer: two training dummies to test your damage.
@@ -1365,6 +1366,8 @@ func interact(o: Dictionary) -> void:
 		return Dice.interact(o)   # 35.1 the DICE CUP
 	if Tricks.handles(o["kind"]):
 		return Tricks.interact(o)   # 62.3
+	if SetPieces.handles(o["kind"]):
+		return SetPieces.interact(o)   # 62.4
 	var p := player
 	# 05b_items.rb: weapons and gear on the floor or for sale.
 	if o["kind"] == "item" and (o["item"] as Dictionary).get("item", "") == "charm":   # 37.2 a charm

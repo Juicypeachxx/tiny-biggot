@@ -10,6 +10,8 @@ extends Node
 ##   in every one each floor tile and each doorway can be walked to from the middle.
 ## 5 62.3 tricks: a room with a hidden wall has its floor's trick beside it, on open floor; using it
 ##   opens the wall; classic rooms have none.
+## 6 62.4 set pieces: some fight rooms of each first-chapter floor hold the place's own, on open
+##   floor; using it gives its gift once; every one is drawn, and the drips.
 ## Prints "traps test: PASSED" or a FAIL line per problem.
 
 var fails := 0
@@ -26,6 +28,7 @@ func _ready() -> void:
 	_striking()
 	_mazes()
 	_tricks()
+	_set_pieces()
 	await _drawing()
 	print("traps test: PASSED" if fails == 0 else "traps test: %d FAILED" % fails)
 	get_tree().quit()
@@ -182,6 +185,44 @@ func _tricks() -> void:
 	if not room.objects.is_empty():
 		fail("a classic room has a trick")
 
+func _set_pieces() -> void:
+	for f in SetPieces.PIECES.size():
+		var found := 0
+		for i in 40:
+			G.floor_index = f
+			G.start_floor()
+			var room := World.make_room(G.floor_d, "combat", "", "s", {})
+			room.objects = []
+			room.traps = []
+			SetPieces.setup(room, f)
+			for o in room.objects:
+				found += 1
+				var c := floori(o["x"] / TB.TS)
+				var r := floori(o["y"] / TB.TS)
+				for k in [Vector2i(-1, -1), Vector2i(0, -1), Vector2i(-1, 0), Vector2i(0, 0)]:
+					if room.tile(c + k.x, r + k.y) != World.T_FLOOR:
+						fail("floor %d: the set piece is not on open floor" % f)
+		print("[set pieces] floor %d (%s): %d in 40 fight rooms" % [f, SetPieces.PIECES[f][0], found])
+		if found < 2:
+			fail("floor %d: only %d set pieces in 40 rooms" % [f, found])
+	# each one's gift
+	var p := G.player
+	for f in SetPieces.PIECES.size():
+		G.floor_index = f
+		var o := { "kind": "setpiece", "piece": f, "x": 200.0, "y": 150.0 }
+		G.room.objects = [o]
+		var before := [p.armor, p.hp, p.xp, p.gold, p.buffs.size(), G.pickups.size()]
+		p.hp = 1
+		before[1] = 1
+		G.interact(o)
+		var after := [p.armor, p.hp, p.xp, p.gold, p.buffs.size(), G.pickups.size()]
+		if after == before:
+			fail("the %s gave nothing" % SetPieces.PIECES[f][0])
+		if not o.get("used", false):
+			fail("the %s can be used again" % SetPieces.PIECES[f][0])
+		p.hp = p.max_hp
+	G.floor_index = 0
+
 class Canvas extends Node2D:
 	var done := false
 	func _draw() -> void:
@@ -191,6 +232,12 @@ class Canvas extends Node2D:
 				Tricks.draw(self, o, 1.0)
 				o["used"] = true
 				Tricks.draw(self, o, 1.0)
+			if o["kind"] == "setpiece":
+				SetPieces.draw(self, o, 1.0)
+		for f in SetPieces.WET:
+			G.floor_index = f
+			SetPieces.draw_live(self, 1.0 + f)
+		G.floor_index = 0
 		done = true
 
 func _drawing() -> void:
@@ -205,6 +252,8 @@ func _drawing() -> void:
 	foe.spawn_t = 0.0
 	for k in Tricks.NAME.keys():
 		room.objects.append({ "kind": "trick", "trick": k, "dir": "e", "x": 200.0, "y": 150.0 })
+	for f in SetPieces.PIECES.size():
+		room.objects.append({ "kind": "setpiece", "piece": f, "x": 40.0 + f * 30, "y": 120.0 })
 	var cv := Canvas.new()
 	add_child(cv)
 	cv.queue_redraw()

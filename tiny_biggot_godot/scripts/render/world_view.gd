@@ -595,6 +595,7 @@ func _paint_lower(ci: CanvasItem) -> void:
 		Hazards.draw_floor(ci, t)
 		Traps.draw(ci, t)   # 62.1
 	Rex.draw_floor(ci, t)
+	SetPieces.draw_live(ci, t)   # 62.4: dripping water
 	if not night:
 		EnemyAI2.draw_goo(ci, t)
 		RiftBosses.draw_ground(ci, t)
@@ -685,6 +686,8 @@ func _paint_lower(ci: CanvasItem) -> void:
 				Dice.draw(ci, o, t)   # 35.1
 			"trick":
 				Tricks.draw(ci, o, t)   # 62.3
+			"setpiece":
+				SetPieces.draw(ci, o, t)   # 62.4
 			"enchanter", "e_breath", "e_runesmith", "e_contraband", "e_branch":
 				Enchant.draw(ci, o, t)   # 46.1
 			"x_bowl":

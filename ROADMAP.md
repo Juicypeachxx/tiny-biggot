@@ -1618,7 +1618,7 @@ each point); the rest, proposed in the order it would be felt most, with names o
           catwalks...), laid out so no two rooms feel the same.
     - [x] 62.3 (done 27 Oct: tricks.gd, a lever, a bookcase, a draught or a slab by every hidden wall) Hidden rooms found by the place's own trick: a cracked wall to blast, a lever, a
           false bookcase, a draught of air you can see, a loose slab.
-    - [ ] 62.4 Set pieces that belong to each place (an altar, a forge, a frozen fountain...) and
+    - [x] 62.4 (done 27 Oct: set_pieces.gd, 11 set pieces drawn on PixelLab, drips on the wet floors; rats and flames were there since 21.2) Set pieces that belong to each place (an altar, a forge, a frozen fountain...) and
           small life (dripping water, flickering torches, rats running off).
     - [ ] 62.5 The full check; IPA 62.
   - [ ] 63 Bonfires (his word: "from darksouls"; our own design; ~10).
