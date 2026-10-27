@@ -80,7 +80,9 @@ potions and rolls, +10% damage a kindling for 120 s. Each fire lit pays 2 EMBER 
 end. Pictures on PixelLab (resprite/pixellab/bonfire, 3 generations: bf_fire_cold, bf_fire_lit,
 bf_kindling in graphics_hd); the flame, its flare and sparks are drawn in code. Test options
 --bonfire (with --room) and --bonfire-lit=N. tests/bonfire_test (PASSED). PixelLab: 1,650 left.
-IPA 62 built (release ipa-62).
+IPA 62 built (release ipa-62). IPA 63 "Ember Fires": tests run: bonfire_test (PASSED), four 60 s bot
+plays (seeds 3 and 5, heroes 0 and 2: no errors); the 6 classic replays identical, the core set
+re-recorded on purpose. Full check not run (his word).
 
 **62.5 done: IPA 62 "Rooms That Live"** (VERSION 62). His word, 27 Oct: "you dont need to run full test
 suite do partial of only new changes, major tests we will do after i say so" (now in CLAUDE.md): the
