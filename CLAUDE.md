@@ -54,8 +54,10 @@ Sessions have been cut off by usage limits more than once. So:
 - Commit and push after every piece that works. Update `HANDOFF.md` in the
   same push.
 - No long exploration. No sub-agents unless a step in `ROADMAP.md` calls for a
-  review. Run the one test that covers your change while you work, and the
-  full suite once at the end of the step.
+  review. Run the one test that covers your change while you work, and at the
+  end of a step only the tests that cover its changes, the replays and a short
+  play (his word, 27 Oct: "major tests we will do after i say so"). The full
+  suite `tools/check.sh` only when he asks for it.
 - When a step is done: say in five lines what changed, what was checked, what
   he should try on the iPad, and stop.
 
@@ -101,7 +103,7 @@ in `HANDOFF.md` after each use. Rule 3 still holds for whatever they make.
 
 ## Checks before anything is called done
 
-- `tools/check.sh` ends with `CHECK PASSED`.
+- The tests covering the change pass (`tools/check.sh` ends with `CHECK PASSED` when he asks for the full suite).
 - A change that is not meant to change the picture changes no pixel: record
   the same seeded run before and after (`tools/dev/cmpbuilds.sh`).
 - A change that is not meant to change the rules leaves all replays identical.

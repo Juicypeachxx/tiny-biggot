@@ -71,6 +71,13 @@ create_image_pixen, 1 generation): real pixel art at the exact size, a clean out
 Keep it up to date when a task is done: read it (Artifact action read with that url), change it,
 publish it with the same url. His OK on the floor 1 look (27 Oct: "Ok continiue"): 61.2 next.
 
+**62.5 done: IPA 62 "Rooms That Live"** (VERSION 62). His word, 27 Oct: "you dont need to run full test
+suite do partial of only new changes, major tests we will do after i say so" (now in CLAUDE.md): the
+tests checked were tests/traps_test (traps, mazes, tricks, set pieces: PASSED), four 30 s bot plays on
+floors 1, 3, 4 and 6 with --setpiece (no errors), the title (V62 ROOMS THAT LIVE). Replays: the 6
+classic identical; the core set re-recorded on purpose (traps, mazes, tricks and set pieces change the
+runs). The full check was not run. Next: 63 bonfires (his "continiue with the road map").
+
 **62.4 done: set pieces and drips** (scripts/world/set_pieces.gd): about one fight room in four on the
 first chapter's floors (not mazes, not rifts) holds its place's set piece, 48 x 48 pictures drawn on
 PixelLab (resprite/pixellab/setpieces, 11 generations; assets/graphics_hd/set_*.png, not in the atlas):

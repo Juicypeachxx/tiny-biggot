@@ -1610,7 +1610,7 @@ each point); the rest, proposed in the order it would be felt most, with names o
           REDACTED, THE NOBLE PASTURE, THE GRAND CHAMBER, THE END OF THE WORLD, THE CAT'S PARLOUR)
           and the barn.
     - [x] 61.5 Pits drawn with depth to match (a lip, the drop); the full check; IPA 61.
-  - [ ] 62 Rooms that live (~40 pictures; mostly code). Tests, core replays re-recorded on purpose.
+  - [x] 62 Rooms that live (~40 pictures; mostly code). Tests, core replays re-recorded on purpose.
     - [x] 62.1 (done 27 Oct: the first six floors; floors 7 to 11 and the rift worlds had theirs) Traps that fit each place (spikes, swinging blades, fire jets, darts from the walls,
           collapsing floors, falling icicles...): warned before they strike, so they are fair, and
           they hurt foes too.
@@ -1620,7 +1620,10 @@ each point); the rest, proposed in the order it would be felt most, with names o
           false bookcase, a draught of air you can see, a loose slab.
     - [x] 62.4 (done 27 Oct: set_pieces.gd, 11 set pieces drawn on PixelLab, drips on the wet floors; rats and flames were there since 21.2) Set pieces that belong to each place (an altar, a forge, a frozen fountain...) and
           small life (dripping water, flickering torches, rats running off).
-    - [ ] 62.5 The full check; IPA 62.
+    - [x] 62.5 (done 27 Oct; then his word: "after you wait continiue with the road map": on to 63) Tests of the new parts only; IPA 62. (His word, 27 Oct: "you dont need to run full
+          test suite do partial of only new changes, major tests we will do after i say so": from now
+          on a stage ends with the tests that cover its changes, the replays and a short play; the
+          full tools/check.sh only when he asks.)
   - [ ] 63 Bonfires (his word: "from darksouls"; our own design; ~10).
     - [ ] 63.1 A rest fire on each floor: sit to mend, refill the potions, kindle it to make it
           stronger.
