@@ -79,6 +79,9 @@ writes graphics_hd and the half-size graphics copy (the game sizes a picture by 
 elite from it with a 1-pixel gold rim (2 drowned the thin skeleton). Atlas baked (test PASSED);
 drawing only, no rule touched; 30 s of play without errors. Before and after:
 resprite/pixellab/mobs1/review_before_after.png. Not in an IPA yet. On his OK: 64.2, every foe.
+His word on it (27 Oct): "I like fat shroom art style" (asked: the old fat mushroom or the new one).
+Every changed picture so far, before and after: resprite/pixellab/review_all_updated.png.
+Credits (27 Oct): PixelLab 1,645 of 2,000 (resets 26 Nov); Higgsfield 53 (free plan).
 
 **63 done: THE EMBER FIRE** (scripts/world/bonfire.gd; his "bonfires from darksouls", our own design):
 expanded game, once a floor, the first fight room cleared halfway down (room.depth >= total / 2 - 1)

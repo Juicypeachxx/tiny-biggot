@@ -1632,6 +1632,8 @@ each point); the rest, proposed in the order it would be felt most, with names o
         in that vibe.
     - [ ] 64.1 Pilot: floor 1's foes, shown to him first. (27 Oct: drawn and in the game on V2, 5 generations;
           his OK on resprite/pixellab/mobs1/review_before_after.png awaited before 64.2.)
+          His word, 27 Oct, on it: "I like fat shroom art style": the foes chunky and round like the
+          old fat mushroom; which way he means (old or new mushroom) asked before 64.2.
     - [ ] 64.2 Every foe and elite, floor by floor.
     - [ ] 64.3 People, pets, guardians and bosses.
     - [ ] 64.4 The full check; IPA 64.
