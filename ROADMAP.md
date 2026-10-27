@@ -1543,7 +1543,7 @@ each point); the rest, proposed in the order it would be felt most, with names o
       of those games, our own weapons and names. Higgsfield Nano Banana 2.1 (the model V2 used):
       2 credits a 2K sheet (16 weapons, or 4 effects of 4 frames); the work is the limit, not the
       credits. Planned spend about 40 of 60, 20 kept for his changes.
-  - [ ] 60.1 Effects revamp for every weapon: impact flash, shockwave, cracks and debris on heavy
+  - [x] 60.1 Effects revamp for every weapon: impact flash, shockwave, cracks and debris on heavy
         blows; trails and afterimages on swings; layered explosions (flash, fireball, smoke,
         debris, scorch); embers, ice shards, forked lightning, bubbles, light pillars, dark
         tendrils; a pop when a foe dies. Code, plus about 8 new effect sheets. Still under
@@ -1933,3 +1933,7 @@ each point); the rest, proposed in the order it would be felt most, with names o
 - 26 Oct 2026: his word: "v2 is latest version with new sprites": the work lives on
   tiny-biggot-V2 from now on (CLAUDE.md, Git). And "from now on we have higgsfield intergration
   with 60 credits": Higgsfield connected, 60 credits (CLAUDE.md: spend only on his asks).
+- 27 Oct 2026: 60.1 (his "yes go"): the effects revamp (scripts/render/bits.gd): cracks, debris,
+  spark streaks, each weapon family's particles, foes bursting into bits, afflicted foes smoking,
+  an afterimage on swings; drawing only, the game plays the same (every replay identical, the full
+  check passed). IPA 60.1 "Crack and Spark".

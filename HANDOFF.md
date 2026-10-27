@@ -51,6 +51,13 @@ use up the Higgsfield credits first (56 left, on effect pictures), then PixelLab
 connection tested first; and the pixel vibe of Dead Cells, Enter the Gungeon, Noita, Terraria,
 Soulbound, Iconoclasts and Tiny Rogues (ideas only, rule 3). His PixelLab key is his: never in the
 repo; a session gets it from him.
+The full check of 60.1 passed (CHECK PASSED; all 14 replays identical): IPA 60.1 "Crack and Spark".
+PixelLab works since 27 Oct (his account's Secret was refused with 401 for a while, then accepted:
+the same key, nothing changed on our side). Used straight over HTTP from the container (a small
+MCP client in the session's scratchpad, the key in a file there, never in the repo): api.pixellab.ai
+answers, the pictures come inline and from api.pixellab.ai/mcp/images/<job>/download. Tier 1: 2000
+generations a month (reset 26 Nov) and a daily bonus of 20. One test (a 32 x 32 greatsword,
+create_image_pixen, 1 generation): real pixel art at the exact size, a clean outline, readable.
 
 **V2 (branch tiny-biggot-V2 only, his test): every sprite redrawn on SpriteCook in his bright look
 (21 Oct).** Done:
