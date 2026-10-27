@@ -71,6 +71,12 @@ create_image_pixen, 1 generation): real pixel art at the exact size, a clean out
 Keep it up to date when a task is done: read it (Artifact action read with that url), change it,
 publish it with the same url. His OK on the floor 1 look (27 Oct: "Ok continiue"): 61.2 next.
 
+**64.7: heroes with legs (IPA 64.7 "Legs Again")**. His word, 27 Oct, on the heroes sheet: "where are
+their legs". The first PixelLab heroes (resprite/pixellab/heroes) were drawn from the waist up; redrawn
+full body (resprite/pixellab/heroes2: "FULL BODY from head to feet, standing, legs and boots visible,
+short chunky proportions", 2 calls, 20 generations), in the 48 x 56 box, brightened 2.0. Ask for
+"full body" whenever a person is drawn.
+
 **64.6: brighter (IPA 64.6 "Brighter Days")**. His word, 27 Oct: "can you make graphic and mobs les
 grimmy and dark". resprite/tools/brighten.py lifts dark tones (gamma), adds colour and a little
 gain, and leaves the near-black outline: strength 2.0 on every new character picture (621 names, full

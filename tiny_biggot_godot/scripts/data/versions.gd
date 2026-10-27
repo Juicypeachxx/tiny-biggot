@@ -8,6 +8,7 @@ extends RefCounted
 ## with no quote or | inside, and add the new version's line at the top in its [ipa] commit.
 
 const LIST := [
+	"64.7|Legs Again|The heroes drawn again as full figures with legs and boots (the first new drawings stopped at the waist)",
 	"64.6|Brighter Days|Every monster, elite, boss, hero and pet drawn lighter and more colourful; Every floor, wall and prop lifted out of the gloom; Black outlines kept crisp",
 	"64|Monster Remaster|Every elite drawn as its own bigger, meaner monster; The foes that grow stronger on later floors have new stage 2 and 3 looks; The 37 bosses and guardians drawn again, each in its three stages; The 34 heroes drawn again, twice the old size, your armour still on them; A weapon with an element shows it in your hand: lightning crackles, fire flickers, frost glints, venom drips",
 	"64.1|New Monsters|Every foe drawn again in a new chunky dark-fantasy look, and bigger; The odd modern foes are now fantasy ones: a plague doctor, an ogre boss, a highwayman, a witch hunter and more; The pets drawn again too; Elites wear a gold rim until their own big look comes",
