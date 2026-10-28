@@ -2173,7 +2173,7 @@
  },
  "eclipsed": {
   "kind": "mob",
-  "stage": "moving",
+  "stage": "done",
   "id": "cae4fe70-13ce-477d-9e3b-b6d2d68092bf",
   "ox": 1,
   "oy": 2,
@@ -2183,11 +2183,12 @@
   ],
   "asked": [
    "walk"
-  ]
+  ],
+  "frames": 7
  },
  "herald": {
   "kind": "mob",
-  "stage": "moving",
+  "stage": "done",
   "id": "6c6590bd-8e4c-4aa9-b9f3-a8fa6d5b082f",
   "ox": 0,
   "oy": 2,
@@ -2197,7 +2198,8 @@
   ],
   "asked": [
    "walk"
-  ]
+  ],
+  "frames": 7
  },
  "inkblot": {
   "kind": "mob",
@@ -2244,24 +2246,30 @@
  },
  "smudge": {
   "kind": "mob",
-  "stage": "object",
+  "stage": "moving",
   "id": "990d9908-d392-4b7f-b5b4-570c7f01768c",
   "ox": 0,
   "oy": 0,
   "size": [
    40,
    40
+  ],
+  "asked": [
+   "walk"
   ]
  },
  "inkhound": {
   "kind": "mob",
-  "stage": "object",
+  "stage": "moving",
   "id": "52381d94-6a4c-4e05-b739-ed382c875af7",
   "ox": 1,
   "oy": 0,
   "size": [
    42,
    40
+  ],
+  "asked": [
+   "walk"
   ]
  },
  "inkwidow": {
