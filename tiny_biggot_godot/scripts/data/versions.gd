@@ -8,6 +8,7 @@ extends RefCounted
 ## with no quote or | inside, and add the new version's line at the top in its [ipa] commit.
 
 const LIST := [
+	"67.7|Perfect Fit|Faces stay visible under hoods and helmets; The weapon is held at the hands' height, never over the face; Aimed upward it goes behind the head",
 	"67.6|Firm Grip|A hand holds every weapon; the weapon circles the hero at the chest and points at the target; it stays in front of the hero unless aimed straight up",
 	"67.5|All Forty Walk|All 40 of the commonest monsters walk with real walking animation",
 	"67.4|Marching Horde|36 of the commonest monsters walk with real walking animation",

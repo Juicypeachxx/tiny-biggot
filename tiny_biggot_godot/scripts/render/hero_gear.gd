@@ -448,8 +448,17 @@ static func _drawn(hi: Dictionary, key: String) -> Dictionary:
 		return {}
 	var cells := []
 	var lum := {}
+	# 67.7 (his word: "make it perfect"): a hood or a helm leaves the face free (PixelLab shaded the
+	# face under them too, and that shade is not part of the piece)
+	var face := key in ["hood", "helm"]
+	var fcx: float = hi["hcx"]
+	var fcy: float = (hi["eye"] + hi["chin"]) / 2.0
+	var frx: float = (hi["hx1"] - hi["hx0"]) * 0.27 + 0.5
+	var fry: float = (hi["chin"] - hi["eye"]) * 0.62 + 1.5
 	for y in h:
 		for x in w:
+			if face and _ell(x, y, fcx, fcy, frx, fry):
+				continue
 			var c := strip.get_pixel(i * w + x, y)
 			if c.a >= 0.5:
 				cells.append(Vector2i(x, y))

@@ -1013,7 +1013,7 @@ func _draw_player(ci: CanvasItem, p: Player, t: float) -> void:
 	var airborne := p.leap_max > 0
 	if p.invuln > 0 and floori(t * 20) % 2 == 1 and p.dodge_t <= 0 and not airborne:
 		return
-	var behind := sin(p.aim_a) < (-0.85 if GameData.rogues() else -0.3)   # 67.6: in front unless aimed nearly straight up
+	var behind := sin(p.aim_a) < -0.35   # 67.7: aimed upward it goes behind the head, as in the game he showed
 	if behind:
 		_draw_weapon(ci, p)
 	var bob := -1 if p.moving and p.dodge_t <= 0 and floori(p.walk_t * 10) % 2 == 1 else 0
@@ -1061,7 +1061,7 @@ func _draw_weapon(ci: CanvasItem, p: Player) -> void:
 		# 67.6 (his word, 28 Oct: "weapons are still off hand"): it circles the hero at the chest, as in
 		# the game he showed, and a hand of the hero's own holds its handle (drawn over it, below)
 		var gpx := p.x + cos(p.aim_a) * (7.5 - kick)
-		var gpy := p.y - 3.0 + sin(p.aim_a) * (5.0 - kick * 0.6)
+		var gpy := p.y - 0.5 + sin(p.aim_a) * (3.0 - kick * 0.4)   # 67.7: at the hands' height, never up at the face
 		var reach := wb.get_width() * 0.4 * ws
 		hx = gpx + cos(p.aim_a) * reach
 		hy = gpy + sin(p.aim_a) * reach

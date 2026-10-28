@@ -1,5 +1,7 @@
 # Handoff: where the work stands
 
+**28 Oct, IPA 67.7 Perfect Fit** (his word: "test the armor fitting and weapon handling, only test this and make it perfect"): tests/hold_look_test.tscn draws every hero in two outfits with a weapon at 8 aims (with a screen: xvfb-run; --heroes=0,1 --sheet=PATH). Fixed from it: hoods and helms leave the face free (HeroGear._drawn), the weapon circles at the hands' height (gpy p.y-0.5), behind the head when aimed upward (sin < -0.35). Known: a hero's own horns poke through a drawn hood (needs new drawings).
+
 **28 Oct, IPA 67.6 Firm Grip** (his word: "weapons are still off hand u broke it"): the weapon circles the hero at chest height (world_view.gd _draw_weapon), a fist in the hero's skin colour (or the gloves') holds its handle (_hand), drawn in front unless aimed nearly straight up.
 
 **28 Oct, IPAs 67.2-67.5:** walk animations for the 40 commonest monsters (resprite/tools/anim_pl.py kind \"mob\", strips in assets/graphics_hd/anim; scripts/render/moves.gd plays them while a normal foe moves; bosses keep their pictures). PixelLab nearly spent (about 8 left until 26 Nov). After the refill: heroes chunky + armour pieces, stage looks, the other monsters' walks.
