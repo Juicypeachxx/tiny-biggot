@@ -75,8 +75,18 @@ static func reset() -> void:
 	Vfx.reset()
 
 # ---------- Notifications from game code ----------
+## 66.9 (his word, 28 Oct: "add shake add all you can do to match references"): the screen's own kick,
+## only the look (the rules' G.shake is apart): a jolt on every kill, a harder one when you are hit,
+## a nudge with each shot; it fades fast.
+static var jolt := 0.0
+const BRASS := [Color("#f2c94c"), Color("#c8902c")]
+
 static func kill(e: Enemy, sprite: String) -> void:
 	var boss := e.is_boss()
+	if GameData.rogues():
+		jolt = maxf(jolt, 7.0 if boss else 2.2 * clampf(e.scale, 0.8, 1.6))
+		Weather.flash(e.x, e.y, 18.0 if not boss else 60.0)   # (the blast light, on any floor with the mood)
+		Bits.debris(e.x, e.y, 10 if boss else 5)
 	pops.append({ "name": sprite, "x": e.x, "y": e.y + e.r + (2 if boss else 0) - e.z, "sc": e.scale,
 		"flip": e.face < 0, "t": 0.0, "max": 0.35 if boss else 0.16 })
 	ring(e.x, e.y, 3, 40.0 if boss else 14.0 * e.scale, 0.5 if boss else 0.18, "#f4ecd8")
@@ -89,6 +99,7 @@ static func kill(e: Enemy, sprite: String) -> void:
 
 static func hurt() -> void:
 	hurt_t = 0.35
+	jolt = maxf(jolt, 5.0)
 
 static func level_up(x: float, y: float) -> void:
 	ring(x, y, 4, 34, 0.4, "#b8e05a")
@@ -265,12 +276,16 @@ static func update(dt: float, p: Player) -> void:
 	flash_t = maxf(0.0, flash_t - dt)
 	clear_t = maxf(0.0, clear_t - dt)
 	recoil = maxf(0.0, recoil - dt * 9)
+	jolt = maxf(0.0, jolt - dt * 22.0)
 	var fired := false
 	if p != null:
 		# The weapon's cooldown jumps back up exactly when it fires.
 		if p.fire_cd > _last_fire_cd + 0.001:
 			recoil = 1.0
 			fired = true
+			if GameData.rogues():
+				jolt = maxf(jolt, 0.9)
+				Bits.casing(p.x, p.y - 4.0, p.aim_a)   # 66.9: a spent casing kicked out
 		_last_fire_cd = p.fire_cd
 	Afx.update(p, fired)
 

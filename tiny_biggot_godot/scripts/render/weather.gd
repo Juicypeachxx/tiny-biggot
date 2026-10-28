@@ -143,7 +143,7 @@ static func on_floor_start() -> void:
 
 ## Combat.explode_at: a blast lights up the dark for a moment.
 static func flash(x: float, y: float, r: float) -> void:
-	if dark_level() <= 0.0:
+	if dark_level() <= 0.0 or not on():
 		return
 	_flashes.append([x, y, maxf(40.0, r * 2.5), 0.35])
 	if _flashes.size() > 4:

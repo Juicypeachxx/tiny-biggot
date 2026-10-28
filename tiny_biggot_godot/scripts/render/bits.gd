@@ -152,6 +152,25 @@ static func _flavour(k: int, x: float, y: float, cnt: int, c: Color, spread: flo
 					_rng.randf_range(0.7, 1.1), C_STONE[i % 3], 2)
 
 # ---------- Called by Afx, Vfx and Juice (never by the rules) ----------
+## 66.9 (his Runeward pictures: debris everywhere): a fallen foe throws chips of stone and wood.
+const C_WOOD := [Color("#a0603a"), Color("#6e3a22"), Color("#c88850")]
+static func debris(x: float, y: float, n: int) -> void:
+	if not Vfx.enabled:
+		return
+	for i in n:
+		var a := _rng.randf() * TAU
+		var v := _rng.randf_range(50.0, 120.0)
+		_add(K_CHUNK, x, y, 2.0, cos(a) * v, sin(a) * v * 0.6, _rng.randf_range(100.0, 170.0),
+			_rng.randf_range(0.9, 1.6), (C_WOOD if i % 2 == 0 else C_STONE)[i % 3], 2)
+
+## 66.9: a spent brass casing kicked out to the side of the shot, bouncing on the floor.
+static func casing(x: float, y: float, aim: float) -> void:
+	if not Vfx.enabled:
+		return
+	var a := aim + PI * 0.5 * (1.0 if cos(aim) >= 0.0 else -1.0) + PI + _rng.randf_range(-0.4, 0.4)
+	var v := _rng.randf_range(40.0, 70.0)
+	_add(K_CHUNK, x, y, 4.0, cos(a) * v, sin(a) * v * 0.5, _rng.randf_range(80.0, 120.0), 0.9,
+		Juice.BRASS[_rng.randi() % 2], 1)
 ## A shot lands (Afx.hit): two streaks in the weapon's colour and its family's own particles.
 static func hit(x: float, y: float, tag: String) -> void:
 	if not Vfx.enabled:

@@ -8,6 +8,7 @@ extends RefCounted
 ## with no quote or | inside, and add the new version's line at the top in its [ipa] commit.
 
 const LIST := [
+	"66.9|Big Kick|Screen shake on every kill, hit and shot; Fallen foes throw wood and stone debris and light up the room; Spent brass casings fly from your shots",
 	"66.8|Every Wall|The top walls of the 23 special places drawn again rich and colourful",
 	"66.7|Glow Trails|Your shots leave glowing trails and light the floor; Monsters rock from foot to foot as they walk",
 	"66.6|Lit Rooms|The top walls of 20 places and 51 props drawn again rich and colourful; Patterned carpets in half the rooms; Your shots glow in their colour; Hits throw chips of debris",

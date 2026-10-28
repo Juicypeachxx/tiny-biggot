@@ -271,7 +271,7 @@ func refresh() -> void:
 	visible = G.room != null and G.player != null
 	if not visible:
 		return
-	var sh := G.shake
+	var sh := G.shake + (Juice.jolt if Meta.opts.get("shake", true) else 0.0)   # 66.9: the look's own kick on top
 	if sh > 0:
 		position = Vector2(-roundf((_vr.randf() - 0.5) * sh), -roundf((_vr.randf() - 0.5) * sh))
 	else:
