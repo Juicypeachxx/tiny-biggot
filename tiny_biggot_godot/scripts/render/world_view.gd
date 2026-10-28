@@ -33,6 +33,7 @@ var ebul: DrawLayer      # last of all (35.3 CLARITY): foe warnings and foe shot
 var parts: DrawLayer     # z 2200  particles
 var swing: DrawLayer     # z 2250  melee arcs, thrusts, rays
 var top: DrawLayer       # z 2300  aim reticle
+var grade: DrawLayer     # 66.5: the colour lift over the world
 var vignette: Sprite2D   # z 2500
 var screen: DrawLayer    # z 2600  hurt / low-health edges, flashes (Juice)
 var texts: DrawLayer     # z 3000  floating numbers
@@ -97,6 +98,8 @@ func _ready() -> void:
 	parts = _layer(_paint_parts)
 	swing = _layer(_paint_swings)
 	top = _layer(_paint_top)
+	grade = _layer(Grade.paint)   # 66.5: the world's colours lifted (not the HUD's)
+	grade.material = Grade.material()
 	vignette = Sprite2D.new()
 	vignette.texture = Img.t("vignette")
 	vignette.centered = false
@@ -285,7 +288,7 @@ func refresh() -> void:
 	_prepare_shots()
 	_floats.sync()
 	_labels.queue_redraw()
-	for l in [lower, ents, dark, fx, glow, vfx, pbul, bars, ebul, parts, swing, top, screen, texts]:
+	for l in [lower, ents, dark, fx, glow, vfx, pbul, bars, ebul, parts, swing, top, grade, screen, texts]:
 		l.queue_redraw()
 
 static func deg(rgss_deg: float) -> float:
@@ -310,6 +313,7 @@ func _paint_bg(ci: CanvasItem) -> void:
 	elif Img.has(kit_name + "_floor"):
 		# 59.1: the floor is one texture, repeated over the room (it has no tiles to pick from).
 		ci.draw_texture_rect(Img.t(kit_name + "_floor"), Rect2(TB.IX0 * ts, TB.IY0 * ts, TB.IW * ts, TB.IH * ts), true)
+		_calm_floor(ci)
 	else:
 		var rng := SeedRng.new(room.seed_value ^ 0x5bd1e995)
 		for r in range(TB.IY0, TB.IY0 + TB.IH):
@@ -363,6 +367,7 @@ func _paint_place(ci: CanvasItem, room: Room, kit_name: String) -> void:
 			var roll := rng.next_f()     # the sheet's plainest 8 most, the next 4 less, the last 4 rarely
 			var v := rng.int_range(0, 7) if roll < 0.8 else (rng.int_range(8, 11) if roll < 0.94 else rng.int_range(12, 15))
 			ci.draw_texture_rect_region(slabs, Rect2(c * ts, r * ts, ts, ts), Rect2((v % 4) * ts, (v / 4) * ts, ts, ts))
+	_calm_floor(ci)
 	var shade := Color(0.03, 0.01, 0.05)
 	for i in 12:     # deep under the top wall (half a pixel at a time: the picture's own pixels)
 		shade.a = 0.62 * pow(1.0 - i / 12.0, 1.6)
@@ -390,6 +395,13 @@ func _paint_place(ci: CanvasItem, room: Room, kit_name: String) -> void:
 	for i in 20:     # the wall darker towards its top, under the HUD (its icons stay easy to read)
 		shade.a = 0.5 * (1.0 - i / 20.0)
 		ci.draw_rect(Rect2(0, i * 1.0, TB.SW, 1.0), shade)
+
+## 66.5 (Weather.mood): the floor's slabs pulled towards a deep warm brown, darker and with half
+## their contrast, so what stands on them stands out (as on the floors of the game he showed).
+const FLOOR_CALM := Color(0.13, 0.065, 0.05, 0.5)
+func _calm_floor(ci: CanvasItem) -> void:
+	if Weather.mood():
+		ci.draw_rect(Rect2(TB.IX0 * TB.TS, TB.IY0 * TB.TS, TB.IW * TB.TS, TB.IH * TB.TS), FLOOR_CALM)
 
 ## 10.5 (his ask, 6 Oct, from his trailer clips: an option, the usual look stays the default): black
 ## floors and thin bright walls in the floor's own colour (a rift world's accent in its rooms).
@@ -1198,6 +1210,8 @@ func _paint_glow(ci: CanvasItem) -> void:
 	for i in 2:
 		var op := roundf(200 + sin(t * 9 + i * 7) * 25 + sin(t * 23 + i) * 15) / 255.0
 		Gfx.at(ci, "glow_torch", [6, 21][i] * TB.TS + 8 - 36, TB.TS + 4 - 36, op)
+		if Weather.mood():   # 66.5: a wide warm pool of torchlight on the wall and the floor below it
+			Gfx.sprite(ci, "glow_torch", [6, 21][i] * TB.TS + 8 - 72, TB.TS + 10 - 72, 0, 0, 2, 2, 0.0, false, op * 0.55)
 	BiomeDeco.paint_glow(ci, t)
 	RoomDress.paint_glow(ci, t)
 	CampClock.paint_glow(ci, t)   # 21.6

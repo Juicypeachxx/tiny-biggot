@@ -91,7 +91,23 @@ static func dark_level() -> float:
 		return DARK
 	if CampClock.on() and CampClock.phase() == "night":
 		return DARK_CAMP
+	if mood():
+		return MOOD
 	return 0.0
+
+## 66.5 (his word, 28 Oct, with pictures of Enter the Gungeon: "now iss all grimmy and not alive and
+## boring, i want the vibe like on this picture"): every dungeon room is a little dim and warm at its
+## edges, lit in pools round the hero, the torches, fires and glowing things (this same dark layer,
+## lighter and warm), and its floor is darker and calmer (WorldView._calm_floor), so the heroes, foes
+## and shots stand out from it. Only the look. Off unless the option "mood" is set: the same day he
+## sent videos of a bright, very colourful game ("like this the same vibe"), so Grade is the default.
+const MOOD := 0.36
+const MOOD_COL := Color(0.07, 0.035, 0.05, 1.0)
+const NIGHT_COL := Color(0.05, 0.06, 0.16, 1.0)
+
+static func mood() -> bool:
+	var room := G.room
+	return on() and room != null and not room.type in ["camp", "barn"] and Meta.opts.get("mood", false)
 
 ## The floor's sound when the weather has one (Ambience.here).
 static func sound() -> String:
@@ -216,6 +232,7 @@ static func paint_dark(ci: CanvasItem) -> void:
 	m.set_shader_parameter("lights", l)
 	m.set_shader_parameter("count", l.size())
 	m.set_shader_parameter("dark", d)
+	m.set_shader_parameter("night", MOOD_COL if d == MOOD and here() != "dark" else NIGHT_COL)
 	ci.draw_rect(Rect2(0, 0, TB.SW, TB.SH), Color.WHITE)
 
 ## What gives light, the hero's lantern first: [x, y, radius, strength].
