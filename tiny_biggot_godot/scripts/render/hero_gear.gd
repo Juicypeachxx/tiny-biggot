@@ -465,6 +465,18 @@ static func _drawn(hi: Dictionary, key: String) -> Dictionary:
 				lum[Vector2i(x, y)] = c.get_luminance()
 	if cells.size() < 6:
 		return {}
+	if key == "shield":   # 67.7: one shield, the biggest shape, on one side (PixelLab sometimes touched the other arm too)
+		var cx: float = hi["hcx"]
+		var l := 0
+		for c: Vector2i in cells:
+			if c.x < cx:
+				l += 1
+		var on_left := l * 2 >= cells.size()
+		var side := []
+		for c: Vector2i in cells:
+			if (c.x < cx + 1.0) if on_left else (c.x > cx - 1.0):
+				side.append(c)
+		cells = _biggest(side)
 	cells.sort_custom(func(a, b): return lum[a] < lum[b] or (lum[a] == lum[b] and (a.y < b.y or (a.y == b.y and a.x < b.x))))
 	var out := {}
 	var n := cells.size()
@@ -476,6 +488,28 @@ static func _drawn(hi: Dictionary, key: String) -> Dictionary:
 		else:
 			out[p] = "0" if f < 0.12 else ("2" if f < 0.38 else ("1" if f < 0.72 else ("3" if f < 0.93 else "4")))
 	return out
+
+## The biggest group of touching cells.
+static func _biggest(cells: Array) -> Array:
+	var left := {}
+	for c in cells:
+		left[c] = true
+	var best := []
+	while not left.is_empty():
+		var start: Vector2i = left.keys()[0]
+		left.erase(start)
+		var group := [start]
+		var todo := [start]
+		while not todo.is_empty():
+			var c: Vector2i = todo.pop_back()
+			for d in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1), Vector2i(1, 1), Vector2i(-1, -1), Vector2i(1, -1), Vector2i(-1, 1)]:
+				if left.has(c + d):
+					left.erase(c + d)
+					group.append(c + d)
+					todo.append(c + d)
+		if group.size() > best.size():
+			best = group
+	return best
 
 static func _piece(slot: String, g: Dictionary, hi: Dictionary) -> Dictionary:
 	var shape: String = g.get("shape", "")
