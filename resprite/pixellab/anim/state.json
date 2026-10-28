@@ -2249,7 +2249,7 @@
  },
  "smudge": {
   "kind": "mob",
-  "stage": "moving",
+  "stage": "done",
   "id": "990d9908-d392-4b7f-b5b4-570c7f01768c",
   "ox": 0,
   "oy": 0,
@@ -2259,7 +2259,8 @@
   ],
   "asked": [
    "walk"
-  ]
+  ],
+  "frames": 7
  },
  "inkhound": {
   "kind": "mob",
@@ -2277,7 +2278,7 @@
  },
  "inkwidow": {
   "kind": "mob",
-  "stage": "moving",
+  "stage": "done",
   "id": "271faf0c-b4ff-49d4-b75b-3ecd0d396ad3",
   "ox": 0,
   "oy": 2,
@@ -2287,11 +2288,12 @@
   ],
   "asked": [
    "walk"
-  ]
+  ],
+  "frames": 7
  },
  "papercut": {
   "kind": "mob",
-  "stage": "moving",
+  "stage": "done",
   "id": "9576fa87-2138-40c8-adeb-7caaf6690669",
   "ox": 0,
   "oy": 2,
@@ -2301,6 +2303,7 @@
   ],
   "asked": [
    "walk"
-  ]
+  ],
+  "frames": 7
  }
 }
