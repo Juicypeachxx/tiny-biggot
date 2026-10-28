@@ -1709,7 +1709,7 @@
  },
  "bat": {
   "kind": "mob",
-  "stage": "moving",
+  "stage": "done",
   "id": "5f45cf8d-4439-4096-8055-37802edab215",
   "ox": 1,
   "oy": 2,
@@ -1719,11 +1719,12 @@
   ],
   "asked": [
    "walk"
-  ]
+  ],
+  "frames": 7
  },
  "slime": {
   "kind": "mob",
-  "stage": "moving",
+  "stage": "done",
   "id": "6b47300f-06ea-49f3-bc93-6c864569c799",
   "ox": 0,
   "oy": 2,
@@ -1733,11 +1734,12 @@
   ],
   "asked": [
    "walk"
-  ]
+  ],
+  "frames": 7
  },
  "skeleton": {
   "kind": "mob",
-  "stage": "moving",
+  "stage": "done",
   "id": "4d2b18ed-e3af-4a4d-a14d-36372bfeb5c1",
   "ox": 1,
   "oy": 2,
@@ -1747,11 +1749,12 @@
   ],
   "asked": [
    "walk"
-  ]
+  ],
+  "frames": 7
  },
  "cultist": {
   "kind": "mob",
-  "stage": "moving",
+  "stage": "done",
   "id": "fade310d-774a-4700-b362-c79b8ea9d746",
   "ox": 0,
   "oy": 2,
@@ -1761,11 +1764,12 @@
   ],
   "asked": [
    "walk"
-  ]
+  ],
+  "frames": 7
  },
  "imp": {
   "kind": "mob",
-  "stage": "moving",
+  "stage": "done",
   "id": "22dda386-f149-425e-a6bc-4f027878d16e",
   "ox": 1,
   "oy": 2,
@@ -1775,11 +1779,12 @@
   ],
   "asked": [
    "walk"
-  ]
+  ],
+  "frames": 7
  },
  "knight": {
   "kind": "mob",
-  "stage": "moving",
+  "stage": "done",
   "id": "9890db8d-8e89-4f5c-91dd-234435b57823",
   "ox": 1,
   "oy": 2,
@@ -1789,11 +1794,12 @@
   ],
   "asked": [
    "walk"
-  ]
+  ],
+  "frames": 7
  },
  "ghost": {
   "kind": "mob",
-  "stage": "moving",
+  "stage": "done",
   "id": "b1f38098-2fc9-46f4-b236-dd579b4d8b67",
   "ox": 1,
   "oy": 0,
@@ -1803,83 +1809,105 @@
   ],
   "asked": [
    "walk"
-  ]
+  ],
+  "frames": 7
  },
  "bookwyrm": {
   "kind": "mob",
-  "stage": "object",
+  "stage": "moving",
   "id": "d1a31452-11dc-4736-b811-f14df3088fc8",
   "ox": 0,
   "oy": 2,
   "size": [
    32,
    38
+  ],
+  "asked": [
+   "walk"
   ]
  },
  "drowned": {
   "kind": "mob",
-  "stage": "object",
+  "stage": "moving",
   "id": "db8c5172-2fc7-49bf-8681-36503404640b",
   "ox": 0,
   "oy": 0,
   "size": [
    36,
    44
+  ],
+  "asked": [
+   "walk"
   ]
  },
  "wisp": {
   "kind": "mob",
-  "stage": "object",
+  "stage": "moving",
   "id": "bb6ad75a-725d-49c1-89e3-e039c01c997e",
   "ox": 0,
   "oy": 2,
   "size": [
    24,
    38
+  ],
+  "asked": [
+   "walk"
   ]
  },
  "golem": {
   "kind": "mob",
-  "stage": "object",
+  "stage": "moving",
   "id": "78a14e94-1dfe-406a-bd80-ba618d4ad36d",
   "ox": 0,
   "oy": 0,
   "size": [
    44,
    44
+  ],
+  "asked": [
+   "walk"
   ]
  },
  "bogling": {
   "kind": "mob",
-  "stage": "object",
+  "stage": "moving",
   "id": "013d2d9b-55ac-4df1-ac09-8297698e4992",
   "ox": 1,
   "oy": 0,
   "size": [
    42,
    36
+  ],
+  "asked": [
+   "walk"
   ]
  },
  "gnat": {
   "kind": "mob",
-  "stage": "object",
+  "stage": "moving",
   "id": "d1228a18-3251-4436-9433-5e59c02a7d62",
   "ox": 0,
   "oy": 2,
   "size": [
    36,
    34
+  ],
+  "asked": [
+   "walk"
   ]
  },
  "hexwife": {
   "kind": "mob",
-  "stage": "object",
+  "stage": "moving",
   "id": "bfee2d9c-9b08-4421-a516-f1c428701a41",
   "ox": 1,
   "oy": 2,
   "size": [
    38,
    42
+  ],
+  "asked": [
+   "walk"
   ]
  },
  "mirehulk": {
