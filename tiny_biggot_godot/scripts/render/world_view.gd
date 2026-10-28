@@ -1013,7 +1013,7 @@ func _draw_player(ci: CanvasItem, p: Player, t: float) -> void:
 	var airborne := p.leap_max > 0
 	if p.invuln > 0 and floori(t * 20) % 2 == 1 and p.dodge_t <= 0 and not airborne:
 		return
-	var behind := sin(p.aim_a) < -0.3
+	var behind := sin(p.aim_a) < (-0.85 if GameData.rogues() else -0.3)   # 67.6: in front unless aimed nearly straight up
 	if behind:
 		_draw_weapon(ci, p)
 	var bob := -1 if p.moving and p.dodge_t <= 0 and floori(p.walk_t * 10) % 2 == 1 else 0
@@ -1058,8 +1058,10 @@ func _draw_weapon(ci: CanvasItem, p: Player) -> void:
 	var ws := 1.0
 	if big:
 		ws = HELD_SCALE   # 66.4 (his recording, 27 Oct: "still looking wierd and not natural"): a weapon at its icon's size is three quarters of the hero
-		var gpx := p.x + cos(p.aim_a) * (6.0 - kick)
-		var gpy := p.y + sin(p.aim_a) * (3.0 - kick * 0.6)
+		# 67.6 (his word, 28 Oct: "weapons are still off hand"): it circles the hero at the chest, as in
+		# the game he showed, and a hand of the hero's own holds its handle (drawn over it, below)
+		var gpx := p.x + cos(p.aim_a) * (7.5 - kick)
+		var gpy := p.y - 3.0 + sin(p.aim_a) * (5.0 - kick * 0.6)
 		var reach := wb.get_width() * 0.4 * ws
 		hx = gpx + cos(p.aim_a) * reach
 		hy = gpy + sin(p.aim_a) * reach
@@ -1078,6 +1080,7 @@ func _draw_weapon(ci: CanvasItem, p: Player) -> void:
 	if big:
 		Gfx.sprite(ci, wn, hx - cos(p.aim_a) * wb.get_width() * 0.4 * ws, hy - sin(p.aim_a) * wb.get_width() * 0.4 * ws,
 			wb.get_width() * gx, wb.get_height() * gy, ws, ws, rot, left)
+		_hand(ci, p, hx - cos(p.aim_a) * wb.get_width() * 0.4 * ws, hy - sin(p.aim_a) * wb.get_width() * 0.4 * ws)
 	else:
 		Gfx.sprite(ci, wn, hx, hy, wb.get_width() / 2, wb.get_height() / 2, 1, 1, rot, left)
 	if GameData.rogues() and Vfx.enabled:   # 64: its element on the blade, all the time
@@ -1087,6 +1090,41 @@ func _draw_weapon(ci: CanvasItem, p: Player) -> void:
 		var mx := roundf(hx + cos(p.aim_a) * 8)
 		var my := roundf(hy + sin(p.aim_a) * 6)
 		ci.draw_rect(Rect2(mx - 1, my - 1, 3, 3), Color(1, 0.95, 0.75, 0.9))
+
+## 67.6: the hand that holds the weapon: a round fist with a dark outline, in the hero's skin (taken
+## once from the hero's picture: the commonest warm light colour), or the gloves' colour when worn.
+static var _skin := {}
+func _hand(ci: CanvasItem, p: Player, x: float, y: float) -> void:
+	var col: Color
+	var g = p.gear.get("hands")
+	if g != null:
+		col = HeroGear.palette(g)["1"]
+	else:
+		var hero: String = p.hero["sprite"]
+		if not _skin.has(hero):
+			var img := Img.image(hero)
+			var counts := {}
+			if img != null:
+				for yy in img.get_height():
+					for xx in img.get_width():
+						var c := img.get_pixel(xx, yy)
+						if c.a > 0.5 and c.r > c.g and c.g > c.b and c.r > 0.55 and c.r - c.b > 0.15 and c.r - c.b < 0.5:
+							var q := Color(snappedf(c.r, 0.05), snappedf(c.g, 0.05), snappedf(c.b, 0.05))
+							counts[q] = counts.get(q, 0) + 1
+			var best := Color("#e8b48a")
+			var n := 0
+			for c in counts:
+				if counts[c] > n:
+					n = counts[c]
+					best = c
+			_skin[hero] = best
+		col = _skin[hero]
+	var hx := roundf(x * 2.0) / 2.0
+	var hy := roundf(y * 2.0) / 2.0
+	ci.draw_rect(Rect2(hx - 1.5, hy - 1.0, 3.0, 2.0), Color(0.08, 0.05, 0.08))
+	ci.draw_rect(Rect2(hx - 1.0, hy - 1.5, 2.0, 3.0), Color(0.08, 0.05, 0.08))
+	ci.draw_rect(Rect2(hx - 1.0, hy - 1.0, 2.0, 2.0), col)
+	ci.draw_rect(Rect2(hx - 1.0, hy - 1.0, 1.0, 0.5), col.lightened(0.3))
 
 ## 56.2 (his playthrough, 12 Oct: "make bosses be visible when attacking because shear amount of
 ## projects just drown him"): a guardian is drawn over your shots, effects and sparks (the top layer,
