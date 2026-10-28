@@ -1670,6 +1670,10 @@ each point); the rest, proposed in the order it would be felt most, with names o
     - [ ] 66.4 (his word, 27 Oct, a picture of the plate set and the red robe: "to še vedno deluje
       smešno in out of the place, kar naredi IPA potem se ukvarjaj z tem"): the armour on the
       heroes still looks funny and out of place. Make it look right.
+    - [ ] 66.5 (his word, 28 Oct, with an Enter the Gungeon picture: "i dont like the vibe of the game
+      what we did before resprite was better, now iss all grimmy and not alive and boring, i want
+      the vibe like on this picture"): the look must be bright, lively and alive again. First a
+      side-by-side (now / before the resprite / a brighter grade) for him to choose.
     - [ ] 66.2 The heroes' animations: standing, walking, attacking. The full check; IPA 66.
   - [ ] 67 A rage hero (his word: "kinda super saian carachter with rage meter and fitted armor and
         weapons"; our own; ~40).
