@@ -1706,5 +1706,466 @@
    136,
    72
   ]
+ },
+ "bat": {
+  "kind": "mob",
+  "stage": "moving",
+  "id": "5f45cf8d-4439-4096-8055-37802edab215",
+  "ox": 1,
+  "oy": 2,
+  "size": [
+   46,
+   30
+  ],
+  "asked": [
+   "walk"
+  ]
+ },
+ "slime": {
+  "kind": "mob",
+  "stage": "moving",
+  "id": "6b47300f-06ea-49f3-bc93-6c864569c799",
+  "ox": 0,
+  "oy": 2,
+  "size": [
+   44,
+   34
+  ],
+  "asked": [
+   "walk"
+  ]
+ },
+ "skeleton": {
+  "kind": "mob",
+  "stage": "moving",
+  "id": "4d2b18ed-e3af-4a4d-a14d-36372bfeb5c1",
+  "ox": 1,
+  "oy": 2,
+  "size": [
+   42,
+   42
+  ],
+  "asked": [
+   "walk"
+  ]
+ },
+ "cultist": {
+  "kind": "mob",
+  "stage": "moving",
+  "id": "fade310d-774a-4700-b362-c79b8ea9d746",
+  "ox": 0,
+  "oy": 2,
+  "size": [
+   36,
+   42
+  ],
+  "asked": [
+   "walk"
+  ]
+ },
+ "imp": {
+  "kind": "mob",
+  "stage": "moving",
+  "id": "22dda386-f149-425e-a6bc-4f027878d16e",
+  "ox": 1,
+  "oy": 2,
+  "size": [
+   42,
+   42
+  ],
+  "asked": [
+   "walk"
+  ]
+ },
+ "knight": {
+  "kind": "mob",
+  "stage": "moving",
+  "id": "9890db8d-8e89-4f5c-91dd-234435b57823",
+  "ox": 1,
+  "oy": 2,
+  "size": [
+   42,
+   42
+  ],
+  "asked": [
+   "walk"
+  ]
+ },
+ "ghost": {
+  "kind": "mob",
+  "stage": "moving",
+  "id": "b1f38098-2fc9-46f4-b236-dd579b4d8b67",
+  "ox": 1,
+  "oy": 0,
+  "size": [
+   38,
+   40
+  ],
+  "asked": [
+   "walk"
+  ]
+ },
+ "bookwyrm": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "d1a31452-11dc-4736-b811-f14df3088fc8",
+  "ox": 0,
+  "oy": 2,
+  "size": [
+   32,
+   38
+  ]
+ },
+ "drowned": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "db8c5172-2fc7-49bf-8681-36503404640b",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   36,
+   44
+  ]
+ },
+ "wisp": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "bb6ad75a-725d-49c1-89e3-e039c01c997e",
+  "ox": 0,
+  "oy": 2,
+  "size": [
+   24,
+   38
+  ]
+ },
+ "golem": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "78a14e94-1dfe-406a-bd80-ba618d4ad36d",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   44,
+   44
+  ]
+ },
+ "bogling": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "013d2d9b-55ac-4df1-ac09-8297698e4992",
+  "ox": 1,
+  "oy": 0,
+  "size": [
+   42,
+   36
+  ]
+ },
+ "gnat": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "d1228a18-3251-4436-9433-5e59c02a7d62",
+  "ox": 0,
+  "oy": 2,
+  "size": [
+   36,
+   34
+  ]
+ },
+ "hexwife": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "bfee2d9c-9b08-4421-a516-f1c428701a41",
+  "ox": 1,
+  "oy": 2,
+  "size": [
+   38,
+   42
+  ]
+ },
+ "mirehulk": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "0dbb4600-d01f-4ffd-b2e4-74dfad42699b",
+  "ox": 0,
+  "oy": 2,
+  "size": [
+   44,
+   42
+  ]
+ },
+ "longbowman": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "be6d0500-2785-48f8-b5bc-4b7be347cc15",
+  "ox": 1,
+  "oy": 0,
+  "size": [
+   42,
+   44
+  ]
+ },
+ "lancer": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "563b72f9-74f6-4542-ba3d-54447ec60d5c",
+  "ox": 1,
+  "oy": 0,
+  "size": [
+   38,
+   48
+  ]
+ },
+ "warpriest": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "4cb9856c-872f-4d58-8b42-31dce0705fd8",
+  "ox": 1,
+  "oy": 0,
+  "size": [
+   38,
+   44
+  ]
+ },
+ "torchimp": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "6617b25a-d3f2-4dc1-b3d6-9822bdcb9bd3",
+  "ox": 1,
+  "oy": 2,
+  "size": [
+   42,
+   46
+  ]
+ },
+ "ironcaptain": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "d07d5c4a-450c-4764-8f40-4277c80d88c6",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   44,
+   48
+  ]
+ },
+ "monk": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "093bc791-7d5c-4cf6-bb74-d472a326fcb2",
+  "ox": 1,
+  "oy": 2,
+  "size": [
+   34,
+   42
+  ]
+ },
+ "icearcher": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "193b411d-1f7b-452d-bf81-214e66983d67",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   44,
+   44
+  ]
+ },
+ "snowlantern": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "62a06d25-2fb5-413d-bae8-30a2151be3fc",
+  "ox": 1,
+  "oy": 2,
+  "size": [
+   38,
+   42
+  ]
+ },
+ "stoneabbot": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "5e170455-f843-454f-9cea-5dbb1dda0eb2",
+  "ox": 1,
+  "oy": 2,
+  "size": [
+   26,
+   46
+  ]
+ },
+ "gunman": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "b2f7ebc0-9d2e-4da2-8c9d-c7c5ee030ede",
+  "ox": 1,
+  "oy": 2,
+  "size": [
+   46,
+   42
+  ]
+ },
+ "cutthroat": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "e2d8d295-4ffe-4718-94b9-9e0ade220b22",
+  "ox": 1,
+  "oy": 0,
+  "size": [
+   38,
+   40
+  ]
+ },
+ "crow": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "5eb3a1a7-6767-4da5-9b49-74d42cdd0675",
+  "ox": 1,
+  "oy": 0,
+  "size": [
+   42,
+   36
+  ]
+ },
+ "chimneyimp": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "4e025d57-f0ca-4464-a916-81361ec7e9fc",
+  "ox": 1,
+  "oy": 2,
+  "size": [
+   34,
+   38
+  ]
+ },
+ "enforcer": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "067fd6f8-74f5-4f88-a08e-f0e063f03146",
+  "ox": 1,
+  "oy": 0,
+  "size": [
+   42,
+   40
+  ]
+ },
+ "voidling": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "caf35e32-803e-48fd-b1d7-aae8a72b00d0",
+  "ox": 0,
+  "oy": 2,
+  "size": [
+   44,
+   34
+  ]
+ },
+ "shadeknight": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "f212e1bd-fcae-44ab-a00d-f5a43d6451a9",
+  "ox": 1,
+  "oy": 2,
+  "size": [
+   38,
+   42
+  ]
+ },
+ "eclipsed": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "cae4fe70-13ce-477d-9e3b-b6d2d68092bf",
+  "ox": 1,
+  "oy": 2,
+  "size": [
+   38,
+   42
+  ]
+ },
+ "herald": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "6c6590bd-8e4c-4aa9-b9f3-a8fa6d5b082f",
+  "ox": 0,
+  "oy": 2,
+  "size": [
+   44,
+   38
+  ]
+ },
+ "inkblot": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "628cef09-6109-441d-ac51-f8c5217f6785",
+  "ox": 1,
+  "oy": 0,
+  "size": [
+   42,
+   36
+  ]
+ },
+ "quillbat": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "57a5c13f-d711-4e60-b489-a0e562e4c2fe",
+  "ox": 0,
+  "oy": 2,
+  "size": [
+   44,
+   34
+  ]
+ },
+ "scrawler": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "15228dba-bc4e-4f10-8867-4c039a4d3570",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   36,
+   44
+  ]
+ },
+ "smudge": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "990d9908-d392-4b7f-b5b4-570c7f01768c",
+  "ox": 0,
+  "oy": 0,
+  "size": [
+   40,
+   40
+  ]
+ },
+ "inkhound": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "52381d94-6a4c-4e05-b739-ed382c875af7",
+  "ox": 1,
+  "oy": 0,
+  "size": [
+   42,
+   40
+  ]
+ },
+ "inkwidow": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "271faf0c-b4ff-49d4-b75b-3ecd0d396ad3",
+  "ox": 0,
+  "oy": 2,
+  "size": [
+   44,
+   38
+  ]
+ },
+ "papercut": {
+  "kind": "mob",
+  "stage": "object",
+  "id": "9576fa87-2138-40c8-adeb-7caaf6690669",
+  "ox": 0,
+  "oy": 2,
+  "size": [
+   36,
+   34
+  ]
  }
 }

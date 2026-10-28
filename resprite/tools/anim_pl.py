@@ -12,11 +12,12 @@ from PIL import Image
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 HD = os.path.join(ROOT, "tiny_biggot_godot", "assets", "graphics_hd")
 OUT = os.path.join(ROOT, "resprite", "pixellab", "anim")
-INFLIGHT = 4   # objects moving at once (two jobs each; PixelLab takes 8)
+INFLIGHT = 7   # objects moving at once (PixelLab takes 8 jobs; a monster has one, a hero or boss two)
 
 MOVES = {
     "hero": {"walk": "walking forward, a lively walk cycle, legs stepping, arms swinging a little",
              "attack": "a quick attack strike, a short lunge with the arms, small motion"},
+    "mob": {"walk": "walking forward, a lively bouncy walk cycle (flapping or hovering if it flies)"},
     "boss": {"walk": "moving forward menacingly, a heavy walk cycle (hovering up and down if it flies)",
              "attack": "a big powerful attack: a strong wind-up, then a fierce strike or slam"},
 }
@@ -74,7 +75,7 @@ def main():
                 if "status: completed" not in t:
                     continue
                 ok = True
-                for mv in ["walk", "attack"]:
+                for mv in MOVES[s["kind"]]:
                     if mv in s.get("asked", []):
                         continue
                     r = pl.call("animate_object", {"object_id": s["id"], "animation_description": MOVES[s["kind"]][mv], "frame_count": 6})
@@ -92,7 +93,7 @@ def main():
                 t = pl.texts(pl.call("get_object", {"object_id": s["id"], "include_preview": False}))
                 if "pending jobs" in t:
                     continue
-                if t.count("frames:") < 2:
+                if t.count("frames:") < len(MOVES[s["kind"]]):
                     print("a move failed", n, t[-400:], flush=True)
                     s["stage"] = "failed"
                     save()
@@ -108,11 +109,14 @@ def main():
                     if row["type"] != "animation":
                         continue
                     mv = "walk" if row["animation"].startswith(MOVES[s["kind"]]["walk"][:40]) else "attack"
+                    if mv not in MOVES[s["kind"]]:
+                        continue
                     rows[mv] = [sheet.crop((i * cw + s["ox"], row["row"] * ch + s["oy"], i * cw + s["ox"] + w, row["row"] * ch + s["oy"] + h))
                                 for i in range(row["frame_count"])]
-                k = min(len(rows["walk"]), len(rows["attack"]))
-                strip = Image.new("RGBA", (w * k, h * 2), (0, 0, 0, 0))
-                for r, mv in enumerate(["walk", "attack"]):
+                mvs = [m for m in ["walk", "attack"] if m in rows]
+                k = min(len(rows[m]) for m in mvs)
+                strip = Image.new("RGBA", (w * k, h * len(mvs)), (0, 0, 0, 0))
+                for r, mv in enumerate(mvs):
                     for i in range(k):
                         strip.alpha_composite(rows[mv][i], (i * w, r * h))
                 strip.save(os.path.join(OUT, "sheets", n + ".png"))

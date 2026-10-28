@@ -1120,7 +1120,7 @@ func _motes(ci: CanvasItem, t: float) -> void:
 func _lean(e: Enemy) -> float:
 	if not GameData.rogues() or e.stun_t > 0.0 or e.d.get("ai", "") == "slime" or absf(e.vx) + absf(e.vy) < 4.0:
 		return 0.0
-	return sin(e.anim * 11.0 + float(e.uid % 5)) * 0.09
+	return sin(e.anim * 11.0 + float(e.uid % 5)) * (0.03 if Moves.count(e.d["sprite"]) > 0 else 0.09)   # (less for one that walks)
 
 func _draw_enemy(ci: CanvasItem, e: Enemy, t: float, line := Color(0, 0, 0, 0)) -> void:
 	if e.spawn_t > 0:
@@ -1129,6 +1129,8 @@ func _draw_enemy(ci: CanvasItem, e: Enemy, t: float, line := Color(0, 0, 0, 0)) 
 	if boss and e.hidden:
 		return
 	var name := _enemy_sprite(e)
+	if not boss:
+		name = Moves.mob(e, name)   # 67.2: the commonest monsters walk
 	var sc := e.scale * (0.55 if e.shrink_t > 0 else 1.0)   # shrunk by the shrink ray (oddities.gd)
 	var foot := e.y + e.r + (2 if boss else 0)
 	var sx := 1.0
