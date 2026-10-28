@@ -1,5 +1,10 @@
 # Handoff: where the work stands
 
+**28 Oct, IPA 66.6 Lit Rooms** (his "do it gooo", "dont test just push"): 20 wall faces and 51 props
+drawn again on PixelLab (resprite/pixellab/vivid_wp, ~80 generations; about 108 left), carpets
+(WorldView._carpet), glow under your shots, debris chips on hits (Bits.hit). Pushed without local
+tests on his word; the build's own atlas test and 20 s play run on GitHub.
+
 **28 Oct, IPA 66.5 Alive Again** (his references: two videos of a bright colourful game, Runeward and
 Enter the Gungeon pictures): 179 monsters + 170 elites drawn again on PixelLab (resprite/pixellab/
 vivid_mobs, style from his video; mob_pl.py), every place's floor slabs drawn again four places a

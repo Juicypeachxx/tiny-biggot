@@ -1,0 +1,12 @@
+status: completed
+id: 9914d4a1-ee16-45e3-bf40-d86ac1ab7458
+job_id: 9914d4a1-ee16-45e3-bf40-d86ac1ab7458
+frames: 36
+transparent: yes
+asset_id: 8046ecb7-7b8a-5eb2-9d0c-b98a0250d378
+asset_type: image
+asset_status: saved
+gallery: saved to your PixelLab gallery (pixellab.ai/create)
+charged: 15 generations
+download: https://api.pixellab.ai/mcp/images/9914d4a1-ee16-45e3-bf40-d86ac1ab7458/download?index=0 ... ?index=35
+(32 more frames not shown — fetch them from the download URLs above)

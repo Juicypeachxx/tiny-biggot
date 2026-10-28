@@ -368,6 +368,7 @@ func _paint_place(ci: CanvasItem, room: Room, kit_name: String) -> void:
 			var v := rng.int_range(0, 7) if roll < 0.8 else (rng.int_range(8, 11) if roll < 0.94 else rng.int_range(12, 15))
 			ci.draw_texture_rect_region(slabs, Rect2(c * ts, r * ts, ts, ts), Rect2((v % 4) * ts, (v / 4) * ts, ts, ts))
 	_calm_floor(ci)
+	_carpet(ci, room)
 	var shade := Color(0.03, 0.01, 0.05)
 	for i in 12:     # deep under the top wall (half a pixel at a time: the picture's own pixels)
 		shade.a = 0.62 * pow(1.0 - i / 12.0, 1.6)
@@ -425,6 +426,37 @@ func _rim(ci: CanvasItem) -> void:
 		_stone(ci, x0 - 2.5, y, 2.5, 4.0)
 		_stone(ci, x1, y, 2.5, 4.0)
 		y += 5.0
+
+## 66.6 (his Gungeon and Runeward pictures: patterned carpets): half the rooms that are not special lay
+## a carpet in their middle, deep red, blue or green with a gold border and a small diamond pattern.
+const CARPETS := [["#6e1a24", "#4a0f18", "#d8a84a"], ["#1f2a5a", "#141c40", "#c8a050"], ["#1e4a32", "#123222", "#d0b060"]]
+func _carpet(ci: CanvasItem, room: Room) -> void:
+	if not GameData.rogues() or room.type in ["boss", "camp", "barn", "shop", "secret"]:
+		return
+	var rng := SeedRng.new(room.seed_value ^ 0x2545f491)
+	if rng.next_f() < 0.5:
+		return
+	var cs: Array = CARPETS[rng.int_range(0, CARPETS.size() - 1)]
+	var main := TB.c(cs[0])
+	var dark := TB.c(cs[1])
+	var gold := TB.c(cs[2])
+	var ts := TB.TS
+	var w := rng.int_range(8, 14) * ts
+	var h := rng.int_range(5, 8) * ts
+	var x := TB.IX0 * ts + (TB.IW * ts - w) / 2
+	var y := TB.IY0 * ts + (TB.IH * ts - h) / 2
+	ci.draw_rect(Rect2(x - 1, y - 1, w + 2, h + 2), Color(0, 0, 0, 0.45))
+	ci.draw_rect(Rect2(x, y, w, h), main)
+	ci.draw_rect(Rect2(x + 2, y + 2, w - 4, h - 4), gold, false, 1.0)
+	ci.draw_rect(Rect2(x + 4, y + 4, w - 8, h - 8), dark, false, 1.0)
+	var yy := y + 9
+	while yy < y + h - 8:
+		var xx := x + 9 + (6 if int((yy - y) / 6) % 2 == 1 else 0)
+		while xx < x + w - 8:
+			ci.draw_rect(Rect2(xx, yy, 1.5, 1.5), dark)
+			ci.draw_rect(Rect2(xx + 0.5, yy + 0.5, 0.5, 0.5), gold)
+			xx += 12
+		yy += 6
 
 func _stone(ci: CanvasItem, x: float, y: float, w: float, h: float) -> void:
 	ci.draw_rect(Rect2(x - 0.5, y - 0.5, w + 1.0, h + 1.0), RIM_GAP)
@@ -1339,6 +1371,10 @@ func _paint_glow(ci: CanvasItem) -> void:
 		Afx.draw_glow(ci)
 		if GameData.rogues():
 			EBullets.draw_glow(ci)   # 66.5
+			var gs := Img.t("glow_white")   # 66.6: your shots glow in their colour too (his Gungeon picture)
+			for b: PBullet in G.pbullets:
+				var c := Afx.shot_col(b.kind, b.tag)
+				ci.draw_texture_rect(gs, Rect2(roundf(b.x) - 8, roundf(b.y) - 8, 16, 16), false, Color(c.r, c.g, c.b, 0.5))
 
 # ---------- z 1950: ability effects ----------
 func _paint_vfx(ci: CanvasItem) -> void:

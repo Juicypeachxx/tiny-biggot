@@ -1,0 +1,87 @@
+{
+ "WL01": [
+  "kit0",
+  "kit1",
+  "kit2",
+  "kit3"
+ ],
+ "WL02": [
+  "kit4",
+  "kit5",
+  "kit6",
+  "kit7"
+ ],
+ "WL03": [
+  "kit9",
+  "kit10",
+  "kit11",
+  "kit12"
+ ],
+ "WL04": [
+  "kit13",
+  "kit14",
+  "kit15",
+  "kit16"
+ ],
+ "WL05": [
+  "kit17",
+  "kit18",
+  "kit19",
+  "kit19"
+ ],
+ "PR01": [
+  "kit0_bonepile",
+  "kit0_coffin",
+  "kit0_candles",
+  "kit0_chains",
+  "kit0_skullniche",
+  "kit1_stump",
+  "kit1_shroom",
+  "kit1_mossrock",
+  "kit1_vines",
+  "kit1_glowshroom",
+  "kit2_shelf",
+  "kit2_bookpile",
+  "kit2_bust",
+  "kit2_books",
+  "kit2_window",
+  "kit3_anvil",
+  "kit3_brazier",
+  "kit3_ironbarrel",
+  "kit3_vent",
+  "kit3_chains",
+  "kit4_icecrystal",
+  "kit4_frostpillar",
+  "kit4_strongbox",
+  "kit4_chains",
+  "kit5_column",
+  "kit5_candelabra"
+ ],
+ "PR02": [
+  "kit5_armor",
+  "kit5_portrait",
+  "kit6_lamppost",
+  "kit6_haybale",
+  "kit6_rainbarrel",
+  "kit6_window",
+  "kit6_vines",
+  "kit7_sandbags",
+  "kit7_stakes",
+  "kit7_wagonwheel",
+  "kit7_racks",
+  "kit8_stonelantern",
+  "kit8_prayerbell",
+  "kit8_monkstatue",
+  "kit8_chains",
+  "kit9_chimney",
+  "kit9_gargoyle",
+  "kit9_weathervane",
+  "kit9_window",
+  "kit9_vent",
+  "kit10_obelisk",
+  "kit10_monolith",
+  "kit10_shard",
+  "kit10_eye",
+  "kit10_chains"
+ ]
+}

@@ -159,6 +159,11 @@ static func hit(x: float, y: float, tag: String) -> void:
 	var cols: Array = Weapons.TAG_COLS.get(tag, Weapons.TAG_COLS["core"])
 	var light := TB.c(cols[2])
 	_spray(K_STREAK, x, y, 3, 170.0, _rng.randf() * TAU, TAU, 0.18, light)
+	for i in 2:   # 66.6 (his Runeward pictures: debris everywhere): chips thrown off the foe, falling to the floor
+		var a := _rng.randf() * TAU
+		var v := _rng.randf_range(40.0, 90.0)
+		_add(K_CHUNK, x, y, 1.5, cos(a) * v, sin(a) * v * 0.6 - 30.0, _rng.randf_range(90.0, 140.0),
+			_rng.randf_range(0.6, 1.0), C_STONE[i % 3], 2)
 	var f = FAMILY.get(tag)
 	if f != null:
 		_flavour(f[0], x, y, f[1], TB.c(cols[0]), 3.0)
