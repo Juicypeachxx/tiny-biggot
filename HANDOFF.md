@@ -1,5 +1,7 @@
 # Handoff: where the work stands
 
+**28 Oct, IPAs 67.2-67.5:** walk animations for the 40 commonest monsters (resprite/tools/anim_pl.py kind \"mob\", strips in assets/graphics_hd/anim; scripts/render/moves.gd plays them while a normal foe moves; bosses keep their pictures). PixelLab nearly spent (about 8 left until 26 Nov). After the refill: heroes chunky + armour pieces, stage looks, the other monsters' walks.
+
 **28 Oct, IPA 67.1 Dust and Flash:** WorldView._motes (drifting dust), a glowing muzzle flash (_paint_glow), Bits.dust at the hero's steps (Juice.update). 8 s play without errors.
 
 **28 Oct, IPA 66.9 Big Kick** (his "add shake add all you can do to match references"): Juice.jolt (a look-only screen kick on kills, hits and shots, option \"shake\"), Bits.debris on kills, Bits.casing on shots, Weather.flash on kills. A 8 s play without errors.

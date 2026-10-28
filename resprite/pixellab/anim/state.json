@@ -2264,7 +2264,7 @@
  },
  "inkhound": {
   "kind": "mob",
-  "stage": "moving",
+  "stage": "done",
   "id": "52381d94-6a4c-4e05-b739-ed382c875af7",
   "ox": 1,
   "oy": 0,
@@ -2274,7 +2274,8 @@
   ],
   "asked": [
    "walk"
-  ]
+  ],
+  "frames": 7
  },
  "inkwidow": {
   "kind": "mob",

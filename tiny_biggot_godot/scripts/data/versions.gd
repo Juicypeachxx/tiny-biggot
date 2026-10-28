@@ -8,6 +8,7 @@ extends RefCounted
 ## with no quote or | inside, and add the new version's line at the top in its [ipa] commit.
 
 const LIST := [
+	"67.5|All Forty Walk|All 40 of the commonest monsters walk with real walking animation",
 	"67.4|Marching Horde|36 of the commonest monsters walk with real walking animation",
 	"67.3|Walking Crowd|31 of the commonest monsters walk with real walking animation",
 	"67.2|First Steps|The first monsters walk with real walking animation (more in the next build)",
