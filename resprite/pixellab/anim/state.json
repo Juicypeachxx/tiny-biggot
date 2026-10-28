@@ -2024,7 +2024,7 @@
  },
  "icearcher": {
   "kind": "mob",
-  "stage": "moving",
+  "stage": "done",
   "id": "193b411d-1f7b-452d-bf81-214e66983d67",
   "ox": 0,
   "oy": 0,
@@ -2034,11 +2034,12 @@
   ],
   "asked": [
    "walk"
-  ]
+  ],
+  "frames": 7
  },
  "snowlantern": {
   "kind": "mob",
-  "stage": "moving",
+  "stage": "done",
   "id": "62a06d25-2fb5-413d-bae8-30a2151be3fc",
   "ox": 1,
   "oy": 2,
@@ -2048,11 +2049,12 @@
   ],
   "asked": [
    "walk"
-  ]
+  ],
+  "frames": 7
  },
  "stoneabbot": {
   "kind": "mob",
-  "stage": "moving",
+  "stage": "done",
   "id": "5e170455-f843-454f-9cea-5dbb1dda0eb2",
   "ox": 1,
   "oy": 2,
@@ -2062,11 +2064,12 @@
   ],
   "asked": [
    "walk"
-  ]
+  ],
+  "frames": 7
  },
  "gunman": {
   "kind": "mob",
-  "stage": "moving",
+  "stage": "done",
   "id": "b2f7ebc0-9d2e-4da2-8c9d-c7c5ee030ede",
   "ox": 1,
   "oy": 2,
@@ -2076,11 +2079,12 @@
   ],
   "asked": [
    "walk"
-  ]
+  ],
+  "frames": 7
  },
  "cutthroat": {
   "kind": "mob",
-  "stage": "moving",
+  "stage": "done",
   "id": "e2d8d295-4ffe-4718-94b9-9e0ade220b22",
   "ox": 1,
   "oy": 0,
@@ -2090,116 +2094,152 @@
   ],
   "asked": [
    "walk"
-  ]
+  ],
+  "frames": 7
  },
  "crow": {
   "kind": "mob",
-  "stage": "object",
+  "stage": "done",
   "id": "5eb3a1a7-6767-4da5-9b49-74d42cdd0675",
   "ox": 1,
   "oy": 0,
   "size": [
    42,
    36
-  ]
+  ],
+  "asked": [
+   "walk"
+  ],
+  "frames": 7
  },
  "chimneyimp": {
   "kind": "mob",
-  "stage": "object",
+  "stage": "done",
   "id": "4e025d57-f0ca-4464-a916-81361ec7e9fc",
   "ox": 1,
   "oy": 2,
   "size": [
    34,
    38
-  ]
+  ],
+  "asked": [
+   "walk"
+  ],
+  "frames": 7
  },
  "enforcer": {
   "kind": "mob",
-  "stage": "object",
+  "stage": "done",
   "id": "067fd6f8-74f5-4f88-a08e-f0e063f03146",
   "ox": 1,
   "oy": 0,
   "size": [
    42,
    40
-  ]
+  ],
+  "asked": [
+   "walk"
+  ],
+  "frames": 7
  },
  "voidling": {
   "kind": "mob",
-  "stage": "object",
+  "stage": "done",
   "id": "caf35e32-803e-48fd-b1d7-aae8a72b00d0",
   "ox": 0,
   "oy": 2,
   "size": [
    44,
    34
-  ]
+  ],
+  "asked": [
+   "walk"
+  ],
+  "frames": 7
  },
  "shadeknight": {
   "kind": "mob",
-  "stage": "object",
+  "stage": "moving",
   "id": "f212e1bd-fcae-44ab-a00d-f5a43d6451a9",
   "ox": 1,
   "oy": 2,
   "size": [
    38,
    42
+  ],
+  "asked": [
+   "walk"
   ]
  },
  "eclipsed": {
   "kind": "mob",
-  "stage": "object",
+  "stage": "moving",
   "id": "cae4fe70-13ce-477d-9e3b-b6d2d68092bf",
   "ox": 1,
   "oy": 2,
   "size": [
    38,
    42
+  ],
+  "asked": [
+   "walk"
   ]
  },
  "herald": {
   "kind": "mob",
-  "stage": "object",
+  "stage": "moving",
   "id": "6c6590bd-8e4c-4aa9-b9f3-a8fa6d5b082f",
   "ox": 0,
   "oy": 2,
   "size": [
    44,
    38
+  ],
+  "asked": [
+   "walk"
   ]
  },
  "inkblot": {
   "kind": "mob",
-  "stage": "object",
+  "stage": "done",
   "id": "628cef09-6109-441d-ac51-f8c5217f6785",
   "ox": 1,
   "oy": 0,
   "size": [
    42,
    36
-  ]
+  ],
+  "asked": [
+   "walk"
+  ],
+  "frames": 7
  },
  "quillbat": {
   "kind": "mob",
-  "stage": "object",
+  "stage": "moving",
   "id": "57a5c13f-d711-4e60-b489-a0e562e4c2fe",
   "ox": 0,
   "oy": 2,
   "size": [
    44,
    34
+  ],
+  "asked": [
+   "walk"
   ]
  },
  "scrawler": {
   "kind": "mob",
-  "stage": "object",
+  "stage": "moving",
   "id": "15228dba-bc4e-4f10-8867-4c039a4d3570",
   "ox": 0,
   "oy": 0,
   "size": [
    36,
    44
+  ],
+  "asked": [
+   "walk"
   ]
  },
  "smudge": {
