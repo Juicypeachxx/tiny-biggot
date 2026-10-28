@@ -1,5 +1,7 @@
 # Handoff: where the work stands
 
+**28 Oct, IPA 66.8 Every Wall:** the 23 special places' wall faces drawn again (vivid_wp WS01-06, 60 generations; about 48 left).
+
 **28 Oct, IPA 66.7 Glow Trails:** shot trails (world_view.gd _paint_glow), the first four shots light
 the floor (Weather.lights), foes lean as they walk (WorldView._lean). Next from his references: walls
 of the 23 special places (~60 generations), heroes and their armour pieces and the monsters' stage

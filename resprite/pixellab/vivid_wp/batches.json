@@ -83,5 +83,41 @@
   "kit10_shard",
   "kit10_eye",
   "kit10_chains"
+ ],
+ "WS01": [
+  "kit_barn",
+  "kit_bastion",
+  "kit_brand",
+  "kit_brazil"
+ ],
+ "WS02": [
+  "kit_burb",
+  "kit_cathedral",
+  "kit_dust",
+  "kit_endtimes"
+ ],
+ "WS03": [
+  "kit_fog",
+  "kit_gaol",
+  "kit_heaven",
+  "kit_heist"
+ ],
+ "WS04": [
+  "kit_hell",
+  "kit_neon",
+  "kit_parlour",
+  "kit_pasture"
+ ],
+ "WS05": [
+  "kit_redact",
+  "kit_rimefrost",
+  "kit_seam",
+  "kit_senate"
+ ],
+ "WS06": [
+  "kit_skyreach",
+  "kit_spire",
+  "kit_streets",
+  "kit_streets"
  ]
 }
