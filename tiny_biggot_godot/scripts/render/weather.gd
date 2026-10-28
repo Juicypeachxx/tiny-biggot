@@ -99,15 +99,15 @@ static func dark_level() -> float:
 ## boring, i want the vibe like on this picture"): every dungeon room is a little dim and warm at its
 ## edges, lit in pools round the hero, the torches, fires and glowing things (this same dark layer,
 ## lighter and warm), and its floor is darker and calmer (WorldView._calm_floor), so the heroes, foes
-## and shots stand out from it. Only the look. Off unless the option "mood" is set: the same day he
-## sent videos of a bright, very colourful game ("like this the same vibe"), so Grade is the default.
-const MOOD := 0.36
+## and shots stand out from it. Only the look; --no-mood turns it off. Lighter (0.24) since his
+## Gungeon and Runeward pictures: lit rooms in the dark, bright shots, the floors drawn rich again.
+const MOOD := 0.24
 const MOOD_COL := Color(0.07, 0.035, 0.05, 1.0)
 const NIGHT_COL := Color(0.05, 0.06, 0.16, 1.0)
 
 static func mood() -> bool:
 	var room := G.room
-	return on() and room != null and not room.type in ["camp", "barn"] and Meta.opts.get("mood", false)
+	return on() and room != null and not room.type in ["camp", "barn"] and Meta.opts.get("mood", true) and not DebugArgs.has("no-mood")
 
 ## The floor's sound when the weather has one (Ambience.here).
 static func sound() -> String:

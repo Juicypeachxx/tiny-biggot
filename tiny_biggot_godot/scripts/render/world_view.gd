@@ -392,15 +392,50 @@ func _paint_place(ci: CanvasItem, room: Room, kit_name: String) -> void:
 	var pil := Img.t(kit_name + "_pilaster")
 	for k in panels.size() + 1:
 		ci.draw_texture(pil, Vector2(clampf(k * 4 * ts - ts / 2.0, 0.0, TB.SW - ts), 0.0))
+	_rim(ci)
 	for i in 20:     # the wall darker towards its top, under the HUD (its icons stay easy to read)
 		shade.a = 0.5 * (1.0 - i / 20.0)
 		ci.draw_rect(Rect2(0, i * 1.0, TB.SW, 1.0), shade)
+
+## 66.5 (his pictures, 28 Oct: Enter the Gungeon and Runeward): the side and bottom walls sink into
+## the dark outside the room, and a rim of pale rounded stones runs round the floor's edge, so a room
+## reads as a lit place in the dark. Drawn once with the room (the floor bake), its own pixels.
+const RIM_LIGHT := Color(0.93, 0.86, 0.80)
+const RIM_SHADE := Color(0.62, 0.52, 0.50)
+const RIM_GAP := Color(0.10, 0.07, 0.10)
+const OUTSIDE := Color(0.03, 0.02, 0.05, 0.72)
+func _rim(ci: CanvasItem) -> void:
+	if not GameData.rogues():
+		return
+	var ts := TB.TS
+	var x0 := TB.IX0 * ts
+	var y0 := TB.IY0 * ts
+	var x1 := (TB.IX0 + TB.IW) * ts
+	var y1 := (TB.IY0 + TB.IH) * ts
+	ci.draw_rect(Rect2(0, y0, x0, TB.SH - y0), OUTSIDE)
+	ci.draw_rect(Rect2(x1, y0, TB.SW - x1, TB.SH - y0), OUTSIDE)
+	ci.draw_rect(Rect2(x0, y1, x1 - x0, TB.SH - y1), OUTSIDE)
+	# the stones: 4 x 2.5 game pixels, a dark gap between, lit on top
+	var x := float(x0) - 2.0
+	while x < x1 + 2.0:
+		_stone(ci, x, y1, 4.0, 2.5)
+		x += 5.0
+	var y := float(y0) + 1.0
+	while y < y1 + 2.0:
+		_stone(ci, x0 - 2.5, y, 2.5, 4.0)
+		_stone(ci, x1, y, 2.5, 4.0)
+		y += 5.0
+
+func _stone(ci: CanvasItem, x: float, y: float, w: float, h: float) -> void:
+	ci.draw_rect(Rect2(x - 0.5, y - 0.5, w + 1.0, h + 1.0), RIM_GAP)
+	ci.draw_rect(Rect2(x, y, w, h), RIM_SHADE)
+	ci.draw_rect(Rect2(x, y, w - 0.5, h - 1.0), RIM_LIGHT)
 
 ## 66.5 (Weather.mood): the floor's slabs pulled towards a deep warm brown, darker and with half
 ## their contrast, so what stands on them stands out (as on the floors of the game he showed).
 const FLOOR_CALM := Color(0.13, 0.065, 0.05, 0.5)
 func _calm_floor(ci: CanvasItem) -> void:
-	if Weather.mood():
+	if Weather.mood() and Meta.opts.get("calm_floor", false):   # (off: the floors are drawn rich and dark since 66.5)
 		ci.draw_rect(Rect2(TB.IX0 * TB.TS, TB.IY0 * TB.TS, TB.IW * TB.TS, TB.IH * TB.TS), FLOOR_CALM)
 
 ## 10.5 (his ask, 6 Oct, from his trailer clips: an option, the usual look stays the default): black
@@ -953,6 +988,10 @@ func _draw_player(ci: CanvasItem, p: Player, t: float) -> void:
 	var zx := 1.0
 	var zy := 0.85 if p.dodge_t > 0 else 1.0
 	var py := p.y + 6 + bob
+	if GameData.rogues() and p.moving and p.dodge_t <= 0:   # 66.5: a little bounce in the hero's step
+		var q := absf(sin(p.walk_t * 11.0)) * 0.07
+		zx = 1.0 + q * 0.5
+		zy = 1.0 - q * 0.5
 	if airborne:
 		# A leap: stretched on the way up, tucked in on the way down, lifted off its shadow.
 		var rising := p.dash_t > p.leap_max * 0.5
@@ -1050,6 +1089,11 @@ func _draw_enemy(ci: CanvasItem, e: Enemy, t: float, line := Color(0, 0, 0, 0)) 
 			sx = 1 + q
 			sy = 1 - q
 	var bob := roundf(sin(t * 2) * 2) if boss else (roundf(sin(e.anim * 5) * 2) - 3 if e.d.get("fly", false) else 0.0)
+	if not boss and GameData.rogues() and e.d.get("ai", "") != "slime" and not e.d.get("fly", false) and e.stun_t <= 0.0 and not e.asleep:
+		# 66.5 (his word: "the aliveness of stages and mobs"): a foe breathes, a little squash and stretch
+		var q := sin(e.anim * 7.0 + float(e.uid % 7)) * 0.06
+		sx = 1.0 - q * 0.6
+		sy = 1.0 + q
 	var flashing := e.flash > 0 or (e.state in [&"aim", &"tele", &"puff"] and floori(t * 16) % 2 == 1)
 	var tint := Color(0, 0, 0, 0)
 	if flashing:
@@ -1293,6 +1337,8 @@ func _paint_glow(ci: CanvasItem) -> void:
 	if Vfx.enabled:
 		Vfx.draw_glow(ci)
 		Afx.draw_glow(ci)
+		if GameData.rogues():
+			EBullets.draw_glow(ci)   # 66.5
 
 # ---------- z 1950: ability effects ----------
 func _paint_vfx(ci: CanvasItem) -> void:

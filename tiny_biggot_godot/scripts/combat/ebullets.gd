@@ -241,6 +241,27 @@ static func _textures() -> void:
 				a.region = Rect2(f * w, 0, w, h)
 			_ftex.append(a)
 
+## 66.5 (his pictures of Enter the Gungeon, 28 Oct: "the collors ... the effects"): a soft halo of each
+## shot's own colour under it, in the additive glow layer, so the foes' shots shine on the floor.
+const GLOW := { "red": "#ff4040", "redBig": "#ff4040", "bone": "#f4ecd8", "water": "#4d9be6", "ice": "#9fe8ff",
+	"iceBig": "#9fe8ff", "spore": "#8fd14f", "dark": "#b45cff", "darkBig": "#b45cff", "fire": "#ff9a3c",
+	"fireBig": "#ff9a3c", "cyan": "#5ff0ff", "page": "#f2e6c8" }
+static var _glow_cols: Array[Color] = []
+
+static func draw_glow(ci: CanvasItem) -> void:
+	if n == 0:
+		return
+	if _glow_cols.is_empty():
+		for k in SPRITES:
+			var c := TB.c(GLOW.get(k, "#ffffff"))
+			_glow_cols.append(Color(c.r, c.g, c.b, 0.55))
+	var gw := Img.t("glow_white")
+	for i in n:
+		if blife[i] <= 0:
+			continue
+		var r := 9.0 if SPRITES[bspr[i]].ends_with("Big") else 6.0
+		ci.draw_texture_rect(gw, Rect2(roundf(bx[i] - r), roundf(by[i] - r), r * 2.0, r * 2.0), false, _glow_cols[bspr[i]])
+
 ## One pass over the bullets, one sprite each. Every sprite sits in the same atlas, so the
 ## whole lot is still one batch. With FANCY EFFECTS on each kind is a four-frame animation
 ## (all shots of a kind in step; the kinds out of step with each other); off, the old orbs.

@@ -1674,6 +1674,11 @@ each point); the rest, proposed in the order it would be felt most, with names o
       what we did before resprite was better, now iss all grimmy and not alive and boring, i want
       the vibe like on this picture"): the look must be bright, lively and alive again. First a
       side-by-side (now / before the resprite / a brighter grade) for him to choose.
+      Then (28 Oct) more references (two videos of a bright colourful game, Runeward and Enter the
+      Gungeon pictures: "the collors, the enviroments, the effects, the animation and movment, the
+      aliveness of stages and mobs"; "bosses are good"). Done in IPA 66.5: monsters and elites drawn
+      again (150 generations), all 43 floors drawn again (4 a request, 110), pale stone rims, light
+      pools, glowing foe shots, breathing foes, colour lift. Next: more life (debris, animated props).
     - [ ] 66.2 The heroes' animations: standing, walking, attacking. The full check; IPA 66.
   - [ ] 67 A rage hero (his word: "kinda super saian carachter with rage meter and fitted armor and
         weapons"; our own; ~40).

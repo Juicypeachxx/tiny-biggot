@@ -1,5 +1,13 @@
 # Handoff: where the work stands
 
+**28 Oct, IPA 66.5 Alive Again** (his references: two videos of a bright colourful game, Runeward and
+Enter the Gungeon pictures): 179 monsters + 170 elites drawn again on PixelLab (resprite/pixellab/
+vivid_mobs, style from his video; mob_pl.py), every place's floor slabs drawn again four places a
+request (resprite/tools/place_tiles.py, vivid_places), Grade (scripts/render/grade.gd: saturation 1.3),
+Weather.mood on at 0.24 (warm light pools), WorldView._rim (pale stones round the floor, dark walls
+outside), EBullets.draw_glow, foes breathe and the hero bounces (world_view.gd). Bosses kept (his
+word). PixelLab left: about 188 (refill 26 Nov).
+
 **27 Oct, IPA 66.4 Natural Hold:** big heroes' weapons at 62% of their icon (world_view.gd
 HELD_SCALE), held by the handle. Armour pieces drawn on each hero on PixelLab (442 edits, one a hero
 and shape; resprite/tools/gear_pieces.py cuts them into assets/gear_pieces/<hero>.png; hero_gear.gd
