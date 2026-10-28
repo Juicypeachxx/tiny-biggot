@@ -1101,6 +1101,20 @@ func _draw_boss(ci: CanvasItem, e: Enemy, t: float) -> void:
 		line = TB.c(Afx.BOSS_COL.get(e.boss, "#d8443c"))
 	_draw_enemy(ci, e, t, line)
 
+## 67.1 (his pictures of Enter the Gungeon): specks of dust drifting slowly through the room's light,
+## each on its own slow path (from the clock alone: nothing is kept).
+func _motes(ci: CanvasItem, t: float) -> void:
+	var ts := TB.TS
+	var w := float(TB.IW * ts)
+	var h := float(TB.IH * ts)
+	for i in 22:
+		var a := fmod(float(i) * 0.6180339 * 7.0, 1.0)
+		var b := fmod(float(i) * 0.4142135 * 11.0, 1.0)
+		var x := TB.IX0 * ts + fposmod(a * w + t * (3.0 + 4.0 * b) + sin(t * 0.7 + i) * 6.0, w)
+		var y := TB.IY0 * ts + fposmod(b * h - t * (2.0 + 3.0 * a), h)
+		var al := 0.18 + 0.16 * sin(t * (1.3 + a) + i * 2.0)
+		ci.draw_rect(Rect2(roundf(x), roundf(y), 1, 1), Color(1.0, 0.92, 0.75, al))
+
 ## 66.7 (his word: "the animation and movment, the aliveness of ... mobs"): a foe on the move rocks
 ## from foot to foot, a little lean each step, so it walks even without walking pictures.
 func _lean(e: Enemy) -> float:
@@ -1377,6 +1391,12 @@ func _paint_glow(ci: CanvasItem) -> void:
 		Vfx.draw_glow(ci)
 		Afx.draw_glow(ci)
 		if GameData.rogues():
+			_motes(ci, t)   # 67.1
+			if Juice.recoil > 0.45 and p.weapon != null and p.dodge_t <= 0:   # 67.1: a muzzle flash that lights up
+				var mx := p.x + cos(p.aim_a) * 15.0
+				var my := p.y - 1.0 + sin(p.aim_a) * 9.0
+				var k := Juice.recoil
+				Gfx.sprite(ci, "glow_white", mx - 12 * k, my - 12 * k, 0, 0, k * 0.5, k * 0.5, 0.0, false, 0.9, Color(1.0, 0.85, 0.5, 0.9))
 			EBullets.draw_glow(ci)   # 66.5
 			var gs := Img.t("glow_white")   # 66.6: your shots glow in their colour too (his Gungeon picture)
 			for b: PBullet in G.pbullets:

@@ -163,6 +163,14 @@ static func debris(x: float, y: float, n: int) -> void:
 		_add(K_CHUNK, x, y, 2.0, cos(a) * v, sin(a) * v * 0.6, _rng.randf_range(100.0, 170.0),
 			_rng.randf_range(0.9, 1.6), (C_WOOD if i % 2 == 0 else C_STONE)[i % 3], 2)
 
+## 67.1: a little puff of dust kicked up by a step.
+static func dust(x: float, y: float) -> void:
+	if not Vfx.enabled:
+		return
+	for i in 2:
+		_add(K_MOTE, x + _rng.randf_range(-3.0, 3.0), y, 0.0, _rng.randf_range(-12.0, 12.0), _rng.randf_range(-4.0, 2.0), 8.0,
+			0.35, Color(0.85, 0.78, 0.66, 0.7), 1)
+
 ## 66.9: a spent brass casing kicked out to the side of the shot, bouncing on the floor.
 static func casing(x: float, y: float, aim: float) -> void:
 	if not Vfx.enabled:

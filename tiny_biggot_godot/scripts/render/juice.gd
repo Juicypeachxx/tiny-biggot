@@ -79,6 +79,7 @@ static func reset() -> void:
 ## only the look (the rules' G.shake is apart): a jolt on every kill, a harder one when you are hit,
 ## a nudge with each shot; it fades fast.
 static var jolt := 0.0
+static var _step_t := 0.0
 const BRASS := [Color("#f2c94c"), Color("#c8902c")]
 
 static func kill(e: Enemy, sprite: String) -> void:
@@ -277,6 +278,11 @@ static func update(dt: float, p: Player) -> void:
 	clear_t = maxf(0.0, clear_t - dt)
 	recoil = maxf(0.0, recoil - dt * 9)
 	jolt = maxf(0.0, jolt - dt * 22.0)
+	if p != null and GameData.rogues() and p.moving and p.dodge_t <= 0 and p.leap_max <= 0:   # 67.1: dust at the hero's feet
+		_step_t -= dt
+		if _step_t <= 0.0:
+			_step_t = 0.18
+			Bits.dust(p.x, p.y + 5.0)
 	var fired := false
 	if p != null:
 		# The weapon's cooldown jumps back up exactly when it fires.

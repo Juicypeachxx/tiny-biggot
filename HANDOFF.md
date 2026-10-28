@@ -1,5 +1,7 @@
 # Handoff: where the work stands
 
+**28 Oct, IPA 67.1 Dust and Flash:** WorldView._motes (drifting dust), a glowing muzzle flash (_paint_glow), Bits.dust at the hero's steps (Juice.update). 8 s play without errors.
+
 **28 Oct, IPA 66.9 Big Kick** (his "add shake add all you can do to match references"): Juice.jolt (a look-only screen kick on kills, hits and shots, option \"shake\"), Bits.debris on kills, Bits.casing on shots, Weather.flash on kills. A 8 s play without errors.
 
 **28 Oct, IPA 66.8 Every Wall:** the 23 special places' wall faces drawn again (vivid_wp WS01-06, 60 generations; about 48 left).
