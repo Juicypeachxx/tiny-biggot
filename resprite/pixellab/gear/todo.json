@@ -1,0 +1,3483 @@
+{
+ "g_ember_hood": {
+  "id": "ember_hood",
+  "name": "EMBERWEAVE HOOD",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "pyre"
+  ],
+  "shape": "hood",
+  "sprite": "g_ember_hood"
+ },
+ "g_ember_robe": {
+  "id": "ember_robe",
+  "name": "EMBERWEAVE ROBE",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "pyre"
+  ],
+  "shape": "robe",
+  "sprite": "g_ember_robe"
+ },
+ "g_ember_boots": {
+  "id": "ember_boots",
+  "name": "EMBERWEAVE TREADS",
+  "slot": "feet",
+  "rarity": "rare",
+  "tags": [
+   "pyre"
+  ],
+  "shape": "boots",
+  "sprite": "g_ember_boots"
+ },
+ "g_ember_ring": {
+  "id": "ember_ring",
+  "name": "EMBERWEAVE BAND",
+  "slot": "trinket",
+  "rarity": "epic",
+  "tags": [
+   "pyre"
+  ],
+  "shape": "ring",
+  "sprite": "g_ember_ring"
+ },
+ "g_frost_helm": {
+  "id": "frost_helm",
+  "name": "HOARFROST CROWN",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "frost"
+  ],
+  "shape": "crown",
+  "sprite": "g_frost_helm"
+ },
+ "g_frost_plate": {
+  "id": "frost_plate",
+  "name": "HOARFROST PLATE",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "frost"
+  ],
+  "shape": "plate",
+  "sprite": "g_frost_plate"
+ },
+ "g_frost_boots": {
+  "id": "frost_boots",
+  "name": "HOARFROST GREAVES",
+  "slot": "feet",
+  "rarity": "rare",
+  "tags": [
+   "frost"
+  ],
+  "shape": "greaves",
+  "sprite": "g_frost_boots"
+ },
+ "g_frost_amulet": {
+  "id": "frost_amulet",
+  "name": "HOARFROST LOCKET",
+  "slot": "trinket",
+  "rarity": "epic",
+  "tags": [
+   "frost"
+  ],
+  "shape": "amulet",
+  "sprite": "g_frost_amulet"
+ },
+ "g_plague_mask": {
+  "id": "plague_mask",
+  "name": "PLAGUE DOCTOR'S MASK",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "venom"
+  ],
+  "shape": "mask",
+  "sprite": "g_plague_mask"
+ },
+ "g_plague_coat": {
+  "id": "plague_coat",
+  "name": "PLAGUE DOCTOR'S COAT",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "venom"
+  ],
+  "shape": "cloak",
+  "sprite": "g_plague_coat"
+ },
+ "g_plague_boots": {
+  "id": "plague_boots",
+  "name": "PLAGUE DOCTOR'S BOOTS",
+  "slot": "feet",
+  "rarity": "rare",
+  "tags": [
+   "venom"
+  ],
+  "shape": "boots",
+  "sprite": "g_plague_boots"
+ },
+ "g_plague_censer": {
+  "id": "plague_censer",
+  "name": "PLAGUE CENSER",
+  "slot": "trinket",
+  "rarity": "epic",
+  "tags": [
+   "venom"
+  ],
+  "shape": "amulet",
+  "sprite": "g_plague_censer"
+ },
+ "g_thunder_helm": {
+  "id": "thunder_helm",
+  "name": "THUNDERBORN HELM",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "storm"
+  ],
+  "shape": "helm",
+  "sprite": "g_thunder_helm"
+ },
+ "g_thunder_mail": {
+  "id": "thunder_mail",
+  "name": "THUNDERBORN MAIL",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "storm"
+  ],
+  "shape": "plate",
+  "sprite": "g_thunder_mail"
+ },
+ "g_thunder_boots": {
+  "id": "thunder_boots",
+  "name": "THUNDERBORN BOOTS",
+  "slot": "feet",
+  "rarity": "rare",
+  "tags": [
+   "storm"
+  ],
+  "shape": "boots",
+  "sprite": "g_thunder_boots"
+ },
+ "g_thunder_ring": {
+  "id": "thunder_ring",
+  "name": "THUNDERBORN SIGNET",
+  "slot": "trinket",
+  "rarity": "epic",
+  "tags": [
+   "storm"
+  ],
+  "shape": "ring",
+  "sprite": "g_thunder_ring"
+ },
+ "g_butcher_cap": {
+  "id": "butcher_cap",
+  "name": "BUTCHER'S CAP",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "blood"
+  ],
+  "shape": "hat",
+  "sprite": "g_butcher_cap"
+ },
+ "g_butcher_apron": {
+  "id": "butcher_apron",
+  "name": "BUTCHER'S APRON",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "blood"
+  ],
+  "shape": "leather",
+  "sprite": "g_butcher_apron"
+ },
+ "g_butcher_boots": {
+  "id": "butcher_boots",
+  "name": "BUTCHER'S CLOGS",
+  "slot": "feet",
+  "rarity": "rare",
+  "tags": [
+   "blood"
+  ],
+  "shape": "boots",
+  "sprite": "g_butcher_boots"
+ },
+ "g_butcher_hook": {
+  "id": "butcher_hook",
+  "name": "BUTCHER'S HOOK",
+  "slot": "trinket",
+  "rarity": "epic",
+  "tags": [
+   "blood"
+  ],
+  "shape": "charm",
+  "sprite": "g_butcher_hook"
+ },
+ "g_bastion_helm": {
+  "id": "bastion_helm",
+  "name": "BASTION GREATHELM",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "bulwark"
+  ],
+  "shape": "helm",
+  "sprite": "g_bastion_helm"
+ },
+ "g_bastion_plate": {
+  "id": "bastion_plate",
+  "name": "BASTION PLATE",
+  "slot": "body",
+  "rarity": "epic",
+  "tags": [
+   "bulwark"
+  ],
+  "shape": "plate",
+  "sprite": "g_bastion_plate"
+ },
+ "g_bastion_boots": {
+  "id": "bastion_boots",
+  "name": "BASTION SABATONS",
+  "slot": "feet",
+  "rarity": "rare",
+  "tags": [
+   "bulwark"
+  ],
+  "shape": "greaves",
+  "sprite": "g_bastion_boots"
+ },
+ "g_bastion_seal": {
+  "id": "bastion_seal",
+  "name": "BASTION SEAL",
+  "slot": "trinket",
+  "rarity": "rare",
+  "tags": [
+   "bulwark"
+  ],
+  "shape": "amulet",
+  "sprite": "g_bastion_seal"
+ },
+ "g_night_hood": {
+  "id": "night_hood",
+  "name": "NIGHTSTALKER COWL",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "hood",
+  "sprite": "g_night_hood"
+ },
+ "g_night_cloak": {
+  "id": "night_cloak",
+  "name": "NIGHTSTALKER CLOAK",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "cloak",
+  "sprite": "g_night_cloak"
+ },
+ "g_night_boots": {
+  "id": "night_boots",
+  "name": "NIGHTSTALKER SOFTSTEPS",
+  "slot": "feet",
+  "rarity": "epic",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "boots",
+  "sprite": "g_night_boots"
+ },
+ "g_night_fang": {
+  "id": "night_fang",
+  "name": "NIGHTSTALKER FANG",
+  "slot": "trinket",
+  "rarity": "rare",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "charm",
+  "sprite": "g_night_fang"
+ },
+ "g_arch_hat": {
+  "id": "arch_hat",
+  "name": "ARCHMAGE HAT",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "arcane"
+  ],
+  "shape": "hat",
+  "sprite": "g_arch_hat"
+ },
+ "g_arch_robe": {
+  "id": "arch_robe",
+  "name": "ARCHMAGE ROBE",
+  "slot": "body",
+  "rarity": "epic",
+  "tags": [
+   "arcane"
+  ],
+  "shape": "robe",
+  "sprite": "g_arch_robe"
+ },
+ "g_arch_boots": {
+  "id": "arch_boots",
+  "name": "ARCHMAGE SLIPPERS",
+  "slot": "feet",
+  "rarity": "rare",
+  "tags": [
+   "arcane"
+  ],
+  "shape": "boots",
+  "sprite": "g_arch_boots"
+ },
+ "g_arch_orb": {
+  "id": "arch_orb",
+  "name": "ARCHMAGE ORRERY",
+  "slot": "trinket",
+  "rarity": "rare",
+  "tags": [
+   "arcane"
+  ],
+  "shape": "amulet",
+  "sprite": "g_arch_orb"
+ },
+ "g_gild_crown": {
+  "id": "gild_crown",
+  "name": "GILDED CIRCLET",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "fortune"
+  ],
+  "shape": "crown",
+  "sprite": "g_gild_crown"
+ },
+ "g_gild_vest": {
+  "id": "gild_vest",
+  "name": "GILDED VEST",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "fortune"
+  ],
+  "shape": "leather",
+  "sprite": "g_gild_vest"
+ },
+ "g_gild_boots": {
+  "id": "gild_boots",
+  "name": "GILDED BOOTS",
+  "slot": "feet",
+  "rarity": "rare",
+  "tags": [
+   "fortune"
+  ],
+  "shape": "boots",
+  "sprite": "g_gild_boots"
+ },
+ "g_gild_ring": {
+  "id": "gild_ring",
+  "name": "GILDED RING",
+  "slot": "trinket",
+  "rarity": "epic",
+  "tags": [
+   "fortune"
+  ],
+  "shape": "ring",
+  "sprite": "g_gild_ring"
+ },
+ "g_sapper_helm": {
+  "id": "sapper_helm",
+  "name": "SAPPER'S HELMET",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "demolition"
+  ],
+  "shape": "helm",
+  "sprite": "g_sapper_helm"
+ },
+ "g_sapper_vest": {
+  "id": "sapper_vest",
+  "name": "SAPPER'S BLAST VEST",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "demolition"
+  ],
+  "shape": "plate",
+  "sprite": "g_sapper_vest"
+ },
+ "g_sapper_boots": {
+  "id": "sapper_boots",
+  "name": "SAPPER'S BOOTS",
+  "slot": "feet",
+  "rarity": "rare",
+  "tags": [
+   "demolition"
+  ],
+  "shape": "greaves",
+  "sprite": "g_sapper_boots"
+ },
+ "g_sapper_fuse": {
+  "id": "sapper_fuse",
+  "name": "SAPPER'S FUSE",
+  "slot": "trinket",
+  "rarity": "epic",
+  "tags": [
+   "demolition"
+  ],
+  "shape": "charm",
+  "sprite": "g_sapper_fuse"
+ },
+ "g_shep_hat": {
+  "id": "shep_hat",
+  "name": "SHEPHERD'S HAT",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "swarm"
+  ],
+  "shape": "hat",
+  "sprite": "g_shep_hat"
+ },
+ "g_shep_cloak": {
+  "id": "shep_cloak",
+  "name": "SHEPHERD'S CLOAK",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "swarm"
+  ],
+  "shape": "cloak",
+  "sprite": "g_shep_cloak"
+ },
+ "g_shep_boots": {
+  "id": "shep_boots",
+  "name": "SHEPHERD'S SANDALS",
+  "slot": "feet",
+  "rarity": "rare",
+  "tags": [
+   "swarm"
+  ],
+  "shape": "boots",
+  "sprite": "g_shep_boots"
+ },
+ "g_shep_crook": {
+  "id": "shep_crook",
+  "name": "SHEPHERD'S BELL",
+  "slot": "trinket",
+  "rarity": "epic",
+  "tags": [
+   "swarm"
+  ],
+  "shape": "amulet",
+  "sprite": "g_shep_crook"
+ },
+ "g_tinhelm": {
+  "id": "tinhelm",
+  "name": "DENTED TIN HELM",
+  "slot": "head",
+  "rarity": "common",
+  "tags": [
+   "bulwark"
+  ],
+  "shape": "helm",
+  "sprite": "g_tinhelm"
+ },
+ "g_leathercap": {
+  "id": "leathercap",
+  "name": "LEATHER CAP",
+  "slot": "head",
+  "rarity": "common",
+  "tags": [],
+  "shape": "hat",
+  "sprite": "g_leathercap"
+ },
+ "g_huntershood": {
+  "id": "huntershood",
+  "name": "HUNTER'S HOOD",
+  "slot": "head",
+  "rarity": "common",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "hood",
+  "sprite": "g_huntershood"
+ },
+ "g_scholarcap": {
+  "id": "scholarcap",
+  "name": "SCHOLAR'S CAP",
+  "slot": "head",
+  "rarity": "common",
+  "tags": [
+   "arcane"
+  ],
+  "shape": "hat",
+  "sprite": "g_scholarcap"
+ },
+ "g_ironmask": {
+  "id": "ironmask",
+  "name": "IRON DEATHMASK",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "blood"
+  ],
+  "shape": "mask",
+  "sprite": "g_ironmask"
+ },
+ "g_owlhelm": {
+  "id": "owlhelm",
+  "name": "OWL-EYED HELM",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [],
+  "shape": "helm",
+  "sprite": "g_owlhelm"
+ },
+ "g_crownofthorns": {
+  "id": "crownofthorns",
+  "name": "CROWN OF THORNS",
+  "slot": "head",
+  "rarity": "epic",
+  "tags": [
+   "venom"
+  ],
+  "shape": "crown",
+  "sprite": "g_crownofthorns"
+ },
+ "g_hornedhelm": {
+  "id": "hornedhelm",
+  "name": "HORNED WARHELM",
+  "slot": "head",
+  "rarity": "epic",
+  "tags": [
+   "blood"
+  ],
+  "shape": "helm",
+  "sprite": "g_hornedhelm"
+ },
+ "g_seerveil": {
+  "id": "seerveil",
+  "name": "SEER'S VEIL",
+  "slot": "head",
+  "rarity": "epic",
+  "tags": [
+   "arcane"
+  ],
+  "shape": "hood",
+  "sprite": "g_seerveil"
+ },
+ "g_kingscrown": {
+  "id": "kingscrown",
+  "name": "CROWN OF THE LOST KING",
+  "slot": "head",
+  "rarity": "legend",
+  "tags": [
+   "fortune"
+  ],
+  "shape": "crown",
+  "sprite": "g_kingscrown"
+ },
+ "g_stormcrownhelm": {
+  "id": "stormcrownhelm",
+  "name": "TEMPEST DIADEM",
+  "slot": "head",
+  "rarity": "legend",
+  "tags": [
+   "storm"
+  ],
+  "shape": "crown",
+  "sprite": "g_stormcrownhelm"
+ },
+ "g_headsman": {
+  "id": "headsman",
+  "name": "HEADSMAN'S HOOD",
+  "slot": "head",
+  "rarity": "legend",
+  "tags": [
+   "blood"
+  ],
+  "shape": "hood",
+  "sprite": "g_headsman"
+ },
+ "g_paddedjack": {
+  "id": "paddedjack",
+  "name": "PADDED JACK",
+  "slot": "body",
+  "rarity": "common",
+  "tags": [],
+  "shape": "leather",
+  "sprite": "g_paddedjack"
+ },
+ "g_chainshirt": {
+  "id": "chainshirt",
+  "name": "CHAIN SHIRT",
+  "slot": "body",
+  "rarity": "common",
+  "tags": [
+   "bulwark"
+  ],
+  "shape": "plate",
+  "sprite": "g_chainshirt"
+ },
+ "g_travelcloak": {
+  "id": "travelcloak",
+  "name": "TRAVELLER'S CLOAK",
+  "slot": "body",
+  "rarity": "common",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "cloak",
+  "sprite": "g_travelcloak"
+ },
+ "g_acolyterobe": {
+  "id": "acolyterobe",
+  "name": "ACOLYTE ROBE",
+  "slot": "body",
+  "rarity": "common",
+  "tags": [
+   "arcane"
+  ],
+  "shape": "robe",
+  "sprite": "g_acolyterobe"
+ },
+ "g_bloodplate": {
+  "id": "bloodplate",
+  "name": "BLOODSTAINED PLATE",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "blood"
+  ],
+  "shape": "plate",
+  "sprite": "g_bloodplate"
+ },
+ "g_spikedmail": {
+  "id": "spikedmail",
+  "name": "SPIKED MAIL",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "bulwark"
+  ],
+  "shape": "plate",
+  "sprite": "g_spikedmail"
+ },
+ "g_hunterscoat": {
+  "id": "hunterscoat",
+  "name": "MONSTER HUNTER'S COAT",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [],
+  "shape": "leather",
+  "sprite": "g_hunterscoat"
+ },
+ "g_smugglercoat": {
+  "id": "smugglercoat",
+  "name": "SMUGGLER'S COAT",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "fortune"
+  ],
+  "shape": "cloak",
+  "sprite": "g_smugglercoat"
+ },
+ "g_mirrorplate": {
+  "id": "mirrorplate",
+  "name": "MIRROR PLATE",
+  "slot": "body",
+  "rarity": "epic",
+  "tags": [
+   "arcane"
+  ],
+  "shape": "plate",
+  "sprite": "g_mirrorplate"
+ },
+ "g_berserkerhide": {
+  "id": "berserkerhide",
+  "name": "BERSERKER HIDE",
+  "slot": "body",
+  "rarity": "epic",
+  "tags": [
+   "blood"
+  ],
+  "shape": "leather",
+  "sprite": "g_berserkerhide"
+ },
+ "g_phoenixmantle": {
+  "id": "phoenixmantle",
+  "name": "PHOENIX MANTLE",
+  "slot": "body",
+  "rarity": "legend",
+  "tags": [
+   "pyre"
+  ],
+  "shape": "robe",
+  "sprite": "g_phoenixmantle"
+ },
+ "g_voidshroud": {
+  "id": "voidshroud",
+  "name": "VOID SHROUD",
+  "slot": "body",
+  "rarity": "legend",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "cloak",
+  "sprite": "g_voidshroud"
+ },
+ "g_worntboots": {
+  "id": "worntboots",
+  "name": "WORN BOOTS",
+  "slot": "feet",
+  "rarity": "common",
+  "tags": [],
+  "shape": "boots",
+  "sprite": "g_worntboots"
+ },
+ "g_ironboots": {
+  "id": "ironboots",
+  "name": "IRON BOOTS",
+  "slot": "feet",
+  "rarity": "common",
+  "tags": [
+   "bulwark"
+  ],
+  "shape": "greaves",
+  "sprite": "g_ironboots"
+ },
+ "g_sandals": {
+  "id": "sandals",
+  "name": "PILGRIM SANDALS",
+  "slot": "feet",
+  "rarity": "common",
+  "tags": [],
+  "shape": "boots",
+  "sprite": "g_sandals"
+ },
+ "g_runnersboots": {
+  "id": "runnersboots",
+  "name": "COURIER BOOTS",
+  "slot": "feet",
+  "rarity": "rare",
+  "tags": [
+   "fortune"
+  ],
+  "shape": "boots",
+  "sprite": "g_runnersboots"
+ },
+ "g_ninjatabi": {
+  "id": "ninjatabi",
+  "name": "SILENT TABI",
+  "slot": "feet",
+  "rarity": "rare",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "boots",
+  "sprite": "g_ninjatabi"
+ },
+ "g_anchorboots": {
+  "id": "anchorboots",
+  "name": "ANCHOR BOOTS",
+  "slot": "feet",
+  "rarity": "rare",
+  "tags": [
+   "bulwark"
+  ],
+  "shape": "greaves",
+  "sprite": "g_anchorboots"
+ },
+ "g_wingedboots": {
+  "id": "wingedboots",
+  "name": "WINGED BOOTS",
+  "slot": "feet",
+  "rarity": "epic",
+  "tags": [
+   "storm"
+  ],
+  "shape": "boots",
+  "sprite": "g_wingedboots"
+ },
+ "g_coalwalkers": {
+  "id": "coalwalkers",
+  "name": "COALWALKERS",
+  "slot": "feet",
+  "rarity": "epic",
+  "tags": [
+   "pyre"
+  ],
+  "shape": "greaves",
+  "sprite": "g_coalwalkers"
+ },
+ "g_sevenleague": {
+  "id": "sevenleague",
+  "name": "SEVEN-LEAGUE BOOTS",
+  "slot": "feet",
+  "rarity": "legend",
+  "tags": [],
+  "shape": "boots",
+  "sprite": "g_sevenleague"
+ },
+ "g_luckycharm": {
+  "id": "luckycharm",
+  "name": "RABBIT'S FOOT",
+  "slot": "trinket",
+  "rarity": "common",
+  "tags": [
+   "fortune"
+  ],
+  "shape": "charm",
+  "sprite": "g_luckycharm"
+ },
+ "g_whetring": {
+  "id": "whetring",
+  "name": "WHETSTONE RING",
+  "slot": "trinket",
+  "rarity": "common",
+  "tags": [],
+  "shape": "ring",
+  "sprite": "g_whetring"
+ },
+ "g_quickring": {
+  "id": "quickring",
+  "name": "QUICKSILVER RING",
+  "slot": "trinket",
+  "rarity": "common",
+  "tags": [],
+  "shape": "ring",
+  "sprite": "g_quickring"
+ },
+ "g_vialbelt": {
+  "id": "vialbelt",
+  "name": "BELT OF VIALS",
+  "slot": "trinket",
+  "rarity": "common",
+  "tags": [],
+  "shape": "charm",
+  "sprite": "g_vialbelt"
+ },
+ "g_bombbag": {
+  "id": "bombbag",
+  "name": "POWDER BANDOLIER",
+  "slot": "trinket",
+  "rarity": "common",
+  "tags": [
+   "demolition"
+  ],
+  "shape": "charm",
+  "sprite": "g_bombbag"
+ },
+ "g_toothnecklace": {
+  "id": "toothnecklace",
+  "name": "WOLF TOOTH NECKLACE",
+  "slot": "trinket",
+  "rarity": "rare",
+  "tags": [
+   "blood"
+  ],
+  "shape": "charm",
+  "sprite": "g_toothnecklace"
+ },
+ "g_hourglassamulet": {
+  "id": "hourglassamulet",
+  "name": "SANDS OF ESCAPE",
+  "slot": "trinket",
+  "rarity": "rare",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "amulet",
+  "sprite": "g_hourglassamulet"
+ },
+ "g_emberheartgem": {
+  "id": "emberheartgem",
+  "name": "EMBER HEART",
+  "slot": "trinket",
+  "rarity": "rare",
+  "tags": [
+   "pyre"
+  ],
+  "shape": "amulet",
+  "sprite": "g_emberheartgem"
+ },
+ "g_frostshard": {
+  "id": "frostshard",
+  "name": "SHARD OF WINTER",
+  "slot": "trinket",
+  "rarity": "rare",
+  "tags": [
+   "frost"
+  ],
+  "shape": "amulet",
+  "sprite": "g_frostshard"
+ },
+ "g_venomsac": {
+  "id": "venomsac",
+  "name": "VENOM SAC",
+  "slot": "trinket",
+  "rarity": "rare",
+  "tags": [
+   "venom"
+  ],
+  "shape": "charm",
+  "sprite": "g_venomsac"
+ },
+ "g_stormbottle": {
+  "id": "stormbottle",
+  "name": "BOTTLED LIGHTNING",
+  "slot": "trinket",
+  "rarity": "rare",
+  "tags": [
+   "storm"
+  ],
+  "shape": "amulet",
+  "sprite": "g_stormbottle"
+ },
+ "g_ledger": {
+  "id": "ledger",
+  "name": "MERCHANT'S LEDGER",
+  "slot": "trinket",
+  "rarity": "rare",
+  "tags": [
+   "fortune"
+  ],
+  "shape": "charm",
+  "sprite": "g_ledger"
+ },
+ "g_vampirefang": {
+  "id": "vampirefang",
+  "name": "VAMPIRE FANG",
+  "slot": "trinket",
+  "rarity": "epic",
+  "tags": [
+   "blood"
+  ],
+  "shape": "charm",
+  "sprite": "g_vampirefang"
+ },
+ "g_eyeofstorm": {
+  "id": "eyeofstorm",
+  "name": "EYE OF THE STORM",
+  "slot": "trinket",
+  "rarity": "epic",
+  "tags": [
+   "storm"
+  ],
+  "shape": "amulet",
+  "sprite": "g_eyeofstorm"
+ },
+ "g_hollowidol": {
+  "id": "hollowidol",
+  "name": "HOLLOW IDOL",
+  "slot": "trinket",
+  "rarity": "epic",
+  "tags": [
+   "arcane"
+  ],
+  "shape": "amulet",
+  "sprite": "g_hollowidol"
+ },
+ "g_grimoire": {
+  "id": "grimoire",
+  "name": "BLACK GRIMOIRE",
+  "slot": "trinket",
+  "rarity": "epic",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "amulet",
+  "sprite": "g_grimoire"
+ },
+ "g_heartofglass": {
+  "id": "heartofglass",
+  "name": "HEART OF GLASS",
+  "slot": "trinket",
+  "rarity": "legend",
+  "tags": [
+   "arcane"
+  ],
+  "shape": "amulet",
+  "sprite": "g_heartofglass"
+ },
+ "g_dragonheart": {
+  "id": "dragonheart",
+  "name": "DRAGON'S HEART",
+  "slot": "trinket",
+  "rarity": "legend",
+  "tags": [
+   "pyre"
+  ],
+  "shape": "amulet",
+  "sprite": "g_dragonheart"
+ },
+ "g_gamblerdie": {
+  "id": "gamblerdie",
+  "name": "GAMBLER'S LAST DIE",
+  "slot": "trinket",
+  "rarity": "legend",
+  "tags": [
+   "fortune"
+  ],
+  "shape": "charm",
+  "sprite": "g_gamblerdie"
+ },
+ "g_leatherglove": {
+  "id": "brawlerwraps",
+  "name": "BRAWLER'S WRAPS",
+  "slot": "hands",
+  "rarity": "common",
+  "tags": [
+   "fury"
+  ],
+  "shape": "gloves",
+  "sprite": "g_leatherglove"
+ },
+ "g_ironglove": {
+  "id": "ironfist",
+  "name": "IRON FIST",
+  "slot": "hands",
+  "rarity": "rare",
+  "tags": [
+   "bulwark"
+  ],
+  "shape": "gloves",
+  "sprite": "g_ironglove"
+ },
+ "g_shadowglove": {
+  "id": "pickpocket",
+  "name": "PICKPOCKET'S GLOVES",
+  "slot": "hands",
+  "rarity": "rare",
+  "tags": [
+   "fortune"
+  ],
+  "shape": "gloves",
+  "sprite": "g_shadowglove"
+ },
+ "g_venomglove": {
+  "id": "alchemistmitts",
+  "name": "ALCHEMIST'S MITTS",
+  "slot": "hands",
+  "rarity": "rare",
+  "tags": [
+   "venom"
+  ],
+  "shape": "gloves",
+  "sprite": "g_venomglove"
+ },
+ "g_emberglove": {
+  "id": "flintgloves",
+  "name": "FLINT GLOVES",
+  "slot": "hands",
+  "rarity": "common",
+  "tags": [
+   "pyre"
+  ],
+  "shape": "gloves",
+  "sprite": "g_emberglove"
+ },
+ "g_frostglove": {
+  "id": "frostgrip",
+  "name": "FROSTGRIP",
+  "slot": "hands",
+  "rarity": "rare",
+  "tags": [
+   "frost"
+  ],
+  "shape": "gloves",
+  "sprite": "g_frostglove"
+ },
+ "g_clothglove": {
+  "id": "beastglove",
+  "name": "BEASTMASTER'S GLOVE",
+  "slot": "hands",
+  "rarity": "rare",
+  "tags": [
+   "swarm"
+  ],
+  "shape": "gloves",
+  "sprite": "g_clothglove"
+ },
+ "g_goldglove": {
+  "id": "midasglove",
+  "name": "TOUCH OF MIDAS",
+  "slot": "hands",
+  "rarity": "legend",
+  "tags": [
+   "fortune"
+  ],
+  "shape": "gloves",
+  "sprite": "g_goldglove"
+ },
+ "g_jester_cap": {
+  "id": "jester_cap",
+  "name": "JESTER'S CAP",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "fortune"
+  ],
+  "shape": "hat",
+  "sprite": "g_jester_cap"
+ },
+ "g_jester_coat": {
+  "id": "jester_coat",
+  "name": "JESTER'S MOTLEY",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "fortune",
+   "arcane"
+  ],
+  "shape": "leather",
+  "sprite": "g_jester_coat"
+ },
+ "g_jester_shoes": {
+  "id": "jester_shoes",
+  "name": "JESTER'S CURLY SHOES",
+  "slot": "feet",
+  "rarity": "rare",
+  "tags": [
+   "fortune"
+  ],
+  "shape": "boots",
+  "sprite": "g_jester_shoes"
+ },
+ "g_jester_bauble": {
+  "id": "jester_bauble",
+  "name": "JESTER'S BAUBLE",
+  "slot": "trinket",
+  "rarity": "epic",
+  "tags": [
+   "fortune"
+  ],
+  "shape": "charm",
+  "sprite": "g_jester_bauble"
+ },
+ "g_star_helm": {
+  "id": "star_helm",
+  "name": "STARFALL CROWN",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "pyre"
+  ],
+  "shape": "crown",
+  "sprite": "g_star_helm"
+ },
+ "g_star_plate": {
+  "id": "star_plate",
+  "name": "STARFALL PLATE",
+  "slot": "body",
+  "rarity": "epic",
+  "tags": [
+   "pyre",
+   "demolition"
+  ],
+  "shape": "plate",
+  "sprite": "g_star_plate"
+ },
+ "g_star_gloves": {
+  "id": "star_gloves",
+  "name": "STARFALL GAUNTLETS",
+  "slot": "hands",
+  "rarity": "rare",
+  "tags": [
+   "pyre"
+  ],
+  "shape": "gloves",
+  "sprite": "g_star_gloves"
+ },
+ "g_star_boots": {
+  "id": "star_boots",
+  "name": "STARFALL GREAVES",
+  "slot": "feet",
+  "rarity": "rare",
+  "tags": [
+   "pyre"
+  ],
+  "shape": "greaves",
+  "sprite": "g_star_boots"
+ },
+ "g_void_cowl": {
+  "id": "void_cowl",
+  "name": "VOIDWALKER COWL",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "shadow",
+   "malice"
+  ],
+  "shape": "hood",
+  "sprite": "g_void_cowl"
+ },
+ "g_void_wraps": {
+  "id": "void_wraps",
+  "name": "VOIDWALKER WRAPS",
+  "slot": "hands",
+  "rarity": "rare",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "gloves",
+  "sprite": "g_void_wraps"
+ },
+ "g_void_amulet": {
+  "id": "void_amulet",
+  "name": "VOIDWALKER LOCKET",
+  "slot": "neck",
+  "rarity": "epic",
+  "tags": [
+   "shadow",
+   "arcane"
+  ],
+  "shape": "amulet",
+  "sprite": "g_void_amulet"
+ },
+ "g_void_ring": {
+  "id": "void_ring",
+  "name": "VOIDWALKER BAND",
+  "slot": "ring",
+  "rarity": "rare",
+  "tags": [
+   "malice"
+  ],
+  "shape": "ring",
+  "sprite": "g_void_ring"
+ },
+ "g_magnethelm": {
+  "id": "magnethelm",
+  "name": "MAGNET HELM",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "storm",
+   "bulwark"
+  ],
+  "shape": "helm",
+  "sprite": "g_magnethelm"
+ },
+ "g_partyhat": {
+  "id": "partyhat",
+  "name": "PARTY HAT",
+  "slot": "head",
+  "rarity": "common",
+  "tags": [
+   "fortune"
+  ],
+  "shape": "hat",
+  "sprite": "g_partyhat"
+ },
+ "g_thirdeye": {
+  "id": "thirdeye",
+  "name": "THIRD EYE",
+  "slot": "head",
+  "rarity": "epic",
+  "tags": [
+   "arcane",
+   "edge"
+  ],
+  "shape": "mask",
+  "sprite": "g_thirdeye"
+ },
+ "g_bombvest": {
+  "id": "bombvest",
+  "name": "POWDERKEG VEST",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "demolition"
+  ],
+  "shape": "plate",
+  "sprite": "g_bombvest"
+ },
+ "g_giantbelt": {
+  "id": "giantbelt",
+  "name": "GIANT'S GIRDLE",
+  "slot": "body",
+  "rarity": "epic",
+  "tags": [
+   "fury"
+  ],
+  "shape": "leather",
+  "sprite": "g_giantbelt"
+ },
+ "g_ghostsheet": {
+  "id": "ghostsheet",
+  "name": "BEDSHEET GHOST",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "cloak",
+  "sprite": "g_ghostsheet"
+ },
+ "g_hedgehogmail": {
+  "id": "hedgehogmail",
+  "name": "HEDGEHOG MAIL",
+  "slot": "body",
+  "rarity": "epic",
+  "tags": [
+   "bulwark"
+  ],
+  "shape": "plate",
+  "sprite": "g_hedgehogmail"
+ },
+ "g_rocketboots": {
+  "id": "rocketboots",
+  "name": "ROCKET BOOTS",
+  "slot": "feet",
+  "rarity": "epic",
+  "tags": [
+   "demolition",
+   "pyre"
+  ],
+  "shape": "greaves",
+  "sprite": "g_rocketboots"
+ },
+ "g_slipperysoles": {
+  "id": "slipperysoles",
+  "name": "BUTTERED SOLES",
+  "slot": "feet",
+  "rarity": "rare",
+  "tags": [
+   "frost"
+  ],
+  "shape": "boots",
+  "sprite": "g_slipperysoles"
+ },
+ "g_springheels": {
+  "id": "springheels",
+  "name": "SPRING HEELS",
+  "slot": "feet",
+  "rarity": "common",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "boots",
+  "sprite": "g_springheels"
+ },
+ "g_goldengoose": {
+  "id": "goldengoose",
+  "name": "GOLDEN GOOSE",
+  "slot": "trinket",
+  "rarity": "legend",
+  "tags": [
+   "fortune"
+  ],
+  "shape": "charm",
+  "sprite": "g_goldengoose"
+ },
+ "g_chaosdie": {
+  "id": "chaosdie",
+  "name": "CHAOS DIE",
+  "slot": "trinket",
+  "rarity": "epic",
+  "tags": [
+   "arcane",
+   "fortune"
+  ],
+  "shape": "charm",
+  "sprite": "g_chaosdie"
+ },
+ "g_pocketsun": {
+  "id": "pocketsun",
+  "name": "POCKET SUN",
+  "slot": "trinket",
+  "rarity": "epic",
+  "tags": [
+   "pyre"
+  ],
+  "shape": "amulet",
+  "sprite": "g_pocketsun"
+ },
+ "g_stormcloud": {
+  "id": "stormcloud",
+  "name": "PET STORMCLOUD",
+  "slot": "trinket",
+  "rarity": "rare",
+  "tags": [
+   "storm"
+  ],
+  "shape": "charm",
+  "sprite": "g_stormcloud"
+ },
+ "g_boxinggloves": {
+  "id": "boxinggloves",
+  "name": "BOXING GLOVES",
+  "slot": "hands",
+  "rarity": "rare",
+  "tags": [
+   "fury"
+  ],
+  "shape": "gloves",
+  "sprite": "g_boxinggloves"
+ },
+ "g_fireworkmitts": {
+  "id": "fireworkmitts",
+  "name": "FIREWORK MITTS",
+  "slot": "hands",
+  "rarity": "epic",
+  "tags": [
+   "pyre",
+   "arcane"
+  ],
+  "shape": "gloves",
+  "sprite": "g_fireworkmitts"
+ },
+ "g_puppetstrings": {
+  "id": "puppetstrings",
+  "name": "PUPPETEER'S STRINGS",
+  "slot": "hands",
+  "rarity": "epic",
+  "tags": [
+   "swarm"
+  ],
+  "shape": "gloves",
+  "sprite": "g_puppetstrings"
+ },
+ "g_monkeypaw": {
+  "id": "monkeypaw",
+  "name": "MONKEY'S PAW",
+  "slot": "hands",
+  "rarity": "legend",
+  "tags": [
+   "malice",
+   "fortune"
+  ],
+  "shape": "gloves",
+  "sprite": "g_monkeypaw"
+ },
+ "g_cowbell": {
+  "id": "cowbell",
+  "name": "LOUD COWBELL",
+  "slot": "neck",
+  "rarity": "common",
+  "tags": [
+   "fury"
+  ],
+  "shape": "amulet",
+  "sprite": "g_cowbell"
+ },
+ "g_collapsedstar": {
+  "id": "collapsedstar",
+  "name": "COLLAPSED STAR",
+  "slot": "neck",
+  "rarity": "legend",
+  "tags": [
+   "arcane",
+   "shadow"
+  ],
+  "shape": "amulet",
+  "sprite": "g_collapsedstar"
+ },
+ "g_ricochetring": {
+  "id": "ricochetring",
+  "name": "RING OF REBOUNDS",
+  "slot": "ring",
+  "rarity": "epic",
+  "tags": [
+   "arcane"
+  ],
+  "shape": "ring",
+  "sprite": "g_ricochetring"
+ },
+ "g_bigring": {
+  "id": "bigring",
+  "name": "RING OF BIGNESS",
+  "slot": "ring",
+  "rarity": "rare",
+  "tags": [
+   "fury"
+  ],
+  "shape": "ring",
+  "sprite": "g_bigring"
+ },
+ "g_tinyring": {
+  "id": "tinyring",
+  "name": "RING OF SMALLNESS",
+  "slot": "ring",
+  "rarity": "rare",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "ring",
+  "sprite": "g_tinyring"
+ },
+ "g_twinring": {
+  "id": "twinring",
+  "name": "TWIN-SOUL RING",
+  "slot": "ring",
+  "rarity": "legend",
+  "tags": [
+   "arcane"
+  ],
+  "shape": "ring",
+  "sprite": "g_twinring"
+ },
+ "g_toadring": {
+  "id": "toadring",
+  "name": "TOAD RING",
+  "slot": "ring",
+  "rarity": "rare",
+  "tags": [
+   "venom"
+  ],
+  "shape": "ring",
+  "sprite": "g_toadring"
+ },
+ "g_rime_hood": {
+  "id": "rime_hood",
+  "name": "RIMEWARDEN HOOD",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "frost"
+  ],
+  "shape": "hood",
+  "sprite": "g_rime_hood"
+ },
+ "g_rime_mantle": {
+  "id": "rime_mantle",
+  "name": "RIMEWARDEN MANTLE",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "frost",
+   "bulwark"
+  ],
+  "shape": "cloak",
+  "sprite": "g_rime_mantle"
+ },
+ "g_rime_grip": {
+  "id": "rime_grip",
+  "name": "RIMEWARDEN GRIP",
+  "slot": "hands",
+  "rarity": "rare",
+  "tags": [
+   "frost"
+  ],
+  "shape": "gloves",
+  "sprite": "g_rime_grip"
+ },
+ "g_rime_bell": {
+  "id": "rime_bell",
+  "name": "RIMEWARDEN BELL",
+  "slot": "neck",
+  "rarity": "epic",
+  "tags": [
+   "frost"
+  ],
+  "shape": "amulet",
+  "sprite": "g_rime_bell"
+ },
+ "g_blast_goggles": {
+  "id": "blast_goggles",
+  "name": "BLASTWRIGHT GOGGLES",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "demolition"
+  ],
+  "shape": "mask",
+  "sprite": "g_blast_goggles"
+ },
+ "g_blast_apron": {
+  "id": "blast_apron",
+  "name": "BLASTWRIGHT APRON",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "demolition",
+   "bulwark"
+  ],
+  "shape": "leather",
+  "sprite": "g_blast_apron"
+ },
+ "g_blast_mitts": {
+  "id": "blast_mitts",
+  "name": "BLASTWRIGHT MITTS",
+  "slot": "hands",
+  "rarity": "epic",
+  "tags": [
+   "demolition",
+   "pyre"
+  ],
+  "shape": "gloves",
+  "sprite": "g_blast_mitts"
+ },
+ "g_blast_ring": {
+  "id": "blast_ring",
+  "name": "BLASTWRIGHT BAND",
+  "slot": "ring",
+  "rarity": "rare",
+  "tags": [
+   "demolition"
+  ],
+  "shape": "ring",
+  "sprite": "g_blast_ring"
+ },
+ "g_bone_crown": {
+  "id": "bone_crown",
+  "name": "BONECALLER CROWN",
+  "slot": "head",
+  "rarity": "epic",
+  "tags": [
+   "malice",
+   "swarm"
+  ],
+  "shape": "crown",
+  "sprite": "g_bone_crown"
+ },
+ "g_bone_ribs": {
+  "id": "bone_ribs",
+  "name": "BONECALLER RIBCAGE",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "malice"
+  ],
+  "shape": "plate",
+  "sprite": "g_bone_ribs"
+ },
+ "g_bone_rattle": {
+  "id": "bone_rattle",
+  "name": "BONECALLER RATTLE",
+  "slot": "neck",
+  "rarity": "rare",
+  "tags": [
+   "malice",
+   "swarm"
+  ],
+  "shape": "amulet",
+  "sprite": "g_bone_rattle"
+ },
+ "g_bone_ring": {
+  "id": "bone_ring",
+  "name": "BONECALLER SIGNET",
+  "slot": "ring",
+  "rarity": "rare",
+  "tags": [
+   "malice"
+  ],
+  "shape": "ring",
+  "sprite": "g_bone_ring"
+ },
+ "g_clock_monocle": {
+  "id": "clock_monocle",
+  "name": "CLOCKWORK MONOCLE",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "swarm",
+   "edge"
+  ],
+  "shape": "mask",
+  "sprite": "g_clock_monocle"
+ },
+ "g_clock_coat": {
+  "id": "clock_coat",
+  "name": "CLOCKWORK COAT",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "swarm",
+   "storm"
+  ],
+  "shape": "plate",
+  "sprite": "g_clock_coat"
+ },
+ "g_clock_boots": {
+  "id": "clock_boots",
+  "name": "CLOCKWORK BOOTS",
+  "slot": "feet",
+  "rarity": "rare",
+  "tags": [
+   "swarm"
+  ],
+  "shape": "boots",
+  "sprite": "g_clock_boots"
+ },
+ "g_clock_key": {
+  "id": "clock_key",
+  "name": "CLOCKWORK KEY",
+  "slot": "trinket",
+  "rarity": "epic",
+  "tags": [
+   "swarm"
+  ],
+  "shape": "charm",
+  "sprite": "g_clock_key"
+ },
+ "g_lastriteshood": {
+  "id": "lastriteshood",
+  "name": "HOOD OF LAST RITES",
+  "slot": "head",
+  "rarity": "epic",
+  "tags": [
+   "edge",
+   "blood"
+  ],
+  "shape": "hood",
+  "sprite": "g_lastriteshood"
+ },
+ "g_polishedcuirass": {
+  "id": "polishedcuirass",
+  "name": "POLISHED CUIRASS",
+  "slot": "body",
+  "rarity": "epic",
+  "tags": [
+   "bulwark",
+   "arcane"
+  ],
+  "shape": "plate",
+  "sprite": "g_polishedcuirass"
+ },
+ "g_ghoststeps": {
+  "id": "ghoststeps",
+  "name": "GHOST STEPS",
+  "slot": "feet",
+  "rarity": "rare",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "boots",
+  "sprite": "g_ghoststeps"
+ },
+ "g_abbotsandals": {
+  "id": "abbotsandals",
+  "name": "ABBOT'S SANDALS",
+  "slot": "feet",
+  "rarity": "rare",
+  "tags": [
+   "bulwark"
+  ],
+  "shape": "boots",
+  "sprite": "g_abbotsandals"
+ },
+ "g_iceskates": {
+  "id": "iceskates",
+  "name": "ICE SKATES",
+  "slot": "feet",
+  "rarity": "rare",
+  "tags": [
+   "frost",
+   "shadow"
+  ],
+  "shape": "boots",
+  "sprite": "g_iceskates"
+ },
+ "g_magpieboots": {
+  "id": "magpieboots",
+  "name": "MAGPIE BOOTS",
+  "slot": "feet",
+  "rarity": "common",
+  "tags": [
+   "fortune"
+  ],
+  "shape": "boots",
+  "sprite": "g_magpieboots"
+ },
+ "g_unscathedmedal": {
+  "id": "unscathedmedal",
+  "name": "UNSCATHED MEDAL",
+  "slot": "trinket",
+  "rarity": "rare",
+  "tags": [
+   "edge"
+  ],
+  "shape": "amulet",
+  "sprite": "g_unscathedmedal"
+ },
+ "g_bribepurse": {
+  "id": "bribepurse",
+  "name": "BRIBE PURSE",
+  "slot": "trinket",
+  "rarity": "epic",
+  "tags": [
+   "fortune",
+   "bulwark"
+  ],
+  "shape": "charm",
+  "sprite": "g_bribepurse"
+ },
+ "g_treasuremap": {
+  "id": "treasuremap",
+  "name": "TREASURE MAP",
+  "slot": "trinket",
+  "rarity": "rare",
+  "tags": [
+   "fortune"
+  ],
+  "shape": "charm",
+  "sprite": "g_treasuremap"
+ },
+ "g_voodoodoll": {
+  "id": "voodoodoll",
+  "name": "VOODOO DOLL",
+  "slot": "trinket",
+  "rarity": "epic",
+  "tags": [
+   "malice"
+  ],
+  "shape": "charm",
+  "sprite": "g_voodoodoll"
+ },
+ "g_leechgloves": {
+  "id": "leechgloves",
+  "name": "LEECH GLOVES",
+  "slot": "hands",
+  "rarity": "rare",
+  "tags": [
+   "blood"
+  ],
+  "shape": "gloves",
+  "sprite": "g_leechgloves"
+ },
+ "g_catalystgloves": {
+  "id": "catalystgloves",
+  "name": "CATALYST GLOVES",
+  "slot": "hands",
+  "rarity": "epic",
+  "tags": [
+   "venom",
+   "pyre"
+  ],
+  "shape": "gloves",
+  "sprite": "g_catalystgloves"
+ },
+ "g_plaguehand": {
+  "id": "plaguehand",
+  "name": "PLAGUE HAND",
+  "slot": "hands",
+  "rarity": "rare",
+  "tags": [
+   "venom"
+  ],
+  "shape": "gloves",
+  "sprite": "g_plaguehand"
+ },
+ "g_pickpocketgloves": {
+  "id": "pickpocketgloves",
+  "name": "PICKPOCKET GLOVES",
+  "slot": "hands",
+  "rarity": "common",
+  "tags": [
+   "fortune",
+   "shadow"
+  ],
+  "shape": "gloves",
+  "sprite": "g_pickpocketgloves"
+ },
+ "g_bouncerknuckles": {
+  "id": "bouncerknuckles",
+  "name": "BOUNCER'S KNUCKLES",
+  "slot": "hands",
+  "rarity": "rare",
+  "tags": [
+   "fury",
+   "bulwark"
+  ],
+  "shape": "gloves",
+  "sprite": "g_bouncerknuckles"
+ },
+ "g_saintsmedallion": {
+  "id": "saintsmedallion",
+  "name": "SAINT'S MEDALLION",
+  "slot": "neck",
+  "rarity": "epic",
+  "tags": [
+   "bulwark",
+   "arcane"
+  ],
+  "shape": "amulet",
+  "sprite": "g_saintsmedallion"
+ },
+ "g_mirrorpendant": {
+  "id": "mirrorpendant",
+  "name": "MIRROR PENDANT",
+  "slot": "neck",
+  "rarity": "rare",
+  "tags": [
+   "arcane",
+   "shadow"
+  ],
+  "shape": "amulet",
+  "sprite": "g_mirrorpendant"
+ },
+ "g_howlertooth": {
+  "id": "howlertooth",
+  "name": "HOWLER'S TOOTH",
+  "slot": "neck",
+  "rarity": "rare",
+  "tags": [
+   "fury"
+  ],
+  "shape": "amulet",
+  "sprite": "g_howlertooth"
+ },
+ "g_houndcollar": {
+  "id": "houndcollar",
+  "name": "BLOODHOUND COLLAR",
+  "slot": "neck",
+  "rarity": "epic",
+  "tags": [
+   "blood"
+  ],
+  "shape": "amulet",
+  "sprite": "g_houndcollar"
+ },
+ "g_merchantscharm": {
+  "id": "merchantscharm",
+  "name": "MERCHANT'S CHARM",
+  "slot": "neck",
+  "rarity": "common",
+  "tags": [
+   "fortune"
+  ],
+  "shape": "amulet",
+  "sprite": "g_merchantscharm"
+ },
+ "g_excessring": {
+  "id": "excessring",
+  "name": "RING OF EXCESS",
+  "slot": "ring",
+  "rarity": "epic",
+  "tags": [
+   "fury"
+  ],
+  "shape": "ring",
+  "sprite": "g_excessring"
+ },
+ "g_frostbitering": {
+  "id": "frostbitering",
+  "name": "FROSTBITE RING",
+  "slot": "ring",
+  "rarity": "rare",
+  "tags": [
+   "frost",
+   "edge"
+  ],
+  "shape": "ring",
+  "sprite": "g_frostbitering"
+ },
+ "g_returnring": {
+  "id": "returnring",
+  "name": "RING OF RETURNING",
+  "slot": "ring",
+  "rarity": "rare",
+  "tags": [
+   "arcane"
+  ],
+  "shape": "ring",
+  "sprite": "g_returnring"
+ },
+ "g_kindlingring": {
+  "id": "kindlingring",
+  "name": "KINDLING RING",
+  "slot": "ring",
+  "rarity": "rare",
+  "tags": [
+   "pyre"
+  ],
+  "shape": "ring",
+  "sprite": "g_kindlingring"
+ },
+ "g_hagglerhat": {
+  "id": "hagglerhat",
+  "name": "HAGGLER'S HAT",
+  "slot": "head",
+  "rarity": "legend",
+  "tags": [
+   "fortune"
+  ],
+  "shape": "hat",
+  "sprite": "g_hagglerhat"
+ },
+ "g_foremanhat": {
+  "id": "foremanhat",
+  "name": "FOREMAN'S HARD HAT",
+  "slot": "head",
+  "rarity": "legend",
+  "tags": [
+   "bulwark",
+   "demolition"
+  ],
+  "shape": "helm",
+  "sprite": "g_foremanhat"
+ },
+ "g_hoarhelm": {
+  "id": "hoarhelm",
+  "name": "HOARFROST HELM",
+  "slot": "head",
+  "rarity": "legend",
+  "tags": [
+   "bulwark",
+   "storm"
+  ],
+  "shape": "helm",
+  "sprite": "g_hoarhelm"
+ },
+ "g_binderthread": {
+  "id": "binderthread",
+  "name": "THE BINDER'S THREAD",
+  "slot": "neck",
+  "rarity": "legend",
+  "tags": [
+   "bulwark"
+  ],
+  "shape": "amulet",
+  "sprite": "g_binderthread"
+ },
+ "g_shelversarm": {
+  "id": "shelversarm",
+  "name": "THE SHELVER'S ARM",
+  "slot": "hands",
+  "rarity": "legend",
+  "tags": [
+   "fury"
+  ],
+  "shape": "gloves",
+  "sprite": "g_shelversarm"
+ },
+ "g_blackbar": {
+  "id": "blackbar",
+  "name": "THE BLACK BAR",
+  "slot": "head",
+  "rarity": "legend",
+  "tags": [
+   "malice"
+  ],
+  "shape": "helm",
+  "sprite": "g_blackbar"
+ },
+ "g_admiralhat": {
+  "id": "admiralhat",
+  "name": "ADMIRAL'S BICORNE",
+  "slot": "head",
+  "rarity": "legend",
+  "tags": [
+   "bulwark",
+   "storm"
+  ],
+  "shape": "helm",
+  "sprite": "g_admiralhat"
+ },
+ "g_golemplate": {
+  "id": "golemplate",
+  "name": "GOLEM KING'S MANTLE",
+  "slot": "body",
+  "rarity": "legend",
+  "tags": [
+   "bulwark"
+  ],
+  "shape": "plate",
+  "sprite": "g_golemplate"
+ },
+ "g_phoenixplume": {
+  "id": "phoenixplume",
+  "name": "PHOENIX PLUME",
+  "slot": "neck",
+  "rarity": "legend",
+  "tags": [
+   "pyre"
+  ],
+  "shape": "amulet",
+  "sprite": "g_phoenixplume"
+ },
+ "g_fiendchains": {
+  "id": "fiendchains",
+  "name": "FIEND'S CHAINS",
+  "slot": "hands",
+  "rarity": "legend",
+  "tags": [
+   "blood",
+   "edge"
+  ],
+  "shape": "gloves",
+  "sprite": "g_fiendchains"
+ },
+ "g_storm_hood": {
+  "id": "storm_hood",
+  "name": "STORMCALLER HOOD",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "storm"
+  ],
+  "shape": "hood",
+  "sprite": "g_storm_hood"
+ },
+ "g_storm_robe": {
+  "id": "storm_robe",
+  "name": "STORMCALLER ROBE",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "storm"
+  ],
+  "shape": "robe",
+  "sprite": "g_storm_robe"
+ },
+ "g_storm_boots": {
+  "id": "storm_boots",
+  "name": "STORMCALLER BOOTS",
+  "slot": "feet",
+  "rarity": "rare",
+  "tags": [
+   "storm"
+  ],
+  "shape": "boots",
+  "sprite": "g_storm_boots"
+ },
+ "g_storm_ring": {
+  "id": "storm_ring",
+  "name": "STORMCALLER RING",
+  "slot": "ring",
+  "rarity": "epic",
+  "tags": [
+   "storm"
+  ],
+  "shape": "ring",
+  "sprite": "g_storm_ring"
+ },
+ "g_blood_cap": {
+  "id": "blood_cap",
+  "name": "BLOODLETTER CAP",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "blood"
+  ],
+  "shape": "hat",
+  "sprite": "g_blood_cap"
+ },
+ "g_blood_coat": {
+  "id": "blood_coat",
+  "name": "BLOODLETTER COAT",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "blood"
+  ],
+  "shape": "plate",
+  "sprite": "g_blood_coat"
+ },
+ "g_blood_gloves": {
+  "id": "blood_gloves",
+  "name": "BLOODLETTER GLOVES",
+  "slot": "hands",
+  "rarity": "rare",
+  "tags": [
+   "blood"
+  ],
+  "shape": "gloves",
+  "sprite": "g_blood_gloves"
+ },
+ "g_blood_fang": {
+  "id": "blood_fang",
+  "name": "BLOODLETTER FANG",
+  "slot": "neck",
+  "rarity": "epic",
+  "tags": [
+   "blood"
+  ],
+  "shape": "amulet",
+  "sprite": "g_blood_fang"
+ },
+ "g_hex_veil": {
+  "id": "hex_veil",
+  "name": "HEXWEAVER VEIL",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "malice"
+  ],
+  "shape": "hood",
+  "sprite": "g_hex_veil"
+ },
+ "g_hex_shroud": {
+  "id": "hex_shroud",
+  "name": "HEXWEAVER SHROUD",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "malice"
+  ],
+  "shape": "robe",
+  "sprite": "g_hex_shroud"
+ },
+ "g_hex_gloves": {
+  "id": "hex_gloves",
+  "name": "HEXWEAVER GLOVES",
+  "slot": "hands",
+  "rarity": "rare",
+  "tags": [
+   "malice"
+  ],
+  "shape": "gloves",
+  "sprite": "g_hex_gloves"
+ },
+ "g_hex_ring": {
+  "id": "hex_ring",
+  "name": "HEXWEAVER RING",
+  "slot": "ring",
+  "rarity": "epic",
+  "tags": [
+   "malice"
+  ],
+  "shape": "ring",
+  "sprite": "g_hex_ring"
+ },
+ "g_viper_hood": {
+  "id": "viper_hood",
+  "name": "VIPER HOOD",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "venom"
+  ],
+  "shape": "hood",
+  "sprite": "g_viper_hood"
+ },
+ "g_viper_coat": {
+  "id": "viper_coat",
+  "name": "VIPER COAT",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "venom"
+  ],
+  "shape": "cloak",
+  "sprite": "g_viper_coat"
+ },
+ "g_viper_tabi": {
+  "id": "viper_tabi",
+  "name": "VIPER TABI",
+  "slot": "feet",
+  "rarity": "rare",
+  "tags": [
+   "venom"
+  ],
+  "shape": "boots",
+  "sprite": "g_viper_tabi"
+ },
+ "g_viper_fang": {
+  "id": "viper_fang",
+  "name": "VIPER FANG",
+  "slot": "neck",
+  "rarity": "epic",
+  "tags": [
+   "venom"
+  ],
+  "shape": "amulet",
+  "sprite": "g_viper_fang"
+ },
+ "g_war_helm": {
+  "id": "war_helm",
+  "name": "WARLORD HELM",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "fury"
+  ],
+  "shape": "helm",
+  "sprite": "g_war_helm"
+ },
+ "g_war_hide": {
+  "id": "war_hide",
+  "name": "WARLORD HIDE",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "fury"
+  ],
+  "shape": "plate",
+  "sprite": "g_war_hide"
+ },
+ "g_war_fists": {
+  "id": "war_fists",
+  "name": "WARLORD FISTS",
+  "slot": "hands",
+  "rarity": "rare",
+  "tags": [
+   "fury"
+  ],
+  "shape": "gloves",
+  "sprite": "g_war_fists"
+ },
+ "g_war_ring": {
+  "id": "war_ring",
+  "name": "WARLORD RING",
+  "slot": "ring",
+  "rarity": "epic",
+  "tags": [
+   "fury"
+  ],
+  "shape": "ring",
+  "sprite": "g_war_ring"
+ },
+ "g_beast_helm": {
+  "id": "beast_helm",
+  "name": "BEASTMASTER HELM",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "swarm"
+  ],
+  "shape": "helm",
+  "sprite": "g_beast_helm"
+ },
+ "g_beast_cloak": {
+  "id": "beast_cloak",
+  "name": "BEASTMASTER CLOAK",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "swarm"
+  ],
+  "shape": "cloak",
+  "sprite": "g_beast_cloak"
+ },
+ "g_beast_glove": {
+  "id": "beast_glove",
+  "name": "BEASTMASTER GLOVE",
+  "slot": "hands",
+  "rarity": "rare",
+  "tags": [
+   "swarm"
+  ],
+  "shape": "gloves",
+  "sprite": "g_beast_glove"
+ },
+ "g_beast_collar": {
+  "id": "beast_collar",
+  "name": "BEASTMASTER COLLAR",
+  "slot": "neck",
+  "rarity": "epic",
+  "tags": [
+   "swarm"
+  ],
+  "shape": "amulet",
+  "sprite": "g_beast_collar"
+ },
+ "g_drift_hood": {
+  "id": "drift_hood",
+  "name": "DRIFTER HOOD",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "hood",
+  "sprite": "g_drift_hood"
+ },
+ "g_drift_cloak": {
+  "id": "drift_cloak",
+  "name": "DRIFTER CLOAK",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "cloak",
+  "sprite": "g_drift_cloak"
+ },
+ "g_drift_steps": {
+  "id": "drift_steps",
+  "name": "DRIFTER STEPS",
+  "slot": "feet",
+  "rarity": "rare",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "boots",
+  "sprite": "g_drift_steps"
+ },
+ "g_drift_ring": {
+  "id": "drift_ring",
+  "name": "DRIFTER RING",
+  "slot": "ring",
+  "rarity": "epic",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "ring",
+  "sprite": "g_drift_ring"
+ },
+ "g_worm_specs": {
+  "id": "worm_specs",
+  "name": "BOOKWORM SPECTACLES",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "arcane"
+  ],
+  "shape": "helm",
+  "sprite": "g_worm_specs"
+ },
+ "g_worm_cardigan": {
+  "id": "worm_cardigan",
+  "name": "BOOKWORM CARDIGAN",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "arcane"
+  ],
+  "shape": "plate",
+  "sprite": "g_worm_cardigan"
+ },
+ "g_worm_slippers": {
+  "id": "worm_slippers",
+  "name": "BOOKWORM SLIPPERS",
+  "slot": "feet",
+  "rarity": "rare",
+  "tags": [
+   "arcane"
+  ],
+  "shape": "boots",
+  "sprite": "g_worm_slippers"
+ },
+ "g_worm_mitts": {
+  "id": "worm_mitts",
+  "name": "BOOKWORM MITTS",
+  "slot": "hands",
+  "rarity": "rare",
+  "tags": [
+   "arcane"
+  ],
+  "shape": "gloves",
+  "sprite": "g_worm_mitts"
+ },
+ "g_critic_hat": {
+  "id": "critic_hat",
+  "name": "THE CRITIC'S HAT",
+  "slot": "head",
+  "rarity": "legend",
+  "tags": [
+   "malice"
+  ],
+  "shape": "helm",
+  "sprite": "g_critic_hat"
+ },
+ "g_critic_coat": {
+  "id": "critic_coat",
+  "name": "THE CRITIC'S COAT",
+  "slot": "body",
+  "rarity": "legend",
+  "tags": [
+   "malice"
+  ],
+  "shape": "plate",
+  "sprite": "g_critic_coat"
+ },
+ "g_critic_shoes": {
+  "id": "critic_shoes",
+  "name": "THE CRITIC'S SHOES",
+  "slot": "feet",
+  "rarity": "legend",
+  "tags": [
+   "malice"
+  ],
+  "shape": "boots",
+  "sprite": "g_critic_shoes"
+ },
+ "g_critic_gloves": {
+  "id": "critic_gloves",
+  "name": "THE CRITIC'S GLOVES",
+  "slot": "hands",
+  "rarity": "legend",
+  "tags": [
+   "malice"
+  ],
+  "shape": "gloves",
+  "sprite": "g_critic_gloves"
+ },
+ "g_critic_monocle": {
+  "id": "critic_monocle",
+  "name": "THE CRITIC'S MONOCLE",
+  "slot": "neck",
+  "rarity": "legend",
+  "tags": [
+   "malice"
+  ],
+  "shape": "amulet",
+  "sprite": "g_critic_monocle"
+ },
+ "g_critic_signet": {
+  "id": "critic_signet",
+  "name": "THE CRITIC'S SIGNET",
+  "slot": "ring",
+  "rarity": "legend",
+  "tags": [
+   "malice"
+  ],
+  "shape": "ring",
+  "sprite": "g_critic_signet"
+ },
+ "g_sun_crown": {
+  "id": "sun_crown",
+  "name": "SUNFORGED CROWN",
+  "slot": "head",
+  "rarity": "legend",
+  "tags": [
+   "pyre"
+  ],
+  "shape": "crown",
+  "sprite": "g_sun_crown"
+ },
+ "g_sun_cuirass": {
+  "id": "sun_cuirass",
+  "name": "SUNFORGED CUIRASS",
+  "slot": "body",
+  "rarity": "legend",
+  "tags": [
+   "pyre"
+  ],
+  "shape": "plate",
+  "sprite": "g_sun_cuirass"
+ },
+ "g_sun_boots": {
+  "id": "sun_boots",
+  "name": "SUNFORGED BOOTS",
+  "slot": "feet",
+  "rarity": "legend",
+  "tags": [
+   "pyre"
+  ],
+  "shape": "boots",
+  "sprite": "g_sun_boots"
+ },
+ "g_sun_gauntlet": {
+  "id": "sun_gauntlet",
+  "name": "SUNFORGED GAUNTLET",
+  "slot": "hands",
+  "rarity": "legend",
+  "tags": [
+   "pyre"
+  ],
+  "shape": "gloves",
+  "sprite": "g_sun_gauntlet"
+ },
+ "g_sun_heart": {
+  "id": "sun_heart",
+  "name": "SUNFORGED HEART",
+  "slot": "neck",
+  "rarity": "legend",
+  "tags": [
+   "pyre"
+  ],
+  "shape": "amulet",
+  "sprite": "g_sun_heart"
+ },
+ "g_sun_band": {
+  "id": "sun_band",
+  "name": "SUNFORGED BAND",
+  "slot": "ring",
+  "rarity": "legend",
+  "tags": [
+   "pyre"
+  ],
+  "shape": "ring",
+  "sprite": "g_sun_band"
+ },
+ "g_void_crown": {
+  "id": "void_crown",
+  "name": "VOID REGALIA CROWN",
+  "slot": "head",
+  "rarity": "legend",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "crown",
+  "sprite": "g_void_crown"
+ },
+ "g_void_mantle": {
+  "id": "void_mantle",
+  "name": "VOID REGALIA MANTLE",
+  "slot": "body",
+  "rarity": "legend",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "cloak",
+  "sprite": "g_void_mantle"
+ },
+ "g_void_steps": {
+  "id": "void_steps",
+  "name": "VOID REGALIA STEPS",
+  "slot": "feet",
+  "rarity": "legend",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "boots",
+  "sprite": "g_void_steps"
+ },
+ "g_void_grip": {
+  "id": "void_grip",
+  "name": "VOID REGALIA GRIP",
+  "slot": "hands",
+  "rarity": "legend",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "gloves",
+  "sprite": "g_void_grip"
+ },
+ "g_void_star": {
+  "id": "void_star",
+  "name": "VOID REGALIA STAR",
+  "slot": "neck",
+  "rarity": "legend",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "amulet",
+  "sprite": "g_void_star"
+ },
+ "g_void_band": {
+  "id": "void_band",
+  "name": "VOID REGALIA BAND",
+  "slot": "ring",
+  "rarity": "legend",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "ring",
+  "sprite": "g_void_band"
+ },
+ "g_stormcrown": {
+  "id": "stormcrown",
+  "name": "CROWN OF THE STORM KING",
+  "slot": "head",
+  "rarity": "mythic",
+  "tags": [
+   "storm",
+   "arcane"
+  ],
+  "shape": "crown",
+  "sprite": "g_stormcrown"
+ },
+ "g_eternalaegis": {
+  "id": "eternalaegis",
+  "name": "AEGIS OF ETERNITY",
+  "slot": "body",
+  "rarity": "mythic",
+  "tags": [
+   "bulwark",
+   "arcane"
+  ],
+  "shape": "plate",
+  "sprite": "g_eternalaegis"
+ },
+ "g_voidstriders": {
+  "id": "voidstriders",
+  "name": "STRIDERS OF THE VOID",
+  "slot": "feet",
+  "rarity": "mythic",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "boots",
+  "sprite": "g_voidstriders"
+ },
+ "g_makergauntlets": {
+  "id": "makergauntlets",
+  "name": "GAUNTLETS OF THE MAKER",
+  "slot": "hands",
+  "rarity": "mythic",
+  "tags": [
+   "edge",
+   "arcane"
+  ],
+  "shape": "gloves",
+  "sprite": "g_makergauntlets"
+ },
+ "g_elementring": {
+  "id": "elementring",
+  "name": "RING OF ALL ELEMENTS",
+  "slot": "ring",
+  "rarity": "mythic",
+  "tags": [
+   "pyre",
+   "frost",
+   "venom"
+  ],
+  "shape": "ring",
+  "sprite": "g_elementring"
+ },
+ "g_phoenixheart": {
+  "id": "phoenixheart",
+  "name": "HEART OF THE PHOENIX",
+  "slot": "neck",
+  "rarity": "mythic",
+  "tags": [
+   "pyre",
+   "blood"
+  ],
+  "shape": "amulet",
+  "sprite": "g_phoenixheart"
+ },
+ "g_marchingboots": {
+  "id": "marchingboots",
+  "name": "MARCHING BOOTS",
+  "slot": "feet",
+  "rarity": "rare",
+  "tags": [
+   "swarm"
+  ],
+  "shape": "boots",
+  "sprite": "g_marchingboots"
+ },
+ "g_o_buckler": {
+  "id": "o_buckler",
+  "name": "OAK BUCKLER",
+  "slot": "offhand",
+  "rarity": "common",
+  "tags": [
+   "bulwark"
+  ],
+  "shape": "offhand",
+  "sprite": "g_o_buckler"
+ },
+ "g_o_kite": {
+  "id": "o_kite",
+  "name": "KITE SHIELD",
+  "slot": "offhand",
+  "rarity": "rare",
+  "tags": [
+   "bulwark"
+  ],
+  "shape": "offhand",
+  "sprite": "g_o_kite"
+ },
+ "g_o_tower": {
+  "id": "o_tower",
+  "name": "TOWER SHIELD",
+  "slot": "offhand",
+  "rarity": "epic",
+  "tags": [
+   "bulwark"
+  ],
+  "shape": "offhand",
+  "sprite": "g_o_tower"
+ },
+ "g_o_mirrorshield": {
+  "id": "o_mirrorshield",
+  "name": "MIRROR SHIELD",
+  "slot": "offhand",
+  "rarity": "legend",
+  "tags": [
+   "bulwark",
+   "arcane"
+  ],
+  "shape": "offhand",
+  "sprite": "g_o_mirrorshield"
+ },
+ "g_o_spiketarge": {
+  "id": "o_spiketarge",
+  "name": "SPIKED TARGE",
+  "slot": "offhand",
+  "rarity": "rare",
+  "tags": [
+   "bulwark",
+   "fury"
+  ],
+  "shape": "offhand",
+  "sprite": "g_o_spiketarge"
+ },
+ "g_o_handmirror": {
+  "id": "o_handmirror",
+  "name": "HAND MIRROR",
+  "slot": "offhand",
+  "rarity": "epic",
+  "tags": [
+   "arcane"
+  ],
+  "shape": "offhand",
+  "sprite": "g_o_handmirror"
+ },
+ "g_o_quiver": {
+  "id": "o_quiver",
+  "name": "LEATHER QUIVER",
+  "slot": "offhand",
+  "rarity": "common",
+  "tags": [
+   "edge"
+  ],
+  "shape": "offhand",
+  "sprite": "g_o_quiver"
+ },
+ "g_o_emberquiver": {
+  "id": "o_emberquiver",
+  "name": "EMBER QUIVER",
+  "slot": "offhand",
+  "rarity": "rare",
+  "tags": [
+   "pyre"
+  ],
+  "shape": "offhand",
+  "sprite": "g_o_emberquiver"
+ },
+ "g_o_rimequiver": {
+  "id": "o_rimequiver",
+  "name": "RIME QUIVER",
+  "slot": "offhand",
+  "rarity": "rare",
+  "tags": [
+   "frost"
+  ],
+  "shape": "offhand",
+  "sprite": "g_o_rimequiver"
+ },
+ "g_o_lantern": {
+  "id": "o_lantern",
+  "name": "TIN LANTERN",
+  "slot": "offhand",
+  "rarity": "common",
+  "tags": [
+   "pyre"
+  ],
+  "shape": "offhand",
+  "sprite": "g_o_lantern"
+ },
+ "g_o_soullantern": {
+  "id": "o_soullantern",
+  "name": "SOUL LANTERN",
+  "slot": "offhand",
+  "rarity": "epic",
+  "tags": [
+   "malice"
+  ],
+  "shape": "offhand",
+  "sprite": "g_o_soullantern"
+ },
+ "g_o_starlantern": {
+  "id": "o_starlantern",
+  "name": "STAR LANTERN",
+  "slot": "offhand",
+  "rarity": "legend",
+  "tags": [
+   "arcane"
+  ],
+  "shape": "offhand",
+  "sprite": "g_o_starlantern"
+ },
+ "g_o_primer": {
+  "id": "o_primer",
+  "name": "SPELL PRIMER",
+  "slot": "offhand",
+  "rarity": "common",
+  "tags": [
+   "arcane"
+  ],
+  "shape": "offhand",
+  "sprite": "g_o_primer"
+ },
+ "g_o_blackgrimoire": {
+  "id": "o_blackgrimoire",
+  "name": "BLACK GRIMOIRE",
+  "slot": "offhand",
+  "rarity": "epic",
+  "tags": [
+   "malice",
+   "arcane"
+  ],
+  "shape": "offhand",
+  "sprite": "g_o_blackgrimoire"
+ },
+ "g_o_hipflask": {
+  "id": "o_hipflask",
+  "name": "HIP FLASK",
+  "slot": "offhand",
+  "rarity": "common",
+  "tags": [
+   "fury"
+  ],
+  "shape": "offhand",
+  "sprite": "g_o_hipflask"
+ },
+ "g_o_redvial": {
+  "id": "o_redvial",
+  "name": "RED VIAL",
+  "slot": "offhand",
+  "rarity": "rare",
+  "tags": [
+   "blood"
+  ],
+  "shape": "offhand",
+  "sprite": "g_o_redvial"
+ },
+ "g_o_balloon": {
+  "id": "o_balloon",
+  "name": "RED BALLOON",
+  "slot": "offhand",
+  "rarity": "common",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "offhand",
+  "sprite": "g_o_balloon"
+ },
+ "g_o_balloons": {
+  "id": "o_balloons",
+  "name": "BALLOON BUNCH",
+  "slot": "offhand",
+  "rarity": "rare",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "offhand",
+  "sprite": "g_o_balloons"
+ },
+ "g_o_spareheart": {
+  "id": "o_spareheart",
+  "name": "SPARE HEART",
+  "slot": "offhand",
+  "rarity": "rare",
+  "tags": [
+   "bulwark"
+  ],
+  "shape": "offhand",
+  "sprite": "g_o_spareheart"
+ },
+ "g_o_ironheart": {
+  "id": "o_ironheart",
+  "name": "IRON HEART",
+  "slot": "offhand",
+  "rarity": "epic",
+  "tags": [
+   "bulwark"
+  ],
+  "shape": "offhand",
+  "sprite": "g_o_ironheart"
+ },
+ "g_o_bombsatchel": {
+  "id": "o_bombsatchel",
+  "name": "BOMB SATCHEL",
+  "slot": "offhand",
+  "rarity": "common",
+  "tags": [
+   "demolition"
+  ],
+  "shape": "offhand",
+  "sprite": "g_o_bombsatchel"
+ },
+ "g_o_torch": {
+  "id": "o_torch",
+  "name": "PITCH TORCH",
+  "slot": "offhand",
+  "rarity": "common",
+  "tags": [
+   "pyre"
+  ],
+  "shape": "offhand",
+  "sprite": "g_o_torch"
+ },
+ "g_o_seerorb": {
+  "id": "o_seerorb",
+  "name": "SEER'S ORB",
+  "slot": "offhand",
+  "rarity": "rare",
+  "tags": [
+   "arcane",
+   "fortune"
+  ],
+  "shape": "offhand",
+  "sprite": "g_o_seerorb"
+ },
+ "g_o_warbanner": {
+  "id": "o_warbanner",
+  "name": "WAR BANNER",
+  "slot": "offhand",
+  "rarity": "rare",
+  "tags": [
+   "swarm"
+  ],
+  "shape": "offhand",
+  "sprite": "g_o_warbanner"
+ },
+ "g_o_graveskull": {
+  "id": "o_graveskull",
+  "name": "GRAVE SKULL",
+  "slot": "offhand",
+  "rarity": "epic",
+  "tags": [
+   "malice",
+   "swarm"
+  ],
+  "shape": "offhand",
+  "sprite": "g_o_graveskull"
+ },
+ "g_o_templebell": {
+  "id": "o_templebell",
+  "name": "TEMPLE BELL",
+  "slot": "offhand",
+  "rarity": "rare",
+  "tags": [
+   "bulwark"
+  ],
+  "shape": "offhand",
+  "sprite": "g_o_templebell"
+ },
+ "g_o_lute": {
+  "id": "o_lute",
+  "name": "TRAVELLER'S LUTE",
+  "slot": "offhand",
+  "rarity": "rare",
+  "tags": [
+   "fortune"
+  ],
+  "shape": "offhand",
+  "sprite": "g_o_lute"
+ },
+ "g_saintsigil": {
+  "id": "saintsigil",
+  "name": "SAINT'S SIGIL",
+  "slot": "neck",
+  "rarity": "epic",
+  "tags": [
+   "bulwark"
+  ],
+  "shape": "amulet",
+  "sprite": "g_saintsigil"
+ },
+ "g_devilsbargain": {
+  "id": "devilsbargain",
+  "name": "DEVIL'S BARGAIN",
+  "slot": "ring",
+  "rarity": "epic",
+  "tags": [
+   "malice"
+  ],
+  "shape": "ring",
+  "sprite": "g_devilsbargain"
+ },
+ "g_magistrateseal": {
+  "id": "magistrateseal",
+  "name": "MAGISTRATE'S SEAL",
+  "slot": "trinket",
+  "rarity": "epic",
+  "tags": [
+   "bulwark"
+  ],
+  "shape": "charm",
+  "sprite": "g_magistrateseal"
+ },
+ "g_madcapbells": {
+  "id": "madcapbells",
+  "name": "MADCAP'S BELLS",
+  "slot": "head",
+  "rarity": "epic",
+  "tags": [
+   "fury"
+  ],
+  "shape": "hat",
+  "sprite": "g_madcapbells"
+ },
+ "g_o_dowsingrod": {
+  "id": "o_dowsingrod",
+  "name": "DOWSING ROD",
+  "slot": "offhand",
+  "rarity": "rare",
+  "tags": [
+   "fortune"
+  ],
+  "shape": "offhand",
+  "sprite": "g_o_dowsingrod"
+ },
+ "g_featheredcap": {
+  "id": "featheredcap",
+  "name": "FEATHERED CAP",
+  "slot": "head",
+  "rarity": "common",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "hat",
+  "sprite": "g_featheredcap"
+ },
+ "g_ironsallet": {
+  "id": "ironsallet",
+  "name": "IRON SALLET",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "bulwark"
+  ],
+  "shape": "helm",
+  "sprite": "g_ironsallet"
+ },
+ "g_pointedhat": {
+  "id": "pointedhat",
+  "name": "POINTED HAT",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "arcane"
+  ],
+  "shape": "hat",
+  "sprite": "g_pointedhat"
+ },
+ "g_bullhelm": {
+  "id": "bullhelm",
+  "name": "BULL HELM",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "fury"
+  ],
+  "shape": "helm",
+  "sprite": "g_bullhelm"
+ },
+ "g_pumpkinhead": {
+  "id": "pumpkinhead",
+  "name": "PUMPKIN HEAD",
+  "slot": "head",
+  "rarity": "epic",
+  "tags": [
+   "pyre"
+  ],
+  "shape": "mask",
+  "sprite": "g_pumpkinhead"
+ },
+ "g_thorncrown": {
+  "id": "thorncrown",
+  "name": "CROWN OF THORNS",
+  "slot": "head",
+  "rarity": "epic",
+  "tags": [
+   "blood"
+  ],
+  "shape": "crown",
+  "sprite": "g_thorncrown"
+ },
+ "g_plaguemask": {
+  "id": "plaguemask",
+  "name": "PLAGUE MASK",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "venom"
+  ],
+  "shape": "mask",
+  "sprite": "g_plaguemask"
+ },
+ "g_minerscap": {
+  "id": "minerscap",
+  "name": "MINER'S CAP",
+  "slot": "head",
+  "rarity": "common",
+  "tags": [
+   "fortune"
+  ],
+  "shape": "hat",
+  "sprite": "g_minerscap"
+ },
+ "g_whisperhood": {
+  "id": "whisperhood",
+  "name": "HOOD OF WHISPERS",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "hood",
+  "sprite": "g_whisperhood"
+ },
+ "g_kabuto": {
+  "id": "kabuto",
+  "name": "WAR KABUTO",
+  "slot": "head",
+  "rarity": "epic",
+  "tags": [
+   "edge"
+  ],
+  "shape": "helm",
+  "sprite": "g_kabuto"
+ },
+ "g_circlet": {
+  "id": "circlet",
+  "name": "SUN CIRCLET",
+  "slot": "head",
+  "rarity": "legend",
+  "tags": [
+   "arcane",
+   "fortune"
+  ],
+  "shape": "crown",
+  "sprite": "g_circlet"
+ },
+ "g_froghood": {
+  "id": "froghood",
+  "name": "FROG HOOD",
+  "slot": "head",
+  "rarity": "common",
+  "tags": [
+   "venom"
+  ],
+  "shape": "hood",
+  "sprite": "g_froghood"
+ },
+ "g_beeveil": {
+  "id": "beeveil",
+  "name": "BEEKEEPER'S VEIL",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "swarm"
+  ],
+  "shape": "hood",
+  "sprite": "g_beeveil"
+ },
+ "g_chefhat": {
+  "id": "chefhat",
+  "name": "CHEF'S HAT",
+  "slot": "head",
+  "rarity": "common",
+  "tags": [
+   "bulwark"
+  ],
+  "shape": "hat",
+  "sprite": "g_chefhat"
+ },
+ "g_astrohood": {
+  "id": "astrohood",
+  "name": "ASTRONOMER'S HOOD",
+  "slot": "head",
+  "rarity": "epic",
+  "tags": [
+   "arcane"
+  ],
+  "shape": "hood",
+  "sprite": "g_astrohood"
+ },
+ "g_skullhelm": {
+  "id": "skullhelm",
+  "name": "SKULL HELM",
+  "slot": "head",
+  "rarity": "rare",
+  "tags": [
+   "malice"
+  ],
+  "shape": "helm",
+  "sprite": "g_skullhelm"
+ },
+ "g_wandercape": {
+  "id": "wandercape",
+  "name": "WANDERER'S CAPE",
+  "slot": "body",
+  "rarity": "common",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "cloak",
+  "sprite": "g_wandercape"
+ },
+ "g_chainmail": {
+  "id": "chainmail",
+  "name": "CHAIN MAIL",
+  "slot": "body",
+  "rarity": "common",
+  "tags": [
+   "bulwark"
+  ],
+  "shape": "plate",
+  "sprite": "g_chainmail"
+ },
+ "g_saffronrobe": {
+  "id": "saffronrobe",
+  "name": "SAFFRON ROBE",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "edge"
+  ],
+  "shape": "robe",
+  "sprite": "g_saffronrobe"
+ },
+ "g_starrobe": {
+  "id": "starrobe",
+  "name": "STARWOVEN ROBE",
+  "slot": "body",
+  "rarity": "epic",
+  "tags": [
+   "arcane"
+  ],
+  "shape": "robe",
+  "sprite": "g_starrobe"
+ },
+ "g_wolfpelt": {
+  "id": "wolfpelt",
+  "name": "WOLF PELT",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "fury"
+  ],
+  "shape": "leather",
+  "sprite": "g_wolfpelt"
+ },
+ "g_alchemistapron": {
+  "id": "alchemistapron",
+  "name": "ALCHEMIST'S APRON",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "venom",
+   "pyre"
+  ],
+  "shape": "leather",
+  "sprite": "g_alchemistapron"
+ },
+ "g_knightplate": {
+  "id": "knightplate",
+  "name": "KNIGHT'S PLATE",
+  "slot": "body",
+  "rarity": "epic",
+  "tags": [
+   "bulwark"
+  ],
+  "shape": "plate",
+  "sprite": "g_knightplate"
+ },
+ "g_shadowleathers": {
+  "id": "shadowleathers",
+  "name": "SHADOW LEATHERS",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "leather",
+  "sprite": "g_shadowleathers"
+ },
+ "g_priestvestment": {
+  "id": "priestvestment",
+  "name": "PRIEST'S VESTMENT",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "bulwark"
+  ],
+  "shape": "robe",
+  "sprite": "g_priestvestment"
+ },
+ "g_cultistrobe": {
+  "id": "cultistrobe",
+  "name": "CULTIST'S ROBE",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "malice"
+  ],
+  "shape": "robe",
+  "sprite": "g_cultistrobe"
+ },
+ "g_barddoublet": {
+  "id": "barddoublet",
+  "name": "BARD'S DOUBLET",
+  "slot": "body",
+  "rarity": "common",
+  "tags": [
+   "fortune"
+  ],
+  "shape": "leather",
+  "sprite": "g_barddoublet"
+ },
+ "g_gladiatorharness": {
+  "id": "gladiatorharness",
+  "name": "GLADIATOR'S HARNESS",
+  "slot": "body",
+  "rarity": "epic",
+  "tags": [
+   "fury"
+  ],
+  "shape": "leather",
+  "sprite": "g_gladiatorharness"
+ },
+ "g_iceplate": {
+  "id": "iceplate",
+  "name": "RIME PLATE",
+  "slot": "body",
+  "rarity": "epic",
+  "tags": [
+   "frost"
+  ],
+  "shape": "plate",
+  "sprite": "g_iceplate"
+ },
+ "g_embercoat": {
+  "id": "embercoat",
+  "name": "EMBER COAT",
+  "slot": "body",
+  "rarity": "epic",
+  "tags": [
+   "pyre"
+  ],
+  "shape": "cloak",
+  "sprite": "g_embercoat"
+ },
+ "g_feathercloak": {
+  "id": "feathercloak",
+  "name": "FEATHER CLOAK",
+  "slot": "body",
+  "rarity": "legend",
+  "tags": [
+   "shadow"
+  ],
+  "shape": "cloak",
+  "sprite": "g_feathercloak"
+ },
+ "g_bonearmor": {
+  "id": "bonearmor",
+  "name": "BONE ARMOUR",
+  "slot": "body",
+  "rarity": "rare",
+  "tags": [
+   "malice",
+   "swarm"
+  ],
+  "shape": "plate",
+  "sprite": "g_bonearmor"
+ },
+ "g_firststar": {
+  "id": "firststar",
+  "name": "SHARD OF THE FIRST STAR",
+  "slot": "trinket",
+  "rarity": "mythic",
+  "tags": [
+   "arcane",
+   "pyre"
+  ],
+  "shape": "charm",
+  "sprite": "g_firststar"
+ },
+ "g_scoutpack": {
+  "id": "scoutpack",
+  "name": "SCOUT PACK",
+  "slot": "body",
+  "rarity": "common",
+  "tags": [
+   "swarm"
+  ],
+  "shape": "leather",
+  "sprite": "g_scoutpack"
+ }
+}

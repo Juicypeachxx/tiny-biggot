@@ -1,0 +1,98 @@
+{
+ "bat_v1": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a fat round purple cave bat, plump ball-shaped body, small stubby wings spread out, big glowing red eyes, two tiny fangs, chubby chunky round cute-but-mean dungeon monster, big simple shapes, thick dark outline, few large pixel clusters, bold shading, readable at tiny size",
+   "width": 24,
+   "height": 24,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  }
+ },
+ "bat_v2": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a fat round purple cave bat, plump ball-shaped body, small stubby wings spread out, big glowing red eyes, two tiny fangs, chubby chunky round cute-but-mean dungeon monster, big simple shapes, thick dark outline, few large pixel clusters, bold shading, readable at tiny size",
+   "width": 24,
+   "height": 24,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "low detail",
+   "no_background": true
+  }
+ },
+ "slime_v1": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a fat squat bright green slime blob, wide and heavy like a jelly drop, glossy white highlight, two little angry eyes, chubby chunky round cute-but-mean dungeon monster, big simple shapes, thick dark outline, few large pixel clusters, bold shading, readable at tiny size",
+   "width": 24,
+   "height": 24,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  }
+ },
+ "slime_v2": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a fat squat bright green slime blob, wide and heavy like a jelly drop, glossy white highlight, two little angry eyes, chubby chunky round cute-but-mean dungeon monster, big simple shapes, thick dark outline, few large pixel clusters, bold shading, readable at tiny size",
+   "width": 24,
+   "height": 24,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "low detail",
+   "no_background": true
+  }
+ },
+ "skeleton_v1": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a stocky chunky skeleton archer with a big round skull and a short wooden bow, thick bones, facing right, chubby chunky round cute-but-mean dungeon monster, big simple shapes, thick dark outline, few large pixel clusters, bold shading, readable at tiny size",
+   "width": 24,
+   "height": 24,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  }
+ },
+ "skeleton_v2": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a stocky chunky skeleton archer with a big round skull and a short wooden bow, thick bones, facing right, chubby chunky round cute-but-mean dungeon monster, big simple shapes, thick dark outline, few large pixel clusters, bold shading, readable at tiny size",
+   "width": 24,
+   "height": 24,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "low detail",
+   "no_background": true
+  }
+ },
+ "mushroom_v1": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a fat walking mushroom monster, huge wide red cap with big white spots, short plump cream body, tiny stubby feet, small angry eyes, chubby chunky round cute-but-mean dungeon monster, big simple shapes, thick dark outline, few large pixel clusters, bold shading, readable at tiny size",
+   "width": 24,
+   "height": 24,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  }
+ },
+ "mushroom_v2": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a fat walking mushroom monster, huge wide red cap with big white spots, short plump cream body, tiny stubby feet, small angry eyes, chubby chunky round cute-but-mean dungeon monster, big simple shapes, thick dark outline, few large pixel clusters, bold shading, readable at tiny size",
+   "width": 24,
+   "height": 24,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "low detail",
+   "no_background": true
+  }
+ }
+}

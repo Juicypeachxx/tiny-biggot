@@ -1,0 +1,72 @@
+{
+ "tiles": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down view of a floor: a 4 by 4 grid of 16 small square tiles of warm wooden floorboards with thin dark joints between them, every tile different: a crumb, a toy block, a small spill, plain boards, a coin, a scuff",
+   "width": 128,
+   "height": 128,
+   "view": "high top-down",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "redo6",
+  "tries": 2
+ },
+ "wall_a": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a flat wall surface filling the whole picture, seen straight on, no doorway, no sky, no floor: cozy suburban house interior wall with floral wallpaper, picture frames and a white wainscot rail, dark fantasy pixel art",
+   "width": 128,
+   "height": 64,
+   "view": "side",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "rest",
+  "tries": 1
+ },
+ "wall_b": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a flat wall surface filling the whole picture, seen straight on, no doorway, no sky, no floor: cozy suburban house interior wall with floral wallpaper, picture frames and a white wainscot rail, with a window showing a sunny lawn and a maple tree in the middle, dark fantasy pixel art",
+   "width": 128,
+   "height": 64,
+   "view": "side",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "rest",
+  "tries": 1
+ },
+ "pilaster": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a narrow white wooden door frame column with a light switch, dark fantasy pixel art",
+   "width": 32,
+   "height": 64,
+   "view": "side",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "rest",
+  "tries": 1
+ },
+ "walltop": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down view of a uniform seamless tileable texture of wooden attic beams, no objects, no border, filling the whole picture",
+   "width": 64,
+   "height": 64,
+   "view": "high top-down",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "rest",
+  "tries": 1
+ }
+}

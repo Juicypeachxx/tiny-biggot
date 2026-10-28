@@ -1,0 +1,145 @@
+{
+ "g01": [
+  "colossus",
+  "colossus_s2",
+  "colossus_s3",
+  "sporemother",
+  "sporemother_s2",
+  "sporemother_s3",
+  "librarian",
+  "librarian_s2",
+  "librarian_s3"
+ ],
+ "g02": [
+  "tyrant",
+  "tyrant_s2",
+  "tyrant_s3",
+  "rimewarden",
+  "rimewarden_s2",
+  "rimewarden_s3",
+  "regent",
+  "regent_s2",
+  "regent_s3"
+ ],
+ "g03": [
+  "bogmatriarch",
+  "bogmatriarch_s2",
+  "bogmatriarch_s3",
+  "ashwarlord",
+  "ashwarlord_s2",
+  "ashwarlord_s3",
+  "frozenabbot",
+  "frozenabbot_s2",
+  "frozenabbot_s3"
+ ],
+ "g04": [
+  "crowking",
+  "crowking_s2",
+  "crowking_s3",
+  "umbralsun",
+  "umbralsun_s2",
+  "umbralsun_s3",
+  "holycow",
+  "holycow_s2",
+  "holycow_s3"
+ ],
+ "g05": [
+  "judge",
+  "judge_s2",
+  "judge_s3",
+  "cinderking",
+  "cinderking_s2",
+  "cinderking_s3",
+  "unwritten",
+  "unwritten_s2",
+  "unwritten_s3"
+ ],
+ "g06": [
+  "stormcrown",
+  "stormcrown_s2",
+  "stormcrown_s3",
+  "bilgehydra",
+  "bilgehydra_s2",
+  "bilgehydra_s3",
+  "brassorgan",
+  "brassorgan_s2",
+  "brassorgan_s3"
+ ],
+ "g07": [
+  "greatengine",
+  "greatengine_s2",
+  "greatengine_s3",
+  "glacialmaw",
+  "glacialmaw_s2",
+  "glacialmaw_s3",
+  "inkleviathan",
+  "inkleviathan_s2",
+  "inkleviathan_s3"
+ ],
+ "g08": [
+  "thebinder",
+  "thebinder_s2",
+  "thebinder_s3",
+  "author",
+  "author_s2",
+  "author_s3",
+  "redactor",
+  "redactor_s2",
+  "redactor_s3"
+ ],
+ "g09": [
+  "lexicon",
+  "lexicon_s2",
+  "lexicon_s3",
+  "erratum",
+  "erratum_s2",
+  "erratum_s3",
+  "reader",
+  "reader_s2",
+  "reader_s3"
+ ],
+ "g10": [
+  "shelver",
+  "shelver_s2",
+  "shelver_s3",
+  "hush",
+  "hush_s2",
+  "hush_s3",
+  "critic",
+  "critic_s2",
+  "critic_s3"
+ ],
+ "g11": [
+  "admiral",
+  "admiral_s2",
+  "admiral_s3",
+  "golemking",
+  "golemking_s2",
+  "golemking_s3",
+  "archmage",
+  "archmage_s2",
+  "archmage_s3"
+ ],
+ "g12": [
+  "phoenix",
+  "phoenix_s2",
+  "phoenix_s3",
+  "wyrm",
+  "wyrm_s2",
+  "wyrm_s3",
+  "chainfiend",
+  "chainfiend_s2",
+  "chainfiend_s3"
+ ],
+ "g13": [
+  "seraph",
+  "seraph_s2",
+  "seraph_s3",
+  "preview_arci",
+  "preview_rex",
+  "preview_braysalot",
+  "preview_scalesworth",
+  "preview_prophet",
+  "preview_chonk"
+ ]
+}

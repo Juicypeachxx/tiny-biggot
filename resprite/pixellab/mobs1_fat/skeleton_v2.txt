@@ -1,0 +1,11 @@
+status: completed
+id: 798af05c-a221-4f96-9758-fe0289a31905
+job_id: 798af05c-a221-4f96-9758-fe0289a31905
+frames: 1
+transparent: yes
+asset_id: a764df29-4bbb-5b99-b976-5830d2478f92
+asset_type: image
+asset_status: saved
+gallery: saved to your PixelLab gallery (pixellab.ai/create)
+charged: 1 generation
+download: https://api.pixellab.ai/mcp/images/798af05c-a221-4f96-9758-fe0289a31905/download

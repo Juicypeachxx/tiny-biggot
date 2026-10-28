@@ -1,0 +1,114 @@
+{
+ "bat_v1": {
+  "tool": "create_image_pixen",
+  "id": "5a11a56a-5066-4caa-99f1-d7bff4f6d28a",
+  "args": {
+   "description": "a fat round purple cave bat, plump ball-shaped body, small stubby wings spread out, big glowing red eyes, two tiny fangs, chubby chunky round cute-but-mean dungeon monster, big simple shapes, thick dark outline, few large pixel clusters, bold shading, readable at tiny size",
+   "width": 24,
+   "height": 24,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "done": true
+ },
+ "bat_v2": {
+  "tool": "create_image_pixen",
+  "id": "4b104241-de19-4d62-adfe-386e13df422e",
+  "args": {
+   "description": "a fat round purple cave bat, plump ball-shaped body, small stubby wings spread out, big glowing red eyes, two tiny fangs, chubby chunky round cute-but-mean dungeon monster, big simple shapes, thick dark outline, few large pixel clusters, bold shading, readable at tiny size",
+   "width": 24,
+   "height": 24,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "low detail",
+   "no_background": true
+  },
+  "done": true
+ },
+ "slime_v1": {
+  "tool": "create_image_pixen",
+  "id": "c8ed7304-22cf-4d59-aeff-75c62551403a",
+  "args": {
+   "description": "a fat squat bright green slime blob, wide and heavy like a jelly drop, glossy white highlight, two little angry eyes, chubby chunky round cute-but-mean dungeon monster, big simple shapes, thick dark outline, few large pixel clusters, bold shading, readable at tiny size",
+   "width": 24,
+   "height": 24,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "done": true
+ },
+ "slime_v2": {
+  "tool": "create_image_pixen",
+  "id": "f00d2f88-ab11-42ca-8200-a55cd8c5bcdd",
+  "args": {
+   "description": "a fat squat bright green slime blob, wide and heavy like a jelly drop, glossy white highlight, two little angry eyes, chubby chunky round cute-but-mean dungeon monster, big simple shapes, thick dark outline, few large pixel clusters, bold shading, readable at tiny size",
+   "width": 24,
+   "height": 24,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "low detail",
+   "no_background": true
+  },
+  "done": true
+ },
+ "skeleton_v1": {
+  "tool": "create_image_pixen",
+  "id": "2d5bb80b-dd9b-4e8e-8cc0-6335defcbbd2",
+  "args": {
+   "description": "a stocky chunky skeleton archer with a big round skull and a short wooden bow, thick bones, facing right, chubby chunky round cute-but-mean dungeon monster, big simple shapes, thick dark outline, few large pixel clusters, bold shading, readable at tiny size",
+   "width": 24,
+   "height": 24,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "done": true
+ },
+ "skeleton_v2": {
+  "tool": "create_image_pixen",
+  "id": "798af05c-a221-4f96-9758-fe0289a31905",
+  "args": {
+   "description": "a stocky chunky skeleton archer with a big round skull and a short wooden bow, thick bones, facing right, chubby chunky round cute-but-mean dungeon monster, big simple shapes, thick dark outline, few large pixel clusters, bold shading, readable at tiny size",
+   "width": 24,
+   "height": 24,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "low detail",
+   "no_background": true
+  },
+  "done": true
+ },
+ "mushroom_v1": {
+  "tool": "create_image_pixen",
+  "id": "4d493652-e959-4e4b-8360-1ecfdd68a81d",
+  "args": {
+   "description": "a fat walking mushroom monster, huge wide red cap with big white spots, short plump cream body, tiny stubby feet, small angry eyes, chubby chunky round cute-but-mean dungeon monster, big simple shapes, thick dark outline, few large pixel clusters, bold shading, readable at tiny size",
+   "width": 24,
+   "height": 24,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "done": true
+ },
+ "mushroom_v2": {
+  "tool": "create_image_pixen",
+  "id": "59ee399b-7cb4-4d1a-ad7c-8d5351f6995a",
+  "args": {
+   "description": "a fat walking mushroom monster, huge wide red cap with big white spots, short plump cream body, tiny stubby feet, small angry eyes, chubby chunky round cute-but-mean dungeon monster, big simple shapes, thick dark outline, few large pixel clusters, bold shading, readable at tiny size",
+   "width": 24,
+   "height": 24,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "low detail",
+   "no_background": true
+  },
+  "done": true
+ }
+}

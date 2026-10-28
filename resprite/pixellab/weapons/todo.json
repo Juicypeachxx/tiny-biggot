@@ -1,0 +1,4531 @@
+{
+ "w_repeater": {
+  "id": "repeater",
+  "name": "REPEATER",
+  "kind": "bolt",
+  "rarity": "common",
+  "tags": [],
+  "fam": "crossbow",
+  "sprite": "w_repeater"
+ },
+ "w_huntbow": {
+  "id": "huntbow",
+  "name": "HUNTING BOW",
+  "kind": "bolt",
+  "rarity": "common",
+  "tags": [
+   "fortune"
+  ],
+  "fam": "bow",
+  "sprite": "w_huntbow"
+ },
+ "w_streetpistol": {
+  "id": "streetpistol",
+  "name": "STREET PISTOL",
+  "kind": "bolt",
+  "rarity": "common",
+  "tags": [
+   "blood"
+  ],
+  "fam": "pistol",
+  "sprite": "w_streetpistol"
+ },
+ "w_silvercrossbow": {
+  "id": "silvercrossbow",
+  "name": "SILVERED CROSSBOW",
+  "kind": "bolt",
+  "rarity": "rare",
+  "tags": [
+   "bulwark"
+  ],
+  "fam": "crossbow",
+  "sprite": "w_silvercrossbow"
+ },
+ "w_longrifle": {
+  "id": "longrifle",
+  "name": "LONG RIFLE",
+  "kind": "bolt",
+  "rarity": "rare",
+  "tags": [
+   "shadow"
+  ],
+  "fam": "rifle",
+  "sprite": "w_longrifle"
+ },
+ "w_thornbow": {
+  "id": "thornbow",
+  "name": "THORNBOW",
+  "kind": "bolt",
+  "rarity": "epic",
+  "tags": [
+   "venom"
+  ],
+  "fam": "bow",
+  "sprite": "w_thornbow"
+ },
+ "w_sunpiercer": {
+  "id": "sunpiercer",
+  "name": "SUNPIERCER",
+  "kind": "bolt",
+  "rarity": "legend",
+  "tags": [
+   "pyre"
+  ],
+  "fam": "bow",
+  "sprite": "w_sunpiercer"
+ },
+ "w_hexwand": {
+  "id": "hexwand",
+  "name": "HEX WAND",
+  "kind": "orb",
+  "rarity": "common",
+  "tags": [],
+  "fam": "wand",
+  "sprite": "w_hexwand"
+ },
+ "w_emberwand": {
+  "id": "emberwand",
+  "name": "EMBER WAND",
+  "kind": "orb",
+  "rarity": "common",
+  "tags": [
+   "pyre"
+  ],
+  "fam": "wand",
+  "sprite": "w_emberwand"
+ },
+ "w_rimerod": {
+  "id": "rimerod",
+  "name": "RIME ROD",
+  "kind": "orb",
+  "rarity": "common",
+  "tags": [
+   "frost"
+  ],
+  "fam": "wand",
+  "sprite": "w_rimerod"
+ },
+ "w_witchstaff": {
+  "id": "witchstaff",
+  "name": "WITCHWOOD STAFF",
+  "kind": "orb",
+  "rarity": "rare",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "orbstaff",
+  "sprite": "w_witchstaff"
+ },
+ "w_stormcaller": {
+  "id": "stormcaller",
+  "name": "STORMCALLER",
+  "kind": "orb",
+  "rarity": "rare",
+  "tags": [
+   "storm"
+  ],
+  "fam": "staff",
+  "sprite": "w_stormcaller"
+ },
+ "w_soulstaff": {
+  "id": "soulstaff",
+  "name": "SOULREAVER STAFF",
+  "kind": "orb",
+  "rarity": "epic",
+  "tags": [
+   "shadow"
+  ],
+  "fam": "skullstaff",
+  "sprite": "w_soulstaff"
+ },
+ "w_laststar": {
+  "id": "laststar",
+  "name": "THE LAST STAR",
+  "kind": "orb",
+  "rarity": "legend",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "orbstaff",
+  "sprite": "w_laststar"
+ },
+ "w_pithatchet": {
+  "id": "pithatchet",
+  "name": "PIT HATCHET",
+  "kind": "spin",
+  "rarity": "common",
+  "tags": [],
+  "fam": "axe",
+  "sprite": "w_pithatchet"
+ },
+ "w_woodaxe": {
+  "id": "woodaxe",
+  "name": "WOODSMAN'S AXE",
+  "kind": "spin",
+  "rarity": "common",
+  "tags": [],
+  "fam": "axe",
+  "sprite": "w_woodaxe"
+ },
+ "w_bonecleaver": {
+  "id": "bonecleaver",
+  "name": "BONE CLEAVER",
+  "kind": "spin",
+  "rarity": "rare",
+  "tags": [
+   "blood"
+  ],
+  "fam": "cleaver",
+  "sprite": "w_bonecleaver"
+ },
+ "w_tomahawk": {
+  "id": "tomahawk",
+  "name": "FEATHERED TOMAHAWK",
+  "kind": "spin",
+  "rarity": "rare",
+  "tags": [
+   "swarm"
+  ],
+  "fam": "axe",
+  "sprite": "w_tomahawk"
+ },
+ "w_ragefang": {
+  "id": "ragefang",
+  "name": "RAGEFANG AXE",
+  "kind": "spin",
+  "rarity": "epic",
+  "tags": [
+   "blood"
+  ],
+  "fam": "axe",
+  "sprite": "w_ragefang"
+ },
+ "w_twincrescent": {
+  "id": "twincrescent",
+  "name": "TWIN CRESCENTS",
+  "kind": "spin",
+  "rarity": "legend",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "sickle",
+  "sprite": "w_twincrescent"
+ },
+ "w_graveshovel": {
+  "id": "graveshovel",
+  "name": "GRAVE SHOVEL",
+  "kind": "shot",
+  "rarity": "common",
+  "tags": [],
+  "fam": "shovel",
+  "sprite": "w_graveshovel"
+ },
+ "w_blunderbuss": {
+  "id": "blunderbuss",
+  "name": "BLUNDERBUSS",
+  "kind": "shot",
+  "rarity": "common",
+  "tags": [
+   "demolition"
+  ],
+  "fam": "blunderbuss",
+  "sprite": "w_blunderbuss"
+ },
+ "w_sawnoff": {
+  "id": "sawnoff",
+  "name": "SAWN-OFF",
+  "kind": "shot",
+  "rarity": "rare",
+  "tags": [
+   "blood"
+  ],
+  "fam": "blunderbuss",
+  "sprite": "w_sawnoff"
+ },
+ "w_nailspitter": {
+  "id": "nailspitter",
+  "name": "NAIL SPITTER",
+  "kind": "shot",
+  "rarity": "rare",
+  "tags": [
+   "venom"
+  ],
+  "fam": "handcannon",
+  "sprite": "w_nailspitter"
+ },
+ "w_hailcannon": {
+  "id": "hailcannon",
+  "name": "HAILSTORM CANNON",
+  "kind": "shot",
+  "rarity": "epic",
+  "tags": [
+   "frost"
+  ],
+  "fam": "handcannon",
+  "sprite": "w_hailcannon"
+ },
+ "w_dragonbreath": {
+  "id": "dragonbreath",
+  "name": "DRAGON'S BREATH",
+  "kind": "shot",
+  "rarity": "legend",
+  "tags": [
+   "pyre"
+  ],
+  "fam": "blunderbuss",
+  "sprite": "w_dragonbreath"
+ },
+ "w_flasksling": {
+  "id": "flasksling",
+  "name": "FLASK SLING",
+  "kind": "flask",
+  "rarity": "common",
+  "tags": [
+   "venom"
+  ],
+  "fam": "flaskw",
+  "sprite": "w_flasksling"
+ },
+ "w_firebottle": {
+  "id": "firebottle",
+  "name": "FIREBOTTLE",
+  "kind": "flask",
+  "rarity": "common",
+  "tags": [
+   "pyre"
+  ],
+  "fam": "flaskw",
+  "sprite": "w_firebottle"
+ },
+ "w_acidjar": {
+  "id": "acidjar",
+  "name": "ACID JAR",
+  "kind": "flask",
+  "rarity": "rare",
+  "tags": [
+   "venom"
+  ],
+  "fam": "flaskw",
+  "sprite": "w_acidjar"
+ },
+ "w_frostvial": {
+  "id": "frostvial",
+  "name": "FROST VIAL",
+  "kind": "flask",
+  "rarity": "rare",
+  "tags": [
+   "frost"
+  ],
+  "fam": "flaskw",
+  "sprite": "w_frostvial"
+ },
+ "w_bottledstorm": {
+  "id": "bottledstorm",
+  "name": "BOTTLED STORM",
+  "kind": "flask",
+  "rarity": "epic",
+  "tags": [
+   "storm"
+  ],
+  "fam": "flaskw",
+  "sprite": "w_bottledstorm"
+ },
+ "w_panacea": {
+  "id": "panacea",
+  "name": "PANACEA",
+  "kind": "flask",
+  "rarity": "legend",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "flaskw",
+  "sprite": "w_panacea"
+ },
+ "w_lantern": {
+  "id": "lantern",
+  "name": "WARDEN'S LANTERN",
+  "kind": "boomer",
+  "rarity": "common",
+  "tags": [],
+  "fam": "lanternw",
+  "sprite": "w_lantern"
+ },
+ "w_boomerang": {
+  "id": "boomerang",
+  "name": "HUNTER'S BOOMERANG",
+  "kind": "boomer",
+  "rarity": "common",
+  "tags": [
+   "fortune"
+  ],
+  "fam": "chakram",
+  "sprite": "w_boomerang"
+ },
+ "w_chakram": {
+  "id": "chakram",
+  "name": "ROVING CHAKRAM",
+  "kind": "boomer",
+  "rarity": "rare",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "chakram",
+  "sprite": "w_chakram"
+ },
+ "w_reaperhook": {
+  "id": "reaperhook",
+  "name": "REAPER'S HOOK",
+  "kind": "boomer",
+  "rarity": "rare",
+  "tags": [
+   "shadow"
+  ],
+  "fam": "sickle",
+  "sprite": "w_reaperhook"
+ },
+ "w_sunlantern": {
+  "id": "sunlantern",
+  "name": "SUNLANTERN",
+  "kind": "boomer",
+  "rarity": "epic",
+  "tags": [
+   "pyre"
+  ],
+  "fam": "lanternw",
+  "sprite": "w_sunlantern"
+ },
+ "w_moonglaive": {
+  "id": "moonglaive",
+  "name": "MOONGLAIVE",
+  "kind": "boomer",
+  "rarity": "legend",
+  "tags": [
+   "frost"
+  ],
+  "fam": "chakram",
+  "sprite": "w_moonglaive"
+ },
+ "w_rustblade": {
+  "id": "rustblade",
+  "name": "RUSTED BLADE",
+  "kind": "slash",
+  "rarity": "common",
+  "tags": [],
+  "fam": "sword",
+  "sprite": "w_rustblade"
+ },
+ "w_sabre": {
+  "id": "sabre",
+  "name": "DUELIST SABRE",
+  "kind": "slash",
+  "rarity": "common",
+  "tags": [
+   "shadow"
+  ],
+  "fam": "rapier",
+  "sprite": "w_sabre"
+ },
+ "w_wandererkatana": {
+  "id": "wandererkatana",
+  "name": "WANDERER'S KATANA",
+  "kind": "slash",
+  "rarity": "rare",
+  "tags": [
+   "shadow"
+  ],
+  "fam": "katana",
+  "sprite": "w_wandererkatana"
+ },
+ "w_huntsword": {
+  "id": "huntsword",
+  "name": "SILVER HUNTSWORD",
+  "kind": "slash",
+  "rarity": "rare",
+  "tags": [
+   "bulwark"
+  ],
+  "fam": "sword",
+  "sprite": "w_huntsword"
+ },
+ "w_gallows": {
+  "id": "gallows",
+  "name": "GALLOWS GREATSWORD",
+  "kind": "slash",
+  "rarity": "epic",
+  "tags": [
+   "blood"
+  ],
+  "fam": "greatsword",
+  "sprite": "w_gallows"
+ },
+ "w_cinderbrand": {
+  "id": "cinderbrand",
+  "name": "CINDERBRAND",
+  "kind": "slash",
+  "rarity": "epic",
+  "tags": [
+   "pyre"
+  ],
+  "fam": "sword",
+  "sprite": "w_cinderbrand"
+ },
+ "w_mirrorblade": {
+  "id": "mirrorblade",
+  "name": "MIRRORBLADE",
+  "kind": "slash",
+  "rarity": "legend",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "katana",
+  "sprite": "w_mirrorblade"
+ },
+ "w_pike": {
+  "id": "pike",
+  "name": "FOOTMAN'S PIKE",
+  "kind": "thrust",
+  "rarity": "common",
+  "tags": [],
+  "fam": "spear",
+  "sprite": "w_pike"
+ },
+ "w_boarspear": {
+  "id": "boarspear",
+  "name": "BOAR SPEAR",
+  "kind": "thrust",
+  "rarity": "common",
+  "tags": [
+   "bulwark"
+  ],
+  "fam": "spear",
+  "sprite": "w_boarspear"
+ },
+ "w_halberd": {
+  "id": "halberd",
+  "name": "WATCHMAN'S HALBERD",
+  "kind": "thrust",
+  "rarity": "rare",
+  "tags": [
+   "bulwark"
+  ],
+  "fam": "halberd",
+  "sprite": "w_halberd"
+ },
+ "w_tidetrident": {
+  "id": "tidetrident",
+  "name": "TIDECALLER TRIDENT",
+  "kind": "thrust",
+  "rarity": "rare",
+  "tags": [
+   "frost"
+  ],
+  "fam": "trident",
+  "sprite": "w_tidetrident"
+ },
+ "w_serpentlance": {
+  "id": "serpentlance",
+  "name": "SERPENT LANCE",
+  "kind": "thrust",
+  "rarity": "epic",
+  "tags": [
+   "venom"
+  ],
+  "fam": "spear",
+  "sprite": "w_serpentlance"
+ },
+ "w_stormspear": {
+  "id": "stormspear",
+  "name": "STORMSPEAR",
+  "kind": "thrust",
+  "rarity": "legend",
+  "tags": [
+   "storm"
+  ],
+  "fam": "spear",
+  "sprite": "w_stormspear"
+ },
+ "w_prismrod": {
+  "id": "prismrod",
+  "name": "PRISM ROD",
+  "kind": "beam",
+  "rarity": "common",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "wand",
+  "sprite": "w_prismrod"
+ },
+ "w_burninglens": {
+  "id": "burninglens",
+  "name": "BURNING LENS",
+  "kind": "beam",
+  "rarity": "rare",
+  "tags": [
+   "pyre"
+  ],
+  "fam": "orbstaff",
+  "sprite": "w_burninglens"
+ },
+ "w_leechrod": {
+  "id": "leechrod",
+  "name": "LEECHING ROD",
+  "kind": "beam",
+  "rarity": "rare",
+  "tags": [
+   "blood"
+  ],
+  "fam": "skullstaff",
+  "sprite": "w_leechrod"
+ },
+ "w_winterbreath": {
+  "id": "winterbreath",
+  "name": "WINTER'S BREATH",
+  "kind": "beam",
+  "rarity": "rare",
+  "tags": [
+   "frost"
+  ],
+  "fam": "wand",
+  "sprite": "w_winterbreath"
+ },
+ "w_voidlight": {
+  "id": "voidlight",
+  "name": "VOIDLIGHT",
+  "kind": "beam",
+  "rarity": "epic",
+  "tags": [
+   "shadow"
+  ],
+  "fam": "rune",
+  "sprite": "w_voidlight"
+ },
+ "w_judgement": {
+  "id": "judgement",
+  "name": "JUDGEMENT RAY",
+  "kind": "beam",
+  "rarity": "legend",
+  "tags": [
+   "fortune"
+  ],
+  "fam": "orbstaff",
+  "sprite": "w_judgement"
+ },
+ "w_firespitter": {
+  "id": "firespitter",
+  "name": "FIRE SPITTER",
+  "kind": "flame",
+  "rarity": "common",
+  "tags": [
+   "pyre"
+  ],
+  "fam": "handcannon",
+  "sprite": "w_firespitter"
+ },
+ "w_bilesprayer": {
+  "id": "bilesprayer",
+  "name": "BILE SPRAYER",
+  "kind": "flame",
+  "rarity": "rare",
+  "tags": [
+   "venom"
+  ],
+  "fam": "flaskw",
+  "sprite": "w_bilesprayer"
+ },
+ "w_frostbellows": {
+  "id": "frostbellows",
+  "name": "FROST BELLOWS",
+  "kind": "flame",
+  "rarity": "rare",
+  "tags": [
+   "frost"
+  ],
+  "fam": "handcannon",
+  "sprite": "w_frostbellows"
+ },
+ "w_locustcenser": {
+  "id": "locustcenser",
+  "name": "LOCUST CENSER",
+  "kind": "flame",
+  "rarity": "epic",
+  "tags": [
+   "swarm"
+  ],
+  "fam": "lanternw",
+  "sprite": "w_locustcenser"
+ },
+ "w_hellmaw": {
+  "id": "hellmaw",
+  "name": "HELLMAW",
+  "kind": "flame",
+  "rarity": "epic",
+  "tags": [
+   "pyre"
+  ],
+  "fam": "handcannon",
+  "sprite": "w_hellmaw"
+ },
+ "w_phoenixbellows": {
+  "id": "phoenixbellows",
+  "name": "PHOENIX BELLOWS",
+  "kind": "flame",
+  "rarity": "legend",
+  "tags": [
+   "pyre"
+  ],
+  "fam": "handcannon",
+  "sprite": "w_phoenixbellows"
+ },
+ "w_sawblade": {
+  "id": "sawblade",
+  "name": "SAWBLADE",
+  "kind": "disc",
+  "rarity": "common",
+  "tags": [],
+  "fam": "chakram",
+  "sprite": "w_sawblade"
+ },
+ "w_razordisc": {
+  "id": "razordisc",
+  "name": "RAZOR DISC",
+  "kind": "disc",
+  "rarity": "common",
+  "tags": [
+   "blood"
+  ],
+  "fam": "chakram",
+  "sprite": "w_razordisc"
+ },
+ "w_doubloon": {
+  "id": "doubloon",
+  "name": "LUCKY DOUBLOON",
+  "kind": "disc",
+  "rarity": "rare",
+  "tags": [
+   "fortune"
+  ],
+  "fam": "chakram",
+  "sprite": "w_doubloon"
+ },
+ "w_thunderring": {
+  "id": "thunderring",
+  "name": "THUNDER RING",
+  "kind": "disc",
+  "rarity": "rare",
+  "tags": [
+   "storm"
+  ],
+  "fam": "chakram",
+  "sprite": "w_thunderring"
+ },
+ "w_nightstar": {
+  "id": "nightstar",
+  "name": "NIGHT STARS",
+  "kind": "disc",
+  "rarity": "epic",
+  "tags": [
+   "shadow"
+  ],
+  "fam": "rune",
+  "sprite": "w_nightstar"
+ },
+ "w_worldeater": {
+  "id": "worldeater",
+  "name": "WORLD-EATER",
+  "kind": "disc",
+  "rarity": "legend",
+  "tags": [
+   "demolition"
+  ],
+  "fam": "chakram",
+  "sprite": "w_worldeater"
+ },
+ "w_emberorb": {
+  "id": "emberorb",
+  "name": "EMBER ORB",
+  "kind": "pulse",
+  "rarity": "common",
+  "tags": [
+   "pyre"
+  ],
+  "fam": "orbstaff",
+  "sprite": "w_emberorb"
+ },
+ "w_frozenheart": {
+  "id": "frozenheart",
+  "name": "FROZEN HEART",
+  "kind": "pulse",
+  "rarity": "rare",
+  "tags": [
+   "frost"
+  ],
+  "fam": "orbstaff",
+  "sprite": "w_frozenheart"
+ },
+ "w_plaguebell": {
+  "id": "plaguebell",
+  "name": "PLAGUE BELL",
+  "kind": "pulse",
+  "rarity": "rare",
+  "tags": [
+   "venom"
+  ],
+  "fam": "lanternw",
+  "sprite": "w_plaguebell"
+ },
+ "w_gravitywell": {
+  "id": "gravitywell",
+  "name": "GRAVITY WELL",
+  "kind": "pulse",
+  "rarity": "epic",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "orbstaff",
+  "sprite": "w_gravitywell"
+ },
+ "w_blacksun": {
+  "id": "blacksun",
+  "name": "BLACK SUN",
+  "kind": "pulse",
+  "rarity": "legend",
+  "tags": [
+   "shadow"
+  ],
+  "fam": "orbstaff",
+  "sprite": "w_blacksun"
+ },
+ "w_sparkrune": {
+  "id": "sparkrune",
+  "name": "SPARK RUNE",
+  "kind": "zap",
+  "rarity": "common",
+  "tags": [
+   "storm"
+  ],
+  "fam": "rune",
+  "sprite": "w_sparkrune"
+ },
+ "w_coppercoil": {
+  "id": "coppercoil",
+  "name": "COPPER COIL",
+  "kind": "zap",
+  "rarity": "rare",
+  "tags": [
+   "storm"
+  ],
+  "fam": "gauntlet",
+  "sprite": "w_coppercoil"
+ },
+ "w_maledict": {
+  "id": "maledict",
+  "name": "MALEDICTION RUNE",
+  "kind": "zap",
+  "rarity": "rare",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "rune",
+  "sprite": "w_maledict"
+ },
+ "w_stormgauntlet": {
+  "id": "stormgauntlet",
+  "name": "STORM GAUNTLET",
+  "kind": "zap",
+  "rarity": "epic",
+  "tags": [
+   "storm"
+  ],
+  "fam": "gauntlet",
+  "sprite": "w_stormgauntlet"
+ },
+ "w_heavensrod": {
+  "id": "heavensrod",
+  "name": "HEAVEN'S ROD",
+  "kind": "zap",
+  "rarity": "legend",
+  "tags": [
+   "storm"
+  ],
+  "fam": "staff",
+  "sprite": "w_heavensrod"
+ },
+ "w_bonechime": {
+  "id": "bonechime",
+  "name": "BONE CHIME",
+  "kind": "nova",
+  "rarity": "common",
+  "tags": [],
+  "fam": "lanternw",
+  "sprite": "w_bonechime"
+ },
+ "w_frostbloom": {
+  "id": "frostbloom",
+  "name": "FROST BLOOM",
+  "kind": "nova",
+  "rarity": "rare",
+  "tags": [
+   "frost"
+  ],
+  "fam": "orbstaff",
+  "sprite": "w_frostbloom"
+ },
+ "w_bloodstar": {
+  "id": "bloodstar",
+  "name": "BLOOD STAR",
+  "kind": "nova",
+  "rarity": "rare",
+  "tags": [
+   "blood"
+  ],
+  "fam": "rune",
+  "sprite": "w_bloodstar"
+ },
+ "w_thorntome": {
+  "id": "thorntome",
+  "name": "TOME OF THORNS",
+  "kind": "nova",
+  "rarity": "epic",
+  "tags": [
+   "venom"
+  ],
+  "fam": "tome",
+  "sprite": "w_thorntome"
+ },
+ "w_cataclysm": {
+  "id": "cataclysm",
+  "name": "CATACLYSM",
+  "kind": "nova",
+  "rarity": "legend",
+  "tags": [
+   "demolition"
+  ],
+  "fam": "tome",
+  "sprite": "w_cataclysm"
+ },
+ "w_snaremine": {
+  "id": "snaremine",
+  "name": "SNARE MINES",
+  "kind": "mine",
+  "rarity": "common",
+  "tags": [
+   "demolition"
+  ],
+  "fam": "minetrap",
+  "sprite": "w_snaremine"
+ },
+ "w_frosttrap": {
+  "id": "frosttrap",
+  "name": "FROST TRAP",
+  "kind": "mine",
+  "rarity": "rare",
+  "tags": [
+   "frost"
+  ],
+  "fam": "minetrap",
+  "sprite": "w_frosttrap"
+ },
+ "w_spiketrap": {
+  "id": "spiketrap",
+  "name": "SPIKE TRAP",
+  "kind": "mine",
+  "rarity": "rare",
+  "tags": [
+   "blood"
+  ],
+  "fam": "minetrap",
+  "sprite": "w_spiketrap"
+ },
+ "w_hivepod": {
+  "id": "hivepod",
+  "name": "HIVE POD",
+  "kind": "mine",
+  "rarity": "epic",
+  "tags": [
+   "swarm"
+  ],
+  "fam": "minetrap",
+  "sprite": "w_hivepod"
+ },
+ "w_doomspring": {
+  "id": "doomspring",
+  "name": "DOOMSPRING",
+  "kind": "mine",
+  "rarity": "legend",
+  "tags": [
+   "demolition"
+  ],
+  "fam": "minetrap",
+  "sprite": "w_doomspring"
+ },
+ "w_arbalest": {
+  "id": "arbalest",
+  "name": "ARBALEST",
+  "kind": "rail",
+  "rarity": "common",
+  "tags": [],
+  "fam": "crossbow",
+  "sprite": "w_arbalest"
+ },
+ "w_harpoon": {
+  "id": "harpoon",
+  "name": "WHALING HARPOON",
+  "kind": "rail",
+  "rarity": "rare",
+  "tags": [
+   "frost"
+  ],
+  "fam": "spear",
+  "sprite": "w_harpoon"
+ },
+ "w_handcannon": {
+  "id": "handcannon",
+  "name": "HAND CANNON",
+  "kind": "rail",
+  "rarity": "rare",
+  "tags": [
+   "demolition"
+  ],
+  "fam": "handcannon",
+  "sprite": "w_handcannon"
+ },
+ "w_dawnlance": {
+  "id": "dawnlance",
+  "name": "LANCE OF DAWN",
+  "kind": "rail",
+  "rarity": "epic",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "rifle",
+  "sprite": "w_dawnlance"
+ },
+ "w_deicide": {
+  "id": "deicide",
+  "name": "DEICIDE",
+  "kind": "rail",
+  "rarity": "legend",
+  "tags": [
+   "blood"
+  ],
+  "fam": "rifle",
+  "sprite": "w_deicide"
+ },
+ "w_burstpistol": {
+  "id": "burstpistol",
+  "name": "THREE-ROUND PISTOL",
+  "kind": "burst",
+  "rarity": "common",
+  "tags": [],
+  "fam": "pistol",
+  "sprite": "w_burstpistol"
+ },
+ "w_alleysprayer": {
+  "id": "alleysprayer",
+  "name": "ALLEY SPRAYER",
+  "kind": "burst",
+  "rarity": "rare",
+  "tags": [
+   "shadow"
+  ],
+  "fam": "pistol",
+  "sprite": "w_alleysprayer"
+ },
+ "w_triplecrossbow": {
+  "id": "triplecrossbow",
+  "name": "TRIPLE CROSSBOW",
+  "kind": "burst",
+  "rarity": "rare",
+  "tags": [
+   "bulwark"
+  ],
+  "fam": "crossbow",
+  "sprite": "w_triplecrossbow"
+ },
+ "w_gildedrevolver": {
+  "id": "gildedrevolver",
+  "name": "GILDED REVOLVER",
+  "kind": "burst",
+  "rarity": "epic",
+  "tags": [
+   "fortune"
+  ],
+  "fam": "pistol",
+  "sprite": "w_gildedrevolver"
+ },
+ "w_hailfire": {
+  "id": "hailfire",
+  "name": "HAILFIRE",
+  "kind": "burst",
+  "rarity": "legend",
+  "tags": [
+   "storm"
+  ],
+  "fam": "rifle",
+  "sprite": "w_hailfire"
+ },
+ "w_crankgun": {
+  "id": "crankgun",
+  "name": "CRANK GUN",
+  "kind": "gatling",
+  "rarity": "common",
+  "tags": [
+   "demolition"
+  ],
+  "fam": "minigun",
+  "sprite": "w_crankgun"
+ },
+ "w_rotarybow": {
+  "id": "rotarybow",
+  "name": "ROTARY BOW",
+  "kind": "gatling",
+  "rarity": "rare",
+  "tags": [
+   "swarm"
+  ],
+  "fam": "minigun",
+  "sprite": "w_rotarybow"
+ },
+ "w_bonegrinder": {
+  "id": "bonegrinder",
+  "name": "BONEGRINDER",
+  "kind": "gatling",
+  "rarity": "rare",
+  "tags": [
+   "blood"
+  ],
+  "fam": "minigun",
+  "sprite": "w_bonegrinder"
+ },
+ "w_sunspitter": {
+  "id": "sunspitter",
+  "name": "SUNSPITTER",
+  "kind": "gatling",
+  "rarity": "epic",
+  "tags": [
+   "pyre"
+  ],
+  "fam": "minigun",
+  "sprite": "w_sunspitter"
+ },
+ "w_dreadnought": {
+  "id": "dreadnought",
+  "name": "DREADNOUGHT",
+  "kind": "gatling",
+  "rarity": "legend",
+  "tags": [
+   "bulwark"
+  ],
+  "fam": "minigun",
+  "sprite": "w_dreadnought"
+ },
+ "w_drovewhip": {
+  "id": "drovewhip",
+  "name": "DROVER'S WHIP",
+  "kind": "whip",
+  "rarity": "common",
+  "tags": [],
+  "fam": "whip",
+  "sprite": "w_drovewhip"
+ },
+ "w_chainlash": {
+  "id": "chainlash",
+  "name": "CHAIN LASH",
+  "kind": "whip",
+  "rarity": "rare",
+  "tags": [
+   "bulwark"
+  ],
+  "fam": "whip",
+  "sprite": "w_chainlash"
+ },
+ "w_bramblewhip": {
+  "id": "bramblewhip",
+  "name": "BRAMBLE WHIP",
+  "kind": "whip",
+  "rarity": "rare",
+  "tags": [
+   "venom"
+  ],
+  "fam": "whip",
+  "sprite": "w_bramblewhip"
+ },
+ "w_lightninglash": {
+  "id": "lightninglash",
+  "name": "LIGHTNING LASH",
+  "kind": "whip",
+  "rarity": "epic",
+  "tags": [
+   "storm"
+  ],
+  "fam": "whip",
+  "sprite": "w_lightninglash"
+ },
+ "w_bloodvine": {
+  "id": "bloodvine",
+  "name": "BLOODVINE",
+  "kind": "whip",
+  "rarity": "legend",
+  "tags": [
+   "blood"
+  ],
+  "fam": "whip",
+  "sprite": "w_bloodvine"
+ },
+ "w_gravebell": {
+  "id": "gravebell",
+  "name": "GRAVE BELL",
+  "kind": "summon",
+  "rarity": "common",
+  "tags": [
+   "swarm"
+  ],
+  "fam": "skullstaff",
+  "sprite": "w_gravebell"
+ },
+ "w_hivestaff": {
+  "id": "hivestaff",
+  "name": "HIVE STAFF",
+  "kind": "summon",
+  "rarity": "rare",
+  "tags": [
+   "swarm"
+  ],
+  "fam": "staff",
+  "sprite": "w_hivestaff"
+ },
+ "w_bonetome": {
+  "id": "bonetome",
+  "name": "BONE TOME",
+  "kind": "summon",
+  "rarity": "epic",
+  "tags": [
+   "swarm"
+  ],
+  "fam": "tome",
+  "sprite": "w_bonetome"
+ },
+ "w_warbanner": {
+  "id": "warbanner",
+  "name": "WARBANNER",
+  "kind": "summon",
+  "rarity": "legend",
+  "tags": [
+   "swarm"
+  ],
+  "fam": "halberd",
+  "sprite": "w_warbanner"
+ },
+ "w_irontalons": {
+  "id": "irontalons",
+  "name": "IRON TALONS",
+  "kind": "slash",
+  "rarity": "rare",
+  "tags": [
+   "shadow",
+   "edge"
+  ],
+  "fam": "dagger",
+  "sprite": "w_irontalons"
+ },
+ "w_whimsywand": {
+  "id": "whimsywand",
+  "name": "WAND OF WHIMSY",
+  "kind": "orb",
+  "rarity": "rare",
+  "tags": [
+   "arcane",
+   "fortune"
+  ],
+  "fam": "wand",
+  "sprite": "w_whimsywand"
+ },
+ "w_meteorstaff": {
+  "id": "meteorstaff",
+  "name": "METEOR STAFF",
+  "kind": "orb",
+  "rarity": "epic",
+  "tags": [
+   "pyre"
+  ],
+  "fam": "staff",
+  "sprite": "w_meteorstaff"
+ },
+ "w_singularity": {
+  "id": "singularity",
+  "name": "SINGULARITY CANNON",
+  "kind": "rail",
+  "rarity": "legend",
+  "tags": [
+   "arcane",
+   "shadow"
+  ],
+  "fam": "handcannon",
+  "sprite": "w_singularity"
+ },
+ "w_gravitymaul": {
+  "id": "gravitymaul",
+  "name": "GRAVITY MAUL",
+  "kind": "slash",
+  "rarity": "epic",
+  "tags": [
+   "bulwark",
+   "arcane"
+  ],
+  "fam": "hammer",
+  "sprite": "w_gravitymaul"
+ },
+ "w_beehive": {
+  "id": "beehive",
+  "name": "ANGRY BEEHIVE",
+  "kind": "gatling",
+  "rarity": "rare",
+  "tags": [
+   "swarm",
+   "venom"
+  ],
+  "fam": "minigun",
+  "sprite": "w_beehive"
+ },
+ "w_midascannon": {
+  "id": "midascannon",
+  "name": "MIDAS CANNON",
+  "kind": "shot",
+  "rarity": "epic",
+  "tags": [
+   "fortune"
+  ],
+  "fam": "blunderbuss",
+  "sprite": "w_midascannon"
+ },
+ "w_discoball": {
+  "id": "discoball",
+  "name": "DISCO BALL",
+  "kind": "pulse",
+  "rarity": "epic",
+  "tags": [
+   "arcane",
+   "storm"
+  ],
+  "fam": "orbstaff",
+  "sprite": "w_discoball"
+ },
+ "w_boomstick": {
+  "id": "boomstick",
+  "name": "BOOMSTICK",
+  "kind": "shot",
+  "rarity": "rare",
+  "tags": [
+   "demolition"
+  ],
+  "fam": "shotgun",
+  "sprite": "w_boomstick"
+ },
+ "w_razoryoyo": {
+  "id": "razoryoyo",
+  "name": "RAZOR YO-YO",
+  "kind": "boomer",
+  "rarity": "common",
+  "tags": [
+   "edge"
+  ],
+  "fam": "chakram",
+  "sprite": "w_razoryoyo"
+ },
+ "w_pinball": {
+  "id": "pinball",
+  "name": "PINBALL CANNON",
+  "kind": "disc",
+  "rarity": "epic",
+  "tags": [
+   "fortune",
+   "storm"
+  ],
+  "fam": "handcannon",
+  "sprite": "w_pinball"
+ },
+ "w_teslacoil": {
+  "id": "teslacoil",
+  "name": "TESLA COIL",
+  "kind": "zap",
+  "rarity": "legend",
+  "tags": [
+   "storm"
+  ],
+  "fam": "gauntlet",
+  "sprite": "w_teslacoil"
+ },
+ "w_volcano": {
+  "id": "volcano",
+  "name": "POCKET VOLCANO",
+  "kind": "flask",
+  "rarity": "legend",
+  "tags": [
+   "pyre",
+   "demolition"
+  ],
+  "fam": "flaskw",
+  "sprite": "w_volcano"
+ },
+ "w_frostfist": {
+  "id": "frostfist",
+  "name": "FROST GIANT'S FIST",
+  "kind": "slash",
+  "rarity": "epic",
+  "tags": [
+   "frost",
+   "fury"
+  ],
+  "fam": "fists",
+  "sprite": "w_frostfist"
+ },
+ "w_slimecannon": {
+  "id": "slimecannon",
+  "name": "SLIME CANNON",
+  "kind": "flask",
+  "rarity": "rare",
+  "tags": [
+   "venom"
+  ],
+  "fam": "flaskw",
+  "sprite": "w_slimecannon"
+ },
+ "w_doomclock": {
+  "id": "doomclock",
+  "name": "DOOMSDAY CLOCK",
+  "kind": "mine",
+  "rarity": "legend",
+  "tags": [
+   "malice"
+  ],
+  "fam": "minetrap",
+  "sprite": "w_doomclock"
+ },
+ "w_chainsaw": {
+  "id": "chainsaw",
+  "name": "RIPSAW",
+  "kind": "flame",
+  "rarity": "epic",
+  "tags": [
+   "fury",
+   "blood"
+  ],
+  "fam": "sprayer",
+  "sprite": "w_chainsaw"
+ },
+ "w_slotmachine": {
+  "id": "slotmachine",
+  "name": "ONE-ARMED BANDIT",
+  "kind": "burst",
+  "rarity": "rare",
+  "tags": [
+   "fortune"
+  ],
+  "fam": "pistol",
+  "sprite": "w_slotmachine"
+ },
+ "w_orbitallaser": {
+  "id": "orbitallaser",
+  "name": "ORBITAL LASER",
+  "kind": "beam",
+  "rarity": "legend",
+  "tags": [
+   "storm",
+   "arcane"
+  ],
+  "fam": "orbstaff",
+  "sprite": "w_orbitallaser"
+ },
+ "w_peppershaker": {
+  "id": "peppershaker",
+  "name": "GHOST PEPPER SHAKER",
+  "kind": "nova",
+  "rarity": "rare",
+  "tags": [
+   "pyre"
+  ],
+  "fam": "lanternw",
+  "sprite": "w_peppershaker"
+ },
+ "w_bubblewand": {
+  "id": "bubblewand",
+  "name": "BUBBLE WAND",
+  "kind": "orb",
+  "rarity": "common",
+  "tags": [
+   "frost"
+  ],
+  "fam": "wand",
+  "sprite": "w_bubblewand"
+ },
+ "w_clownhammer": {
+  "id": "clownhammer",
+  "name": "SQUEAKY HAMMER",
+  "kind": "slash",
+  "rarity": "rare",
+  "tags": [
+   "fortune",
+   "fury"
+  ],
+  "fam": "hammer",
+  "sprite": "w_clownhammer"
+ },
+ "w_necroflute": {
+  "id": "necroflute",
+  "name": "BONE FLUTE",
+  "kind": "summon",
+  "rarity": "epic",
+  "tags": [
+   "swarm",
+   "malice"
+  ],
+  "fam": "skullstaff",
+  "sprite": "w_necroflute"
+ },
+ "w_backfire": {
+  "id": "backfire",
+  "name": "BACKFIRE BLUNDERBUSS",
+  "kind": "shot",
+  "rarity": "rare",
+  "tags": [
+   "fury",
+   "demolition"
+  ],
+  "fam": "blunderbuss",
+  "sprite": "w_backfire"
+ },
+ "w_crossfirebow": {
+  "id": "crossfirebow",
+  "name": "CROSSFIRE BOW",
+  "kind": "bolt",
+  "rarity": "epic",
+  "tags": [
+   "arcane",
+   "edge"
+  ],
+  "fam": "bow",
+  "sprite": "w_crossfirebow"
+ },
+ "w_tentacle": {
+  "id": "tentacle",
+  "name": "KRAKEN TENTACLE",
+  "kind": "whip",
+  "rarity": "epic",
+  "tags": [
+   "frost",
+   "venom"
+  ],
+  "fam": "whip",
+  "sprite": "w_tentacle"
+ },
+ "w_joustrocket": {
+  "id": "joustrocket",
+  "name": "JOUSTING ROCKET",
+  "kind": "thrust",
+  "rarity": "rare",
+  "tags": [
+   "demolition",
+   "fury"
+  ],
+  "fam": "spear",
+  "sprite": "w_joustrocket"
+ },
+ "w_homingaxes": {
+  "id": "homingaxes",
+  "name": "BLOODHOUND HATCHETS",
+  "kind": "spin",
+  "rarity": "rare",
+  "tags": [
+   "swarm",
+   "edge"
+  ],
+  "fam": "axe",
+  "sprite": "w_homingaxes"
+ },
+ "w_pineapple": {
+  "id": "pineapple",
+  "name": "PINEAPPLE GRENADE",
+  "kind": "grenade",
+  "rarity": "common",
+  "tags": [
+   "demolition"
+  ],
+  "fam": "grenade",
+  "sprite": "w_pineapple"
+ },
+ "w_skipcharge": {
+  "id": "skipcharge",
+  "name": "SKIPPING CHARGE",
+  "kind": "grenade",
+  "rarity": "rare",
+  "tags": [
+   "demolition",
+   "storm"
+  ],
+  "fam": "grenade",
+  "sprite": "w_skipcharge"
+ },
+ "w_pomegranate": {
+  "id": "pomegranate",
+  "name": "POMEGRANATE",
+  "kind": "grenade",
+  "rarity": "rare",
+  "tags": [
+   "swarm",
+   "demolition"
+  ],
+  "fam": "grenade",
+  "sprite": "w_pomegranate"
+ },
+ "w_hoarfrost": {
+  "id": "hoarfrost",
+  "name": "HOARFROST GRENADE",
+  "kind": "grenade",
+  "rarity": "rare",
+  "tags": [
+   "frost"
+  ],
+  "fam": "grenade",
+  "sprite": "w_hoarfrost"
+ },
+ "w_fruitcake": {
+  "id": "fruitcake",
+  "name": "GRANDMA'S FRUITCAKE",
+  "kind": "grenade",
+  "rarity": "epic",
+  "tags": [
+   "fortune",
+   "bulwark"
+  ],
+  "fam": "grenade",
+  "sprite": "w_fruitcake"
+ },
+ "w_bottlerockets": {
+  "id": "bottlerockets",
+  "name": "BOTTLE ROCKETS",
+  "kind": "rocket",
+  "rarity": "common",
+  "tags": [
+   "pyre"
+  ],
+  "fam": "launcher",
+  "sprite": "w_bottlerockets"
+ },
+ "w_alleyrpg": {
+  "id": "alleyrpg",
+  "name": "BACKALLEY RPG",
+  "kind": "rocket",
+  "rarity": "rare",
+  "tags": [
+   "demolition",
+   "fury"
+  ],
+  "fam": "launcher",
+  "sprite": "w_alleyrpg"
+ },
+ "w_festival": {
+  "id": "festival",
+  "name": "FESTIVAL LAUNCHER",
+  "kind": "rocket",
+  "rarity": "epic",
+  "tags": [
+   "arcane",
+   "pyre"
+  ],
+  "fam": "launcher",
+  "sprite": "w_festival"
+ },
+ "w_pathfinder": {
+  "id": "pathfinder",
+  "name": "PATHFINDER ROCKET",
+  "kind": "rocket",
+  "rarity": "legend",
+  "tags": [
+   "edge",
+   "demolition"
+  ],
+  "fam": "launcher",
+  "sprite": "w_pathfinder"
+ },
+ "w_swarmpod": {
+  "id": "swarmpod",
+  "name": "SWARM POD",
+  "kind": "missile",
+  "rarity": "epic",
+  "tags": [
+   "swarm",
+   "demolition"
+  ],
+  "fam": "launcher",
+  "sprite": "w_swarmpod"
+ },
+ "w_lockon": {
+  "id": "lockon",
+  "name": "LOCK-ON LAUNCHER",
+  "kind": "missile",
+  "rarity": "rare",
+  "tags": [
+   "edge"
+  ],
+  "fam": "launcher",
+  "sprite": "w_lockon"
+ },
+ "w_stickyjar": {
+  "id": "stickyjar",
+  "name": "STICKY JAR",
+  "kind": "sticky",
+  "rarity": "common",
+  "tags": [
+   "demolition",
+   "venom"
+  ],
+  "fam": "flaskw",
+  "sprite": "w_stickyjar"
+ },
+ "w_limpets": {
+  "id": "limpets",
+  "name": "LIMPET CHARGES",
+  "kind": "sticky",
+  "rarity": "epic",
+  "tags": [
+   "demolition",
+   "shadow"
+  ],
+  "fam": "mine",
+  "sprite": "w_limpets"
+ },
+ "w_pocketmortar": {
+  "id": "pocketmortar",
+  "name": "POCKET MORTAR",
+  "kind": "mortar",
+  "rarity": "common",
+  "tags": [
+   "demolition"
+  ],
+  "fam": "mortar",
+  "sprite": "w_pocketmortar"
+ },
+ "w_snowglobe": {
+  "id": "snowglobe",
+  "name": "SNOWGLOBE MORTAR",
+  "kind": "mortar",
+  "rarity": "epic",
+  "tags": [
+   "frost",
+   "arcane"
+  ],
+  "fam": "mortar",
+  "sprite": "w_snowglobe"
+ },
+ "w_clockmice": {
+  "id": "clockmice",
+  "name": "CLOCKWORK MICE",
+  "kind": "walker",
+  "rarity": "rare",
+  "tags": [
+   "swarm",
+   "demolition"
+  ],
+  "fam": "toy",
+  "sprite": "w_clockmice"
+ },
+ "w_keg": {
+  "id": "keg",
+  "name": "ROLLING KEG",
+  "kind": "walker",
+  "rarity": "common",
+  "tags": [
+   "fury"
+  ],
+  "fam": "barrel",
+  "sprite": "w_keg"
+ },
+ "w_signalflare": {
+  "id": "signalflare",
+  "name": "SIGNAL FLARE",
+  "kind": "strike",
+  "rarity": "epic",
+  "tags": [
+   "pyre",
+   "demolition"
+  ],
+  "fam": "pistol",
+  "sprite": "w_signalflare"
+ },
+ "w_skyhammer": {
+  "id": "skyhammer",
+  "name": "SKY HAMMER",
+  "kind": "strike",
+  "rarity": "legend",
+  "tags": [
+   "storm",
+   "bulwark"
+  ],
+  "fam": "rod",
+  "sprite": "w_skyhammer"
+ },
+ "w_dynamite": {
+  "id": "dynamite",
+  "name": "DYNAMITE BUNDLE",
+  "kind": "dynamite",
+  "rarity": "rare",
+  "tags": [
+   "demolition",
+   "fury"
+  ],
+  "fam": "sticks",
+  "sprite": "w_dynamite"
+ },
+ "w_repulsor": {
+  "id": "repulsor",
+  "name": "REPULSOR",
+  "kind": "wave",
+  "rarity": "rare",
+  "tags": [
+   "storm",
+   "bulwark"
+  ],
+  "fam": "gauntlet",
+  "sprite": "w_repulsor"
+ },
+ "w_shrapnelgun": {
+  "id": "shrapnelgun",
+  "name": "SHRAPNEL SHOTGUN",
+  "kind": "shot",
+  "rarity": "common",
+  "tags": [
+   "demolition"
+  ],
+  "fam": "shotgun",
+  "sprite": "w_shrapnelgun"
+ },
+ "w_blastknuckles": {
+  "id": "blastknuckles",
+  "name": "BLASTING KNUCKLES",
+  "kind": "slash",
+  "rarity": "epic",
+  "tags": [
+   "fury",
+   "demolition"
+  ],
+  "fam": "fists",
+  "sprite": "w_blastknuckles"
+ },
+ "w_parasite": {
+  "id": "parasite",
+  "name": "PARASITE LAUNCHER",
+  "kind": "flask",
+  "rarity": "epic",
+  "tags": [
+   "malice",
+   "swarm"
+  ],
+  "fam": "flaskw",
+  "sprite": "w_parasite"
+ },
+ "w_piggybank": {
+  "id": "piggybank",
+  "name": "PIGGY BANK",
+  "kind": "shot",
+  "rarity": "legend",
+  "tags": [
+   "fortune"
+  ],
+  "fam": "blunderbuss",
+  "sprite": "w_piggybank"
+ },
+ "w_plasmaslug": {
+  "id": "plasmaslug",
+  "name": "PLASMA SLUGGER",
+  "kind": "charge",
+  "rarity": "common",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "cannon",
+  "sprite": "w_plasmaslug"
+ },
+ "w_shatterball": {
+  "id": "shatterball",
+  "name": "SHATTERBALL",
+  "kind": "charge",
+  "rarity": "rare",
+  "tags": [
+   "arcane",
+   "demolition"
+  ],
+  "fam": "cannon",
+  "sprite": "w_shatterball"
+ },
+ "w_gravityglobe": {
+  "id": "gravityglobe",
+  "name": "GRAVITY GLOBE",
+  "kind": "charge",
+  "rarity": "epic",
+  "tags": [
+   "shadow",
+   "arcane"
+  ],
+  "fam": "orb",
+  "sprite": "w_gravityglobe"
+ },
+ "w_swiftdraw": {
+  "id": "swiftdraw",
+  "name": "SWIFTDRAW BOW",
+  "kind": "charge",
+  "rarity": "rare",
+  "tags": [
+   "edge"
+  ],
+  "fam": "bow",
+  "sprite": "w_swiftdraw"
+ },
+ "w_chokeshotgun": {
+  "id": "chokeshotgun",
+  "name": "CHOKE SHOTGUN",
+  "kind": "charge",
+  "rarity": "common",
+  "tags": [
+   "demolition"
+  ],
+  "fam": "shotgun",
+  "sprite": "w_chokeshotgun"
+ },
+ "w_coldstar": {
+  "id": "coldstar",
+  "name": "COLD STAR",
+  "kind": "charge",
+  "rarity": "legend",
+  "tags": [
+   "frost",
+   "arcane"
+  ],
+  "fam": "orb",
+  "sprite": "w_coldstar"
+ },
+ "w_quakemaul": {
+  "id": "quakemaul",
+  "name": "QUAKE MAUL",
+  "kind": "slam",
+  "rarity": "rare",
+  "tags": [
+   "bulwark",
+   "demolition"
+  ],
+  "fam": "maul",
+  "sprite": "w_quakemaul"
+ },
+ "w_emberquake": {
+  "id": "emberquake",
+  "name": "EMBERQUAKE MAUL",
+  "kind": "slam",
+  "rarity": "epic",
+  "tags": [
+   "pyre"
+  ],
+  "fam": "maul",
+  "sprite": "w_emberquake"
+ },
+ "w_aftershock": {
+  "id": "aftershock",
+  "name": "AFTERSHOCK HAMMER",
+  "kind": "slam",
+  "rarity": "legend",
+  "tags": [
+   "storm",
+   "bulwark"
+  ],
+  "fam": "hammer",
+  "sprite": "w_aftershock"
+ },
+ "w_dashblade": {
+  "id": "dashblade",
+  "name": "DASHBLADE",
+  "kind": "dash",
+  "rarity": "rare",
+  "tags": [
+   "edge"
+  ],
+  "fam": "sword",
+  "sprite": "w_dashblade"
+ },
+ "w_cometlance": {
+  "id": "cometlance",
+  "name": "COMET LANCE",
+  "kind": "dash",
+  "rarity": "epic",
+  "tags": [
+   "pyre",
+   "demolition"
+  ],
+  "fam": "lance",
+  "sprite": "w_cometlance"
+ },
+ "w_phantomedge": {
+  "id": "phantomedge",
+  "name": "PHANTOM EDGE",
+  "kind": "dash",
+  "rarity": "legend",
+  "tags": [
+   "shadow",
+   "edge"
+  ],
+  "fam": "sword",
+  "sprite": "w_phantomedge"
+ },
+ "w_warjavelin": {
+  "id": "warjavelin",
+  "name": "WAR JAVELIN",
+  "kind": "javelin",
+  "rarity": "rare",
+  "tags": [
+   "fury"
+  ],
+  "fam": "spear",
+  "sprite": "w_warjavelin"
+ },
+ "w_thunderpike": {
+  "id": "thunderpike",
+  "name": "THUNDER PIKE",
+  "kind": "javelin",
+  "rarity": "epic",
+  "tags": [
+   "storm"
+  ],
+  "fam": "spear",
+  "sprite": "w_thunderpike"
+ },
+ "w_grapple": {
+  "id": "grapple",
+  "name": "GRAPPLE GAUNTLET",
+  "kind": "hook",
+  "rarity": "rare",
+  "tags": [
+   "bulwark",
+   "fury"
+  ],
+  "fam": "gauntlet",
+  "sprite": "w_grapple"
+ },
+ "w_anchorchain": {
+  "id": "anchorchain",
+  "name": "ANCHOR CHAIN",
+  "kind": "hook",
+  "rarity": "epic",
+  "tags": [
+   "bulwark",
+   "demolition"
+  ],
+  "fam": "chain",
+  "sprite": "w_anchorchain"
+ },
+ "w_cutlass": {
+  "id": "cutlass",
+  "name": "CUTLASS AND FLINTLOCK",
+  "kind": "combo",
+  "rarity": "rare",
+  "tags": [
+   "fortune",
+   "edge"
+  ],
+  "fam": "sword",
+  "sprite": "w_cutlass"
+ },
+ "w_chainglaive": {
+  "id": "chainglaive",
+  "name": "CHAIN GLAIVE",
+  "kind": "combo",
+  "rarity": "epic",
+  "tags": [
+   "arcane",
+   "edge"
+  ],
+  "fam": "glaive",
+  "sprite": "w_chainglaive"
+ },
+ "w_flarefist": {
+  "id": "flarefist",
+  "name": "FLAREFIST",
+  "kind": "combo",
+  "rarity": "rare",
+  "tags": [
+   "pyre",
+   "fury"
+  ],
+  "fam": "fists",
+  "sprite": "w_flarefist"
+ },
+ "w_steamrepeater": {
+  "id": "steamrepeater",
+  "name": "STEAM REPEATER",
+  "kind": "heat",
+  "rarity": "rare",
+  "tags": [
+   "bulwark"
+  ],
+  "fam": "repeater",
+  "sprite": "w_steamrepeater"
+ },
+ "w_reactorrifle": {
+  "id": "reactorrifle",
+  "name": "REACTOR RIFLE",
+  "kind": "heat",
+  "rarity": "legend",
+  "tags": [
+   "pyre",
+   "arcane"
+  ],
+  "fam": "rifle",
+  "sprite": "w_reactorrifle"
+ },
+ "w_deadeye": {
+  "id": "deadeye",
+  "name": "DEADEYE REVOLVER",
+  "kind": "reload",
+  "rarity": "rare",
+  "tags": [
+   "edge",
+   "fortune"
+  ],
+  "fam": "pistol",
+  "sprite": "w_deadeye"
+ },
+ "w_magdump": {
+  "id": "magdump",
+  "name": "MAGDUMP CARBINE",
+  "kind": "reload",
+  "rarity": "common",
+  "tags": [
+   "demolition"
+  ],
+  "fam": "rifle",
+  "sprite": "w_magdump"
+ },
+ "w_starcaller": {
+  "id": "starcaller",
+  "name": "STARCALLER",
+  "kind": "orbit",
+  "rarity": "epic",
+  "tags": [
+   "arcane",
+   "swarm"
+  ],
+  "fam": "rod",
+  "sprite": "w_starcaller"
+ },
+ "w_snapback": {
+  "id": "snapback",
+  "name": "SNAPBACK DISC",
+  "kind": "recall",
+  "rarity": "rare",
+  "tags": [
+   "edge",
+   "storm"
+  ],
+  "fam": "disc",
+  "sprite": "w_snapback"
+ },
+ "w_duelistdeck": {
+  "id": "duelistdeck",
+  "name": "DUELIST'S DECK",
+  "kind": "deck",
+  "rarity": "rare",
+  "tags": [
+   "edge"
+  ],
+  "fam": "cards",
+  "sprite": "w_duelistdeck"
+ },
+ "w_poisonpack": {
+  "id": "poisonpack",
+  "name": "POISONER'S PACK",
+  "kind": "deck",
+  "rarity": "epic",
+  "tags": [
+   "venom"
+  ],
+  "fam": "cards",
+  "sprite": "w_poisonpack"
+ },
+ "w_shivdeck": {
+  "id": "shivdeck",
+  "name": "SHIV DECK",
+  "kind": "deck",
+  "rarity": "rare",
+  "tags": [
+   "malice",
+   "edge"
+  ],
+  "fam": "cards",
+  "sprite": "w_shivdeck"
+ },
+ "w_countdowndeck": {
+  "id": "countdowndeck",
+  "name": "COUNTDOWN DECK",
+  "kind": "deck",
+  "rarity": "epic",
+  "tags": [
+   "demolition"
+  ],
+  "fam": "cards",
+  "sprite": "w_countdowndeck"
+ },
+ "w_echodeck": {
+  "id": "echodeck",
+  "name": "ECHO DECK",
+  "kind": "deck",
+  "rarity": "legend",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "cards",
+  "sprite": "w_echodeck"
+ },
+ "w_ascenddeck": {
+  "id": "ascenddeck",
+  "name": "ASCENDING DECK",
+  "kind": "deck",
+  "rarity": "rare",
+  "tags": [
+   "fortune"
+  ],
+  "fam": "cards",
+  "sprite": "w_ascenddeck"
+ },
+ "w_sentrykit": {
+  "id": "sentrykit",
+  "name": "SENTRY KIT",
+  "kind": "turret",
+  "rarity": "rare",
+  "tags": [
+   "bulwark"
+  ],
+  "fam": "kit",
+  "sprite": "w_sentrykit"
+ },
+ "w_flamesentry": {
+  "id": "flamesentry",
+  "name": "FLAME SENTRY",
+  "kind": "turret",
+  "rarity": "epic",
+  "tags": [
+   "pyre"
+  ],
+  "fam": "kit",
+  "sprite": "w_flamesentry"
+ },
+ "w_teslapair": {
+  "id": "teslapair",
+  "name": "TESLA PAIR",
+  "kind": "turret",
+  "rarity": "epic",
+  "tags": [
+   "storm"
+  ],
+  "fam": "coil",
+  "sprite": "w_teslapair"
+ },
+ "w_frostbeacon": {
+  "id": "frostbeacon",
+  "name": "FROST BEACON",
+  "kind": "turret",
+  "rarity": "rare",
+  "tags": [
+   "frost"
+  ],
+  "fam": "beacon",
+  "sprite": "w_frostbeacon"
+ },
+ "w_sawtrap": {
+  "id": "sawtrap",
+  "name": "SAW TRAP",
+  "kind": "turret",
+  "rarity": "common",
+  "tags": [
+   "edge"
+  ],
+  "fam": "trap",
+  "sprite": "w_sawtrap"
+ },
+ "w_mendtotem": {
+  "id": "mendtotem",
+  "name": "MENDING TOTEM",
+  "kind": "turret",
+  "rarity": "epic",
+  "tags": [
+   "venom",
+   "bulwark"
+  ],
+  "fam": "totem",
+  "sprite": "w_mendtotem"
+ },
+ "w_gravecaller": {
+  "id": "gravecaller",
+  "name": "GRAVECALLER STAFF",
+  "kind": "thrall",
+  "rarity": "epic",
+  "tags": [
+   "malice",
+   "shadow"
+  ],
+  "fam": "staff",
+  "sprite": "w_gravecaller"
+ },
+ "w_claygolem": {
+  "id": "claygolem",
+  "name": "CLAY GOLEM",
+  "kind": "thrall",
+  "rarity": "legend",
+  "tags": [
+   "bulwark"
+  ],
+  "fam": "clay",
+  "sprite": "w_claygolem"
+ },
+ "w_implantern": {
+  "id": "implantern",
+  "name": "IMP LANTERN",
+  "kind": "thrall",
+  "rarity": "rare",
+  "tags": [
+   "pyre",
+   "shadow"
+  ],
+  "fam": "lantern",
+  "sprite": "w_implantern"
+ },
+ "w_wolfhorn": {
+  "id": "wolfhorn",
+  "name": "WOLF HORN",
+  "kind": "thrall",
+  "rarity": "epic",
+  "tags": [
+   "fury",
+   "blood"
+  ],
+  "fam": "horn",
+  "sprite": "w_wolfhorn"
+ },
+ "w_mimicchest": {
+  "id": "mimicchest",
+  "name": "MIMIC CHEST",
+  "kind": "thrall",
+  "rarity": "rare",
+  "tags": [
+   "fortune"
+  ],
+  "fam": "chest",
+  "sprite": "w_mimicchest"
+ },
+ "w_petwhistle": {
+  "id": "petwhistle",
+  "name": "PET WHISTLE",
+  "kind": "command",
+  "rarity": "rare",
+  "tags": [
+   "fortune",
+   "fury"
+  ],
+  "fam": "whistle",
+  "sprite": "w_petwhistle"
+ },
+ "w_shepherdcrook": {
+  "id": "shepherdcrook",
+  "name": "SHEPHERD'S CROOK",
+  "kind": "command",
+  "rarity": "epic",
+  "tags": [
+   "bulwark",
+   "fortune"
+  ],
+  "fam": "crook",
+  "sprite": "w_shepherdcrook"
+ },
+ "w_lookingglass": {
+  "id": "lookingglass",
+  "name": "LOOKING GLASS",
+  "kind": "mirror",
+  "rarity": "epic",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "mirror",
+  "sprite": "w_lookingglass"
+ },
+ "w_doppelganger": {
+  "id": "doppelganger",
+  "name": "DOPPELGANGER BLADE",
+  "kind": "mirror",
+  "rarity": "legend",
+  "tags": [
+   "shadow",
+   "edge"
+  ],
+  "fam": "sword",
+  "sprite": "w_doppelganger"
+ },
+ "w_batcloud": {
+  "id": "batcloud",
+  "name": "BAT CLOUD",
+  "kind": "swarm",
+  "rarity": "rare",
+  "tags": [
+   "shadow",
+   "blood"
+  ],
+  "fam": "bats",
+  "sprite": "w_batcloud"
+ },
+ "w_fireflyjar": {
+  "id": "fireflyjar",
+  "name": "FIREFLY JAR",
+  "kind": "swarm",
+  "rarity": "common",
+  "tags": [
+   "pyre"
+  ],
+  "fam": "jar",
+  "sprite": "w_fireflyjar"
+ },
+ "w_dragonegg": {
+  "id": "dragonegg",
+  "name": "DRAGON EGG",
+  "kind": "egg",
+  "rarity": "legend",
+  "tags": [
+   "pyre",
+   "arcane"
+  ],
+  "fam": "egg",
+  "sprite": "w_dragonegg"
+ },
+ "w_tamerswhip": {
+  "id": "tamerswhip",
+  "name": "TAMER'S WHIP",
+  "kind": "whip",
+  "rarity": "epic",
+  "tags": [
+   "fury"
+  ],
+  "fam": "whip",
+  "sprite": "w_tamerswhip"
+ },
+ "w_typewriter": {
+  "id": "typewriter",
+  "name": "TYPEWRITER",
+  "kind": "letters",
+  "rarity": "common",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "typewriter",
+  "sprite": "w_typewriter"
+ },
+ "w_prophetquill": {
+  "id": "prophetquill",
+  "name": "PROPHET'S QUILL",
+  "kind": "letters",
+  "rarity": "epic",
+  "tags": [
+   "arcane",
+   "malice"
+  ],
+  "fam": "quill",
+  "sprite": "w_prophetquill"
+ },
+ "w_bubbleblaster": {
+  "id": "bubbleblaster",
+  "name": "BUBBLE BLASTER",
+  "kind": "bubble",
+  "rarity": "rare",
+  "tags": [
+   "frost"
+  ],
+  "fam": "blaster",
+  "sprite": "w_bubbleblaster"
+ },
+ "w_soapcannon": {
+  "id": "soapcannon",
+  "name": "SOAP CANNON",
+  "kind": "bubble",
+  "rarity": "epic",
+  "tags": [
+   "frost",
+   "fortune"
+  ],
+  "fam": "cannon",
+  "sprite": "w_soapcannon"
+ },
+ "w_flakpistol": {
+  "id": "flakpistol",
+  "name": "FLAK PISTOL",
+  "kind": "flak",
+  "rarity": "rare",
+  "tags": [
+   "demolition"
+  ],
+  "fam": "pistol",
+  "sprite": "w_flakpistol"
+ },
+ "w_interceptor": {
+  "id": "interceptor",
+  "name": "INTERCEPTOR",
+  "kind": "flak",
+  "rarity": "epic",
+  "tags": [
+   "storm",
+   "demolition"
+  ],
+  "fam": "rifle",
+  "sprite": "w_interceptor"
+ },
+ "w_inkgun": {
+  "id": "inkgun",
+  "name": "INK GUN",
+  "kind": "paint",
+  "rarity": "rare",
+  "tags": [
+   "shadow"
+  ],
+  "fam": "pistol",
+  "sprite": "w_inkgun"
+ },
+ "w_tricolor": {
+  "id": "tricolor",
+  "name": "TRICOLOR SPLATTER",
+  "kind": "paint",
+  "rarity": "epic",
+  "tags": [
+   "pyre",
+   "frost"
+  ],
+  "fam": "sprayer",
+  "sprite": "w_tricolor"
+ },
+ "w_slotpistol": {
+  "id": "slotpistol",
+  "name": "SLOT PISTOL",
+  "kind": "slots",
+  "rarity": "common",
+  "tags": [
+   "fortune"
+  ],
+  "fam": "pistol",
+  "sprite": "w_slotpistol"
+ },
+ "w_gildedslots": {
+  "id": "gildedslots",
+  "name": "GILDED SLOTS",
+  "kind": "slots",
+  "rarity": "legend",
+  "tags": [
+   "fortune",
+   "pyre"
+  ],
+  "fam": "pistol",
+  "sprite": "w_gildedslots"
+ },
+ "w_snowroller": {
+  "id": "snowroller",
+  "name": "SNOW ROLLER",
+  "kind": "roller",
+  "rarity": "rare",
+  "tags": [
+   "frost"
+  ],
+  "fam": "snowball",
+  "sprite": "w_snowroller"
+ },
+ "w_mossboulder": {
+  "id": "mossboulder",
+  "name": "MOSS BOULDER",
+  "kind": "roller",
+  "rarity": "epic",
+  "tags": [
+   "bulwark",
+   "venom"
+  ],
+  "fam": "boulder",
+  "sprite": "w_mossboulder"
+ },
+ "w_paydaycannon": {
+  "id": "paydaycannon",
+  "name": "PAYDAY CANNON",
+  "kind": "money",
+  "rarity": "legend",
+  "tags": [
+   "fortune"
+  ],
+  "fam": "cannon",
+  "sprite": "w_paydaycannon"
+ },
+ "w_flashcamera": {
+  "id": "flashcamera",
+  "name": "FLASH CAMERA",
+  "kind": "camera",
+  "rarity": "rare",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "camera",
+  "sprite": "w_flashcamera"
+ },
+ "w_glacierray": {
+  "id": "glacierray",
+  "name": "GLACIER RAY",
+  "kind": "ray",
+  "rarity": "epic",
+  "tags": [
+   "frost"
+  ],
+  "fam": "ray",
+  "sprite": "w_glacierray"
+ },
+ "w_junkcannon": {
+  "id": "junkcannon",
+  "name": "JUNK CANNON",
+  "kind": "junk",
+  "rarity": "common",
+  "tags": [
+   "demolition",
+   "fortune"
+  ],
+  "fam": "cannon",
+  "sprite": "w_junkcannon"
+ },
+ "w_fishcannon": {
+  "id": "fishcannon",
+  "name": "FISH CANNON",
+  "kind": "junk",
+  "rarity": "rare",
+  "tags": [
+   "frost",
+   "fortune"
+  ],
+  "fam": "cannon",
+  "sprite": "w_fishcannon"
+ },
+ "w_homerunbat": {
+  "id": "homerunbat",
+  "name": "HOME RUN BAT",
+  "kind": "bat",
+  "rarity": "rare",
+  "tags": [
+   "fury"
+  ],
+  "fam": "bat",
+  "sprite": "w_homerunbat"
+ },
+ "w_croquetmallet": {
+  "id": "croquetmallet",
+  "name": "CROQUET MALLET",
+  "kind": "bat",
+  "rarity": "epic",
+  "tags": [
+   "fortune",
+   "bulwark"
+  ],
+  "fam": "mallet",
+  "sprite": "w_croquetmallet"
+ },
+ "w_backstabdirk": {
+  "id": "backstabdirk",
+  "name": "BACKSTAB DIRK",
+  "kind": "stab",
+  "rarity": "rare",
+  "tags": [
+   "shadow",
+   "edge"
+  ],
+  "fam": "dagger",
+  "sprite": "w_backstabdirk"
+ },
+ "w_callingcard": {
+  "id": "callingcard",
+  "name": "CALLING CARD",
+  "kind": "duel",
+  "rarity": "rare",
+  "tags": [
+   "edge",
+   "fortune"
+  ],
+  "fam": "pistol",
+  "sprite": "w_callingcard"
+ },
+ "w_shrinkray": {
+  "id": "shrinkray",
+  "name": "SHRINK RAY",
+  "kind": "shrink",
+  "rarity": "epic",
+  "tags": [
+   "arcane",
+   "malice"
+  ],
+  "fam": "raygun",
+  "sprite": "w_shrinkray"
+ },
+ "w_leafblower": {
+  "id": "leafblower",
+  "name": "LEAF BLOWER",
+  "kind": "blower",
+  "rarity": "rare",
+  "tags": [
+   "storm",
+   "venom"
+  ],
+  "fam": "blower",
+  "sprite": "w_leafblower"
+ },
+ "w_aegisprojector": {
+  "id": "aegisprojector",
+  "name": "AEGIS PROJECTOR",
+  "kind": "dome",
+  "rarity": "epic",
+  "tags": [
+   "bulwark",
+   "storm"
+  ],
+  "fam": "projector",
+  "sprite": "w_aegisprojector"
+ },
+ "w_coinflipper": {
+  "id": "coinflipper",
+  "name": "COIN FLIPPER",
+  "kind": "coin",
+  "rarity": "epic",
+  "tags": [
+   "fortune",
+   "edge"
+  ],
+  "fam": "pistol",
+  "sprite": "w_coinflipper"
+ },
+ "w_cowmilker": {
+  "id": "cowmilker",
+  "name": "COW MILKER",
+  "kind": "gatling",
+  "rarity": "legend",
+  "tags": [
+   "bulwark",
+   "frost"
+  ],
+  "fam": "minigun",
+  "sprite": "w_cowmilker"
+ },
+ "w_hagglerbargain": {
+  "id": "hagglerbargain",
+  "name": "HAGGLER'S BARGAIN",
+  "kind": "bolt",
+  "rarity": "legend",
+  "tags": [
+   "fortune"
+  ],
+  "fam": "pistol",
+  "sprite": "w_hagglerbargain"
+ },
+ "w_inkquill": {
+  "id": "inkquill",
+  "name": "INKWELL QUILL",
+  "kind": "orb",
+  "rarity": "rare",
+  "tags": [
+   "venom",
+   "arcane"
+  ],
+  "fam": "staff",
+  "sprite": "w_inkquill"
+ },
+ "w_acornwand": {
+  "id": "acornwand",
+  "name": "ACORN WAND",
+  "kind": "orb",
+  "rarity": "common",
+  "tags": [
+   "swarm"
+  ],
+  "fam": "wand",
+  "sprite": "w_acornwand"
+ },
+ "w_rowanwand": {
+  "id": "rowanwand",
+  "name": "ROWAN WAND",
+  "kind": "orb",
+  "rarity": "common",
+  "tags": [
+   "edge"
+  ],
+  "fam": "wand",
+  "sprite": "w_rowanwand"
+ },
+ "w_thornwand": {
+  "id": "thornwand",
+  "name": "BRIAR WAND",
+  "kind": "orb",
+  "rarity": "rare",
+  "tags": [
+   "blood"
+  ],
+  "fam": "wand",
+  "sprite": "w_thornwand"
+ },
+ "w_swamprod": {
+  "id": "swamprod",
+  "name": "SWAMP ROD",
+  "kind": "zap",
+  "rarity": "common",
+  "tags": [
+   "venom"
+  ],
+  "fam": "wand",
+  "sprite": "w_swamprod"
+ },
+ "w_rimewand": {
+  "id": "rimewand",
+  "name": "RIME WAND",
+  "kind": "rail",
+  "rarity": "rare",
+  "tags": [
+   "frost"
+  ],
+  "fam": "wand",
+  "sprite": "w_rimewand"
+ },
+ "w_bloodrod": {
+  "id": "bloodrod",
+  "name": "BLOODSTONE ROD",
+  "kind": "zap",
+  "rarity": "rare",
+  "tags": [
+   "blood"
+  ],
+  "fam": "skullstaff",
+  "sprite": "w_bloodrod"
+ },
+ "w_chimestaff": {
+  "id": "chimestaff",
+  "name": "CHIME STAFF",
+  "kind": "pulse",
+  "rarity": "rare",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "orbstaff",
+  "sprite": "w_chimestaff"
+ },
+ "w_tidescepter": {
+  "id": "tidescepter",
+  "name": "TIDE SCEPTER",
+  "kind": "wave",
+  "rarity": "rare",
+  "tags": [
+   "frost"
+  ],
+  "fam": "staff",
+  "sprite": "w_tidescepter"
+ },
+ "w_stargazer": {
+  "id": "stargazer",
+  "name": "STARGAZER STAFF",
+  "kind": "orb",
+  "rarity": "epic",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "orbstaff",
+  "sprite": "w_stargazer"
+ },
+ "w_sunorb": {
+  "id": "sunorb",
+  "name": "SUNSTONE ORB",
+  "kind": "orb",
+  "rarity": "epic",
+  "tags": [
+   "pyre"
+  ],
+  "fam": "orbstaff",
+  "sprite": "w_sunorb"
+ },
+ "w_crystalball": {
+  "id": "crystalball",
+  "name": "CRYSTAL BALL",
+  "kind": "orb",
+  "rarity": "epic",
+  "tags": [
+   "fortune",
+   "arcane"
+  ],
+  "fam": "orbstaff",
+  "sprite": "w_crystalball"
+ },
+ "w_voidstaff": {
+  "id": "voidstaff",
+  "name": "STAFF OF THE VOID",
+  "kind": "beam",
+  "rarity": "legend",
+  "tags": [
+   "shadow"
+  ],
+  "fam": "skullstaff",
+  "sprite": "w_voidstaff"
+ },
+ "w_mooncandle": {
+  "id": "mooncandle",
+  "name": "MOON CANDLE",
+  "kind": "flame",
+  "rarity": "rare",
+  "tags": [
+   "frost",
+   "arcane"
+  ],
+  "fam": "orbstaff",
+  "sprite": "w_mooncandle"
+ },
+ "w_galeharp": {
+  "id": "galeharp",
+  "name": "HARP OF GALES",
+  "kind": "wave",
+  "rarity": "epic",
+  "tags": [
+   "storm"
+  ],
+  "fam": "rune",
+  "sprite": "w_galeharp"
+ },
+ "w_squeezebox": {
+  "id": "squeezebox",
+  "name": "SQUEEZEBOX",
+  "kind": "nova",
+  "rarity": "rare",
+  "tags": [
+   "fortune"
+  ],
+  "fam": "rune",
+  "sprite": "w_squeezebox"
+ },
+ "w_duskbell": {
+  "id": "duskbell",
+  "name": "BELL OF DUSK",
+  "kind": "pulse",
+  "rarity": "rare",
+  "tags": [
+   "malice"
+  ],
+  "fam": "rune",
+  "sprite": "w_duskbell"
+ },
+ "w_glasslute": {
+  "id": "glasslute",
+  "name": "GLASS LUTE",
+  "kind": "wave",
+  "rarity": "epic",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "rune",
+  "sprite": "w_glasslute"
+ },
+ "w_dawnbeads": {
+  "id": "dawnbeads",
+  "name": "BEADS OF DAWN",
+  "kind": "nova",
+  "rarity": "rare",
+  "tags": [
+   "bulwark"
+  ],
+  "fam": "rune",
+  "sprite": "w_dawnbeads"
+ },
+ "w_emberscroll": {
+  "id": "emberscroll",
+  "name": "SCROLL OF EMBERS",
+  "kind": "flame",
+  "rarity": "common",
+  "tags": [
+   "pyre"
+  ],
+  "fam": "rune",
+  "sprite": "w_emberscroll"
+ },
+ "w_sparkscroll": {
+  "id": "sparkscroll",
+  "name": "SCROLL OF SPARKS",
+  "kind": "zap",
+  "rarity": "common",
+  "tags": [
+   "storm"
+  ],
+  "fam": "rune",
+  "sprite": "w_sparkscroll"
+ },
+ "w_mothbook": {
+  "id": "mothbook",
+  "name": "BOOK OF MOTHS",
+  "kind": "swarm",
+  "rarity": "rare",
+  "tags": [
+   "venom",
+   "swarm"
+  ],
+  "fam": "rune",
+  "sprite": "w_mothbook"
+ },
+ "w_thoughtstone": {
+  "id": "thoughtstone",
+  "name": "THOUGHTSTONE",
+  "kind": "orb",
+  "rarity": "rare",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "orbstaff",
+  "sprite": "w_thoughtstone"
+ },
+ "w_tankardmaul": {
+  "id": "tankardmaul",
+  "name": "TANKARD MAUL",
+  "kind": "slash",
+  "rarity": "rare",
+  "tags": [
+   "fury"
+  ],
+  "fam": "sword",
+  "sprite": "w_tankardmaul"
+ },
+ "w_quickcrossbow": {
+  "id": "quickcrossbow",
+  "name": "QUICKSILVER CROSSBOW",
+  "kind": "bolt",
+  "rarity": "rare",
+  "tags": [
+   "edge"
+  ],
+  "fam": "repeater",
+  "sprite": "w_quickcrossbow"
+ },
+ "w_bonecenser": {
+  "id": "bonecenser",
+  "name": "BONE CENSER",
+  "kind": "thrall",
+  "rarity": "rare",
+  "tags": [
+   "swarm",
+   "malice"
+  ],
+  "fam": "staff",
+  "sprite": "w_bonecenser"
+ },
+ "w_moldyloaf": {
+  "id": "moldyloaf",
+  "name": "THE MOLDY LOAF",
+  "kind": "slash",
+  "rarity": "legend",
+  "tags": [
+   "venom",
+   "bulwark"
+  ],
+  "fam": "sword",
+  "sprite": "w_moldyloaf"
+ },
+ "w_arcifrisbee": {
+  "id": "arcifrisbee",
+  "name": "AR\u010cI'S FRISBEE",
+  "kind": "boomer",
+  "rarity": "legend",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "chakram",
+  "sprite": "w_arcifrisbee"
+ },
+ "w_vidcable": {
+  "id": "vidcable",
+  "name": "VID'S CABLE",
+  "kind": "whip",
+  "rarity": "legend",
+  "tags": [
+   "storm"
+  ],
+  "fam": "whip",
+  "sprite": "w_vidcable"
+ },
+ "w_sefefingerguns": {
+  "id": "sefefingerguns",
+  "name": "\u0160EFE'S FINGER GUNS",
+  "kind": "bolt",
+  "rarity": "legend",
+  "tags": [
+   "shadow"
+  ],
+  "fam": "pistol",
+  "sprite": "w_sefefingerguns"
+ },
+ "w_gearwound": {
+  "id": "gearwound",
+  "name": "GEARWOUND REPEATER",
+  "kind": "bolt",
+  "rarity": "rare",
+  "tags": [
+   "storm"
+  ],
+  "fam": "repeater",
+  "sprite": "w_gearwound"
+ },
+ "w_duskblade": {
+  "id": "duskblade",
+  "name": "DUSKBLADE",
+  "kind": "slash",
+  "rarity": "epic",
+  "tags": [
+   "malice",
+   "edge"
+  ],
+  "fam": "sword",
+  "sprite": "w_duskblade"
+ },
+ "w_prismfan": {
+  "id": "prismfan",
+  "name": "PRISM FAN",
+  "kind": "beam",
+  "rarity": "epic",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "wand",
+  "sprite": "w_prismfan"
+ },
+ "w_spectrum": {
+  "id": "spectrum",
+  "name": "THE SPECTRUM",
+  "kind": "beam",
+  "rarity": "legend",
+  "tags": [
+   "arcane",
+   "storm"
+  ],
+  "fam": "wand",
+  "sprite": "w_spectrum"
+ },
+ "w_flail": {
+  "id": "morningstar",
+  "name": "MORNING STAR",
+  "kind": "flail",
+  "rarity": "common",
+  "tags": [
+   "fury"
+  ],
+  "fam": "flail",
+  "sprite": "w_flail"
+ },
+ "w_flail_rare": {
+  "id": "chainflail",
+  "name": "TWIN CHAIN",
+  "kind": "flail",
+  "rarity": "rare",
+  "tags": [
+   "edge"
+  ],
+  "fam": "flail",
+  "sprite": "w_flail_rare"
+ },
+ "w_flail_frost": {
+  "id": "frostflail",
+  "name": "RIMEBALL",
+  "kind": "flail",
+  "rarity": "rare",
+  "tags": [
+   "frost"
+  ],
+  "fam": "flail",
+  "sprite": "w_flail_frost"
+ },
+ "w_flail_ember": {
+  "id": "emberflail",
+  "name": "EMBER MACE",
+  "kind": "flail",
+  "rarity": "epic",
+  "tags": [
+   "pyre"
+  ],
+  "fam": "flail",
+  "sprite": "w_flail_ember"
+ },
+ "w_flail_storm": {
+  "id": "stormflail",
+  "name": "THUNDERBALL",
+  "kind": "flail",
+  "rarity": "epic",
+  "tags": [
+   "storm"
+  ],
+  "fam": "flail",
+  "sprite": "w_flail_storm"
+ },
+ "w_flail_skull": {
+  "id": "skullflail",
+  "name": "THE GRAVE BELL",
+  "kind": "flail",
+  "rarity": "legend",
+  "tags": [
+   "malice",
+   "fury"
+  ],
+  "fam": "flail",
+  "sprite": "w_flail_skull"
+ },
+ "w_lute": {
+  "id": "lute",
+  "name": "SINGING LUTE",
+  "kind": "orb",
+  "rarity": "rare",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "orbstaff",
+  "sprite": "w_lute"
+ },
+ "w_jugglepins": {
+  "id": "jugglepins",
+  "name": "JUGGLING PINS",
+  "kind": "boomer",
+  "rarity": "rare",
+  "tags": [
+   "fortune"
+  ],
+  "fam": "chakram",
+  "sprite": "w_jugglepins"
+ },
+ "w_greataxe": {
+  "id": "greataxe",
+  "name": "GREAT AXE",
+  "kind": "slash",
+  "rarity": "rare",
+  "tags": [
+   "fury"
+  ],
+  "fam": "sword",
+  "sprite": "w_greataxe"
+ },
+ "w_rustyshiv": {
+  "id": "rustyshiv",
+  "name": "RUSTY SHIV",
+  "kind": "thrust",
+  "rarity": "common",
+  "tags": [
+   "edge"
+  ],
+  "fam": "spear",
+  "sprite": "w_rustyshiv"
+ },
+ "w_pendulum": {
+  "id": "pendulum",
+  "name": "THE PENDULUM",
+  "kind": "boomer",
+  "rarity": "epic",
+  "tags": [
+   "edge"
+  ],
+  "fam": "chakram",
+  "sprite": "w_pendulum"
+ },
+ "w_springlance": {
+  "id": "springlance",
+  "name": "SPRING LANCE",
+  "kind": "slash",
+  "rarity": "rare",
+  "tags": [
+   "edge"
+  ],
+  "fam": "spear",
+  "sprite": "w_springlance"
+ },
+ "w_cogthrower": {
+  "id": "cogthrower",
+  "name": "COG THROWER",
+  "kind": "spin",
+  "rarity": "rare",
+  "tags": [
+   "demolition"
+  ],
+  "fam": "disc",
+  "sprite": "w_cogthrower"
+ },
+ "w_steamcannon": {
+  "id": "steamcannon",
+  "name": "STEAM CANNON",
+  "kind": "shot",
+  "rarity": "epic",
+  "tags": [
+   "storm"
+  ],
+  "fam": "handcannon",
+  "sprite": "w_steamcannon"
+ },
+ "w_chronoblade": {
+  "id": "chronoblade",
+  "name": "CHRONO BLADE",
+  "kind": "slash",
+  "rarity": "legend",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "sword",
+  "sprite": "w_chronoblade"
+ },
+ "w_tickbomb": {
+  "id": "tickbomb",
+  "name": "TICKING FLASK",
+  "kind": "flask",
+  "rarity": "rare",
+  "tags": [
+   "demolition"
+  ],
+  "fam": "grenade",
+  "sprite": "w_tickbomb"
+ },
+ "w_escapement": {
+  "id": "escapement",
+  "name": "ESCAPEMENT RIFLE",
+  "kind": "bolt",
+  "rarity": "epic",
+  "tags": [
+   "edge"
+  ],
+  "fam": "rifle",
+  "sprite": "w_escapement"
+ },
+ "w_enginecore": {
+  "id": "enginecore",
+  "name": "ENGINE CORE",
+  "kind": "orb",
+  "rarity": "legend",
+  "tags": [
+   "pyre",
+   "storm"
+  ],
+  "fam": "orbstaff",
+  "sprite": "w_enginecore"
+ },
+ "w_glacierheart": {
+  "id": "glacierheart",
+  "name": "GLACIER HEART",
+  "kind": "orb",
+  "rarity": "legend",
+  "tags": [
+   "storm"
+  ],
+  "fam": "orbstaff",
+  "sprite": "w_glacierheart"
+ },
+ "w_inkspout": {
+  "id": "inkspout",
+  "name": "THE INKSPOUT",
+  "kind": "orb",
+  "rarity": "legend",
+  "tags": [
+   "arcane",
+   "malice"
+  ],
+  "fam": "orbstaff",
+  "sprite": "w_inkspout"
+ },
+ "w_hushbell": {
+  "id": "hushbell",
+  "name": "THE HUSH BELL",
+  "kind": "pulse",
+  "rarity": "legend",
+  "tags": [
+   "arcane",
+   "shadow"
+  ],
+  "fam": "lanternw",
+  "sprite": "w_hushbell"
+ },
+ "w_redpen": {
+  "id": "redpen",
+  "name": "THE RED PEN",
+  "kind": "beam",
+  "rarity": "legend",
+  "tags": [
+   "malice",
+   "edge"
+  ],
+  "fam": "wand",
+  "sprite": "w_redpen"
+ },
+ "w_authorspen": {
+  "id": "authorspen",
+  "name": "THE AUTHOR'S PEN",
+  "kind": "orb",
+  "rarity": "legend",
+  "tags": [
+   "arcane",
+   "storm"
+  ],
+  "fam": "staff",
+  "sprite": "w_authorspen"
+ },
+ "w_archstaff": {
+  "id": "archstaff",
+  "name": "ARCHMAGE'S STAFF",
+  "kind": "orb",
+  "rarity": "legend",
+  "tags": [
+   "arcane",
+   "storm"
+  ],
+  "fam": "orbstaff",
+  "sprite": "w_archstaff"
+ },
+ "w_wyrmfang": {
+  "id": "wyrmfang",
+  "name": "WYRMFANG",
+  "kind": "slash",
+  "rarity": "legend",
+  "tags": [
+   "frost",
+   "edge"
+  ],
+  "fam": "sword",
+  "sprite": "w_wyrmfang"
+ },
+ "w_seraphlance": {
+  "id": "seraphlance",
+  "name": "SERAPH'S LANCE",
+  "kind": "rail",
+  "rarity": "legend",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "rifle",
+  "sprite": "w_seraphlance"
+ },
+ "w_pocketvoid": {
+  "id": "pocketvoid",
+  "name": "POCKET VOID",
+  "kind": "singularity",
+  "rarity": "rare",
+  "tags": [
+   "shadow"
+  ],
+  "fam": "orbstaff",
+  "sprite": "w_pocketvoid"
+ },
+ "w_eventhorizon": {
+  "id": "eventhorizon",
+  "name": "EVENT HORIZON",
+  "kind": "singularity",
+  "rarity": "legend",
+  "tags": [
+   "shadow",
+   "arcane"
+  ],
+  "fam": "orbstaff",
+  "sprite": "w_eventhorizon"
+ },
+ "w_emberwyrm": {
+  "id": "emberwyrm",
+  "name": "EMBER WYRM ROD",
+  "kind": "serpent",
+  "rarity": "rare",
+  "tags": [
+   "pyre"
+  ],
+  "fam": "staff",
+  "sprite": "w_emberwyrm"
+ },
+ "w_rimeserpent": {
+  "id": "rimeserpent",
+  "name": "RIME SERPENT",
+  "kind": "serpent",
+  "rarity": "epic",
+  "tags": [
+   "frost"
+  ],
+  "fam": "staff",
+  "sprite": "w_rimeserpent"
+ },
+ "w_cometscepter": {
+  "id": "cometscepter",
+  "name": "COMET SCEPTER",
+  "kind": "comet",
+  "rarity": "rare",
+  "tags": [
+   "pyre",
+   "arcane"
+  ],
+  "fam": "wand",
+  "sprite": "w_cometscepter"
+ },
+ "w_starfallen": {
+  "id": "starfallen",
+  "name": "THE STARFALLEN",
+  "kind": "comet",
+  "rarity": "legend",
+  "tags": [
+   "arcane",
+   "storm"
+  ],
+  "fam": "wand",
+  "sprite": "w_starfallen"
+ },
+ "w_runechalk": {
+  "id": "runechalk",
+  "name": "RUNE CHALK",
+  "kind": "glyph",
+  "rarity": "common",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "wand",
+  "sprite": "w_runechalk"
+ },
+ "w_sundersigil": {
+  "id": "sundersigil",
+  "name": "SIGIL OF SUNDERING",
+  "kind": "glyph",
+  "rarity": "epic",
+  "tags": [
+   "arcane",
+   "malice"
+  ],
+  "fam": "tome",
+  "sprite": "w_sundersigil"
+ },
+ "w_dancingsteel": {
+  "id": "dancingsteel",
+  "name": "DANCING STEEL",
+  "kind": "blades",
+  "rarity": "rare",
+  "tags": [
+   "edge",
+   "arcane"
+  ],
+  "fam": "sword",
+  "sprite": "w_dancingsteel"
+ },
+ "w_thousandedges": {
+  "id": "thousandedges",
+  "name": "THE THOUSAND EDGES",
+  "kind": "blades",
+  "rarity": "epic",
+  "tags": [
+   "edge",
+   "storm"
+  ],
+  "fam": "sword",
+  "sprite": "w_thousandedges"
+ },
+ "w_stopwatch": {
+  "id": "stopwatch",
+  "name": "STOPWATCH WAND",
+  "kind": "chrono",
+  "rarity": "rare",
+  "tags": [
+   "arcane",
+   "frost"
+  ],
+  "fam": "wand",
+  "sprite": "w_stopwatch"
+ },
+ "w_aeonglass": {
+  "id": "aeonglass",
+  "name": "HOURGLASS OF AEONS",
+  "kind": "chrono",
+  "rarity": "legend",
+  "tags": [
+   "arcane",
+   "storm"
+  ],
+  "fam": "orb",
+  "sprite": "w_aeonglass"
+ },
+ "w_kaleidoscope": {
+  "id": "kaleidoscope",
+  "name": "KALEIDOSCOPE",
+  "kind": "prism",
+  "rarity": "rare",
+  "tags": [
+   "arcane",
+   "frost"
+  ],
+  "fam": "wand",
+  "sprite": "w_kaleidoscope"
+ },
+ "w_fractalcrown": {
+  "id": "fractalcrown",
+  "name": "FRACTAL CROWN",
+  "kind": "prism",
+  "rarity": "epic",
+  "tags": [
+   "arcane",
+   "venom"
+  ],
+  "fam": "orb",
+  "sprite": "w_fractalcrown"
+ },
+ "w_cloudherd": {
+  "id": "cloudherd",
+  "name": "CLOUDHERD'S CROOK",
+  "kind": "cloud",
+  "rarity": "rare",
+  "tags": [
+   "storm"
+  ],
+  "fam": "staff",
+  "sprite": "w_cloudherd"
+ },
+ "w_tempestcore": {
+  "id": "tempestcore",
+  "name": "TEMPEST CORE",
+  "kind": "cloud",
+  "rarity": "epic",
+  "tags": [
+   "storm",
+   "frost"
+  ],
+  "fam": "orb",
+  "sprite": "w_tempestcore"
+ },
+ "w_pinballwand": {
+  "id": "pinballwand",
+  "name": "ARCANE PINBALL",
+  "kind": "pinball",
+  "rarity": "common",
+  "tags": [
+   "arcane",
+   "fortune"
+  ],
+  "fam": "wand",
+  "sprite": "w_pinballwand"
+ },
+ "w_orrery": {
+  "id": "orrery",
+  "name": "STARBOUND ORRERY",
+  "kind": "pinball",
+  "rarity": "epic",
+  "tags": [
+   "arcane",
+   "storm"
+  ],
+  "fam": "orb",
+  "sprite": "w_orrery"
+ },
+ "w_wildsurge": {
+  "id": "wildsurge",
+  "name": "WAND OF WILD SURGE",
+  "kind": "wild",
+  "rarity": "rare",
+  "tags": [
+   "arcane",
+   "fortune"
+  ],
+  "fam": "wand",
+  "sprite": "w_wildsurge"
+ },
+ "w_chaoscodex": {
+  "id": "chaoscodex",
+  "name": "THE CHAOS CODEX",
+  "kind": "wild",
+  "rarity": "legend",
+  "tags": [
+   "arcane",
+   "malice"
+  ],
+  "fam": "tome",
+  "sprite": "w_chaoscodex"
+ },
+ "w_moonwell": {
+  "id": "moonwell",
+  "name": "MOONWELL",
+  "kind": "singularity",
+  "rarity": "epic",
+  "tags": [
+   "shadow",
+   "storm"
+  ],
+  "fam": "orbstaff",
+  "sprite": "w_moonwell"
+ },
+ "w_hydrarod": {
+  "id": "hydrarod",
+  "name": "HYDRA'S ROD",
+  "kind": "serpent",
+  "rarity": "legend",
+  "tags": [
+   "pyre",
+   "venom"
+  ],
+  "fam": "staff",
+  "sprite": "w_hydrarod"
+ },
+ "w_skyfall": {
+  "id": "skyfall",
+  "name": "SKYFALL STAFF",
+  "kind": "comet",
+  "rarity": "epic",
+  "tags": [
+   "pyre",
+   "demolition"
+  ],
+  "fam": "staff",
+  "sprite": "w_skyfall"
+ },
+ "w_stormsigil": {
+  "id": "stormsigil",
+  "name": "STORM SIGIL",
+  "kind": "glyph",
+  "rarity": "rare",
+  "tags": [
+   "storm",
+   "arcane"
+  ],
+  "fam": "wand",
+  "sprite": "w_stormsigil"
+ },
+ "w_timewarp": {
+  "id": "timewarp",
+  "name": "TIMEWARP SCEPTER",
+  "kind": "chrono",
+  "rarity": "epic",
+  "tags": [
+   "frost",
+   "arcane"
+  ],
+  "fam": "wand",
+  "sprite": "w_timewarp"
+ },
+ "w_rainbowstaff": {
+  "id": "rainbowstaff",
+  "name": "RAINBOW STAFF",
+  "kind": "prism",
+  "rarity": "legend",
+  "tags": [
+   "arcane",
+   "pyre"
+  ],
+  "fam": "orb",
+  "sprite": "w_rainbowstaff"
+ },
+ "w_skybreaker": {
+  "id": "skybreaker",
+  "name": "SKYBREAKER ORB",
+  "kind": "cloud",
+  "rarity": "legend",
+  "tags": [
+   "storm",
+   "frost"
+  ],
+  "fam": "orb",
+  "sprite": "w_skybreaker"
+ },
+ "w_luckystar": {
+  "id": "luckystar",
+  "name": "LUCKY STAR",
+  "kind": "pinball",
+  "rarity": "rare",
+  "tags": [
+   "fortune",
+   "arcane"
+  ],
+  "fam": "orb",
+  "sprite": "w_luckystar"
+ },
+ "w_stormfire": {
+  "id": "stormfire",
+  "name": "STORMFIRE ROD",
+  "kind": "orb",
+  "rarity": "epic",
+  "tags": [
+   "pyre",
+   "storm"
+  ],
+  "fam": "staff",
+  "sprite": "w_stormfire"
+ },
+ "w_thunderfang": {
+  "id": "thunderfang",
+  "name": "THUNDERFANG",
+  "kind": "slash",
+  "rarity": "epic",
+  "tags": [
+   "storm",
+   "edge"
+  ],
+  "fam": "sword",
+  "sprite": "w_thunderfang"
+ },
+ "w_frostbrand": {
+  "id": "frostbrand",
+  "name": "FROSTBRAND",
+  "kind": "slash",
+  "rarity": "rare",
+  "tags": [
+   "frost",
+   "edge"
+  ],
+  "fam": "sword",
+  "sprite": "w_frostbrand"
+ },
+ "w_voidscythe": {
+  "id": "voidscythe",
+  "name": "VOID SCYTHE",
+  "kind": "slash",
+  "rarity": "legend",
+  "tags": [
+   "shadow",
+   "malice"
+  ],
+  "fam": "sword",
+  "sprite": "w_voidscythe"
+ },
+ "w_emberpike": {
+  "id": "emberpike",
+  "name": "EMBER PIKE",
+  "kind": "thrust",
+  "rarity": "rare",
+  "tags": [
+   "pyre"
+  ],
+  "fam": "spear",
+  "sprite": "w_emberpike"
+ },
+ "w_quakehammer": {
+  "id": "quakehammer",
+  "name": "QUAKE HAMMER",
+  "kind": "slam",
+  "rarity": "legend",
+  "tags": [
+   "fury",
+   "demolition"
+  ],
+  "fam": "hammer",
+  "sprite": "w_quakehammer"
+ },
+ "w_serpentlash": {
+  "id": "serpentlash",
+  "name": "SERPENT LASH",
+  "kind": "whip",
+  "rarity": "rare",
+  "tags": [
+   "venom",
+   "malice"
+  ],
+  "fam": "whip",
+  "sprite": "w_serpentlash"
+ },
+ "w_twinfangs": {
+  "id": "twinfangs",
+  "name": "TWIN FANGS",
+  "kind": "stab",
+  "rarity": "epic",
+  "tags": [
+   "edge",
+   "blood"
+  ],
+  "fam": "dagger",
+  "sprite": "w_twinfangs"
+ },
+ "w_giantsbane": {
+  "id": "giantsbane",
+  "name": "GIANTSBANE",
+  "kind": "bat",
+  "rarity": "epic",
+  "tags": [
+   "fury"
+  ],
+  "fam": "club",
+  "sprite": "w_giantsbane"
+ },
+ "w_steamblade": {
+  "id": "steamblade",
+  "name": "STEAMFORGED BLADE",
+  "kind": "slash",
+  "rarity": "legend",
+  "tags": [
+   "pyre",
+   "frost"
+  ],
+  "fam": "sword",
+  "sprite": "w_steamblade"
+ },
+ "w_worldender": {
+  "id": "worldender",
+  "name": "WORLD-ENDER",
+  "kind": "rocket",
+  "rarity": "mythic",
+  "tags": [
+   "demolition",
+   "pyre"
+  ],
+  "fam": "launcher",
+  "sprite": "w_worldender"
+ },
+ "w_dawnbow": {
+  "id": "dawnbow",
+  "name": "BOW OF THE DAWN GOD",
+  "kind": "bolt",
+  "rarity": "mythic",
+  "tags": [
+   "arcane",
+   "edge"
+  ],
+  "fam": "bow",
+  "sprite": "w_dawnbow"
+ },
+ "w_eternityedge": {
+  "id": "eternityedge",
+  "name": "ETERNITY'S EDGE",
+  "kind": "slash",
+  "rarity": "mythic",
+  "tags": [
+   "arcane",
+   "frost"
+  ],
+  "fam": "sword",
+  "sprite": "w_eternityedge"
+ },
+ "w_abyssstaff": {
+  "id": "abyssstaff",
+  "name": "STAFF OF THE ABYSS",
+  "kind": "singularity",
+  "rarity": "mythic",
+  "tags": [
+   "shadow",
+   "malice"
+  ],
+  "fam": "orbstaff",
+  "sprite": "w_abyssstaff"
+ },
+ "w_dragonlance": {
+  "id": "dragonlance",
+  "name": "DRAGONLORD'S LANCE",
+  "kind": "thrust",
+  "rarity": "mythic",
+  "tags": [
+   "pyre",
+   "fury"
+  ],
+  "fam": "spear",
+  "sprite": "w_dragonlance"
+ },
+ "w_thunderking": {
+  "id": "thunderking",
+  "name": "SCEPTER OF THE THUNDER KING",
+  "kind": "zap",
+  "rarity": "mythic",
+  "tags": [
+   "storm"
+  ],
+  "fam": "wand",
+  "sprite": "w_thunderking"
+ },
+ "w_starshell": {
+  "id": "starshell",
+  "name": "STARSHELL MORTAR",
+  "kind": "mortar",
+  "rarity": "legend",
+  "tags": [
+   "pyre",
+   "demolition"
+  ],
+  "fam": "mortar",
+  "sprite": "w_starshell"
+ },
+ "w_frostfoam": {
+  "id": "frostfoam",
+  "name": "FROSTFOAM GUN",
+  "kind": "bubble",
+  "rarity": "epic",
+  "tags": [
+   "frost"
+  ],
+  "fam": "blaster",
+  "sprite": "w_frostfoam"
+ },
+ "w_runedeck": {
+  "id": "runedeck",
+  "name": "DECK OF RUNES",
+  "kind": "deck",
+  "rarity": "epic",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "cards",
+  "sprite": "w_runedeck"
+ },
+ "w_spectralrepeater": {
+  "id": "spectralrepeater",
+  "name": "SPECTRAL REPEATER",
+  "kind": "gatling",
+  "rarity": "legend",
+  "tags": [
+   "edge",
+   "arcane"
+  ],
+  "fam": "minigun",
+  "sprite": "w_spectralrepeater"
+ },
+ "w_viperbow": {
+  "id": "viperbow",
+  "name": "VIPER'S BOW",
+  "kind": "bolt",
+  "rarity": "epic",
+  "tags": [
+   "venom"
+  ],
+  "fam": "bow",
+  "sprite": "w_viperbow"
+ },
+ "w_voidhammer": {
+  "id": "voidhammer",
+  "name": "HAMMER OF THE VOID",
+  "kind": "slam",
+  "rarity": "legend",
+  "tags": [
+   "shadow",
+   "fury"
+  ],
+  "fam": "hammer",
+  "sprite": "w_voidhammer"
+ },
+ "w_landshark": {
+  "id": "landshark",
+  "name": "LAND SHARK LAUNCHER",
+  "kind": "shark",
+  "rarity": "rare",
+  "tags": [
+   "fury",
+   "edge"
+  ],
+  "fam": "launcher",
+  "sprite": "w_landshark"
+ },
+ "w_twisterfan": {
+  "id": "twisterfan",
+  "name": "TWISTER FAN",
+  "kind": "twister",
+  "rarity": "rare",
+  "tags": [
+   "storm"
+  ],
+  "fam": "orbstaff",
+  "sprite": "w_twisterfan"
+ },
+ "w_discostaff": {
+  "id": "discostaff",
+  "name": "DISCO STAFF",
+  "kind": "disco",
+  "rarity": "rare",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "orb",
+  "sprite": "w_discostaff"
+ },
+ "w_steelyoyo": {
+  "id": "steelyoyo",
+  "name": "STEEL YO-YO",
+  "kind": "yoyo",
+  "rarity": "rare",
+  "tags": [
+   "edge"
+  ],
+  "fam": "fists",
+  "sprite": "w_steelyoyo"
+ },
+ "w_portalgun": {
+  "id": "portalgun",
+  "name": "PORTAL PISTOL",
+  "kind": "portal",
+  "rarity": "rare",
+  "tags": [
+   "arcane",
+   "edge"
+  ],
+  "fam": "pistol",
+  "sprite": "w_portalgun"
+ },
+ "w_sawlauncher": {
+  "id": "sawlauncher",
+  "name": "SAW LAUNCHER",
+  "kind": "saw",
+  "rarity": "rare",
+  "tags": [
+   "edge",
+   "demolition"
+  ],
+  "fam": "chakram",
+  "sprite": "w_sawlauncher"
+ },
+ "w_stitcheddoll": {
+  "id": "stitcheddoll",
+  "name": "STITCHED DOLL",
+  "kind": "voodoo",
+  "rarity": "rare",
+  "tags": [
+   "malice"
+  ],
+  "fam": "rune",
+  "sprite": "w_stitcheddoll"
+ },
+ "w_skyanvil": {
+  "id": "skyanvil",
+  "name": "SKY ANVIL",
+  "kind": "anvil",
+  "rarity": "rare",
+  "tags": [
+   "demolition",
+   "bulwark"
+  ],
+  "fam": "hammer",
+  "sprite": "w_skyanvil"
+ },
+ "w_megalodon": {
+  "id": "megalodon",
+  "name": "MEGALODON",
+  "kind": "shark",
+  "rarity": "legend",
+  "tags": [
+   "fury",
+   "blood"
+  ],
+  "fam": "cannon",
+  "sprite": "w_megalodon"
+ },
+ "w_sharknado": {
+  "id": "sharknado",
+  "name": "SHARKNADO",
+  "kind": "twister",
+  "rarity": "mythic",
+  "tags": [
+   "storm",
+   "fury"
+  ],
+  "fam": "staff",
+  "sprite": "w_sharknado"
+ },
+ "w_discoinferno": {
+  "id": "discoinferno",
+  "name": "DISCO INFERNO",
+  "kind": "disco",
+  "rarity": "legend",
+  "tags": [
+   "arcane",
+   "pyre"
+  ],
+  "fam": "orb",
+  "sprite": "w_discoinferno"
+ },
+ "w_twinyoyos": {
+  "id": "twinyoyos",
+  "name": "TWIN YO-YOS",
+  "kind": "yoyo",
+  "rarity": "epic",
+  "tags": [
+   "edge",
+   "shadow"
+  ],
+  "fam": "fists",
+  "sprite": "w_twinyoyos"
+ },
+ "w_gatecannon": {
+  "id": "gatecannon",
+  "name": "GATEWAY CANNON",
+  "kind": "portal",
+  "rarity": "legend",
+  "tags": [
+   "arcane",
+   "shadow"
+  ],
+  "fam": "handcannon",
+  "sprite": "w_gatecannon"
+ },
+ "w_hungrysaws": {
+  "id": "hungrysaws",
+  "name": "HUNGRY SAWS",
+  "kind": "saw",
+  "rarity": "epic",
+  "tags": [
+   "edge",
+   "fury"
+  ],
+  "fam": "chakram",
+  "sprite": "w_hungrysaws"
+ },
+ "w_doomdoll": {
+  "id": "doomdoll",
+  "name": "DOOM DOLL",
+  "kind": "voodoo",
+  "rarity": "legend",
+  "tags": [
+   "malice",
+   "blood"
+  ],
+  "fam": "skullstaff",
+  "sprite": "w_doomdoll"
+ },
+ "w_grandpiano": {
+  "id": "grandpiano",
+  "name": "GRAND PIANO",
+  "kind": "anvil",
+  "rarity": "legend",
+  "tags": [
+   "demolition",
+   "arcane"
+  ],
+  "fam": "tome",
+  "sprite": "w_grandpiano"
+ },
+ "w_fishslapper": {
+  "id": "fishslapper",
+  "name": "THE FISH SLAPPER",
+  "kind": "slash",
+  "rarity": "epic",
+  "tags": [
+   "fury",
+   "frost"
+  ],
+  "fam": "sword",
+  "sprite": "w_fishslapper"
+ },
+ "w_rubberchicken": {
+  "id": "rubberchicken",
+  "name": "RUBBER CHICKEN",
+  "kind": "bat",
+  "rarity": "epic",
+  "tags": [
+   "fortune",
+   "fury"
+  ],
+  "fam": "axe",
+  "sprite": "w_rubberchicken"
+ },
+ "w_confetticannon": {
+  "id": "confetticannon",
+  "name": "CONFETTI CANNON",
+  "kind": "shot",
+  "rarity": "rare",
+  "tags": [
+   "fortune",
+   "arcane"
+  ],
+  "fam": "blunderbuss",
+  "sprite": "w_confetticannon"
+ },
+ "w_pinatastick": {
+  "id": "pinatastick",
+  "name": "PINATA STICK",
+  "kind": "bat",
+  "rarity": "rare",
+  "tags": [
+   "fortune"
+  ],
+  "fam": "staff",
+  "sprite": "w_pinatastick"
+ },
+ "w_stormjar": {
+  "id": "stormjar",
+  "name": "BOTTLED TWISTER",
+  "kind": "flask",
+  "rarity": "epic",
+  "tags": [
+   "storm"
+  ],
+  "fam": "flaskw",
+  "sprite": "w_stormjar"
+ },
+ "w_smithsrevenge": {
+  "id": "smithsrevenge",
+  "name": "BLACKSMITH'S REVENGE",
+  "kind": "slam",
+  "rarity": "legend",
+  "tags": [
+   "demolition",
+   "bulwark"
+  ],
+  "fam": "hammer",
+  "sprite": "w_smithsrevenge"
+ },
+ "w_partyhorn": {
+  "id": "partyhorn",
+  "name": "PARTY HORN",
+  "kind": "wave",
+  "rarity": "rare",
+  "tags": [
+   "arcane",
+   "fortune"
+  ],
+  "fam": "sprayer",
+  "sprite": "w_partyhorn"
+ },
+ "w_cursedcrossbow": {
+  "id": "cursedcrossbow",
+  "name": "CURSED CROSSBOW",
+  "kind": "bolt",
+  "rarity": "epic",
+  "tags": [
+   "malice",
+   "edge"
+  ],
+  "fam": "crossbow",
+  "sprite": "w_cursedcrossbow"
+ },
+ "w_portalbow": {
+  "id": "portalbow",
+  "name": "BOW OF ELSEWHERE",
+  "kind": "bolt",
+  "rarity": "legend",
+  "tags": [
+   "arcane",
+   "shadow"
+  ],
+  "fam": "bow",
+  "sprite": "w_portalbow"
+ },
+ "w_buzzblade": {
+  "id": "buzzblade",
+  "name": "BUZZ BLADE",
+  "kind": "slash",
+  "rarity": "rare",
+  "tags": [
+   "edge",
+   "demolition"
+  ],
+  "fam": "greatsword",
+  "sprite": "w_buzzblade"
+ },
+ "w_sunlance": {
+  "id": "sunlance",
+  "name": "SUNLANCE",
+  "kind": "thrust",
+  "rarity": "rare",
+  "tags": [
+   "arcane",
+   "bulwark"
+  ],
+  "fam": "spear",
+  "sprite": "w_sunlance"
+ },
+ "w_halodisc": {
+  "id": "halodisc",
+  "name": "HALO DISC",
+  "kind": "disc",
+  "rarity": "rare",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "chakram",
+  "sprite": "w_halodisc"
+ },
+ "w_morningray": {
+  "id": "morningray",
+  "name": "MORNING RAY",
+  "kind": "beam",
+  "rarity": "epic",
+  "tags": [
+   "arcane",
+   "pyre"
+  ],
+  "fam": "staff",
+  "sprite": "w_morningray"
+ },
+ "w_solarflare": {
+  "id": "solarflare",
+  "name": "SOLAR FLARE",
+  "kind": "shot",
+  "rarity": "legend",
+  "tags": [
+   "pyre",
+   "arcane"
+  ],
+  "fam": "blunderbuss",
+  "sprite": "w_solarflare"
+ },
+ "w_graverot": {
+  "id": "graverot",
+  "name": "GRAVEROT SCYTHE",
+  "kind": "slash",
+  "rarity": "rare",
+  "tags": [
+   "malice",
+   "venom"
+  ],
+  "fam": "scythe",
+  "sprite": "w_graverot"
+ },
+ "w_deathknell": {
+  "id": "deathknell",
+  "name": "DEATH KNELL",
+  "kind": "pulse",
+  "rarity": "epic",
+  "tags": [
+   "venom",
+   "malice"
+  ],
+  "fam": "lanternw",
+  "sprite": "w_deathknell"
+ },
+ "w_lichfinger": {
+  "id": "lichfinger",
+  "name": "LICH FINGER",
+  "kind": "zap",
+  "rarity": "epic",
+  "tags": [
+   "malice"
+  ],
+  "fam": "wand",
+  "sprite": "w_lichfinger"
+ },
+ "w_bonereaper": {
+  "id": "bonereaper",
+  "name": "BONE REAPER",
+  "kind": "spin",
+  "rarity": "legend",
+  "tags": [
+   "malice",
+   "fury"
+  ],
+  "fam": "sickle",
+  "sprite": "w_bonereaper"
+ },
+ "w_nightshiv": {
+  "id": "nightshiv",
+  "name": "NIGHT SHIV",
+  "kind": "stab",
+  "rarity": "rare",
+  "tags": [
+   "shadow"
+  ],
+  "fam": "dagger",
+  "sprite": "w_nightshiv"
+ },
+ "w_shaderepeater": {
+  "id": "shaderepeater",
+  "name": "SHADE REPEATER",
+  "kind": "burst",
+  "rarity": "rare",
+  "tags": [
+   "shadow",
+   "malice"
+  ],
+  "fam": "crossbow",
+  "sprite": "w_shaderepeater"
+ },
+ "w_umbralmoon": {
+  "id": "umbralmoon",
+  "name": "MOON OF SHADOWS",
+  "kind": "orb",
+  "rarity": "epic",
+  "tags": [
+   "shadow",
+   "arcane"
+  ],
+  "fam": "orb",
+  "sprite": "w_umbralmoon"
+ },
+ "w_nightfall": {
+  "id": "nightfall",
+  "name": "NIGHTFALL LASH",
+  "kind": "whip",
+  "rarity": "legend",
+  "tags": [
+   "shadow"
+  ],
+  "fam": "whip",
+  "sprite": "w_nightfall"
+ },
+ "w_plasmarifle": {
+  "id": "plasmarifle",
+  "name": "PLASMA RIFLE",
+  "kind": "rail",
+  "rarity": "rare",
+  "tags": [
+   "storm",
+   "arcane"
+  ],
+  "fam": "rifle",
+  "sprite": "w_plasmarifle"
+ },
+ "w_arccaster": {
+  "id": "arccaster",
+  "name": "ARC CASTER",
+  "kind": "zap",
+  "rarity": "rare",
+  "tags": [
+   "storm"
+  ],
+  "fam": "wand",
+  "sprite": "w_arccaster"
+ },
+ "w_fusioncore": {
+  "id": "fusioncore",
+  "name": "FUSION CORE",
+  "kind": "pulse",
+  "rarity": "epic",
+  "tags": [
+   "storm",
+   "demolition"
+  ],
+  "fam": "orb",
+  "sprite": "w_fusioncore"
+ },
+ "w_ionblade": {
+  "id": "ionblade",
+  "name": "ION BLADE",
+  "kind": "slash",
+  "rarity": "legend",
+  "tags": [
+   "storm",
+   "edge"
+  ],
+  "fam": "katana",
+  "sprite": "w_ionblade"
+ },
+ "w_wardrum": {
+  "id": "wardrum",
+  "name": "WAR DRUM",
+  "kind": "wave",
+  "rarity": "rare",
+  "tags": [
+   "fury",
+   "bulwark"
+  ],
+  "fam": "orb",
+  "sprite": "w_wardrum"
+ },
+ "w_sonichorn": {
+  "id": "sonichorn",
+  "name": "SONIC HORN",
+  "kind": "beam",
+  "rarity": "rare",
+  "tags": [
+   "arcane"
+  ],
+  "fam": "sprayer",
+  "sprite": "w_sonichorn"
+ },
+ "w_singingspear": {
+  "id": "singingspear",
+  "name": "SINGING SPEAR",
+  "kind": "thrust",
+  "rarity": "epic",
+  "tags": [
+   "edge",
+   "arcane"
+  ],
+  "fam": "spear",
+  "sprite": "w_singingspear"
+ },
+ "w_bansheebell": {
+  "id": "bansheebell",
+  "name": "BANSHEE BELL",
+  "kind": "nova",
+  "rarity": "legend",
+  "tags": [
+   "malice",
+   "arcane"
+  ],
+  "fam": "lanternw",
+  "sprite": "w_bansheebell"
+ }
+}

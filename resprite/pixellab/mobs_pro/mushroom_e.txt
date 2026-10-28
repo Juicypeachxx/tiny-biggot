@@ -1,0 +1,12 @@
+status: completed
+id: 23bef294-c91c-44e7-8495-5ffc4280cb2e
+job_id: 23bef294-c91c-44e7-8495-5ffc4280cb2e
+frames: 25
+transparent: yes
+asset_id: bbf65fbf-0f77-52b2-8675-5d5011d76895
+asset_type: image
+asset_status: saved
+gallery: saved to your PixelLab gallery (pixellab.ai/create)
+charged: 10 generations
+download: https://api.pixellab.ai/mcp/images/23bef294-c91c-44e7-8495-5ffc4280cb2e/download?index=0 ... ?index=24
+(21 more frames not shown — fetch them from the download URLs above)

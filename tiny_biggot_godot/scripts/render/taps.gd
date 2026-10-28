@@ -1,0 +1,203 @@
+class_name Taps
+extends RefCounted
+## Touch-friendly menus (polish, spec step 0b): where each menu screen can be
+## tapped. Rects use the same numbers as the drawing code in menu_view.gd and
+## overlay_view.gd. A zone is { rect, sel: Callable, on: bool, instant: bool,
+## act: Callable }:
+## - list menus (title, pause, options) are instant: one tap selects and
+##   confirms;
+## - cards, purchases and grids take two taps: the first selects, a tap on the
+##   selected one confirms, so a stray touch never picks or buys anything;
+## - "act" zones run an action directly (e.g. switch the skill-tree hero);
+## - screens that wait for any button take a tap anywhere.
+## Confirming sends the normal USE action, so the game logic is unchanged.
+
+static func _z(r: Rect2, sel: Callable, on: bool, instant: bool = false) -> Dictionary:
+	return { "rect": r, "sel": sel, "on": on, "instant": instant }
+
+static func _act(r: Rect2, act: Callable) -> Dictionary:
+	return { "rect": r, "act": act }
+
+## True when a tap anywhere should count as pressing USE.
+static func any_tap() -> bool:
+	return G.state in [&"howto", &"relics", &"traitlist", &"gearpage", &"dead", &"win"]
+
+static func zones() -> Array:
+	var out := []
+	var sw := TB.SW
+	match G.state:
+		&"title":
+			var dy := MenuView.title_dy()
+			for i in G.title_items().size():   # (47.3: the menu's panel on the left)
+				out.append(_z(Rect2(MenuView.TITLE_X - MenuView.TITLE_W / 2 + 4, MenuView.title_y(i) - 4, MenuView.TITLE_W - 8, dy),
+					func(): G.menu = i, G.menu == i, true))
+			out.append(_act(Rex.title_rect(), func(): Rex.poke()))   # the sleeping dog in the corner
+		&"options", &"pause":
+			var opts := G.state == &"options"
+			var n: int = G.OPTION_LIST.size() if opts else G.pause_items().size()
+			var y0 := MenuView.OPT_Y0 if opts else MenuView.PAUSE_Y0
+			var dy := MenuView.OPT_DY if opts else MenuView.pause_dy()
+			for i in n:
+				out.append(_z(Rect2(sw / 2 - 130, y0 + i * dy - 5, 260, dy - 1), func(): G.menu = i, G.menu == i, true))
+		&"wardrobe":   # 14.2: tap a set to see it
+			var top := MenuView.ward_top()
+			for j in mini(MenuView.WARD_ROWS, Gear.SETS.size() - top):
+				var i := top + j
+				out.append(_z(Rect2(10, MenuView.WARD_Y0 + j * MenuView.WARD_DY - 3, 168, MenuView.WARD_DY - 1), func(): G.menu = i, G.wardrobe_i == i))
+			out.append(_act(Rect2(sw / 2 - 90, 262, 180, 16), func(): send(&"pause")))
+		&"kitchen":   # 19.2: tap a meal, tap it again to cook it
+			for i in CampLife.MEALS.size():
+				out.append(_z(Rect2(10, CampLife.KIT_Y0 + i * CampLife.KIT_DY - 4, 168, CampLife.KIT_DY - 2), func(): G.menu = i, G.menu == i))
+			out.append(_act(Rect2(sw / 2 - 90, 262, 180, 16), func(): send(&"pause")))
+		&"plans":   # 20.2: tap a plan, tap it again to build it
+			for i in CampBuild.PLANS.size():
+				out.append(_z(Rect2(10, CampBuild.PLAN_Y0 + i * CampBuild.PLAN_DY - 4, 180, CampBuild.PLAN_DY - 2), func(): G.menu = i, G.menu == i))
+			out.append(_act(Rect2(sw / 2 - 90, 262, 180, 16), func(): send(&"pause")))
+		&"board":
+			out.append(_act(Rect2(0, 0, sw, TB.SH), func(): send(&"pause")))
+		&"tome":   # 41.5: a cube chooses the trait to give up; the buttons read or leave the tome
+			if TraitRules.must_swap(G.player, G.tome):
+				for i in mini(TraitRules.swap_list(G.player).size(), TraitPage.COLS * 2):
+					out.append(_act(TraitRules.cell_rect(i).grow(3), func(): G.tome_i = i))
+			out.append(_act(TraitRules.btn_rect(0), func(): send(&"use")))
+			out.append(_act(TraitRules.btn_rect(1), func(): send(&"pause")))
+		&"traitlist":   # 41.3: a tap on a cube chooses it; anywhere else goes back (any_tap)
+			if GameData.rogues():
+				var tn := TraitPage.owned().size()
+				var tfirst := TraitPage.first_row(G.traitlist_i, tn)
+				for i in tn:
+					var row := i / TraitPage.COLS - tfirst
+					if row >= 0 and row < TraitPage.ROWS:
+						out.append(_act(TraitPage.cell_rect(i, tfirst).grow(3), func(): G.traitlist_i = i))
+		&"armory":   # 19.2: rows, page arrows, a jump to the relics
+			var top := CampLife.arm_top()
+			for j in mini(CampLife.ARM_ROWS, CampLife.arm_list.size() - top):
+				var i := top + j
+				out.append(_z(Rect2(10, CampLife.ARM_Y0 + j * CampLife.ARM_DY - 3, 190, CampLife.ARM_DY - 1), func(): CampLife.pick(i), G.menu == i))
+			out.append(_act(Rect2(214, 228, 60, 14), func(): CampLife.page(-1)))
+			out.append(_act(Rect2(280, 228, 60, 14), func(): CampLife.page(1)))
+			out.append(_act(Rect2(346, 228, 80, 14), func(): CampLife.pick(CampLife.first_relic())))
+			out.append(_act(Rect2(sw / 2 - 150, 262, 300, 16), func(): send(&"pause")))
+		&"keys":   # 13.1
+			for i in Keys.REBIND.size() + 2:
+				out.append(_z(Rect2(60, MenuView.KEYS_Y0 + i * MenuView.KEYS_DY - 3, sw - 120, MenuView.KEYS_DY - 1), func(): G.menu = i, G.menu == i, true))
+		&"hero":
+			var order := GameData.hero_order()   # the hero screen's own order: free heroes first
+			for j in order.size():   # (47.4: every hero in a grid; a tap shows one, a second begins)
+				var i: int = order[j]
+				out.append(_z(MenuView.hero_cell(j), func(): G.hero_index = i, G.hero_index == i))
+		&"shrine":
+			var sel: int = G.shrine_i
+			var ul := GameData.unlocks()
+			var top := mini(maxi(0, sel - 6), maxi(0, ul.size() - 12))
+			for j in mini(12, ul.size() - top):
+				var i := top + j
+				out.append(_z(Rect2(30, 42 + j * 16 - 3, sw - 60, 15), func(): G.shrine_i = i, sel == i))
+		&"codex":
+			for k in MenuView.CODEX_TABS.size():   # 22.3: a tap on a page's name opens it
+				out.append(_act(Rect2(MenuView.CODEX_TAB_X[k] - 50, 4, 100, 20), func(): G.codex_tab = k))
+			if G.codex_tab == 1:
+				var bn := Bestiary.entries().size()
+				var bx0 := (sw - Bestiary.COLS * 30) / 2 + 4
+				var bfirst := Bestiary.first_row_for(G.bestiary_i)
+				for i in bn:
+					var row := i / Bestiary.COLS - bfirst
+					if row >= 0 and row < Bestiary.ROWS:
+						out.append(_act(Rect2(bx0 + (i % Bestiary.COLS) * 30 - 5, 42 + row * 22 - 5, 26, 22), func(): G.bestiary_i = i))
+			if G.codex_tab == 3:   # 30.2: a tap on a trait chooses it
+				var tfirst := TraitBook.first_row_for(G.traitbook_i)
+				for i in TraitBook.entries().size():
+					var row := i / TraitBook.COLS - tfirst
+					if row >= 0 and row < TraitBook.ROWS:
+						out.append(_act(TraitBook.cell_rect(i, tfirst).grow_individual(2, 1, 2, 0), func(): G.traitbook_i = i))
+			if G.codex_tab != 0:
+				return out
+			var n := Relics.all().size()
+			var cols: int = G.CODEX_COLS
+			var x0 := (sw - cols * 30) / 2 + 4
+			var sel_row: int = G.codex_i / cols
+			var first_row := clampi(sel_row - 3, 0, maxi(0, (n + cols - 1) / cols - 6))
+			for i in n:
+				var row := i / cols - first_row
+				if row >= 0 and row < 6:
+					# Codex: a tap only selects (USE leaves the codex).
+					out.append(_act(Rect2(x0 + (i % cols) * 30 - 5, 42 + row * 22 - 5, 26, 22), func(): G.codex_i = i))
+		&"tree":
+			var tree := Traits.tree_for(GameData.heroes()[G.tree_hero]["id"])
+			for bi in tree.size():
+				var nn: int = tree[bi]["nodes"].size()
+				for ni in nn:
+					out.append(_z(MenuView.tree_rect(bi, ni, nn), _tree_sel.bind(bi, ni),
+						G.tree_b == bi and G.tree_n == ni))
+			out.append(_act(MenuView.TREE_RESET.grow(2), func(): G.tree_reset()))   # 48.3: twice, as BOMB
+			var ho := GameData.hero_order()
+			var hn := ho.size()
+			out.append(_act(Rect2(sw / 2 - 110, 20, 80, 16), func(): G.tree_hero = ho[(ho.find(G.tree_hero) + hn - 1) % hn]))
+			out.append(_act(Rect2(sw / 2 + 30, 20, 80, 16), func(): G.tree_hero = ho[(ho.find(G.tree_hero) + 1) % hn]))
+		&"inventory":
+			for i in 10 + (Charms.slots(G.player) if Charms.on() and G.player != null else 0):   # 37.2 charm slots too
+				out.append(_z(MenuView.inv_slot_rect(i), func(): G.inv_i = i, G.inv_i == i))
+			_dice(out, MenuView.INV_DICE, MenuView.INV_DICE_Y)   # 35.1
+		&"choice":
+			var n: int = G.choice["relics"].size()
+			var w := 100 if n > 3 else 120
+			var gap := 8 if n > 3 else 14
+			var x0 := (sw - (n * w + (n - 1) * gap)) / 2
+			for i in n:
+				out.append(_z(Rect2(x0 + i * (w + gap), 68, w, 144), func(): G.choice["idx"] = i, G.choice["idx"] == i))
+			if GameData.rogues():
+				_dice(out, Dice.ORDER, OverlayView.CHOICE_DICE_Y)   # 35.1
+		&"traits" when TraitView.active():
+			for i in G.tchoice["opts"].size():
+				out.append(_z(TraitView.row_rect(i), func(): G.tchoice["idx"] = i, G.tchoice["idx"] == i))
+			_dice(out, Dice.ORDER, TraitView.DICE_Y)   # 35.1: REROLL, ALTER, BANISH
+		&"traits":
+			var n: int = G.tchoice["opts"].size()
+			var x0 := (sw - (n * 128 + (n - 1) * 10)) / 2
+			for i in n:
+				out.append(_z(Rect2(x0 + i * 138, 54, 128, 154), func(): G.tchoice["idx"] = i, G.tchoice["idx"] == i))
+			# The REROLL hint line: same as pressing MENU.
+			out.append(_act(Rect2(sw / 2 + 40, 220, 120, 16), func(): send(&"pause")))
+	return out
+
+## 35.1: the dice chips under a pick: a tap throws that die (the same as its key).
+static func _dice(out: Array, kinds: Array, y: float) -> void:
+	for ch in Dice.chips(kinds, y):
+		var a := Dice.chip_action(ch[0])
+		out.append(_act(ch[1], func(): send(a)))
+
+static func _tree_sel(bi: int, ni: int) -> void:
+	G.tree_b = bi
+	G.tree_n = ni
+	G.tree_reset_armed = false   # (48.3: a reset asks again after moving)
+
+static func hit(pos: Vector2) -> Dictionary:
+	for z in zones():
+		if z["rect"].grow(2).has_point(pos):
+			return z
+	return {}
+
+## Runs a tap that started and ended on zone z.
+static func activate(z: Dictionary) -> void:
+	if z.has("act"):
+		z["act"].call()
+		Snd.play("select")
+		return
+	if z["on"]:
+		send(&"use")
+		return
+	z["sel"].call()
+	if z["instant"]:
+		send(&"use")
+	else:
+		Snd.play("select")
+
+## Presses and releases an input action (the same path as the touch buttons;
+## Keys latches the press, so the next logic tick sees it).
+static func send(action: StringName) -> void:
+	for pressed in [true, false]:
+		var e := InputEventAction.new()
+		e.action = action
+		e.pressed = pressed
+		e.strength = 1.0 if pressed else 0.0
+		Input.parse_input_event(e)

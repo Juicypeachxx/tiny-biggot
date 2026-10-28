@@ -1,0 +1,72 @@
+{
+ "tiles": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down view of a floor: a 4 by 4 grid of 16 small square tiles of slimy flooded fortress stone tiles with green poison water in the joints with thin dark joints between them, every tile different: barnacles, seaweed, a toxic puddle, plain wet stone, a crab shell, a rusted chain",
+   "width": 128,
+   "height": 128,
+   "view": "high top-down",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "rest",
+  "tries": 1
+ },
+ "wall_a": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a flat wall surface filling the whole picture, seen straight on, no doorway, no sky, no floor: flooded fortress wall of mossy stone with seaweed, barnacles and green toxic water stains, dark fantasy pixel art",
+   "width": 128,
+   "height": 64,
+   "view": "side",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "rest",
+  "tries": 2
+ },
+ "wall_b": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a flat wall surface filling the whole picture, seen straight on, no doorway, no sky, no floor: flooded fortress wall of mossy stone with seaweed, barnacles and green toxic water stains, with a rusty iron sluice gate dripping green water in the middle, dark fantasy pixel art",
+   "width": 128,
+   "height": 64,
+   "view": "side",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "rest",
+  "tries": 1
+ },
+ "pilaster": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a narrow barnacled stone pillar with seaweed, dark fantasy pixel art",
+   "width": 32,
+   "height": 64,
+   "view": "side",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "rest",
+  "tries": 1
+ },
+ "walltop": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down view of a uniform seamless tileable texture of wet mossy fortress stone, no objects, no border, filling the whole picture",
+   "width": 64,
+   "height": 64,
+   "view": "high top-down",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "rest",
+  "tries": 1
+ }
+}

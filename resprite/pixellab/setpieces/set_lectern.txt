@@ -1,0 +1,11 @@
+status: completed
+id: ac394a59-89f1-4410-b1ae-f7c1cd02c404
+job_id: ac394a59-89f1-4410-b1ae-f7c1cd02c404
+frames: 1
+transparent: yes
+asset_id: 1a6f8230-0ac0-5fc9-af74-657a8f03cb35
+asset_type: image
+asset_status: saved
+gallery: saved to your PixelLab gallery (pixellab.ai/create)
+charged: 1 generation
+download: https://api.pixellab.ai/mcp/images/ac394a59-89f1-4410-b1ae-f7c1cd02c404/download

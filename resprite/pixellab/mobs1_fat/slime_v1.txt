@@ -1,0 +1,11 @@
+status: completed
+id: c8ed7304-22cf-4d59-aeff-75c62551403a
+job_id: c8ed7304-22cf-4d59-aeff-75c62551403a
+frames: 1
+transparent: yes
+asset_id: dda89ffd-904d-5dcf-9d0b-ac32a977fc53
+asset_type: image
+asset_status: saved
+gallery: saved to your PixelLab gallery (pixellab.ai/create)
+charged: 1 generation
+download: https://api.pixellab.ai/mcp/images/c8ed7304-22cf-4d59-aeff-75c62551403a/download

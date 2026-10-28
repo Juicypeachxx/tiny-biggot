@@ -1,0 +1,40 @@
+{
+ "f01": [
+  "hexer",
+  "poacher",
+  "brute",
+  "gravedigger",
+  "alchemist",
+  "warden",
+  "gaolbird",
+  "banehunter",
+  "oathbreaker",
+  "wayfarer",
+  "racketeer",
+  "condemned",
+  "cartomancer",
+  "sellsword",
+  "beekeeper",
+  "tinkerer",
+  "boneweaver"
+ ],
+ "f02": [
+  "mirrorknight",
+  "plaguesaint",
+  "frostwitch",
+  "demolitionist",
+  "executioner",
+  "pilgrim",
+  "beastmaster",
+  "clockmaker",
+  "minstrel",
+  "jester",
+  "berserker",
+  "forsaken",
+  "inkling_hero",
+  "mindwarden_hero",
+  "tavernknight_hero",
+  "trickshot_hero",
+  "bonecaller_hero"
+ ]
+}

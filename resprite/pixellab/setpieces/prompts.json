@@ -1,0 +1,134 @@
+{
+ "set_altar": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a low crypt altar of grey-violet stone heaped with bones, a skull on top and two melted candles, dark fantasy dungeon set piece",
+   "width": 48,
+   "height": 48,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  }
+ },
+ "set_spring": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a small mossy stone spring basin with clear green-blue water, ferns and glowing mushrooms around its rim, cave grotto set piece",
+   "width": 48,
+   "height": 48,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  }
+ },
+ "set_lectern": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a carved wooden reading lectern holding a huge open old book, a few loose pages and a small candle, flooded library set piece",
+   "width": 48,
+   "height": 48,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  }
+ },
+ "set_forge": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a blacksmith forge: a stone hearth with glowing orange coals beside a heavy iron anvil with a hammer on it, dungeon set piece",
+   "width": 48,
+   "height": 48,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  }
+ },
+ "set_fountain": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a round stone fountain frozen solid, icicles hanging from its bowl, pale blue ice and frost, dungeon set piece",
+   "width": 48,
+   "height": 48,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  }
+ },
+ "set_throne": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "an empty royal throne of dark wood and tarnished gold with a torn purple cushion, on a small stone step, dark fantasy set piece",
+   "width": 48,
+   "height": 48,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  }
+ },
+ "set_well": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "an old village stone well with a little wooden roof, a rope and a bucket, wet stones, rainy hamlet set piece",
+   "width": 48,
+   "height": 48,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  }
+ },
+ "set_drum": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a big battered war drum on a wooden stand with two drumsticks, scorched red hide, battlefield set piece",
+   "width": 48,
+   "height": 48,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  }
+ },
+ "set_gong": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a bronze temple gong hanging in a dark wooden frame with a striker, snowy mountain monastery set piece",
+   "width": 48,
+   "height": 48,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  }
+ },
+ "set_coop": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a wooden pigeon coop box on short legs with little round holes and grey pigeons on its roof, rooftop set piece",
+   "width": 48,
+   "height": 48,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  }
+ },
+ "set_voidaltar": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a black stone altar with a floating dark purple orb above it and glowing violet runes, cosmic eclipse set piece",
+   "width": 48,
+   "height": 48,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  }
+ }
+}
