@@ -251,6 +251,13 @@ static func lights() -> PackedVector4Array:
 	else:
 		for tp: Vector2 in TORCHES:
 			_add(out, tp.x, tp.y + 6.0, 62.0 + sin(t * 9.0 + tp.x) * 3.0, 0.9)
+	if mood():   # 66.7: the first few of your shots light the floor round them
+		var k := 0
+		for b: PBullet in G.pbullets:
+			_add(out, b.x, b.y, 26.0, 0.55)
+			k += 1
+			if k >= 4:
+				break
 	for e: Enemy in G.enemies:   # foes winding up a blow show it; glowing foes light their way
 		if e.hp <= 0 or e.hidden or e.spawn_t > 0:
 			continue

@@ -1101,6 +1101,13 @@ func _draw_boss(ci: CanvasItem, e: Enemy, t: float) -> void:
 		line = TB.c(Afx.BOSS_COL.get(e.boss, "#d8443c"))
 	_draw_enemy(ci, e, t, line)
 
+## 66.7 (his word: "the animation and movment, the aliveness of ... mobs"): a foe on the move rocks
+## from foot to foot, a little lean each step, so it walks even without walking pictures.
+func _lean(e: Enemy) -> float:
+	if not GameData.rogues() or e.stun_t > 0.0 or e.d.get("ai", "") == "slime" or absf(e.vx) + absf(e.vy) < 4.0:
+		return 0.0
+	return sin(e.anim * 11.0 + float(e.uid % 5)) * 0.09
+
 func _draw_enemy(ci: CanvasItem, e: Enemy, t: float, line := Color(0, 0, 0, 0)) -> void:
 	if e.spawn_t > 0:
 		return
@@ -1150,7 +1157,7 @@ func _draw_enemy(ci: CanvasItem, e: Enemy, t: float, line := Color(0, 0, 0, 0)) 
 			var la := 0.75 + 0.25 * sin(t * 12.0)
 			for o: Vector2 in [Vector2(-1, 0), Vector2(1, 0), Vector2(0, -1), Vector2(0, 1)]:
 				Gfx.sp(ci, name, e.x + o.x, foot + bob - e.z + o.y, sc * sx, sc * sy, Finale.tilt(e), e.face < 0, la, Color(line, 1.0))
-		Gfx.sp(ci, name, e.x, foot + bob - e.z, sc * sx, sc * sy, Finale.tilt(e) if boss else 0.0, e.face < 0, 46 / 255.0 if e.hidden else 1.0, tint)
+		Gfx.sp(ci, name, e.x, foot + bob - e.z, sc * sx, sc * sy, Finale.tilt(e) if boss else _lean(e), e.face < 0, 46 / 255.0 if e.hidden else 1.0, tint)
 	if e.shatter > 0 and not e.hidden:
 		Shatter.draw(ci, e, foot + bob - e.z)   # 47.2: its shards
 	if e.plague and not e.hidden:
@@ -1375,6 +1382,11 @@ func _paint_glow(ci: CanvasItem) -> void:
 			for b: PBullet in G.pbullets:
 				var c := Afx.shot_col(b.kind, b.tag)
 				ci.draw_texture_rect(gs, Rect2(roundf(b.x) - 8, roundf(b.y) - 8, 16, 16), false, Color(c.r, c.g, c.b, 0.5))
+				var sp := Vector2(b.vx, b.vy)   # 66.7: a short glowing trail behind it
+				if sp.length() > 30.0:
+					var tail := sp.normalized() * minf(14.0, sp.length() * 0.04)
+					ci.draw_line(Vector2(b.x, b.y), Vector2(b.x, b.y) - tail, Color(c.r, c.g, c.b, 0.55), 2.0)
+					ci.draw_line(Vector2(b.x, b.y), Vector2(b.x, b.y) - tail * 0.5, Color(1, 1, 1, 0.45), 1.0)
 
 # ---------- z 1950: ability effects ----------
 func _paint_vfx(ci: CanvasItem) -> void:

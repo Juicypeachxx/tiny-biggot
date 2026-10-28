@@ -1,5 +1,10 @@
 # Handoff: where the work stands
 
+**28 Oct, IPA 66.7 Glow Trails:** shot trails (world_view.gd _paint_glow), the first four shots light
+the floor (Weather.lights), foes lean as they walk (WorldView._lean). Next from his references: walls
+of the 23 special places (~60 generations), heroes and their armour pieces and the monsters' stage
+looks after the PixelLab refill (26 Nov).
+
 **28 Oct, IPA 66.6 Lit Rooms** (his "do it gooo", "dont test just push"): 20 wall faces and 51 props
 drawn again on PixelLab (resprite/pixellab/vivid_wp, ~80 generations; about 108 left), carpets
 (WorldView._carpet), glow under your shots, debris chips on hits (Bits.hit). Pushed without local
