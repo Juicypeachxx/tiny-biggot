@@ -1,5 +1,12 @@
 # Handoff: where the work stands
 
+**2 Nov, IPA 67.9 Right Sizes** (his "1-3 do"): drawn shields at three quarters (HeroGear._drawn),
+weapon size by shape (world_view.gd HELD_SIZE); bows stay as they were (turning them laid them flat).
+Full check run: atlas re-baked; 9 mini elites (inkwidow, bindingpress, headscribe, lexicant, fineprint,
+colophon, overdue, quiet, kindling) got _s2/_s3 elite looks (gold rim, elite_hd). Still failing, and
+older than 66.5 (fails at 4cc7248b too): arsenal test, soapcannon's soap_pop never happens in its
+test fight (each bubble traps one foe, so no group pops). A rules change: needs replays re-recorded.
+
 **28 Oct, IPA 67.8 One Shield:** all 34 heroes looked at in tests/hold_look_test.tscn; a drawn shield keeps one side and its biggest shape (HeroGear._drawn, _biggest).
 
 **28 Oct, IPA 67.7 Perfect Fit** (his word: "test the armor fitting and weapon handling, only test this and make it perfect"): tests/hold_look_test.tscn draws every hero in two outfits with a weapon at 8 aims (with a screen: xvfb-run; --heroes=0,1 --sheet=PATH). Fixed from it: hoods and helms leave the face free (HeroGear._drawn), the weapon circles at the hands' height (gpy p.y-0.5), behind the head when aimed upward (sin < -0.35). Known: a hero's own horns poke through a drawn hood (needs new drawings).

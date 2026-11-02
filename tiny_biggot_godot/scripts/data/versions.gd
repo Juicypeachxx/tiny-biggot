@@ -8,6 +8,7 @@ extends RefCounted
 ## with no quote or | inside, and add the new version's line at the top in its [ipa] commit.
 
 const LIST := [
+	"67.9|Right Sizes|Shields a quarter smaller; long weapons (spears, halberds, scythes, staffs) held longer and small ones (daggers, wands, pistols) smaller; nine elites given their stage looks",
 	"67.8|One Shield|A shield shows once, on one arm (some heroes showed two); armour and weapons checked on all 34 heroes",
 	"67.7|Perfect Fit|Faces stay visible under hoods and helmets; The weapon is held at the hands' height, never over the face; Aimed upward it goes behind the head",
 	"67.6|Firm Grip|A hand holds every weapon; the weapon circles the hero at the chest and points at the target; it stays in front of the hero unless aimed straight up",

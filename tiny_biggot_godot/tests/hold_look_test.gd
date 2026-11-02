@@ -9,7 +9,7 @@ extends Node
 const AIMS := 8
 const CW := 44     # a close-up, in the game's pixels
 const CH := 40
-const WEAPONS := ["rustblade", "blunderbuss", "huntbow", "hexwand", "halberd", "handcannon", "firespitter", "sabre"]
+const WEAPONS := ["rustblade", "blunderbuss", "huntbow", "hexwand", "halberd", "handcannon", "firespitter", "sabre", "pike", "voidscythe"]
 
 var fails := 0
 

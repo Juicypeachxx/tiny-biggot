@@ -477,6 +477,25 @@ static func _drawn(hi: Dictionary, key: String) -> Dictionary:
 			if (c.x < cx + 1.0) if on_left else (c.x > cx - 1.0):
 				side.append(c)
 		cells = _biggest(side)
+		# 67.9 (his word: "1-3 do"): three quarters of its drawn size, round its middle
+		var mn := Vector2(1e9, 1e9)
+		var mx := Vector2(-1e9, -1e9)
+		var has := {}
+		for c: Vector2i in cells:
+			has[c] = true
+			mn = mn.min(Vector2(c))
+			mx = mx.max(Vector2(c))
+		var mid := (mn + mx) / 2.0
+		var small := []
+		var slum := {}
+		for y in range(floori(mid.y - (mid.y - mn.y) * 0.75), ceili(mid.y + (mx.y - mid.y) * 0.75) + 1):
+			for x in range(floori(mid.x - (mid.x - mn.x) * 0.75), ceili(mid.x + (mx.x - mid.x) * 0.75) + 1):
+				var src := Vector2i(roundi(mid.x + (x - mid.x) / 0.75), roundi(mid.y + (y - mid.y) / 0.75))
+				if has.has(src):
+					small.append(Vector2i(x, y))
+					slum[Vector2i(x, y)] = lum[src]
+		cells = small
+		lum = slum
 	cells.sort_custom(func(a, b): return lum[a] < lum[b] or (lum[a] == lum[b] and (a.y < b.y or (a.y == b.y and a.x < b.x))))
 	var out := {}
 	var n := cells.size()

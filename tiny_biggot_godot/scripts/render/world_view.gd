@@ -1038,6 +1038,13 @@ func _draw_player(ci: CanvasItem, p: Player, t: float) -> void:
 
 ## 66.4: how big a big hero's weapon is drawn, of its icon's size.
 const HELD_SCALE := 0.62
+## 67.9 (his word: "1-3 do"): the size by the weapon's shape, of HELD_SCALE.
+const HELD_SIZE := { "spear": 1.3, "halberd": 1.35, "lance": 1.35, "glaive": 1.3, "trident": 1.25, "scythe": 1.3,
+	"greatsword": 1.25, "staff": 1.2, "orbstaff": 1.2, "skullstaff": 1.2, "rifle": 1.15, "minigun": 1.15, "launcher": 1.15,
+	"cannon": 1.15, "maul": 1.2, "hammer": 1.1, "katana": 1.1, "bow": 1.15, "crossbow": 1.05, "shovel": 1.15, "rod": 1.1,
+	"dagger": 0.8, "wand": 0.85, "pistol": 0.85, "cards": 0.75, "grenade": 0.75, "orb": 0.85, "rune": 0.8, "tome": 0.85,
+	"sickle": 0.85, "flaskw": 0.8, "snowball": 0.7, "egg": 0.7, "whistle": 0.7, "chakram": 0.85, "disc": 0.85, "fists": 0.8,
+	"gauntlet": 0.85, "quill": 0.8, "camera": 0.85, "mirror": 0.85 }
 
 func _draw_weapon(ci: CanvasItem, p: Player) -> void:
 	if p.weapon == null or p.dodge_t > 0 or p.leap_max > 0:
@@ -1058,6 +1065,7 @@ func _draw_weapon(ci: CanvasItem, p: Player) -> void:
 	var ws := 1.0
 	if big:
 		ws = HELD_SCALE   # 66.4 (his recording, 27 Oct: "still looking wierd and not natural"): a weapon at its icon's size is three quarters of the hero
+		ws *= HELD_SIZE.get(p.weapon.get("shape", ""), 1.0)   # 67.9: long ones longer, small ones smaller
 		# 67.6 (his word, 28 Oct: "weapons are still off hand"): it circles the hero at the chest, as in
 		# the game he showed, and a hand of the hero's own holds its handle (drawn over it, below)
 		var gpx := p.x + cos(p.aim_a) * (7.5 - kick)
