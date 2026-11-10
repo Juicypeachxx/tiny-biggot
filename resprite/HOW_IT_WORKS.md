@@ -658,3 +658,6 @@ four sheets in `spritecook/sheets/` (the ids are in the manifest).
   - Shown to him: `resprite/japan-pond-sample.png` (today, then the pond in a fight, the
     guardian's room and the start room).
 - **Not done:** the other floors, the rift worlds, the chapters, the camp. No IPA yet.
+- **Merged onto 67.9** (the branch had moved 124 commits since this session's copy): the pond
+  takes the place of the Grotto's PixelLab floor (`kit1_wallface`). Its pictures are still at the
+  old detail (one pixel drawn as two): redraw them at double detail if he picks the look.
