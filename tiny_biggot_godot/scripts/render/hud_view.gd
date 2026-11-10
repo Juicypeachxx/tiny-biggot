@@ -179,7 +179,7 @@ func _draw() -> void:
 	# Floor name and minimap.
 	var fl: Dictionary = GameData.floors()[G.floor_index]
 	Gfx.text(self, fl["name"], TB.SW / 2, 4, fl["accent"], 1, 0.5)
-	Gfx.text(self, "%d/%d" % [G.floor_index + 1, GameData.floors().size()] + ("  LOOP %d" % (G.loop + 1) if G.loop > 0 else ""),
+	Gfx.text(self, "%d/%d" % [G.floor_no(), G.floors_total()] + ("  LOOP %d" % (G.loop + 1) if G.loop > 0 else ""),
 		TB.SW / 2, 12, "gold" if G.loop > 0 else "grey", 1, 0.5)
 	_minimap()
 	# 30.1: each sworn oath's vow, under the map (orange while it counts, gold once awakened).
@@ -290,7 +290,7 @@ func _minimap() -> void:
 		FloorMap.draw_minimap(self, TB.SW - 6, 2)
 		var secs2 := int(G.run_stats.get("time", 0.0))
 		Gfx.text(self, ("DEPTH %d  %02d:%02d" % [Endless.depth(), secs2 / 60, secs2 % 60]) if Endless.on() else
-			("FLOOR %d  %02d:%02d" % [G.floor_index + 1, secs2 / 60, secs2 % 60]), TB.SW - 6, 40, "bone", 1, 1)
+			("FLOOR %d  %02d:%02d" % [G.floor_no(), secs2 / 60, secs2 % 60]), TB.SW - 6, 40, "bone", 1, 1)
 		return
 	var n: int = f["total"]
 	var w := 7
@@ -310,7 +310,7 @@ func _minimap() -> void:
 		# Rogues layer: floor-room and the run clock.
 		var secs := int(G.run_stats.get("time", 0.0))
 		Gfx.text(self, ("DEPTH %d-%d  %02d:%02d" % [Endless.depth(), f["depth"], secs / 60, secs % 60]) if Endless.on() else
-			("FLOOR %d-%d  %02d:%02d" % [G.floor_index + 1, f["depth"], secs / 60, secs % 60]), TB.SW - 6, 12, "bone", 1, 1)
+			("FLOOR %d-%d  %02d:%02d" % [G.floor_no(), f["depth"], secs / 60, secs % 60]), TB.SW - 6, 12, "bone", 1, 1)
 	else:
 		Gfx.text(self, "ROOM %d/%d" % [f["depth"], n], TB.SW - 6, 12, "grey", 1, 1)
 

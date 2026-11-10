@@ -15,6 +15,8 @@ extends RefCounted
 ##   --secret                     with --room: a room with a hidden wall (62.3: and its floor's trick)
 ##   --bonfire                    63: with --room, the floor's EMBER FIRE in that room (cold)
 ##   --bonfire-lit=N              with --bonfire: lit, and kindled N times (0-2)
+##   --no-garden                  V2: a run starts on the Ossuary as before, not in THE KOI GARDEN (--floor and --chapter
+##                                do the same); --koi-floor: in the garden whatever else is asked
 ##   --koi                        V2: every floor's own rooms drawn as THE KOI GARDEN (JapanLook), until it is a floor
 ##   --setpiece                   62.4: every fight room that can hold its place's set piece holds it
 ##   --seed=N                     fixed random seed

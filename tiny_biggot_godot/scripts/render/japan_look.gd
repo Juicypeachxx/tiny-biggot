@@ -10,8 +10,8 @@ extends RefCounted
 ## Drawing only, with its own random numbers (the room's seed for what is fixed, its own
 ## generator for what moves): no rule changes, every replay stays identical.
 ## Pictures: jp_* by tools/art/japan_look.py; koi_* are SpriteCook's (resprite/tools/koi_cut.py).
-## Until the garden is a floor of its own (the next step), it is shown with the test option --koi
-## on whatever floor is played.
+## It is the look of THE KOI GARDEN (GameData.GARDEN, the floor before the first); the test
+## option --koi shows it on whatever floor is played.
 
 const STYLE := { "base": "#33648f", "light": "#7ab2d6", "dark": "#1b3a68", "edge": "#0f2148", "deep": "#1a3566", "rim": "#6fa6cc",
 	"props": ["koi_lantern", "koi_bamboo", "koi_stones", "koi_postlamp", "koi_bonsai", "koi_basin", "koi_bamboo", "koi_shrine", "koi_torii"], "air": "glints" }
@@ -33,7 +33,7 @@ static var _room: WeakRef = null
 static var _rng := RandomNumberGenerator.new()
 
 static func on(room: Room) -> bool:
-	return BiomeDeco.on(room) and DebugArgs.has("koi")
+	return BiomeDeco.on(room) and (GameData.garden() or DebugArgs.has("koi"))
 
 static func style() -> Dictionary:
 	return STYLE

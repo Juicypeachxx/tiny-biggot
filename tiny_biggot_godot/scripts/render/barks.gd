@@ -85,6 +85,7 @@ const FLOOR_LINES := {
 }
 ## Every guardian opens its fight with a line.
 const BOSS_LINES := {
+	"elderkoi": "THE POND REMEMBERS.",
 	"colossus": "BONES... FOR THE PILE.", "sporemother": "BREATHE DEEP, LITTLE ONE.", "librarian": "OVERDUE. ALL OF YOU.",
 	"tyrant": "KNEEL BEFORE THE FORGE!", "rimewarden": "COLD... SO COLD.", "regent": "YOU DARE APPROACH THE THRONE?",
 	"bogmatriarch": "SINK, CHILD. SINK.", "ashwarlord": "THE WAR NEVER ENDS.", "frozenabbot": "SILENCE IS A VIRTUE.",
@@ -300,7 +301,7 @@ static func remember(win: bool) -> void:
 		if r.get(k[0], false):
 			ending = k[1]
 			break
-	Meta.meta["last_run"] = { "hero": G.player.hero["name"], "floor": G.floor_index + 1, "by": G.death_by, "win": win, "ending": ending }
+	Meta.meta["last_run"] = { "hero": G.player.hero["name"], "floor": G.floor_no(), "by": G.death_by, "win": win, "ending": ending }
 
 # ---------- Drawing (the text layer) ----------
 static func draw(ci: CanvasItem) -> void:

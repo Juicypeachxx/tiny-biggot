@@ -27,9 +27,9 @@ const PROPS := { "L": "koi_lantern", "P": "koi_postlamp", "B": "koi_bamboo", "S"
 	"H": "koi_shrine", "T": "koi_torii" }
 const LAYOUT0 := 400     # room.layout of a scene: LAYOUT0 + 2 * scene + (1 when mirrored)
 
-## Until the garden is a floor of its own it is shown with the test option --koi.
+## The garden's own rooms (and, with the test option --koi, any floor's own rooms).
 static func on(room: Room) -> bool:
-	return DebugArgs.has("koi") and room.theme.is_empty() and room.kit == "" and room.champion == ""
+	return (GameData.garden() or DebugArgs.has("koi")) and room.theme.is_empty() and room.kit == "" and room.champion == ""
 
 ## Picks the room's scene and lays its tiles; returns its layout number.
 static func lay(room: Room, rng: SeedRng) -> int:

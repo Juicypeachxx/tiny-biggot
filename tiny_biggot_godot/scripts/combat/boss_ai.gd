@@ -3,6 +3,7 @@ extends RefCounted
 ## Guardians (port of Combat.rb BOSS_PLANS / update_boss).
 
 const BOSS_PLANS := {
+	"elderkoi": ["ring", "spiral", "volley", "ring", "summon"],   # V2
 	"colossus": ["ring", "volley", "slam", "ring", "summon"],
 	"sporemother": ["spiral", "burst", "cloud", "summon", "spiral", "burst"],
 	"librarian": ["pages", "tide", "ring", "summon", "pages", "tide"],
@@ -66,6 +67,7 @@ const STAGE_PLANS := {
 	"critic": [["verdict", "rewrite", "brimstone", "hooks", "laserx", "zone", "summon", "embers"], ["laserx", "verdict", "brimstone", "hellgate", "rewrite", "barrage", "eclipse", "flower", "hooks", "zone", "embers"]],
 	"redactor": [["hooks", "laserx", "rewrite", "zone", "eclipse", "lasers", "verdict", "ink"], ["laserx", "hooks", "lasers", "zone", "rewrite", "barrage", "eclipse", "hellgate", "flower", "verdict"]],
 	"author": [["rewrite", "laserx", "ink", "hooks", "verdict", "zone", "lasers", "pages"], ["lasers", "rewrite", "hooks", "laserx", "barrage", "zone", "ink", "flower", "verdict"]],
+	"elderkoi": [["spiral", "wall", "volley", "ring", "cross"], ["flower", "barrage", "wall", "spiral", "cross", "summon"]],
 	"colossus": [["slam", "wall", "volley", "ring", "cross"], ["slam", "flower", "wall", "barrage", "slam", "cross"]],
 	"sporemother": [["spiral", "cloud", "flower", "burst", "summon"], ["flower", "barrage", "cloud", "wall", "spiral"]],
 	"librarian": [["pages", "tide", "wall", "ink", "summon"], ["ink", "barrage", "pages", "wall", "tide"]],
@@ -99,6 +101,7 @@ const STAGE_PLANS := {
 }
 const STAGE_LINE := {
 	"inkleviathan": ["THE INK RISES", "A FLOOD OF UNWRITTEN WORDS"], "thebinder": ["THE THREAD PULLS TIGHT", "EVERY PAGE BOUND AT ONCE"], "author": ["THE PEN SCRATCHES FASTER", "THE AUTHOR WRITES THE LAST WORD"], "redactor": ["WHOLE LINES GO BLACK", "THE REDACTOR ERASES EVERYTHING"], "lexicon": ["THE WORDS SWARM", "EVERY WORD AT ONCE"], "erratum": ["THE MISTAKE SPREADS", "NOTHING IS SPELLED RIGHT NOW"], "reader": ["THE READER LEANS CLOSER", "THE READER TURNS THE LAST PAGE"], "shelver": ["THE SHELVES TOPPLE", "EVERY BOOK COMES DOWN AT ONCE"], "hush": ["THE ROOM GOES QUIET", "NOT A SOUND. NOT ONE"], "critic": ["THE CRITIC SHARPENS ITS PEN", "EVERY WORD IS STRUCK OUT"],
+	"elderkoi": ["HORNS BREAK THROUGH ITS BROW", "THE POND RISES AS A DRAGON"],
 	"colossus": ["ITS RIBS CRACK OPEN", "THE BONES ARE ALL THAT IS LEFT"], "sporemother": ["SHE BURSTS INTO BLOOM", "THE WHOLE GROTTO BREATHES SPORES"],
 	"librarian": ["THE TIDE RISES IN THE STACKS", "EVERY BOOK SCREAMS AT ONCE"], "tyrant": ["THE FORGE ROARS", "MOLTEN AND FURIOUS"],
 	"rimewarden": ["THE ICE THICKENS", "A WHITEOUT FALLS"], "regent": ["THE CROWN BURNS PALE", "THE REGENT ABANDONS ALL COURTESY"],
@@ -134,6 +137,7 @@ const BOSS_SUMMONS := {
 	"shelver": ["mothling", "dustbunny", "shelfmimic"],
 	"hush": ["shusher", "pagewing", "lampwisp"],
 	"critic": ["cinderpage", "pokerknight", "sootling"],
+	"elderkoi": ["gnat", "gnat", "slime"],
 	"colossus": ["bat", "bat", "skeleton"], "sporemother": ["slime", "mushroom", "slime"],
 	"tyrant": ["imp", "imp"], "regent": ["cultist", "ghost"], "librarian": ["bookwyrm", "bookwyrm", "drowned"],
 	"rimewarden": ["wisp", "wisp"],
@@ -153,7 +157,7 @@ const BOSS_SUMMONS := {
 	"braysalot": ["ponysquire", "ponysquire"], "scalesworth": ["lobbyist", "intern", "intern"],   # 55
 	"prophet": ["believer", "believer"], "chonk": ["kitten", "kitten", "kitten"],
 }
-const RING_SPR := { "colossus": "bone", "librarian": "water", "rimewarden": "ice",
+const RING_SPR := { "elderkoi": "water", "colossus": "bone", "librarian": "water", "rimewarden": "ice",
 	"bogmatriarch": "spore", "ashwarlord": "fire", "frozenabbot": "ice", "crowking": "dark", "umbralsun": "darkBig",
 	"judge": "bone", "cinderking": "fireBig", "unwritten": "dark", "greatengine": "fire", "glacialmaw": "cyan", "inkleviathan": "dark", "thebinder": "page", "author": "darkBig", "redactor": "darkBig", "lexicon": "page", "erratum": "fireBig", "reader": "darkBig", "shelver": "page", "hush": "dark", "critic": "fireBig",
 	"admiral": "water", "golemking": "bone", "archmage": "cyan", "phoenix": "fire", "wyrm": "ice", "chainfiend": "fireBig", "seraph": "bone",
@@ -170,6 +174,7 @@ const SHOT_SPR := {
 	"shelver": {"spiral": "page", "pages": "page", "volley": "page"},
 	"hush": {"spiral": "dark", "beams": "dark", "curtain": "dark"},
 	"critic": {"spiral": "fire", "beams": "red", "curtain": "fire"},
+	"elderkoi": { "spiral": "water", "volley": "water", "burst": "cyan" },
 	"bogmatriarch": { "spiral": "spore", "burst": "spore", "cloud": "spore" },
 	"greatengine": { "spiral": "fire", "volley": "fire", "burst": "fire" },   # 6.4
 	"glacialmaw": { "spiral": "cyan", "volley": "water", "burst": "cyan" },   # 7.3

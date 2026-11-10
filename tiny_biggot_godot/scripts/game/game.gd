@@ -116,6 +116,9 @@ func new_run() -> void:
 	if DebugArgs.has("weapon"):
 		Weapons.equip_weapon(player, Weapons.by_id(DebugArgs.get_str("weapon")))
 	run_stats = { "kills": 0, "gold": 0, "time": 0.0, "floor": 1, "bosses": 0, "secrets": 0, "rifts": [] }
+	if GameData.garden_run():
+		run_stats["garden"] = true   # V2: the run begins in THE KOI GARDEN
+		run_stats["garden_run"] = true
 	if (endless_next or DebugArgs.has("endless")) and GameData.rogues():
 		Endless.setup()   # 22.2
 	endless_next = false   # (taken: a later run from anywhere else is an ordinary one)
@@ -260,6 +263,14 @@ func _debug_heavy(p: Player) -> void:
 	Effects.recount_tags(p)
 	state = &"play"
 
+## The floor's number as the player counts it (V2: THE KOI GARDEN is floor 1 of a run that began
+## in it, and every floor after it is one deeper than its floor_index says).
+func floor_no() -> int:
+	return floor_index + 1 + (1 if run_stats.get("garden_run", false) and not GameData.garden() else 0)
+
+func floors_total() -> int:
+	return GameData.floors().size() + (1 if run_stats.get("garden_run", false) else 0)
+
 func start_floor() -> void:
 	if player != null:
 		player.floor_kills = 0
@@ -268,7 +279,7 @@ func start_floor() -> void:
 	var own: String = GameData.floors()[floor_index]["boss"] if floor_index < GameData.floors().size() else ""
 	if GameData.rogues() and GameData.OWN_GUARDIANS.has(own):
 		floor_d["guardian"] = GameData.OWN_GUARDIANS[own]   # 58: ARČI guards the first floor; 59: ŠEFE the third; V2: VID the second
-	elif GameData.rogues() and (GameData.ALT_GUARDIANS.has(floor_index) or GameData.MORE_GUARDIANS.has(own)):
+	elif GameData.rogues() and not GameData.garden() and (GameData.ALT_GUARDIANS.has(floor_index) or GameData.MORE_GUARDIANS.has(own)):
 		# 9.3: the floor's second guardian half the time; 58: with a third, each a third of the time;
 		# V2: the fifth floor, with no second guardian before, has the second floor's three (each a quarter).
 		var alts: Array = ([GameData.ALT_GUARDIANS[floor_index]] if GameData.ALT_GUARDIANS.has(floor_index) else []) \
@@ -282,8 +293,8 @@ func start_floor() -> void:
 	Weather.on_floor_start()   # 22.1 this floor's weather (own dice)
 	if Endless.on():
 		Endless.on_floor()   # 22.2 the depth, and the record
-	run_stats["floor"] = floor_index + 1
-	Meta.meta["best"] = maxi(Meta.meta["best"], floor_index + 1)
+	run_stats["floor"] = floor_no()
+	Meta.meta["best"] = maxi(Meta.meta["best"], floor_no())
 	Meta.write_save()
 	Snd.music(GameData.floor_music(floor_index))
 	room = null
@@ -306,7 +317,7 @@ func start_floor() -> void:
 	Barks.hero("floor", true)   # 21.1: a word on arriving
 	RunSave.save()   # 6.3: the run can be continued from here
 	show_banner(GameData.floors()[floor_index]["name"], Endless.banner_sub() if Endless.on() else
-		"FLOOR %d OF %d" % [floor_index + 1, GameData.floors().size()]
+		"FLOOR %d OF %d" % [floor_no(), floors_total()]
 		+ ("   DREAD %d" % dread if dread > 0 else "") + ("   LOOP %d" % (loop + 1) if loop > 0 else ""))
 	if GameData.rogues() and floor_index == 6:
 		toast("HITS NOW COST A WHOLE HEART", "red")   # past the Pale Regent (Combat.foe_hit)
@@ -377,8 +388,9 @@ func enter_room(r: Room) -> void:
 		setup_objects(room)
 		Hazards.setup(room, floor_index)
 		Traps.setup(room, floor_index)   # 62.1
-		Tricks.setup(room, floor_index)   # 62.3
-		SetPieces.setup(room, floor_index)   # 62.4
+		if not GameData.garden():     # V2: the garden gets secrets of its own
+			Tricks.setup(room, floor_index)   # 62.3
+			SetPieces.setup(room, floor_index)   # 62.4
 		RiftExtras.setup(room)
 	if GameData.rogues() and room.type == "start":
 		# Rogues layer: two training dummies to test your damage.
@@ -1715,6 +1727,8 @@ func interact(o: Dictionary) -> void:
 			start_fade(func():
 				if Endless.on():
 					Endless.next_floor()   # 22.2: past the last floor, round again a loop deeper
+				elif GameData.garden():
+					run_stats["garden"] = false   # V2: out of the garden, onto the first floor
 				else:
 					floor_index += 1
 				player.heal(2)

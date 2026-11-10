@@ -689,6 +689,8 @@ const OWN_GUARDIANS := { "colossus": "arci", "sporemother": "vid", "librarian": 
 const MORE_GUARDIANS := { "tyrant": ["librarian"], "rimewarden": ["sporemother", "admiral", "colossus"] }
 
 const BOSSES := {
+	# V2: the guardian of THE KOI GARDEN (a giant koi that becomes a water dragon; drawn by tools/art/elder_koi.py)
+	"elderkoi": { "name": "THE ELDER KOI", "sprite": "elderkoi", "hp": 400, "r": 13, "scale": 2 },
 	"colossus": { "name": "THE BONE COLOSSUS", "sprite": "colossus", "hp": 420, "r": 13, "scale": 2 },
 	"sporemother": { "name": "THE SPORE MOTHER", "sprite": "sporemother", "hp": 540, "r": 13, "scale": 2 },
 	"librarian": { "name": "THE DROWNED LIBRARIAN", "sprite": "librarian", "hp": 640, "r": 13, "scale": 2 },
@@ -768,6 +770,23 @@ const FLOORS := [
 ## these. Extra fields: "mini" (mini-boss guarding the room before the rest
 ## stop), "hazard" (scripts/world/hazards.gd), "music" (track to reuse).
 ## Tiles come from kit6..kit10 (recoloured copies of the original kits).
+## V2 (his word, 10 Nov: "we add this new stage as stage 1 with new boss and we move the now first
+## stage to second"): THE KOI GARDEN, played before the first floor in the expanded game's first
+## chapter. While a run is in it (garden()), floors()[0] is this entry and G.floor_index stays 0:
+## so everything that goes by how deep the run is treats it as the first floor, and the Ossuary
+## after it is the first floor once more for all that (its number on screen is G.floor_no()).
+const GARDEN := { "name": "THE KOI GARDEN", "accent": "cyan", "accent_hex": "#6fd3e0", "pool": ["gnat", "slime", "bat", "bogling", "gnat", "slime"],
+	"boss": "elderkoi", "music": 2, "rooms": 7, "look": "koi" }
+static var _garden_floors := {}
+
+## This run is in the garden now.
+static func garden() -> bool:
+	return G.run_stats.get("garden", false) and G.run_stats.get("chapter", 1) == 1
+
+## A new run starts in the garden (not the original game, and not a test that asks for a floor).
+static func garden_run() -> bool:
+	return rogues() and not DebugArgs.has("classic") and not DebugArgs.has("no-garden") and not DebugArgs.has("floor") and not DebugArgs.has("chapter")
+
 const NEW_FLOORS := [
 	{ "name": "RAINMARSH HAMLET", "accent": "green", "accent_hex": "#63b84f", "pool": ["bogling", "gnat", "hexwife", "gnat", "drowned", "bogling"],
 	  "boss": "bogmatriarch", "mini": "mirehulk", "hazard": "bog", "music": 1, "rooms": 11 },
@@ -828,6 +847,12 @@ static func floors() -> Array:
 		if _floors4.is_empty():
 			_floors4 = _main_floors() + CHAPTER2 + CHAPTER3 + CHAPTER4
 		return _floors4   # 20.3: Chapter IV
+	if garden():
+		if _garden_floors.is_empty():
+			var f := _main_floors().duplicate()
+			f[0] = GARDEN
+			_garden_floors[0] = f
+		return _garden_floors[0]
 	return _main_floors()
 
 static func _main_floors() -> Array:
@@ -852,7 +877,7 @@ const SPRITE_COLOR := {
 	"lobbyist": "#5e9c4a", "intern": "#8ccc6a", "believer": "#dca882", "kitten": "#f0a050",
 	"bat": "#a35bd6", "slime": "#63b84f", "skeleton": "#d9d0b4", "mushroom": "#d8443c", "cultist": "#8a2a33",
 	"imp": "#d8443c", "knight": "#8b8f9c", "ghost": "#f4ecd8", "bookwyrm": "#7a5236", "drowned": "#63b84f",
-	"wisp": "#6fd3e0", "golem": "#4d9be6", "colossus": "#d9d0b4", "sporemother": "#a35bd6", "librarian": "#2b4f8a",
+	"wisp": "#6fd3e0", "golem": "#4d9be6", "elderkoi": "#f08a2c", "colossus": "#d9d0b4", "sporemother": "#a35bd6", "librarian": "#2b4f8a",
 	"tyrant": "#e8873a", "rimewarden": "#6fd3e0", "regent": "#a35bd6",
 	"bogling": "#3f7a5a", "gnat": "#8b8f9c", "hexwife": "#63b84f", "mirehulk": "#63b84f", "longbowman": "#d9d0b4",
 	"lancer": "#e8873a", "warpriest": "#e8873a", "torchimp": "#f2c94c", "ironcaptain": "#8b8f9c", "monk": "#e8873a",

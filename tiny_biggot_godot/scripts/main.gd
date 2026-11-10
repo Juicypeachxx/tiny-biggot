@@ -103,8 +103,11 @@ func _ready() -> void:
 		G.run_stats["chapter"] = DebugArgs.get_int("chapter", 1)
 	var ch: int = 1 if Endless.on() else G.run_stats.get("chapter", 1)   # 20.3: and Chapter IV (22.2: the endless stair counts from the top)
 	var off := (GameData.FLOORS.size() + GameData.NEW_FLOORS.size() + (GameData.CHAPTER2.size() if ch >= 3 else 0) + (GameData.CHAPTER3.size() if ch >= 4 else 0)) if ch >= 2 else 0
+	if DebugArgs.has("koi-floor"):
+		G.run_stats["garden"] = true   # V2 (--koi-floor): THE KOI GARDEN whatever else was asked
+		G.run_stats["garden_run"] = true
 	G.floor_index = clampi(DebugArgs.get_int("floor", 0) + off, 0, GameData.floors().size() - 1)
-	if G.floor_index > 0:
+	if G.floor_index > 0 or DebugArgs.has("koi-floor"):
 		G.start_floor()
 	if DebugArgs.has("plain-draw"):   # picture tests: the plain painters instead of FAST DRAWING
 		Meta.opts["fast_draw"] = false

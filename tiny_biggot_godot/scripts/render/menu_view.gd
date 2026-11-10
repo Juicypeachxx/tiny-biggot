@@ -806,7 +806,7 @@ func draw_end(ci: CanvasItem) -> void:
 	if r.has("daily_score"):   # 18.1
 		msg = "DAILY TRIAL (%s): SCORE %d%s" % [Daily.MODS[r["daily"]][0], r["daily_score"], "  NEW BEST!" if r.get("daily_record", false) else ""]
 	Gfx.text(ci, msg, TB.SW / 2, 102, "white", 1, 0.5)
-	var reached := ["FLOOR REACHED", "%d - %s" % [G.floor_index + 1, GameData.floors()[G.floor_index]["name"]]]
+	var reached := ["FLOOR REACHED", "%d - %s" % [G.floor_no(), GameData.floors()[G.floor_index]["name"]]]
 	if r.get("endless", false):
 		reached = ["DEPTH REACHED", "%d - %s (BEST %d)" % [r.get("depth", 1), GameData.floors()[G.floor_index]["name"], Endless.best()]]
 	var rows := [reached, ["FOES SLAIN", r["kills"]],
