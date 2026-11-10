@@ -113,12 +113,18 @@ DRAGON = dict(ELDER, len=58, sway=9.0, waves=1.9, phase=0.4, prof_u=[0, 0.05, 0.
     fin=hexc("#bff4f0"), fin_d=hexc("#5fc8d8"), eye=hexc("#ffe86a"), barbel=17, barbel_c=hexc("#e8fbff"), horn=9, antler=True,
     horn_c=hexc("#f6e08a"), mane=[0.12, 0.2, 0.28, 0.36, 0.44, 0.52, 0.6, 0.68, 0.76, 0.84], mane_c=hexc("#e8fbff"), nose_y=78, line=hexc("#101c38"), seed=13)
 
-for name, (W, H, P) in {"elderkoi": (64, 66, KOI), "elderkoi_s2": (72, 76, ELDER), "elderkoi_s3": (80, 92, DRAGON)}.items():
-    im = draw(W, H, P)
+def save(name, im):
+    W, H = im.size
     im.save("assets/graphics_hd/%s.png" % name)
     a = np.array(im).astype(float); a[..., :3] *= a[..., 3:4] / 255
     s = np.array(Image.fromarray(a.astype(np.uint8), "RGBA").resize((W // 2, H // 2), Image.BOX)).astype(float)
     al = s[..., 3:4]
     s = np.dstack([np.where(al > 0, s[..., :3] * 255 / np.maximum(al, 1), 0), np.where(al >= 128, 255, 0)])
     Image.fromarray(np.clip(s, 0, 255).astype(np.uint8), "RGBA").save("assets/graphics/%s.png" % name)
-    print(name, im.size)
+
+# Each look and its swimming: four pictures, the body's wave moving down it (<name>, <name>_f1..f3).
+for name, (W, H, P) in {"elderkoi": (64, 66, KOI), "elderkoi_s2": (72, 76, ELDER), "elderkoi_s3": (80, 92, DRAGON)}.items():
+    for f in range(4):
+        Q = dict(P, phase=P["phase"] + f * np.pi / 2, sway=P["sway"] if f == 0 else P["sway"] * 1.15)
+        save(name + ("_f%d" % f if f else ""), draw(W, H, Q))
+    print(name)

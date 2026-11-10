@@ -724,3 +724,29 @@ all the positioning is random and meaningless". Redone as planned scenes.
 - Picture: `resprite/koi-garden-step1.png` (the six scenes).
 - **Still the test floor's:** the foes, crates, traps and floor things in the pictures are the
   Ossuary's (the `--koi` switch only changes the place). Step 2 gives the garden its own.
+
+### Step 2 and the first of step 3 (10 Nov): the garden is floor 1; THE ELDER KOI; things move
+
+His words: "yes go on to step 2 ... can you draw koi boss on your own", then "can you make all
+environment effects and animations too and boss effects and animations".
+
+- **The garden in the run.** `GameData.GARDEN` is played before floor index 0 in the expanded
+  game's first chapter: while `GameData.garden()` (run_stats "garden"), `floors()[0]` is the
+  garden and `G.floor_index` stays 0; its portal clears the flag and the Ossuary starts, still
+  index 0. So nothing keyed by floor_index had to move; what the player reads goes through
+  `G.floor_no()` / `G.floors_total()` (HUD, banner, the death screen, best floor): the garden is
+  FLOOR 1 OF 12, the Ossuary 2. Not in the garden: `--classic`, `--floor=N`, `--chapter=N`,
+  `--no-garden`, the endless stair (chapter 4). `--koi-floor` forces it. Tricks and set pieces
+  are off in the garden (its secrets are step 4). Foes for now: gnat, slime, bat, bogling.
+- **THE ELDER KOI** (`elderkoi`, 400 hp): drawn by `tools/art/elder_koi.py` from shapes, no
+  credits: a white and orange koi, a red and gold elder with horns (stage 2), a blue water
+  dragon (stage 3), four swimming pictures each (`_f1.._f3`; `JapanLook.koi_sprite`). Attacks
+  from the library (rings, spirals and volleys of water; then walls, flowers, barrages), its
+  patterns orbit and pinwheel, it calls gnats and slimes. No drop of its own yet.
+- **Movement.** The garden: fireflies round the lit lanterns, a koi leaping now and then with a
+  splash, gusts that blow the petals, rings where water trickles into a basin. The guardian: a
+  wake of rings behind it, spray once it is the dragon, four great rings, a burst of drops and
+  a gust at each new stage.
+- **Clips:** `resprite/koi-boss-clip.mp4`, `resprite/koi-room-clip.mp4` (the bot playing).
+- **To do:** the full suite and the core replays (re-record: content added on purpose); the
+  dragon's look is weak (it reads as a blue catfish: no antlers, no legs); own foes; secrets.

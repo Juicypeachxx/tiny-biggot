@@ -967,6 +967,8 @@ func _enemy_sprite(e: Enemy) -> String:
 		return Sefe.sprite(e)   # 59: standing, the squat, the can, zoned out; the crown from his second phase
 	if e.boss == "vid":
 		return Vid.sprite(e)   # V2: a pose for each move; his metal form from his second phase
+	if e.boss == "elderkoi":
+		return JapanLook.koi_sprite(e)   # V2: it swims (four pictures a look)
 	if e.boss == "rex":
 		var rs := Rex.sprite(e)   # lying down to sleep, nap and run
 		var rl := Stages.look(e)   # 6.2: party Rex, then super Rex (his ask: cute, not scary)

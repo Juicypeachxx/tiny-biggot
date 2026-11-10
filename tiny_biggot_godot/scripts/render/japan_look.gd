@@ -24,11 +24,20 @@ static var _frogs: Array = []     # { x, y, t, st (0 sits, 1 jumps, 2 gone), dx,
 static var _flies: Array = []     # { x, y, tx, ty, wait, col }
 static var _petals: Array = []    # { x, y, ph, sp }
 static var _pads: Array = []      # the big pads' middles (frogs sit on them)
+static var _basins: Array = []    # where water trickles into a basin
+static var _glows: Array = []     # the lit lanterns (fireflies gather)
 static var _gate := false         # this room has the gate
 static var _gate_at := Vector2.ZERO   # its picture's top left; the roof is 67 x 39, the posts stand below
 static var _roof_a := 1.0
 static var _next_ring := 0.0
 static var _step := Vector2.ZERO  # where the hero's last ring was
+static var _leap := {}             # a koi out of the water: { x, y, dx, t, col }
+static var _next_leap := 4.0
+static var _gust := 0.0           # seconds of wind left (petals fly)
+static var _next_gust := 9.0
+static var _spray: Array = []     # drops in the air: { x, y, vx, vy, t }
+static var _boss_look := 0
+static var _wake := 0.0
 static var _room: WeakRef = null
 static var _rng := RandomNumberGenerator.new()
 
@@ -114,7 +123,14 @@ static func paint_ground(ci: CanvasItem, room: Room) -> void:
 	# Plants gather where the water is still: along the banks, round what stands in the water,
 	# and in the scene's lily colonies. The open water between stays clear.
 	_pads.clear()
+	_basins.clear()
+	_glows.clear()
 	var scene := KoiScenes.is_scene(room)
+	for r in range(TB.IY0, TB.IY0 + TB.IH):
+		for c in range(TB.IX0, TB.IX0 + TB.IW):
+			match KoiScenes.cell(room, c, r):
+				"W": _basins.append(Vector2(c * ts + 8, r * ts + 8))
+				"L", "P": _glows.append(Vector2(c * ts + 8, r * ts + 2))
 	for i in 16:
 		var along := rng.next_f()
 		var off := rng.int_range(4, 13)
@@ -237,6 +253,9 @@ static func _reset(room: Room) -> void:
 	_flies.clear()
 	_petals.clear()
 	_roof_a = 1.0
+	_leap = {}
+	_spray.clear()
+	_boss_look = 0
 	for sch in 4:
 		var lx := _rng.randf_range(60, TB.SW - 60)
 		var ly := _rng.randf_range(70, TB.SH - 50)
@@ -327,6 +346,59 @@ static func tick(dt: float) -> void:
 				_ring(q["x"], q["y"], 0.9, 3.0)
 			q["x"] = _rng.randf_range(-30, TB.SW - 40)
 			q["y"] = 34.0
+	# A koi leaps now and then, away from the hero.
+	_next_leap -= dt
+	if _leap.is_empty() and _next_leap <= 0.0 and not _koi.is_empty():
+		_next_leap = _rng.randf_range(3.0, 8.0)
+		var k: Dictionary = _koi[_rng.randi_range(0, _koi.size() - 1)]
+		if Vector2(k["x"], k["y"]).distance_to(hero) > 40.0 and room.tile(int(k["x"]) / TB.TS, int(k["y"]) / TB.TS) == World.T_FLOOR:
+			_leap = { "x": k["x"], "y": k["y"], "dx": cos(k["a"]) * 16.0, "t": 0.0, "col": k["col"] }
+			_ring(k["x"], k["y"], 0.9, 6.0)
+			_splash(k["x"], k["y"], 4)
+	if not _leap.is_empty():
+		_leap["t"] += dt
+		if _leap["t"] >= 0.6:
+			_ring(_leap["x"] + _leap["dx"], _leap["y"], 1.3, 9.0)
+			_splash(_leap["x"] + _leap["dx"], _leap["y"], 6)
+			_leap = {}
+	# A gust now and then: the petals fly.
+	_next_gust -= dt
+	_gust = maxf(0.0, _gust - dt)
+	if _next_gust <= 0.0:
+		_next_gust = _rng.randf_range(10.0, 18.0)
+		_gust = 2.5
+	if _gust > 0.0:
+		for q in _petals:
+			q["x"] += 55.0 * dt
+			q["y"] += 10.0 * dt
+	# Water trickles into the basins.
+	if _rng.randf() < dt * 2.0:
+		for b in _basins:
+			_ring(b.x + 1.0, b.y + 3.0, 0.7, 3.0)
+	# THE ELDER KOI: a wake behind it, foam, spray once it is the dragon, a burst at each new stage.
+	for e: Enemy in G.enemies:
+		if e.boss != "elderkoi":
+			continue
+		_wake -= dt
+		if _wake <= 0.0:
+			_wake = 0.22
+			_ring(e.x + _rng.randf_range(-6, 6), e.y + 6.0, 1.1, 16.0)
+		var look := Stages.look(e)
+		if look > 2 and _rng.randf() < dt * 14.0:
+			_splash(e.x + _rng.randf_range(-16, 16), e.y + _rng.randf_range(-10, 14), 1)
+		if look != _boss_look:
+			if _boss_look != 0:
+				for i in 4:
+					_rings.append({ "x": e.x, "y": e.y, "t": -i * 0.12, "life": 1.6, "r": 60.0 + i * 14.0 })
+				_splash(e.x, e.y, 40)
+				_gust = 3.0
+			_boss_look = look
+	for d in _spray:
+		d["t"] += dt
+		d["x"] += d["vx"] * dt
+		d["y"] += d["vy"] * dt
+		d["vy"] += 160.0 * dt
+	_spray = _spray.filter(func(d): return d["t"] < 0.6)
 	for r in _rings:
 		r["t"] += dt
 	_rings = _rings.filter(func(r): return r["t"] < r["life"])
@@ -354,6 +426,19 @@ static func tick(dt: float) -> void:
 					break
 		_roof_a = move_toward(_roof_a, 0.28 if clear else 1.0, dt * 4.0)
 
+## Drops thrown up from the water at (x, y).
+static func _splash(x: float, y: float, n: int) -> void:
+	for i in n:
+		if _spray.size() < 90:
+			_spray.append({ "x": x + _rng.randf_range(-3, 3), "y": y, "vx": _rng.randf_range(-34, 34), "vy": _rng.randf_range(-70, -30), "t": 0.0 })
+
+## THE ELDER KOI's picture: its look for the stage, and the swimming frame (faster as it grows).
+static func koi_sprite(e: Enemy) -> String:
+	var look := Stages.look(e)
+	var key := "elderkoi" + ("_s%d" % look if look > 1 else "")
+	var f := int(G.time * (5.0 + look * 1.5)) % 4
+	return key + ("_f%d" % f if f > 0 else "")
+
 static func _half(v: Vector2) -> Vector2:
 	return (v * 2.0).round() / 2.0
 
@@ -361,6 +446,8 @@ static func _half(v: Vector2) -> Vector2:
 static func paint_lower(ci: CanvasItem, t: float) -> void:
 	var room := G.room
 	for r in _rings:
+		if r["t"] < 0.0:
+			continue
 		var k: float = r["t"] / r["life"]
 		var c := _half(Vector2(r["x"], r["y"]))
 		ci.draw_arc(c, 2.0 + k * r["r"], 0, TAU, 20, _col("#d6ecf8", 0.5 * (1.0 - k)), 0.5)
@@ -413,6 +500,26 @@ static func paint_lower(ci: CanvasItem, t: float) -> void:
 
 ## Dragonflies and petals, over everything.
 static func paint_air(ci: CanvasItem, t: float) -> void:
+	if not _leap.is_empty():     # a koi in the air, turning over
+		var k: float = _leap["t"] / 0.6
+		var x: float = _leap["x"] + _leap["dx"] * k
+		var y: float = _leap["y"] - sin(k * PI) * 14.0
+		var col: Array = _leap["col"]
+		var tilt := (k - 0.5) * 5.0
+		ci.draw_rect(Rect2(x - 3.0, y - tilt, 2.0, 2.0), _col(col[0]))
+		ci.draw_rect(Rect2(x - 1.0, y - 1.0, 2.5, 2.5), _col(col[1]))
+		ci.draw_rect(Rect2(x + 1.5, y + tilt - 0.5, 2.0, 2.0), _col(col[0]))
+		ci.draw_rect(Rect2(x + 3.0, y + tilt, 0.5, 0.5), _col("#1a1420"))
+	for d in _spray:
+		ci.draw_rect(Rect2(roundf(d["x"] * 2.0) / 2.0, roundf(d["y"] * 2.0) / 2.0, 1.0, 1.0), _col("#e8fbff", 0.9 * (1.0 - d["t"] / 0.6)))
+	for i in _glows.size():     # fireflies round the lit lanterns
+		var g: Vector2 = _glows[i]
+		for j in 3:
+			var a := t * (0.7 + j * 0.23) + i * 2.1 + j * 2.0
+			var fx := g.x + cos(a) * (9.0 + j * 3.0) + sin(t * 1.9 + j) * 2.0
+			var fy := g.y + sin(a * 1.3) * (6.0 + j * 2.0) - 4.0
+			var on := 0.35 + 0.65 * maxf(0.0, sin(t * 2.6 + i + j * 1.7))
+			ci.draw_rect(Rect2(roundf(fx * 2.0) / 2.0, roundf(fy * 2.0) / 2.0, 1.0, 1.0), _col("#f6f08a", on))
 	for q in _petals:
 		var x := roundf(q["x"] * 2.0) / 2.0
 		var y := roundf(q["y"] * 2.0) / 2.0
