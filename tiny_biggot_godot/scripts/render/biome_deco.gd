@@ -56,7 +56,8 @@ static func on(room: Room) -> bool:
 	return room != null and room.theme.is_empty() and room.kit == "" and room.type != "barn" and room.type != "camp" and G.floor_index < GameData.FLOORS.size() + GameData.NEW_FLOORS.size()   # 12.2: Chapter II has plain tiles of its own
 
 static func biome() -> Dictionary:
-	return BIOMES[clampi(G.floor_index, 0, BIOMES.size() - 1)]
+	var b: Dictionary = BIOMES[clampi(G.floor_index, 0, BIOMES.size() - 1)]
+	return JapanLook.biome(b) if JapanLook.live else b   # V2
 
 static func _col(hex: String, a: float = 1.0) -> Color:
 	var c := TB.c(hex)

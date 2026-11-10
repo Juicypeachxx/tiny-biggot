@@ -637,3 +637,24 @@ four sheets in `spritecook/sheets/` (the ids are in the manifest).
   of even sides, his feet at the bottom and their middle in the middle (no jump from pose to pose).
   Today's-size pictures (assets/graphics) are the same at half size: the game measures by them.
   hd_import.py puts them in the game in the pixel look. Credits: 87 before, 21 after.
+
+## 10 Nov: his reference video, the Japanese look for every map
+
+- **His word** (with a 31 s video): "this is your reference point the whole game maps and arenas
+  and stages needs to capture reference japanese vibe study the sent video closely and make it
+  happen". The video is one scene: a deep blue koi pond with no tile grid, drifts of small
+  leaves, lily pads and lotus, koi in small schools with rings on the water, slanting shafts of
+  light, and a gate with a purple-grey tiled roof, ochre posts and dark lattice panels.
+- **Done: the first floor in that look, as a sample** (the Mirewood Grotto, floor 2).
+  - `tiny_biggot_godot/scripts/render/japan_look.gd` (class `JapanLook`), hooked into
+    `world_view.gd` (`_paint_bg`, `refresh`, `_paint_lower`, `_paint_glow`) and
+    `BiomeDeco.biome()`. Drawing only, own random numbers: no rule changes.
+  - `STYLES` holds one entry per floor index (colours, props, air). A floor without an entry
+    keeps today's look. **To restyle another floor: add its entry**; a floor that is not water
+    needs its own ground painter beside `paint_ground` (stone garden, tatami, snow...).
+  - The pictures are `assets/graphics/jp_*.png`, drawn by `tools/art/japan_look.py` (original
+    pixels; only the mood is taken from the video). `jp_mottle`, `jp_vignette` and `jp_shafts`
+    are screen-sized and stay out of the atlas (three draws once per room, one a frame).
+  - Shown to him: `resprite/japan-pond-sample.png` (today, then the pond in a fight, the
+    guardian's room and the start room).
+- **Not done:** the other floors, the rift worlds, the chapters, the camp. No IPA yet.

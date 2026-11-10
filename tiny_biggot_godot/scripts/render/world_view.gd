@@ -282,6 +282,8 @@ func refresh() -> void:
 		_rebake()   # a remain or scorch mark came, faded or went
 	if Vfx.enabled and BiomeDeco.on(G.room):
 		BiomeDeco.tick(TB.DT)
+		if JapanLook.live:
+			JapanLook.tick(TB.DT)
 	if G.state == &"play":
 		RoomDress.tick(TB.DT)
 		Weather.tick(TB.DT)   # 22.1
@@ -299,6 +301,7 @@ func _paint_bg(ci: CanvasItem) -> void:
 	var room := G.room
 	if room == null:
 		return
+	JapanLook.live = false
 	if GameData.rogues() and Meta.opts.get("neon", false):
 		_paint_neon(ci, room)   # 10.5: the NEON LOOK option
 		RoomDress.paint_ponds(ci, room)
@@ -308,7 +311,11 @@ func _paint_bg(ci: CanvasItem) -> void:
 	var kit_name: String = room.kit if room.kit != "" else (room.theme["kit"] if not room.theme.is_empty() else "kit%d" % G.floor_index)
 	var kit := Img.t(kit_name)
 	ci.draw_rect(Rect2(0, 0, TB.SW, TB.SH), TB.c("#140f1c"))
-	if Img.has(kit_name + "_wallface"):
+	var jp := JapanLook.on(room)   # V2: a floor drawn as a Japanese garden
+	JapanLook.live = jp
+	if jp:
+		JapanLook.paint_ground(ci, room)
+	elif Img.has(kit_name + "_wallface"):
 		_paint_place(ci, room, kit_name)   # 61: a floor drawn on PixelLab
 	elif Img.has(kit_name + "_floor"):
 		# 59.1: the floor is one texture, repeated over the room (it has no tiles to pick from).
@@ -320,7 +327,7 @@ func _paint_bg(ci: CanvasItem) -> void:
 			for c in range(TB.IX0, TB.IX0 + TB.IW):
 				var v := rng.int_range(0, 7) * 2 + (0 if (r + c) % 2 == 1 else 1)
 				ci.draw_texture_rect_region(kit, Rect2(c * ts, r * ts, ts, ts), Rect2(v * ts, 0, ts, ts))
-	if not Img.has(kit_name + "_wallface"):
+	if not jp and not Img.has(kit_name + "_wallface"):
 		# RGSS fill_rect replaced these pixels with (10,6,16) at alpha 90 over a black screen.
 		var k := 90.0 / 255.0
 		ci.draw_rect(Rect2(ts, TB.IY0 * ts, TB.IW * ts, 5), Color(10 / 255.0 * k, 6 / 255.0 * k, 16 / 255.0 * k))
@@ -332,11 +339,12 @@ func _paint_bg(ci: CanvasItem) -> void:
 			ci.draw_texture_rect_region(kit, Rect2(0, r * ts, ts, ts), Rect2(3 * ts, ts, ts, ts))
 			ci.draw_texture_rect_region(kit, Rect2(27 * ts, r * ts, ts, ts), Rect2(4 * ts, ts, ts, ts))
 	_paint_decor(ci, room)
-	_paint_void(ci, room, kit)
+	if not jp:
+		_paint_void(ci, room, kit)
 	# The expanded game: each floor's own floor marks, wall dressing and props (ROADMAP 4.7 part B).
 	var deco := BiomeDeco.on(room)
 	BiomeDeco.begin(room)
-	if deco:
+	if deco and not jp:
 		BiomeDeco.paint_floor(ci, room)
 		BiomeDeco.paint_wall(ci, room)
 	for r in range(TB.IY0, TB.IY0 + TB.IH):
@@ -666,6 +674,8 @@ func _paint_lower(ci: CanvasItem) -> void:
 		for i in lines.size():
 			var w := TB.text_w(lines[i]) + 1
 			Gfx.text(ci, lines[i], TB.SW / 2 - w / 2, 6 * TB.TS + i * 10, "bone", 1, 0.0, true, 120 / 255.0)
+	if JapanLook.live and Vfx.enabled:
+		JapanLook.paint_lower(ci, t)   # V2: koi and rings
 	RoomDress.paint_live(ci, t)   # 16: flames, glints, incense, little animals
 	CampClock.paint_lower(ci, t)   # 21.6: lanterns, fireflies, stars in the pond
 	Weather.paint_floor(ci)   # 22.1: rain rings
@@ -1358,6 +1368,8 @@ func _paint_glow(ci: CanvasItem) -> void:
 		if Weather.mood():   # 66.5: a wide warm pool of torchlight on the wall and the floor below it
 			Gfx.sprite(ci, "glow_torch", [6, 21][i] * TB.TS + 8 - 72, TB.TS + 10 - 72, 0, 0, 2, 2, 0.0, false, op * 0.55)
 	BiomeDeco.paint_glow(ci, t)
+	if JapanLook.live:
+		JapanLook.paint_glow(ci, t)
 	RoomDress.paint_glow(ci, t)
 	CampClock.paint_glow(ci, t)   # 21.6
 	Weather.paint_eyes(ci, t)   # 22.1 eyes in the dark
