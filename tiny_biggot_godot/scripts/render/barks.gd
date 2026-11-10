@@ -106,7 +106,7 @@ const BOSS_LINES := {
 ## Foes that bark now and then while they fight you.
 const FOE_BARKS := {
 	"skeleton": ["*CLATTER*"], "cultist": ["FOR THE REGENT!"], "imp": ["HEHEHE!"], "ghost": ["BOO..."], "knight": ["HALT!"],
-	"goblin": ["MINE! ALL MINE!"], "bogling": ["BLUB."], "lancer": ["CHARGE!"], "warpriest": ["REPENT!"], "monk": ["HMMM..."],
+	"goblin": ["MINE! ALL MINE!"], "bogling": ["BLUB."], "pondfrog": ["RIBBIT."], "lancer": ["CHARGE!"], "warpriest": ["REPENT!"], "monk": ["HMMM..."],
 	"gunman": ["HANDS UP!"], "crow": ["CAW!"], "inmate": ["FREEDOM!"], "jailer": ["BACK IN YOUR CELL!"], "thug": ["OI!"],
 	"copper": ["STOP RIGHT THERE!"], "letterling": ["A!", "Q?", "Z!"], "commaimp": [",,,"], "asterisk": ["*"],
 	"citation": ["SEE ABOVE."], "shusher": ["SHH!", "SHHHH!", "QUIET!"], "cardsprite": ["SEE INDEX.", "FILED!"],

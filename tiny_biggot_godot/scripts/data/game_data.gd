@@ -418,6 +418,9 @@ const ENEMIES := {
 	# archer's arrow count; "mini" marks a floor mini-boss (fixed health, own name, extra ring burst).
 	# Rainmarsh Hamlet: poison and ambushes.
 	"bogling": { "sprite": "bogling", "hp": 16, "speed": 70, "r": 6, "ai": "ambush", "shot": "spore", "gold": 0.4 },
+	# V2, THE KOI GARDEN (his word, 10 Nov: the green spore shots "are so out of place" there): the garden's own
+	# lurker. It surfaces beside you like the bogling and spits a ring of water drops.
+	"pondfrog": { "sprite": "bogling", "hp": 14, "speed": 70, "r": 6, "ai": "ambush", "shot": "water", "gold": 0.4, "label": "a pond frog" },
 	"gnat": { "sprite": "gnat", "hp": 5, "speed": 84, "r": 4, "ai": "bat", "fly": true, "gold": 0.15 },
 	"hexwife": { "sprite": "hexwife", "hp": 20, "speed": 34, "r": 6, "ai": "cultist", "shot": "spore", "gold": 0.45 },
 	"mirehulk": { "sprite": "mirehulk", "name": "THE MIRE HULK", "hp": 300, "speed": 24, "r": 10, "ai": "golem", "shot": "spore",
@@ -775,7 +778,7 @@ const FLOORS := [
 ## chapter. While a run is in it (garden()), floors()[0] is this entry and G.floor_index stays 0:
 ## so everything that goes by how deep the run is treats it as the first floor, and the Ossuary
 ## after it is the first floor once more for all that (its number on screen is G.floor_no()).
-const GARDEN := { "name": "THE KOI GARDEN", "accent": "cyan", "accent_hex": "#6fd3e0", "pool": ["gnat", "slime", "bat", "bogling", "gnat", "slime"],
+const GARDEN := { "name": "THE KOI GARDEN", "accent": "cyan", "accent_hex": "#6fd3e0", "pool": ["gnat", "slime", "bat", "pondfrog", "gnat", "slime"],
 	"boss": "elderkoi", "music": 2, "rooms": 7, "look": "koi" }
 static var _garden_floors := {}
 
@@ -879,7 +882,7 @@ const SPRITE_COLOR := {
 	"imp": "#d8443c", "knight": "#8b8f9c", "ghost": "#f4ecd8", "bookwyrm": "#7a5236", "drowned": "#63b84f",
 	"wisp": "#6fd3e0", "golem": "#4d9be6", "elderkoi": "#f08a2c", "colossus": "#d9d0b4", "sporemother": "#a35bd6", "librarian": "#2b4f8a",
 	"tyrant": "#e8873a", "rimewarden": "#6fd3e0", "regent": "#a35bd6",
-	"bogling": "#3f7a5a", "gnat": "#8b8f9c", "hexwife": "#63b84f", "mirehulk": "#63b84f", "longbowman": "#d9d0b4",
+	"pondfrog": "#3f7a5a", "bogling": "#3f7a5a", "gnat": "#8b8f9c", "hexwife": "#63b84f", "mirehulk": "#63b84f", "longbowman": "#d9d0b4",
 	"lancer": "#e8873a", "warpriest": "#e8873a", "torchimp": "#f2c94c", "ironcaptain": "#8b8f9c", "monk": "#e8873a",
 	"icearcher": "#c8f0ff", "snowlantern": "#e8f6ff", "stoneabbot": "#8b8f9c", "gunman": "#4e4a5e", "cutthroat": "#5c3483",
 	"crow": "#1a1423", "chimneyimp": "#a35bd6", "enforcer": "#4e4a5e", "voidling": "#d8443c", "shadeknight": "#2a2838",
@@ -930,7 +933,7 @@ const DREAD_DESC := [
 ## Experience per kill (01b_traits.rb).
 const ENEMY_XP := { "ponysquire": 4, "lobbyist": 5, "intern": 2, "believer": 6, "kitten": 2, "bat": 2, "slime": 3, "slimelet": 1, "skeleton": 3, "mushroom": 3, "cultist": 4, "imp": 3,
 	# Stage 7 foes.
-	"bogling": 4, "gnat": 2, "hexwife": 4, "longbowman": 4, "lancer": 6, "warpriest": 4, "torchimp": 3, "monk": 5,
+	"pondfrog": 4, "bogling": 4, "gnat": 2, "hexwife": 4, "longbowman": 4, "lancer": 6, "warpriest": 4, "torchimp": 3, "monk": 5,
 	"icearcher": 4, "snowlantern": 4, "gunman": 5, "cutthroat": 4, "crow": 2, "chimneyimp": 3, "voidling": 4,
 	"shadeknight": 7, "eclipsed": 5, "mirehulk": 40, "ironcaptain": 45, "stoneabbot": 50, "enforcer": 55, "herald": 60,
 	"knight": 6, "ghost": 3, "bookwyrm": 3, "drowned": 4, "wisp": 3, "golem": 7,
