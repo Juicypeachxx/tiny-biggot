@@ -750,3 +750,17 @@ environment effects and animations too and boss effects and animations".
 - **Clips:** `resprite/koi-boss-clip.mp4`, `resprite/koi-room-clip.mp4` (the bot playing).
 - **To do:** the full suite and the core replays (re-record: content added on purpose); the
   dragon's look is weak (it reads as a blue catfish: no antlers, no legs); own foes; secrets.
+
+### The full suite on the garden as floor 1 (10 Nov)
+
+- The first run found what the garden broke: the flag stayed on for the whole run, so later
+  floors lost their second guardians, mazes and tricks, and the tests met the Elder Koi for ARČI.
+  Fixed: `garden()` also needs `G.floor_index == 0`, and only the game itself (`main.gd` sets
+  `GameData.garden_on`) starts runs in the garden: a test's run starts on the Ossuary as before.
+- **The garden's lurker is the `pondfrog`** (his word: the bogling's green spore shots "are so
+  out of place"): the bogling's behaviour and picture, water drops for shots.
+- **`tools/check.sh` after that:** the six classic replays identical. Core replays a, b, c, d and
+  g differed (they start in the garden now) and **were re-recorded on purpose**. Four tests fail,
+  and fail the same way on 67.9 before any of this work (checked in a worktree at 98e89c22):
+  arsenal (soapcannon's soap_pop), legion (wisps with +100% speed), stage53 (the gauge after a
+  surge), trigger (SPELLSLINGER's casts). So CHECK PASSED is not reached, for those four.
