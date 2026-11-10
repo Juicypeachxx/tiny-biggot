@@ -1,0 +1,72 @@
+{
+ "tiles": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down view of a floor: a 4 by 4 grid of square worn wooden library floorboard tiles, every tile different: dust, a fallen book, a moth, plain boards, a crack, a torn page",
+   "width": 128,
+   "height": 128,
+   "view": "high top-down",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "rest",
+  "tries": 1
+ },
+ "wall_a": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a flat wall surface filling the whole picture, seen straight on, no doorway, no sky, no floor: tall wooden library shelves packed with dusty books, cobwebs, a carved shelf top along the top, dark fantasy pixel art",
+   "width": 128,
+   "height": 64,
+   "view": "side",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "rest",
+  "tries": 1
+ },
+ "wall_b": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a flat wall surface filling the whole picture, seen straight on, no doorway, no sky, no floor: tall wooden library shelves packed with dusty books, cobwebs, a carved shelf top along the top, with a rolling library ladder leaning on the shelves in the middle, dark fantasy pixel art",
+   "width": 128,
+   "height": 64,
+   "view": "side",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "rest",
+  "tries": 1
+ },
+ "pilaster": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a narrow wooden shelf end post with carvings, dark fantasy pixel art",
+   "width": 32,
+   "height": 64,
+   "view": "side",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "rest",
+  "tries": 1
+ },
+ "walltop": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down view of a uniform seamless tileable texture of rows of dusty book tops on shelves, no objects, no border, filling the whole picture",
+   "width": 64,
+   "height": 64,
+   "view": "high top-down",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "rest",
+  "tries": 1
+ }
+}

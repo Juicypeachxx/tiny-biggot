@@ -1,0 +1,103 @@
+{
+  "$schema": "https://raw.githubusercontent.com/mateo-m/empo-app/main/docs/schemas/empo-controls.v1.schema.json",
+  "version": 1,
+  "touch": {
+    "landscape": {
+      "dpad": {
+        "x": 0.13,
+        "y": 0.72,
+        "size": 160,
+        "opacity": 0.7,
+        "style": "stick"
+      },
+      "buttons": [
+        {
+          "label": "AIM UP",
+          "key": "KeyW",
+          "x": 0.845,
+          "y": 0.5,
+          "size": 54,
+          "opacity": 0.6
+        },
+        {
+          "label": "AIM L",
+          "key": "KeyA",
+          "x": 0.775,
+          "y": 0.64,
+          "size": 54,
+          "opacity": 0.6
+        },
+        {
+          "label": "AIM R",
+          "key": "KeyD",
+          "x": 0.915,
+          "y": 0.64,
+          "size": 54,
+          "opacity": 0.6
+        },
+        {
+          "label": "AIM DN",
+          "key": "KeyS",
+          "x": 0.845,
+          "y": 0.78,
+          "size": 54,
+          "opacity": 0.6
+        },
+        {
+          "label": "ROLL",
+          "key": "ShiftLeft",
+          "x": 0.69,
+          "y": 0.86,
+          "size": 68,
+          "opacity": 0.75
+        },
+        {
+          "label": "USE",
+          "key": "Enter",
+          "x": 0.95,
+          "y": 0.9,
+          "size": 52,
+          "opacity": 0.75
+        },
+        {
+          "label": "HEAL",
+          "key": "KeyQ",
+          "x": 0.95,
+          "y": 0.36,
+          "size": 48,
+          "opacity": 0.75
+        },
+        {
+          "label": "MENU",
+          "key": "Escape",
+          "x": 0.95,
+          "y": 0.1,
+          "size": 44,
+          "opacity": 0.6
+        },
+        {
+          "label": "BOMB",
+          "key": "ControlLeft",
+          "x": 0.69,
+          "y": 0.62,
+          "size": 52,
+          "opacity": 0.75
+        }
+      ]
+    }
+  },
+  "bindings": {
+    "a": "Enter",
+    "b": "ShiftLeft",
+    "x": "KeyQ",
+    "y": "Escape",
+    "righttrigger": "ShiftLeft",
+    "lefttrigger": "KeyQ",
+    "-rightx": "KeyA",
+    "+rightx": "KeyD",
+    "-righty": "KeyW",
+    "+righty": "KeyS",
+    "rightshoulder": "ControlLeft",
+    "leftshoulder": "ControlLeft"
+  }
+}

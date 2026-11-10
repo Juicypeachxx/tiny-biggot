@@ -1,0 +1,142 @@
+{
+ "tiles": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down view of a royal palace floor: a 4 by 4 grid of separate square polished dark purple marble tiles, each framed by a thin gold border, every tile different: marble veins, a small gold star, a hairline crack, wax drips, plain polished, a gold coin",
+   "width": 128,
+   "height": 128,
+   "view": "high top-down",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "redo",
+  "tries": 2
+ },
+ "wall_a": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a flat wall surface filling the whole picture, seen straight on, no doorway, no sky, no floor: dark purple stone blocks with gold trim and red velvet drapes, a carved gold cornice along the top, dark fantasy pixel art",
+   "width": 128,
+   "height": 64,
+   "view": "side",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "redo",
+  "tries": 2
+ },
+ "wall_b": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a flat wall surface filling the whole picture, seen straight on, no doorway, no sky, no floor: dark purple stone blocks with gold trim and red velvet drapes, a carved gold cornice along the top, with a big gilded portrait of a pale king in the middle, dark fantasy pixel art",
+   "width": 128,
+   "height": 64,
+   "view": "side",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "redo",
+  "tries": 2
+ },
+ "pilaster": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a narrow white marble column with a gold capital and base",
+   "width": 32,
+   "height": 64,
+   "view": "side",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "walltop": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down view of a uniform seamless tileable texture of dark purple stone with thin gold inlay lines, no objects, no border, filling the whole picture",
+   "width": 64,
+   "height": 64,
+   "view": "high top-down",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "redo",
+  "tries": 2
+ },
+ "prop_column": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a short broken white marble column with gold trim, dark fantasy pixel art dungeon prop",
+   "width": 32,
+   "height": 40,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "prop_candelabra": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a tall gold candelabra with three lit candles, dark fantasy pixel art dungeon prop",
+   "width": 32,
+   "height": 40,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "prop_armor": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "an empty suit of knight armor on a stand holding a halberd, dark fantasy pixel art dungeon prop",
+   "width": 32,
+   "height": 40,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "dress_portrait": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a small gilded portrait of a noble lady, front view, wall decoration, dark fantasy pixel art",
+   "width": 32,
+   "height": 32,
+   "view": "side",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "decals": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down sprite sheet of small separate floor things on a transparent background, spaced apart: gold coins, a broken crown, candle wax drips, a golden goblet, red rose petals, a pearl necklace, marble chips",
+   "width": 128,
+   "height": 128,
+   "view": "high top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ }
+}

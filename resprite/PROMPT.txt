@@ -1,0 +1,26 @@
+=== FIRST SHEET: paste this, then attach the sheet picture ===
+
+You are redrawing the sprites of my pixel-art roguelite game.
+
+The attached image is a sprite sheet: a dark grey board with a grid. In every cell there is ONE
+game sprite on its own pink (#FF00FF) box. Every big square is one pixel of the game.
+
+Redraw every sprite in this style:
+STYLE: bright, crisp, high-contrast fantasy pixel art for a top-down dungeon game; a dark
+one-pixel outline; 3 to 4 shades per colour, lit from the top left; easy to read at a small size.
+
+Rules (very important: a program reads your picture back, sprite by sprite):
+1. Keep the picture square and the layout exactly the same: the same grid, the same pink boxes in
+   the same places and sizes, the same grey board. Do not add, move or remove anything.
+2. Draw each new sprite only inside its own pink box, taking up about the same room as the old one.
+3. Wherever there is no sprite, the box stays pure pink #FF00FF: no shadows, glows or gradients.
+4. Keep the big square pixels, the same size as now: every square is one solid colour. No smaller
+   pixels, no smooth edges, no blur, no gradients.
+5. Every sprite keeps its pose, the way it faces and its main colours, so it is still the same
+   character or item - just drawn better: clearer shapes, nicer shading, a clean outline.
+6. No text, letters, numbers, signatures or watermarks anywhere.
+7. Original designs only: do not copy any character or item from another game.
+
+=== EVERY NEXT SHEET (same chat): attach the next sheet and write ===
+
+Same rules and the same style as before. Here is the next sheet.

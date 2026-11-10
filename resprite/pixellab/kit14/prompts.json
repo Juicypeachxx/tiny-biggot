@@ -1,0 +1,72 @@
+{
+ "tiles": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down view of a floor: a 4 by 4 grid of square pale paper tiles printed with faded letters, thin grey joints, every tile different: a big letter A, scattered letters, a short column of words, plain pale paper, a pencil line, an underline",
+   "width": 128,
+   "height": 128,
+   "view": "high top-down",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "rest",
+  "tries": 1
+ },
+ "wall_a": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a flat wall surface filling the whole picture, seen straight on, no doorway, no sky, no floor: pale paper covered in printed columns of tiny letters, a ruled header line along the top, dark fantasy pixel art",
+   "width": 128,
+   "height": 64,
+   "view": "side",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "rest",
+  "tries": 1
+ },
+ "wall_b": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a flat wall surface filling the whole picture, seen straight on, no doorway, no sky, no floor: pale paper covered in printed columns of tiny letters, a ruled header line along the top, with a huge ornate capital letter in the middle, dark fantasy pixel art",
+   "width": 128,
+   "height": 64,
+   "view": "side",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "rest",
+  "tries": 1
+ },
+ "pilaster": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a narrow pillar of stacked giant letters, dark fantasy pixel art",
+   "width": 32,
+   "height": 64,
+   "view": "side",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "rest",
+  "tries": 1
+ },
+ "walltop": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down view of a uniform seamless tileable texture of pale paper with faint printed letters, no objects, no border, filling the whole picture",
+   "width": 64,
+   "height": 64,
+   "view": "high top-down",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "rest",
+  "tries": 1
+ }
+}

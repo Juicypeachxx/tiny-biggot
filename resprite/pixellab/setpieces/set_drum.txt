@@ -1,0 +1,11 @@
+status: completed
+id: aebbcfd6-1687-4388-bad6-622d51eec959
+job_id: aebbcfd6-1687-4388-bad6-622d51eec959
+frames: 1
+transparent: yes
+asset_id: 53085543-a1fb-5b00-b73a-58a8a732d7c5
+asset_type: image
+asset_status: saved
+gallery: saved to your PixelLab gallery (pixellab.ai/create)
+charged: 1 generation
+download: https://api.pixellab.ai/mcp/images/aebbcfd6-1687-4388-bad6-622d51eec959/download

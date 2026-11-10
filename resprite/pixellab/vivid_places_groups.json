@@ -1,0 +1,68 @@
+{
+ "P01": [
+  "kit0",
+  "kit1",
+  "kit10",
+  "kit11"
+ ],
+ "P02": [
+  "kit12",
+  "kit13",
+  "kit14",
+  "kit15"
+ ],
+ "P03": [
+  "kit16",
+  "kit17",
+  "kit18",
+  "kit19"
+ ],
+ "P04": [
+  "kit2",
+  "kit3",
+  "kit4",
+  "kit5"
+ ],
+ "P05": [
+  "kit6",
+  "kit7",
+  "kit8",
+  "kit9"
+ ],
+ "P06": [
+  "kit_barn",
+  "kit_bastion",
+  "kit_brand",
+  "kit_brazil"
+ ],
+ "P07": [
+  "kit_burb",
+  "kit_cathedral",
+  "kit_dust",
+  "kit_endtimes"
+ ],
+ "P08": [
+  "kit_fog",
+  "kit_gaol",
+  "kit_heaven",
+  "kit_heist"
+ ],
+ "P09": [
+  "kit_hell",
+  "kit_neon",
+  "kit_parlour",
+  "kit_pasture"
+ ],
+ "P10": [
+  "kit_redact",
+  "kit_rimefrost",
+  "kit_seam",
+  "kit_senate"
+ ],
+ "P11": [
+  "kit_skyreach",
+  "kit_spire",
+  "kit_streets",
+  "kit_streets"
+ ]
+}

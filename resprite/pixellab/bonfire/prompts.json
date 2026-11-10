@@ -1,0 +1,38 @@
+{
+ "fire_cold": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a cold unlit fire pit: a ring of rough dark standing stones carved with faint runes around grey ash and charred logs, a tall weathered stone marker in the middle, dark fantasy",
+   "width": 48,
+   "height": 48,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  }
+ },
+ "fire_lit": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a ring of rough dark standing stones carved with glowing orange runes around a bed of red-hot embers and burning logs, a tall weathered stone marker in the middle, no flames above the logs, dark fantasy",
+   "width": 48,
+   "height": 48,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  }
+ },
+ "kindling": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a small neat pile of dry firewood sticks and a bundle of straw tied with twine, dark fantasy dungeon prop",
+   "width": 32,
+   "height": 32,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  }
+ }
+}

@@ -1,0 +1,132 @@
+{
+ "tiles": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down view of a mountain monastery floor: a 4 by 4 grid of square grey stone tiles with snow dust and dark joints, every tile different: a carved lotus, cherry blossom petals, a snow pile, plain stone, a crack, the edge of a straw mat",
+   "width": 128,
+   "height": 128,
+   "view": "high top-down",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "wall_a": {
+  "made_from": "wall_b",
+  "note": "its left part repeated (a period of 21 pixels): three tries drew a building with doors or noise"
+ },
+ "wall_b": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a seamless repeating wall texture filling the whole picture: a grey stone base, red lacquered wooden posts and white paper screen panels, with a big bronze prayer bell hanging in the middle, no doors, no sky, no roof, no building, dark fantasy pixel art",
+   "width": 128,
+   "height": 64,
+   "view": "side",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "redo3",
+  "tries": 3
+ },
+ "pilaster": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a narrow red lacquered wooden temple pillar with a stone base",
+   "width": 32,
+   "height": 64,
+   "view": "side",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "walltop": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down view of a uniform seamless tileable texture of snowy grey roof tiles, no objects, no border, filling the whole picture",
+   "width": 64,
+   "height": 64,
+   "view": "high top-down",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "redo",
+  "tries": 2
+ },
+ "prop_stonelantern": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a stone garden lantern with a warm light inside, dark fantasy pixel art dungeon prop",
+   "width": 32,
+   "height": 40,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "prop_prayerbell": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a small bronze prayer bell on a wooden frame, dark fantasy pixel art dungeon prop",
+   "width": 32,
+   "height": 36,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "prop_monkstatue": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a small stone statue of a meditating monk, dark fantasy pixel art dungeon prop",
+   "width": 32,
+   "height": 36,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "dress_chains": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "hanging bronze wind chimes, front view, wall decoration, dark fantasy pixel art",
+   "width": 32,
+   "height": 32,
+   "view": "side",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "decals": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down sprite sheet of small separate floor things on a transparent background, spaced apart: cherry blossom petals, small snow piles, prayer beads, an incense stick, a pine cone, a paper charm, a small stone",
+   "width": 128,
+   "height": 128,
+   "view": "high top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ }
+}

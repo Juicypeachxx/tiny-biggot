@@ -1,0 +1,156 @@
+{
+ "tiles": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down view of a flooded library floor: a 4 by 4 grid of square dark teal and grey marble tiles with thin dark joints, every tile different: water stains, a loose page, cracked, a shallow puddle, plain polished, algae in a crack",
+   "width": 128,
+   "height": 128,
+   "view": "high top-down",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "wall_a": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a flooded library wall section: tall dark wooden bookshelves full of old books, water stains, a carved wooden cornice along the top, dim teal light, dark fantasy pixel art",
+   "width": 128,
+   "height": 64,
+   "view": "side",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "wall_b": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a library wall section with an arched stained glass window glowing teal between dark bookshelves, a carved wooden cornice along the top, dark fantasy pixel art",
+   "width": 128,
+   "height": 64,
+   "view": "side",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "pilaster": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a narrow carved dark wood and stone column with water stains and a small brass lamp",
+   "width": 32,
+   "height": 64,
+   "view": "side",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "walltop": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down view of dark wet stone blocks with green algae seen from above, even texture, dim",
+   "width": 64,
+   "height": 64,
+   "view": "high top-down",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "prop_shelf": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a short dark wooden bookshelf with old books, some fallen, dark fantasy pixel art dungeon prop",
+   "width": 32,
+   "height": 40,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "prop_bookpile": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a messy pile of old books and scrolls, dark fantasy pixel art dungeon prop",
+   "width": 32,
+   "height": 32,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "prop_bust": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a marble bust of a bearded scholar on a pedestal, dark fantasy pixel art dungeon prop",
+   "width": 32,
+   "height": 40,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "dress_books": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a small wall shelf holding a few old books, front view, wall decoration, dark fantasy pixel art",
+   "width": 32,
+   "height": 32,
+   "view": "side",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "dress_window": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a small round porthole window with teal light, front view, wall decoration, dark fantasy pixel art",
+   "width": 32,
+   "height": 32,
+   "view": "side",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "decals": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down sprite sheet of small separate floor things on a transparent background, spaced apart: loose paper pages, a rolled scroll, an open book, a quill pen, a broken tile, a candle stub, an ink bottle",
+   "width": 128,
+   "height": 128,
+   "view": "high top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ }
+}

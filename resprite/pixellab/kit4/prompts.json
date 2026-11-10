@@ -1,0 +1,142 @@
+{
+ "tiles": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down view of a frozen vault floor: a 4 by 4 grid of square pale blue stone tiles covered in frost with thin dark joints, every tile different: frost patterns, a crack of clear ice, a snow dusting, plain, an icy sheen, small ice shards",
+   "width": 128,
+   "height": 128,
+   "view": "high top-down",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "wall_a": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a frozen vault wall section: pale blue stone blocks covered in thick ice and frost, icicles hanging from a stone ledge along the top, cold light, dark fantasy pixel art",
+   "width": 128,
+   "height": 64,
+   "view": "side",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "wall_b": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a frozen vault wall section with a big blue ice crystal growing out of it and glowing softly, frosted stone blocks, icicles from a ledge along the top, dark fantasy pixel art",
+   "width": 128,
+   "height": 64,
+   "view": "side",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "pilaster": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a narrow frosted stone pillar wrapped in ice with icicles",
+   "width": 32,
+   "height": 64,
+   "view": "side",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "walltop": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down view of a uniform seamless tileable texture of packed snow and ice over dark stone blocks, no objects, no border, filling the whole picture",
+   "width": 64,
+   "height": 64,
+   "view": "high top-down",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "redo",
+  "tries": 2
+ },
+ "prop_icecrystal": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a cluster of tall glowing blue ice crystals, dark fantasy pixel art dungeon prop",
+   "width": 32,
+   "height": 40,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "prop_frostpillar": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a short frozen stone pillar covered in ice, dark fantasy pixel art dungeon prop",
+   "width": 32,
+   "height": 40,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "prop_strongbox": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "an iron-bound treasure strongbox covered in frost, dark fantasy pixel art dungeon prop",
+   "width": 32,
+   "height": 32,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "dress_chains": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "frosted iron chains with icicles hanging from a wall ring, front view, wall decoration, dark fantasy pixel art",
+   "width": 32,
+   "height": 32,
+   "view": "side",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "decals": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down sprite sheet of small separate floor things on a transparent background, spaced apart: small ice shards, snow piles, frozen pebbles, a frozen bone, frost crystals, a broken icicle",
+   "width": 128,
+   "height": 128,
+   "view": "high top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ }
+}

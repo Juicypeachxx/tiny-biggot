@@ -1,0 +1,12 @@
+{
+ "grid16": {
+  "tool": "create_image_pro",
+  "args": {
+   "description": "a sprite sheet of 16 different dungeon monsters in a 4 by 4 grid, one monster centred in each square cell, no borders, same chunky dark-fantasy pixel art style for all, thick dark outline, rich colours, glowing eyes, three-quarter view. Row by row: a purple cave bat with red eyes; a green slime blob with angry eyes; a skeleton archer with a bow; a hooded red cultist with a dagger; a small red flying imp with horns; an armoured knight with a sword and shield; a pale floating ghost; a flying book monster with teeth; a drowned blue-green zombie with seaweed; a blue fire wisp; a heavy stone golem; a swamp bog creature; a tiny buzzing gnat insect; a swamp witch with a crooked staff; a longbow archer in a green hood; a lancer with a long spear",
+   "width": 128,
+   "height": 128,
+   "no_background": true
+  },
+  "style": "mobs_pro/all/mushroom_n_4.png"
+ }
+}

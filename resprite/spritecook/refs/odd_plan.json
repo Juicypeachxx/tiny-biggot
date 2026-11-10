@@ -1,0 +1,40 @@
+{
+ "o1": {
+  "cells": [
+   "bat",
+   "bat2",
+   "believer",
+   "believer_flex",
+   "hydrahead",
+   "hydraneck",
+   "bullet_saint",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-"
+  ],
+  "ref": "resprite/spritecook/refs/odd_o1.png",
+  "prompt": "A sprite sheet in a 4 by 4 grid, redrawn from the reference sheet; only the first 7 places are used and the rest stay empty. Every one stays in its own place in the grid. Row 1, left to right: a bat, redrawn exactly as it is; the same bat again, the same colours and look, its wings in the other beat of its flap as the reference shows; a bald strongman, redrawn exactly as he is; the same strongman again, the same colours and look, flexing both arms up as the reference shows. Row 2: the green head of the sea serpent hydra of the style guide, gold horns, mouth open; one round green scaly neck piece of the same hydra; a little saint statue in a red robe with a gold halo, on a dark stone base. The words are only to tell you what each one is: never write any names, words or letters in the picture. Each a clean, bright, colourful pixel art game sprite in exactly the look of the style guide, with clear empty space between them. No text, no labels, no captions, no background.",
+  "use": [
+   "bat2",
+   "believer_flex",
+   "hydrahead",
+   "hydraneck",
+   "bullet_saint"
+  ],
+  "ref_id": "3032215e-f991-4e30-aaf5-e1ec8f1dfbf5",
+  "job": "25085bc8-da82-4c95-bcfb-ef3d5473b145",
+  "style": [
+   "his picture 21 Oct",
+   "bright_m01 (the bat)",
+   "bright_m10 (the believer)",
+   "bright_g2 (the Bilge Hydra)"
+  ],
+  "asset": "3155b5ea-c14c-44a7-979e-96c721ff00d9"
+ }
+}

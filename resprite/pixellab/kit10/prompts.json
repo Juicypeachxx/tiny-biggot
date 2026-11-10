@@ -1,0 +1,156 @@
+{
+ "tiles": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down view of a void temple floor: a 4 by 4 grid of square black obsidian tiles with thin glowing purple joints, every tile different: a faint glowing rune, starry specks, a crack of violet light, plain polished, a small crystal, swirling void",
+   "width": 128,
+   "height": 128,
+   "view": "high top-down",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "wall_a": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a void temple wall section: black obsidian blocks with glowing purple runes and small floating crystal shards, a carved ledge along the top, eerie violet light, dark fantasy pixel art",
+   "width": 128,
+   "height": 64,
+   "view": "side",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "wall_b": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a void temple wall section with a huge glowing purple eye in a stone frame in the middle, black obsidian blocks with runes, dark fantasy pixel art",
+   "width": 128,
+   "height": 64,
+   "view": "side",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "pilaster": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a narrow black obsidian obelisk pillar with a glowing violet crystal",
+   "width": 32,
+   "height": 64,
+   "view": "side",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "walltop": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down view of a uniform seamless tileable texture of black obsidian blocks with faint violet cracks, no objects, no border, filling the whole picture",
+   "width": 64,
+   "height": 64,
+   "view": "high top-down",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "redo",
+  "tries": 2
+ },
+ "prop_obelisk": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a small black obelisk with glowing purple runes, dark fantasy pixel art dungeon prop",
+   "width": 32,
+   "height": 40,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "prop_monolith": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a dark stone monolith slab with a violet glow, dark fantasy pixel art dungeon prop",
+   "width": 32,
+   "height": 40,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "prop_shard": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a floating purple crystal shard over a stone pedestal, dark fantasy pixel art dungeon prop",
+   "width": 32,
+   "height": 40,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "dress_eye": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a small stone eye carving glowing purple, front view, wall decoration, dark fantasy pixel art",
+   "width": 32,
+   "height": 32,
+   "view": "side",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "dress_chains": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "black chains with glowing violet links hanging from a wall ring, front view, wall decoration, dark fantasy pixel art",
+   "width": 32,
+   "height": 32,
+   "view": "side",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "decals": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down sprite sheet of small separate floor things on a transparent background, spaced apart: small purple crystal shards, glowing rune stones, black pebbles, a broken mask, a star fragment, void dust",
+   "width": 128,
+   "height": 128,
+   "view": "high top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ }
+}

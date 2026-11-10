@@ -1,0 +1,171 @@
+{
+ "floor_wang": {
+  "tool": "create_topdown_tileset",
+  "args": {
+   "lower_description": "worn grey-violet crypt flagstones, square stone slabs with thin dark mortar lines and fine cracks",
+   "upper_description": "dark packed earth between broken flagstones, scattered small bones and skull fragments, grey dust",
+   "transition_size": 0,
+   "tile_size": {
+    "width": 32,
+    "height": 32
+   },
+   "mode": "standard"
+  }
+ },
+ "floor_slabs": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down view of a crypt floor: a 4 by 4 grid of square grey-violet stone flagstones with thin dark mortar lines, every slab different: cracked, chipped corner, worn smooth, a small bone lying on one, faint moss in a crack",
+   "width": 128,
+   "height": 128,
+   "view": "high top-down",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  }
+ },
+ "wall_panel_a": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a crypt wall section: rows of stacked human skulls and long bones set between dark grey-violet stone blocks, a carved stone ledge along the top, dim cold light, dark fantasy",
+   "width": 128,
+   "height": 64,
+   "view": "side",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  }
+ },
+ "prop_bonepile": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a heap of old ivory bones and two skulls piled on the ground, dark fantasy dungeon prop",
+   "width": 32,
+   "height": 40,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  }
+ },
+ "decals": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down sprite sheet of small separate floor debris on a transparent background, spaced apart: scattered bones, a small skull, a femur, broken stone pebbles, a cobweb in a corner shape, bone fragments, a rib cage",
+   "width": 128,
+   "height": 128,
+   "view": "high top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  }
+ },
+ "floor_slabs_b": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down view of a crypt floor: a 4 by 4 grid of square grey-mauve stone flagstones with dark mortar lines, every slab different: broken with dark earth showing, a carved skull emblem, a rusted iron drain grate, scattered bone fragments, cracked, worn smooth, plain",
+   "width": 128,
+   "height": 128,
+   "view": "high top-down",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  }
+ },
+ "wall_panel_b": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a crypt wall section of grey-mauve stone blocks with an arched alcove in the middle holding a skull and two lit candles, a row of small skulls along the base, a carved stone ledge along the top, dark fantasy",
+   "width": 128,
+   "height": 64,
+   "view": "side",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  }
+ },
+ "wall_top": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down view of the top of a thick dungeon wall: dark rough grey-mauve stone blocks tightly fitted together, even texture, dim",
+   "width": 64,
+   "height": 64,
+   "view": "high top-down",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  }
+ },
+ "pilaster": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a narrow carved stone pilaster column for a crypt wall, grey-mauve stone, a small skull carved near the top, square base and capital",
+   "width": 32,
+   "height": 64,
+   "view": "side",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  }
+ },
+ "prop_coffin": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "an old dark wooden coffin standing upright with iron bands and a carved cross, dark fantasy dungeon prop",
+   "width": 32,
+   "height": 36,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  }
+ },
+ "prop_urn": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a cracked clay burial urn with a lid and a carved band, dark fantasy dungeon prop",
+   "width": 32,
+   "height": 32,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  }
+ },
+ "prop_candles": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a cluster of melted white candles with small warm flames standing on a skull, wax drips, dark fantasy dungeon prop",
+   "width": 32,
+   "height": 32,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  }
+ },
+ "wall_chains": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "rusty iron chains and an open shackle hanging from an iron wall ring, front view, dungeon wall decoration",
+   "width": 32,
+   "height": 32,
+   "view": "side",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  }
+ },
+ "wall_skullniche": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a small arched niche carved in grey-mauve stone holding an old skull, front view, crypt wall decoration",
+   "width": 32,
+   "height": 32,
+   "view": "side",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  }
+ }
+}

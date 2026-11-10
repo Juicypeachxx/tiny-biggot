@@ -1,0 +1,21 @@
+{
+ "mushroom_n": {
+  "tool": "create_image_pro",
+  "args": {
+   "description": "a fat walking mushroom monster: a huge wide red cap with white spots, a plump pale body under it, short stubby legs, an angry face with glowing red eyes and a wide frown; detailed dark-fantasy pixel art monster sprite, rich saturated colours, dark outline with coloured inner shading, strong light from the top left, glowing red eyes, chunky readable silhouette, three-quarter view, centred, no background",
+   "width": 32,
+   "height": 32,
+   "no_background": true
+  }
+ },
+ "mushroom_e": {
+  "tool": "create_image_pro",
+  "args": {
+   "description": "an elite mushroom brute: a hulking muscular fungus monster with a huge armoured red cap with white spots, thick arms, a toothy maw, glowing red eyes, spores drifting; heavy chunky dark-fantasy monster, three-quarter view",
+   "width": 48,
+   "height": 48,
+   "no_background": true,
+   "style_image": "his elite reference sheet (top two rows), not kept in the repo"
+  }
+ }
+}

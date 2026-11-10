@@ -1,0 +1,142 @@
+{
+ "tiles": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down view of a battlefield floor: a 4 by 4 grid of 16 small square tiles of scorched brown earth with thin dark cracks between them, every tile different: ash, a small crater, a broken arrow, burnt grass tufts, plain packed dirt, a dark stain",
+   "width": 128,
+   "height": 128,
+   "view": "high top-down",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "redo4",
+  "tries": 2
+ },
+ "wall_a": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a flat wall surface filling the whole picture, seen straight on, no doorway, no sky, no floor: a wooden palisade of sharpened logs with sandbags along its base and torn war banners, dark fantasy pixel art",
+   "width": 128,
+   "height": 64,
+   "view": "side",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "redo",
+  "tries": 2
+ },
+ "wall_b": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a flat wall surface filling the whole picture, seen straight on, no doorway, no sky, no floor: a wooden palisade of sharpened logs with sandbags along its base and torn war banners, with a weapon rack of spears and shields in the middle, dark fantasy pixel art",
+   "width": 128,
+   "height": 64,
+   "view": "side",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "redo",
+  "tries": 2
+ },
+ "pilaster": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "front view of a narrow sharpened log palisade post with a red war banner",
+   "width": 32,
+   "height": 64,
+   "view": "side",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "walltop": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down view of a uniform seamless tileable texture of rough logs laid side by side, no objects, no border, filling the whole picture",
+   "width": 64,
+   "height": 64,
+   "view": "high top-down",
+   "outline": "lineless",
+   "detail": "medium detail",
+   "no_background": false
+  },
+  "batch": "redo",
+  "tries": 2
+ },
+ "prop_sandbags": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a stack of sandbags, dark fantasy pixel art dungeon prop",
+   "width": 32,
+   "height": 32,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "prop_stakes": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a cluster of sharpened wooden stakes, dark fantasy pixel art dungeon prop",
+   "width": 32,
+   "height": 36,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "prop_wagonwheel": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a broken wooden wagon wheel leaning on a crate, dark fantasy pixel art dungeon prop",
+   "width": 32,
+   "height": 36,
+   "view": "low top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "dress_racks": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "a small weapon rack with two spears and a shield, front view, wall decoration, dark fantasy pixel art",
+   "width": 32,
+   "height": 32,
+   "view": "side",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ },
+ "decals": {
+  "tool": "create_image_pixen",
+  "args": {
+   "description": "top-down sprite sheet of small separate floor things on a transparent background, spaced apart: broken arrows, a dented helmet, a shield fragment, ash piles, a burnt plank, a sword stuck in the ground, scattered rocks",
+   "width": 128,
+   "height": 128,
+   "view": "high top-down",
+   "outline": "single color black outline",
+   "detail": "medium detail",
+   "no_background": true
+  },
+  "batch": "ch1",
+  "tries": 1
+ }
+}

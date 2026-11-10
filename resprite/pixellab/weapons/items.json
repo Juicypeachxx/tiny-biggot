@@ -1,0 +1,1598 @@
+[
+ [
+  "w_repeater",
+  "repeater crossbow"
+ ],
+ [
+  "w_huntbow",
+  "hunting bow golden bow"
+ ],
+ [
+  "w_streetpistol",
+  "street pistol blood pistol"
+ ],
+ [
+  "w_silvercrossbow",
+  "silvered crossbow iron crossbow"
+ ],
+ [
+  "w_longrifle",
+  "long rifle shadow rifle"
+ ],
+ [
+  "w_thornbow",
+  "thornbow poison bow"
+ ],
+ [
+  "w_sunpiercer",
+  "sunpiercer fire bow"
+ ],
+ [
+  "w_hexwand",
+  "hex wand wand"
+ ],
+ [
+  "w_emberwand",
+  "ember wand fire wand"
+ ],
+ [
+  "w_rimerod",
+  "rime rod ice wand"
+ ],
+ [
+  "w_witchstaff",
+  "witchwood staff arcane staff with an orb"
+ ],
+ [
+  "w_stormcaller",
+  "stormcaller lightning staff"
+ ],
+ [
+  "w_soulstaff",
+  "soulreaver staff shadow skull staff"
+ ],
+ [
+  "w_laststar",
+  "the last star arcane staff with an orb"
+ ],
+ [
+  "w_pithatchet",
+  "pit hatchet axe"
+ ],
+ [
+  "w_woodaxe",
+  "woodsman's axe axe"
+ ],
+ [
+  "w_bonecleaver",
+  "bone cleaver blood cleaver"
+ ],
+ [
+  "w_tomahawk",
+  "feathered tomahawk bee axe"
+ ],
+ [
+  "w_ragefang",
+  "ragefang axe blood axe"
+ ],
+ [
+  "w_twincrescent",
+  "twin crescents arcane sickle"
+ ],
+ [
+  "w_graveshovel",
+  "grave shovel shovel"
+ ],
+ [
+  "w_blunderbuss",
+  "blunderbuss explosive blunderbuss"
+ ],
+ [
+  "w_sawnoff",
+  "sawn-off blood blunderbuss"
+ ],
+ [
+  "w_nailspitter",
+  "nail spitter poison hand cannon"
+ ],
+ [
+  "w_hailcannon",
+  "hailstorm cannon ice hand cannon"
+ ],
+ [
+  "w_dragonbreath",
+  "dragon's breath fire blunderbuss"
+ ],
+ [
+  "w_flasksling",
+  "flask sling poison potion flask"
+ ],
+ [
+  "w_firebottle",
+  "firebottle fire potion flask"
+ ],
+ [
+  "w_acidjar",
+  "acid jar poison potion flask"
+ ],
+ [
+  "w_frostvial",
+  "frost vial ice potion flask"
+ ],
+ [
+  "w_bottledstorm",
+  "bottled storm lightning potion flask"
+ ],
+ [
+  "w_panacea",
+  "panacea arcane potion flask"
+ ],
+ [
+  "w_lantern",
+  "warden's lantern lantern"
+ ],
+ [
+  "w_boomerang",
+  "hunter's boomerang golden chakram ring blade"
+ ],
+ [
+  "w_chakram",
+  "roving chakram arcane chakram ring blade"
+ ],
+ [
+  "w_reaperhook",
+  "reaper's hook shadow sickle"
+ ],
+ [
+  "w_sunlantern",
+  "sunlantern fire lantern"
+ ],
+ [
+  "w_moonglaive",
+  "moonglaive ice chakram ring blade"
+ ],
+ [
+  "w_rustblade",
+  "rusted blade sword"
+ ],
+ [
+  "w_sabre",
+  "duelist sabre shadow rapier"
+ ],
+ [
+  "w_wandererkatana",
+  "wanderer's katana shadow katana"
+ ],
+ [
+  "w_huntsword",
+  "silver huntsword iron sword"
+ ],
+ [
+  "w_gallows",
+  "gallows greatsword blood greatsword"
+ ],
+ [
+  "w_cinderbrand",
+  "cinderbrand fire sword"
+ ],
+ [
+  "w_mirrorblade",
+  "mirrorblade arcane katana"
+ ],
+ [
+  "w_pike",
+  "footman's pike spear"
+ ],
+ [
+  "w_boarspear",
+  "boar spear iron spear"
+ ],
+ [
+  "w_halberd",
+  "watchman's halberd iron halberd"
+ ],
+ [
+  "w_tidetrident",
+  "tidecaller trident ice trident"
+ ],
+ [
+  "w_serpentlance",
+  "serpent lance poison spear"
+ ],
+ [
+  "w_stormspear",
+  "stormspear lightning spear"
+ ],
+ [
+  "w_prismrod",
+  "prism rod arcane wand"
+ ],
+ [
+  "w_burninglens",
+  "burning lens fire staff with an orb"
+ ],
+ [
+  "w_leechrod",
+  "leeching rod blood skull staff"
+ ],
+ [
+  "w_winterbreath",
+  "winter's breath ice wand"
+ ],
+ [
+  "w_voidlight",
+  "voidlight shadow rune stone"
+ ],
+ [
+  "w_judgement",
+  "judgement ray golden staff with an orb"
+ ],
+ [
+  "w_firespitter",
+  "fire spitter fire hand cannon"
+ ],
+ [
+  "w_bilesprayer",
+  "bile sprayer poison potion flask"
+ ],
+ [
+  "w_frostbellows",
+  "frost bellows ice hand cannon"
+ ],
+ [
+  "w_locustcenser",
+  "locust censer bee lantern"
+ ],
+ [
+  "w_hellmaw",
+  "hellmaw fire hand cannon"
+ ],
+ [
+  "w_phoenixbellows",
+  "phoenix bellows fire hand cannon"
+ ],
+ [
+  "w_sawblade",
+  "sawblade chakram ring blade"
+ ],
+ [
+  "w_razordisc",
+  "razor disc blood chakram ring blade"
+ ],
+ [
+  "w_doubloon",
+  "lucky doubloon golden chakram ring blade"
+ ],
+ [
+  "w_thunderring",
+  "thunder ring lightning chakram ring blade"
+ ],
+ [
+  "w_nightstar",
+  "night stars shadow rune stone"
+ ],
+ [
+  "w_worldeater",
+  "world-eater explosive chakram ring blade"
+ ],
+ [
+  "w_emberorb",
+  "ember orb fire staff with an orb"
+ ],
+ [
+  "w_frozenheart",
+  "frozen heart ice staff with an orb"
+ ],
+ [
+  "w_plaguebell",
+  "plague bell poison lantern"
+ ],
+ [
+  "w_gravitywell",
+  "gravity well arcane staff with an orb"
+ ],
+ [
+  "w_blacksun",
+  "black sun shadow staff with an orb"
+ ],
+ [
+  "w_sparkrune",
+  "spark rune lightning rune stone"
+ ],
+ [
+  "w_coppercoil",
+  "copper coil lightning gauntlet"
+ ],
+ [
+  "w_maledict",
+  "malediction rune arcane rune stone"
+ ],
+ [
+  "w_stormgauntlet",
+  "storm gauntlet lightning gauntlet"
+ ],
+ [
+  "w_heavensrod",
+  "heaven's rod lightning staff"
+ ],
+ [
+  "w_bonechime",
+  "bone chime lantern"
+ ],
+ [
+  "w_frostbloom",
+  "frost bloom ice staff with an orb"
+ ],
+ [
+  "w_bloodstar",
+  "blood star blood rune stone"
+ ],
+ [
+  "w_thorntome",
+  "tome of thorns poison spell book"
+ ],
+ [
+  "w_cataclysm",
+  "cataclysm explosive spell book"
+ ],
+ [
+  "w_snaremine",
+  "snare mines explosive mine"
+ ],
+ [
+  "w_frosttrap",
+  "frost trap ice mine"
+ ],
+ [
+  "w_spiketrap",
+  "spike trap blood mine"
+ ],
+ [
+  "w_hivepod",
+  "hive pod bee mine"
+ ],
+ [
+  "w_doomspring",
+  "doomspring explosive mine"
+ ],
+ [
+  "w_arbalest",
+  "arbalest crossbow"
+ ],
+ [
+  "w_harpoon",
+  "whaling harpoon ice spear"
+ ],
+ [
+  "w_handcannon",
+  "hand cannon explosive hand cannon"
+ ],
+ [
+  "w_dawnlance",
+  "lance of dawn arcane rifle"
+ ],
+ [
+  "w_deicide",
+  "deicide blood rifle"
+ ],
+ [
+  "w_burstpistol",
+  "three-round pistol pistol"
+ ],
+ [
+  "w_alleysprayer",
+  "alley sprayer shadow pistol"
+ ],
+ [
+  "w_triplecrossbow",
+  "triple crossbow iron crossbow"
+ ],
+ [
+  "w_gildedrevolver",
+  "gilded revolver golden pistol"
+ ],
+ [
+  "w_hailfire",
+  "hailfire lightning rifle"
+ ],
+ [
+  "w_crankgun",
+  "crank gun explosive minigun"
+ ],
+ [
+  "w_rotarybow",
+  "rotary bow bee minigun"
+ ],
+ [
+  "w_bonegrinder",
+  "bonegrinder blood minigun"
+ ],
+ [
+  "w_sunspitter",
+  "sunspitter fire minigun"
+ ],
+ [
+  "w_dreadnought",
+  "dreadnought iron minigun"
+ ],
+ [
+  "w_drovewhip",
+  "drover's whip whip"
+ ],
+ [
+  "w_chainlash",
+  "chain lash iron whip"
+ ],
+ [
+  "w_bramblewhip",
+  "bramble whip poison whip"
+ ],
+ [
+  "w_lightninglash",
+  "lightning lash lightning whip"
+ ],
+ [
+  "w_bloodvine",
+  "bloodvine blood whip"
+ ],
+ [
+  "w_gravebell",
+  "grave bell bee skull staff"
+ ],
+ [
+  "w_hivestaff",
+  "hive staff bee staff"
+ ],
+ [
+  "w_bonetome",
+  "bone tome bee spell book"
+ ],
+ [
+  "w_warbanner",
+  "warbanner bee halberd"
+ ],
+ [
+  "w_irontalons",
+  "iron talons shadow dagger"
+ ],
+ [
+  "w_whimsywand",
+  "wand of whimsy arcane wand"
+ ],
+ [
+  "w_meteorstaff",
+  "meteor staff fire staff"
+ ],
+ [
+  "w_singularity",
+  "singularity cannon arcane hand cannon"
+ ],
+ [
+  "w_gravitymaul",
+  "gravity maul iron hammer"
+ ],
+ [
+  "w_beehive",
+  "angry beehive bee minigun"
+ ],
+ [
+  "w_midascannon",
+  "midas cannon golden blunderbuss"
+ ],
+ [
+  "w_discoball",
+  "disco ball arcane staff with an orb"
+ ],
+ [
+  "w_boomstick",
+  "boomstick explosive shotgun"
+ ],
+ [
+  "w_razoryoyo",
+  "razor yo-yo steel chakram ring blade"
+ ],
+ [
+  "w_pinball",
+  "pinball cannon golden hand cannon"
+ ],
+ [
+  "w_teslacoil",
+  "tesla coil lightning gauntlet"
+ ],
+ [
+  "w_volcano",
+  "pocket volcano fire potion flask"
+ ],
+ [
+  "w_frostfist",
+  "frost giant's fist ice spiked knuckles"
+ ],
+ [
+  "w_slimecannon",
+  "slime cannon poison potion flask"
+ ],
+ [
+  "w_doomclock",
+  "doomsday clock dark mine"
+ ],
+ [
+  "w_chainsaw",
+  "ripsaw fire sprayer"
+ ],
+ [
+  "w_slotmachine",
+  "one-armed bandit golden pistol"
+ ],
+ [
+  "w_orbitallaser",
+  "orbital laser lightning staff with an orb"
+ ],
+ [
+  "w_peppershaker",
+  "ghost pepper shaker fire lantern"
+ ],
+ [
+  "w_bubblewand",
+  "bubble wand ice wand"
+ ],
+ [
+  "w_clownhammer",
+  "squeaky hammer golden hammer"
+ ],
+ [
+  "w_necroflute",
+  "bone flute bee skull staff"
+ ],
+ [
+  "w_backfire",
+  "backfire blunderbuss fire blunderbuss"
+ ],
+ [
+  "w_crossfirebow",
+  "crossfire bow arcane bow"
+ ],
+ [
+  "w_tentacle",
+  "kraken tentacle ice whip"
+ ],
+ [
+  "w_joustrocket",
+  "jousting rocket explosive spear"
+ ],
+ [
+  "w_homingaxes",
+  "bloodhound hatchets bee axe"
+ ],
+ [
+  "w_pineapple",
+  "pineapple grenade explosive grenade"
+ ],
+ [
+  "w_skipcharge",
+  "skipping charge explosive grenade"
+ ],
+ [
+  "w_pomegranate",
+  "pomegranate bee grenade"
+ ],
+ [
+  "w_hoarfrost",
+  "hoarfrost grenade ice grenade"
+ ],
+ [
+  "w_fruitcake",
+  "grandma's fruitcake golden grenade"
+ ],
+ [
+  "w_bottlerockets",
+  "bottle rockets fire launcher"
+ ],
+ [
+  "w_alleyrpg",
+  "backalley rpg explosive launcher"
+ ],
+ [
+  "w_festival",
+  "festival launcher arcane launcher"
+ ],
+ [
+  "w_pathfinder",
+  "pathfinder rocket steel launcher"
+ ],
+ [
+  "w_swarmpod",
+  "swarm pod bee launcher"
+ ],
+ [
+  "w_lockon",
+  "lock-on launcher steel launcher"
+ ],
+ [
+  "w_stickyjar",
+  "sticky jar explosive potion flask"
+ ],
+ [
+  "w_limpets",
+  "limpet charges explosive mine"
+ ],
+ [
+  "w_pocketmortar",
+  "pocket mortar explosive mortar"
+ ],
+ [
+  "w_snowglobe",
+  "snowglobe mortar ice mortar"
+ ],
+ [
+  "w_clockmice",
+  "clockwork mice bee toy"
+ ],
+ [
+  "w_keg",
+  "rolling keg fire barrel"
+ ],
+ [
+  "w_signalflare",
+  "signal flare fire pistol"
+ ],
+ [
+  "w_skyhammer",
+  "sky hammer lightning rod"
+ ],
+ [
+  "w_dynamite",
+  "dynamite bundle explosive sticks"
+ ],
+ [
+  "w_repulsor",
+  "repulsor lightning gauntlet"
+ ],
+ [
+  "w_shrapnelgun",
+  "shrapnel shotgun explosive shotgun"
+ ],
+ [
+  "w_blastknuckles",
+  "blasting knuckles fire spiked knuckles"
+ ],
+ [
+  "w_parasite",
+  "parasite launcher dark potion flask"
+ ],
+ [
+  "w_piggybank",
+  "piggy bank golden blunderbuss"
+ ],
+ [
+  "w_plasmaslug",
+  "plasma slugger arcane cannon"
+ ],
+ [
+  "w_shatterball",
+  "shatterball arcane cannon"
+ ],
+ [
+  "w_gravityglobe",
+  "gravity globe shadow magic orb"
+ ],
+ [
+  "w_swiftdraw",
+  "swiftdraw bow steel bow"
+ ],
+ [
+  "w_chokeshotgun",
+  "choke shotgun explosive shotgun"
+ ],
+ [
+  "w_coldstar",
+  "cold star ice magic orb"
+ ],
+ [
+  "w_quakemaul",
+  "quake maul iron maul"
+ ],
+ [
+  "w_emberquake",
+  "emberquake maul fire maul"
+ ],
+ [
+  "w_aftershock",
+  "aftershock hammer lightning hammer"
+ ],
+ [
+  "w_dashblade",
+  "dashblade steel sword"
+ ],
+ [
+  "w_cometlance",
+  "comet lance fire lance"
+ ],
+ [
+  "w_phantomedge",
+  "phantom edge shadow sword"
+ ],
+ [
+  "w_warjavelin",
+  "war javelin fire spear"
+ ],
+ [
+  "w_thunderpike",
+  "thunder pike lightning spear"
+ ],
+ [
+  "w_grapple",
+  "grapple gauntlet iron gauntlet"
+ ],
+ [
+  "w_anchorchain",
+  "anchor chain iron chain"
+ ],
+ [
+  "w_cutlass",
+  "cutlass and flintlock golden sword"
+ ],
+ [
+  "w_chainglaive",
+  "chain glaive arcane glaive"
+ ],
+ [
+  "w_flarefist",
+  "flarefist fire spiked knuckles"
+ ],
+ [
+  "w_steamrepeater",
+  "steam repeater iron repeater"
+ ],
+ [
+  "w_reactorrifle",
+  "reactor rifle fire rifle"
+ ],
+ [
+  "w_deadeye",
+  "deadeye revolver steel pistol"
+ ],
+ [
+  "w_magdump",
+  "magdump carbine explosive rifle"
+ ],
+ [
+  "w_starcaller",
+  "starcaller arcane rod"
+ ],
+ [
+  "w_snapback",
+  "snapback disc steel disc"
+ ],
+ [
+  "w_duelistdeck",
+  "duelist's deck steel deck of cards"
+ ],
+ [
+  "w_poisonpack",
+  "poisoner's pack poison deck of cards"
+ ],
+ [
+  "w_shivdeck",
+  "shiv deck dark deck of cards"
+ ],
+ [
+  "w_countdowndeck",
+  "countdown deck explosive deck of cards"
+ ],
+ [
+  "w_echodeck",
+  "echo deck arcane deck of cards"
+ ],
+ [
+  "w_ascenddeck",
+  "ascending deck golden deck of cards"
+ ],
+ [
+  "w_sentrykit",
+  "sentry kit iron kit"
+ ],
+ [
+  "w_flamesentry",
+  "flame sentry fire kit"
+ ],
+ [
+  "w_teslapair",
+  "tesla pair lightning coil"
+ ],
+ [
+  "w_frostbeacon",
+  "frost beacon ice beacon"
+ ],
+ [
+  "w_sawtrap",
+  "saw trap steel trap"
+ ],
+ [
+  "w_mendtotem",
+  "mending totem poison totem"
+ ],
+ [
+  "w_gravecaller",
+  "gravecaller staff dark staff"
+ ],
+ [
+  "w_claygolem",
+  "clay golem iron clay"
+ ],
+ [
+  "w_implantern",
+  "imp lantern fire lantern"
+ ],
+ [
+  "w_wolfhorn",
+  "wolf horn fire horn"
+ ],
+ [
+  "w_mimicchest",
+  "mimic chest golden chest"
+ ],
+ [
+  "w_petwhistle",
+  "pet whistle golden whistle"
+ ],
+ [
+  "w_shepherdcrook",
+  "shepherd's crook iron crook"
+ ],
+ [
+  "w_lookingglass",
+  "looking glass arcane mirror"
+ ],
+ [
+  "w_doppelganger",
+  "doppelganger blade shadow sword"
+ ],
+ [
+  "w_batcloud",
+  "bat cloud shadow bats"
+ ],
+ [
+  "w_fireflyjar",
+  "firefly jar fire jar"
+ ],
+ [
+  "w_dragonegg",
+  "dragon egg fire egg"
+ ],
+ [
+  "w_tamerswhip",
+  "tamer's whip fire whip"
+ ],
+ [
+  "w_typewriter",
+  "typewriter arcane typewriter"
+ ],
+ [
+  "w_prophetquill",
+  "prophet's quill arcane quill"
+ ],
+ [
+  "w_bubbleblaster",
+  "bubble blaster ice blaster"
+ ],
+ [
+  "w_soapcannon",
+  "soap cannon ice cannon"
+ ],
+ [
+  "w_flakpistol",
+  "flak pistol explosive pistol"
+ ],
+ [
+  "w_interceptor",
+  "interceptor lightning rifle"
+ ],
+ [
+  "w_inkgun",
+  "ink gun shadow pistol"
+ ],
+ [
+  "w_tricolor",
+  "tricolor splatter fire sprayer"
+ ],
+ [
+  "w_slotpistol",
+  "slot pistol golden pistol"
+ ],
+ [
+  "w_gildedslots",
+  "gilded slots golden pistol"
+ ],
+ [
+  "w_snowroller",
+  "snow roller ice snowball"
+ ],
+ [
+  "w_mossboulder",
+  "moss boulder iron boulder"
+ ],
+ [
+  "w_paydaycannon",
+  "payday cannon golden cannon"
+ ],
+ [
+  "w_flashcamera",
+  "flash camera arcane camera"
+ ],
+ [
+  "w_glacierray",
+  "glacier ray ice ray"
+ ],
+ [
+  "w_junkcannon",
+  "junk cannon explosive cannon"
+ ],
+ [
+  "w_fishcannon",
+  "fish cannon ice cannon"
+ ],
+ [
+  "w_homerunbat",
+  "home run bat fire bat"
+ ],
+ [
+  "w_croquetmallet",
+  "croquet mallet golden mallet"
+ ],
+ [
+  "w_backstabdirk",
+  "backstab dirk shadow dagger"
+ ],
+ [
+  "w_callingcard",
+  "calling card steel pistol"
+ ],
+ [
+  "w_shrinkray",
+  "shrink ray arcane raygun"
+ ],
+ [
+  "w_leafblower",
+  "leaf blower lightning blower"
+ ],
+ [
+  "w_aegisprojector",
+  "aegis projector iron projector"
+ ],
+ [
+  "w_coinflipper",
+  "coin flipper golden pistol"
+ ],
+ [
+  "w_cowmilker",
+  "cow milker iron minigun"
+ ],
+ [
+  "w_hagglerbargain",
+  "haggler's bargain golden pistol"
+ ],
+ [
+  "w_inkquill",
+  "inkwell quill poison staff"
+ ],
+ [
+  "w_acornwand",
+  "acorn wand bee wand"
+ ],
+ [
+  "w_rowanwand",
+  "rowan wand steel wand"
+ ],
+ [
+  "w_thornwand",
+  "briar wand blood wand"
+ ],
+ [
+  "w_swamprod",
+  "swamp rod poison wand"
+ ],
+ [
+  "w_rimewand",
+  "rime wand ice wand"
+ ],
+ [
+  "w_bloodrod",
+  "bloodstone rod blood skull staff"
+ ],
+ [
+  "w_chimestaff",
+  "chime staff arcane staff with an orb"
+ ],
+ [
+  "w_tidescepter",
+  "tide scepter ice staff"
+ ],
+ [
+  "w_stargazer",
+  "stargazer staff arcane staff with an orb"
+ ],
+ [
+  "w_sunorb",
+  "sunstone orb fire staff with an orb"
+ ],
+ [
+  "w_crystalball",
+  "crystal ball golden staff with an orb"
+ ],
+ [
+  "w_voidstaff",
+  "staff of the void shadow skull staff"
+ ],
+ [
+  "w_mooncandle",
+  "moon candle ice staff with an orb"
+ ],
+ [
+  "w_galeharp",
+  "harp of gales lightning rune stone"
+ ],
+ [
+  "w_squeezebox",
+  "squeezebox golden rune stone"
+ ],
+ [
+  "w_duskbell",
+  "bell of dusk dark rune stone"
+ ],
+ [
+  "w_glasslute",
+  "glass lute arcane rune stone"
+ ],
+ [
+  "w_dawnbeads",
+  "beads of dawn iron rune stone"
+ ],
+ [
+  "w_emberscroll",
+  "scroll of embers fire rune stone"
+ ],
+ [
+  "w_sparkscroll",
+  "scroll of sparks lightning rune stone"
+ ],
+ [
+  "w_mothbook",
+  "book of moths poison rune stone"
+ ],
+ [
+  "w_thoughtstone",
+  "thoughtstone arcane staff with an orb"
+ ],
+ [
+  "w_tankardmaul",
+  "tankard maul fire sword"
+ ],
+ [
+  "w_quickcrossbow",
+  "quicksilver crossbow steel repeater"
+ ],
+ [
+  "w_bonecenser",
+  "bone censer bee staff"
+ ],
+ [
+  "w_moldyloaf",
+  "the moldy loaf poison sword"
+ ],
+ [
+  "w_arcifrisbee",
+  "ar\u010di's frisbee arcane chakram ring blade"
+ ],
+ [
+  "w_vidcable",
+  "vid's cable lightning whip"
+ ],
+ [
+  "w_sefefingerguns",
+  "\u0161efe's finger guns shadow pistol"
+ ],
+ [
+  "w_gearwound",
+  "gearwound repeater lightning repeater"
+ ],
+ [
+  "w_duskblade",
+  "duskblade dark sword"
+ ],
+ [
+  "w_prismfan",
+  "prism fan arcane wand"
+ ],
+ [
+  "w_spectrum",
+  "the spectrum arcane wand"
+ ],
+ [
+  "w_flail",
+  "morning star fire flail"
+ ],
+ [
+  "w_flail_rare",
+  "twin chain steel flail"
+ ],
+ [
+  "w_flail_frost",
+  "rimeball ice flail"
+ ],
+ [
+  "w_flail_ember",
+  "ember mace fire flail"
+ ],
+ [
+  "w_flail_storm",
+  "thunderball lightning flail"
+ ],
+ [
+  "w_flail_skull",
+  "the grave bell dark flail"
+ ],
+ [
+  "w_lute",
+  "singing lute arcane staff with an orb"
+ ],
+ [
+  "w_jugglepins",
+  "juggling pins golden chakram ring blade"
+ ],
+ [
+  "w_greataxe",
+  "great axe fire sword"
+ ],
+ [
+  "w_rustyshiv",
+  "rusty shiv steel spear"
+ ],
+ [
+  "w_pendulum",
+  "the pendulum steel chakram ring blade"
+ ],
+ [
+  "w_springlance",
+  "spring lance steel spear"
+ ],
+ [
+  "w_cogthrower",
+  "cog thrower explosive disc"
+ ],
+ [
+  "w_steamcannon",
+  "steam cannon lightning hand cannon"
+ ],
+ [
+  "w_chronoblade",
+  "chrono blade arcane sword"
+ ],
+ [
+  "w_tickbomb",
+  "ticking flask explosive grenade"
+ ],
+ [
+  "w_escapement",
+  "escapement rifle steel rifle"
+ ],
+ [
+  "w_enginecore",
+  "engine core fire staff with an orb"
+ ],
+ [
+  "w_glacierheart",
+  "glacier heart lightning staff with an orb"
+ ],
+ [
+  "w_inkspout",
+  "the inkspout arcane staff with an orb"
+ ],
+ [
+  "w_hushbell",
+  "the hush bell arcane lantern"
+ ],
+ [
+  "w_redpen",
+  "the red pen dark wand"
+ ],
+ [
+  "w_authorspen",
+  "the author's pen arcane staff"
+ ],
+ [
+  "w_archstaff",
+  "archmage's staff arcane staff with an orb"
+ ],
+ [
+  "w_wyrmfang",
+  "wyrmfang ice sword"
+ ],
+ [
+  "w_seraphlance",
+  "seraph's lance arcane rifle"
+ ],
+ [
+  "w_pocketvoid",
+  "pocket void shadow staff with an orb"
+ ],
+ [
+  "w_eventhorizon",
+  "event horizon shadow staff with an orb"
+ ],
+ [
+  "w_emberwyrm",
+  "ember wyrm rod fire staff"
+ ],
+ [
+  "w_rimeserpent",
+  "rime serpent ice staff"
+ ],
+ [
+  "w_cometscepter",
+  "comet scepter fire wand"
+ ],
+ [
+  "w_starfallen",
+  "the starfallen arcane wand"
+ ],
+ [
+  "w_runechalk",
+  "rune chalk arcane wand"
+ ],
+ [
+  "w_sundersigil",
+  "sigil of sundering arcane spell book"
+ ],
+ [
+  "w_dancingsteel",
+  "dancing steel steel sword"
+ ],
+ [
+  "w_thousandedges",
+  "the thousand edges steel sword"
+ ],
+ [
+  "w_stopwatch",
+  "stopwatch wand arcane wand"
+ ],
+ [
+  "w_aeonglass",
+  "hourglass of aeons arcane magic orb"
+ ],
+ [
+  "w_kaleidoscope",
+  "kaleidoscope arcane wand"
+ ],
+ [
+  "w_fractalcrown",
+  "fractal crown arcane magic orb"
+ ],
+ [
+  "w_cloudherd",
+  "cloudherd's crook lightning staff"
+ ],
+ [
+  "w_tempestcore",
+  "tempest core lightning magic orb"
+ ],
+ [
+  "w_pinballwand",
+  "arcane pinball arcane wand"
+ ],
+ [
+  "w_orrery",
+  "starbound orrery arcane magic orb"
+ ],
+ [
+  "w_wildsurge",
+  "wand of wild surge arcane wand"
+ ],
+ [
+  "w_chaoscodex",
+  "the chaos codex arcane spell book"
+ ],
+ [
+  "w_moonwell",
+  "moonwell shadow staff with an orb"
+ ],
+ [
+  "w_hydrarod",
+  "hydra's rod fire staff"
+ ],
+ [
+  "w_skyfall",
+  "skyfall staff fire staff"
+ ],
+ [
+  "w_stormsigil",
+  "storm sigil lightning wand"
+ ],
+ [
+  "w_timewarp",
+  "timewarp scepter ice wand"
+ ],
+ [
+  "w_rainbowstaff",
+  "rainbow staff arcane magic orb"
+ ],
+ [
+  "w_skybreaker",
+  "skybreaker orb lightning magic orb"
+ ],
+ [
+  "w_luckystar",
+  "lucky star golden magic orb"
+ ],
+ [
+  "w_stormfire",
+  "stormfire rod fire staff"
+ ],
+ [
+  "w_thunderfang",
+  "thunderfang lightning sword"
+ ],
+ [
+  "w_frostbrand",
+  "frostbrand ice sword"
+ ],
+ [
+  "w_voidscythe",
+  "void scythe shadow sword"
+ ],
+ [
+  "w_emberpike",
+  "ember pike fire spear"
+ ],
+ [
+  "w_quakehammer",
+  "quake hammer fire hammer"
+ ],
+ [
+  "w_serpentlash",
+  "serpent lash poison whip"
+ ],
+ [
+  "w_twinfangs",
+  "twin fangs steel dagger"
+ ],
+ [
+  "w_giantsbane",
+  "giantsbane fire club"
+ ],
+ [
+  "w_steamblade",
+  "steamforged blade fire sword"
+ ],
+ [
+  "w_worldender",
+  "world-ender explosive launcher"
+ ],
+ [
+  "w_dawnbow",
+  "bow of the dawn god arcane bow"
+ ],
+ [
+  "w_eternityedge",
+  "eternity's edge arcane sword"
+ ],
+ [
+  "w_abyssstaff",
+  "staff of the abyss shadow staff with an orb"
+ ],
+ [
+  "w_dragonlance",
+  "dragonlord's lance fire spear"
+ ],
+ [
+  "w_thunderking",
+  "scepter of the thunder king lightning wand"
+ ],
+ [
+  "w_starshell",
+  "starshell mortar fire mortar"
+ ],
+ [
+  "w_frostfoam",
+  "frostfoam gun ice blaster"
+ ],
+ [
+  "w_runedeck",
+  "deck of runes arcane deck of cards"
+ ],
+ [
+  "w_spectralrepeater",
+  "spectral repeater steel minigun"
+ ],
+ [
+  "w_viperbow",
+  "viper's bow poison bow"
+ ],
+ [
+  "w_voidhammer",
+  "hammer of the void shadow hammer"
+ ],
+ [
+  "w_landshark",
+  "land shark launcher fire launcher"
+ ],
+ [
+  "w_twisterfan",
+  "twister fan lightning staff with an orb"
+ ],
+ [
+  "w_discostaff",
+  "disco staff arcane magic orb"
+ ],
+ [
+  "w_steelyoyo",
+  "steel yo-yo steel spiked knuckles"
+ ],
+ [
+  "w_portalgun",
+  "portal pistol arcane pistol"
+ ],
+ [
+  "w_sawlauncher",
+  "saw launcher steel chakram ring blade"
+ ],
+ [
+  "w_stitcheddoll",
+  "stitched doll dark rune stone"
+ ],
+ [
+  "w_skyanvil",
+  "sky anvil explosive hammer"
+ ],
+ [
+  "w_megalodon",
+  "megalodon fire cannon"
+ ],
+ [
+  "w_sharknado",
+  "sharknado lightning staff"
+ ],
+ [
+  "w_discoinferno",
+  "disco inferno arcane magic orb"
+ ],
+ [
+  "w_twinyoyos",
+  "twin yo-yos steel spiked knuckles"
+ ],
+ [
+  "w_gatecannon",
+  "gateway cannon arcane hand cannon"
+ ],
+ [
+  "w_hungrysaws",
+  "hungry saws steel chakram ring blade"
+ ],
+ [
+  "w_doomdoll",
+  "doom doll dark skull staff"
+ ],
+ [
+  "w_grandpiano",
+  "grand piano explosive spell book"
+ ],
+ [
+  "w_fishslapper",
+  "the fish slapper fire sword"
+ ],
+ [
+  "w_rubberchicken",
+  "rubber chicken golden axe"
+ ],
+ [
+  "w_confetticannon",
+  "confetti cannon golden blunderbuss"
+ ],
+ [
+  "w_pinatastick",
+  "pinata stick golden staff"
+ ],
+ [
+  "w_stormjar",
+  "bottled twister lightning potion flask"
+ ],
+ [
+  "w_smithsrevenge",
+  "blacksmith's revenge explosive hammer"
+ ],
+ [
+  "w_partyhorn",
+  "party horn arcane sprayer"
+ ],
+ [
+  "w_cursedcrossbow",
+  "cursed crossbow dark crossbow"
+ ],
+ [
+  "w_portalbow",
+  "bow of elsewhere arcane bow"
+ ],
+ [
+  "w_buzzblade",
+  "buzz blade steel greatsword"
+ ],
+ [
+  "w_sunlance",
+  "sunlance arcane spear"
+ ],
+ [
+  "w_halodisc",
+  "halo disc arcane chakram ring blade"
+ ],
+ [
+  "w_morningray",
+  "morning ray arcane staff"
+ ],
+ [
+  "w_solarflare",
+  "solar flare fire blunderbuss"
+ ],
+ [
+  "w_graverot",
+  "graverot scythe dark scythe"
+ ],
+ [
+  "w_deathknell",
+  "death knell poison lantern"
+ ],
+ [
+  "w_lichfinger",
+  "lich finger dark wand"
+ ],
+ [
+  "w_bonereaper",
+  "bone reaper dark sickle"
+ ],
+ [
+  "w_nightshiv",
+  "night shiv shadow dagger"
+ ],
+ [
+  "w_shaderepeater",
+  "shade repeater shadow crossbow"
+ ],
+ [
+  "w_umbralmoon",
+  "moon of shadows shadow magic orb"
+ ],
+ [
+  "w_nightfall",
+  "nightfall lash shadow whip"
+ ],
+ [
+  "w_plasmarifle",
+  "plasma rifle lightning rifle"
+ ],
+ [
+  "w_arccaster",
+  "arc caster lightning wand"
+ ],
+ [
+  "w_fusioncore",
+  "fusion core lightning magic orb"
+ ],
+ [
+  "w_ionblade",
+  "ion blade lightning katana"
+ ],
+ [
+  "w_wardrum",
+  "war drum fire magic orb"
+ ],
+ [
+  "w_sonichorn",
+  "sonic horn arcane sprayer"
+ ],
+ [
+  "w_singingspear",
+  "singing spear steel spear"
+ ],
+ [
+  "w_bansheebell",
+  "banshee bell dark lantern"
+ ]
+]
