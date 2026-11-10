@@ -1,39 +1,59 @@
 class_name JapanLook
 extends RefCounted
-## V2 (his reference video, 10 Nov: "the whole game maps and arenas and stages needs to capture
-## reference japanese vibe"): a floor drawn as a Japanese garden instead of gridded tiles. The
-## first one is the koi pond of his video, on the Mirewood Grotto: soft water with no grid, lily
-## pads and lotus, koi with ripples, shafts of light, a tiled roof for the top wall and garden
-## stones for the banks. Drawing only, with its own random numbers (the room's seed for what is
-## fixed, its own generator for what moves): no rule changes, every replay stays identical.
-## The pictures (jp_*.png) are drawn by tools/art/japan_look.py.
+## V2, THE KOI GARDEN (his reference video, 10 Nov; his word after the first sample: "what about
+## the building in the middle and all the props ... make environments live and nice"): a place
+## drawn as a Japanese koi pond instead of gridded tiles. Soft water with no grid, drifts of
+## leaves, lily pads and lotus, a tiled roof for the top wall and garden stones for the banks;
+## the gate of his video standing in the water (you walk under its roof, which fades while
+## someone is under it), a red bridge, garden props where pillars stand; and life: koi that flee
+## from the hero, frogs that jump off their pads, dragonflies, petals, rings where the hero wades.
+## Drawing only, with its own random numbers (the room's seed for what is fixed, its own
+## generator for what moves): no rule changes, every replay stays identical.
+## Pictures: jp_* by tools/art/japan_look.py; koi_* are SpriteCook's (resprite/tools/koi_cut.py).
+## Until the garden is a floor of its own (the next step), it is shown with the test option --koi
+## on whatever floor is played.
 
-## Per floor index: the look's colours, and what replaces BiomeDeco's props and air.
-const STYLES := {
-	1: { "base": "#33648f", "light": "#7ab2d6", "dark": "#1b3a68", "edge": "#0f2148", "deep": "#1a3566", "rim": "#6fa6cc",
-		"props": ["prop_stonelantern", "prop_mossrock", "prop_mossrock", "prop_stump"], "air": "glints" },
-}
-const KOI := [["#eee8f0", "#e8873a"], ["#e8873a", "#eee8f0"], ["#eee8f0", "#eee8f0"], ["#e39a9a", "#eee8f0"], ["#eee8f0", "#c8443c"], ["#f2c94c", "#e8873a"]]
+const STYLE := { "base": "#33648f", "light": "#7ab2d6", "dark": "#1b3a68", "edge": "#0f2148", "deep": "#1a3566", "rim": "#6fa6cc",
+	"props": ["koi_lantern", "koi_bamboo", "koi_stones", "koi_postlamp", "koi_bonsai", "koi_basin", "koi_bamboo", "koi_shrine", "koi_torii"], "air": "glints" }
+const KOI := [["#f4eef2", "#f08a2c"], ["#f08a2c", "#f4eef2"], ["#f4eef2", "#f4eef2"], ["#ef9a9a", "#f4eef2"], ["#f4eef2", "#d8443c"], ["#f6cf52", "#f08a2c"], ["#2c2a38", "#f08a2c"]]
+const GATE := Vector2(190, 103)   # the gate's top left; its roof is 67 x 39, its posts stand below
 
 static var live := false          # the room on screen has this look
-static var _koi: Array = []       # { x, y, a, sp, ph, col, lead, ox, oy }
-static var _rings: Array = []     # { x, y, t, life }
+static var _koi: Array = []       # { x, y, a, sp, ph, col, lead, ox, oy, fear }
+static var _rings: Array = []     # { x, y, t, life, r }
+static var _frogs: Array = []     # { x, y, t, st (0 sits, 1 jumps, 2 gone), dx, dy }
+static var _flies: Array = []     # { x, y, tx, ty, wait, col }
+static var _petals: Array = []    # { x, y, ph, sp }
+static var _pads: Array = []      # the big pads' middles (frogs sit on them)
+static var _gate := false         # this room has the gate
+static var _roof_a := 1.0
 static var _next_ring := 0.0
+static var _step := Vector2.ZERO  # where the hero's last ring was
 static var _room: WeakRef = null
 static var _rng := RandomNumberGenerator.new()
 
 static func on(room: Room) -> bool:
-	return BiomeDeco.on(room) and STYLES.has(G.floor_index)
+	return BiomeDeco.on(room) and DebugArgs.has("koi")
 
 static func style() -> Dictionary:
-	return STYLES[G.floor_index]
+	return STYLE
 
 ## BiomeDeco's floor entry with this look's props and air.
 static func biome(b: Dictionary) -> Dictionary:
 	var out := b.duplicate()
-	out["props"] = style()["props"]
-	out["air"] = style()["air"]
+	out["props"] = STYLE["props"]
+	out["air"] = STYLE["air"]
 	return out
+
+## The gate stands in a fight room whose middle is open water (by the room's seed).
+static func has_gate(room: Room) -> bool:
+	if room.type == "start" or room.type == "boss":
+		return false
+	for r in range(6, 11):
+		for c in range(11, 17):
+			if room.tile(c, r) != World.T_FLOOR:
+				return false
+	return SeedRng.new(room.seed_value ^ 0x3243f6a8).next_f() < 0.7
 
 static func _col(hex: String, a: float = 1.0) -> Color:
 	var c := TB.c(hex)
@@ -49,7 +69,7 @@ static func _wrapped(ci: CanvasItem, name: String, ox: int, oy: int, tint: Color
 
 # ---------- the room background (drawn once per room) ----------
 static func paint_ground(ci: CanvasItem, room: Room) -> void:
-	var s := style()
+	var s := STYLE
 	var ts := TB.TS
 	var rng := SeedRng.new(room.seed_value ^ 0x6a09e667)
 	ci.draw_rect(Rect2(0, 0, TB.SW, TB.SH), _col(s["base"]))
@@ -74,33 +94,55 @@ static func paint_ground(ci: CanvasItem, room: Room) -> void:
 	for i in 40:
 		var x := rng.int_range(ts + 2, TB.SW - ts - 6)
 		var y := rng.int_range(TB.IY0 * ts + 4, 17 * ts - 3)
-		ci.draw_rect(Rect2(x, y, rng.int_range(2, 4), 1), _col("#9cc8e8", 0.22))
-	# Drifts of small leaves.
+		ci.draw_rect(Rect2(x, y, rng.int_range(2, 4), 0.5), _col("#b4d8f0", 0.3))
+	# Drifts of small leaves (half a pixel at a time: the picture's own pixels).
 	var start := room.type == "start"
-	for i in 12 + rng.int_range(0, 4):
+	for i in 14 + rng.int_range(0, 5):
 		var cx := rng.int_range(2 * ts, TB.SW - 2 * ts)
 		var cy := rng.int_range(TB.IY0 * ts + 10, 17 * ts - 10)
-		var rx := rng.int_range(10, 26)
-		var ry := rng.int_range(5, 11)
-		for j in rx * ry / 5:
+		var rx := rng.int_range(10, 28)
+		var ry := rng.int_range(5, 12)
+		for j in rx * ry / 3:
 			var a := rng.next_f() * TAU
 			var d := sqrt(rng.next_f())
-			var x := cx + int(cos(a) * d * rx)
-			var y := cy + int(sin(a) * d * ry)
-			if room.tile(x / ts, y / ts) != World.T_FLOOR or room.tile((x + 2) / ts, (y + 2) / ts) != World.T_FLOOR or (start and y >= 6 * ts and y < 10 * ts):
+			var x := cx + roundf(cos(a) * d * rx * 2.0) / 2.0
+			var y := cy + roundf(sin(a) * d * ry * 2.0) / 2.0
+			if room.tile(int(x) / ts, int(y) / ts) != World.T_FLOOR or room.tile(int(x + 2) / ts, int(y + 2) / ts) != World.T_FLOOR or (start and y >= 6 * ts and y < 10 * ts):
 				continue
-			ci.draw_rect(Rect2(x, y + 1, 3, 2), _col("#12284a", 0.55))
-			ci.draw_rect(Rect2(x, y, 3, 2), _col(["#5ea646", "#7cc04e", "#4c9440"][rng.int_range(0, 2)]))
-			ci.draw_rect(Rect2(x + rng.int_range(0, 1), y, 1, 1), _col("#a8dc66"))
+			var w := 1.5 + 0.5 * rng.int_range(0, 2)
+			ci.draw_rect(Rect2(x + 0.5, y + 1.0, w, 1.0), _col("#10264a", 0.5))
+			ci.draw_rect(Rect2(x, y, w, 1.5), _col(["#58a644", "#74c04c", "#479240", "#8fd058"][rng.int_range(0, 3)]))
+			ci.draw_rect(Rect2(x + 0.5, y, 1.0, 0.5), _col("#b4e670"))
+			ci.draw_rect(Rect2(x, y + 1.0, w, 0.5), _col("#2c6a34", 0.7))
 	# Lily pads and lotus.
+	_pads.clear()
 	var pads := Img.t("jp_pads")
-	for i in 16 + rng.int_range(0, 6):
+	for i in 20 + rng.int_range(0, 8):
 		var x := rng.int_range(ts + 2, TB.SW - ts - 14)
 		var y := rng.int_range(TB.IY0 * ts + 6, 17 * ts - 14)
 		var k: int = [0, 1, 2, 3, 4, 5, 5, 0, 1][rng.int_range(0, 8)]
 		if room.tile((x + 6) / ts, (y + 6) / ts) != World.T_FLOOR or (start and y >= 6 * ts - 8 and y < 10 * ts):
 			continue
 		ci.draw_texture_rect_region(pads, Rect2(x, y, 12, 12), Rect2(k * 12, 0, 12, 12))
+		if k <= 1:
+			_pads.append(Vector2(x + 6, y + 5))
+	# The red bridge, in some rooms: a thing to walk over.
+	if not start and rng.next_f() < 0.5:
+		var bx: int = [3, 20][rng.int_range(0, 1)] * ts + rng.int_range(0, 24)
+		var by: int = rng.int_range(5, 11) * ts
+		var open := true
+		for r in range(by / ts, by / ts + 3):
+			for c in range(bx / ts, bx / ts + 3):
+				open = open and room.tile(c, r) == World.T_FLOOR
+		if open:
+			ci.draw_rect(Rect2(bx + 2, by + 20, 26, 5), _col("#0a1838", 0.4))
+			Gfx.at(ci, "koi_bridge", bx, by)
+	# The gate of his video: its posts and doors here, its roof over everything (paint_roof).
+	_gate = has_gate(room)
+	if _gate:
+		for i in 6:
+			ci.draw_rect(Rect2(GATE.x + 2 - i, GATE.y + 62 + i * 0.5, 63 + 2 * i, 4), _col("#0a1838", 0.12))
+		Gfx.at(ci, "koi_gate_base", GATE.x + 4.5, GATE.y + 39)
 	# The banks (garden stones) and the roof along the top.
 	var bank := Img.t("jp_bank")
 	for c in TB.COLS:
@@ -113,6 +155,8 @@ static func paint_ground(ci: CanvasItem, room: Room) -> void:
 	var roof := Img.t("jp_roof")
 	for i in 7:
 		ci.draw_texture(roof, Vector2(i * 64, 0))
+	for i in 20:     # darker towards its top, under the HUD
+		ci.draw_rect(Rect2(0, i, TB.SW, 1), Color(0.03, 0.01, 0.05, 0.45 * (1.0 - i / 20.0)))
 	ci.draw_rect(Rect2(0, 2 * ts, TB.SW, 3), _col("#0a1430", 0.55))   # the eave's shadow on the water
 	ci.draw_rect(Rect2(0, 2 * ts + 3, TB.SW, 3), _col("#0a1430", 0.25))
 
@@ -121,26 +165,50 @@ static func _reset(room: Room) -> void:
 	_room = weakref(room)
 	_koi.clear()
 	_rings.clear()
-	for sch in 3:
+	_frogs.clear()
+	_flies.clear()
+	_petals.clear()
+	_roof_a = 1.0
+	for sch in 4:
 		var lx := _rng.randf_range(60, TB.SW - 60)
 		var ly := _rng.randf_range(70, TB.SH - 50)
 		var a := _rng.randf() * TAU
 		var lead := _koi.size()
-		for i in _rng.randi_range(2, 4):
+		for i in _rng.randi_range(2, 5):
 			_koi.append({ "x": lx - i * 7.0, "y": ly + i * 3.0, "a": a, "sp": _rng.randf_range(11, 17), "ph": _rng.randf() * TAU,
 				"col": KOI[_rng.randi_range(0, KOI.size() - 1)], "lead": -1 if i == 0 else lead,
-				"ox": -i * _rng.randf_range(5, 8), "oy": _rng.randf_range(-7, 7) })
+				"ox": -i * _rng.randf_range(5, 8), "oy": _rng.randf_range(-7, 7), "fear": 0.0 })
+	var spots := _pads.duplicate()
+	for i in mini(3, spots.size()):
+		var p: Vector2 = spots.pop_at(_rng.randi_range(0, spots.size() - 1))
+		_frogs.append({ "x": p.x, "y": p.y, "hx": p.x, "hy": p.y, "t": 0.0, "st": 0, "dx": 0.0, "dy": 0.0 })
+	for i in 3:
+		var x := _rng.randf_range(40, TB.SW - 40)
+		var y := _rng.randf_range(60, TB.SH - 40)
+		_flies.append({ "x": x, "y": y, "tx": x, "ty": y, "wait": _rng.randf_range(0.3, 1.5), "col": ["#6fd3e0", "#e8544c", "#f2c94c"][i] })
+	for i in 12:
+		_petals.append({ "x": _rng.randf_range(0, TB.SW), "y": _rng.randf_range(30, TB.SH), "ph": _rng.randf() * TAU, "sp": _rng.randf_range(9, 16) })
 
-## Moves the koi and the rings (once per logic tick).
+static func _ring(x: float, y: float, life: float, r: float) -> void:
+	if _rings.size() < 14:
+		_rings.append({ "x": x, "y": y, "t": 0.0, "life": life, "r": r })
+
+## Moves everything that lives here (once per logic tick).
 static func tick(dt: float) -> void:
 	var room := G.room
 	if _room == null or _room.get_ref() != room:
 		_reset(room)
 	var t := G.time
+	var p := G.player
+	var hero := Vector2(p.x, p.y) if p != null else Vector2(-999, -999)
 	for k in _koi:
 		var want: float = k["a"]
 		var sp: float = k["sp"]
-		if k["lead"] < 0:
+		var away := Vector2(k["x"], k["y"]) - hero
+		if away.length() < 30.0:
+			k["fear"] = 1.0     # the hero wades in: they dart away
+			want = away.angle()
+		elif k["lead"] < 0:
 			want += sin(t * 0.5 + k["ph"]) * 0.9 * dt
 			if k["x"] < 44 or k["x"] > TB.SW - 44 or k["y"] < 60 or k["y"] > TB.SH - 40:
 				want = Vector2(TB.SW * 0.5 - k["x"], TB.SH * 0.5 + 10 - k["y"]).angle()
@@ -151,14 +219,54 @@ static func tick(dt: float) -> void:
 			if to.length() > 3.0:
 				want = to.angle()
 			sp *= clampf(to.length() / 10.0, 0.5, 1.6)
-		k["a"] = rotate_toward(k["a"], want, 1.4 * dt)
-		k["x"] += cos(k["a"]) * sp * dt
-		k["y"] += sin(k["a"]) * sp * dt
+		var fear: float = k["fear"]
+		k["fear"] = maxf(0.0, fear - dt * 1.2)
+		k["a"] = rotate_toward(k["a"], want, (1.4 + fear * 9.0) * dt)
+		sp *= 1.0 + fear * 3.5
+		k["x"] = clampf(k["x"] + cos(k["a"]) * sp * dt, 20.0, TB.SW - 20.0)
+		k["y"] = clampf(k["y"] + sin(k["a"]) * sp * dt, 38.0, TB.SH - 22.0)
+	for f in _frogs:
+		f["t"] += dt
+		match f["st"]:
+			0:
+				if Vector2(f["x"], f["y"]).distance_to(hero) < 26.0:
+					var d := (Vector2(f["x"], f["y"]) - hero).normalized()
+					f["st"] = 1
+					f["t"] = 0.0
+					f["dx"] = d.x * 22.0
+					f["dy"] = d.y * 22.0
+			1:
+				if f["t"] >= 0.35:     # into the water
+					f["st"] = 2
+					f["t"] = 0.0
+					_ring(f["hx"] + f["dx"], f["hy"] + f["dy"], 1.2, 7.0)
+			2:
+				if f["t"] > 7.0 and Vector2(f["hx"], f["hy"]).distance_to(hero) > 60.0:
+					f["st"] = 0     # back on its pad
+	for d in _flies:
+		d["wait"] -= dt
+		if d["wait"] <= 0.0:
+			d["wait"] = _rng.randf_range(0.5, 2.2)
+			d["tx"] = clampf(d["x"] + _rng.randf_range(-70, 70), 30.0, TB.SW - 30.0)
+			d["ty"] = clampf(d["y"] + _rng.randf_range(-45, 45), 50.0, TB.SH - 30.0)
+		d["x"] = lerpf(d["x"], d["tx"], minf(1.0, dt * 6.0))
+		d["y"] = lerpf(d["y"], d["ty"], minf(1.0, dt * 6.0))
+	for q in _petals:
+		q["y"] += q["sp"] * dt
+		q["x"] += (5.0 + sin(t * 1.3 + q["ph"]) * 9.0) * dt
+		if q["y"] > TB.SH - 18 or q["x"] > TB.SW - 14:
+			if q["y"] <= TB.SH - 18 or _rng.randf() < 0.3:
+				_ring(q["x"], q["y"], 0.9, 3.0)
+			q["x"] = _rng.randf_range(-30, TB.SW - 40)
+			q["y"] = 34.0
 	for r in _rings:
 		r["t"] += dt
 	_rings = _rings.filter(func(r): return r["t"] < r["life"])
+	if p != null and hero.distance_to(_step) > 11.0:     # the hero wades: a ring at their feet
+		_step = hero
+		_ring(hero.x, hero.y + 5.0, 0.8, 5.0)
 	_next_ring -= dt
-	if _next_ring <= 0.0 and _rings.size() < 6:
+	if _next_ring <= 0.0:
 		_next_ring = _rng.randf_range(0.4, 1.1)
 		var x := _rng.randf_range(24, TB.SW - 24)
 		var y := _rng.randf_range(48, TB.SH - 28)
@@ -166,35 +274,98 @@ static func tick(dt: float) -> void:
 			var k: Dictionary = _koi[_rng.randi_range(0, _koi.size() - 1)]
 			x = k["x"]
 			y = k["y"]
-		_rings.append({ "x": x, "y": y, "t": 0.0, "life": _rng.randf_range(1.6, 2.6) })
+		_ring(x, y, _rng.randf_range(1.6, 2.6), 8.0)
+	# The gate's roof clears while the hero or a foe is under it.
+	if _gate:
+		var under := Rect2(GATE.x, GATE.y - 4, 67, 50)
+		var clear := under.has_point(hero)
+		if not clear:
+			for e: Enemy in G.enemies:
+				if under.has_point(Vector2(e.x, e.y)):
+					clear = true
+					break
+		_roof_a = move_toward(_roof_a, 0.28 if clear else 1.0, dt * 4.0)
 
-## Koi and rings, over the floor and under everything that stands on it.
+static func _half(v: Vector2) -> Vector2:
+	return (v * 2.0).round() / 2.0
+
+## Koi, frogs and rings, over the floor and under everything that stands on it.
 static func paint_lower(ci: CanvasItem, t: float) -> void:
 	var room := G.room
 	for r in _rings:
 		var k: float = r["t"] / r["life"]
-		var c := Vector2(roundf(r["x"]), roundf(r["y"]))
-		ci.draw_arc(c, 2.0 + k * 8.0, 0, TAU, 14, _col("#cfe6f5", 0.45 * (1.0 - k)), 1.0)
+		var c := _half(Vector2(r["x"], r["y"]))
+		ci.draw_arc(c, 2.0 + k * r["r"], 0, TAU, 20, _col("#d6ecf8", 0.5 * (1.0 - k)), 0.5)
 		if k > 0.3:
-			ci.draw_arc(c, 1.0 + (k - 0.3) * 6.0, 0, TAU, 10, _col("#cfe6f5", 0.3 * (1.0 - k)), 1.0)
+			ci.draw_arc(c, 1.0 + (k - 0.3) * r["r"] * 0.75, 0, TAU, 14, _col("#d6ecf8", 0.32 * (1.0 - k)), 0.5)
 	for k in _koi:
 		var tile := room.tile(int(k["x"]) / TB.TS, int(k["y"]) / TB.TS)
 		if tile != World.T_FLOOR and tile != World.T_VOID:
 			continue   # under a rock or a lantern
 		var p := Vector2(k["x"], k["y"])
 		var d := Vector2.from_angle(k["a"])
-		var side := d.orthogonal() * sin(t * 7.0 + k["ph"])
+		var n := d.orthogonal()
+		var wig: float = 7.0 + k["fear"] * 10.0
 		for i in 2:
-			var w := p - d * (9.0 + i * 5.0)
-			ci.draw_rect(Rect2(roundf(w.x), roundf(w.y), 2, 1), _col("#9cc8e8", 0.22 - i * 0.08))
+			var w := _half(p - d * (9.0 + i * 5.0))
+			ci.draw_rect(Rect2(w.x, w.y, 2, 0.5), _col("#b4d8f0", 0.25 - i * 0.09))
 		var col: Array = k["col"]
-		var tail := p - d * 5.0 + side * 1.5
-		ci.draw_rect(Rect2(roundf(tail.x), roundf(tail.y), 2, 2), _col(col[0], 0.6))
-		var mid := p - d * 3.0 + side * 0.6
-		ci.draw_rect(Rect2(roundf(mid.x), roundf(mid.y), 2, 2), _col(col[1], 0.9))
-		var body := p - d * 1.5
-		ci.draw_rect(Rect2(roundf(body.x) - 0.0, roundf(body.y), 3, 3), _col(col[0], 0.95))
-		ci.draw_rect(Rect2(roundf(p.x), roundf(p.y), 2, 2), _col(col[0], 0.95))
+		# shade first, then the body from the tail forward: fan, stalk, back (the patch), shoulders, head
+		var parts := [[6.5, 2.0, 0, 0.75], [5.0, 1.0, 0, 0.9], [3.5, 2.0, 1, 0.95], [2.0, 2.5, 0, 1.0], [0.5, 2.0, 1, 1.0], [-0.5, 1.5, 0, 1.0]]
+		for pass_i in 2:
+			for q in parts:
+				var sway: float = sin(t * wig + k["ph"] - q[0] * 0.5) * q[0] * 0.22
+				var c := _half(p - d * q[0] + n * sway)
+				var w: float = q[1]
+				if pass_i == 0:
+					ci.draw_rect(Rect2(c.x - w * 0.5 + 0.5, c.y - w * 0.5 + 1.5, w, w), _col("#0a1838", 0.3))
+				else:
+					ci.draw_rect(Rect2(c.x - w * 0.5, c.y - w * 0.5, w, w), _col(col[q[2]], q[3]))
+		var fin := _half(p - d * 2.0)
+		ci.draw_rect(Rect2(fin.x + n.x * 1.5 - 0.5, fin.y + n.y * 1.5 - 0.5, 1, 1), _col(col[0], 0.7))
+		ci.draw_rect(Rect2(fin.x - n.x * 1.5 - 0.5, fin.y - n.y * 1.5 - 0.5, 1, 1), _col(col[0], 0.7))
+	for f in _frogs:
+		if f["st"] == 2:
+			continue
+		var x: float = f["hx"]
+		var y: float = f["hy"]
+		if f["st"] == 1:
+			var k: float = f["t"] / 0.35
+			x += f["dx"] * k
+			y += f["dy"] * k - sin(k * PI) * 9.0
+		var breathe := 0.5 if f["st"] == 0 and sin(t * 2.0 + x) > 0.6 else 0.0
+		ci.draw_rect(Rect2(x - 2, y - 1.5 - breathe, 4, 2.5 + breathe), _col("#3c8a3a"))
+		ci.draw_rect(Rect2(x - 1.5, y - 2 - breathe, 3, 1), _col("#6cc04c"))
+		ci.draw_rect(Rect2(x - 2.5, y + 0.5, 1, 1), _col("#2c6a34"))
+		ci.draw_rect(Rect2(x + 1.5, y + 0.5, 1, 1), _col("#2c6a34"))
+		ci.draw_rect(Rect2(x - 1.5, y - 2.5 - breathe, 1, 1), _col("#f6e27a"))
+		ci.draw_rect(Rect2(x + 0.5, y - 2.5 - breathe, 1, 1), _col("#f6e27a"))
+		ci.draw_rect(Rect2(x - 1, y - 2.5 - breathe, 0.5, 0.5), _col("#1a1420"))
+		ci.draw_rect(Rect2(x + 1, y - 2.5 - breathe, 0.5, 0.5), _col("#1a1420"))
+
+## Dragonflies and petals, over everything.
+static func paint_air(ci: CanvasItem, t: float) -> void:
+	for q in _petals:
+		var x := roundf(q["x"] * 2.0) / 2.0
+		var y := roundf(q["y"] * 2.0) / 2.0
+		var turn := sin(t * 3.0 + q["ph"]) > 0.0
+		ci.draw_rect(Rect2(x, y, 1.5 if turn else 1.0, 1.0 if turn else 1.5), _col("#f7b8c4", 0.85))
+		ci.draw_rect(Rect2(x, y, 0.5, 0.5), _col("#ffe4ea", 0.9))
+	for d in _flies:
+		var x := roundf(d["x"] * 2.0) / 2.0
+		var y := roundf(d["y"] * 2.0) / 2.0 + sin(t * 5.0 + x) * 0.5
+		var right: bool = d["tx"] >= d["x"]
+		ci.draw_rect(Rect2(x - 2 + (0.5 if right else 2.5), y + 5.5, 2, 0.5), _col("#0a1838", 0.25))   # its shade on the water
+		var wing := 0.75 if fmod(t * 22.0, 2.0) < 1.0 else 0.35
+		ci.draw_rect(Rect2(x - 0.5, y - 1.5, 1.5, 1.0), _col("#ffffff", wing))
+		ci.draw_rect(Rect2(x - 0.5, y + 0.5, 1.5, 1.0), _col("#ffffff", wing * 0.8))
+		ci.draw_rect(Rect2(x - 2, y, 4, 0.5), _col(d["col"]))
+		ci.draw_rect(Rect2(x + (1.5 if right else -2.0), y - 0.5, 1, 1), _col("#1a1420"))
+
+## The gate's roof, over the hero and the foes (foe shots stay above it).
+static func paint_roof(ci: CanvasItem) -> void:
+	if _gate:
+		ci.draw_texture(Img.t("koi_gate_roof"), GATE, Color(1, 1, 1, _roof_a))
 
 ## The shafts of light (the additive layer).
 static func paint_glow(ci: CanvasItem, t: float) -> void:

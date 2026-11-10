@@ -683,3 +683,24 @@ it becomes a **new floor 1**, and today's floors each move down one. Plan, a ste
 4. **Hidden secrets** in the pond's rooms.
 5. Full suite, IPA.
 Open: what the guardian is, and the floor's name (asked him).
+
+### Step 1 done (10 Nov): THE KOI GARDEN as a place of its own (his OK: the name, and a giant koi
+that becomes a water dragon as its guardian)
+
+- **Shown with `--koi`** (any floor's own rooms drawn as the garden) until step 2 makes it floor 1.
+  The Grotto has its own look back. Picture: `resprite/koi-garden-step1.png`.
+- **SpriteCook, GPT-Image-2 low at 2K, 2 credits a picture** (4 used, 3 left): the gate of his
+  video and a 3 x 3 sheet of props, from words only. As they came: `resprite/spritecook/koi/`;
+  `resprite/tools/koi_cut.py` makes `graphics_hd/koi_*.png` (the gate split into roof and posts).
+- **`japan_look.gd`:** everything at double detail (`graphics_hd/jp_*`, half-pixel drawing).
+  - The gate stands in the middle of about 7 fight rooms in 10 whose middle is open water
+    (`has_gate`). Its posts are in the room's background, its roof is drawn over the hero and the
+    foes (`paint_roof`, end of `_paint_top`; foe shots stay above it) and fades to 28% while the
+    hero or a foe is under it. It does not block: no rule changed.
+  - Props where pillars stand: stone lantern and post lamp (both lit), bamboo, stacked stones,
+    bonsai rock, water basin, wayside shrine, torii. A red bridge lies in half the rooms.
+  - Life: four schools of koi that dart away from the hero, frogs on lily pads that jump into
+    the water when he comes near and climb back later, three dragonflies, falling petals, rings
+    where the hero wades, where petals land and where a frog dives.
+- **Checked:** screenshots of four seeded fight rooms; the atlas test. Not checked: the iPad's
+  frame rate (per frame: about 25 koi and frogs drawn as small rectangles, at most 14 rings).

@@ -1,0 +1,8 @@
+gate.png   asset fe59319e-f056-41f1-8f77-e2be7158674f, GPT-Image-2 low at 2K, 2 credits, 10 Nov
+  "A single small Japanese garden gate pavilion for a top-down pixel art roguelite ... Two-tier curved roof of
+  purple-grey clay tiles with upturned eaves ... two square ochre-gold timber pillars with dark brown lattice
+  door panels, standing on pale stone bases, with an open walk-through archway ..."
+props.png  asset 790411ec-ee57-4e1f-a544-932ffa77d0bf, GPT-Image-2 low at 2K, 2 credits, smart_crop off
+  a 3 x 3 sheet: stone lantern, bamboo, wayside shrine / red bridge, mossy boulder with a bonsai, torii /
+  water basin with a bamboo spout, paper lantern on a post, three balanced stones.
+No reference picture was uploaded: the words describe the mood of his video. 3 credits left.

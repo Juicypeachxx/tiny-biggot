@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ko6xpdvo2clf"
-path="res://.godot/imported/jp_shafts.png-c02f1a476805d9bdba0da2d29dc162ff.ctex"
+uid="uid://dqsm0d7nfmq02"
+path="res://.godot/imported/jp_vignette.png-3324f553d4053d9ecd9ff75c9752813e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/graphics/jp_shafts.png"
-dest_files=["res://.godot/imported/jp_shafts.png-c02f1a476805d9bdba0da2d29dc162ff.ctex"]
+source_file="res://assets/graphics_hd/jp_vignette.png"
+dest_files=["res://.godot/imported/jp_vignette.png-3324f553d4053d9ecd9ff75c9752813e.ctex"]
 
 [params]
 

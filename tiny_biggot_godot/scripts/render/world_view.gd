@@ -154,6 +154,8 @@ func _paint_parts(ci: CanvasItem) -> void:
 	Weather.paint_air(ci, G.time)   # 22.1 rain, snow, ash
 	if Vfx.enabled and BiomeDeco.on(G.room):
 		BiomeDeco.paint_air(ci, G.time)
+		if JapanLook.live:
+			JapanLook.paint_air(ci, G.time)
 
 ## The top layer, bottom to top: loot name plates (this layer), floating
 ## numbers (FloatTexts, kept on the canvas), then ability labels and cards.
@@ -1739,6 +1741,8 @@ func _paint_top(ci: CanvasItem) -> void:
 		_draw_hero_mark(ci, p, G.time)
 		_draw_player(ci, p, G.time)
 		Block.draw(ci, p, G.time)   # 37.1 a shield ready to stop a hit
+	if JapanLook.live:
+		JapanLook.paint_roof(ci)   # V2: the koi garden's gate
 	if G.enemies_active() or Keys.aim() != null:
 		var ax := p.x + cos(p.aim_a) * 16
 		var ay := p.y - 2 + sin(p.aim_a) * 16

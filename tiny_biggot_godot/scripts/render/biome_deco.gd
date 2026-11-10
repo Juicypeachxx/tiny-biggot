@@ -26,7 +26,7 @@ const BIOMES := [
 ]
 ## Props that give light: glow sprite and its offset from the prop's top left.
 const LIT := { "prop_brazier": ["glow_torch", 8, 2], "prop_candelabra": ["glow_torch", 8, 1], "prop_lamppost": ["glow_torch", 3, 7],
-	"prop_stonelantern": ["glow_torch", 8, 6], "prop_obelisk": ["glow_red", 8, 8], "kit0_candles": ["glow_torch", 7, 3],
+	"prop_stonelantern": ["glow_torch", 8, 6], "prop_obelisk": ["glow_red", 8, 8], "kit0_candles": ["glow_torch", 7, 3], "koi_lantern": ["glow_torch", 6, 9], "koi_postlamp": ["glow_torch", 6, 8],
 	"kit3_brazier": ["glow_torch", 8, 4], "kit5_candelabra": ["glow_torch", 6, 3], "kit8_stonelantern": ["glow_torch", 7, 9],
 	"kit6_lamppost": ["glow_torch", 5, 5], "kit10_obelisk": ["glow_purple", 6, 8], "kit10_shard": ["glow_purple", 6, 6] }
 ## Spots on the top wall face for dressing (x of a 16-wide piece), clear of the torches and the door.

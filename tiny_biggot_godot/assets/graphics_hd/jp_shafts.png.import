@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b5xdcit40oprv"
-path="res://.godot/imported/jp_roof.png-8b2948caa0e0abcb2efb0f0a44bfecd0.ctex"
+uid="uid://c5kna0paavwpr"
+path="res://.godot/imported/jp_shafts.png-7262ff1d05092b886d753205da0cba28.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/graphics/jp_roof.png"
-dest_files=["res://.godot/imported/jp_roof.png-8b2948caa0e0abcb2efb0f0a44bfecd0.ctex"]
+source_file="res://assets/graphics_hd/jp_shafts.png"
+dest_files=["res://.godot/imported/jp_shafts.png-7262ff1d05092b886d753205da0cba28.ctex"]
 
 [params]
 
