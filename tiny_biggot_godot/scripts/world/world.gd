@@ -192,6 +192,8 @@ static func build_room(room: Room) -> void:
 			pat = 200 + rng.int_range(1, 4)   # rampart ruins (rift_extras.gd)
 		elif room.theme.get("layouts", "") == "cathedral":
 			pat = 300 + rng.int_range(1, 4)   # the brass nave (rift_extras.gd)
+		if KoiScenes.on(room):
+			pat = KoiScenes.lay(room, rng)   # V2: THE KOI GARDEN's planned scenes (no layout below has this number)
 		match pat:
 			1:
 				_put(room, 5, 3, 2); _put(room, 6, 3, 2); _put(room, 5, 4, 2); _put(room, 6, 4, 2)
@@ -285,7 +287,7 @@ static func build_room(room: Room) -> void:
 							_put(room, a, b, T_VOID)
 			21, 22:  # 62.2 a maze: walls of props (21) or pits (22) along a lattice, every floor tile reachable
 				_maze(room, rng, T_PILLAR if pat == 21 else T_VOID)
-		if pat > 200:
+		if pat > 200 and pat < KoiScenes.LAYOUT0:
 			RiftExtras.layout(room, pat)
 		room.layout = pat
 	for d in room.doors.keys():

@@ -141,4 +141,34 @@ pad(72, 2, 2, 20, 18, 0.6); lotus(72 + 11, 10)
 d.ellipse([96 + 7, 12, 96 + 17, 19], fill=hexc("#10264a", 140)); lotus(96 + 12, 12)
 pad(120, 6, 7, 12, 10, 1.8)
 im.save(OUT + "jp_pads.png")
+
+# Stepping stones: two flat stones, 24 x 20 each (48 x 20).
+im = Image.new("RGBA", (48, 20), (0, 0, 0, 0))
+d = ImageDraw.Draw(im)
+for k, (w, h) in enumerate([(22, 14), (19, 13)]):
+    x0 = k * 24 + (24 - w) // 2
+    d.ellipse([x0 + 1, 5, x0 + w, 5 + h], fill=hexc("#0c1c3c", 150))            # shade in the water
+    d.ellipse([x0, 2, x0 + w - 1, 2 + h - 1], fill=hexc("#5c5669"), outline=hexc("#1c1628"))
+    d.ellipse([x0 + 1, 2, x0 + w - 2, 2 + h - 4], fill=hexc("#8d879c"), outline=hexc("#6a6478"))
+    d.arc([x0 + 3, 3, x0 + w - 4, 2 + h - 6], 190, 300, fill=hexc("#b8b2c6"))
+    d.point([x0 + w // 2 + 3, 8], fill=hexc("#6a6478")); d.point([x0 + w // 2 - 4, 10], fill=hexc("#6a6478"))
+    if k == 0:
+        d.line([x0 + 3, 9, x0 + 6, 11], fill=hexc("#5f9a40")); d.point([x0 + 4, 9], fill=hexc("#9bd35c"))
+im.save(OUT + "jp_step.png")
+
+# A flat bridge running left to right, one tile (32 x 40: its rails stand above and below the tile).
+im = Image.new("RGBA", (32, 40), (0, 0, 0, 0))
+d = ImageDraw.Draw(im)
+d.rectangle([0, 37, 31, 39], fill=hexc("#0c1c3c", 140))                       # shade on the water
+d.rectangle([0, 6, 31, 35], fill=hexc("#8a5a34"))
+for x in range(0, 32, 8):                                                     # planks
+    d.line([x, 6, x, 35], fill=hexc("#4a2c18")); d.line([x + 1, 6, x + 1, 35], fill=hexc("#a8744a"))
+    d.point([x + 4, 12 + (x % 16)], fill=hexc("#6a4426"))
+for y in (2, 32):                                                             # red rails
+    d.rectangle([0, y, 31, y + 4], fill=hexc("#c8362c"), outline=hexc("#5a1410"))
+    d.line([1, y + 1, 30, y + 1], fill=hexc("#f0685a"))
+for y in (0, 30):                                                             # a post on each rail
+    d.rectangle([13, y, 18, y + 8], fill=hexc("#a82a22"), outline=hexc("#5a1410"))
+    d.rectangle([13, y, 18, y + 1], fill=hexc("#2a2230"))
+im.save(OUT + "jp_plank.png")
 print("ok")

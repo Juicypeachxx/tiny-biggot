@@ -16,7 +16,6 @@ extends RefCounted
 const STYLE := { "base": "#33648f", "light": "#7ab2d6", "dark": "#1b3a68", "edge": "#0f2148", "deep": "#1a3566", "rim": "#6fa6cc",
 	"props": ["koi_lantern", "koi_bamboo", "koi_stones", "koi_postlamp", "koi_bonsai", "koi_basin", "koi_bamboo", "koi_shrine", "koi_torii"], "air": "glints" }
 const KOI := [["#f4eef2", "#f08a2c"], ["#f08a2c", "#f4eef2"], ["#f4eef2", "#f4eef2"], ["#ef9a9a", "#f4eef2"], ["#f4eef2", "#d8443c"], ["#f6cf52", "#f08a2c"], ["#2c2a38", "#f08a2c"]]
-const GATE := Vector2(190, 103)   # the gate's top left; its roof is 67 x 39, its posts stand below
 
 static var live := false          # the room on screen has this look
 static var _koi: Array = []       # { x, y, a, sp, ph, col, lead, ox, oy, fear }
@@ -26,6 +25,7 @@ static var _flies: Array = []     # { x, y, tx, ty, wait, col }
 static var _petals: Array = []    # { x, y, ph, sp }
 static var _pads: Array = []      # the big pads' middles (frogs sit on them)
 static var _gate := false         # this room has the gate
+static var _gate_at := Vector2.ZERO   # its picture's top left; the roof is 67 x 39, the posts stand below
 static var _roof_a := 1.0
 static var _next_ring := 0.0
 static var _step := Vector2.ZERO  # where the hero's last ring was
@@ -45,15 +45,14 @@ static func biome(b: Dictionary) -> Dictionary:
 	out["air"] = STYLE["air"]
 	return out
 
-## The gate stands in a fight room whose middle is open water (by the room's seed).
-static func has_gate(room: Room) -> bool:
-	if room.type == "start" or room.type == "boss":
-		return false
-	for r in range(6, 11):
-		for c in range(11, 17):
-			if room.tile(c, r) != World.T_FLOOR:
-				return false
-	return SeedRng.new(room.seed_value ^ 0x3243f6a8).next_f() < 0.7
+## Where the scene's gate stands (the top left of its picture), from its first post; no gate: false.
+static func find_gate(room: Room) -> bool:
+	for r in range(TB.IY0, TB.IY0 + TB.IH):
+		for c in range(TB.IX0, TB.IX0 + TB.IW):
+			if KoiScenes.cell(room, c, r) == "X":
+				_gate_at = Vector2(c * TB.TS - 4, (r + 1) * TB.TS + 1 - 65)
+				return true
+	return false
 
 static func _col(hex: String, a: float = 1.0) -> Color:
 	var c := TB.c(hex)
@@ -76,73 +75,100 @@ static func paint_ground(ci: CanvasItem, room: Room) -> void:
 	_wrapped(ci, "jp_mottle", rng.int_range(0, TB.SW - 1), rng.int_range(0, TB.SH - 1), _col(s["light"], 0.75))
 	_wrapped(ci, "jp_mottle", rng.int_range(0, TB.SW - 1), rng.int_range(0, TB.SH - 1), _col(s["dark"], 0.7))
 	ci.draw_texture(Img.t("jp_vignette"), Vector2.ZERO, _col(s["edge"]))
-	# Deep pools where the room has pits.
+	# Deep pools where the room has pits: rounded where they turn a corner, a pale rim, darker within.
 	for r in range(TB.IY0, TB.IY0 + TB.IH):
 		for c in range(TB.IX0, TB.IX0 + TB.IW):
 			if room.tile(c, r) != World.T_VOID:
 				continue
-			ci.draw_rect(Rect2(c * ts, r * ts, ts, ts), _col(s["deep"], 0.85))
-			if room.tile(c, r - 1) != World.T_VOID:
-				ci.draw_rect(Rect2(c * ts, r * ts, ts, 1), _col(s["rim"], 0.7))
-			if room.tile(c - 1, r) != World.T_VOID:
-				ci.draw_rect(Rect2(c * ts, r * ts, 1, ts), _col(s["rim"], 0.35))
-			if room.tile(c + 1, r) != World.T_VOID:
-				ci.draw_rect(Rect2(c * ts + ts - 1, r * ts, 1, ts), _col(s["rim"], 0.35))
-			if room.tile(c, r + 1) != World.T_VOID:
-				ci.draw_rect(Rect2(c * ts, r * ts + ts - 1, ts, 1), _col(s["rim"], 0.5))
+			var up := room.tile(c, r - 1) == World.T_VOID
+			var dn := room.tile(c, r + 1) == World.T_VOID
+			var lf := room.tile(c - 1, r) == World.T_VOID
+			var rt := room.tile(c + 1, r) == World.T_VOID
+			for i in ts * 2:     # half a pixel a row
+				var y := i * 0.5
+				var x0 := 0.0
+				var x1 := float(ts)
+				var from_top := y if not up else 99.0
+				var from_bot := ts - 0.5 - y if not dn else 99.0
+				if not lf:
+					x0 = maxf(_round_in(from_top), _round_in(from_bot))
+				if not rt:
+					x1 = ts - maxf(_round_in(from_top), _round_in(from_bot))
+				ci.draw_rect(Rect2(c * ts + x0, r * ts + y, x1 - x0, 0.5), _col(s["deep"], 0.8))
+				if x0 > 0.0 or not lf:
+					ci.draw_rect(Rect2(c * ts + x0, r * ts + y, 0.5, 0.5), _col(s["rim"], 0.55))
+				if x1 < ts or not rt:
+					ci.draw_rect(Rect2(c * ts + x1 - 0.5, r * ts + y, 0.5, 0.5), _col(s["rim"], 0.55))
+			if not up:
+				ci.draw_rect(Rect2(c * ts + (0.0 if lf else 6.0), r * ts, ts - (0.0 if lf else 6.0) - (0.0 if rt else 6.0), 0.5), _col(s["rim"], 0.7))
+				ci.draw_rect(Rect2(c * ts + (0.0 if lf else 4.0), r * ts + 0.5, ts - (0.0 if lf else 4.0) - (0.0 if rt else 4.0), 2.5), _col("#0a1838", 0.35))   # the far side, in shade
+			if not dn:
+				ci.draw_rect(Rect2(c * ts + (0.0 if lf else 6.0), r * ts + ts - 0.5, ts - (0.0 if lf else 6.0) - (0.0 if rt else 6.0), 0.5), _col(s["rim"], 0.55))
+			if up and dn and lf and rt and rng.next_f() < 0.25:     # darker still in the middle
+				ci.draw_rect(Rect2(c * ts + rng.int_range(0, 6), r * ts + rng.int_range(2, 12), rng.int_range(6, 10), 0.5), _col("#0a1838", 0.35))
 	# Glints on the water.
 	for i in 40:
 		var x := rng.int_range(ts + 2, TB.SW - ts - 6)
 		var y := rng.int_range(TB.IY0 * ts + 4, 17 * ts - 3)
 		ci.draw_rect(Rect2(x, y, rng.int_range(2, 4), 0.5), _col("#b4d8f0", 0.3))
-	# Drifts of small leaves (half a pixel at a time: the picture's own pixels).
-	var start := room.type == "start"
-	for i in 14 + rng.int_range(0, 5):
-		var cx := rng.int_range(2 * ts, TB.SW - 2 * ts)
-		var cy := rng.int_range(TB.IY0 * ts + 10, 17 * ts - 10)
-		var rx := rng.int_range(10, 28)
-		var ry := rng.int_range(5, 12)
-		for j in rx * ry / 3:
-			var a := rng.next_f() * TAU
-			var d := sqrt(rng.next_f())
-			var x := cx + roundf(cos(a) * d * rx * 2.0) / 2.0
-			var y := cy + roundf(sin(a) * d * ry * 2.0) / 2.0
-			if room.tile(int(x) / ts, int(y) / ts) != World.T_FLOOR or room.tile(int(x + 2) / ts, int(y + 2) / ts) != World.T_FLOOR or (start and y >= 6 * ts and y < 10 * ts):
-				continue
-			var w := 1.5 + 0.5 * rng.int_range(0, 2)
-			ci.draw_rect(Rect2(x + 0.5, y + 1.0, w, 1.0), _col("#10264a", 0.5))
-			ci.draw_rect(Rect2(x, y, w, 1.5), _col(["#58a644", "#74c04c", "#479240", "#8fd058"][rng.int_range(0, 3)]))
-			ci.draw_rect(Rect2(x + 0.5, y, 1.0, 0.5), _col("#b4e670"))
-			ci.draw_rect(Rect2(x, y + 1.0, w, 0.5), _col("#2c6a34", 0.7))
-	# Lily pads and lotus.
+	# Plants gather where the water is still: along the banks, round what stands in the water,
+	# and in the scene's lily colonies. The open water between stays clear.
 	_pads.clear()
-	var pads := Img.t("jp_pads")
-	for i in 20 + rng.int_range(0, 8):
-		var x := rng.int_range(ts + 2, TB.SW - ts - 14)
-		var y := rng.int_range(TB.IY0 * ts + 6, 17 * ts - 14)
-		var k: int = [0, 1, 2, 3, 4, 5, 5, 0, 1][rng.int_range(0, 8)]
-		if room.tile((x + 6) / ts, (y + 6) / ts) != World.T_FLOOR or (start and y >= 6 * ts - 8 and y < 10 * ts):
-			continue
-		ci.draw_texture_rect_region(pads, Rect2(x, y, 12, 12), Rect2(k * 12, 0, 12, 12))
-		if k <= 1:
-			_pads.append(Vector2(x + 6, y + 5))
-	# The red bridge, in some rooms: a thing to walk over.
-	if not start and rng.next_f() < 0.5:
-		var bx: int = [3, 20][rng.int_range(0, 1)] * ts + rng.int_range(0, 24)
-		var by: int = rng.int_range(5, 11) * ts
-		var open := true
-		for r in range(by / ts, by / ts + 3):
-			for c in range(bx / ts, bx / ts + 3):
-				open = open and room.tile(c, r) == World.T_FLOOR
-		if open:
-			ci.draw_rect(Rect2(bx + 2, by + 20, 26, 5), _col("#0a1838", 0.4))
-			Gfx.at(ci, "koi_bridge", bx, by)
+	var scene := KoiScenes.is_scene(room)
+	for i in 16:
+		var along := rng.next_f()
+		var off := rng.int_range(4, 13)
+		var ln := rng.int_range(14, 30)
+		match rng.int_range(0, 4):
+			0: _drift(ci, room, rng, ts + off, lerpf(3 * ts, 16 * ts, along), 6, ln, 0.5)
+			1: _drift(ci, room, rng, TB.SW - ts - off, lerpf(3 * ts, 16 * ts, along), 6, ln, 0.5)
+			2, 3: _drift(ci, room, rng, lerpf(2 * ts, TB.SW - 2 * ts, along), 17 * ts - off, ln, 5, 0.5)
+			_: _drift(ci, room, rng, lerpf(2 * ts, TB.SW - 2 * ts, along), 2 * ts + 4 + off, ln, 5, 0.4)
+	var colonies: Array = []
+	for r in range(TB.IY0, TB.IY0 + TB.IH):
+		for c in range(TB.IX0, TB.IX0 + TB.IW):
+			var ch := KoiScenes.cell(room, c, r)
+			if ch == "*":
+				colonies.append(Vector2(c * ts + 8, r * ts + 8))
+			elif room.tile(c, r) == World.T_PILLAR and rng.next_f() < 0.7:
+				_drift(ci, room, rng, c * ts + 8, r * ts + 15, rng.int_range(9, 13), 4, 0.6)
+				if rng.next_f() < 0.35:
+					_pad(ci, room, rng, c * ts + rng.int_range(-10, 16), r * ts + rng.int_range(10, 16), [5, 5, 1])
+	if not scene:     # a room with no scene (the start, the guardian's, a shop): colonies in its corners
+		for q in [Vector2(5, 5), Vector2(22, 5), Vector2(5, 13), Vector2(22, 13)]:
+			if rng.next_f() < 0.75:
+				colonies.append(Vector2((q.x + rng.int_range(-1, 1)) * ts, (q.y + rng.int_range(-1, 1)) * ts))
+	for m in colonies:
+		_drift(ci, room, rng, m.x, m.y, rng.int_range(24, 32), rng.int_range(11, 15), 0.85)
+		for i in 6 + rng.int_range(0, 3):
+			var a := rng.next_f() * TAU
+			var d := 0.25 + 0.75 * rng.next_f()
+			_pad(ci, room, rng, m.x + cos(a) * d * 26 - 6, m.y + sin(a) * d * 12 - 6, [0, 1, 0, 1, 2, 3, 3, 4, 5])
+	# Stepping stones and bridges, where the scene has them.
+	if scene:
+		var step := Img.t("jp_step")
+		var plank := Img.t("jp_plank")
+		for r in range(TB.IY0, TB.IY0 + TB.IH):
+			for c in range(TB.IX0, TB.IX0 + TB.IW):
+				var ch := KoiScenes.cell(room, c, r)
+				if ch == "o":
+					ci.draw_texture_rect_region(step, Rect2(c * ts + 2, r * ts + 3, 12, 10), Rect2(((c + r) % 2) * 12, 0, 12, 10))
+				elif ch == "=":
+					ci.draw_texture_rect_region(plank, Rect2(c * ts, r * ts, ts, ts), Rect2(0, 3, 16, 14))
+		for r in range(TB.IY0, TB.IY0 + TB.IH):
+			for c in range(TB.IX0, TB.IX0 + TB.IW):
+				if KoiScenes.cell(room, c, r) != "=":
+					continue
+				if KoiScenes.cell(room, c, r - 1) != "=":
+					ci.draw_texture_rect_region(plank, Rect2(c * ts, r * ts - 3, ts, 4.5), Rect2(0, 0, 16, 4.5))
+				if KoiScenes.cell(room, c, r + 1) != "=":
+					ci.draw_texture_rect_region(plank, Rect2(c * ts, r * ts + 13, ts, 7), Rect2(0, 13, 16, 7))
 	# The gate of his video: its posts and doors here, its roof over everything (paint_roof).
-	_gate = has_gate(room)
+	_gate = scene and find_gate(room)
 	if _gate:
 		for i in 6:
-			ci.draw_rect(Rect2(GATE.x + 2 - i, GATE.y + 62 + i * 0.5, 63 + 2 * i, 4), _col("#0a1838", 0.12))
-		Gfx.at(ci, "koi_gate_base", GATE.x + 4.5, GATE.y + 39)
+			ci.draw_rect(Rect2(_gate_at.x + 2 - i, _gate_at.y + 62 + i * 0.5, 63 + 2 * i, 4), _col("#0a1838", 0.12))
+		Gfx.at(ci, "koi_gate_base", _gate_at.x + 4.5, _gate_at.y + 39)
 	# The banks (garden stones) and the roof along the top.
 	var bank := Img.t("jp_bank")
 	for c in TB.COLS:
@@ -159,6 +185,48 @@ static func paint_ground(ci: CanvasItem, room: Room) -> void:
 		ci.draw_rect(Rect2(0, i, TB.SW, 1), Color(0.03, 0.01, 0.05, 0.45 * (1.0 - i / 20.0)))
 	ci.draw_rect(Rect2(0, 2 * ts, TB.SW, 3), _col("#0a1430", 0.55))   # the eave's shadow on the water
 	ci.draw_rect(Rect2(0, 2 * ts + 3, TB.SW, 3), _col("#0a1430", 0.25))
+
+## How far a pool's edge stands in from the tile's side, `d` pixels from a corner it rounds (radius 6).
+static func _round_in(d: float) -> float:
+	if d >= 6.0:
+		return 0.0
+	return roundf((6.0 - sqrt(36.0 - (6.0 - d) * (6.0 - d))) * 2.0) / 2.0
+
+## A drift of small leaves round (cx, cy), rx wide and ry tall (half a pixel at a time: the
+## picture's own pixels); `dens` 0-1.
+static func _drift(ci: CanvasItem, room: Room, rng: SeedRng, cx: float, cy: float, rx: int, ry: int, dens: float) -> void:
+	var ts := TB.TS
+	var start := room.type == "start"
+	for j in int(rx * ry * dens / 2.0):
+		var a := rng.next_f() * TAU
+		var d := sqrt(rng.next_f())
+		var x := cx + roundf(cos(a) * d * rx * 2.0) / 2.0
+		var y := cy + roundf(sin(a) * d * ry * 2.0) / 2.0
+		var w := 1.5 + 0.5 * rng.int_range(0, 2)
+		var shade := rng.int_range(0, 3)
+		if room.tile(int(x) / ts, int(y) / ts) != World.T_FLOOR or room.tile(int(x + 2) / ts, int(y + 2) / ts) != World.T_FLOOR or (start and y >= 6 * ts and y < 10 * ts):
+			continue
+		if KoiScenes.cell(room, int(x) / ts, int(y) / ts) in ["=", "o"]:
+			continue
+		ci.draw_rect(Rect2(x + 0.5, y + 1.0, w, 1.0), _col("#10264a", 0.5))
+		ci.draw_rect(Rect2(x, y, w, 1.5), _col(["#58a644", "#74c04c", "#479240", "#8fd058"][shade]))
+		ci.draw_rect(Rect2(x + 0.5, y, 1.0, 0.5), _col("#b4e670"))
+		ci.draw_rect(Rect2(x, y + 1.0, w, 0.5), _col("#2c6a34", 0.7))
+
+## A lily pad (one of `kinds`: jp_pads' cells) with its top left at (x, y), if that is open water.
+static func _pad(ci: CanvasItem, room: Room, rng: SeedRng, x: float, y: float, kinds: Array) -> void:
+	var ts := TB.TS
+	var k: int = kinds[rng.int_range(0, kinds.size() - 1)]
+	x = roundf(x)
+	y = roundf(y)
+	for q in [Vector2(x + 1, y + 1), Vector2(x + 11, y + 1), Vector2(x + 1, y + 10), Vector2(x + 11, y + 10)]:
+		if room.tile(int(q.x) / ts, int(q.y) / ts) != World.T_FLOOR or KoiScenes.cell(room, int(q.x) / ts, int(q.y) / ts) in ["=", "o"]:
+			return
+	if room.type == "start" and y >= 6 * ts - 8 and y < 10 * ts:
+		return
+	ci.draw_texture_rect_region(Img.t("jp_pads"), Rect2(x, y, 12, 12), Rect2(k * 12, 0, 12, 12))
+	if k <= 1:
+		_pads.append(Vector2(x + 6, y + 5))
 
 # ---------- every frame ----------
 static func _reset(room: Room) -> void:
@@ -277,7 +345,7 @@ static func tick(dt: float) -> void:
 		_ring(x, y, _rng.randf_range(1.6, 2.6), 8.0)
 	# The gate's roof clears while the hero or a foe is under it.
 	if _gate:
-		var under := Rect2(GATE.x, GATE.y - 4, 67, 50)
+		var under := Rect2(_gate_at.x, _gate_at.y - 4, 67, 50)
 		var clear := under.has_point(hero)
 		if not clear:
 			for e: Enemy in G.enemies:
@@ -365,8 +433,10 @@ static func paint_air(ci: CanvasItem, t: float) -> void:
 ## The gate's roof, over the hero and the foes (foe shots stay above it).
 static func paint_roof(ci: CanvasItem) -> void:
 	if _gate:
-		ci.draw_texture(Img.t("koi_gate_roof"), GATE, Color(1, 1, 1, _roof_a))
+		ci.draw_texture(Img.t("koi_gate_roof"), _gate_at, Color(1, 1, 1, _roof_a))
 
 ## The shafts of light (the additive layer).
 static func paint_glow(ci: CanvasItem, t: float) -> void:
 	ci.draw_texture(Img.t("jp_shafts"), Vector2(roundf(sin(t * 0.11) * 12.0), 0), Color(0.45, 0.68, 0.85, 0.55 + 0.1 * sin(t * 0.45)))
+	# the water moves: soft light drifting across it
+	_wrapped(ci, "jp_mottle", int(fmod(t * 7.0, TB.SW)), int(fmod(t * 3.0, TB.SH)), Color(0.35, 0.6, 0.8, 0.3))

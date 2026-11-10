@@ -140,6 +140,10 @@ static func paint_wall(ci: CanvasItem, room: Room) -> void:
 static func paint_prop(ci: CanvasItem, room: Room, c: int, r: int) -> void:
 	var props: Array = biome()["props"]
 	var k := own(props[absi((c * 73856093) ^ (r * 19349663) ^ room.seed_value) % props.size()])
+	if JapanLook.live and KoiScenes.is_scene(room):     # V2: the scene says what stands here
+		k = KoiScenes.PROPS.get(KoiScenes.cell(room, c, r), "")
+		if k == "":
+			return     # a post of the gate: the gate's own picture
 	var tex := Img.t(k)
 	var x := float(c * TB.TS) + floorf((TB.TS - tex.get_width()) / 2.0)   # 61: a narrower one in the middle
 	var y := float((r + 1) * TB.TS + 1 - tex.get_height())

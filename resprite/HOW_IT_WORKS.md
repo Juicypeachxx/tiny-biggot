@@ -704,3 +704,23 @@ that becomes a water dragon as its guardian)
     where the hero wades, where petals land and where a frog dives.
 - **Checked:** screenshots of four seeded fight rooms; the atlas test. Not checked: the iPad's
   frame rate (per frame: about 25 koi and frogs drawn as small rectangles, at most 14 rings).
+
+### His answer to step 1 (10 Nov): "everything is so stale and random ... sterile and lifeless,
+all the positioning is random and meaningless". Redone as planned scenes.
+
+- The mistake: props stood wherever the old layouts had pillars, and leaves were sprinkled
+  evenly. A garden is composed.
+- **`scripts/world/koi_scenes.gd` (KoiScenes):** six scenes drawn as maps of the room (26 x 15
+  letters), mirrored for half the rooms: the gate with a stone path and a lantern pair; a torii
+  avenue along stepping stones to a shrine between two lanterns; an island shrine in a deep pool
+  with two bridges; a bamboo grove; a koi pool crossed by a wide bridge; a ring of stepping
+  stones round stacked stones. `World.build_room` lays the scene's tiles (layout 400+) when
+  `KoiScenes.on(room)`: so with `--koi` the rooms' walls and pits are the scene's (the gate's
+  posts now block; you walk through its arch).
+- **Plants have a reason:** drifts of leaves along the banks and round what stands in the water,
+  big lily colonies where the scene marks them (frogs sit there), open water between.
+- Deep pools are rounded with a pale rim; flat bridges and stepping stones are new pictures
+  (`jp_plank`, `jp_step`); soft light drifts across the water all the time.
+- Picture: `resprite/koi-garden-step1.png` (the six scenes).
+- **Still the test floor's:** the foes, crates, traps and floor things in the pictures are the
+  Ossuary's (the `--koi` switch only changes the place). Step 2 gives the garden its own.
