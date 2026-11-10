@@ -661,3 +661,25 @@ four sheets in `spritecook/sheets/` (the ids are in the manifest).
 - **Merged onto 67.9** (the branch had moved 124 commits since this session's copy): the pond
   takes the place of the Grotto's PixelLab floor (`kit1_wallface`). Its pictures are still at the
   old detail (one pixel drawn as two): redraw them at double detail if he picks the look.
+
+### His answer (10 Nov): one new stage, done fully, as stage 1
+
+His word: "what about the building in the middle and all the props ... lets do this for only one
+stage ... also revamp that stage boss, lets say we add this new stage as stage 1 with new boss and
+we move the now first stage to second, also make environments live and nice, also add themed
+props to this environment and hidden secrets". So the pond is **not** a new coat for the Grotto:
+it becomes a **new floor 1**, and today's floors each move down one. Plan, a step a session:
+
+1. **The pond as a place of its own**, at double detail: the gate building of his video in the
+   middle of some rooms (you walk under its arch), themed props (stone lanterns, a red bridge,
+   bamboo, a small shrine, mossy rocks), and more life (koi that scatter from the hero, dragonflies,
+   falling petals, ripples under feet and shots). The Grotto gets its own look back.
+2. **The new floor in the run**, expanded game only (`--classic` untouched): its own kit name and
+   biome entry (art must stop being picked by `G.floor_index`: 224 uses, 38 comparisons to sort
+   into "which place" and "how deep in the run"), foes for it, the other floors one deeper. The
+   core replays are re-recorded on purpose.
+3. **Its guardian**, new and original, with stages, plates and attacks of its own (BOSS_STAGES.md).
+   ARCI stays the Ossuary's guardian, now on floor 2.
+4. **Hidden secrets** in the pond's rooms.
+5. Full suite, IPA.
+Open: what the guardian is, and the floor's name (asked him).
