@@ -781,14 +781,15 @@ const FLOORS := [
 const GARDEN := { "name": "THE KOI GARDEN", "accent": "cyan", "accent_hex": "#6fd3e0", "pool": ["gnat", "slime", "bat", "pondfrog", "gnat", "slime"],
 	"boss": "elderkoi", "music": 2, "rooms": 7, "look": "koi" }
 static var _garden_floors := {}
+static var garden_on := false     # the game itself turns it on (main.gd); a test's run starts on the Ossuary unless it asks
 
 ## This run is in the garden now.
 static func garden() -> bool:
-	return G.run_stats.get("garden", false) and G.run_stats.get("chapter", 1) == 1
+	return G.floor_index == 0 and G.run_stats.get("garden", false) and G.run_stats.get("chapter", 1) == 1
 
 ## A new run starts in the garden (not the original game, and not a test that asks for a floor).
 static func garden_run() -> bool:
-	return rogues() and not DebugArgs.has("classic") and not DebugArgs.has("no-garden") and not DebugArgs.has("floor") and not DebugArgs.has("chapter")
+	return garden_on and rogues() and not DebugArgs.has("classic") and not DebugArgs.has("no-garden") and not DebugArgs.has("floor") and not DebugArgs.has("chapter")
 
 const NEW_FLOORS := [
 	{ "name": "RAINMARSH HAMLET", "accent": "green", "accent_hex": "#63b84f", "pool": ["bogling", "gnat", "hexwife", "gnat", "drowned", "bogling"],

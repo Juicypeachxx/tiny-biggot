@@ -29,6 +29,7 @@ func _canvas(n: int) -> CanvasLayer:
 	return l
 
 func _ready() -> void:
+	GameData.garden_on = true   # V2: the game's own runs begin in THE KOI GARDEN
 	if DebugArgs.has("seed"):
 		seed(DebugArgs.get_int("seed"))
 		# Visual-only generators too, so a seeded run draws the same frame every time (picture tests).
